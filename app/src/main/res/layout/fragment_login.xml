@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="frag"
+            type="com.primapp.ui.initial.LoginFragment" />
+
+        <variable
+            name="viewModel"
+            type="com.primapp.viewmodels.LoginViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".1" />
+
+        <ImageView
+            android:id="@+id/ivLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/prim_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/guideline" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_large"
+            android:fontFamily="@font/poppins_semibold"
+            android:gravity="center"
+            android:id="@+id/tvSlogan"
+            android:text="@string/prim_slogan"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintEnd_toEndOf="@id/ivLogo"
+            app:layout_constraintStart_toStartOf="@id/ivLogo"
+            app:layout_constraintTop_toBottomOf="@+id/ivLogo" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".36" />
+
+        <TextView
+            android:id="@+id/tvWelcome"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="@string/welcome"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/textExtraLargeX"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/guideline2"
+            app:layout_constraintWidth_percent=".9" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/myTextInputLabel_White"
+            android:layout_marginTop="@dimen/space_medium"
+            android:hint="@string/username"
+            android:id="@+id/tlUserName"
+            app:errorEnabled="true"
+            errorText="@{viewModel.errorFieldsLiveData.errorEmail}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvWelcome">
+
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/editTextInput"
+                android:id="@+id/etUserName"
+                android:text="@={viewModel.loginRequestDataModel.email}"
+                android:inputType="textPersonName" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/myTextInputLabel_White"
+            android:layout_marginTop="@dimen/space_small"
+            android:hint="@string/password"
+            android:id="@+id/tlPassword"
+            app:errorEnabled="true"
+            errorText="@{viewModel.errorFieldsLiveData.errorPassword}"
+            app:passwordToggleTint="@color/white"
+            app:passwordToggleEnabled="true"
+            app:errorIconDrawable="@null"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tlUserName">
+
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/editTextInput"
+                android:id="@+id/etPassword"
+                android:text="@={viewModel.loginRequestDataModel.password}"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <TextView
+            android:id="@+id/tvForgotPass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Forgot Username or Password?"
+            android:fontFamily="@font/poppins_semibold"
+            app:layout_constraintEnd_toEndOf="@id/tlPassword"
+            app:layout_constraintTop_toBottomOf="@id/tlPassword"
+            android:textColor="@color/colorAccent"
+            />
+
+        <Button
+            android:id="@+id/btnLogin"
+            style="@style/buttonFilledPrimary"
+            android:text="Login"
+            android:layout_marginTop="@dimen/space_medium"
+            android:onClick="@{()->viewModel.loginUser()}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvForgotPass"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/textMedium"
+            android:onClick="@{() -> frag.signUp()}"
+            android:fontFamily="@font/poppins_regular"
+            android:layout_marginTop="@dimen/space_large"
+            app:layout_constraintTop_toBottomOf="@id/btnLogin"
+            app:layout_constraintStart_toStartOf="@id/btnLogin"
+            app:layout_constraintEnd_toEndOf="@id/btnLogin"
+            spannableText="@{@string/sign_me_up}"
+            android:text="@string/i_m_a_new_user"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

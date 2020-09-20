@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="frag"
+            type="com.primapp.ui.initial.SignUpFragment" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:paddingTop="@dimen/space_systemTopInset">
+
+            <TextView
+                android:id="@+id/tvWelcome"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_medium"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="@string/welcome"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/textExtraLargeX"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent=".9" />
+
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Create your account in minutes."
+                android:textSize="@dimen/textMedium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvWelcome"
+                app:layout_constraintWidth_percent=".9" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tlFirstName"
+                style="@style/myTextInputLabel"
+                android:layout_marginTop="@dimen/space_extraLarge"
+                android:hint="First Name"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvDescription">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etFirstName"
+                    style="@style/editTextInput"
+                    android:inputType="textPersonName" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tlLastName"
+                style="@style/myTextInputLabel"
+                android:layout_marginTop="@dimen/space_small"
+                android:hint="Last Name"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tlFirstName">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etLastName"
+                    style="@style/editTextInput"
+                    android:inputType="textPersonName" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tlUserName"
+                style="@style/myTextInputLabel"
+                android:layout_marginTop="@dimen/space_small"
+                android:hint="@string/username"
+                app:errorEnabled="true"
+                app:endIconMode="custom"
+                app:endIconDrawable="@drawable/hint_question"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:endIconTint="@color/red"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tlLastName">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etUserName"
+                    style="@style/editTextInput"
+                    android:inputType="textPersonName" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tlEmailAddress"
+                style="@style/myTextInputLabel"
+                android:layout_marginTop="@dimen/space_small"
+                android:hint="Email Address"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tlUserName">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etEmailAddress"
+                    style="@style/editTextInput"
+                    android:inputType="textEmailAddress" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tlGender"
+                style="@style/myTextInputLabel_DropDown"
+                android:layout_marginTop="@dimen/space_small"
+                android:hint="Gender"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tlEmailAddress">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/mAutoCompleteGender"
+                    android:layout_width="match_parent"
+                    android:imeOptions="actionDone"
+                    android:imeActionLabel="Done"
+                    android:singleLine="true"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tlDOB"
+                style="@style/myTextInputLabel"
+                android:layout_marginTop="@dimen/space_small"
+                android:hint="DOB"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tlGender">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDOB"
+                    android:focusable="false"
+                    android:onClick="@{()->frag.openDatePicker()}"
+                    style="@style/editTextInput" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tlCountry"
+                style="@style/myTextInputLabel_DropDown"
+                android:layout_marginTop="@dimen/space_small"
+                android:hint="Country"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tlDOB">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/mAutoCompleteCountry"
+                    android:layout_width="match_parent"
+                    android:imeOptions="actionDone"
+                    android:imeActionLabel="Done"
+                    android:singleLine="true"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tlPassword"
+                style="@style/myTextInputLabel"
+                android:layout_marginTop="@dimen/space_small"
+                android:hint="@string/password"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tlCountry"
+                app:passwordToggleEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPassword"
+                    style="@style/editTextInput"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tlConfirmPassword"
+                style="@style/myTextInputLabel"
+                android:layout_marginTop="@dimen/space_small"
+                android:hint="Password"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tlPassword"
+                app:passwordToggleEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etConfirmPassword"
+                    style="@style/editTextInput"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/btnRegisterNow"
+                style="@style/buttonFilledPrimary"
+                android:layout_marginTop="@dimen/space_small"
+                android:text="Register Now"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tlConfirmPassword" />
+
+            <TextView
+                spannableText="@{@string/login_period}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_small"
+                android:gravity="center"
+                android:onClick="@{()->frag.login()}"
+                android:padding="@dimen/space_small"
+                android:text="@string/already_a_user_please"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnRegisterNow" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

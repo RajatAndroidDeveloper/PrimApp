@@ -1,0 +1,103 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.Bridge">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
+    </style>
+
+    <style name="splashTheme" parent="AppTheme">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+    </style>
+
+    <style name="buttonFilledPrimary" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:layout_width">@dimen/dp_0</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/button_primary_blue_filled</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="layout_constraintWidth_percent">.9</item>
+        <item name="android:elevation" tools:targetApi="lollipop">4dp</item>
+        <item name="android:paddingStart">@dimen/space_large</item>
+        <item name="android:paddingEnd">@dimen/space_large</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:fontFamily">@font/poppins_bold</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:textSize">@dimen/textMedium</item>
+    </style>
+
+    <style name="buttonOutlinedPrimary" parent="TextAppearance.AppCompat.Button">
+        <item name="android:layout_width">@dimen/dp_0</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/button_primary_blue_outlined</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="layout_constraintWidth_percent">.9</item>
+        <item name="android:elevation" tools:targetApi="lollipop">4dp</item>
+        <item name="android:paddingStart">@dimen/space_large</item>
+        <item name="android:paddingEnd">@dimen/space_large</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:fontFamily">@font/poppins_bold</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:textSize">@dimen/textMedium</item>
+    </style>
+
+    <style name="myTextInputLabel_DropDown" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="android:layout_width">@dimen/dp_0</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="layout_constraintWidth_percent">.9</item>
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
+        <item name="boxCornerRadiusBottomStart">8dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+        <item name="boxCornerRadiusTopStart">8dp</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
+        <item name="boxStrokeColor">@color/text_box_stroke_color</item>
+        <item name="hintTextAppearance">@style/myInputHintTextApperance</item>
+        <item name="android:theme">@style/themeInputHintColor</item>
+    </style>
+
+    <style name="myTextInputLabel_White" parent="myTextInputLabel">
+        <item name="boxStrokeColor">@color/text_box_stroke_color_white</item>
+        <item name="android:textColorHint">@color/hint_text_color_white</item>
+    </style>
+
+    <style name="myTextInputLabel" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_width">@dimen/dp_0</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="layout_constraintWidth_percent">.9</item>
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
+        <item name="boxCornerRadiusBottomStart">8dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+        <item name="boxCornerRadiusTopStart">8dp</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
+        <item name="hintTextAppearance">@style/myInputHintTextApperance</item>
+        <item name="boxStrokeColor">@color/text_box_stroke_color</item>
+        <item name="android:theme">@style/themeInputHintColor</item>
+    </style>
+
+    <style name="myInputHintTextApperance">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="themeInputHintColor">
+        <item name="colorPrimary">@color/colorAccent</item>
+    </style>
+
+    <style name="themeInputHintColor_White">
+        <item name="colorPrimary">@color/colorAccent</item>
+    </style>
+
+    <style name="editTextInput" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
+        <item name="android:paddingStart">@dimen/space_large</item>
+        <item name="android:paddingEnd">@dimen/space_medium</item>
+    </style>
+</resources>

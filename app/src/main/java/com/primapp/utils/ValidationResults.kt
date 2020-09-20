@@ -1,0 +1,15 @@
+package com.primapp.utils
+
+
+enum class ValidationResults {
+    EMPTY_EMAIL,
+    EMPTY_PASSWORD,
+    INVALID_PASSWORD,
+    EMPTY_CONFIRM_PASSWORD,
+    INVALID_CONFIRM_PASSWORD,
+    PASS_NOT_MATCH,
+    EMPTY_NAME,
+    EMPTY_FIELD,
+    EMAIL_NOT_VALID,
+    SUCCESS,
+}
