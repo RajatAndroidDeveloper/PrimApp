@@ -46,6 +46,10 @@
         <item name="android:textSize">@dimen/textMedium</item>
     </style>
 
+    <style name="buttonFilledSecondary" parent="buttonFilledPrimary">
+        <item name="android:background">@drawable/button_primary_grey_filled</item>
+    </style>
+
     <style name="myTextInputLabel_DropDown" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
         <item name="android:layout_width">@dimen/dp_0</item>
         <item name="android:layout_height">wrap_content</item>
@@ -100,4 +104,21 @@
         <item name="android:paddingStart">@dimen/space_large</item>
         <item name="android:paddingEnd">@dimen/space_medium</item>
     </style>
+
+    <style name="primaryHeadingAccent" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">@dimen/dp_0</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="layout_constraintWidth_percent">.9</item>
+        <item name="fontFamily">@font/poppins_semibold</item>
+        <item name="android:textSize">@dimen/textExtraLargeX</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="primaryBodyText" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">@dimen/dp_0</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="layout_constraintWidth_percent">.9</item>
+        <item name="fontFamily">@font/poppins_regular</item>
+    </style>
+
 </resources>

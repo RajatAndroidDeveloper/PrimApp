@@ -16,29 +16,24 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/white"
             android:paddingTop="@dimen/space_systemTopInset">
 
             <TextView
                 android:id="@+id/tvWelcome"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                style="@style/primaryHeadingAccent"
                 android:layout_marginTop="@dimen/space_medium"
-                android:fontFamily="@font/poppins_semibold"
                 android:text="@string/welcome"
-                android:textColor="@color/colorAccent"
-                android:textSize="@dimen/textExtraLargeX"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent=".9" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvDescription"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Create your account in minutes."
+                android:text="@string/signup_description"
                 android:textSize="@dimen/textMedium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -49,7 +44,7 @@
                 android:id="@+id/tlFirstName"
                 style="@style/myTextInputLabel"
                 android:layout_marginTop="@dimen/space_extraLarge"
-                android:hint="First Name"
+                android:hint="@string/first_name"
                 app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -65,7 +60,7 @@
                 android:id="@+id/tlLastName"
                 style="@style/myTextInputLabel"
                 android:layout_marginTop="@dimen/space_small"
-                android:hint="Last Name"
+                android:hint="@string/last_name"
                 app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -82,11 +77,11 @@
                 style="@style/myTextInputLabel"
                 android:layout_marginTop="@dimen/space_small"
                 android:hint="@string/username"
-                app:errorEnabled="true"
-                app:endIconMode="custom"
                 app:endIconDrawable="@drawable/hint_question"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:endIconMode="custom"
                 app:endIconTint="@color/red"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tlLastName">
 
@@ -100,7 +95,7 @@
                 android:id="@+id/tlEmailAddress"
                 style="@style/myTextInputLabel"
                 android:layout_marginTop="@dimen/space_small"
-                android:hint="Email Address"
+                android:hint="@string/email_address"
                 app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -117,7 +112,7 @@
                 android:id="@+id/tlGender"
                 style="@style/myTextInputLabel_DropDown"
                 android:layout_marginTop="@dimen/space_small"
-                android:hint="Gender"
+                android:hint="@string/gender"
                 app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -126,10 +121,10 @@
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/mAutoCompleteGender"
                     android:layout_width="match_parent"
-                    android:imeOptions="actionDone"
+                    android:layout_height="wrap_content"
                     android:imeActionLabel="Done"
-                    android:singleLine="true"
-                    android:layout_height="wrap_content" />
+                    android:imeOptions="actionDone"
+                    android:singleLine="true" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -137,7 +132,7 @@
                 android:id="@+id/tlDOB"
                 style="@style/myTextInputLabel"
                 android:layout_marginTop="@dimen/space_small"
-                android:hint="DOB"
+                android:hint="@string/dob"
                 app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -145,16 +140,16 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etDOB"
+                    style="@style/editTextInput"
                     android:focusable="false"
-                    android:onClick="@{()->frag.openDatePicker()}"
-                    style="@style/editTextInput" />
+                    android:onClick="@{()->frag.openDatePicker()}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tlCountry"
                 style="@style/myTextInputLabel_DropDown"
                 android:layout_marginTop="@dimen/space_small"
-                android:hint="Country"
+                android:hint="@string/country"
                 app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -163,10 +158,10 @@
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/mAutoCompleteCountry"
                     android:layout_width="match_parent"
-                    android:imeOptions="actionDone"
+                    android:layout_height="wrap_content"
                     android:imeActionLabel="Done"
-                    android:singleLine="true"
-                    android:layout_height="wrap_content" />
+                    android:imeOptions="actionDone"
+                    android:singleLine="true" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -191,7 +186,7 @@
                 android:id="@+id/tlConfirmPassword"
                 style="@style/myTextInputLabel"
                 android:layout_marginTop="@dimen/space_small"
-                android:hint="Password"
+                android:hint="@string/password"
                 app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -204,14 +199,32 @@
                     android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/chkPrivacyPolicy"
+                htmlText="@{@string/privacy_policy}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_small"
+                android:buttonTint="@color/checkbox_style"
+                android:gravity="top"
+                android:lineSpacingExtra="@dimen/lineSpaceExtra"
+                android:padding="@dimen/space_extraSmall"
+                android:textSize="@dimen/textNormal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tlConfirmPassword"
+                app:layout_constraintWidth_percent=".9"
+                tools:targetApi="lollipop"
+                tools:text="@string/privacy_policy" />
+
             <Button
                 android:id="@+id/btnRegisterNow"
                 style="@style/buttonFilledPrimary"
                 android:layout_marginTop="@dimen/space_small"
-                android:text="Register Now"
+                android:text="@string/register_now"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tlConfirmPassword" />
+                app:layout_constraintTop_toBottomOf="@id/chkPrivacyPolicy" />
 
             <TextView
                 spannableText="@{@string/login_period}"

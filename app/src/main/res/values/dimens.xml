@@ -17,5 +17,9 @@
     <dimen name="textExtraLarge">24sp</dimen>
     <dimen name="textExtraLargeX">30sp</dimen>
 
+    <dimen name="lineSpaceExtra">1.2dp</dimen>
+
     <dimen name="space_systemTopInset">24dp</dimen>
+    <dimen name="lineSpaceExtra2">2sp</dimen>
+    <dimen name="lineSpaceExtra4">4sp</dimen>
 </resources>

@@ -25,6 +25,14 @@
         <action
             android:id="@+id/action_loginFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_forgotUsernameFragment"
+            app:destination="@id/forgotUsernameFragment"
+            app:popUpTo="@id/loginFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
+            app:destination="@id/forgotPasswordFragment"
+            app:popUpTo="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
@@ -48,4 +56,15 @@
             app:argType="string"
             android:defaultValue="Please add message." />
     </dialog>
+    <fragment
+        android:id="@+id/forgotUsernameFragment"
+        android:name="com.primapp.ui.initial.ForgotUsernameFragment"
+        android:label="ForgotUsernameFragment"
+        tools:layout="@layout/fragment_forgot_username"
+        />
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="com.primapp.ui.initial.ForgotPasswordFragment"
+        android:label="ForgotPasswordFragment"
+        tools:layout="@layout/fragment_forgot_password"/>
 </navigation>

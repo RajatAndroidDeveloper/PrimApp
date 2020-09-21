@@ -17,7 +17,7 @@ import com.primapp.viewmodels.LoginViewModel
 class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     val viewModel by viewModels<LoginViewModel> { viewModelFactory }
-    
+
     override fun getLayoutRes(): Int = R.layout.fragment_login
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -26,6 +26,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         binding.frag = this
         binding.viewModel = viewModel
     }
+
+
 
     fun signUp(){
         findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)

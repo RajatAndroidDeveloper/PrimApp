@@ -2,6 +2,8 @@ package com.primapp.di.modules
 
 import com.primapp.ui.initial.SignUpFragment
 import com.primapp.ui.SplashFragment
+import com.primapp.ui.initial.ForgotPasswordFragment
+import com.primapp.ui.initial.ForgotUsernameFragment
 import com.primapp.ui.initial.LoginFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -17,4 +19,10 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeSignUpFragment(): SignUpFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeForgotPassFragment(): ForgotPasswordFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeForgotUsernameFragment(): ForgotUsernameFragment
 }

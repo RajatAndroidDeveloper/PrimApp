@@ -7,12 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.LayoutRes
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.primapp.R
 import dagger.android.support.DaggerFragment
+import kotlinx.android.synthetic.main.toolbar_inner_back.view.*
 import javax.inject.Inject
 
 
@@ -56,6 +58,17 @@ abstract class BaseFragment<DB : ViewDataBinding> : DaggerFragment() {
     override fun onResume() {
         super.onResume()
         isLoaded = true
+    }
+
+    fun setToolbar(name: String, toolbar: Toolbar) {
+        toolbar.setNavigationOnClickListener {
+            hideKeyBoard(toolbar)
+            activity?.onBackPressed()
+        }
+
+        if (name.isNotEmpty())
+            toolbar.tvTitle.setCompoundDrawables(null, null, null, null)
+        toolbar.tvTitle.text = name
     }
 
     fun showHelperDialog(message:String){

@@ -13,6 +13,7 @@
             name="viewModel"
             type="com.primapp.viewmodels.LoginViewModel" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -44,12 +45,12 @@
             app:layout_constraintTop_toTopOf="@id/guideline" />
 
         <TextView
+            android:id="@+id/tvSlogan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_large"
             android:fontFamily="@font/poppins_semibold"
             android:gravity="center"
-            android:id="@+id/tvSlogan"
             android:text="@string/prim_slogan"
             android:textColor="@color/colorAccent"
             app:layout_constraintEnd_toEndOf="@id/ivLogo"
@@ -65,92 +66,87 @@
 
         <TextView
             android:id="@+id/tvWelcome"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_semibold"
+            style="@style/primaryHeadingAccent"
             android:text="@string/welcome"
             android:textColor="@color/colorAccent"
-            android:textSize="@dimen/textExtraLargeX"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/guideline2"
-            app:layout_constraintWidth_percent=".9" />
+            app:layout_constraintTop_toBottomOf="@id/guideline2" />
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tlUserName"
             style="@style/myTextInputLabel_White"
+            errorText="@{viewModel.errorFieldsLiveData.errorEmail}"
             android:layout_marginTop="@dimen/space_medium"
             android:hint="@string/username"
-            android:id="@+id/tlUserName"
             app:errorEnabled="true"
-            errorText="@{viewModel.errorFieldsLiveData.errorEmail}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvWelcome">
 
             <com.google.android.material.textfield.TextInputEditText
-                style="@style/editTextInput"
                 android:id="@+id/etUserName"
-                android:text="@={viewModel.loginRequestDataModel.email}"
-                android:inputType="textPersonName" />
+                style="@style/editTextInput"
+                android:inputType="textPersonName"
+                android:text="@={viewModel.loginRequestDataModel.email}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tlPassword"
             style="@style/myTextInputLabel_White"
+            errorText="@{viewModel.errorFieldsLiveData.errorPassword}"
             android:layout_marginTop="@dimen/space_small"
             android:hint="@string/password"
-            android:id="@+id/tlPassword"
             app:errorEnabled="true"
-            errorText="@{viewModel.errorFieldsLiveData.errorPassword}"
-            app:passwordToggleTint="@color/white"
-            app:passwordToggleEnabled="true"
             app:errorIconDrawable="@null"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tlUserName">
+            app:layout_constraintTop_toBottomOf="@id/tlUserName"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/white">
 
             <com.google.android.material.textfield.TextInputEditText
-                style="@style/editTextInput"
                 android:id="@+id/etPassword"
-                android:text="@={viewModel.loginRequestDataModel.password}"
-                android:inputType="textPassword" />
+                style="@style/editTextInput"
+                android:inputType="textPassword"
+                android:text="@={viewModel.loginRequestDataModel.password}" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <TextView
             android:id="@+id/tvForgotPass"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Forgot Username or Password?"
             android:fontFamily="@font/poppins_semibold"
-            app:layout_constraintEnd_toEndOf="@id/tlPassword"
-            app:layout_constraintTop_toBottomOf="@id/tlPassword"
+            tools:text="Forgot Username or Password?"
+            htmlText="@{@string/forgot_username_password}"
             android:textColor="@color/colorAccent"
-            />
+            app:layout_constraintEnd_toEndOf="@id/tlPassword"
+            app:layout_constraintTop_toBottomOf="@id/tlPassword" />
 
         <Button
             android:id="@+id/btnLogin"
             style="@style/buttonFilledPrimary"
-            android:text="Login"
             android:layout_marginTop="@dimen/space_medium"
             android:onClick="@{()->viewModel.loginUser()}"
-            app:layout_constraintStart_toStartOf="parent"
+            android:text="Login"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvForgotPass"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvForgotPass" />
 
         <TextView
+            spannableText="@{@string/sign_me_up}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_large"
+            android:fontFamily="@font/poppins_regular"
             android:gravity="center"
+            android:onClick="@{() -> frag.signUp()}"
+            android:text="@string/i_m_a_new_user"
             android:textColor="@color/black"
             android:textSize="@dimen/textMedium"
-            android:onClick="@{() -> frag.signUp()}"
-            android:fontFamily="@font/poppins_regular"
-            android:layout_marginTop="@dimen/space_large"
-            app:layout_constraintTop_toBottomOf="@id/btnLogin"
-            app:layout_constraintStart_toStartOf="@id/btnLogin"
             app:layout_constraintEnd_toEndOf="@id/btnLogin"
-            spannableText="@{@string/sign_me_up}"
-            android:text="@string/i_m_a_new_user"
-            />
+            app:layout_constraintStart_toStartOf="@id/btnLogin"
+            app:layout_constraintTop_toBottomOf="@id/btnLogin" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -28,4 +28,32 @@
     <string name="invalid_password">Password length must be equal or greater than 6</string>
     <string name="logout">Logout</string>
 
+    <string name="privacy_policy">
+        <![CDATA[
+            I\'ve read and accept
+            <a href="">Terms of Services</a> &amp;
+            <a href="">Privacy Policy</a>
+        ]]>
+    </string>
+    <string name="forgot_username_description">Please enter the email that was used to create your account. We will email you a temporary one-time code to reset your username.</string>
+    <string name="email_address">Email Address</string>
+    <string name="gender">Gender</string>
+    <string name="dob">DOB</string>
+    <string name="country">Country</string>
+    <string name="register_now">Register Now</string>
+    <string name="last_name">Last Name</string>
+    <string name="first_name">First Name</string>
+    <string name="signup_description">Create your account in minutes.</string>
+    <string name="forgot_username">Forgot Username</string>
+    <string name="submit">Submit</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="forgot_username_password">
+        <![CDATA[
+            <a href="forgot_username:">Forgot Username</a> or
+            <a href="forgot_password:">Password</a>?
+        ]]>
+    </string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="forgot_password_description">Please enter the email that was used to create your account. We will email you a temporary one-time code to reset your password.</string>
 </resources>
