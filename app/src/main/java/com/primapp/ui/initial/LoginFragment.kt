@@ -17,8 +17,7 @@ import com.primapp.viewmodels.LoginViewModel
 class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     val viewModel by viewModels<LoginViewModel> { viewModelFactory }
-
-
+    
     override fun getLayoutRes(): Int = R.layout.fragment_login
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
