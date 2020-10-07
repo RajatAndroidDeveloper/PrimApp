@@ -76,7 +76,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tlUserName"
             style="@style/myTextInputLabel_White"
-            errorText="@{viewModel.errorFieldsLiveData.errorEmail}"
+            errorText="@{viewModel.errorFieldsLiveData.errorUsername}"
             android:layout_marginTop="@dimen/space_medium"
             android:hint="@string/username"
             app:errorEnabled="true"
@@ -88,7 +88,7 @@
                 android:id="@+id/etUserName"
                 style="@style/editTextInput"
                 android:inputType="textPersonName"
-                android:text="@={viewModel.loginRequestDataModel.email}" />
+                android:text="@={viewModel.loginRequestDataModel.username}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout

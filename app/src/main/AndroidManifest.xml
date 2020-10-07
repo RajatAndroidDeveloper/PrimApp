@@ -26,6 +26,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <data android:scheme="forgot_username"/>
                 <data android:scheme="forgot_password"/>
+                <data android:scheme="resend_code"/>
             </intent-filter>
         </activity>
     </application>

@@ -22,10 +22,8 @@
 
     <string name="valid_name">Please enter a valid name</string>
     <string name="valid_empty_email">Email can\'t be empty</string>
-    <string name="valid_email">Please enter a valid email</string>
-    <string name="valid_password">Please enter a valid password</string>
     <string name="valid_empty_otp">OTP can\'t be empty</string>
-    <string name="invalid_password">Password length must be equal or greater than 6</string>
+
     <string name="logout">Logout</string>
 
     <string name="privacy_policy">
@@ -56,4 +54,30 @@
     </string>
     <string name="forgot_password">Forgot Password</string>
     <string name="forgot_password_description">Please enter the email that was used to create your account. We will email you a temporary one-time code to reset your password.</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="verification">Verification</string>
+    <string name="verify_otp_description">Please type the one-time passcode sent to your registered email address.</string>
+    <string name="enter_otp">Enter OTP</string>
+
+    <string name="resend_code">
+        <![CDATA[
+            Didn’t receive the code yet?
+            <a href="resend_code:">Resend Code</a>
+        ]]>
+    </string>
+
+    <string name="resend_otp_description">We\'ve resent an OTP to your email.</string>
+    <string name="valid_empty_username">Username can\'t be empty</string>
+    <string name="valid_email">Please enter a valid email</string>
+    <string name="valid_password">Please enter password</string>
+    <string name="invalid_password">Password length must be equal or greater than 6</string>
+    <string name="valid_empty_firstname">Please enter First Name</string>
+    <string name="valid_empty_lastname">Please enter Last Name</string>
+    <string name="valid_pass_not_match">Password doesn\'t match</string>
+    <string name="valid_gender">Please select a valid gender</string>
+    <string name="valid_empty_dob">Please select date of birth</string>
+    <string name="valid_country">Please select a valid country</string>
+
+    <string name="privacy_policy_help_text">Please accept terms of service and privacy policy.</string>
+
 </resources>

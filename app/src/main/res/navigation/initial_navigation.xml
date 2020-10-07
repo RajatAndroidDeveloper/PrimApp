@@ -44,6 +44,9 @@
             app:destination="@id/loginFragment"
             app:popUpTo="@id/signUpFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_signUpFragment_to_verifyOTPFragment"
+            app:destination="@id/verifyOTPFragment" />
     </fragment>
     <dialog
         android:id="@+id/popUpHelpMessage"
@@ -67,4 +70,8 @@
         android:name="com.primapp.ui.initial.ForgotPasswordFragment"
         android:label="ForgotPasswordFragment"
         tools:layout="@layout/fragment_forgot_password"/>
+    <fragment
+        android:id="@+id/verifyOTPFragment"
+        android:name="com.primapp.ui.initial.VerifyOTPFragment"
+        android:label="VerifyOTPFragment" />
 </navigation>

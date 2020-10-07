@@ -31,6 +31,17 @@ fun markRequiredInRed(textInput: TextInputLayout, isRequired: Boolean? = false) 
 @BindingAdapter("errorText")
 fun textInputErrorFieldBinding(textInput: TextInputLayout, errorMessage: String?) {
     textInput.error = errorMessage
+    errorMessage?.let {
+        textInput.requestFocus()
+    }
+}
+
+@BindingAdapter("errorText")
+fun checkBoxErrorFieldBinding(checkBox: MaterialCheckBox, errorMessage: String?) {
+    checkBox.error = errorMessage
+    errorMessage?.let {
+        checkBox.requestFocus()
+    }
 }
 
 @BindingAdapter("spannableText")

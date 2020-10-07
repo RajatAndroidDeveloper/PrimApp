@@ -8,6 +8,10 @@
         <variable
             name="frag"
             type="com.primapp.ui.initial.SignUpFragment" />
+
+        <variable
+            name="viewModel"
+            type="com.primapp.viewmodels.SignUpViewModel" />
     </data>
 
     <ScrollView
@@ -17,7 +21,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="@color/backgroundColor"
             android:paddingTop="@dimen/space_systemTopInset">
 
             <TextView
@@ -43,6 +47,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tlFirstName"
                 style="@style/myTextInputLabel"
+                errorText="@{viewModel.errorFieldsLiveData.errorFirstName}"
                 android:layout_marginTop="@dimen/space_extraLarge"
                 android:hint="@string/first_name"
                 app:errorEnabled="true"
@@ -53,12 +58,14 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etFirstName"
                     style="@style/editTextInput"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    android:text="@={viewModel.signUpRequestDataModel.firstName}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tlLastName"
                 style="@style/myTextInputLabel"
+                errorText="@{viewModel.errorFieldsLiveData.errorLastName}"
                 android:layout_marginTop="@dimen/space_small"
                 android:hint="@string/last_name"
                 app:errorEnabled="true"
@@ -69,12 +76,14 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etLastName"
                     style="@style/editTextInput"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    android:text="@={viewModel.signUpRequestDataModel.lastName}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tlUserName"
                 style="@style/myTextInputLabel"
+                errorText="@{viewModel.errorFieldsLiveData.errorUsername}"
                 android:layout_marginTop="@dimen/space_small"
                 android:hint="@string/username"
                 app:endIconDrawable="@drawable/hint_question"
@@ -88,12 +97,14 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etUserName"
                     style="@style/editTextInput"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    android:text="@={viewModel.signUpRequestDataModel.username}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tlEmailAddress"
                 style="@style/myTextInputLabel"
+                errorText="@{viewModel.errorFieldsLiveData.errorEmail}"
                 android:layout_marginTop="@dimen/space_small"
                 android:hint="@string/email_address"
                 app:errorEnabled="true"
@@ -104,13 +115,15 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etEmailAddress"
                     style="@style/editTextInput"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textEmailAddress"
+                    android:text="@={viewModel.signUpRequestDataModel.email}" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tlGender"
                 style="@style/myTextInputLabel_DropDown"
+                errorText="@{viewModel.errorFieldsLiveData.errorGender}"
                 android:layout_marginTop="@dimen/space_small"
                 android:hint="@string/gender"
                 app:errorEnabled="true"
@@ -131,6 +144,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tlDOB"
                 style="@style/myTextInputLabel"
+                errorText="@{viewModel.errorFieldsLiveData.errorDOB}"
                 android:layout_marginTop="@dimen/space_small"
                 android:hint="@string/dob"
                 app:errorEnabled="true"
@@ -148,6 +162,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tlCountry"
                 style="@style/myTextInputLabel_DropDown"
+                errorText="@{viewModel.errorFieldsLiveData.errorCountry}"
                 android:layout_marginTop="@dimen/space_small"
                 android:hint="@string/country"
                 app:errorEnabled="true"
@@ -161,16 +176,19 @@
                     android:layout_height="wrap_content"
                     android:imeActionLabel="Done"
                     android:imeOptions="actionDone"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:text="@={viewModel.signUpRequestDataModel.country}" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tlPassword"
                 style="@style/myTextInputLabel"
+                errorText="@{viewModel.errorFieldsLiveData.errorPassword}"
                 android:layout_marginTop="@dimen/space_small"
                 android:hint="@string/password"
                 app:errorEnabled="true"
+                app:errorIconDrawable="@null"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tlCountry"
@@ -179,15 +197,18 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPassword"
                     style="@style/editTextInput"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:text="@={viewModel.signUpRequestDataModel.password}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tlConfirmPassword"
                 style="@style/myTextInputLabel"
+                errorText="@{viewModel.errorFieldsLiveData.errorConfirmPassword}"
                 android:layout_marginTop="@dimen/space_small"
-                android:hint="@string/password"
+                android:hint="@string/confirm_password"
                 app:errorEnabled="true"
+                app:errorIconDrawable="@null"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tlPassword"
@@ -196,7 +217,8 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etConfirmPassword"
                     style="@style/editTextInput"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:text="@={viewModel.signUpRequestDataModel.confirmPassword}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.checkbox.MaterialCheckBox
@@ -221,6 +243,7 @@
                 android:id="@+id/btnRegisterNow"
                 style="@style/buttonFilledPrimary"
                 android:layout_marginTop="@dimen/space_small"
+                android:onClick="@{()->frag.registerNow()}"
                 android:text="@string/register_now"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -235,7 +258,7 @@
                 android:onClick="@{()->frag.login()}"
                 android:padding="@dimen/space_small"
                 android:text="@string/already_a_user_please"
-                android:textColor="@color/black"
+                android:textColor="@color/textColor"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btnRegisterNow" />

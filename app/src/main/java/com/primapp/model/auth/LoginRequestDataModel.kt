@@ -5,16 +5,16 @@ import com.primapp.utils.ValidationResults
 import com.primapp.utils.Validator
 
 class LoginRequestDataModel(
-    @SerializedName("email")
-    var email: String?,
+    @SerializedName("username")
+    var username: String?,
     @SerializedName("password")
     var password: String?
 ){
     fun isValidFormData(): ValidationResults {
-        if (email.isNullOrEmpty())
-            return ValidationResults.EMPTY_EMAIL
-        else if (!Validator.isEmailValid(email ?: ""))
-            return ValidationResults.EMAIL_NOT_VALID
+        if (username.isNullOrEmpty())
+            return ValidationResults.EMPTY_USERNAME
+//        else if (!Validator.isEmailValid(email ?: ""))
+//            return ValidationResults.EMAIL_NOT_VALID
 
         if (password.isNullOrEmpty())
             return ValidationResults.EMPTY_PASSWORD

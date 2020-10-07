@@ -5,6 +5,10 @@
     <color name="colorAccent">#0085FF</color>
 
 
+    <color name="backgroundColor">@color/white</color>
+    <!-- for automatic dark to light ?android:attr/colorBackground -->
+    <color name="textColor">@color/black</color>
+
     <color name="white">#fff</color>
     <color name="grey">#a0a0a0</color>
 

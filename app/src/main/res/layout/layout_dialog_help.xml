@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
                 android:foreground="?android:attr/selectableItemBackground"
-                card_view:cardBackgroundColor="#ffffff"
+                card_view:cardBackgroundColor="@color/backgroundColor"
                 card_view:cardCornerRadius="12dp"
                 card_view:cardElevation="0dp"
                 card_view:cardUseCompatPadding="false">
@@ -52,14 +52,14 @@
                         android:text="@{message}"
                         tools:text="@string/username_help_text"
                         android:textAppearance="?attr/textAppearanceSearchResultTitle"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/textColor" />
 
                     <Button
                         style="@style/buttonFilledPrimary"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/colorAccent"
-                        android:onClick="@{()->pop.dismiss()}"
+                        android:onClick="@{()->pop.dismissDialog()}"
                         android:foreground="?attr/selectableItemBackground"
                         android:padding="@dimen/space_large"
                         android:text="@string/close"

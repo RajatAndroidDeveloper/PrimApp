@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.fragment.findNavController
 import com.primapp.R
 import com.primapp.databinding.LayoutDialogHelpBinding
 import com.primapp.ui.base.BaseDialogFragment
@@ -25,5 +26,10 @@ class PopUpHelpMessage : BaseDialogFragment<LayoutDialogHelpBinding>() {
     private fun setData() {
         binding.pop = this
         binding.message = PopUpHelpMessageArgs.fromBundle(requireArguments()).message
+    }
+
+    fun dismissDialog(){
+        findNavController().previousBackStackEntry?.savedStateHandle?.set("key", true)
+        dismiss()
     }
 }

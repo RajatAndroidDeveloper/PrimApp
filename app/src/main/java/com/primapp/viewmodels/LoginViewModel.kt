@@ -28,7 +28,7 @@ class LoginViewModel @Inject constructor(errorFields: ErrorFields, application: 
 
     fun loginUser() {
         val error = errorFieldsLiveData.value
-        error?.errorEmail = null
+        error?.errorUsername = null
         error?.errorPassword = null
         errorFieldsLiveData.value = error
 
@@ -39,12 +39,10 @@ class LoginViewModel @Inject constructor(errorFields: ErrorFields, application: 
         Log.i("anshul", "$result")
 
         when (result) {
-            ValidationResults.EMPTY_EMAIL -> {
-                errorFieldsLiveData.value?.errorEmail = context.getString(R.string.valid_empty_email)
+            ValidationResults.EMPTY_USERNAME -> {
+                errorFieldsLiveData.value?.errorUsername = context.getString(R.string.valid_empty_username)
             }
-            ValidationResults.EMAIL_NOT_VALID -> {
-                errorFieldsLiveData.value?.errorEmail = context.getString(R.string.valid_email)
-            }
+
             ValidationResults.EMPTY_PASSWORD -> {
                 errorFieldsLiveData.value?.errorPassword = context.getString(R.string.valid_password)
             }
