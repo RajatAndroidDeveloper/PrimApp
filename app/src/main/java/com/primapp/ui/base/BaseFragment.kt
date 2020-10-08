@@ -36,6 +36,8 @@ abstract class BaseFragment<DB : ViewDataBinding> : DaggerFragment() {
 
     var dialogLifeCycleEventObserver: LifecycleEventObserver? = null
 
+    private lateinit var baseActivity: BaseActivity
+
     private fun init(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -59,6 +61,9 @@ abstract class BaseFragment<DB : ViewDataBinding> : DaggerFragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
+        if (context is BaseActivity) {
+            this.baseActivity = context
+        }
     }
 
     override fun onResume() {
@@ -75,6 +80,14 @@ abstract class BaseFragment<DB : ViewDataBinding> : DaggerFragment() {
         if (name.isNotEmpty())
             toolbar.tvTitle.setCompoundDrawables(null, null, null, null)
         toolbar.tvTitle.text = name
+    }
+
+    fun showLoading() {
+        baseActivity.showLoading()
+    }
+
+    fun hideLoading() {
+        baseActivity.hideLoading()
     }
 
     fun showHelperDialog(message: String, destinationId: Int? = null) {

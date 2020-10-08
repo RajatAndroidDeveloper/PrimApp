@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.ViewModelProvider
+import com.primapp.utils.ProgressDialog
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
@@ -23,6 +24,14 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
     }
 
     abstract fun showTitleBar(): Boolean
+
+    fun showLoading() {
+        ProgressDialog.showProgressBar(this)
+    }
+
+    fun hideLoading() {
+        ProgressDialog.dismissProgressDialog()
+    }
 
     fun hideKeyBoard(input: View?) {
         input?.let {

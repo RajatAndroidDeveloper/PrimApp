@@ -74,4 +74,8 @@
         android:id="@+id/verifyOTPFragment"
         android:name="com.primapp.ui.initial.VerifyOTPFragment"
         android:label="VerifyOTPFragment" />
+    <dialog
+        android:id="@+id/progressDialog"
+        android:name="com.primapp.utils.ProgressDialog"
+        android:label="ProgressDialog" />
 </navigation>
