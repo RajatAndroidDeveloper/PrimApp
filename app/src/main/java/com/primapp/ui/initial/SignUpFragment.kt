@@ -96,10 +96,13 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
     fun registerNow() {
         mAutoCompleteGender.clearFocus()
         mAutoCompleteCountry.clearFocus()
-        if (viewModel.signUpUser() && !chkPrivacyPolicy.isChecked)
+       if (viewModel.signUpUser() && !chkPrivacyPolicy.isChecked) {
             showHelperDialog(getString(R.string.privacy_policy_help_text))
+        }else if(viewModel.signUpUser()){
+            findNavController().navigate(R.id.action_signUpFragment_to_verifyOTPFragment)
+        }
 
-        //findNavController().navigate(R.id.action_signUpFragment_to_verifyOTPFragment)
+
     }
 
     private fun onItemClick(any: Any) {
