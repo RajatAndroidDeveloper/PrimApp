@@ -4,8 +4,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="prim_slogan">A Community-Based\nVirtual Mentoring Platform</string>
     <string name="welcome">Welcome!</string>
-    <string name="username">Username</string>
-    <string name="password">Password</string>
+
     <string name="i_m_a_new_user">I\'m a new user,</string>
     <string name="sign_me_up">Sign me up!</string>
     <string name="already_a_user_please">Already a user ? Please</string>
@@ -34,13 +33,19 @@
         ]]>
     </string>
     <string name="forgot_username_description">Please enter the email that was used to create your account. We will email you a temporary one-time code to reset your username.</string>
-    <string name="email_address">Email Address</string>
+
     <string name="gender">Gender</string>
     <string name="dob">DOB</string>
-    <string name="country">Country</string>
     <string name="register_now">Register Now</string>
-    <string name="last_name">Last Name</string>
+
     <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="username">Username</string>
+    <string name="email_address">Email Address</string>
+    <string name="country">Country</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+
     <string name="signup_description">Create your account in minutes.</string>
     <string name="forgot_username">Forgot Username</string>
     <string name="submit">Submit</string>
@@ -54,7 +59,6 @@
     </string>
     <string name="forgot_password">Forgot Password</string>
     <string name="forgot_password_description">Please enter the email that was used to create your account. We will email you a temporary one-time code to reset your password.</string>
-    <string name="confirm_password">Confirm Password</string>
     <string name="verification">Verification</string>
     <string name="verify_otp_description">Please type the one-time passcode sent to your registered email address.</string>
     <string name="enter_otp">Enter OTP</string>
@@ -70,7 +74,7 @@
     <string name="valid_empty_username">Username can\'t be empty</string>
     <string name="valid_email">Please enter a valid email</string>
     <string name="valid_password">Please enter password</string>
-    <string name="invalid_password">Password length must be equal or greater than 6</string>
+    <string name="invalid_password">Password length must be equal or greater than 8</string>
     <string name="valid_empty_firstname">Please enter First Name</string>
     <string name="valid_empty_lastname">Please enter Last Name</string>
     <string name="valid_pass_not_match">Password doesn\'t match</string>
@@ -79,5 +83,6 @@
     <string name="valid_country">Please select a valid country</string>
 
     <string name="privacy_policy_help_text">Please accept terms of service and privacy policy.</string>
+    <string name="valid_username">Please enter a valid username</string>
 
 </resources>

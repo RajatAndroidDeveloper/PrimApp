@@ -4,6 +4,7 @@ package com.primapp.utils
 enum class ValidationResults {
     EMPTY_EMAIL,
     EMPTY_USERNAME,
+    INVALID_USERNAME,
     EMPTY_PASSWORD,
     INVALID_PASSWORD,
     EMPTY_FIRSTNAME,

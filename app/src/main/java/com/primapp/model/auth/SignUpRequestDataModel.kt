@@ -38,17 +38,20 @@ class SignUpRequestDataModel(
 
         if (username.isNullOrEmpty())
             return ValidationResults.EMPTY_USERNAME
+        else if(!Validator.isUsernameValid(username)){
+            return ValidationResults.INVALID_USERNAME
+        }
 
         if (email.isNullOrEmpty())
             return ValidationResults.EMPTY_EMAIL
         else if (!Validator.isEmailValid(email ?: ""))
             return ValidationResults.EMAIL_NOT_VALID
 
-        if (gender.isNullOrEmpty())
-            return ValidationResults.EMPTY_GENDER
-
-        if (dateOfBirth.isNullOrEmpty())
-            return ValidationResults.EMPTY_DOB
+//        if (gender.isNullOrEmpty())
+//            return ValidationResults.EMPTY_GENDER
+//
+//        if (dateOfBirth.isNullOrEmpty())
+//            return ValidationResults.EMPTY_DOB
 
         if (country.isNullOrEmpty())
             return ValidationResults.EMPTY_COUNTRY

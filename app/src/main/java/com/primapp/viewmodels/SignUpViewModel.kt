@@ -29,7 +29,7 @@ class SignUpViewModel @Inject constructor(errorFields: ErrorFields, application:
             SignUpRequestDataModel("", "", "", "", "", "", "", "", "", "", "android")
     }
 
-    fun signUpUser():Boolean {
+    fun signUpUser(): Boolean {
         val error = errorFieldsLiveData.value
         error?.errorFirstName = null
         error?.errorLastName = null
@@ -63,6 +63,11 @@ class SignUpViewModel @Inject constructor(errorFields: ErrorFields, application:
             ValidationResults.EMPTY_USERNAME -> {
                 errorFieldsLiveData.value?.errorUsername =
                     context.getString(R.string.valid_empty_username)
+            }
+
+            ValidationResults.INVALID_USERNAME -> {
+                errorFieldsLiveData.value?.errorUsername =
+                    context.getString(R.string.valid_username)
             }
 
             ValidationResults.EMPTY_EMAIL, ValidationResults.EMAIL_NOT_VALID -> {

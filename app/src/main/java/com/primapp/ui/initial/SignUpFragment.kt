@@ -137,7 +137,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
             cal[Calendar.MONTH] = month
             cal[Calendar.DAY_OF_MONTH] = dayOfMonth
 
-            binding.etDOB.setText(DateTimeUtils.getDateFromPicker(cal, DateTimeUtils.DOB_FORMAT))
+            binding.etDOB.setText(DateTimeUtils.getDateFromPicker(cal))
 
             val model = viewModel.signUpRequestDataModel.value
             model?.dateOfBirth = cal.timeInMillis.toString()
