@@ -2,31 +2,36 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.primapp">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
+        android:name=".PrimApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:name=".PrimApp"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.MainActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
+        <activity android:name=".ui.DashboardActivity"></activity>
+        <activity
+            android:name=".ui.MainActivity"
             android:launchMode="singleInstance"
-            android:theme="@style/splashTheme">
+            android:screenOrientation="portrait"
+            android:theme="@style/splashTheme"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <action android:name="android.intent.action.VIEW" />
-                <data android:scheme="forgot_username"/>
-                <data android:scheme="forgot_password"/>
-                <data android:scheme="resend_code"/>
+
+                <data android:scheme="forgot_username" />
+                <data android:scheme="forgot_password" />
+                <data android:scheme="resend_code" />
             </intent-filter>
         </activity>
     </application>

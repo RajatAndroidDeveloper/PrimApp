@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.primapp.R
+import com.primapp.cache.UserCache
 import com.primapp.databinding.FragmentSplashBinding
 import com.primapp.ui.base.BaseFragment
 import kotlinx.coroutines.*
@@ -22,15 +23,20 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        activityScope.launch{
+        activityScope.launch {
             delay(3000)
-           gotoNextActivity()
+            gotoNextActivity()
         }
 
     }
 
-    fun gotoNextActivity(){
-        findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
+    private fun gotoNextActivity() {
+        if (UserCache.isLoggedIn(requireContext())) {
+            findNavController().navigate(R.id.dashboardActivity)
+            activity?.finish()
+        } else {
+            findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
+        }
     }
 
     override fun onPause() {

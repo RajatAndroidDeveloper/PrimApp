@@ -28,8 +28,12 @@ class PopUpHelpMessage : BaseDialogFragment<LayoutDialogHelpBinding>() {
         binding.message = PopUpHelpMessageArgs.fromBundle(requireArguments()).message
     }
 
-    fun dismissDialog(){
+    fun dismissDialog() {
         findNavController().previousBackStackEntry?.savedStateHandle?.set("key", true)
+        findNavController().previousBackStackEntry?.savedStateHandle?.set(
+            "sourceId",
+            PopUpHelpMessageArgs.fromBundle(requireArguments()).sourceId
+        )
         dismiss()
     }
 }

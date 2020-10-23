@@ -90,9 +90,12 @@ abstract class BaseFragment<DB : ViewDataBinding> : DaggerFragment() {
         baseActivity.hideLoading()
     }
 
-    fun showHelperDialog(message: String, destinationId: Int? = null) {
+    fun showHelperDialog(message: String, destinationId: Int? = null, sourceId: Int? = null) {
         val bundle = Bundle()
         bundle.putString("message", message)
+        sourceId?.let {
+            bundle.putInt("sourceId", it)
+        }
         findNavController().navigate(R.id.popUpHelpMessage, bundle)
 
         // Add callback to dialog dismiss if the destination id is provided.
@@ -101,8 +104,8 @@ abstract class BaseFragment<DB : ViewDataBinding> : DaggerFragment() {
         }
     }
 
-    private fun setDialogCallback(id: Int) {
-        val navBackStackEntry = findNavController().getBackStackEntry(id)
+    private fun setDialogCallback(destinationId: Int) {
+        val navBackStackEntry = findNavController().getBackStackEntry(destinationId)
 
         // Create observer and add it to the NavBackStackEntry's lifecycle
         dialogLifeCycleEventObserver = LifecycleEventObserver { _, event ->
@@ -112,8 +115,12 @@ abstract class BaseFragment<DB : ViewDataBinding> : DaggerFragment() {
                 /*val result =
                     navBackStackEntry.savedStateHandle.get<Boolean>("key")
                 // Do something with the result
-                Log.d("dialog_back", Gson().toJson(result))*/
+                Log.d("dialog_back", Gson().toJson(result))
                 onDialogDismiss(navBackStackEntry.savedStateHandle.get<Any>("key"))
+
+                */
+                val result = navBackStackEntry.savedStateHandle.get<Int>("sourceId")
+                onDialogDismiss(result)
             }
         }
         navBackStackEntry.lifecycle.addObserver(dialogLifeCycleEventObserver!!)
@@ -124,7 +131,8 @@ abstract class BaseFragment<DB : ViewDataBinding> : DaggerFragment() {
         viewLifecycleOwner.lifecycle.addObserver(LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_DESTROY) {
                 navBackStackEntry.lifecycle.removeObserver(dialogLifeCycleEventObserver!!)
-                Log.d("dialog_back", "Observer removed")
+                dialogLifeCycleEventObserver = null
+                Log.d("dialog_back", "Observer removed : ${dialogLifeCycleEventObserver}")
             }
         })
     }

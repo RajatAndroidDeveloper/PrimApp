@@ -1,5 +1,6 @@
 package com.primapp.ui.initial
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.util.Log
@@ -7,23 +8,26 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Filter
-import android.widget.TextView
 import androidx.annotation.Nullable
-import com.primapp.model.auth.CountryListDataModel
+import com.primapp.model.auth.ReferenceItems
 import kotlinx.android.synthetic.main.item_simple_text.view.*
 
-
-class CountryListArrayAdapter(
+@SuppressLint("DefaultLocale")
+class AutocompleteListArrayAdapter(
     context: Context,
-    resourceId: Int,
-    items: ArrayList<CountryListDataModel>
-) :
-    ArrayAdapter<CountryListDataModel>(context, resourceId, items) {
     private val resourceId: Int
-    private val items: List<CountryListDataModel>
-    private lateinit var tempItems: List<CountryListDataModel>
-    private lateinit var suggestions: MutableList<CountryListDataModel>
+) :
+    ArrayAdapter<ReferenceItems>(context, resourceId) {
+    private val itemList = ArrayList<ReferenceItems>()
+    private var tempItems: ArrayList<ReferenceItems> = arrayListOf()
+    private var suggestions: MutableList<ReferenceItems> = ArrayList()
 
+    fun addAll(list: List<ReferenceItems>) {
+        itemList.clear()
+        itemList.addAll(list)
+        tempItems.clear()
+        tempItems.addAll(list)
+    }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var view: View? = convertView
@@ -33,19 +37,19 @@ class CountryListArrayAdapter(
             view = inflater.inflate(resourceId, parent, false)
         }
 
-        val countryItem: CountryListDataModel = getItem(position)
-        view!!.tvTitle.text = countryItem.value
+        val countryItem: ReferenceItems = getItem(position)
+        view!!.tvTitle.text = countryItem.itemText
 
         return view
     }
 
     @Nullable
-    override fun getItem(position: Int): CountryListDataModel {
-        return items[position]
+    override fun getItem(position: Int): ReferenceItems {
+        return itemList[position]
     }
 
     override fun getCount(): Int {
-        return items.size
+        return itemList.size
     }
 
     override fun getItemId(position: Int): Long {
@@ -57,25 +61,31 @@ class CountryListArrayAdapter(
     }
 
     fun contains(value: String): Boolean {
-        return items.find { it.value.equals(value, true) } != null
+        return itemList.find { it.itemText.equals(value, true) } != null
+    }
+
+    fun getItemId(value: String): Int? {
+        val item = itemList.find { it.itemText.equals(value, true) }
+        return item!!.itemId
     }
 
     fun getItemKey(value: String): String {
-        val item = items.find { it.value.equals(value, true) }
-        return item!!.key
+        val item = itemList.find { it.itemText.equals(value, true) }
+        return item!!.itemValue
     }
 
     private val fruitFilter: Filter = object : Filter() {
         override fun convertResultToString(resultValue: Any): CharSequence {
-            val items: CountryListDataModel = resultValue as CountryListDataModel
-            return items.value
+            val items: ReferenceItems = resultValue as ReferenceItems
+            return items.itemText
         }
+
 
         protected override fun performFiltering(charSequence: CharSequence?): FilterResults {
             return if (charSequence != null) {
                 suggestions.clear()
                 for (items in tempItems) {
-                    if (items.value.toLowerCase()
+                    if (items.itemText.toLowerCase()
                             .startsWith(charSequence.toString().toLowerCase())
                     ) {
                         suggestions.add(items)
@@ -96,25 +106,24 @@ class CountryListArrayAdapter(
         ) {
             if (filterResults != null && filterResults.count > 0) {
                 Log.d("anshul", "result--")
-                clear()
-                for (item in filterResults.values as ArrayList<CountryListDataModel>) {
-                    add(item)
+                itemList.clear()
+                for (item in filterResults.values as ArrayList<ReferenceItems>) {
+                    itemList.add(item)
                 }
                 notifyDataSetChanged()
             } else {
-                Log.d("anshul", "result")
-                clear()
-                addAll(tempItems)
+                Log.d("anshul", "result : temp size : ${tempItems.size}")
+                itemList.clear()
+                if (charSequence.isNullOrEmpty())
+                    itemList.addAll(tempItems)
                 notifyDataSetChanged()
             }
         }
     }
 
 
-    init {
-        this.items = items
-        this.resourceId = resourceId
-        tempItems = ArrayList(items)
-        suggestions = ArrayList()
-    }
+//    init {
+//        //this.itemList = itemsList
+//        //tempItems = ArrayList(itemsList)
+//    }
 }

@@ -52,30 +52,48 @@
         android:id="@+id/popUpHelpMessage"
         android:name="com.primapp.utils.PopUpHelpMessage"
         android:label="PopUpHelpMessage"
-        tools:layout="@layout/layout_dialog_help"
-        >
+        tools:layout="@layout/layout_dialog_help">
         <argument
             android:name="message"
-            app:argType="string"
-            android:defaultValue="Please add message." />
+            android:defaultValue="Please add message."
+            app:argType="string" />
+        <argument
+            android:name="sourceId"
+            android:defaultValue="0"
+            app:argType="integer" />
     </dialog>
     <fragment
         android:id="@+id/forgotUsernameFragment"
         android:name="com.primapp.ui.initial.ForgotUsernameFragment"
         android:label="ForgotUsernameFragment"
-        tools:layout="@layout/fragment_forgot_username"
-        />
+        tools:layout="@layout/fragment_forgot_username" />
     <fragment
         android:id="@+id/forgotPasswordFragment"
         android:name="com.primapp.ui.initial.ForgotPasswordFragment"
         android:label="ForgotPasswordFragment"
-        tools:layout="@layout/fragment_forgot_password"/>
+        tools:layout="@layout/fragment_forgot_password" />
     <fragment
         android:id="@+id/verifyOTPFragment"
         android:name="com.primapp.ui.initial.VerifyOTPFragment"
-        android:label="VerifyOTPFragment" />
+        android:label="VerifyOTPFragment"
+        tools:layout="@layout/fragment_verify_otp" >
+        <argument
+            android:name="signupData"
+            app:argType="com.primapp.model.auth.SignUpRequestDataModel"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_verifyOTPFragment_to_dashboardActivity"
+            app:destination="@id/dashboardActivity" />
+    </fragment>
     <dialog
         android:id="@+id/progressDialog"
         android:name="com.primapp.utils.ProgressDialog"
-        android:label="ProgressDialog" />
+        android:label="ProgressDialog"
+        tools:layout="@layout/progress_dialog" />
+    <activity
+        android:id="@+id/dashboardActivity"
+        android:name="com.primapp.ui.DashboardActivity"
+        android:label="activity_dashboard"
+        tools:layout="@layout/activity_dashboard" />
 </navigation>

@@ -17,7 +17,8 @@ import javax.inject.Singleton
     modules = [
         AndroidInjectionModule::class,
         AppModule::class,
-        ActivityModules::class
+        ActivityModules::class,
+        ContextModule::class
     ]
 )
 interface ApplicationComponent : AndroidInjector<PrimApp> {

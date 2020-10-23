@@ -10,7 +10,7 @@
     <string name="already_a_user_please">Already a user ? Please</string>
     <string name="login_period">Login.</string>
     <string name="close">Close</string>
-    <string name="username_help_text">User name must start with a letter and follow with any combination of letters, numbers and underscore.</string>
+    <string name="username_help_text">User name must start with a letter and follow with any combination of letters, numbers, periods and underscore with minimum length of 4 characters.</string>
 
     <string-array name="gender">
         <item>Male</item>
@@ -69,7 +69,7 @@
             <a href="resend_code:">Resend Code</a>
         ]]>
     </string>
-
+    <string name="otp_sent_description">Verification OTP was sent to your email.</string>
     <string name="resend_otp_description">We\'ve resent an OTP to your email.</string>
     <string name="valid_empty_username">Username can\'t be empty</string>
     <string name="valid_email">Please enter a valid email</string>
@@ -84,5 +84,6 @@
 
     <string name="privacy_policy_help_text">Please accept terms of service and privacy policy.</string>
     <string name="valid_username">Please enter a valid username</string>
-
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="account_success">Your account has been created successfully.</string>
 </resources>

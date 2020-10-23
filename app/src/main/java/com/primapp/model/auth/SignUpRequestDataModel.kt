@@ -3,6 +3,7 @@ package com.primapp.model.auth
 import com.google.gson.annotations.SerializedName
 import com.primapp.utils.ValidationResults
 import com.primapp.utils.Validator
+import java.io.Serializable
 
 
 class SignUpRequestDataModel(
@@ -10,25 +11,26 @@ class SignUpRequestDataModel(
     var firstName: String?,
     @SerializedName("last_name")
     var lastName: String?,
-    @SerializedName("username")
+    @SerializedName("user_name")
     var username: String?,
     @SerializedName("email")
     var email: String?,
     @SerializedName("gender")
-    var gender: String?,
+    var gender: Int?,
     @SerializedName("date_of_birth")
     var dateOfBirth: String?,
-    @SerializedName("country")
-    var country: String?,
+    @SerializedName("country_iso_code")
+    var countryIsoCode: String?,
     @SerializedName("password")
     var password: String?,
     var confirmPassword: String?,
     @SerializedName("device_id")
     var deviceId: String?,
     @SerializedName("device_type")
-    var deviceType: String?
-
-) {
+    var deviceType: String?,
+    @SerializedName("code")
+    var code: String?
+):Serializable {
     fun isValidFormData(): ValidationResults {
         if (firstName.isNullOrEmpty())
             return ValidationResults.EMPTY_FIRSTNAME
@@ -53,7 +55,7 @@ class SignUpRequestDataModel(
 //        if (dateOfBirth.isNullOrEmpty())
 //            return ValidationResults.EMPTY_DOB
 
-        if (country.isNullOrEmpty())
+        if (countryIsoCode.isNullOrEmpty())
             return ValidationResults.EMPTY_COUNTRY
 
         if (password.isNullOrEmpty())

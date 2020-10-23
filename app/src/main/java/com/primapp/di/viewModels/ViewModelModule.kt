@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.primapp.ui.SplashViewModel
 import com.primapp.viewmodels.LoginViewModel
 import com.primapp.viewmodels.SignUpViewModel
+import com.primapp.viewmodels.VerifyOTPViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -26,6 +27,12 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(SignUpViewModel::class)
     abstract fun bindSignUpViewModel(viewModel: SignUpViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(VerifyOTPViewModel::class)
+    abstract fun bindVerifyOTPViewModel(viewModel: VerifyOTPViewModel): ViewModel
+
 
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

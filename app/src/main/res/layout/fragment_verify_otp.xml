@@ -8,6 +8,10 @@
         <variable
             name="frag"
             type="com.primapp.ui.initial.VerifyOTPFragment" />
+
+        <variable
+            name="viewModel"
+            type="com.primapp.viewmodels.VerifyOTPViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,6 +43,8 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tlEmailAddress"
             style="@style/myTextInputLabel"
+            errorText="@{viewModel.errorFieldsLiveData.errorOTP}"
+            isRequired="@{true}"
             android:layout_marginTop="@dimen/space_extraLarge"
             android:hint="@string/enter_otp"
             app:errorEnabled="true"
@@ -49,7 +55,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etEmailAddress"
                 style="@style/editTextInput"
-                android:inputType="textEmailAddress" />
+                android:inputType="number"
+                android:text="@={viewModel.verifyOTPRequestModel.code}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
@@ -58,23 +65,23 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_normal"
+            android:onClick="@{()->frag.verifyUser()}"
             android:text="@string/submit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tlEmailAddress"
-            />
+            app:layout_constraintTop_toBottomOf="@id/tlEmailAddress" />
 
         <TextView
             android:id="@+id/tvForgotPass"
+            htmlText="@{@string/resend_code}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_semibold"
-            tools:text="@string/resend_code"
             android:layout_marginTop="@dimen/space_large"
-            htmlText="@{@string/resend_code}"
-            app:layout_constraintStart_toStartOf="@id/btnSubmit"
+            android:fontFamily="@font/poppins_regular"
             app:layout_constraintEnd_toEndOf="@id/btnSubmit"
-            app:layout_constraintTop_toBottomOf="@id/btnSubmit" />
+            app:layout_constraintStart_toStartOf="@id/btnSubmit"
+            app:layout_constraintTop_toBottomOf="@id/btnSubmit"
+            tools:text="@string/resend_code" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

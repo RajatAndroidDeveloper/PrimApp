@@ -1,9 +1,12 @@
 package com.primapp.di.modules
 
+import android.content.Context
 import com.primapp.BuildConfig
+import com.primapp.cache.UserCache
 import com.primapp.di.CoroutineScopeIO
 import com.primapp.di.PrimAPI
 import com.primapp.di.viewModels.ViewModelModule
+import com.primapp.retrofit.ApiConstant
 import com.primapp.retrofit.ApiService
 import com.primapp.retrofit.AppInterceptor
 import dagger.Module
@@ -24,16 +27,23 @@ class AppModule {
 
     @PrimAPI
     @Provides
-    fun providePrivateOkHttpClient(upstreamClient: OkHttpClient): OkHttpClient {
+    fun providePrivateOkHttpClient(upstreamClient: OkHttpClient, context: Context): OkHttpClient {
         return upstreamClient.newBuilder()
-            .addInterceptor(AppInterceptor("")).build()
+            .addInterceptor(AppInterceptor(UserCache.getAccessToken(context = context))).build()
     }
 
     @Singleton
     @Provides
-    fun provideLegoService(@PrimAPI okhttpClient: OkHttpClient, converterFactory: GsonConverterFactory) = provideService(okhttpClient, converterFactory, ApiService::class.java)
+    fun provideLegoService(
+        @PrimAPI okhttpClient: OkHttpClient,
+        converterFactory: GsonConverterFactory
+    ) = provideService(okhttpClient, converterFactory, ApiService::class.java)
 
-    private fun <T> provideService(okhttpClient: OkHttpClient, converterFactory: GsonConverterFactory, clazz: Class<T>): T {
+    private fun <T> provideService(
+        okhttpClient: OkHttpClient,
+        converterFactory: GsonConverterFactory,
+        clazz: Class<T>
+    ): T {
         return createRetrofit(okhttpClient, converterFactory).create(clazz)
     }
 
@@ -42,7 +52,7 @@ class AppModule {
         converterFactory: GsonConverterFactory
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BuildConfig.BASE_URL)
+            .baseUrl(ApiConstant.BASE_URL)
             .client(okhttpClient)
             .addConverterFactory(converterFactory)
             .build()

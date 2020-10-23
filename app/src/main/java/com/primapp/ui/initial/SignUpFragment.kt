@@ -4,30 +4,38 @@ import android.app.DatePickerDialog
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.textfield.MaterialAutoCompleteTextView
-import com.google.gson.Gson
 import com.primapp.R
 import com.primapp.databinding.FragmentSignUpBinding
-import com.primapp.model.auth.CountryListDataModel
 import com.primapp.ui.base.BaseFragment
 import com.primapp.utils.DateTimeUtils
-import com.primapp.viewmodels.LoginViewModel
 import com.primapp.viewmodels.SignUpViewModel
-import kotlinx.android.synthetic.main.fragment_sign_up.*
 import java.util.*
+import androidx.lifecycle.Observer
+import com.google.gson.Gson
+import com.primapp.constants.ReferenceEntityTypes
+import com.primapp.extensions.showError
+import com.primapp.retrofit.base.Status
 
 
 class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
 
-    //val adapter by lazy { GenderListAdapter { item -> onItemClick(item) } }
-
     val viewModel by viewModels<SignUpViewModel> { viewModelFactory }
+
+    val genderAdapter by lazy {
+        AutocompleteListArrayAdapter(
+            requireContext(),
+            R.layout.item_simple_text
+        )
+    }
+    val countryAdapter by lazy {
+        AutocompleteListArrayAdapter(
+            requireContext(),
+            R.layout.item_simple_text
+        )
+    }
 
     override fun getLayoutRes(): Int = R.layout.fragment_sign_up
 
@@ -36,12 +44,24 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
 
         setData()
         setAdapter()
+        setObserver()
 
+        if (isLoaded) {
+            return
+        }
+        getReferenceData()
     }
 
     override fun onDialogDismiss(any: Any?) {
         super.onDialogDismiss(any)
-        Log.d("anshul_dialog", "dismissed 2")
+        Log.d("anshul_dialog", "dismissed 2 : ${Gson().toJson(any)}")
+        when (any) {
+            R.id.btnRegisterNow -> {
+                val action =
+                    SignUpFragmentDirections.actionSignUpFragmentToVerifyOTPFragment(viewModel.signUpRequestDataModel.value)
+                findNavController().navigate(action)
+            }
+        }
     }
 
     private fun setData() {
@@ -50,33 +70,87 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
         binding.viewModel = viewModel
 
         binding.tlUserName.setEndIconOnClickListener {
-            showHelperDialog(getString(R.string.username_help_text), R.id.signUpFragment)
+            showHelperDialog(getString(R.string.username_help_text))
         }
+    }
+
+    private fun setObserver() {
+        viewModel.referenceLiveData.observe(viewLifecycleOwner, Observer {
+            hideLoading()
+            when (it.status) {
+                Status.SUCCESS -> {
+                    when (it.data?.content?.entity) {
+                        ReferenceEntityTypes.GENDER_LIST -> {
+                            it.data.content.referenceItemsList?.apply {
+                                genderAdapter.addAll(this)
+                            }
+                        }
+                        ReferenceEntityTypes.COUNTRY_LIST -> {
+                            it.data.content.referenceItemsList?.apply {
+                                countryAdapter.addAll(this)
+                            }
+                        }
+                    }
+                }
+                Status.ERROR -> {
+                    it.message?.apply {
+                        showError(requireContext(), this)
+                    }
+                    findNavController().popBackStack()
+                }
+                Status.LOADING -> {
+                    showLoading()
+                }
+            }
+        })
+
+        viewModel.signUpLiveDataLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.SUCCESS -> {
+                        showHelperDialog(
+                            getString(R.string.otp_sent_description),
+                            R.id.signUpFragment,
+                            R.id.btnRegisterNow
+                        )
+                    }
+                    Status.ERROR -> {
+                        it.message?.apply {
+                            showError(requireContext(), this)
+                        }
+                    }
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                }
+            }
+
+        })
+    }
 
 
+    private fun getReferenceData() {
+        viewModel.getReferenceData(ReferenceEntityTypes.GENDER_LIST)
+        viewModel.getReferenceData(ReferenceEntityTypes.COUNTRY_LIST)
     }
 
     private fun setAdapter() {
         context?.apply {
-            val itemsGender: ArrayList<CountryListDataModel> = ArrayList<CountryListDataModel>()
-            itemsGender.add(CountryListDataModel("m", "Male"))
-            itemsGender.add(CountryListDataModel("f", "Female"))
-            itemsGender.add(CountryListDataModel("o", "Others"))
 
-            val adapter = CountryListArrayAdapter(this, R.layout.item_simple_text, itemsGender)
 
-            mAutoCompleteGender.setAdapter(adapter)
+            binding.mAutoCompleteGender.setAdapter(genderAdapter)
 
-            mAutoCompleteGender.validator = object : AutoCompleteTextView.Validator {
+            binding.mAutoCompleteGender.validator = object : AutoCompleteTextView.Validator {
                 override fun fixText(p0: CharSequence?): CharSequence {
                     return ""
                 }
 
                 override fun isValid(p0: CharSequence?): Boolean {
-                    val isDataValid = adapter.contains(p0.toString())
+                    val isDataValid = genderAdapter.contains(p0.toString())
                     val data = viewModel.signUpRequestDataModel.value
                     if (isDataValid) {
-                        data?.gender = adapter.getItemKey(p0.toString())
+                        data?.gender = genderAdapter.getItemId(p0.toString())
                     } else {
                         data?.gender = null
                     }
@@ -86,6 +160,29 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
                     return isDataValid
                 }
             }
+
+
+
+            binding.mAutoCompleteCountry.setAdapter(countryAdapter)
+
+            binding.mAutoCompleteCountry.validator = object : AutoCompleteTextView.Validator {
+                override fun fixText(p0: CharSequence?): CharSequence {
+                    return ""
+                }
+
+                override fun isValid(p0: CharSequence?): Boolean {
+                    val isDataValid = countryAdapter.contains(p0.toString())
+                    val data = viewModel.signUpRequestDataModel.value
+                    if (isDataValid) {
+                        data?.countryIsoCode = countryAdapter.getItemKey(p0.toString())
+                    } else {
+                        data?.countryIsoCode = null
+                    }
+                    viewModel.signUpRequestDataModel.value = data
+                    return isDataValid
+                }
+            }
+
         }
     }
 
@@ -94,19 +191,17 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
     }
 
     fun registerNow() {
-        mAutoCompleteGender.clearFocus()
-        mAutoCompleteCountry.clearFocus()
-       if (viewModel.signUpUser() && !chkPrivacyPolicy.isChecked) {
-            showHelperDialog(getString(R.string.privacy_policy_help_text))
-        }else if(viewModel.signUpUser()){
-            findNavController().navigate(R.id.action_signUpFragment_to_verifyOTPFragment)
+        binding.mAutoCompleteGender.clearFocus()
+        binding.mAutoCompleteCountry.clearFocus()
+        if (viewModel.validateSignUpData() && !binding.chkPrivacyPolicy.isChecked) {
+            showHelperDialog(
+                getString(R.string.privacy_policy_help_text),
+                R.id.signUpFragment,
+                R.id.chkPrivacyPolicy
+            )
+        } else if (viewModel.validateSignUpData()) {
+            viewModel.signUpUser()
         }
-
-
-    }
-
-    private fun onItemClick(any: Any) {
-
     }
 
     fun openDatePicker() {

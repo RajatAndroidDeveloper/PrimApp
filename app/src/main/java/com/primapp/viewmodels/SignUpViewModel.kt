@@ -3,18 +3,29 @@ package com.primapp.viewmodels
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.primapp.PrimApp
 import com.primapp.R
-import com.primapp.model.auth.LoginRequestDataModel
+import com.primapp.model.auth.ReferenceResponseDataModel
 import com.primapp.model.auth.SignUpRequestDataModel
+import com.primapp.repository.RegistrationRepository
+import com.primapp.retrofit.base.BaseDataModel
+import com.primapp.retrofit.base.Event
+import com.primapp.retrofit.base.Resource
 import com.primapp.utils.ErrorFields
 import com.primapp.utils.ValidationResults
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-class SignUpViewModel @Inject constructor(errorFields: ErrorFields, application: Application) :
+class SignUpViewModel @Inject constructor(
+    errorFields: ErrorFields,
+    application: Application,
+    val repo: RegistrationRepository
+) :
     AndroidViewModel(application) {
 
     private val context by lazy { getApplication<PrimApp>().applicationContext }
@@ -26,10 +37,10 @@ class SignUpViewModel @Inject constructor(errorFields: ErrorFields, application:
     init {
         errorFieldsLiveData.value = errorFields
         signUpRequestDataModel.value =
-            SignUpRequestDataModel("", "", "", "", "", "", "", "", "", "", "android")
+            SignUpRequestDataModel("", "", "", "", null, "", null, "", "", "", "android", null)
     }
 
-    fun signUpUser(): Boolean {
+    fun validateSignUpData(): Boolean {
         val error = errorFieldsLiveData.value
         error?.errorFirstName = null
         error?.errorLastName = null
@@ -122,6 +133,24 @@ class SignUpViewModel @Inject constructor(errorFields: ErrorFields, application:
             }
         }
         return false
+    }
+
+
+    // get reference data
+    private var _referenceLiveData = MutableLiveData<Resource<ReferenceResponseDataModel>>()
+    var referenceLiveData: LiveData<Resource<ReferenceResponseDataModel>> = _referenceLiveData
+
+    fun getReferenceData(type: String) = viewModelScope.launch {
+        _referenceLiveData.postValue(Resource.loading(null))
+        _referenceLiveData.postValue(repo.getReferenceData(type))
+    }
+
+    private var _signUpLiveData = MutableLiveData<Event<Resource<BaseDataModel>>>()
+    var signUpLiveDataLiveData: LiveData<Event<Resource<BaseDataModel>>> = _signUpLiveData
+
+    fun signUpUser() = viewModelScope.launch {
+        _signUpLiveData.postValue(Event(Resource.loading(null)))
+        _signUpLiveData.postValue(Event(repo.signUpUser(signUpRequestDataModel.value!!)))
     }
 
 }
