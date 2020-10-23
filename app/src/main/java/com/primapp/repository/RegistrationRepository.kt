@@ -1,6 +1,7 @@
 package com.primapp.repository
 
 import android.util.Log
+import com.primapp.model.auth.LoginRequestDataModel
 import com.primapp.model.auth.ReferenceResponseDataModel
 import com.primapp.model.auth.SignUpRequestDataModel
 import com.primapp.model.auth.VerifyUserResponseModel
@@ -39,6 +40,14 @@ class RegistrationRepository @Inject constructor(
     suspend fun verifyUser(signUpRequestModel: SignUpRequestDataModel): Resource<VerifyUserResponseModel> {
         return try {
             responseHandler.handleResponse(apiService.verifyUser(signUpRequestModel))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    suspend fun loginUser(loginRequestDataModel: LoginRequestDataModel): Resource<VerifyUserResponseModel> {
+        return try {
+            responseHandler.handleResponse(apiService.verifyUser(loginRequestDataModel))
         } catch (e: Exception) {
             responseHandler.handleException(e)
         }

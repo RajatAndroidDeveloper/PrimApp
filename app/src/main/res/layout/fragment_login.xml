@@ -127,7 +127,7 @@
             android:id="@+id/btnLogin"
             style="@style/buttonFilledPrimary"
             android:layout_marginTop="@dimen/space_medium"
-            android:onClick="@{()->viewModel.loginUser()}"
+            android:onClick="@{()->viewModel.validateLoginUser()}"
             android:text="Login"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -12,7 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.DashboardActivity"></activity>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".ui.DashboardActivity"
+            android:theme="@style/splashTheme"></activity>
         <activity
             android:name=".ui.MainActivity"
             android:launchMode="singleInstance"

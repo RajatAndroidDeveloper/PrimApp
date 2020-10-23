@@ -1,5 +1,6 @@
 package com.primapp.retrofit
 
+import com.primapp.model.auth.LoginRequestDataModel
 import com.primapp.model.auth.ReferenceResponseDataModel
 import com.primapp.model.auth.SignUpRequestDataModel
 import com.primapp.model.auth.VerifyUserResponseModel
@@ -19,4 +20,7 @@ interface ApiService {
 
     @POST(ApiConstant.VERIFY_USER)
     suspend fun verifyUser(@Body signUpRequestDataModel: SignUpRequestDataModel): VerifyUserResponseModel
+
+    @POST(ApiConstant.LOGIN_USER)
+    suspend fun verifyUser(@Body loginRequestDataModel: LoginRequestDataModel): VerifyUserResponseModel
 }

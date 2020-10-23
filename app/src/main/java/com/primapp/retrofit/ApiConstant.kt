@@ -9,5 +9,6 @@ object ApiConstant {
     const val REFERENCE_DATA = "reference-data"
     const val SIGN_UP = "users/"
     const val VERIFY_USER = "users/verify"
+    const val LOGIN_USER = "users/login"
 
 }
