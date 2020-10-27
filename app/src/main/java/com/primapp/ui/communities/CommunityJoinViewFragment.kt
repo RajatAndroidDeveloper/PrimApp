@@ -60,7 +60,7 @@ class CommunityJoinViewFragment : BaseFragment<FragmentCommunityJoinViewBinding>
 
         binding.viewPager.adapter = ViewPagerCommunityAdapter(
             fragmentList,
-            requireActivity().supportFragmentManager,
+            childFragmentManager,
             lifecycle
         )
 
