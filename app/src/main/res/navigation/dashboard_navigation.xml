@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dashboard_navigation"
+    app:startDestination="@id/updatesFragment">
+
+    <fragment
+        android:id="@+id/updatesFragment"
+        android:name="com.primapp.ui.dashboard.UpdatesFragment"
+        android:label="UpdatesFragment"
+        tools:layout="@layout/fragment_updates" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.primapp.ui.dashboard.ProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.primapp.ui.dashboard.NotificationsFragment"
+        android:label="NotificationsFragment"
+        tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/communitiesFragment"
+        android:name="com.primapp.ui.communities.CommunitiesFragment"
+        android:label="CommunitiesFragment"
+        tools:layout="@layout/fragment_communities">
+        <argument
+            android:name="isNewUser"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_communitiesFragment2_to_communityJoinViewFragment"
+            app:destination="@id/communityJoinViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/communityJoinViewFragment"
+        android:name="com.primapp.ui.communities.CommunityJoinViewFragment"
+        android:label="CommunityJoinViewFragment">
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="isNewUser"
+            android:defaultValue="false"
+            app:argType="boolean" />
+    </fragment>
+</navigation>

@@ -86,4 +86,10 @@
     <string name="valid_username">Please enter a valid username</string>
     <string name="something_went_wrong">Something went wrong</string>
     <string name="account_success">Your account has been created successfully.</string>
+    <string name="communities">Communities</string>
+    <string name="social">Social</string>
+    <string name="lifestyle">Lifestyle</string>
+    <string name="business">Business</string>
+    <string name="education">Education</string>
+    <string name="empty_communities_description">You are not in any communities.\nJoin a community to start seeing updates.</string>
 </resources>

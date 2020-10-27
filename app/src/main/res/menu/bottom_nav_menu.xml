@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/updatesFragment"
+        android:enabled="true"
+        android:icon="@drawable/update_grey"
+        android:title="Updates" />
+
+    <item
+        android:id="@+id/notificationsFragment"
+        android:enabled="true"
+        android:icon="@drawable/notifications"
+        android:title="Notifications" />
+
+    <item
+        android:id="@+id/communitiesFragment"
+        android:enabled="true"
+        android:icon="@drawable/communities"
+        android:title="Communities" />
+
+    <item
+        android:id="@+id/profileFragment"
+        android:enabled="true"
+        android:icon="@drawable/icon_profile"
+        android:title="Profile" />
+</menu>

@@ -1,12 +1,13 @@
 package com.primapp.di.modules
 
 import com.primapp.ui.SplashFragment
+import com.primapp.ui.communities.*
 import com.primapp.ui.initial.*
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Module
-abstract class FragmentBuildersModule {
+abstract class AuthFragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeSplashFragment(): SplashFragment
@@ -25,4 +26,19 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeVerifyOTPFragment(): VerifyOTPFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeCommunitiesFragment(): CommunitiesFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeCommunitiesJoinFragment(): CommunityJoinViewFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeAllCommunityFragment(): AllCommunityFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeJoinedCommunityFragment(): JoinedCommunityFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeCreatedCommunityFragment(): CreatedCommunityFragment
 }

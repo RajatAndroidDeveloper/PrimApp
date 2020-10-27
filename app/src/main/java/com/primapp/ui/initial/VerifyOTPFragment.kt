@@ -88,8 +88,9 @@ class VerifyOTPFragment : BaseFragment<FragmentVerifyOtpBinding>() {
         super.onDialogDismiss(any)
         when (any) {
             R.id.btnSubmit -> {
-                findNavController().navigate(R.id.action_verifyOTPFragment_to_dashboardActivity)
-                activity?.finish()
+                val action =
+                    VerifyOTPFragmentDirections.actionVerifyOTPFragmentToCommunitiesFragment(true)
+                findNavController().navigate(action)
             }
         }
     }

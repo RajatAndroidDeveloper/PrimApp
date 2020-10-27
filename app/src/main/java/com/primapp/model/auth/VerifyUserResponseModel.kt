@@ -29,6 +29,6 @@ data class UserData(
     val lastName: String,
     @SerializedName("token")
     val token: String,
-    @SerializedName("user_name")
+    @SerializedName("username")
     val userName: String
 )

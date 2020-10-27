@@ -16,6 +16,11 @@
             app:launchSingleTop="false"
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashFragment_to_communitiesFragment"
+            app:destination="@id/communitiesFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -76,15 +81,20 @@
         android:id="@+id/verifyOTPFragment"
         android:name="com.primapp.ui.initial.VerifyOTPFragment"
         android:label="VerifyOTPFragment"
-        tools:layout="@layout/fragment_verify_otp" >
+        tools:layout="@layout/fragment_verify_otp">
         <argument
             android:name="signupData"
+            android:defaultValue="@null"
             app:argType="com.primapp.model.auth.SignUpRequestDataModel"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
         <action
             android:id="@+id/action_verifyOTPFragment_to_dashboardActivity"
             app:destination="@id/dashboardActivity" />
+        <action
+            android:id="@+id/action_verifyOTPFragment_to_communitiesFragment"
+            app:destination="@id/communitiesFragment"
+            app:popUpTo="@id/verifyOTPFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <dialog
         android:id="@+id/progressDialog"
@@ -93,7 +103,33 @@
         tools:layout="@layout/progress_dialog" />
     <activity
         android:id="@+id/dashboardActivity"
-        android:name="com.primapp.ui.DashboardActivity"
+        android:name="com.primapp.ui.dashboard.DashboardActivity"
         android:label="activity_dashboard"
         tools:layout="@layout/activity_dashboard" />
+    <fragment
+        android:id="@+id/communitiesFragment"
+        android:name="com.primapp.ui.communities.CommunitiesFragment"
+        android:label="CommunitiesFragment"
+        tools:layout="@layout/fragment_communities">
+        <action
+            android:id="@+id/action_communitiesFragment_to_communityJoinViewFragment"
+            app:destination="@id/communityJoinViewFragment" />
+        <argument
+            android:name="isNewUser"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/communityJoinViewFragment"
+        android:name="com.primapp.ui.communities.CommunityJoinViewFragment"
+        android:label="CommunityJoinViewFragment"
+        tools:layout="@layout/fragment_community_join_view">
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="isNewUser"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </fragment>
 </navigation>
