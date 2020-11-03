@@ -69,5 +69,17 @@ class VerifyOTPViewModel @Inject constructor(
         _verifyOTPLiveData.postValue(repo.verifyUser(signUpRequestDataModel))
     }
 
+    private var _forgotUsernameVerifyOTPLiveData = MutableLiveData<Resource<BaseDataModel>>()
+    var forgotUsernameVerifyOTP: LiveData<Resource<BaseDataModel>> =
+        _forgotUsernameVerifyOTPLiveData
+
+    fun forgotUsernameVerifyOTP(userId: String) =
+        viewModelScope.launch {
+            _forgotUsernameVerifyOTPLiveData.postValue(Resource.loading(null))
+            _forgotUsernameVerifyOTPLiveData.postValue(
+                repo.forgotUsernameVerify(userId, verifyOTPRequestModel.value!!)
+            )
+        }
+
 
 }

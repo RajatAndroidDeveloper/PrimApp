@@ -1,10 +1,7 @@
 package com.primapp.repository
 
 import android.util.Log
-import com.primapp.model.auth.LoginRequestDataModel
-import com.primapp.model.auth.ReferenceResponseDataModel
-import com.primapp.model.auth.SignUpRequestDataModel
-import com.primapp.model.auth.VerifyUserResponseModel
+import com.primapp.model.auth.*
 import com.primapp.retrofit.ApiService
 import com.primapp.retrofit.base.BaseDataModel
 import com.primapp.retrofit.base.Resource
@@ -21,7 +18,7 @@ class RegistrationRepository @Inject constructor(
         fetchAccessToken()
     }
 
-    suspend fun getReferenceData(type:String): Resource<ReferenceResponseDataModel> {
+    suspend fun getReferenceData(type: String): Resource<ReferenceResponseDataModel> {
         return try {
             responseHandler.handleResponse(apiService.getReferenceData(type))
         } catch (e: Exception) {
@@ -48,6 +45,35 @@ class RegistrationRepository @Inject constructor(
     suspend fun loginUser(loginRequestDataModel: LoginRequestDataModel): Resource<VerifyUserResponseModel> {
         return try {
             responseHandler.handleResponse(apiService.verifyUser(loginRequestDataModel))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    suspend fun forgotUsername(forgotDataRequestModel: ForgotDataRequestModel): Resource<ForgotDataResponseModel> {
+        return try {
+            responseHandler.handleResponse(apiService.forgotUsername(forgotDataRequestModel))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    suspend fun forgotPassword(forgotDataRequestModel: ForgotDataRequestModel): Resource<ForgotDataResponseModel> {
+        return try {
+            responseHandler.handleResponse(apiService.forgotPassword(forgotDataRequestModel))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    suspend fun forgotUsernameVerify(
+        userId: String,
+        verifyOTPRequestModel: VerifyOTPRequestModel
+    ): Resource<BaseDataModel> {
+        return try {
+            responseHandler.handleResponse(
+                apiService.forgotUsernameVerify(userId, verifyOTPRequestModel)
+            )
         } catch (e: Exception) {
             responseHandler.handleException(e)
         }

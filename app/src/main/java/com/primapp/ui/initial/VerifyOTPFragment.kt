@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.primapp.R
 import com.primapp.cache.UserCache
+import com.primapp.constants.VerifyOTPRequestTypes
 import com.primapp.databinding.FragmentVerifyOtpBinding
 import com.primapp.extensions.showError
 import com.primapp.model.auth.SignUpRequestDataModel
@@ -27,6 +28,9 @@ class VerifyOTPFragment : BaseFragment<FragmentVerifyOtpBinding>() {
     private var isCounterActive: Boolean = true
     private var signUpRequestModel: SignUpRequestDataModel? = null
 
+    private var requestType: VerifyOTPRequestTypes = VerifyOTPRequestTypes.SIGN_UP
+    private var userId: String? = null
+
     override fun getLayoutRes(): Int = R.layout.fragment_verify_otp
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -41,6 +45,8 @@ class VerifyOTPFragment : BaseFragment<FragmentVerifyOtpBinding>() {
         binding.frag = this
         binding.viewModel = viewModel
         signUpRequestModel = VerifyOTPFragmentArgs.fromBundle(requireArguments()).signupData
+        requestType = VerifyOTPFragmentArgs.fromBundle(requireArguments()).requestType
+        userId = VerifyOTPFragmentArgs.fromBundle(requireArguments()).userId
     }
 
     private fun setObservers() {
@@ -67,6 +73,25 @@ class VerifyOTPFragment : BaseFragment<FragmentVerifyOtpBinding>() {
                 }
             }
         })
+
+        viewModel.forgotUsernameVerifyOTP.observe(viewLifecycleOwner, Observer {
+            hideLoading()
+            when (it.status) {
+                Status.LOADING -> {
+                    showLoading()
+                }
+                Status.ERROR -> {
+                    showError(requireContext(), it.message!!)
+                }
+                Status.SUCCESS -> {
+                    showHelperDialog(
+                        getString(R.string.forgot_username_verify_success),
+                        R.id.verifyOTPFragment,
+                        1234
+                    )
+                }
+            }
+        })
     }
 
     private fun saveUserDataToCache(data: UserData) {
@@ -77,10 +102,32 @@ class VerifyOTPFragment : BaseFragment<FragmentVerifyOtpBinding>() {
 
     fun verifyUser() {
         if (viewModel.validateOTPData()) {
-            signUpRequestModel?.code = viewModel.verifyOTPRequestModel.value?.code
-            signUpRequestModel?.let {
-                viewModel.verifyOTPForSignUp(it)
+            when (requestType) {
+                VerifyOTPRequestTypes.SIGN_UP -> {
+                    signUpRequestModel?.code = viewModel.verifyOTPRequestModel.value?.code
+                    signUpRequestModel?.let {
+                        viewModel.verifyOTPForSignUp(it)
+                    }
+                }
+                VerifyOTPRequestTypes.FORGOT_USERNAME -> {
+                    if (userId == null) {
+                        showError(requireContext(), getString(R.string.something_went_wrong))
+                        findNavController().popBackStack()
+                    } else {
+                        viewModel.forgotUsernameVerifyOTP(userId!!)
+                    }
+                }
+
+                VerifyOTPRequestTypes.FORGOT_PASSWORD -> {
+
+                }
+
+                else -> {
+                    showError(requireContext(), getString(R.string.something_went_wrong))
+                    findNavController().popBackStack()
+                }
             }
+
         }
     }
 
@@ -90,6 +137,10 @@ class VerifyOTPFragment : BaseFragment<FragmentVerifyOtpBinding>() {
             R.id.btnSubmit -> {
                 val action =
                     VerifyOTPFragmentDirections.actionVerifyOTPFragmentToCommunitiesFragment(true)
+                findNavController().navigate(action)
+            }
+            1234 -> {
+                val action = VerifyOTPFragmentDirections.actionVerifyOTPFragmentToLoginFragment()
                 findNavController().navigate(action)
             }
         }

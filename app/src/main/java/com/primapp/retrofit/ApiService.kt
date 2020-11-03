@@ -1,14 +1,8 @@
 package com.primapp.retrofit
 
-import com.primapp.model.auth.LoginRequestDataModel
-import com.primapp.model.auth.ReferenceResponseDataModel
-import com.primapp.model.auth.SignUpRequestDataModel
-import com.primapp.model.auth.VerifyUserResponseModel
+import com.primapp.model.auth.*
 import com.primapp.retrofit.base.BaseDataModel
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface ApiService {
 
@@ -23,4 +17,17 @@ interface ApiService {
 
     @POST(ApiConstant.LOGIN_USER)
     suspend fun verifyUser(@Body loginRequestDataModel: LoginRequestDataModel): VerifyUserResponseModel
+
+    @PUT(ApiConstant.FORGOT_USERNAME)
+    suspend fun forgotUsername(@Body forgotDataRequestModel: ForgotDataRequestModel): ForgotDataResponseModel
+
+    @PUT(ApiConstant.FORGOT_PASSWORD)
+    suspend fun forgotPassword(@Body forgotDataRequestModel: ForgotDataRequestModel): ForgotDataResponseModel
+
+    @POST(ApiConstant.FORGOT_USERNAME_VERIFY)
+    suspend fun forgotUsernameVerify(
+        @Path("userId") userId: String,
+        @Body verifyOTPRequestModel: VerifyOTPRequestModel
+    ): BaseDataModel
+
 }

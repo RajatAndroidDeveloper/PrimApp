@@ -16,6 +16,7 @@ import java.util.*
 import androidx.lifecycle.Observer
 import com.google.gson.Gson
 import com.primapp.constants.ReferenceEntityTypes
+import com.primapp.constants.VerifyOTPRequestTypes
 import com.primapp.extensions.showError
 import com.primapp.retrofit.base.Status
 
@@ -58,7 +59,11 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
         when (any) {
             R.id.btnRegisterNow -> {
                 val action =
-                    SignUpFragmentDirections.actionSignUpFragmentToVerifyOTPFragment(viewModel.signUpRequestDataModel.value)
+                    SignUpFragmentDirections.actionSignUpFragmentToVerifyOTPFragment(
+                        viewModel.signUpRequestDataModel.value,
+                        null,
+                        VerifyOTPRequestTypes.SIGN_UP
+                    )
                 findNavController().navigate(action)
             }
         }
@@ -110,7 +115,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
                 when (it.status) {
                     Status.SUCCESS -> {
                         showHelperDialog(
-                            getString(R.string.otp_sent_description),
+                            getString(R.string.forgot_username_success),
                             R.id.signUpFragment,
                             R.id.btnRegisterNow
                         )

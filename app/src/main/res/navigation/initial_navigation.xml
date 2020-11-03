@@ -71,12 +71,20 @@
         android:id="@+id/forgotUsernameFragment"
         android:name="com.primapp.ui.initial.ForgotUsernameFragment"
         android:label="ForgotUsernameFragment"
-        tools:layout="@layout/fragment_forgot_username" />
+        tools:layout="@layout/fragment_forgot_username" >
+        <action
+            android:id="@+id/action_forgotUsernameFragment_to_verifyOTPFragment"
+            app:destination="@id/verifyOTPFragment" />
+    </fragment>
     <fragment
         android:id="@+id/forgotPasswordFragment"
         android:name="com.primapp.ui.initial.ForgotPasswordFragment"
         android:label="ForgotPasswordFragment"
-        tools:layout="@layout/fragment_forgot_password" />
+        tools:layout="@layout/fragment_forgot_password" >
+        <action
+            android:id="@+id/action_forgotPasswordFragment_to_verifyOTPFragment"
+            app:destination="@id/verifyOTPFragment" />
+    </fragment>
     <fragment
         android:id="@+id/verifyOTPFragment"
         android:name="com.primapp.ui.initial.VerifyOTPFragment"
@@ -88,12 +96,21 @@
             app:argType="com.primapp.model.auth.SignUpRequestDataModel"
             app:nullable="true" />
         <action
-            android:id="@+id/action_verifyOTPFragment_to_dashboardActivity"
-            app:destination="@id/dashboardActivity" />
-        <action
             android:id="@+id/action_verifyOTPFragment_to_communitiesFragment"
             app:destination="@id/communitiesFragment"
             app:popUpTo="@id/verifyOTPFragment"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="userId"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="requestType"
+            app:argType="com.primapp.constants.VerifyOTPRequestTypes" />
+        <action
+            android:id="@+id/action_verifyOTPFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <dialog

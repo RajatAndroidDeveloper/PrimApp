@@ -41,6 +41,7 @@ open class ResponseHandler @Inject constructor() {
             401 -> "Unauthorised"
             404 -> "Not found"
             403 -> "Internet Connection Not Found"
+            46456 -> "Malformed JSON returned"
             else -> "Something went wrong"
         }
     }
