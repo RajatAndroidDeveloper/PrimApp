@@ -66,12 +66,16 @@
             android:name="sourceId"
             android:defaultValue="0"
             app:argType="integer" />
+        <argument
+            android:name="isHelperDialog"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </dialog>
     <fragment
         android:id="@+id/forgotUsernameFragment"
         android:name="com.primapp.ui.initial.ForgotUsernameFragment"
         android:label="ForgotUsernameFragment"
-        tools:layout="@layout/fragment_forgot_username" >
+        tools:layout="@layout/fragment_forgot_username">
         <action
             android:id="@+id/action_forgotUsernameFragment_to_verifyOTPFragment"
             app:destination="@id/verifyOTPFragment" />
@@ -80,7 +84,7 @@
         android:id="@+id/forgotPasswordFragment"
         android:name="com.primapp.ui.initial.ForgotPasswordFragment"
         android:label="ForgotPasswordFragment"
-        tools:layout="@layout/fragment_forgot_password" >
+        tools:layout="@layout/fragment_forgot_password">
         <action
             android:id="@+id/action_forgotPasswordFragment_to_verifyOTPFragment"
             app:destination="@id/verifyOTPFragment" />
@@ -112,6 +116,12 @@
             app:destination="@id/loginFragment"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_verifyOTPFragment_to_passwordVerificationFragment"
+            app:destination="@id/passwordVerificationFragment" />
+        <argument
+            android:name="email"
+            app:argType="string" />
     </fragment>
     <dialog
         android:id="@+id/progressDialog"
@@ -133,8 +143,8 @@
             app:destination="@id/communityJoinViewFragment" />
         <argument
             android:name="isNewUser"
-            app:argType="boolean"
-            android:defaultValue="false" />
+            android:defaultValue="false"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/communityJoinViewFragment"
@@ -146,7 +156,22 @@
             app:argType="string" />
         <argument
             android:name="isNewUser"
-            app:argType="boolean"
-            android:defaultValue="false" />
+            android:defaultValue="false"
+            app:argType="boolean" />
+    </fragment>
+    <fragment
+        android:id="@+id/passwordVerificationFragment"
+        android:name="com.primapp.ui.initial.PasswordVerificationFragment"
+        android:label="PasswordVerificationFragment"
+        tools:layout="@layout/fragment_password_verification">
+        <argument
+            android:name="userId"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_passwordVerificationFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

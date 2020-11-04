@@ -30,4 +30,18 @@ interface ApiService {
         @Body verifyOTPRequestModel: VerifyOTPRequestModel
     ): BaseDataModel
 
+    @POST(ApiConstant.FORGOT_PASSWORD_VERIFY)
+    suspend fun forgotPasswordVerify(
+        @Path("userId") userId: String,
+        @Body verifyOTPRequestModel: VerifyOTPRequestModel
+    ): BaseDataModel
+
+    @PUT(ApiConstant.CHANGE_PASSWORD)
+    suspend fun changePassword(
+        @Path("userId") userId: String,
+        @Body verifyPasswordRequestModel: PasswordVerificationRequestModel
+    ): VerifyUserResponseModel
+
+    @PUT(ApiConstant.RESEND_OTP)
+    suspend fun resendOTP(@Body forgotDataRequestModel: ForgotDataRequestModel): BaseDataModel
 }

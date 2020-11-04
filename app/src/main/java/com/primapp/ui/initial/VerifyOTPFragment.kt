@@ -2,7 +2,6 @@ package com.primapp.ui.initial
 
 import android.os.Bundle
 import android.os.CountDownTimer
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -16,7 +15,6 @@ import com.primapp.model.auth.UserData
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.viewmodels.VerifyOTPViewModel
-import kotlinx.android.synthetic.main.fragment_verify_otp.*
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
 
 
@@ -30,6 +28,7 @@ class VerifyOTPFragment : BaseFragment<FragmentVerifyOtpBinding>() {
 
     private var requestType: VerifyOTPRequestTypes = VerifyOTPRequestTypes.SIGN_UP
     private var userId: String? = null
+    private var email: String? = null
 
     override fun getLayoutRes(): Int = R.layout.fragment_verify_otp
 
@@ -44,9 +43,12 @@ class VerifyOTPFragment : BaseFragment<FragmentVerifyOtpBinding>() {
     private fun setData() {
         binding.frag = this
         binding.viewModel = viewModel
-        signUpRequestModel = VerifyOTPFragmentArgs.fromBundle(requireArguments()).signupData
-        requestType = VerifyOTPFragmentArgs.fromBundle(requireArguments()).requestType
-        userId = VerifyOTPFragmentArgs.fromBundle(requireArguments()).userId
+        VerifyOTPFragmentArgs.fromBundle(requireArguments()).let {
+            signUpRequestModel = it.signupData
+            requestType = it.requestType
+            userId = it.userId
+            email = it.email
+        }
     }
 
     private fun setObservers() {
@@ -64,7 +66,7 @@ class VerifyOTPFragment : BaseFragment<FragmentVerifyOtpBinding>() {
                         showError(requireContext(), getString(R.string.something_went_wrong))
                     } else {
                         saveUserDataToCache(it.data.content)
-                        showHelperDialog(
+                        showCustomDialog(
                             getString(R.string.account_success),
                             R.id.verifyOTPFragment,
                             R.id.btnSubmit
@@ -84,7 +86,7 @@ class VerifyOTPFragment : BaseFragment<FragmentVerifyOtpBinding>() {
                     showError(requireContext(), it.message!!)
                 }
                 Status.SUCCESS -> {
-                    showHelperDialog(
+                    showCustomDialog(
                         getString(R.string.forgot_username_verify_success),
                         R.id.verifyOTPFragment,
                         1234
@@ -92,6 +94,45 @@ class VerifyOTPFragment : BaseFragment<FragmentVerifyOtpBinding>() {
                 }
             }
         })
+
+        viewModel.forgotPasswordVerifyOTP.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.SUCCESS -> {
+                        val action =
+                            VerifyOTPFragmentDirections.actionVerifyOTPFragmentToPasswordVerificationFragment(
+                                userId
+                            )
+                        findNavController().navigate(action)
+                    }
+                }
+            }
+        })
+
+        viewModel.resendOTPLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.SUCCESS -> {
+                        showCustomDialog(getString(R.string.resend_otp_description))
+                    }
+                }
+            }
+        })
+
     }
 
     private fun saveUserDataToCache(data: UserData) {
@@ -119,12 +160,12 @@ class VerifyOTPFragment : BaseFragment<FragmentVerifyOtpBinding>() {
                 }
 
                 VerifyOTPRequestTypes.FORGOT_PASSWORD -> {
-
-                }
-
-                else -> {
-                    showError(requireContext(), getString(R.string.something_went_wrong))
-                    findNavController().popBackStack()
+                    if (userId == null) {
+                        showError(requireContext(), getString(R.string.something_went_wrong))
+                        findNavController().popBackStack()
+                    } else {
+                        viewModel.forgotPasswordVerifyOTP(userId!!)
+                    }
                 }
             }
 
@@ -183,7 +224,7 @@ class VerifyOTPFragment : BaseFragment<FragmentVerifyOtpBinding>() {
     }
 
     fun resendCode() {
-        showHelperDialog(getString(R.string.resend_otp_description))
+        viewModel.resendOTP(email!!)
     }
 
 }

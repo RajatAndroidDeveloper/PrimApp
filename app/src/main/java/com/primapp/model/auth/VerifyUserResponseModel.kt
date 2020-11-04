@@ -1,4 +1,5 @@
 package com.primapp.model.auth
+
 import com.google.gson.annotations.SerializedName
 import com.primapp.retrofit.base.BaseDataModel
 
@@ -6,7 +7,7 @@ import com.primapp.retrofit.base.BaseDataModel
 data class VerifyUserResponseModel(
     @SerializedName("content")
     val content: UserData?
-):BaseDataModel()
+) : BaseDataModel()
 
 data class UserData(
     @SerializedName("date_of_birth")
@@ -30,5 +31,7 @@ data class UserData(
     @SerializedName("token")
     val token: String,
     @SerializedName("username")
-    val userName: String
+    val userName: String,
+    @SerializedName("gender_value")
+    val genderValue: String
 )

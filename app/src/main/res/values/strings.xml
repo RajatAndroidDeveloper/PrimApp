@@ -95,4 +95,6 @@
 
     <string name="forgot_username_success">A one-time passcode (OTP) was sent to your registered email.</string>
     <string name="forgot_username_verify_success">Your username was sent to your email.</string>
+    <string name="new_password">New Password</string>
+    <string name="password_reset_success">You have successfully reset your password.</string>
 </resources>

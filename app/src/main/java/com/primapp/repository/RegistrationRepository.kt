@@ -79,6 +79,42 @@ class RegistrationRepository @Inject constructor(
         }
     }
 
+    suspend fun forgotPasswordVerify(
+        userId: String,
+        verifyOTPRequestModel: VerifyOTPRequestModel
+    ): Resource<BaseDataModel> {
+        return try {
+            responseHandler.handleResponse(
+                apiService.forgotPasswordVerify(userId, verifyOTPRequestModel)
+            )
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    suspend fun changePassword(
+        userId: String,
+        passwordVerificationRequestModel: PasswordVerificationRequestModel
+    ): Resource<VerifyUserResponseModel> {
+        return try {
+            responseHandler.handleResponse(
+                apiService.changePassword(userId, passwordVerificationRequestModel)
+            )
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    suspend fun resendOTP(email: String): Resource<BaseDataModel> {
+        return try {
+            responseHandler.handleResponse(
+                apiService.resendOTP(ForgotDataRequestModel(email))
+            )
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
 
     private fun fetchAccessToken() {
 //        FirebaseInstanceId.getInstance().instanceId

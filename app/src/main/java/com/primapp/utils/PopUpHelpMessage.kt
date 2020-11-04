@@ -25,7 +25,10 @@ class PopUpHelpMessage : BaseDialogFragment<LayoutDialogHelpBinding>() {
 
     private fun setData() {
         binding.pop = this
-        binding.message = PopUpHelpMessageArgs.fromBundle(requireArguments()).message
+        PopUpHelpMessageArgs.fromBundle(requireArguments()).let {
+            binding.message = it.message
+            binding.isHelperDialog = it.isHelperDialog
+        }
         isCancelable = false
     }
 

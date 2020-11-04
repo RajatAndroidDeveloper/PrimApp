@@ -90,12 +90,18 @@ abstract class BaseFragment<DB : ViewDataBinding> : DaggerFragment() {
         baseActivity.hideLoading()
     }
 
-    fun showHelperDialog(message: String, destinationId: Int? = null, sourceId: Int? = null) {
+    fun showCustomDialog(
+        message: String,
+        destinationId: Int? = null,
+        requestCode: Int? = null,
+        isHelperDialog: Boolean = false
+    ) {
         val bundle = Bundle()
         bundle.putString("message", message)
-        sourceId?.let {
+        requestCode?.let {
             bundle.putInt("sourceId", it)
         }
+        bundle.putBoolean("isHelperDialog",isHelperDialog)
         findNavController().navigate(R.id.popUpHelpMessage, bundle)
 
         // Add callback to dialog dismiss if the destination id is provided.

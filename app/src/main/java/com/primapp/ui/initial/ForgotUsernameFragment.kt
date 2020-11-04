@@ -44,7 +44,7 @@ class ForgotUsernameFragment : BaseFragment<FragmentForgotUsernameBinding>() {
                 when (it.status) {
                     Status.SUCCESS -> {
                         userId = it.data?.content?.userId
-                        showHelperDialog(
+                        showCustomDialog(
                             getString(R.string.forgot_username_success),
                             R.id.forgotUsernameFragment
                         )
@@ -74,7 +74,8 @@ class ForgotUsernameFragment : BaseFragment<FragmentForgotUsernameBinding>() {
             ForgotUsernameFragmentDirections.actionForgotUsernameFragmentToVerifyOTPFragment(
                 null,
                 "$userId",
-                VerifyOTPRequestTypes.FORGOT_USERNAME
+                VerifyOTPRequestTypes.FORGOT_USERNAME,
+                viewModel.forgotDataModel.value!!.email!!
             )
         findNavController().navigate(action)
     }

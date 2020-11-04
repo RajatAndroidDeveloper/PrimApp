@@ -13,5 +13,8 @@ object ApiConstant {
     const val FORGOT_USERNAME = "users/username"
     const val FORGOT_PASSWORD = "users/password"
     const val FORGOT_USERNAME_VERIFY = "users/{userId}/verify-username"
+    const val FORGOT_PASSWORD_VERIFY = "users/{userId}/verify"
+    const val CHANGE_PASSWORD = "users/{userId}/password"
+    const val RESEND_OTP = "users/resend-otp"
 
 }

@@ -4,12 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="pop"
             type="com.primapp.utils.PopUpHelpMessage" />
+
         <variable
             name="message"
             type="String" />
+
+        <variable
+            name="isHelperDialog"
+            type="Boolean" />
     </data>
 
     <RelativeLayout
@@ -50,17 +56,17 @@
                         android:gravity="center"
                         android:padding="@dimen/space_largeX"
                         android:text="@{message}"
-                        tools:text="@string/username_help_text"
                         android:textAppearance="?attr/textAppearanceSearchResultTitle"
-                        android:textColor="@color/textColor" />
+                        android:textColor="@color/textColor"
+                        tools:text="@string/username_help_text" />
 
                     <Button
                         style="@style/buttonFilledPrimary"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/colorAccent"
-                        android:onClick="@{()->pop.dismissDialog()}"
                         android:foreground="?attr/selectableItemBackground"
+                        android:onClick="@{()->pop.dismissDialog()}"
                         android:padding="@dimen/space_large"
                         android:text="@string/close"
                         tools:targetApi="m" />
@@ -74,7 +80,7 @@
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/shape_circle_accent"
                 android:scaleType="centerInside"
-                android:src="@drawable/question_mark" />
+                android:src="@{isHelperDialog ? @drawable/question_mark : @drawable/correct}" />
 
         </RelativeLayout>
     </RelativeLayout>

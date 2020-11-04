@@ -62,7 +62,8 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
                     SignUpFragmentDirections.actionSignUpFragmentToVerifyOTPFragment(
                         viewModel.signUpRequestDataModel.value,
                         null,
-                        VerifyOTPRequestTypes.SIGN_UP
+                        VerifyOTPRequestTypes.SIGN_UP,
+                        viewModel.signUpRequestDataModel.value!!.email!!
                     )
                 findNavController().navigate(action)
             }
@@ -75,7 +76,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
         binding.viewModel = viewModel
 
         binding.tlUserName.setEndIconOnClickListener {
-            showHelperDialog(getString(R.string.username_help_text))
+            showCustomDialog(getString(R.string.username_help_text), isHelperDialog = true)
         }
     }
 
@@ -114,7 +115,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
                 hideLoading()
                 when (it.status) {
                     Status.SUCCESS -> {
-                        showHelperDialog(
+                        showCustomDialog(
                             getString(R.string.forgot_username_success),
                             R.id.signUpFragment,
                             R.id.btnRegisterNow
@@ -199,10 +200,11 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
         binding.mAutoCompleteGender.clearFocus()
         binding.mAutoCompleteCountry.clearFocus()
         if (viewModel.validateSignUpData() && !binding.chkPrivacyPolicy.isChecked) {
-            showHelperDialog(
+            showCustomDialog(
                 getString(R.string.privacy_policy_help_text),
                 R.id.signUpFragment,
-                R.id.chkPrivacyPolicy
+                R.id.chkPrivacyPolicy,
+                isHelperDialog = true
             )
         } else if (viewModel.validateSignUpData()) {
             viewModel.signUpUser()

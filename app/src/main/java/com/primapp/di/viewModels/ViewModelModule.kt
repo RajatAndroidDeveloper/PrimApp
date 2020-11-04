@@ -3,10 +3,7 @@ package com.primapp.di.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.primapp.ui.SplashViewModel
-import com.primapp.viewmodels.ForgotDataViewModel
-import com.primapp.viewmodels.LoginViewModel
-import com.primapp.viewmodels.SignUpViewModel
-import com.primapp.viewmodels.VerifyOTPViewModel
+import com.primapp.viewmodels.*
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -38,6 +35,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ForgotDataViewModel::class)
     abstract fun bindForgotDataViewModel(viewModel: ForgotDataViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PasswordVerificationViewModel::class)
+    abstract fun bindPasswordVerificationViewModel(viewModel: PasswordVerificationViewModel): ViewModel
 
 
     @Binds

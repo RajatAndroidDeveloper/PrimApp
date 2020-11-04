@@ -14,6 +14,7 @@ import com.primapp.model.auth.VerifyOTPRequestModel
 import com.primapp.model.auth.VerifyUserResponseModel
 import com.primapp.repository.RegistrationRepository
 import com.primapp.retrofit.base.BaseDataModel
+import com.primapp.retrofit.base.Event
 import com.primapp.retrofit.base.Resource
 import com.primapp.utils.ErrorFields
 import com.primapp.utils.ValidationResults
@@ -78,6 +79,31 @@ class VerifyOTPViewModel @Inject constructor(
             _forgotUsernameVerifyOTPLiveData.postValue(Resource.loading(null))
             _forgotUsernameVerifyOTPLiveData.postValue(
                 repo.forgotUsernameVerify(userId, verifyOTPRequestModel.value!!)
+            )
+        }
+
+    private var _forgotPasswordVerifyOTPLiveData = MutableLiveData<Event<Resource<BaseDataModel>>>()
+    var forgotPasswordVerifyOTP: LiveData<Event<Resource<BaseDataModel>>> =
+        _forgotPasswordVerifyOTPLiveData
+
+    fun forgotPasswordVerifyOTP(userId: String) =
+        viewModelScope.launch {
+            _forgotPasswordVerifyOTPLiveData.postValue(Event(Resource.loading(null)))
+            _forgotPasswordVerifyOTPLiveData.postValue(
+                Event(repo.forgotPasswordVerify(userId, verifyOTPRequestModel.value!!))
+            )
+        }
+
+
+    private var _resendOTPLiveData = MutableLiveData<Event<Resource<BaseDataModel>>>()
+    var resendOTPLiveData: LiveData<Event<Resource<BaseDataModel>>> =
+        _resendOTPLiveData
+
+    fun resendOTP(email: String) =
+        viewModelScope.launch {
+            _resendOTPLiveData.postValue(Event(Resource.loading(null)))
+            _resendOTPLiveData.postValue(
+                Event(repo.resendOTP(email))
             )
         }
 

@@ -72,5 +72,14 @@ class ForgotDataViewModel @Inject constructor(
         _forgotUsernameLiveData.postValue(Event(repo.forgotUsername(forgotDataRequestModel)))
     }
 
+    private var _forgotPasswordLiveData = MutableLiveData<Event<Resource<ForgotDataResponseModel>>>()
+    var forgotPasswordLiveData: LiveData<Event<Resource<ForgotDataResponseModel>>> =
+        _forgotPasswordLiveData
+
+    fun forgotPassword(forgotDataRequestModel: ForgotDataRequestModel) = viewModelScope.launch {
+        _forgotPasswordLiveData.postValue(Event((Resource.loading(null))))
+        _forgotPasswordLiveData.postValue(Event(repo.forgotPassword(forgotDataRequestModel)))
+    }
+
 
 }
