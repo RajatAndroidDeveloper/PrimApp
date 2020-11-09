@@ -17,13 +17,15 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            style="@style/normalBodyText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Fragment Joined"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="40dp"
+            android:gravity="center"
+            android:text="@string/joined_community_empty_list_message"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/etSearch" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

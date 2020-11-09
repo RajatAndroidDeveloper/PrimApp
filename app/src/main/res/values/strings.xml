@@ -102,4 +102,7 @@
     <string name="about">About</string>
     <string name="long_about_text">Software Engineer for the last 18 years. Before this I was a Pre-Med major and I went to the Baylor University for Medicine, but realized it was not for me.</string>
     <string name="categories">Categories</string>
+    <string name="join">Join</string>
+    <string name="create_community_empty_list_message">Create community to become a \ncommunity moderator.</string>
+    <string name="joined_community_empty_list_message">You\'re not in any communities right now. \nJoin a community to start connecting \nwith others to build a mentor-mentee \nrelationship.</string>
 </resources>
