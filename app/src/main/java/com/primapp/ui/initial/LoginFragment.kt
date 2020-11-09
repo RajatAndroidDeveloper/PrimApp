@@ -39,24 +39,26 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     private fun setObserver() {
         viewModel.loginUserLiveData.observe(viewLifecycleOwner, Observer {
-            hideLoading()
-            when (it.status) {
-                Status.ERROR -> {
-                    showError(requireContext(), it.message!!)
-                }
-
-                Status.LOADING -> {
-                    showLoading()
-                }
-
-                Status.SUCCESS -> {
-                    if (it.data?.content == null) {
-                        showError(requireContext(), getString(R.string.something_went_wrong))
-                    } else {
-                        openDashboardActivity(it.data.content)
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
                     }
-                }
 
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+
+                    Status.SUCCESS -> {
+                        if (it.data?.content == null) {
+                            showError(requireContext(), getString(R.string.something_went_wrong))
+                        } else {
+                            openDashboardActivity(it.data.content)
+                        }
+                    }
+
+                }
             }
         })
     }

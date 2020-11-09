@@ -9,6 +9,7 @@ import com.primapp.model.auth.LoginRequestDataModel
 import com.primapp.model.auth.SignUpRequestDataModel
 import com.primapp.model.auth.VerifyUserResponseModel
 import com.primapp.repository.RegistrationRepository
+import com.primapp.retrofit.base.Event
 import com.primapp.retrofit.base.Resource
 import com.primapp.utils.ErrorFields
 import com.primapp.utils.ValidationResults
@@ -70,12 +71,12 @@ class LoginViewModel @Inject constructor(
 
     }
 
-    private var _loginUserLiveData = MutableLiveData<Resource<VerifyUserResponseModel>>()
-    var loginUserLiveData: LiveData<Resource<VerifyUserResponseModel>> = _loginUserLiveData
+    private var _loginUserLiveData = MutableLiveData<Event<Resource<VerifyUserResponseModel>>>()
+    var loginUserLiveData: LiveData<Event<Resource<VerifyUserResponseModel>>> = _loginUserLiveData
 
     fun loginUser() = viewModelScope.launch {
-        _loginUserLiveData.postValue(Resource.loading(null))
-        _loginUserLiveData.postValue(repo.loginUser(loginRequestDataModel.value!!))
+        _loginUserLiveData.postValue(Event(Resource.loading(null)))
+        _loginUserLiveData.postValue(Event(repo.loginUser(loginRequestDataModel.value!!)))
     }
 
 }

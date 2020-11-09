@@ -14,24 +14,18 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
     override fun getLayoutRes(): Int = R.layout.fragment_profile
 
+    val user by lazy { UserCache.getUser(requireContext()) }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         setToolbar("Profile", toolbar)
         setData()
-        getData()
     }
 
     private fun setData() {
         ivEndIcon.setImageResource(R.drawable.setting)
-    }
-
-    private fun getData() {
-        val user = UserCache.getUser(requireContext())
-        user?.apply {
-            tvJunk.text =
-                "Name : ${firstName} ${lastName} \nEmail : ${email} \nUsername : ${userName}"
-        }
+        binding.user = user
 
         btnLogout.setOnClickListener {
             UserCache.clearAll(requireContext())

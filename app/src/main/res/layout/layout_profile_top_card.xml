@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="user"
+            type="com.primapp.model.auth.UserData" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clProfileCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/space_medium"
+        android:paddingEnd="@dimen/space_medium"
+        app:layout_constraintTop_toBottomOf="@id/clToolbar">
+
+        <ImageView
+            android:id="@+id/ivProfilePic"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/shape_circle_accent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvName"
+            style="@style/normalBodyText"
+            android:layout_marginStart="@dimen/space_medium"
+            android:layout_marginEnd="@dimen/space_medium"
+            android:ellipsize="end"
+            android:fontFamily="@font/poppins_medium"
+            android:maxLines="1"
+            android:text="@{user.firstName +' '+ user.lastName}"
+            android:textSize="@dimen/textMediumX"
+            app:layout_constraintEnd_toStartOf="@id/ivEdit"
+            app:layout_constraintStart_toEndOf="@id/ivProfilePic"
+            app:layout_constraintTop_toTopOf="@id/ivProfilePic"
+            tools:text="Andrew Russel" />
+
+        <TextView
+            android:id="@+id/tvEmail"
+            style="@style/normalBodyText"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{user.email}"
+            android:textSize="@dimen/textSmall"
+            app:layout_constraintEnd_toEndOf="@id/tvName"
+            app:layout_constraintStart_toStartOf="@id/tvName"
+            app:layout_constraintTop_toBottomOf="@id/tvName"
+            tools:text="andrewrussel@gmail.com" />
+
+        <TextView
+            android:id="@+id/tvGenderDob"
+            style="@style/normalBodyText"
+            genderAndDobFormat="@{user}"
+            android:textSize="@dimen/textSmall"
+            app:layout_constraintEnd_toEndOf="@id/tvName"
+            app:layout_constraintStart_toStartOf="@id/tvName"
+            app:layout_constraintTop_toBottomOf="@id/tvEmail"
+            tools:text="Male  |  May 22, 1996" />
+
+        <TextView
+            android:id="@+id/tvCountry"
+            style="@style/normalBodyText"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{user.userName}"
+            android:textSize="@dimen/textSmall"
+            app:layout_constraintEnd_toEndOf="@id/tvName"
+            app:layout_constraintStart_toStartOf="@id/tvName"
+            app:layout_constraintTop_toBottomOf="@id/tvGenderDob"
+            tools:text="California" />
+
+        <ImageView
+            android:id="@+id/ivEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ivProfilePic" />
+
+        <TextView
+            style="@style/primaryHeadingAccent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_small"
+            android:text="@string/edit"
+            android:textSize="@dimen/textNormal"
+            app:layout_constraintEnd_toEndOf="@id/ivEdit"
+            app:layout_constraintStart_toStartOf="@id/ivEdit"
+            app:layout_constraintTop_toBottomOf="@id/ivEdit" />
+
+        <TextView
+            android:id="@+id/tvAbout"
+            style="@style/normalBodyText"
+            android:layout_marginTop="@dimen/space_medium"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/about"
+            app:layout_constraintStart_toStartOf="@id/ivProfilePic"
+            app:layout_constraintTop_toBottomOf="@id/ivProfilePic" />
+
+        <TextView
+            android:id="@+id/tvAboutDescription"
+            style="@style/primaryBodyText"
+            android:layout_marginTop="@dimen/space_small"
+            app:layout_constraintEnd_toEndOf="@id/ivEdit"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="@id/tvAbout"
+            app:layout_constraintTop_toBottomOf="@id/tvAbout"
+            app:layout_constraintWidth_percent="1"
+            tools:text="@string/long_about_text" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

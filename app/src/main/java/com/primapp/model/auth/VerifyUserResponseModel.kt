@@ -11,7 +11,7 @@ data class VerifyUserResponseModel(
 
 data class UserData(
     @SerializedName("date_of_birth")
-    val dateOfBirth: Long,
+    val dateOfBirth: Long?,
     @SerializedName("device_id")
     val deviceId: String,
     @SerializedName("device_type")
@@ -33,5 +33,9 @@ data class UserData(
     @SerializedName("username")
     val userName: String,
     @SerializedName("gender_value")
-    val genderValue: String
+    val genderValue: String?,
+    @SerializedName("user_image_file")
+    val userImage: String?,
+    @SerializedName("profile_summary")
+    val profileSummary:String?
 )

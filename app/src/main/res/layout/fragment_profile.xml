@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="user"
+            type="com.primapp.model.auth.UserData" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -10,15 +17,9 @@
 
         <include layout="@layout/toolbar_dashboard_accent" />
 
-        <TextView
-            android:id="@+id/tvJunk"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <include
+            layout="@layout/layout_profile_top_card"
+            app:user="@{user}" />
 
         <Button
             android:id="@+id/btnLogout"
@@ -27,7 +28,7 @@
             android:text="@string/logout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvJunk" />
+            app:layout_constraintTop_toBottomOf="@id/clProfileCard" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

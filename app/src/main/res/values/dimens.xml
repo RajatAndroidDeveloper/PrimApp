@@ -13,7 +13,9 @@
     <dimen name="textSmall">12sp</dimen>
     <dimen name="textNormal">14sp</dimen>
     <dimen name="textMedium">16sp</dimen>
+    <dimen name="textMediumX">18sp</dimen>
     <dimen name="textLarge">20sp</dimen>
+    <dimen name="textLargeX">22sp</dimen>
     <dimen name="textExtraLarge">24sp</dimen>
     <dimen name="textExtraLargeX">30sp</dimen>
 
