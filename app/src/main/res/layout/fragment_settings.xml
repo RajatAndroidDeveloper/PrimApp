@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/toolbar_inner_back" />
+
+        <TextView
+            android:id="@+id/tvAboutUs"
+            style="@style/normalBodyText"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:drawablePadding="@dimen/space_normal"
+            android:focusable="true"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center_vertical"
+            android:padding="@dimen/space_small"
+            android:paddingStart="@dimen/space_extraLarge"
+            android:paddingEnd="@dimen/space_extraLarge"
+            android:text="@string/about_us"
+            android:textSize="@dimen/textMediumX"
+            app:drawableStartCompat="@drawable/about_us"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clToolbar" />
+
+        <TextView
+            android:id="@+id/tvHelp"
+            style="@style/normalBodyText"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:drawablePadding="@dimen/space_normal"
+            android:focusable="true"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center_vertical"
+            android:padding="@dimen/space_small"
+            android:paddingStart="@dimen/space_extraLarge"
+            android:paddingEnd="@dimen/space_extraLarge"
+            android:text="@string/help_and_support"
+            android:textSize="@dimen/textMediumX"
+            app:drawableStartCompat="@drawable/support"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvAboutUs" />
+
+        <TextView
+            android:id="@+id/tvSecurity"
+            style="@style/normalBodyText"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:drawablePadding="@dimen/space_normal"
+            android:focusable="true"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center_vertical"
+            android:padding="@dimen/space_small"
+            android:paddingStart="@dimen/space_extraLarge"
+            android:paddingEnd="@dimen/space_extraLarge"
+            android:text="@string/security"
+            android:textSize="@dimen/textMediumX"
+            app:drawableStartCompat="@drawable/privacy"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvHelp" />
+
+        <TextView
+            android:id="@+id/tvLogout"
+            style="@style/normalBodyText"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:drawablePadding="@dimen/space_normal"
+            android:focusable="true"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center_vertical"
+            android:padding="@dimen/space_small"
+            android:paddingStart="@dimen/space_extraLarge"
+            android:paddingEnd="@dimen/space_extraLarge"
+            android:text="@string/logout"
+            android:textSize="@dimen/textMediumX"
+            app:drawableStartCompat="@drawable/logout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvSecurity" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

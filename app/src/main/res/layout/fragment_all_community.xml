@@ -12,6 +12,9 @@
             style="@style/editTextSearchBox"
             android:layout_marginTop="@dimen/space_large"
             android:hint="@string/search"
+            android:imeOptions="actionDone"
+            android:imeActionLabel="Done"
+            android:singleLine="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

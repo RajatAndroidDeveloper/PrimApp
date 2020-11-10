@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
+        android:paddingTop="@dimen/space_systemTopInset"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
@@ -28,11 +29,7 @@
                 style="@style/primaryHeadingAccent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_gravity="center"
-                android:text=""
-                android:textAllCaps="true"
-                android:textSize="@dimen/textMedium"
+                android:textSize="@dimen/textExtraLarge"
                 android:visibility="visible" />
 
         </androidx.appcompat.widget.Toolbar>

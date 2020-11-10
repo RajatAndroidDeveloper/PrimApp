@@ -105,4 +105,8 @@
     <string name="join">Join</string>
     <string name="create_community_empty_list_message">Create community to become a \ncommunity moderator.</string>
     <string name="joined_community_empty_list_message">You\'re not in any communities right now. \nJoin a community to start connecting \nwith others to build a mentor-mentee \nrelationship.</string>
+    <string name="settings">Settings</string>
+    <string name="security">Security</string>
+    <string name="help_and_support">Help and Support</string>
+    <string name="about_us">About us</string>
 </resources>

@@ -37,5 +37,9 @@ data class UserData(
     @SerializedName("user_image_file")
     val userImage: String?,
     @SerializedName("profile_summary")
-    val profileSummary:String?
+    val profileSummary: String?,
+    @SerializedName("country")
+    val country: String?,
+    @SerializedName("country_iso_code")
+    val countryIsoCode: String?
 )
