@@ -68,8 +68,8 @@
             app:argType="integer" />
         <argument
             android:name="isHelperDialog"
-            app:argType="boolean"
-            android:defaultValue="false" />
+            android:defaultValue="false"
+            app:argType="boolean" />
     </dialog>
     <fragment
         android:id="@+id/forgotUsernameFragment"
@@ -174,4 +174,9 @@
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
     </fragment>
+    <fragment
+        android:id="@+id/createCommunityFragment"
+        android:name="com.primapp.ui.communities.CreateCommunityFragment"
+        android:label="CreateCommunityFragment"
+        tools:layout="@layout/fragment_create_community" />
 </navigation>

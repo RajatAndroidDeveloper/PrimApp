@@ -109,4 +109,19 @@
     <string name="security">Security</string>
     <string name="help_and_support">Help and Support</string>
     <string name="about_us">About us</string>
+    <string name="about_prim_app">
+        <![CDATA[
+       <p align="justify">
+            PRIM is a community-based virtual mentoring platform with social media capabilities.  We provide real human interaction through our opt-in virtual mentoring in these difficult and challenging times to help improve people\'s lives.  Whether you\'re into social, lifestyle, education, or business, you’ll find an inviting, warm, and supportive communities on PRIM ready to assist you.
+        </p>
+       <p> Here is why we can be a difference maker:</p>
+       * One-on-one direct virtual mentoring<br>
+       * Community-based support<br>
+       * Provide a "Board of Advisors"<br>
+       * Potentially life-changing help for the better<br>
+       * Absolutely no cost to PRIM users.</br>
+        ]]>
+    </string>
+    <string name="create_community">Create Community</string>
+    <string name="save">Save</string>
 </resources>

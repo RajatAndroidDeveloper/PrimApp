@@ -40,7 +40,8 @@
     <fragment
         android:id="@+id/communityJoinViewFragment"
         android:name="com.primapp.ui.communities.CommunityJoinViewFragment"
-        android:label="CommunityJoinViewFragment">
+        android:label="CommunityJoinViewFragment"
+        tools:layout="@layout/fragment_community_join_view">
         <argument
             android:name="title"
             app:argType="string" />
@@ -53,5 +54,19 @@
         android:id="@+id/settingsFragment"
         android:name="com.primapp.ui.settings.SettingsFragment"
         android:label="SettingsFragment"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_aboutUsFragment"
+            app:destination="@id/aboutUsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/aboutUsFragment"
+        android:name="com.primapp.ui.settings.AboutUsFragment"
+        android:label="AboutUsFragment"
+        tools:layout="@layout/fragment_about_us" />
+    <fragment
+        android:id="@+id/createCommunityFragment"
+        android:name="com.primapp.ui.communities.CreateCommunityFragment"
+        android:label="CreateCommunityFragment"
+        tools:layout="@layout/fragment_create_community" />
 </navigation>

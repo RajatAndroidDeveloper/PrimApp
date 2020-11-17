@@ -4,6 +4,7 @@ import com.primapp.ui.communities.*
 import com.primapp.ui.dashboard.NotificationsFragment
 import com.primapp.ui.dashboard.ProfileFragment
 import com.primapp.ui.dashboard.UpdatesFragment
+import com.primapp.ui.settings.AboutUsFragment
 import com.primapp.ui.settings.SettingsFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -37,4 +38,10 @@ abstract class DashboardFragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeSettingsFragment(): SettingsFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeAboutUsFragment(): AboutUsFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeCreateCommunityFragment(): CreateCommunityFragment
 }

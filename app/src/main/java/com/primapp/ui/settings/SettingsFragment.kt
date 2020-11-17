@@ -2,12 +2,12 @@ package com.primapp.ui.settings
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.navigation.fragment.findNavController
 import com.primapp.R
 import com.primapp.cache.UserCache
 import com.primapp.databinding.FragmentSettingsBinding
 import com.primapp.ui.MainActivity
 import com.primapp.ui.base.BaseFragment
-import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
 
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
@@ -22,10 +22,16 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
     }
 
     private fun setData() {
-        tvLogout.setOnClickListener {
-            UserCache.clearAll(requireContext())
-            startActivity(Intent(requireContext(), MainActivity::class.java))
-            activity?.finish()
-        }
+        binding.frag = this
+    }
+
+    fun openAboutUs() {
+        findNavController().navigate(R.id.action_settingsFragment_to_aboutUsFragment)
+    }
+
+    fun logout() {
+        UserCache.clearAll(requireContext())
+        startActivity(Intent(requireContext(), MainActivity::class.java))
+        activity?.finish()
     }
 }

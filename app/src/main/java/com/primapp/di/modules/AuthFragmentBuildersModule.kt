@@ -44,4 +44,7 @@ abstract class AuthFragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributePasswordVerificationFragment(): PasswordVerificationFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeCreateCommunityFragment(): CreateCommunityFragment
 }

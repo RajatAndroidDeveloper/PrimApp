@@ -32,6 +32,10 @@ class CommunityJoinViewFragment : BaseFragment<FragmentCommunityJoinViewBinding>
             findNavController().navigate(R.id.dashboardActivity)
             activity?.finish()
         }
+
+        ivAdd.setOnClickListener {
+            findNavController().navigate(R.id.createCommunityFragment)
+        }
     }
 
     private fun setData() {

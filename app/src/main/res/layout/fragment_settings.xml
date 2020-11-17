@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="frag"
+            type="com.primapp.ui.settings.SettingsFragment" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -19,6 +25,7 @@
             android:fontFamily="@font/poppins_medium"
             android:gravity="center_vertical"
             android:padding="@dimen/space_small"
+            android:onClick="@{()->frag.openAboutUs()}"
             android:paddingStart="@dimen/space_extraLarge"
             android:paddingEnd="@dimen/space_extraLarge"
             android:text="@string/about_us"
@@ -81,6 +88,7 @@
             android:text="@string/logout"
             android:textSize="@dimen/textMediumX"
             app:drawableStartCompat="@drawable/logout"
+            android:onClick="@{()->frag.logout()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvSecurity" />
