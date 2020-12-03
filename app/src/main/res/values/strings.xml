@@ -124,4 +124,11 @@
     </string>
     <string name="create_community">Create Community</string>
     <string name="save">Save</string>
+
+    <string name="file_provider_name" translatable="false">.fileProvider</string>
+    <string name="select_capture_image">Select or capture image</string>
+    <string name="error_camera_permission">Camera permission are necessary in order to capture image.</string>
+    <string name="profile">Profile</string>
+    <string name="notifications">Notifications</string>
+    <string name="updates">Updates</string>
 </resources>

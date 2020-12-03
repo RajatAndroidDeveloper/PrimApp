@@ -6,6 +6,7 @@ object ApiConstant {
 
     const val BASE_URL = BuildConfig.BASE_URL
 
+    //Auth
     const val REFERENCE_DATA = "reference-data"
     const val SIGN_UP = "users/signup"
     const val VERIFY_USER = "users/verify"
@@ -16,5 +17,8 @@ object ApiConstant {
     const val FORGOT_PASSWORD_VERIFY = "users/{userId}/verify"
     const val CHANGE_PASSWORD = "users/{userId}/password"
     const val RESEND_OTP = "users/resend-otp"
+
+    //Category and Communities
+    const val GET_PARENT_CATEGORY_LIST = "categories"
 
 }

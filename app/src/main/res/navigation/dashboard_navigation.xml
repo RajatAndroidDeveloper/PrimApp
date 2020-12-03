@@ -5,6 +5,24 @@
     android:id="@+id/dashboard_navigation"
     app:startDestination="@id/updatesFragment">
 
+    <dialog
+        android:id="@+id/popUpHelpMessage"
+        android:name="com.primapp.utils.PopUpHelpMessage"
+        android:label="PopUpHelpMessage"
+        tools:layout="@layout/layout_dialog_help">
+        <argument
+            android:name="message"
+            android:defaultValue="Please add message."
+            app:argType="string" />
+        <argument
+            android:name="sourceId"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <argument
+            android:name="isHelperDialog"
+            android:defaultValue="false"
+            app:argType="boolean" />
+    </dialog>
     <fragment
         android:id="@+id/updatesFragment"
         android:name="com.primapp.ui.dashboard.UpdatesFragment"

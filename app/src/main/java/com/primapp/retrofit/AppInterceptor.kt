@@ -11,7 +11,7 @@ class AppInterceptor(private val accessToken: String) : Interceptor {
         val request = chain.request().newBuilder()
             .addHeader("Content-Type", "application/json")
             .addHeader("Accept", "application/json")
-            .addHeader("Authorization", "key $accessToken").build()
+            .addHeader("Authorization", "JWT $accessToken").build()
         return chain.proceed(request)
     }
 }

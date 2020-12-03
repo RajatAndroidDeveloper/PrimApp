@@ -41,6 +41,10 @@ abstract class ViewModelModule {
     @ViewModelKey(PasswordVerificationViewModel::class)
     abstract fun bindPasswordVerificationViewModel(viewModel: PasswordVerificationViewModel): ViewModel
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(CommunitiesViewModel::class)
+    abstract fun bindCommunityViewModel(viewModel: CommunitiesViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

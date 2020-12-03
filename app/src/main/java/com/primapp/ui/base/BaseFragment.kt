@@ -1,7 +1,11 @@
 package com.primapp.ui.base
 
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,13 +13,13 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.google.gson.Gson
 import com.primapp.R
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.toolbar_inner_back.view.*
@@ -101,7 +105,7 @@ abstract class BaseFragment<DB : ViewDataBinding> : DaggerFragment() {
         requestCode?.let {
             bundle.putInt("sourceId", it)
         }
-        bundle.putBoolean("isHelperDialog",isHelperDialog)
+        bundle.putBoolean("isHelperDialog", isHelperDialog)
         findNavController().navigate(R.id.popUpHelpMessage, bundle)
 
         // Add callback to dialog dismiss if the destination id is provided.
@@ -153,6 +157,43 @@ abstract class BaseFragment<DB : ViewDataBinding> : DaggerFragment() {
             val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(input.windowToken, 0)
         }
+    }
+
+
+    fun isPermissionGranted(permission: String): Boolean {
+        val context = this.context
+
+        if (context != null) {
+            return ContextCompat
+                .checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
+        }
+        return false
+    }
+
+
+    fun isAllPermissionsGranted(grantResults: IntArray): Boolean {
+        var isGranted = true
+
+        for (grantResult in grantResults) {
+            isGranted = grantResult == PackageManager.PERMISSION_GRANTED
+
+            if (!isGranted) {
+                break
+            }
+        }
+
+        return isGranted
+    }
+
+    fun redirectUserToAppSettings() {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        val uri: Uri = Uri.fromParts("package", requireContext().packageName, null)
+        intent.data = uri
+        startActivity(intent)
+    }
+
+    companion object {
+        const val CAMERA_PERMISSION_REQUEST_CODE = 101
     }
 
 }

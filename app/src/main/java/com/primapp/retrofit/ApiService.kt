@@ -1,6 +1,7 @@
 package com.primapp.retrofit
 
 import com.primapp.model.auth.*
+import com.primapp.model.category.ParentCategoryResponseModel
 import com.primapp.retrofit.base.BaseDataModel
 import retrofit2.http.*
 
@@ -44,4 +45,7 @@ interface ApiService {
 
     @PUT(ApiConstant.RESEND_OTP)
     suspend fun resendOTP(@Body forgotDataRequestModel: ForgotDataRequestModel): BaseDataModel
+
+    @GET(ApiConstant.GET_PARENT_CATEGORY_LIST)
+    suspend fun getParentCategories(): ParentCategoryResponseModel
 }
