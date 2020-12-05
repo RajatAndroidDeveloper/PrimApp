@@ -113,7 +113,7 @@ class AllCommunityFragment : BaseFragment<FragmentAllCommunityBinding>() {
 
     private fun initTextListeners() {
         binding.etSearch.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_GO) {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
                 updateCommunityListFromInput()
                 true
             } else {
@@ -134,6 +134,8 @@ class AllCommunityFragment : BaseFragment<FragmentAllCommunityBinding>() {
         binding.etSearch.text.trim().let {
             if (it.isNotEmpty()) {
                 searchCommunity(it.toString())
+            }else{
+                searchCommunity(null)
             }
         }
     }

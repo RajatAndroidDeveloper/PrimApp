@@ -56,7 +56,7 @@ interface ApiService {
     @GET(ApiConstant.GET_COMMUNITIES)
     suspend fun getCommunities(
         @Path("categoryId") categoryId: Int,
-        @Query("community_name") search: String?,
+        @Query("search_community") search: String?,
         @Query("filter_by") filterBy: String,
         @Query("offset") offset: Int,
         @Query("limit") limit: Int
