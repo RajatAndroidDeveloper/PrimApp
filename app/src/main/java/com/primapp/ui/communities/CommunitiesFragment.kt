@@ -1,6 +1,7 @@
 package com.primapp.ui.communities
 
 import android.os.Bundle
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -11,9 +12,11 @@ import com.primapp.R
 import com.primapp.databinding.FragmentCommunitiesBinding
 import com.primapp.extensions.showError
 import com.primapp.model.category.ParentCategoryResult
+import com.primapp.retrofit.ApiConstant
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.ParentCategoryListAdapter
+import com.primapp.utils.EqualSpacingItemDecoration
 import com.primapp.viewmodels.CommunitiesViewModel
 
 class CommunitiesFragment : BaseFragment<FragmentCommunitiesBinding>() {
@@ -22,7 +25,7 @@ class CommunitiesFragment : BaseFragment<FragmentCommunitiesBinding>() {
 
     val adapter by lazy { ParentCategoryListAdapter { item -> onItemClick(item) } }
 
-    val viewModel by viewModels<CommunitiesViewModel> { viewModelFactory }
+    val viewModel by activityViewModels<CommunitiesViewModel> { viewModelFactory }
 
     override fun getLayoutRes(): Int = R.layout.fragment_communities
 
@@ -60,27 +63,28 @@ class CommunitiesFragment : BaseFragment<FragmentCommunitiesBinding>() {
 
                 Status.SUCCESS -> {
                     viewModel.isLoading.value = false
-                    it.data?.content?.categories?.results?.let {
+                    it.data?.content?.results?.let {
                         adapter.addData(it)
                     }
                 }
             }
         })
 
-        viewModel.getParentCategoriesList()
+        viewModel.getParentCategoriesList(0, ApiConstant.NETWORK_PAGE_SIZE)
     }
 
-    fun openCommunities(name: String) {
+    private fun openCommunities(name: String, id: Int) {
         val bundle = Bundle()
         bundle.putString("title", name)
         bundle.putBoolean("isNewUser", isNewUser)
+        bundle.putInt("parentCategoryId", id)
         findNavController().navigate(R.id.communityJoinViewFragment, bundle)
     }
 
     private fun onItemClick(item: Any) {
         when (item) {
             is ParentCategoryResult -> {
-                openCommunities(item.categoryName)
+                openCommunities(item.categoryName, item.id)
             }
         }
     }

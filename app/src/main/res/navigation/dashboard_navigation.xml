@@ -67,6 +67,9 @@
             android:name="isNewUser"
             android:defaultValue="false"
             app:argType="boolean" />
+        <argument
+            android:name="parentCategoryId"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"

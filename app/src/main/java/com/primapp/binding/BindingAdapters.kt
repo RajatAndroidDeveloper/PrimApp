@@ -120,8 +120,11 @@ fun genderAndDobFormatText(textView: TextView, user: UserData) {
         text = user.genderValue
     }
 
+    if (text.isNotEmpty())
+        text = "$text | "
+
     if (dob.isNotEmpty()) {
-        text = "$text | $dob"
+        text = "$text$dob"
     }
 
     textView.text = text

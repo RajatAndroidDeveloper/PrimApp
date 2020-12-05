@@ -1,6 +1,7 @@
 package com.primapp.retrofit
 
 import com.primapp.model.auth.*
+import com.primapp.model.category.CommunityListResponseModel
 import com.primapp.model.category.ParentCategoryResponseModel
 import com.primapp.retrofit.base.BaseDataModel
 import retrofit2.http.*
@@ -47,5 +48,17 @@ interface ApiService {
     suspend fun resendOTP(@Body forgotDataRequestModel: ForgotDataRequestModel): BaseDataModel
 
     @GET(ApiConstant.GET_PARENT_CATEGORY_LIST)
-    suspend fun getParentCategories(): ParentCategoryResponseModel
+    suspend fun getParentCategories(
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int
+    ): ParentCategoryResponseModel
+
+    @GET(ApiConstant.GET_COMMUNITIES)
+    suspend fun getCommunities(
+        @Path("categoryId") categoryId: Int,
+        @Query("community_name") search: String?,
+        @Query("filter_by") filterBy: String,
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int
+    ): CommunityListResponseModel
 }

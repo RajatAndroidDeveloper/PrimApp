@@ -96,4 +96,7 @@ dependencies {
     //Toasty Library
     implementation 'com.github.GrenderG:Toasty:1.5.0'
 
+    //Pagination Library
+    implementation "androidx.paging:paging-runtime:$rootProject.paging_version"
+
 }

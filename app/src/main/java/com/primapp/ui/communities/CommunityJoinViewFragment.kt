@@ -16,6 +16,8 @@ import kotlinx.android.synthetic.main.toolbar_community_back.*
 
 class CommunityJoinViewFragment : BaseFragment<FragmentCommunityJoinViewBinding>() {
 
+    var parentCategoryId: Int = -1
+
     override fun getLayoutRes(): Int = R.layout.fragment_community_join_view
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -27,19 +29,9 @@ class CommunityJoinViewFragment : BaseFragment<FragmentCommunityJoinViewBinding>
         setClicks()
     }
 
-    private fun setClicks() {
-        ivTickMark.setOnClickListener {
-            findNavController().navigate(R.id.dashboardActivity)
-            activity?.finish()
-        }
-
-        ivAdd.setOnClickListener {
-            findNavController().navigate(R.id.createCommunityFragment)
-        }
-    }
-
     private fun setData() {
         val title: String = CommunityJoinViewFragmentArgs.fromBundle(requireArguments()).title
+        parentCategoryId = CommunityJoinViewFragmentArgs.fromBundle(requireArguments()).parentCategoryId
         setToolbar(title, toolbar)
 
         if (CommunityJoinViewFragmentArgs.fromBundle(requireArguments()).isNewUser) {
@@ -75,5 +67,16 @@ class CommunityJoinViewFragment : BaseFragment<FragmentCommunityJoinViewBinding>
             }
         ).attach()
 
+    }
+
+    private fun setClicks() {
+        ivTickMark.setOnClickListener {
+            findNavController().navigate(R.id.dashboardActivity)
+            activity?.finish()
+        }
+
+        ivAdd.setOnClickListener {
+            findNavController().navigate(R.id.createCommunityFragment)
+        }
     }
 }

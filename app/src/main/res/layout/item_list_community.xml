@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="data"
+            type="com.primapp.model.category.CommunityData" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -12,8 +19,8 @@
             android:id="@+id/cardProfilePic"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:elevation="@dimen/space_small"
             android:layout_margin="2dp"
+            android:elevation="@dimen/space_small"
             app:cardCornerRadius="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +43,7 @@
             android:ellipsize="end"
             android:fontFamily="@font/poppins_medium"
             android:maxLines="1"
-            android:text="Sports are back!"
+            android:text="@{data.communityName}"
             app:layout_constraintEnd_toStartOf="@id/btnJoin"
             app:layout_constraintStart_toEndOf="@id/cardProfilePic"
             app:layout_constraintTop_toTopOf="@id/cardProfilePic"

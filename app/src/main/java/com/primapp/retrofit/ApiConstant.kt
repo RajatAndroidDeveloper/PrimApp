@@ -6,6 +6,8 @@ object ApiConstant {
 
     const val BASE_URL = BuildConfig.BASE_URL
 
+    const val NETWORK_PAGE_SIZE = 10
+
     //Auth
     const val REFERENCE_DATA = "reference-data"
     const val SIGN_UP = "users/signup"
@@ -20,5 +22,6 @@ object ApiConstant {
 
     //Category and Communities
     const val GET_PARENT_CATEGORY_LIST = "categories"
+    const val GET_COMMUNITIES = "categories/{categoryId}/communities "
 
 }

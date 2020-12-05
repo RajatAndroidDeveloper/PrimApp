@@ -1,20 +1,14 @@
 package com.primapp.model.category
 import com.google.gson.annotations.SerializedName
+import com.primapp.retrofit.base.BaseDataModel
 
 
 data class ParentCategoryResponseModel(
     @SerializedName("content")
     val content: Content
-)
+): BaseDataModel()
 
 data class Content(
-    @SerializedName("categories")
-    val categories: Categories?,
-    @SerializedName("num_categories")
-    val numCategories: Int
-)
-
-data class Categories(
     @SerializedName("count")
     val count: Int,
     @SerializedName("next")

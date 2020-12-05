@@ -14,6 +14,7 @@
             type="com.primapp.viewmodels.CommunitiesViewModel" />
     </data>
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -25,7 +26,6 @@
             style="@style/primaryHeadingAccent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="@dimen/space_small"
             android:text="@string/categories"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
@@ -36,12 +36,11 @@
             android:id="@+id/swipeRefresh"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/space_small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/guideHorizontal"
-            app:onRefreshListener="@{()->viewModel.parentCategoriesList}"
+            app:layout_constraintTop_toBottomOf="@id/tvHeading"
+            app:onRefreshListener="@{()->viewModel.getParentCategoriesList(0,10)}"
             app:refreshing="@{viewModel.isLoading}">
 
             <androidx.recyclerview.widget.RecyclerView
@@ -49,10 +48,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
-                android:paddingBottom="@dimen/space_normal"/>
+                android:paddingBottom="@dimen/space_normal"
+                tools:itemCount="5"
+                tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                tools:listitem="@layout/item_list_parent_category"
+                tools:orientation="vertical"
+                tools:scrollbars="vertical"
+                tools:spanCount="2" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
         <!--
 
                 <ImageView
@@ -154,14 +158,14 @@
                     app:layout_constraintEnd_toEndOf="@id/ivBusiness"
                     app:layout_constraintStart_toStartOf="@id/ivBusiness"
                     app:layout_constraintTop_toBottomOf="@id/ivBusiness" />
-        -->
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideHorizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".14" />
+            app:layout_constraintGuide_percent=".10" />
+ -->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -29,7 +29,7 @@ class AppModule {
     @Provides
     fun providePrivateOkHttpClient(upstreamClient: OkHttpClient, context: Context): OkHttpClient {
         return upstreamClient.newBuilder()
-            .addInterceptor(AppInterceptor(UserCache.getAccessToken(context = context))).build()
+            .addInterceptor(AppInterceptor(context)).build()
     }
 
     @Singleton
