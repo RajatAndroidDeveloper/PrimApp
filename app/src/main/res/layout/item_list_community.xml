@@ -52,6 +52,7 @@
         <TextView
             android:id="@+id/tvEmail"
             style="@style/normalBodyText"
+            membersAndCreatedDate="@{data}"
             android:layout_marginTop="@dimen/space_small"
             android:ellipsize="end"
             android:maxLines="1"

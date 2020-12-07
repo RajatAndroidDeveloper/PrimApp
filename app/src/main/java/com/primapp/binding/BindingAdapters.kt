@@ -24,7 +24,10 @@ import com.primapp.R
 import com.primapp.extensions.loadCircularImage
 import com.primapp.extensions.removeLinksUnderline
 import com.primapp.model.auth.UserData
+import com.primapp.model.category.CommunityData
 import com.primapp.utils.DateTimeUtils
+import com.primapp.utils.getPrettyNumber
+import java.util.*
 
 
 @BindingAdapter("isRequired")
@@ -128,4 +131,12 @@ fun genderAndDobFormatText(textView: TextView, user: UserData) {
     }
 
     textView.text = text
+}
+
+@BindingAdapter("membersAndCreatedDate")
+fun membersAndCreatedDate(textView: TextView, data: CommunityData?) {
+    data?.let {
+        textView.text =
+            "${getPrettyNumber(it.totalActiveMember)} members | ${DateTimeUtils.convertServerTimeStamp(data.cdate)}"
+    }
 }

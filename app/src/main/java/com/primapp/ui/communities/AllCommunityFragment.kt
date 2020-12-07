@@ -97,6 +97,8 @@ class AllCommunityFragment : BaseFragment<FragmentAllCommunityBinding>() {
                     }
                 }
 
+            }else{
+                binding.swipeRefresh.isRefreshing = true
             }
         }
 
@@ -108,7 +110,6 @@ class AllCommunityFragment : BaseFragment<FragmentAllCommunityBinding>() {
 
     fun refreshData() {
         adapter.refresh()
-        Log.d("anshul_paging", "refreshing")
     }
 
     private fun initTextListeners() {

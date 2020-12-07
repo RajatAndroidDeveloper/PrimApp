@@ -40,8 +40,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvHeading"
-            app:onRefreshListener="@{()->viewModel.getParentCategoriesList(0,10)}"
-            app:refreshing="@{viewModel.isLoading}">
+            app:onRefreshListener="@{()->frag.refreshData()}">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvParentCategoryList"

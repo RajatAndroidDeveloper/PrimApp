@@ -9,11 +9,13 @@ import com.primapp.model.auth.ReferenceResponseDataModel
 import com.primapp.model.category.CommunityData
 import com.primapp.model.category.CommunityListResponseModel
 import com.primapp.model.category.ParentCategoryResponseModel
+import com.primapp.model.category.ParentCategoryResult
 import com.primapp.retrofit.ApiConstant
 import com.primapp.retrofit.ApiService
 import com.primapp.retrofit.base.Resource
 import com.primapp.retrofit.base.ResponseHandler
 import com.primapp.ui.communities.data.CommunitiesPageDataSource
+import com.primapp.ui.communities.data.ParentCategoriesPageDataSource
 import javax.inject.Inject
 
 class CommunitiesRepository @Inject constructor(
@@ -29,18 +31,19 @@ class CommunitiesRepository @Inject constructor(
         }
     }
 
-//    suspend fun getCommunitiesList(
-//        categoryId: Int,
-//        filterBy: String,
-//        offset: Int,
-//        limit: Int
-//    ): Resource<CommunityListResponseModel> {
-//        return try {
-//            responseHandler.handleResponse(apiService.getCommunities(categoryId, filterBy, offset, limit))
-//        } catch (e: Exception) {
-//            responseHandler.handleException(e)
-//        }
-//    }
+    fun getParentCategoryList(): LiveData<PagingData<ParentCategoryResult>> {
+        return Pager(
+            config = PagingConfig(
+                enablePlaceholders = false,
+                pageSize = ApiConstant.NETWORK_PAGE_SIZE,
+                initialLoadSize = ApiConstant.NETWORK_PAGE_SIZE
+            ),
+            pagingSourceFactory = {
+                ParentCategoriesPageDataSource(apiService)
+            }
+        ).liveData
+    }
+
 
     fun getCommunitiesList(
         categoryId: Int,
@@ -57,6 +60,5 @@ class CommunitiesRepository @Inject constructor(
                 CommunitiesPageDataSource(apiService, categoryId, query, filterBy)
             }
         ).liveData
-
     }
 }

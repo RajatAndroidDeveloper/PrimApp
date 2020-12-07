@@ -9,6 +9,7 @@ import androidx.paging.cachedIn
 import com.primapp.model.category.CommunityData
 import com.primapp.model.category.CommunityListResponseModel
 import com.primapp.model.category.ParentCategoryResponseModel
+import com.primapp.model.category.ParentCategoryResult
 import com.primapp.repository.CommunitiesRepository
 import com.primapp.retrofit.ApiConstant
 import com.primapp.retrofit.base.Resource
@@ -17,20 +18,35 @@ import javax.inject.Inject
 
 class CommunitiesViewModel @Inject constructor(private val repo: CommunitiesRepository) :
     ViewModel() {
-
-    var isLoading = MutableLiveData<Boolean>()
+//
+//    var isLoading = MutableLiveData<Boolean>()
+//
+//    // get Parent Category List
+//    private var _parentCategoryLiveData = MutableLiveData<Resource<ParentCategoryResponseModel>>()
+//    var parentCategoryLiveData: LiveData<Resource<ParentCategoryResponseModel>> =
+//        _parentCategoryLiveData
+//
+//    fun getParentCategoriesList(offset: Int, limit: Int) = viewModelScope.launch {
+//        _parentCategoryLiveData.postValue(Resource.loading(null))
+//        _parentCategoryLiveData.postValue(repo.getParentCategoryList(offset, limit))
+//    }
 
     // get Parent Category List
-    private var _parentCategoryLiveData = MutableLiveData<Resource<ParentCategoryResponseModel>>()
-    var parentCategoryLiveData: LiveData<Resource<ParentCategoryResponseModel>> =
-        _parentCategoryLiveData
+    private var parentCategoryResultLiveData: LiveData<PagingData<ParentCategoryResult>>? = null
 
-    fun getParentCategoriesList(offset: Int, limit: Int) = viewModelScope.launch {
-        _parentCategoryLiveData.postValue(Resource.loading(null))
-        _parentCategoryLiveData.postValue(repo.getParentCategoryList(offset, limit))
+    fun getParentCategoriesListData(): LiveData<PagingData<ParentCategoryResult>> {
+        val lastResult = parentCategoryResultLiveData
+        if (lastResult != null) {
+            return lastResult
+        }
+        val newResultLiveData: LiveData<PagingData<ParentCategoryResult>> =
+            repo.getParentCategoryList().cachedIn(viewModelScope)
+        parentCategoryResultLiveData = newResultLiveData
+        return newResultLiveData
     }
 
-    // get Parent Category List
+
+    // get Community List in Parent Category
     private var currentQueryValue: String? = null
     private var communityListResultLiveData: LiveData<PagingData<CommunityData>>? = null
 

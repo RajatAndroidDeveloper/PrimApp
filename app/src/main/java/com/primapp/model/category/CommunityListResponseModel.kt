@@ -25,9 +25,9 @@ data class CommunityListContent(
     @SerializedName("id")
     val id: Int,
     @SerializedName("next_page")
-    val nextPage: Any?,
+    val nextPage: String?,
     @SerializedName("prev_page")
-    val prevPage: Any?,
+    val prevPage: String?,
     @SerializedName("results")
     val results: List<CommunityData>,
     @SerializedName("status")
@@ -58,7 +58,7 @@ data class CommunityData(
     @SerializedName("status")
     val status: String,
     @SerializedName("total_active_member")
-    val totalActiveMember: Int,
+    val totalActiveMember: Long,
     @SerializedName("udate")
     val udate: String
 )
