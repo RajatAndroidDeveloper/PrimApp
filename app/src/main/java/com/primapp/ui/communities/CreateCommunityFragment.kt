@@ -5,18 +5,27 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.primapp.R
 import com.primapp.binding.loadCircularImageFromUrl
 import com.primapp.databinding.FragmentCreateCommunityBinding
 import com.primapp.extensions.loadCircularImageWithoutCache
 import com.primapp.extensions.showError
+import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.utils.FileUtils
+import com.primapp.viewmodels.CommunitiesViewModel
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
 import java.io.File
 
 
 class CreateCommunityFragment : BaseFragment<FragmentCreateCommunityBinding>() {
+
+    var parentCategoryId: Int = -1
+
+    val viewModel by viewModels<CommunitiesViewModel> { viewModelFactory }
 
     override fun getLayoutRes(): Int = R.layout.fragment_create_community
 
@@ -24,10 +33,38 @@ class CreateCommunityFragment : BaseFragment<FragmentCreateCommunityBinding>() {
         super.onActivityCreated(savedInstanceState)
         setToolbar(getString(R.string.create_community), toolbar)
         setData()
+        setObserver()
     }
 
     private fun setData() {
         binding.frag = this
+        binding.viewModel = viewModel
+
+        parentCategoryId = CreateCommunityFragmentArgs.fromBundle(requireArguments()).parentCategoryId
+    }
+
+    fun setObserver() {
+        viewModel.createCommunityLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message.toString())
+                    }
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.SUCCESS -> {
+                        showCustomDialog(getString(R.string.create_community_success), R.id.createCommunityFragment)
+                    }
+                }
+            }
+        })
+    }
+
+    override fun onDialogDismiss(any: Any?) {
+        super.onDialogDismiss(any)
+        findNavController().popBackStack()
     }
 
     fun pickImageAskPermission() {
@@ -101,6 +138,16 @@ class CreateCommunityFragment : BaseFragment<FragmentCreateCommunityBinding>() {
                 }
             }
         }
+    }
+
+    fun save() {
+        if (viewModel.validateCreateCommunity()) {
+            viewModel.createCommunity(parentCategoryId)
+        }
+    }
+
+    fun cancel() {
+        findNavController().popBackStack()
     }
 
 }

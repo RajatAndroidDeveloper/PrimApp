@@ -1,34 +1,49 @@
 package com.primapp.ui.communities.adapter
 
-import android.annotation.SuppressLint
+
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.primapp.R
 import com.primapp.databinding.ItemListCommunityBinding
 import com.primapp.model.category.CommunityData
+import javax.inject.Inject
 
-class CommunityPagedListAdapter :
+class CommunityPagedListAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) :
     PagingDataAdapter<CommunityData, CommunityPagedListAdapter.CommunityViewHolder>(CommunityDiffCallback()) {
+
+    // Set this fragment Type to make Join button -> Edit
+    var fragmentType: String? = null
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommunityViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        return CommunityViewHolder(
+            DataBindingUtil.inflate(
+                layoutInflater,
+                R.layout.item_list_community,
+                parent,
+                false
+            )
+        )
+    }
 
     override fun onBindViewHolder(holder: CommunityViewHolder, position: Int) {
         holder.bindView(getItem(position))
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommunityViewHolder {
-        return CommunityViewHolder(
-            ItemListCommunityBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false
-            )
-        )
-    }
-
-
     inner class CommunityViewHolder(private val binding: ItemListCommunityBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bindView(data: CommunityData?) {
             binding.data = data
+            binding.type = fragmentType
+            binding.btnJoin.setOnClickListener {
+                Log.d("anshul", "clicked adapter")
+                onItemClick(data)
+            }
         }
     }
 

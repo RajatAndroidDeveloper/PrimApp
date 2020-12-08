@@ -8,6 +8,10 @@
         <variable
             name="data"
             type="com.primapp.model.category.CommunityData" />
+
+        <variable
+            name="type"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -67,11 +71,15 @@
         <Button
             android:id="@+id/btnJoin"
             style="@style/buttonOutlinedAccent"
+            joinStyle="@{data.isJoined()}"
+            type="@{type}"
             android:layout_width="wrap_content"
-            android:text="@string/join"
+            android:text="@{data.isJoined()? @string/joined : @string/join}"
             app:layout_constraintBottom_toBottomOf="@id/cardProfilePic"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/cardProfilePic" />
+            app:layout_constraintTop_toTopOf="@id/cardProfilePic"
+            tools:targetApi="m"
+            tools:text="@string/join" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

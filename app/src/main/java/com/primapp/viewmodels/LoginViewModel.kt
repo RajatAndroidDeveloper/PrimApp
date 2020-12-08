@@ -20,8 +20,7 @@ class LoginViewModel @Inject constructor(
     errorFields: ErrorFields,
     application: Application,
     val repo: RegistrationRepository
-) :
-    AndroidViewModel(application) {
+) : AndroidViewModel(application) {
 
     private val context by lazy { getApplication<PrimApp>().applicationContext }
 

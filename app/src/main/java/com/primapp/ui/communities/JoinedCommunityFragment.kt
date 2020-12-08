@@ -27,7 +27,7 @@ class JoinedCommunityFragment : BaseFragment<FragmentJoinedCommunityBinding>() {
 
     private var searchJob: Job? = null
 
-    val adapter by lazy { CommunityPagedListAdapter() }
+    val adapter by lazy { CommunityPagedListAdapter { item -> onItemClick(item) } }
 
     override fun getLayoutRes(): Int = R.layout.fragment_joined_community
 
@@ -102,7 +102,7 @@ class JoinedCommunityFragment : BaseFragment<FragmentJoinedCommunityBinding>() {
 
     }
 
-    fun onItemClick(any: Any) {
+    private fun onItemClick(any: Any?) {
 
     }
 

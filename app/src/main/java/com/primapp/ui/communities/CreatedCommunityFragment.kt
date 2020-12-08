@@ -27,7 +27,7 @@ class CreatedCommunityFragment : BaseFragment<FragmentCreatedCommunityBinding>()
 
     private var searchJob: Job? = null
 
-    val adapter by lazy { CommunityPagedListAdapter() }
+    val adapter by lazy { CommunityPagedListAdapter{ item -> onItemClick(item) } }
 
     override fun getLayoutRes(): Int = R.layout.fragment_created_community
 
@@ -64,6 +64,8 @@ class CreatedCommunityFragment : BaseFragment<FragmentCreatedCommunityBinding>()
     }
 
     private fun setAdapter() {
+        // So that we can change button in itemsList to Edit
+        adapter.fragmentType = CommunityFilterTypes.CREATED_COMMUNITY
 
         binding.rvCommunityList.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -103,7 +105,7 @@ class CreatedCommunityFragment : BaseFragment<FragmentCreatedCommunityBinding>()
 
     }
 
-    fun onItemClick(any: Any) {
+    private fun onItemClick(any: Any?) {
 
     }
 

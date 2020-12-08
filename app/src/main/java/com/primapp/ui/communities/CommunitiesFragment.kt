@@ -37,9 +37,6 @@ class CommunitiesFragment : BaseFragment<FragmentCommunitiesBinding>() {
     }
 
     private fun setAdapter() {
-        val recyclerVeiw = binding.rvParentCategoryList
-        recyclerVeiw.layoutManager = GridLayoutManager(requireContext(), 2)
-        recyclerVeiw.adapter = adapter
 
         binding.rvParentCategoryList.apply {
             layoutManager = GridLayoutManager(requireContext(), 2)

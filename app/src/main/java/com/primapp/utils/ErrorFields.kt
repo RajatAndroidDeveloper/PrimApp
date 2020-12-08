@@ -22,9 +22,13 @@ class ErrorFields @Inject constructor() {
 
     var errorConfirmPassword: String? = null
 
-    var errorPrivacyPolicy:String? = null
+    var errorPrivacyPolicy: String? = null
 
     var errorOldPassword: String? = null
+
+    var errorCommunityName: String? = null
+
+    var errorCommunityDescription: String? = null
 
     var errorOTP: String? = null
 }

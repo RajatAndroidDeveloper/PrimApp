@@ -76,7 +76,9 @@ class CommunityJoinViewFragment : BaseFragment<FragmentCommunityJoinViewBinding>
         }
 
         ivAdd.setOnClickListener {
-            findNavController().navigate(R.id.createCommunityFragment)
+            val bundle = Bundle()
+            bundle.putInt("parentCategoryId", parentCategoryId)
+            findNavController().navigate(R.id.createCommunityFragment, bundle)
         }
     }
 }

@@ -17,6 +17,7 @@ import com.primapp.constants.CommunityFilterTypes
 import com.primapp.databinding.FragmentAllCommunityBinding
 import com.primapp.extensions.setDivider
 import com.primapp.extensions.showError
+import com.primapp.extensions.showSuccess
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.CommunitListAdapter
 import com.primapp.ui.communities.adapter.CommunityPagedListAdapter
@@ -34,7 +35,7 @@ class AllCommunityFragment : BaseFragment<FragmentAllCommunityBinding>() {
 
     private var searchJob: Job? = null
 
-    val adapter by lazy { CommunityPagedListAdapter() }
+    val adapter by lazy { CommunityPagedListAdapter { item -> onItemClick(item) } }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -97,15 +98,16 @@ class AllCommunityFragment : BaseFragment<FragmentAllCommunityBinding>() {
                     }
                 }
 
-            }else{
+            } else {
                 binding.swipeRefresh.isRefreshing = true
             }
         }
 
     }
 
-    fun onItemClick(any: Any) {
-
+    fun onItemClick(any: Any?) {
+        Log.d("anshul","clcked 2")
+        showSuccess(requireContext(), "button clicked")
     }
 
     fun refreshData() {
@@ -135,7 +137,7 @@ class AllCommunityFragment : BaseFragment<FragmentAllCommunityBinding>() {
         binding.etSearch.text.trim().let {
             if (it.isNotEmpty()) {
                 searchCommunity(it.toString())
-            }else{
+            } else {
                 searchCommunity(null)
             }
         }

@@ -8,6 +8,10 @@
         <variable
             name="frag"
             type="com.primapp.ui.communities.CreateCommunityFragment" />
+
+        <variable
+            name="viewModel"
+            type="com.primapp.viewmodels.CommunitiesViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -53,9 +57,11 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tlCommunityName"
             style="@style/myTextInputLabel"
+            errorText="@{viewModel.errorFieldsLiveData.errorCommunityName}"
             android:layout_marginTop="@dimen/space_extraLarge"
-            android:hint="Community Name"
+            android:hint="@string/community_name"
             app:errorEnabled="true"
+            app:errorIconDrawable="@null"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ivProfilePic">
@@ -63,16 +69,19 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etCommunityName"
                 style="@style/editTextInput"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:text="@={viewModel.createCommunityRequestDataModel.communityName}" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tlCommunityDescription"
             style="@style/myTextInputLabel"
+            errorText="@{viewModel.errorFieldsLiveData.errorCommunityDescription}"
             android:layout_marginTop="@dimen/space_small"
-            android:hint="Community Description"
+            android:hint="@string/community_description"
             app:errorEnabled="true"
+            app:errorIconDrawable="@null"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tlCommunityName">
@@ -82,7 +91,9 @@
                 style="@style/editTextInput"
                 android:gravity="top"
                 android:inputType="textMultiLine"
-                android:lines="4" />
+                android:lines="4"
+                android:text="@={viewModel.createCommunityRequestDataModel.communityDescription}" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
@@ -91,6 +102,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/textExtraLargeX"
+            android:onClick="@{()->frag.save()}"
             android:text="@string/save"
             android:textAllCaps="false"
             app:layout_constraintEnd_toStartOf="@id/btnSignUp"
@@ -103,6 +115,7 @@
             style="@style/buttonFilledSecondary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:onClick="@{()->frag.cancel()}"
             android:text="@string/cancel"
             android:textAllCaps="false"
             app:layout_constraintEnd_toEndOf="parent"

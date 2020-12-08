@@ -81,6 +81,8 @@
     <string name="valid_gender">Please select a valid gender</string>
     <string name="valid_empty_dob">Please select date of birth</string>
     <string name="valid_country">Please select a valid country</string>
+    <string name="valid_community_name">Please enter community name</string>
+    <string name="valid_community_description">Please enter community description</string>
 
     <string name="privacy_policy_help_text">Please accept terms of service and privacy policy.</string>
     <string name="valid_username">Please enter a valid username</string>
@@ -103,6 +105,8 @@
     <string name="long_about_text">Software Engineer for the last 18 years. Before this I was a Pre-Med major and I went to the Baylor University for Medicine, but realized it was not for me.</string>
     <string name="categories">Categories</string>
     <string name="join">Join</string>
+    <string name="joined">Joined</string>
+    <string name="leave">Leave</string>
     <string name="create_community_empty_list_message">Create community to become a \ncommunity moderator.</string>
     <string name="joined_community_empty_list_message">You\'re not in any communities right now. \nJoin a community to start connecting \nwith others to build a mentor-mentee \nrelationship.</string>
     <string name="settings">Settings</string>
@@ -131,4 +135,7 @@
     <string name="profile">Profile</string>
     <string name="notifications">Notifications</string>
     <string name="updates">Updates</string>
+    <string name="community_description">Community Description</string>
+    <string name="community_name">Community Name</string>
+    <string name="create_community_success">Community created successfully!</string>
 </resources>

@@ -13,14 +13,17 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.text.HtmlCompat
 import androidx.databinding.BindingAdapter
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.textfield.TextInputLayout
 import com.primapp.R
+import com.primapp.constants.CommunityFilterTypes
 import com.primapp.extensions.loadCircularImage
 import com.primapp.extensions.removeLinksUnderline
 import com.primapp.model.auth.UserData
@@ -138,5 +141,24 @@ fun membersAndCreatedDate(textView: TextView, data: CommunityData?) {
     data?.let {
         textView.text =
             "${getPrettyNumber(it.totalActiveMember)} members | ${DateTimeUtils.convertServerTimeStamp(data.cdate)}"
+    }
+}
+
+@BindingAdapter("joinStyle", "type")
+fun joinButtonStyle(button: Button, isJoined: Boolean, type: String?) {
+    if (type == CommunityFilterTypes.CREATED_COMMUNITY) {
+        //Make the button as Edit
+        button.background = ContextCompat.getDrawable(button.context, R.drawable.button_primary_blue_filled)
+        button.setTextColor(ContextCompat.getColor(button.context, R.color.white))
+        button.text = button.context.getString(R.string.edit)
+    } else {
+        if (isJoined) {
+            button.background = ContextCompat.getDrawable(button.context, R.drawable.button_primary_grey_filled)
+            button.setTextColor(ContextCompat.getColor(button.context, R.color.black))
+            button.typeface = ResourcesCompat.getFont(button.context, R.font.poppins_regular)
+        } else {
+            button.background = ContextCompat.getDrawable(button.context, R.drawable.button_light_accent_blue_outlined)
+            button.setTextColor(ContextCompat.getColor(button.context, R.color.colorAccent))
+        }
     }
 }
