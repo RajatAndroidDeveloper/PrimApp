@@ -138,4 +138,9 @@
     <string name="community_description">Community Description</string>
     <string name="community_name">Community Name</string>
     <string name="create_community_success">Community created successfully!</string>
+
+    <plurals name="member_count">
+        <item quantity="one">%s member</item>
+        <item quantity="other">%s members</item>
+    </plurals>
 </resources>

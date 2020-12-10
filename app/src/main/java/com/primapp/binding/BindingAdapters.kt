@@ -136,11 +136,21 @@ fun genderAndDobFormatText(textView: TextView, user: UserData) {
     textView.text = text
 }
 
-@BindingAdapter("membersAndCreatedDate")
-fun membersAndCreatedDate(textView: TextView, data: CommunityData?) {
+@SuppressLint("SetTextI18n")
+@BindingAdapter("membersAndCreatedDate", "type")
+fun membersAndCreatedDate(textView: TextView, data: CommunityData?, type: String?) {
     data?.let {
-        textView.text =
-            "${getPrettyNumber(it.totalActiveMember)} members | ${DateTimeUtils.convertServerTimeStamp(data.cdate)}"
+        if (type == CommunityFilterTypes.CREATED_COMMUNITY) {
+            textView.text =
+                "${data.status} | ${DateTimeUtils.convertServerTimeStamp(data.cdate)}"
+        } else {
+            textView.text =
+                "${textView.resources.getQuantityString(
+                    R.plurals.member_count,
+                    it.totalActiveMember.toInt(),
+                    getPrettyNumber(it.totalActiveMember)
+                )} | ${DateTimeUtils.convertServerTimeStamp(data.cdate)}"
+        }
     }
 }
 
@@ -156,9 +166,11 @@ fun joinButtonStyle(button: Button, isJoined: Boolean, type: String?) {
             button.background = ContextCompat.getDrawable(button.context, R.drawable.button_primary_grey_filled)
             button.setTextColor(ContextCompat.getColor(button.context, R.color.black))
             button.typeface = ResourcesCompat.getFont(button.context, R.font.poppins_regular)
+            button.isEnabled = false
         } else {
             button.background = ContextCompat.getDrawable(button.context, R.drawable.button_light_accent_blue_outlined)
             button.setTextColor(ContextCompat.getColor(button.context, R.color.colorAccent))
+            button.isEnabled = true
         }
     }
 }

@@ -70,4 +70,15 @@ class CommunitiesRepository @Inject constructor(
             responseHandler.handleException(e)
         }
     }
+
+    suspend fun joinCommunity(
+        communityId: Int,
+        userId: Int
+    ): Resource<JoinCommunityResponseModel> {
+        return try {
+            responseHandler.handleResponse(apiService.joinCommunity(communityId, userId))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
 }

@@ -107,7 +107,7 @@ class CommunitiesViewModel @Inject constructor(
         return newResultLiveData
     }
 
-    // get Parent Category List
+    // Create Community
     private var _createCommunityLiveData = MutableLiveData<Event<Resource<BaseDataModel>>>()
     var createCommunityLiveData: LiveData<Event<Resource<BaseDataModel>>> =
         _createCommunityLiveData
@@ -121,6 +121,18 @@ class CommunitiesViewModel @Inject constructor(
                     createCommunityRequestDataModel.value!!
                 )
             )
+        )
+    }
+
+    //JOin Community API
+    private var _joinCommunityLiveData = MutableLiveData<Event<Resource<JoinCommunityResponseModel>>>()
+    var joinCommunityLiveData: LiveData<Event<Resource<JoinCommunityResponseModel>>> =
+        _joinCommunityLiveData
+
+    fun joinCommunity(communityId: Int, userId: Int) = viewModelScope.launch {
+        _joinCommunityLiveData.postValue(Event(Resource.loading(null)))
+        _joinCommunityLiveData.postValue(
+            Event(repo.joinCommunity(communityId, userId))
         )
     }
 

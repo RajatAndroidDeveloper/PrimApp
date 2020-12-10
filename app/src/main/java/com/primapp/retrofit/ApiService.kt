@@ -3,6 +3,7 @@ package com.primapp.retrofit
 import com.primapp.model.auth.*
 import com.primapp.model.category.CommunityListResponseModel
 import com.primapp.model.category.CreateCommunityRequestModel
+import com.primapp.model.category.JoinCommunityResponseModel
 import com.primapp.model.category.ParentCategoryResponseModel
 import com.primapp.retrofit.base.BaseDataModel
 import retrofit2.http.*
@@ -68,4 +69,10 @@ interface ApiService {
         @Path("categoryId") categoryId: Int,
         @Body createCommunityRequestModel: CreateCommunityRequestModel
     ): BaseDataModel
+
+    @POST(ApiConstant.JOIN_COMMUNITY)
+    suspend fun joinCommunity(
+        @Path("communityId") communityId: Int,
+        @Path("userId") userId: Int
+    ): JoinCommunityResponseModel
 }

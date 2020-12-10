@@ -19,6 +19,15 @@ class CommunityPagedListAdapter @Inject constructor(val onItemClick: (Any?) -> U
     // Set this fragment Type to make Join button -> Edit
     var fragmentType: String? = null
 
+    fun markCommunityAsJoined(communityId: Int?) {
+        val item: CommunityData? = snapshot().items.find { it.id == communityId }
+        item?.let {
+            val position = snapshot().items.indexOf(it)
+            snapshot().items.get(position).isJoined = true
+            notifyItemChanged(position)
+        }
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommunityViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         return CommunityViewHolder(

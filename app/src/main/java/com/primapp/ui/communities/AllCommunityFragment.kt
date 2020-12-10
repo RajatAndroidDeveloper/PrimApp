@@ -13,11 +13,14 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.primapp.R
+import com.primapp.cache.UserCache
 import com.primapp.constants.CommunityFilterTypes
 import com.primapp.databinding.FragmentAllCommunityBinding
 import com.primapp.extensions.setDivider
 import com.primapp.extensions.showError
 import com.primapp.extensions.showSuccess
+import com.primapp.model.category.CommunityData
+import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.CommunitListAdapter
 import com.primapp.ui.communities.adapter.CommunityPagedListAdapter
@@ -52,7 +55,22 @@ class AllCommunityFragment : BaseFragment<FragmentAllCommunityBinding>() {
     }
 
     private fun setObserver() {
-
+        viewModel.joinCommunityLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let { response ->
+                hideLoading()
+                when (response.status) {
+                    Status.SUCCESS -> {
+                        adapter.markCommunityAsJoined(response.data?.content?.communityId)
+                    }
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), response.message!!)
+                    }
+                }
+            }
+        })
     }
 
     private fun searchCommunity(query: String?) {
@@ -106,8 +124,13 @@ class AllCommunityFragment : BaseFragment<FragmentAllCommunityBinding>() {
     }
 
     fun onItemClick(any: Any?) {
-        Log.d("anshul","clcked 2")
-        showSuccess(requireContext(), "button clicked")
+        when (any) {
+            is CommunityData -> {
+                if (any.isJoined == false) {
+                    viewModel.joinCommunity(any.id, UserCache.getUser(requireContext())!!.id)
+                }
+            }
+        }
     }
 
     fun refreshData() {

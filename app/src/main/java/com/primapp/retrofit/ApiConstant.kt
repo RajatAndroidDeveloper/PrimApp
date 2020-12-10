@@ -24,5 +24,5 @@ object ApiConstant {
     const val GET_PARENT_CATEGORY_LIST = "categories"
     const val GET_COMMUNITIES = "categories/{categoryId}/communities"
     const val CREATE_COMMUNITY = "categories/{categoryId}/communities"
-
+    const val JOIN_COMMUNITY = "communities/{communityId}/users/{userId}"
 }
