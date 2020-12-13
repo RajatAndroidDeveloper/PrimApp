@@ -181,9 +181,18 @@
         android:id="@+id/createCommunityFragment"
         android:name="com.primapp.ui.communities.CreateCommunityFragment"
         android:label="CreateCommunityFragment"
-        tools:layout="@layout/fragment_create_community" >
+        tools:layout="@layout/fragment_create_community">
         <argument
             android:name="parentCategoryId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/communityDetailsFragment"
+        android:name="com.primapp.ui.communities.CommunityDetailsFragment"
+        android:label="CommunityDetailsFragment"
+        tools:layout="@layout/fragment_community_details">
+        <argument
+            android:name="communityId"
             app:argType="integer" />
     </fragment>
 </navigation>

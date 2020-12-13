@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.primapp.model.category.CommunityData" />
+
+        <variable
+            name="type"
+            type="String" />
+
+    </data>
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/toolbar_inner_back" />
+
+            <include
+                layout="@layout/item_list_community"
+                app:data="@{data}"
+                app:type="@{type}" />
+
+            <View
+                android:id="@+id/viewSeprator"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="@dimen/space_large"
+                android:layout_marginEnd="@dimen/space_large"
+                android:background="@color/lightGrey" />
+
+            <TextView
+                android:id="@+id/tvAbout"
+                style="@style/normalBodyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_large"
+                android:layout_marginTop="@dimen/space_medium"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/about"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/viewSeprator" />
+
+            <TextView
+                android:id="@+id/tvAboutDescription"
+                style="@style/primaryBodyText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_large"
+                android:layout_marginTop="@dimen/space_small"
+                android:layout_marginEnd="@dimen/space_large"
+                android:text="@{data.communityDescription}"
+                app:layout_constraintEnd_toEndOf="@id/ivEdit"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="@id/tvAbout"
+                app:layout_constraintTop_toBottomOf="@id/tvAbout"
+                app:layout_constraintWidth_percent="1"
+                tools:text="@string/long_about_text" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/space_small">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/space_small"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/world" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvCommunityType"
+                        style="@style/normalBodyText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_small"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/poppins_medium"
+                        android:maxLines="1"
+                        android:text="@string/visibility_public" />
+
+                    <TextView
+                        android:id="@+id/tvCommunityTypeDescription"
+                        style="@style/primaryBodyText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_small"
+                        android:text="@string/visibility_public_description" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/space_small">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/space_small"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/visibility" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvCommunityVisibilityType"
+                        style="@style/normalBodyText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_small"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/poppins_medium"
+                        android:maxLines="1"
+                        android:text="@string/visible" />
+
+                    <TextView
+                        android:id="@+id/tvCommunityVisibilityTypeDescription"
+                        style="@style/primaryBodyText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_small"
+                        android:text="@string/visiblity_description" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/space_small">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/space_small"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/history" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvCommunityHistory"
+                        style="@style/normalBodyText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_small"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/poppins_medium"
+                        android:maxLines="1"
+                        android:text="@string/view_community_history" />
+
+                    <TextView
+                        android:id="@+id/tvCommunityHistoryDescription"
+                        style="@style/primaryBodyText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_small"
+                        tools:text="Created by - Jenny Warden\nCreated on - December 23, 2019" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlMembersLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/lightAccent"
+                android:padding="@dimen/space_small">
+
+                <TextView
+                    android:id="@+id/tvMembers"
+                    style="@style/normalBodyText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_margin="@dimen/space_small"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/poppins_medium"
+                    android:maxLines="1"
+                    android:text="@string/members"
+                    android:textSize="@dimen/textMedium" />
+
+                <TextView
+                    android:id="@+id/tvShowAll"
+                    style="@style/normalBodyText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="@dimen/space_normal"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/poppins_medium"
+                    android:maxLines="1"
+                    android:text="@string/show_all"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/textSmall" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvMembersImages"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvMembers"
+                    android:layout_alignStart="@id/tvMembers"
+                    tools:itemCount="4"
+                    tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_list_member_images"
+                    tools:orientation="horizontal" />
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>

@@ -136,4 +136,16 @@ class CommunitiesViewModel @Inject constructor(
         )
     }
 
+    //JOin Community API
+    private var _getCommunityDetailsLiveData = MutableLiveData<Event<Resource<CommunityDetailsResponseModel>>>()
+    var getCommunityDetailsLiveData: LiveData<Event<Resource<CommunityDetailsResponseModel>>> =
+        _getCommunityDetailsLiveData
+
+    fun getCommunityDetails(communityId: Int) = viewModelScope.launch {
+        _getCommunityDetailsLiveData.postValue(Event(Resource.loading(null)))
+        _getCommunityDetailsLiveData.postValue(
+            Event(repo.getCommunityDetails(communityId))
+        )
+    }
+
 }

@@ -8,6 +8,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -125,10 +126,14 @@ class AllCommunityFragment : BaseFragment<FragmentAllCommunityBinding>() {
 
     fun onItemClick(any: Any?) {
         when (any) {
+            is Int -> {
+                viewModel.joinCommunity(any, UserCache.getUser(requireContext())!!.id)
+            }
+
             is CommunityData -> {
-                if (any.isJoined == false) {
-                    viewModel.joinCommunity(any.id, UserCache.getUser(requireContext())!!.id)
-                }
+                val bundle = Bundle()
+                bundle.putInt("communityId", any.id)
+                findNavController().navigate(R.id.communityDetailsFragment, bundle)
             }
         }
     }

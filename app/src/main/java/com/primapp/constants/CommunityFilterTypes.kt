@@ -4,4 +4,7 @@ object CommunityFilterTypes {
     const val ALL_COMMUNITY = "all"
     const val CREATED_COMMUNITY = "created"
     const val JOINED_COMMUNITY = "joined"
+
+    //Local
+    const val COMMUNITY_DETAILS = "communityDetailsPage"
 }

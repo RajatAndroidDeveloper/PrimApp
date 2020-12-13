@@ -44,4 +44,7 @@ abstract class DashboardFragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeCreateCommunityFragment(): CreateCommunityFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeCommunityDetailsFragment(): CommunityDetailsFragment
 }

@@ -138,6 +138,13 @@
     <string name="community_description">Community Description</string>
     <string name="community_name">Community Name</string>
     <string name="create_community_success">Community created successfully!</string>
+    <string name="visibility_public">Public</string>
+    <string name="visibility_public_description">Anyone can see who\'s in the community and what they post.</string>
+    <string name="visible">Visible</string>
+    <string name="visiblity_description">Anyone can find this group.</string>
+    <string name="view_community_history">View Community History</string>
+    <string name="members">Members</string>
+    <string name="show_all">Show all</string>
 
     <plurals name="member_count">
         <item quantity="one">%s member</item>

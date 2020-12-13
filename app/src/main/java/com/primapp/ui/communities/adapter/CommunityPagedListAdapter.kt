@@ -50,7 +50,10 @@ class CommunityPagedListAdapter @Inject constructor(val onItemClick: (Any?) -> U
             binding.data = data
             binding.type = fragmentType
             binding.btnJoin.setOnClickListener {
-                Log.d("anshul", "clicked adapter")
+                onItemClick(data?.id)
+            }
+
+            binding.root.setOnClickListener {
                 onItemClick(data)
             }
         }

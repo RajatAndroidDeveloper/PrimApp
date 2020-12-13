@@ -161,6 +161,18 @@ fun joinButtonStyle(button: Button, isJoined: Boolean, type: String?) {
         button.background = ContextCompat.getDrawable(button.context, R.drawable.button_primary_blue_filled)
         button.setTextColor(ContextCompat.getColor(button.context, R.color.white))
         button.text = button.context.getString(R.string.edit)
+    } else if (type == CommunityFilterTypes.COMMUNITY_DETAILS) {
+        if (isJoined) {
+            button.background = ContextCompat.getDrawable(button.context, R.drawable.button_primary_blue_filled)
+            button.setTextColor(ContextCompat.getColor(button.context, R.color.white))
+            button.typeface = ResourcesCompat.getFont(button.context, R.font.poppins_regular)
+            button.text = button.context.getString(R.string.leave)
+            button.isEnabled = true
+        } else {
+            button.background = ContextCompat.getDrawable(button.context, R.drawable.button_light_accent_blue_outlined)
+            button.setTextColor(ContextCompat.getColor(button.context, R.color.colorAccent))
+            button.isEnabled = true
+        }
     } else {
         if (isJoined) {
             button.background = ContextCompat.getDrawable(button.context, R.drawable.button_primary_grey_filled)
