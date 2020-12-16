@@ -9,6 +9,7 @@ import com.primapp.databinding.FragmentPasswordVerificationBinding
 import com.primapp.extensions.showError
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
+import com.primapp.utils.DialogUtils
 import com.primapp.viewmodels.PasswordVerificationViewModel
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
 
@@ -46,22 +47,15 @@ class PasswordVerificationFragment : BaseFragment<FragmentPasswordVerificationBi
                         showError(requireContext(), it.message!!)
                     }
                     Status.SUCCESS -> {
-                        showCustomDialog(
-                            getString(R.string.password_reset_success),
-                            R.id.passwordVerificationFragment,
-                            1234
-                        )
+                        DialogUtils.showCloseDialog(requireActivity(), R.string.password_reset_success) {
+                            val action =
+                                PasswordVerificationFragmentDirections.actionPasswordVerificationFragmentToLoginFragment()
+                            findNavController().navigate(action)
+                        }
                     }
                 }
             }
         })
-    }
-
-    override fun onDialogDismiss(any: Any?) {
-        super.onDialogDismiss(any)
-        val action =
-            PasswordVerificationFragmentDirections.actionPasswordVerificationFragmentToLoginFragment()
-        findNavController().navigate(action)
     }
 
     fun changePassword() {

@@ -17,6 +17,7 @@ import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.CommunityMembersImageAdapter
 import com.primapp.ui.communities.adapter.CommunityPagedListAdapter
+import com.primapp.utils.DialogUtils
 import com.primapp.utils.OverlapItemDecorantion
 import com.primapp.viewmodels.CommunitiesViewModel
 import kotlinx.android.synthetic.main.item_list_community.*
@@ -112,7 +113,9 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
                 showInfo(requireContext(), "Not yet implemented.")
             } else {
                 if (communityData.isJoined == true) {
-                    viewModel.leaveCommunity(communityData.id, userData!!.id)
+                    DialogUtils.showYesNoDialog(requireActivity(), R.string.leave_Community_message, yesClickCallback = {
+                        viewModel.leaveCommunity(communityData.id, userData!!.id)
+                    })
                 } else {
                     viewModel.joinCommunity(communityData.id, userData!!.id)
                 }

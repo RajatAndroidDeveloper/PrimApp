@@ -14,6 +14,7 @@ import com.primapp.model.auth.SignUpRequestDataModel
 import com.primapp.model.auth.UserData
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
+import com.primapp.utils.DialogUtils
 import com.primapp.viewmodels.VerifyOTPViewModel
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
 
@@ -66,11 +67,11 @@ class VerifyOTPFragment : BaseFragment<FragmentVerifyOtpBinding>() {
                         showError(requireContext(), getString(R.string.something_went_wrong))
                     } else {
                         saveUserDataToCache(it.data.content)
-                        showCustomDialog(
-                            getString(R.string.account_success),
-                            R.id.verifyOTPFragment,
-                            R.id.btnSubmit
-                        )
+                        DialogUtils.showCloseDialog(requireActivity(), R.string.account_success) {
+                            val action =
+                                VerifyOTPFragmentDirections.actionVerifyOTPFragmentToCommunitiesFragment(true)
+                            findNavController().navigate(action)
+                        }
                     }
                 }
             }
@@ -86,11 +87,10 @@ class VerifyOTPFragment : BaseFragment<FragmentVerifyOtpBinding>() {
                     showError(requireContext(), it.message!!)
                 }
                 Status.SUCCESS -> {
-                    showCustomDialog(
-                        getString(R.string.forgot_username_verify_success),
-                        R.id.verifyOTPFragment,
-                        1234
-                    )
+                    DialogUtils.showCloseDialog(requireActivity(), R.string.forgot_username_verify_success) {
+                        val action = VerifyOTPFragmentDirections.actionVerifyOTPFragmentToLoginFragment()
+                        findNavController().navigate(action)
+                    }
                 }
             }
         })
@@ -127,7 +127,7 @@ class VerifyOTPFragment : BaseFragment<FragmentVerifyOtpBinding>() {
                         showError(requireContext(), it.message!!)
                     }
                     Status.SUCCESS -> {
-                        showCustomDialog(getString(R.string.resend_otp_description))
+                        DialogUtils.showCloseDialog(requireActivity(), R.string.resend_otp_description)
                     }
                 }
             }
@@ -169,21 +169,6 @@ class VerifyOTPFragment : BaseFragment<FragmentVerifyOtpBinding>() {
                 }
             }
 
-        }
-    }
-
-    override fun onDialogDismiss(any: Any?) {
-        super.onDialogDismiss(any)
-        when (any) {
-            R.id.btnSubmit -> {
-                val action =
-                    VerifyOTPFragmentDirections.actionVerifyOTPFragmentToCommunitiesFragment(true)
-                findNavController().navigate(action)
-            }
-            1234 -> {
-                val action = VerifyOTPFragmentDirections.actionVerifyOTPFragmentToLoginFragment()
-                findNavController().navigate(action)
-            }
         }
     }
 

@@ -12,6 +12,7 @@ import com.primapp.databinding.FragmentForgotPasswordBinding
 import com.primapp.extensions.showError
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
+import com.primapp.utils.DialogUtils
 import com.primapp.viewmodels.ForgotDataViewModel
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
 
@@ -44,10 +45,9 @@ class ForgotPasswordFragment : BaseFragment<FragmentForgotPasswordBinding>() {
                 when (it.status) {
                     Status.SUCCESS -> {
                         userId = it.data?.content?.userId
-                        showCustomDialog(
-                            getString(R.string.forgot_username_success),
-                            R.id.forgotPasswordFragment
-                        )
+                        DialogUtils.showCloseDialog(requireActivity(),R.string.otp_sent_success){
+                            openVerifyOTP(userId)
+                        }
                     }
                     Status.ERROR -> {
                         showError(requireContext(), it.message!!)
@@ -58,12 +58,6 @@ class ForgotPasswordFragment : BaseFragment<FragmentForgotPasswordBinding>() {
                 }
             }
         })
-    }
-
-    override fun onDialogDismiss(any: Any?) {
-        super.onDialogDismiss(any)
-        Log.d("anshul_dialog", "dismissed 2 : ${Gson().toJson(any)}")
-        openVerifyOTP(userId)
     }
 
 

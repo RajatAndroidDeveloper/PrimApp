@@ -6,8 +6,10 @@ import androidx.navigation.fragment.findNavController
 import com.primapp.R
 import com.primapp.cache.UserCache
 import com.primapp.databinding.FragmentSettingsBinding
+import com.primapp.extensions.showSuccess
 import com.primapp.ui.MainActivity
 import com.primapp.ui.base.BaseFragment
+import com.primapp.utils.DialogUtils
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
 
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
@@ -30,8 +32,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
     }
 
     fun logout() {
-        UserCache.clearAll(requireContext())
-        startActivity(Intent(requireContext(), MainActivity::class.java))
-        activity?.finish()
+        DialogUtils.showYesNoDialog(requireActivity(), R.string.logout_message, {
+            UserCache.clearAll(requireContext())
+            startActivity(Intent(requireContext(), MainActivity::class.java))
+            activity?.finish()
+        })
     }
 }

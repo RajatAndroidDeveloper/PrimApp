@@ -94,62 +94,62 @@ abstract class BaseFragment<DB : ViewDataBinding> : DaggerFragment() {
         baseActivity.hideLoading()
     }
 
-    fun showCustomDialog(
-        message: String,
-        destinationId: Int? = null,
-        requestCode: Int? = null,
-        isHelperDialog: Boolean = false
-    ) {
-        val bundle = Bundle()
-        bundle.putString("message", message)
-        requestCode?.let {
-            bundle.putInt("sourceId", it)
-        }
-        bundle.putBoolean("isHelperDialog", isHelperDialog)
-        findNavController().navigate(R.id.popUpHelpMessage, bundle)
-
-        // Add callback to dialog dismiss if the destination id is provided.
-        if (dialogLifeCycleEventObserver == null && destinationId != null) {
-            setDialogCallback(destinationId)
-        }
-    }
-
-    private fun setDialogCallback(destinationId: Int) {
-        val navBackStackEntry = findNavController().getBackStackEntry(destinationId)
-
-        // Create observer and add it to the NavBackStackEntry's lifecycle
-        dialogLifeCycleEventObserver = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_RESUME
-                && navBackStackEntry.savedStateHandle.contains("key")
-            ) {
-                /*val result =
-                    navBackStackEntry.savedStateHandle.get<Boolean>("key")
-                // Do something with the result
-                Log.d("dialog_back", Gson().toJson(result))
-                onDialogDismiss(navBackStackEntry.savedStateHandle.get<Any>("key"))
-
-                */
-                val result = navBackStackEntry.savedStateHandle.get<Int>("sourceId")
-                onDialogDismiss(result)
-            }
-        }
-        navBackStackEntry.lifecycle.addObserver(dialogLifeCycleEventObserver!!)
-        Log.d("dialog_back", "Observer Added")
-
-        // As addObserver() does not automatically remove the observer, we
-        // call removeObserver() manually when the view lifecycle is destroyed
-        viewLifecycleOwner.lifecycle.addObserver(LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_DESTROY) {
-                navBackStackEntry.lifecycle.removeObserver(dialogLifeCycleEventObserver!!)
-                dialogLifeCycleEventObserver = null
-                Log.d("dialog_back", "Observer removed : ${dialogLifeCycleEventObserver}")
-            }
-        })
-    }
-
-    open fun onDialogDismiss(any: Any?) {
-        Log.d("dialog_back", "dismissed base method called")
-    }
+//    fun showCustomDialog(
+//        message: String,
+//        destinationId: Int? = null,
+//        requestCode: Int? = null,
+//        isHelperDialog: Boolean = false
+//    ) {
+//        val bundle = Bundle()
+//        bundle.putString("message", message)
+//        requestCode?.let {
+//            bundle.putInt("sourceId", it)
+//        }
+//        bundle.putBoolean("isHelperDialog", isHelperDialog)
+//        findNavController().navigate(R.id.popUpHelpMessage, bundle)
+//
+//        // Add callback to dialog dismiss if the destination id is provided.
+//        if (dialogLifeCycleEventObserver == null && destinationId != null) {
+//            setDialogCallback(destinationId)
+//        }
+//    }
+//
+//    private fun setDialogCallback(destinationId: Int) {
+//        val navBackStackEntry = findNavController().getBackStackEntry(destinationId)
+//
+//        // Create observer and add it to the NavBackStackEntry's lifecycle
+//        dialogLifeCycleEventObserver = LifecycleEventObserver { _, event ->
+//            if (event == Lifecycle.Event.ON_RESUME
+//                && navBackStackEntry.savedStateHandle.contains("key")
+//            ) {
+//                /*val result =
+//                    navBackStackEntry.savedStateHandle.get<Boolean>("key")
+//                // Do something with the result
+//                Log.d("dialog_back", Gson().toJson(result))
+//                onDialogDismiss(navBackStackEntry.savedStateHandle.get<Any>("key"))
+//
+//                */
+//                val result = navBackStackEntry.savedStateHandle.get<Int>("sourceId")
+//                onDialogDismiss(result)
+//            }
+//        }
+//        navBackStackEntry.lifecycle.addObserver(dialogLifeCycleEventObserver!!)
+//        Log.d("dialog_back", "Observer Added")
+//
+//        // As addObserver() does not automatically remove the observer, we
+//        // call removeObserver() manually when the view lifecycle is destroyed
+//        viewLifecycleOwner.lifecycle.addObserver(LifecycleEventObserver { _, event ->
+//            if (event == Lifecycle.Event.ON_DESTROY) {
+//                navBackStackEntry.lifecycle.removeObserver(dialogLifeCycleEventObserver!!)
+//                dialogLifeCycleEventObserver = null
+//                Log.d("dialog_back", "Observer removed : ${dialogLifeCycleEventObserver}")
+//            }
+//        })
+//    }
+//
+//    open fun onDialogDismiss(any: Any?) {
+//        Log.d("dialog_back", "dismissed base method called")
+//    }
 
 
     fun hideKeyBoard(input: View?) {

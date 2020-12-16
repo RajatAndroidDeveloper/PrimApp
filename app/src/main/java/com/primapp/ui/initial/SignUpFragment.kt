@@ -19,6 +19,7 @@ import com.primapp.constants.ReferenceEntityTypes
 import com.primapp.constants.VerifyOTPRequestTypes
 import com.primapp.extensions.showError
 import com.primapp.retrofit.base.Status
+import com.primapp.utils.DialogUtils
 
 
 class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
@@ -53,30 +54,13 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
         getReferenceData()
     }
 
-    override fun onDialogDismiss(any: Any?) {
-        super.onDialogDismiss(any)
-        Log.d("anshul_dialog", "dismissed 2 : ${Gson().toJson(any)}")
-        when (any) {
-            R.id.btnRegisterNow -> {
-                val action =
-                    SignUpFragmentDirections.actionSignUpFragmentToVerifyOTPFragment(
-                        viewModel.signUpRequestDataModel.value,
-                        null,
-                        VerifyOTPRequestTypes.SIGN_UP,
-                        viewModel.signUpRequestDataModel.value!!.email!!
-                    )
-                findNavController().navigate(action)
-            }
-        }
-    }
-
     private fun setData() {
         binding.frag = this
 
         binding.viewModel = viewModel
 
         binding.tlUserName.setEndIconOnClickListener {
-            showCustomDialog(getString(R.string.username_help_text), isHelperDialog = true)
+            DialogUtils.showCloseDialog(requireActivity(), R.string.username_help_text, R.drawable.question_mark)
         }
     }
 
@@ -115,11 +99,16 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
                 hideLoading()
                 when (it.status) {
                     Status.SUCCESS -> {
-                        showCustomDialog(
-                            getString(R.string.forgot_username_success),
-                            R.id.signUpFragment,
-                            R.id.btnRegisterNow
-                        )
+                        DialogUtils.showCloseDialog(requireActivity(), R.string.otp_sent_success) {
+                            val action =
+                                SignUpFragmentDirections.actionSignUpFragmentToVerifyOTPFragment(
+                                    viewModel.signUpRequestDataModel.value,
+                                    null,
+                                    VerifyOTPRequestTypes.SIGN_UP,
+                                    viewModel.signUpRequestDataModel.value!!.email!!
+                                )
+                            findNavController().navigate(action)
+                        }
                     }
                     Status.ERROR -> {
                         it.message?.apply {
@@ -200,12 +189,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
         binding.mAutoCompleteGender.clearFocus()
         binding.mAutoCompleteCountry.clearFocus()
         if (viewModel.validateSignUpData() && !binding.chkPrivacyPolicy.isChecked) {
-            showCustomDialog(
-                getString(R.string.privacy_policy_help_text),
-                R.id.signUpFragment,
-                R.id.chkPrivacyPolicy,
-                isHelperDialog = true
-            )
+            DialogUtils.showCloseDialog(requireActivity(), R.string.privacy_policy_help_text, R.drawable.question_mark)
         } else if (viewModel.validateSignUpData()) {
             viewModel.signUpUser()
         }

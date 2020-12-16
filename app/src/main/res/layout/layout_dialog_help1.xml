@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        card_view:cardBackgroundColor="@color/backgroundColor"
+        card_view:cardCornerRadius="12dp"
+        card_view:cardElevation="0dp"
+        card_view:cardUseCompatPadding="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="40dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvDialogMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/space_largeX"
+                android:text="@string/username_help_text"
+                android:textAppearance="?attr/textAppearanceSearchResultTitle"
+                android:textColor="@color/textColor" />
+
+            <Button
+                android:id="@+id/btnClose"
+                style="@style/buttonFilledPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="@dimen/space_large"
+                android:text="@string/close" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/ivDialogImage"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/shape_circle_accent"
+        android:scaleType="centerInside"
+        android:src="@drawable/correct" />
+
+</RelativeLayout>

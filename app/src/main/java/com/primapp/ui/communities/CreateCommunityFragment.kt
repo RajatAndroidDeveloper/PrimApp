@@ -15,6 +15,7 @@ import com.primapp.extensions.loadCircularImageWithoutCache
 import com.primapp.extensions.showError
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
+import com.primapp.utils.DialogUtils
 import com.primapp.utils.FileUtils
 import com.primapp.viewmodels.CommunitiesViewModel
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
@@ -55,16 +56,13 @@ class CreateCommunityFragment : BaseFragment<FragmentCreateCommunityBinding>() {
                         showLoading()
                     }
                     Status.SUCCESS -> {
-                        showCustomDialog(getString(R.string.create_community_success), R.id.createCommunityFragment)
+                        DialogUtils.showCloseDialog(requireActivity(), R.string.create_community_success) {
+                            findNavController().popBackStack()
+                        }
                     }
                 }
             }
         })
-    }
-
-    override fun onDialogDismiss(any: Any?) {
-        super.onDialogDismiss(any)
-        findNavController().popBackStack()
     }
 
     fun pickImageAskPermission() {
@@ -102,10 +100,10 @@ class CreateCommunityFragment : BaseFragment<FragmentCreateCommunityBinding>() {
                         showError(requireContext(), getString(R.string.error_camera_permission))
                         redirectUserToAppSettings()
                     } else {
-                        showCustomDialog(
-                            getString(R.string.error_camera_permission),
-                            isHelperDialog =
-                            true
+                        DialogUtils.showCloseDialog(
+                            requireActivity(),
+                            R.string.error_camera_permission,
+                            R.drawable.question_mark
                         )
                     }
                 }
