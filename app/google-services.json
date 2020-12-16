@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "258328512994",
+    "project_id": "prim-77a4f",
+    "storage_bucket": "prim-77a4f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:258328512994:android:968264d8186aff5c3191bb",
+        "android_client_info": {
+          "package_name": "com.primapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "258328512994-5vuhuugav3gl4gs8u6o614s4pcn7bbau.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByDM5iZ8Fz-8o4eCp48ob7xpF4NnO7r3s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "258328512994-5vuhuugav3gl4gs8u6o614s4pcn7bbau.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -183,6 +183,7 @@
                         style="@style/primaryBodyText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="@{`Created by - ` + data.communityModerator}"
                         android:layout_marginStart="@dimen/space_small"
                         tools:text="Created by - Jenny Warden\nCreated on - December 23, 2019" />
                 </LinearLayout>

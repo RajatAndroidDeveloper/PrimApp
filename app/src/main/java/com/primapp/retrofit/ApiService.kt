@@ -77,4 +77,10 @@ interface ApiService {
     suspend fun getCommunityDetails(
         @Path("communityId") communityId: Int
     ): CommunityDetailsResponseModel
+
+    @DELETE(ApiConstant.JOIN_COMMUNITY)
+    suspend fun leaveCommunity(
+        @Path("communityId") communityId: Int,
+        @Path("userId") userId: Int
+    ): JoinCommunityResponseModel
 }

@@ -61,7 +61,7 @@ class AllCommunityFragment : BaseFragment<FragmentAllCommunityBinding>() {
                 hideLoading()
                 when (response.status) {
                     Status.SUCCESS -> {
-                        adapter.markCommunityAsJoined(response.data?.content?.communityId)
+                        adapter.markCommunityAsJoined(response.data?.content?.id)
                     }
                     Status.LOADING -> {
                         showLoading()

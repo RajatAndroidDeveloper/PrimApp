@@ -6,12 +6,5 @@ import com.primapp.retrofit.base.BaseDataModel
 
 data class JoinCommunityResponseModel(
     @SerializedName("content")
-    val content: JoinCommunityResponseContent
+    val content: CommunityData
 ) : BaseDataModel()
-
-data class JoinCommunityResponseContent(
-    @SerializedName("community_id")
-    val communityId: Int,
-    @SerializedName("user_id")
-    val userId: Int
-)

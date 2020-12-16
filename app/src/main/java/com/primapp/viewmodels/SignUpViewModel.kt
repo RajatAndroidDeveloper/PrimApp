@@ -125,8 +125,7 @@ class SignUpViewModel @Inject constructor(
 
 
             ValidationResults.SUCCESS -> {
-                //loginRequestDataModel.value?.fcmToken = repo.token
-                //loginUserSendRequest()
+                signUpRequestDataModel.value?.deviceId = repo.token
 
                 Log.i("anshul", "Success Data : ${Gson().toJson(signUpRequestDataModel.value)}")
                 return true

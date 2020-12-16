@@ -62,5 +62,7 @@ data class CommunityData(
     @SerializedName("udate")
     val udate: String,
     @SerializedName("is_joined")
-    var isJoined: Boolean?
+    var isJoined: Boolean?,
+    @SerializedName("is_createdbyme")
+    val isCreatedByMe: Boolean?
 )

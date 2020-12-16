@@ -40,7 +40,7 @@ class SignUpRequestDataModel(
 
         if (username.isNullOrEmpty())
             return ValidationResults.EMPTY_USERNAME
-        else if(!Validator.isUsernameValid(username)){
+        else if (!Validator.isUsernameValid(username)) {
             return ValidationResults.INVALID_USERNAME
         }
 

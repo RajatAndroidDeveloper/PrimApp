@@ -82,6 +82,17 @@ class CommunitiesRepository @Inject constructor(
         }
     }
 
+    suspend fun leaveCommunity(
+        communityId: Int,
+        userId: Int
+    ): Resource<JoinCommunityResponseModel> {
+        return try {
+            responseHandler.handleResponse(apiService.leaveCommunity(communityId, userId))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
     suspend fun getCommunityDetails(communityId: Int): Resource<CommunityDetailsResponseModel> {
         return try {
             responseHandler.handleResponse(apiService.getCommunityDetails(communityId))

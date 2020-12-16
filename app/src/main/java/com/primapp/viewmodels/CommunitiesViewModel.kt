@@ -136,7 +136,15 @@ class CommunitiesViewModel @Inject constructor(
         )
     }
 
-    //JOin Community API
+    //Leave Community
+    fun leaveCommunity(communityId: Int, userId: Int) = viewModelScope.launch {
+        _joinCommunityLiveData.postValue(Event(Resource.loading(null)))
+        _joinCommunityLiveData.postValue(
+            Event(repo.leaveCommunity(communityId, userId))
+        )
+    }
+
+    //Get Community API
     private var _getCommunityDetailsLiveData = MutableLiveData<Event<Resource<CommunityDetailsResponseModel>>>()
     var getCommunityDetailsLiveData: LiveData<Event<Resource<CommunityDetailsResponseModel>>> =
         _getCommunityDetailsLiveData

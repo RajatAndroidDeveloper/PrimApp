@@ -1,6 +1,9 @@
 package com.primapp.repository
 
 import android.util.Log
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
+import com.primapp.fcm.MyFirebaseMessagingService
 import com.primapp.model.auth.*
 import com.primapp.retrofit.ApiService
 import com.primapp.retrofit.base.BaseDataModel
@@ -117,20 +120,18 @@ class RegistrationRepository @Inject constructor(
 
 
     private fun fetchAccessToken() {
-//        FirebaseInstanceId.getInstance().instanceId
-//            .addOnCompleteListener(OnCompleteListener { task ->
-//                if (!task.isSuccessful) {
-//                    Log.i(MyFirebaseMessagingService.TAG, "getInstanceId failed", task.exception)
-//                    return@OnCompleteListener
-//                }
-//
-//                // Get new Instance ID token
-//                task.result?.let {
-//                    token = it.token
-//                }
-//
-//                Log.i(MyFirebaseMessagingService.TAG, "Repo Token = " + token)
-//            })
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w(MyFirebaseMessagingService.TAG, "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
 
+            // Get new Instance ID token
+            task.result?.let {
+                token = it
+            }
+
+            Log.i(MyFirebaseMessagingService.TAG, "Repo Token = " + token)
+        })
     }
 }
