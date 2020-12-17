@@ -10,6 +10,10 @@
 
         <include layout="@layout/toolbar_dashboard_accent" />
 
+        <include
+            layout="@layout/layout_create_new_post"
+            android:visibility="gone" />
+
         <ImageView
             android:id="@+id/ivUpdateMockup"
             android:layout_width="wrap_content"
@@ -18,7 +22,7 @@
             android:src="@drawable/updates_mockup"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clToolbar" />
+            app:layout_constraintTop_toBottomOf="@+id/cardCreatePost" />
 
         <TextView
             style="@style/primaryBodyText"

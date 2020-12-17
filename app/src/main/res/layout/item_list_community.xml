@@ -71,7 +71,8 @@
         <Button
             android:id="@+id/btnJoin"
             style="@style/buttonOutlinedAccent"
-            joinStyle="@{data.isJoined()}"
+            isJoined="@{data.isJoined()}"
+            isCreatedByMe="@{data.isCreatedByMe}"
             type="@{type}"
             android:layout_width="wrap_content"
             android:text="@{data.isJoined()? @string/joined : @string/join}"

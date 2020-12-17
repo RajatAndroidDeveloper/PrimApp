@@ -6,6 +6,7 @@ import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.primapp.R
@@ -13,6 +14,7 @@ import com.primapp.constants.CommunityFilterTypes
 import com.primapp.databinding.FragmentJoinedCommunityBinding
 import com.primapp.extensions.setDivider
 import com.primapp.extensions.showError
+import com.primapp.model.category.CommunityData
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.CommunityPagedListAdapter
 import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
@@ -103,7 +105,13 @@ class JoinedCommunityFragment : BaseFragment<FragmentJoinedCommunityBinding>() {
     }
 
     private fun onItemClick(any: Any?) {
-
+        when (any) {
+            is CommunityData -> {
+                val bundle = Bundle()
+                bundle.putInt("communityId", any.id)
+                findNavController().navigate(R.id.communityDetailsFragment, bundle)
+            }
+        }
     }
 
     fun refreshData() {

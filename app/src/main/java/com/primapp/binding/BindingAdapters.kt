@@ -154,8 +154,8 @@ fun membersAndCreatedDate(textView: TextView, data: CommunityData?, type: String
     }
 }
 
-@BindingAdapter("joinStyle", "type")
-fun joinButtonStyle(button: Button, isJoined: Boolean, type: String?) {
+@BindingAdapter("isJoined", "isCreatedByMe", "type")
+fun joinButtonStyle(button: Button, isJoined: Boolean, isCreatedByMe: Boolean, type: String?) {
     if (type == CommunityFilterTypes.CREATED_COMMUNITY) {
         //Make the button as Edit
         button.background = ContextCompat.getDrawable(button.context, R.drawable.button_primary_blue_filled)
@@ -163,10 +163,14 @@ fun joinButtonStyle(button: Button, isJoined: Boolean, type: String?) {
         button.text = button.context.getString(R.string.edit)
     } else if (type == CommunityFilterTypes.COMMUNITY_DETAILS) {
         if (isJoined) {
+            if (isCreatedByMe) {
+                button.text = button.context.getString(R.string.edit)
+            } else {
+                button.text = button.context.getString(R.string.leave)
+            }
             button.background = ContextCompat.getDrawable(button.context, R.drawable.button_primary_blue_filled)
             button.setTextColor(ContextCompat.getColor(button.context, R.color.white))
             button.typeface = ResourcesCompat.getFont(button.context, R.font.poppins_regular)
-            button.text = button.context.getString(R.string.leave)
             button.isEnabled = true
         } else {
             button.background = ContextCompat.getDrawable(button.context, R.drawable.button_light_accent_blue_outlined)
