@@ -24,6 +24,7 @@ open class ResponseHandler @Inject constructor() {
         Log.e("API_ERROR", "Reason : ${e.message}")
         return when (e) {
             is HttpException -> Resource.error(getErrorMessage(e), null)
+            is NumberFormatException -> Resource.error("Error : ${e.localizedMessage}", null)
             is MalformedJsonException -> Resource.error(getErrorMessage(46456), null)
             is SocketTimeoutException -> Resource.error(getErrorMessage(25345), null)
             is IOException -> Resource.error(getErrorMessage(403), null)

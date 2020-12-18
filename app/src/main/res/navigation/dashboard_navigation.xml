@@ -36,6 +36,9 @@
         <action
             android:id="@+id/action_profileFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/notificationsFragment"
@@ -103,4 +106,8 @@
             android:name="communityId"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.primapp.ui.profile.EditProfileFragment"
+        tools:layout="@layout/fragment_edit_profile"/>
 </navigation>

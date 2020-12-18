@@ -157,4 +157,5 @@
     <string name="logout_message">Are you sure you want to logout?</string>
     <string name="create_post_message">What would you like to talk about?</string>
     <string name="photo_video_gif">Photo | Video | GIF</string>
+    <string name="edit_profile_success_message">Your changes are saved succesfully!</string>
 </resources>

@@ -47,5 +47,10 @@ abstract class ViewModelModule {
     abstract fun bindCommunityViewModel(viewModel: CommunitiesViewModel): ViewModel
 
     @Binds
+    @IntoMap
+    @ViewModelKey(EditProfileViewModel::class)
+    abstract fun bindEditProfileViewModel(viewModel: EditProfileViewModel): ViewModel
+
+    @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 }

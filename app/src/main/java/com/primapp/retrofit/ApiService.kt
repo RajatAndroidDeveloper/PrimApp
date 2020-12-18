@@ -2,6 +2,7 @@ package com.primapp.retrofit
 
 import com.primapp.model.auth.*
 import com.primapp.model.category.*
+import com.primapp.model.profile.EditProfileRequestModel
 import com.primapp.retrofit.base.BaseDataModel
 import retrofit2.http.*
 
@@ -83,4 +84,10 @@ interface ApiService {
         @Path("communityId") communityId: Int,
         @Path("userId") userId: Int
     ): JoinCommunityResponseModel
+
+    @PUT(ApiConstant.EDIT_PROFILE)
+    suspend fun editProfile(
+        @Path("userId") userId: Int,
+        @Body editProfileRequestModel: EditProfileRequestModel
+    ): VerifyUserResponseModel
 }

@@ -24,10 +24,15 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     private fun setData() {
         ivEndIcon.setImageResource(R.drawable.setting)
         binding.user = user
+        binding.frag = this
 
         ivEndIcon.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_settingsFragment)
         }
 
+    }
+
+    fun editProfile() {
+        findNavController().navigate(R.id.action_profileFragment_to_editProfileFragment)
     }
 }

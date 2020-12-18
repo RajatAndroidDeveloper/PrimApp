@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="frag"
+            type="com.primapp.ui.dashboard.ProfileFragment" />
+
+        <variable
             name="user"
             type="com.primapp.model.auth.UserData" />
     </data>
@@ -19,7 +23,8 @@
 
         <include
             layout="@layout/layout_profile_top_card"
-            app:user="@{user}" />
+            app:user="@{user}"
+            app:frag="@{frag}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

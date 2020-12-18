@@ -120,10 +120,4 @@ class AutocompleteListArrayAdapter(
             }
         }
     }
-
-
-//    init {
-//        //this.itemList = itemsList
-//        //tempItems = ArrayList(itemsList)
-//    }
 }

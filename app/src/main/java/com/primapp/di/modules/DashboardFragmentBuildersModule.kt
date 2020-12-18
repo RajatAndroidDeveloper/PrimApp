@@ -4,6 +4,7 @@ import com.primapp.ui.communities.*
 import com.primapp.ui.dashboard.NotificationsFragment
 import com.primapp.ui.dashboard.ProfileFragment
 import com.primapp.ui.dashboard.UpdatesFragment
+import com.primapp.ui.profile.EditProfileFragment
 import com.primapp.ui.settings.AboutUsFragment
 import com.primapp.ui.settings.SettingsFragment
 import dagger.Module
@@ -47,4 +48,7 @@ abstract class DashboardFragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeCommunityDetailsFragment(): CommunityDetailsFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeEditProfileFragment(): EditProfileFragment
 }

@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="frag"
+            type="com.primapp.ui.dashboard.ProfileFragment" />
+
+        <variable
             name="user"
             type="com.primapp.model.auth.UserData" />
     </data>
@@ -36,7 +40,7 @@
             android:maxLines="1"
             android:text="@{user.firstName +' '+ user.lastName}"
             android:textSize="@dimen/textMediumX"
-            app:layout_constraintEnd_toStartOf="@id/ivEdit"
+            app:layout_constraintEnd_toStartOf="@id/llEditProfile"
             app:layout_constraintStart_toEndOf="@id/ivProfilePic"
             app:layout_constraintTop_toTopOf="@id/ivProfilePic"
             tools:text="Andrew Russel" />
@@ -75,27 +79,34 @@
             app:layout_constraintTop_toBottomOf="@id/tvGenderDob"
             tools:text="California" />
 
-        <ImageView
-            android:id="@+id/ivEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true"
-            android:src="@drawable/ic_edit"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/ivProfilePic" />
 
-        <TextView
-            style="@style/primaryHeadingAccent"
+        <LinearLayout
+            android:id="@+id/llEditProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_small"
-            android:text="@string/edit"
-            android:textSize="@dimen/textNormal"
-            app:layout_constraintEnd_toEndOf="@id/ivEdit"
-            app:layout_constraintStart_toStartOf="@id/ivEdit"
-            app:layout_constraintTop_toBottomOf="@id/ivEdit" />
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:onClick="@{()->frag.editProfile()}"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/ivEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_edit" />
+
+            <TextView
+                style="@style/primaryHeadingAccent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_small"
+                android:text="@string/edit"
+                android:textSize="@dimen/textNormal" />
+
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/tvAbout"
@@ -111,9 +122,9 @@
             android:id="@+id/tvAboutDescription"
             style="@style/primaryBodyText"
             android:layout_marginTop="@dimen/space_small"
-            app:layout_constraintEnd_toEndOf="@id/ivEdit"
+            android:text="@{user.profileSummary}"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
-            android:text="@string/long_about_text"
             app:layout_constraintStart_toStartOf="@id/tvAbout"
             app:layout_constraintTop_toBottomOf="@id/tvAbout"
             app:layout_constraintWidth_percent="1"
