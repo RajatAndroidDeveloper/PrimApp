@@ -19,6 +19,7 @@ import com.primapp.ui.communities.adapter.CommunityMembersImageAdapter
 import com.primapp.ui.communities.adapter.CommunityPagedListAdapter
 import com.primapp.utils.DialogUtils
 import com.primapp.utils.OverlapItemDecorantion
+import com.primapp.utils.visible
 import com.primapp.viewmodels.CommunitiesViewModel
 import kotlinx.android.synthetic.main.item_list_community.*
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
@@ -47,26 +48,28 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
     }
 
     private fun setData() {
-        CommunityDetailsFragmentArgs.fromBundle(requireArguments()).apply {
-            viewModel.getCommunityDetails(communityId)
+        CommunityDetailsFragmentArgs.fromBundle(requireArguments()).let { args ->
+            viewModel.getCommunityDetails(args.communityId)
+            communityData = args.communityData
         }
 
         binding.type = CommunityFilterTypes.COMMUNITY_DETAILS
+        binding.data = communityData
     }
 
     private fun setObserver() {
         viewModel.getCommunityDetailsLiveData.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let { response ->
-                hideLoading()
                 when (response.status) {
                     Status.SUCCESS -> {
+                        showAdditionalData(true)
                         response.data?.content?.apply {
-                            communityData = this
+                            communityData.isJoined = isJoined
                             binding.data = communityData
                         }
                     }
                     Status.LOADING -> {
-                        showLoading()
+                        showAdditionalData(false)
                     }
                     Status.ERROR -> {
                         showError(requireContext(), response.message!!)
@@ -95,6 +98,12 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
         })
     }
 
+    private fun showAdditionalData(visibility: Boolean) {
+        // Show progressbar if additional data is not visible
+        binding.pbAdditionalData.visible(!visibility)
+        binding.llAdditionalData.visible(visibility)
+    }
+
     private fun setAdapter() {
         val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         layoutManager.reverseLayout = true
@@ -113,9 +122,12 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
                 showInfo(requireContext(), "Not yet implemented.")
             } else {
                 if (communityData.isJoined == true) {
-                    DialogUtils.showYesNoDialog(requireActivity(), R.string.leave_Community_message, yesClickCallback = {
-                        viewModel.leaveCommunity(communityData.id, userData!!.id)
-                    })
+                    DialogUtils.showYesNoDialog(
+                        requireActivity(),
+                        R.string.leave_Community_message,
+                        yesClickCallback = {
+                            viewModel.leaveCommunity(communityData.id, userData!!.id)
+                        })
                 } else {
                     viewModel.joinCommunity(communityData.id, userData!!.id)
                 }

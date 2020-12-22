@@ -59,6 +59,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
             data?.countryIsoCode = countryIsoCode
             binding.mAutoCompleteGender.setText(genderValue)
             binding.mAutoCompleteCountry.setText(country)
+            binding.etUserName.setText(userName)
             viewModel.editProfileRequestModel.value = data
         }
     }

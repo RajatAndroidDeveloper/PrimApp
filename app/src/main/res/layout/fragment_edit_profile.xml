@@ -14,146 +14,170 @@
             type="com.primapp.viewmodels.EditProfileViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include layout="@layout/toolbar_inner_back" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/space_large">
 
-        <ImageView
-            android:id="@+id/ivProfilePic"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/space_normal"
-            android:background="@drawable/shape_circle_accent"
-            android:backgroundTint="@color/black"
-            android:scaleType="centerCrop"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clToolbar"
-            tools:targetApi="lollipop" />
+            <include layout="@layout/toolbar_inner_back" />
 
-        <ImageView
-            android:layout_width="34dp"
-            android:layout_height="34dp"
-            android:layout_margin="2dp"
-            android:background="@drawable/shape_circle_accent"
-            android:backgroundTint="@color/white"
-            android:onClick="@{()->frag.pickImageAskPermission()}"
-            android:padding="2dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/create_community"
-            app:layout_constraintBottom_toBottomOf="@id/ivProfilePic"
-            app:layout_constraintEnd_toEndOf="@id/ivProfilePic" />
+            <ImageView
+                android:id="@+id/ivProfilePic"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/space_normal"
+                android:background="@drawable/shape_circle_accent"
+                android:backgroundTint="@color/black"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clToolbar"
+                tools:targetApi="lollipop" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tlFirstName"
-            style="@style/myTextInputLabel"
-            errorText="@{viewModel.errorFieldsLiveData.errorFirstName}"
-            isRequired="@{true}"
-            android:layout_marginTop="@dimen/space_extraLarge"
-            android:hint="@string/first_name"
-            app:errorEnabled="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivProfilePic">
+            <ImageView
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_margin="2dp"
+                android:background="@drawable/shape_circle_accent"
+                android:backgroundTint="@color/white"
+                android:onClick="@{()->frag.pickImageAskPermission()}"
+                android:padding="2dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/create_community"
+                app:layout_constraintBottom_toBottomOf="@id/ivProfilePic"
+                app:layout_constraintEnd_toEndOf="@id/ivProfilePic" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etFirstName"
-                style="@style/editTextInput"
-                android:inputType="textPersonName"
-                android:text="@={viewModel.editProfileRequestModel.firstName}" />
-        </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tlFirstName"
+                style="@style/myTextInputLabel"
+                errorText="@{viewModel.errorFieldsLiveData.errorFirstName}"
+                isRequired="@{true}"
+                android:layout_marginTop="@dimen/space_extraLarge"
+                android:hint="@string/first_name"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivProfilePic">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tlLastName"
-            style="@style/myTextInputLabel"
-            errorText="@{viewModel.errorFieldsLiveData.errorLastName}"
-            isRequired="@{true}"
-            android:hint="@string/last_name"
-            app:errorEnabled="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tlFirstName">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etFirstName"
+                    style="@style/editTextInput"
+                    android:inputType="textPersonName"
+                    android:text="@={viewModel.editProfileRequestModel.firstName}" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etLastName"
-                style="@style/editTextInput"
-                android:inputType="textPersonName"
-                android:text="@={viewModel.editProfileRequestModel.lastName}" />
-        </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tlLastName"
+                style="@style/myTextInputLabel"
+                errorText="@{viewModel.errorFieldsLiveData.errorLastName}"
+                isRequired="@{true}"
+                android:hint="@string/last_name"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tlFirstName">
 
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etLastName"
+                    style="@style/editTextInput"
+                    android:inputType="textPersonName"
+                    android:text="@={viewModel.editProfileRequestModel.lastName}" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tlGender"
-            style="@style/myTextInputLabel_DropDown"
-            android:hint="@string/gender"
-            app:errorEnabled="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tlLastName">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tlUserName"
+                style="@style/myTextInputLabel"
+                isRequired="@{true}"
+                android:enabled="false"
+                android:hint="@string/username"
+                app:errorEnabled="true"
+                app:errorIconDrawable="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tlLastName">
 
-            <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                android:id="@+id/mAutoCompleteGender"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:imeActionLabel="Done"
-                android:imeOptions="actionDone"
-                android:singleLine="true" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etUserName"
+                    style="@style/editTextInput"
+                    android:inputType="textPersonName"
+                    android:text="" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tlGender"
+                style="@style/myTextInputLabel_DropDown"
+                android:hint="@string/gender"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tlUserName">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tlCountry"
-            style="@style/myTextInputLabel_DropDown"
-            errorText="@{viewModel.errorFieldsLiveData.errorCountry}"
-            isRequired="@{true}"
-            android:hint="@string/country"
-            app:errorEnabled="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tlGender">
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/mAutoCompleteGender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeActionLabel="Done"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true" />
 
-            <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                android:id="@+id/mAutoCompleteCountry"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:imeActionLabel="Done"
-                android:imeOptions="actionDone"
-                android:singleLine="true" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tlCountry"
+                style="@style/myTextInputLabel_DropDown"
+                errorText="@{viewModel.errorFieldsLiveData.errorCountry}"
+                isRequired="@{true}"
+                android:hint="@string/country"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tlGender">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tlProfileSummary"
-            style="@style/myTextInputLabel"
-            android:hint="@string/about"
-            app:errorEnabled="true"
-            app:errorIconDrawable="@null"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tlCountry">
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/mAutoCompleteCountry"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeActionLabel="Done"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etProfileSummary"
-                style="@style/editTextInput"
-                android:gravity="top"
-                android:inputType="textMultiLine"
-                android:lines="4"
-                android:text="@={viewModel.editProfileRequestModel.profileSummary}" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tlProfileSummary"
+                style="@style/myTextInputLabel"
+                android:hint="@string/about"
+                app:errorEnabled="true"
+                app:errorIconDrawable="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tlCountry">
 
-        <Button
-            android:id="@+id/btnSave"
-            style="@style/buttonFilledPrimary"
-            android:layout_marginTop="@dimen/space_small"
-            android:onClick="@{()->frag.save()}"
-            android:text="@string/save"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tlProfileSummary" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etProfileSummary"
+                    style="@style/editTextInput"
+                    android:gravity="top"
+                    android:inputType="textMultiLine"
+                    android:lines="4"
+                    android:text="@={viewModel.editProfileRequestModel.profileSummary}" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/btnSave"
+                style="@style/buttonFilledPrimary"
+                android:layout_marginTop="@dimen/space_small"
+                android:onClick="@{()->frag.save()}"
+                android:text="@string/save"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tlProfileSummary" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

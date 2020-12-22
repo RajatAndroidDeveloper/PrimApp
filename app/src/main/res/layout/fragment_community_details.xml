@@ -29,6 +29,7 @@
 
             <include
                 layout="@layout/item_list_community"
+                android:layout_height="wrap_content"
                 app:data="@{data}"
                 app:type="@{type}" />
 
@@ -183,59 +184,82 @@
                         style="@style/primaryBodyText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@{`Created by - ` + data.communityModerator}"
                         android:layout_marginStart="@dimen/space_small"
+                        android:text="@{`Created by - ` + data.communityCreator}"
                         tools:text="Created by - Jenny Warden\nCreated on - December 23, 2019" />
                 </LinearLayout>
             </LinearLayout>
 
-            <RelativeLayout
-                android:id="@+id/rlMembersLayout"
+            <ProgressBar
+                android:id="@+id/pbAdditionalData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="@dimen/space_large" />
+
+            <LinearLayout
+                android:id="@+id/llAdditionalData"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/lightAccent"
-                android:padding="@dimen/space_small">
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
 
-                <TextView
-                    android:id="@+id/tvMembers"
-                    style="@style/normalBodyText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_margin="@dimen/space_small"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/poppins_medium"
-                    android:maxLines="1"
-                    android:text="@string/members"
-                    android:textSize="@dimen/textMedium" />
-
-                <TextView
-                    android:id="@+id/tvShowAll"
-                    style="@style/normalBodyText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_margin="@dimen/space_normal"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/poppins_medium"
-                    android:maxLines="1"
-                    android:text="@string/show_all"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="@dimen/textSmall" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvMembersImages"
+                <RelativeLayout
+                    android:id="@+id/rlMembersLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tvMembers"
-                    android:layout_alignStart="@id/tvMembers"
-                    tools:itemCount="4"
-                    tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/item_list_member_images"
-                    tools:orientation="horizontal" />
+                    android:background="@color/lightAccent"
+                    android:padding="@dimen/space_small">
 
-            </RelativeLayout>
+                    <TextView
+                        android:id="@+id/tvMembers"
+                        style="@style/normalBodyText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_margin="@dimen/space_small"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/poppins_medium"
+                        android:maxLines="1"
+                        android:text="@string/members"
+                        android:textSize="@dimen/textMedium" />
 
+                    <TextView
+                        android:id="@+id/tvShowAll"
+                        style="@style/normalBodyText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_margin="@dimen/space_normal"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/poppins_medium"
+                        android:maxLines="1"
+                        android:text="@string/show_all"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="@dimen/textSmall" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvMembersImages"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tvMembers"
+                        android:layout_alignStart="@id/tvMembers"
+                        tools:itemCount="4"
+                        tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_list_member_images"
+                        tools:orientation="horizontal" />
+
+                </RelativeLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvCommunityPosts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/item_list_member_images" />
+
+            </LinearLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

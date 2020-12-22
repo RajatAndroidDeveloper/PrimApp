@@ -2,6 +2,7 @@ package com.primapp.model.category
 
 import com.google.gson.annotations.SerializedName
 import com.primapp.retrofit.base.BaseDataModel
+import java.io.Serializable
 
 
 data class CommunityListResponseModel(
@@ -64,5 +65,7 @@ data class CommunityData(
     @SerializedName("is_joined")
     var isJoined: Boolean?,
     @SerializedName("is_createdbyme")
-    val isCreatedByMe: Boolean?
-)
+    val isCreatedByMe: Boolean?,
+    @SerializedName("community_creater")
+    val communityCreator: String?
+) : Serializable

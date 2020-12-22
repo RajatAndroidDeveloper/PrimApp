@@ -194,5 +194,8 @@
         <argument
             android:name="communityId"
             app:argType="integer" />
+        <argument
+            android:name="communityData"
+            app:argType="com.primapp.model.category.CommunityData" />
     </fragment>
 </navigation>

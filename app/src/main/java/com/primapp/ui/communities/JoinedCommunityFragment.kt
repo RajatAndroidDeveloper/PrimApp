@@ -109,6 +109,7 @@ class JoinedCommunityFragment : BaseFragment<FragmentJoinedCommunityBinding>() {
             is CommunityData -> {
                 val bundle = Bundle()
                 bundle.putInt("communityId", any.id)
+                bundle.putSerializable("communityData", any)
                 findNavController().navigate(R.id.communityDetailsFragment, bundle)
             }
         }
