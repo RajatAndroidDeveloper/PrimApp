@@ -69,6 +69,7 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
                             communityData.communityImageFile = communityImageFile
                             communityData.status = status
                             communityData.udate = udate
+                            communityData.totalActiveMember = totalActiveMember
                             binding.data = communityData
                         }
                     }
@@ -88,7 +89,11 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
                 hideLoading()
                 when (response.status) {
                     Status.SUCCESS -> {
-                        communityData.isJoined = response.data?.content?.isJoined
+                        response.data?.content?.apply {
+                            communityData.isJoined = isJoined
+                            communityData.totalActiveMember = totalActiveMember
+                        }
+
                         binding.data = communityData
                     }
                     Status.LOADING -> {

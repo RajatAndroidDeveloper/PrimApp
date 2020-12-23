@@ -65,6 +65,14 @@ class EditCommunityFragment : BaseFragment<FragmentEditCommunityBinding>() {
                     }
 
                     Status.SUCCESS -> {
+                        it.data?.content?.apply {
+                            communityData.communityName = communityName
+                            communityData.communityDescription = communityDescription
+                            communityData.status = status
+                            communityData.communityImageFile = communityImageFile
+                            communityData.totalActiveMember = totalActiveMember
+                        }
+
                         DialogUtils.showCloseDialog(requireActivity(), R.string.changes_saved_successfully) {
                             findNavController().popBackStack()
                         }

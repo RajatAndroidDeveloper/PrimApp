@@ -59,7 +59,7 @@ data class CommunityData(
     @SerializedName("status")
     var status: String,
     @SerializedName("total_active_member")
-    val totalActiveMember: Long,
+    var totalActiveMember: Long,
     @SerializedName("udate")
     var udate: String,
     @SerializedName("is_joined")
