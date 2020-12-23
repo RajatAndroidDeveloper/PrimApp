@@ -1,4 +1,4 @@
-package com.primapp.model.category
+package com.primapp.model.community
 
 import com.google.gson.annotations.SerializedName
 import com.primapp.retrofit.base.BaseDataModel
@@ -47,25 +47,27 @@ data class CommunityData(
     @SerializedName("community_approver")
     val communityApprover: String,
     @SerializedName("community_description")
-    val communityDescription: String,
+    var communityDescription: String,
     @SerializedName("community_image_file")
-    val communityImageFile: Any?,
+    var communityImageFile: Any?,
     @SerializedName("community_moderator")
     val communityModerator: String,
     @SerializedName("community_name")
-    val communityName: String,
+    var communityName: String,
     @SerializedName("id")
     val id: Int,
     @SerializedName("status")
-    val status: String,
+    var status: String,
     @SerializedName("total_active_member")
     val totalActiveMember: Long,
     @SerializedName("udate")
-    val udate: String,
+    var udate: String,
     @SerializedName("is_joined")
     var isJoined: Boolean?,
     @SerializedName("is_createdbyme")
     val isCreatedByMe: Boolean?,
     @SerializedName("community_creater")
-    val communityCreator: String?
+    val communityCreator: String?,
+    @SerializedName("community_category")
+    val communityCategory: String?
 ) : Serializable

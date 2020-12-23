@@ -1,6 +1,9 @@
 package com.primapp.di.modules
 
 import com.primapp.ui.communities.*
+import com.primapp.ui.communities.create.CreateCommunityFragment
+import com.primapp.ui.communities.details.CommunityDetailsFragment
+import com.primapp.ui.communities.edit.EditCommunityFragment
 import com.primapp.ui.dashboard.NotificationsFragment
 import com.primapp.ui.dashboard.ProfileFragment
 import com.primapp.ui.dashboard.UpdatesFragment
@@ -51,4 +54,7 @@ abstract class DashboardFragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeEditProfileFragment(): EditProfileFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeEditCommunityFragment(): EditCommunityFragment
 }

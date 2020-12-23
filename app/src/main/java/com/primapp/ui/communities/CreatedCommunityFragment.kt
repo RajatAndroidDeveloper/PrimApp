@@ -10,14 +10,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.primapp.R
-import com.primapp.cache.UserCache
 import com.primapp.constants.CommunityFilterTypes
 import com.primapp.databinding.FragmentCreatedCommunityBinding
 import com.primapp.extensions.setDivider
 import com.primapp.extensions.showError
-import com.primapp.extensions.showInfo
-import com.primapp.model.category.CommunityData
+import com.primapp.model.community.CommunityData
 import com.primapp.ui.base.BaseFragment
+import com.primapp.ui.communities.adapter.ActionCommunityDetails
 import com.primapp.ui.communities.adapter.CommunityPagedListAdapter
 import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
 import com.primapp.utils.visible
@@ -111,8 +110,10 @@ class CreatedCommunityFragment : BaseFragment<FragmentCreatedCommunityBinding>()
 
     private fun onItemClick(any: Any?) {
         when (any) {
-            is Int -> {
-                showInfo(requireContext(), "Not yet implemented.")
+            is ActionCommunityDetails -> {
+                val bundle = Bundle()
+                bundle.putSerializable("communityData", any.communityData)
+                findNavController().navigate(R.id.editCommunityFragment, bundle)
             }
             is CommunityData -> {
                 val bundle = Bundle()

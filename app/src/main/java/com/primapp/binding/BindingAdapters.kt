@@ -8,10 +8,8 @@ import android.text.SpannableString
 import android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE
 import android.text.TextUtils
 import android.text.method.LinkMovementMethod
-import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -27,10 +25,9 @@ import com.primapp.constants.CommunityFilterTypes
 import com.primapp.extensions.loadCircularImage
 import com.primapp.extensions.removeLinksUnderline
 import com.primapp.model.auth.UserData
-import com.primapp.model.category.CommunityData
+import com.primapp.model.community.CommunityData
 import com.primapp.utils.DateTimeUtils
 import com.primapp.utils.getPrettyNumber
-import java.util.*
 
 
 @BindingAdapter("isRequired")

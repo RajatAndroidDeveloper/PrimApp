@@ -9,6 +9,10 @@ import com.google.gson.Gson
 import com.primapp.PrimApp
 import com.primapp.R
 import com.primapp.model.category.*
+import com.primapp.model.community.CommunityData
+import com.primapp.model.community.CommunityDetailsResponseModel
+import com.primapp.model.community.CreateCommunityRequestModel
+import com.primapp.model.community.JoinCommunityResponseModel
 import com.primapp.repository.CommunitiesRepository
 import com.primapp.retrofit.base.BaseDataModel
 import com.primapp.retrofit.base.Event
@@ -32,7 +36,8 @@ class CommunitiesViewModel @Inject constructor(
 
     init {
         errorFieldsLiveData.value = errorFields
-        createCommunityRequestDataModel.value = CreateCommunityRequestModel("", "")
+        createCommunityRequestDataModel.value =
+            CreateCommunityRequestModel("", "")
     }
 
     fun validateCreateCommunity(): Boolean {

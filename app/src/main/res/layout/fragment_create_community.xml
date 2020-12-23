@@ -7,7 +7,7 @@
 
         <variable
             name="frag"
-            type="com.primapp.ui.communities.CreateCommunityFragment" />
+            type="com.primapp.ui.communities.create.CreateCommunityFragment" />
 
         <variable
             name="viewModel"

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="frag"
+            type="com.primapp.ui.communities.edit.EditCommunityFragment" />
+
+        <variable
+            name="viewModel"
+            type="com.primapp.ui.communities.edit.EditCommunityViewModel" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/space_extraLarge">
+
+            <include layout="@layout/toolbar_inner_back" />
+
+            <ImageView
+                android:id="@+id/ivProfilePic"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/space_normal"
+                android:background="@drawable/shape_circle_accent"
+                android:backgroundTint="@color/black"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clToolbar"
+                tools:targetApi="lollipop" />
+
+            <ImageView
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_margin="2dp"
+                android:background="@drawable/shape_circle_accent"
+                android:backgroundTint="@color/white"
+                android:onClick="@{()->frag.pickImageAskPermission()}"
+                android:padding="2dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/create_community"
+                app:layout_constraintBottom_toBottomOf="@id/ivProfilePic"
+                app:layout_constraintEnd_toEndOf="@id/ivProfilePic" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tlCommunityName"
+                style="@style/myTextInputLabel"
+                errorText="@{viewModel.errorFieldsLiveData.errorCommunityName}"
+                android:layout_marginTop="@dimen/space_extraLarge"
+                android:hint="@string/community_name"
+                app:errorEnabled="true"
+                app:errorIconDrawable="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivProfilePic">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etCommunityName"
+                    style="@style/editTextInput"
+                    android:inputType="textPersonName"
+                    android:text="@={viewModel.editCommunityRequestModel.communityName}" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tlCommunityDescription"
+                style="@style/myTextInputLabel"
+                errorText="@{viewModel.errorFieldsLiveData.errorCommunityDescription}"
+                android:layout_marginTop="@dimen/space_small"
+                android:hint="@string/community_description"
+                app:errorEnabled="true"
+                app:errorIconDrawable="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tlCommunityName">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etCommunityDescription"
+                    style="@style/editTextInput"
+                    android:gravity="top"
+                    android:inputType="textMultiLine"
+                    android:lines="4"
+                    android:text="@={viewModel.editCommunityRequestModel.communityDescription}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tlCommunityCategory"
+                style="@style/myTextInputLabel"
+                android:layout_marginTop="@dimen/space_small"
+                android:enabled="false"
+                android:hint="@string/category"
+                app:errorEnabled="true"
+                app:errorIconDrawable="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tlCommunityDescription">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etCommunityCategoryName"
+                    style="@style/editTextInput"
+                    android:inputType="textPersonName" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:id="@+id/llCommunityStatus"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_small"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="@id/tlCommunityCategory"
+                app:layout_constraintStart_toStartOf="@id/tlCommunityCategory"
+                app:layout_constraintTop_toBottomOf="@id/tlCommunityCategory">
+
+                <TextView
+                    style="@style/normalBodyText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/status"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <TextView
+                    style="@style/normalBodyText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.editCommunityRequestModel.status}"
+                    android:textColor="@{viewModel.editCommunityRequestModel.status.equalsIgnoreCase(`Active`)?@color/colorAccent:@color/lightGrey}"
+                    android:textStyle="bold"
+                    tools:text="Active" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/scCommunityStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_small"
+                    android:checked="@{viewModel.editCommunityRequestModel.status.equalsIgnoreCase(`Active`)}"
+                    android:onClick="@{()->frag.onToggleStatus()}"
+                    android:thumb="@drawable/ios_style_switch_thumb"
+                    app:track="@drawable/ios_style_switch_track" />
+
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnSubmit"
+                style="@style/buttonFilledPrimary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/textExtraLargeX"
+                android:onClick="@{()->frag.save()}"
+                android:text="@string/save"
+                android:textAllCaps="false"
+                app:layout_constraintEnd_toStartOf="@id/btnSignUp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/llCommunityStatus"
+                app:layout_constraintWidth_percent=".36" />
+
+            <Button
+                android:id="@+id/btnSignUp"
+                style="@style/buttonFilledSecondary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:onClick="@{()->frag.cancel()}"
+                android:text="@string/cancel"
+                android:textAllCaps="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/btnSubmit"
+                app:layout_constraintTop_toTopOf="@id/btnSubmit"
+                app:layout_constraintWidth_percent=".36" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

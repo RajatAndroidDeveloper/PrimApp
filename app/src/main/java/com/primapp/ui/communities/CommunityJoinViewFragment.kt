@@ -30,7 +30,7 @@ class CommunityJoinViewFragment : BaseFragment<FragmentCommunityJoinViewBinding>
     }
 
     private fun setData() {
-        val title: String = CommunityJoinViewFragmentArgs.fromBundle(requireArguments()).title
+        val title = CommunityJoinViewFragmentArgs.fromBundle(requireArguments()).title
         parentCategoryId = CommunityJoinViewFragmentArgs.fromBundle(requireArguments()).parentCategoryId
         setToolbar(title, toolbar)
 

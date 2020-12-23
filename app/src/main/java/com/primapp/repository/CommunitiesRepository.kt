@@ -5,8 +5,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
-import com.primapp.model.auth.ReferenceResponseDataModel
 import com.primapp.model.category.*
+import com.primapp.model.community.*
 import com.primapp.retrofit.ApiConstant
 import com.primapp.retrofit.ApiService
 import com.primapp.retrofit.base.BaseDataModel
@@ -96,6 +96,17 @@ class CommunitiesRepository @Inject constructor(
     suspend fun getCommunityDetails(communityId: Int): Resource<CommunityDetailsResponseModel> {
         return try {
             responseHandler.handleResponse(apiService.getCommunityDetails(communityId))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    suspend fun editCommunity(
+        communityId: Int,
+        editCommunityRequestModel: EditCommunityRequestModel
+    ): Resource<CommunityDetailsResponseModel> {
+        return try {
+            responseHandler.handleResponse(apiService.editCommunity(communityId, editCommunityRequestModel))
         } catch (e: Exception) {
             responseHandler.handleException(e)
         }

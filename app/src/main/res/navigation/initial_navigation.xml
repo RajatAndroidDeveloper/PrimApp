@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.primapp.ui.SplashFragment"
+        android:name="com.primapp.ui.splash.SplashFragment"
         android:label="SplashFragment"
         tools:layout="@layout/fragment_splash">
         <action
@@ -179,7 +179,7 @@
     </fragment>
     <fragment
         android:id="@+id/createCommunityFragment"
-        android:name="com.primapp.ui.communities.CreateCommunityFragment"
+        android:name="com.primapp.ui.communities.create.CreateCommunityFragment"
         android:label="CreateCommunityFragment"
         tools:layout="@layout/fragment_create_community">
         <argument
@@ -188,7 +188,7 @@
     </fragment>
     <fragment
         android:id="@+id/communityDetailsFragment"
-        android:name="com.primapp.ui.communities.CommunityDetailsFragment"
+        android:name="com.primapp.ui.communities.details.CommunityDetailsFragment"
         android:label="CommunityDetailsFragment"
         tools:layout="@layout/fragment_community_details">
         <argument
@@ -196,6 +196,18 @@
             app:argType="integer" />
         <argument
             android:name="communityData"
-            app:argType="com.primapp.model.category.CommunityData" />
+            app:argType="com.primapp.model.community.CommunityData" />
+    </fragment>
+    <fragment
+        android:id="@+id/editCommunityFragment"
+        android:name="com.primapp.ui.communities.edit.EditCommunityFragment"
+        android:label="EditCommunityFragment"
+        tools:layout="@layout/fragment_edit_community">
+        <argument
+            android:name="communityData"
+            app:argType="com.primapp.model.community.CommunityData" />
+<!--        <argument-->
+<!--            android:name="parentCategoryName"-->
+<!--            app:argType="string" />-->
     </fragment>
 </navigation>

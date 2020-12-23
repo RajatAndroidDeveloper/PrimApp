@@ -1,4 +1,4 @@
-package com.primapp.ui
+package com.primapp.ui.splash
 
 import androidx.lifecycle.ViewModel
 import javax.inject.Inject

@@ -38,7 +38,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        setToolbar("Edit Profile", toolbar)
+        setToolbar(getString(R.string.edit_profile), toolbar)
         setData()
         setAdapter()
         setObserver()
@@ -98,7 +98,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
             hideLoading()
             when (it.status) {
                 Status.SUCCESS -> {
-                    DialogUtils.showCloseDialog(requireActivity(), R.string.edit_profile_success_message) {
+                    DialogUtils.showCloseDialog(requireActivity(), R.string.changes_saved_successfully) {
                         it.data?.content?.let { user -> UserCache.saveUser(requireContext(), user) }
                         findNavController().popBackStack()
                     }

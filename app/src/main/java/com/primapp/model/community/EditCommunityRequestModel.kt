@@ -1,15 +1,17 @@
-package com.primapp.model.category
+package com.primapp.model.community
+
 import com.google.gson.annotations.SerializedName
 import com.primapp.utils.ValidationResults
-import com.primapp.utils.Validator
 
 
-data class CreateCommunityRequestModel(
+data class EditCommunityRequestModel(
     @SerializedName("community_description")
     var communityDescription: String?,
     @SerializedName("community_name")
-    var communityName: String?
-){
+    var communityName: String?,
+    @SerializedName("status")
+    var status: String
+) {
     fun isValidFormData(): ValidationResults {
         if (communityName.isNullOrEmpty())
             return ValidationResults.EMPTY_COMMUNITY_NAME

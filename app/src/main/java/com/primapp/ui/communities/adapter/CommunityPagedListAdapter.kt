@@ -1,7 +1,6 @@
 package com.primapp.ui.communities.adapter
 
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -10,7 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.primapp.R
 import com.primapp.databinding.ItemListCommunityBinding
-import com.primapp.model.category.CommunityData
+import com.primapp.model.community.CommunityData
 import javax.inject.Inject
 
 class CommunityPagedListAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) :
@@ -50,7 +49,7 @@ class CommunityPagedListAdapter @Inject constructor(val onItemClick: (Any?) -> U
             binding.data = data
             binding.type = fragmentType
             binding.btnJoin.setOnClickListener {
-                onItemClick(data?.id)
+                onItemClick(ActionCommunityDetails(data))
             }
 
             binding.root.setOnClickListener {
@@ -69,3 +68,5 @@ class CommunityPagedListAdapter @Inject constructor(val onItemClick: (Any?) -> U
         }
     }
 }
+
+data class ActionCommunityDetails(val communityData: CommunityData?)

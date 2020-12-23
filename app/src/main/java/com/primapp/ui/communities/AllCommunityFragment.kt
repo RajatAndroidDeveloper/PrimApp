@@ -1,29 +1,24 @@
 package com.primapp.ui.communities
 
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.primapp.R
 import com.primapp.cache.UserCache
 import com.primapp.constants.CommunityFilterTypes
 import com.primapp.databinding.FragmentAllCommunityBinding
 import com.primapp.extensions.setDivider
 import com.primapp.extensions.showError
-import com.primapp.extensions.showSuccess
-import com.primapp.model.category.CommunityData
+import com.primapp.model.community.CommunityData
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
-import com.primapp.ui.communities.adapter.CommunitListAdapter
+import com.primapp.ui.communities.adapter.ActionCommunityDetails
 import com.primapp.ui.communities.adapter.CommunityPagedListAdapter
 import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
 import com.primapp.viewmodels.CommunitiesViewModel
@@ -126,8 +121,8 @@ class AllCommunityFragment : BaseFragment<FragmentAllCommunityBinding>() {
 
     fun onItemClick(any: Any?) {
         when (any) {
-            is Int -> {
-                viewModel.joinCommunity(any, UserCache.getUser(requireContext())!!.id)
+            is ActionCommunityDetails -> {
+                viewModel.joinCommunity(any.communityData!!.id, UserCache.getUser(requireContext())!!.id)
             }
 
             is CommunityData -> {

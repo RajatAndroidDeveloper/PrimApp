@@ -1,7 +1,6 @@
-package com.primapp.ui.communities
+package com.primapp.ui.communities.details
 
 import android.os.Bundle
-import android.widget.LinearLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -12,11 +11,10 @@ import com.primapp.constants.CommunityFilterTypes
 import com.primapp.databinding.FragmentCommunityDetailsBinding
 import com.primapp.extensions.showError
 import com.primapp.extensions.showInfo
-import com.primapp.model.category.CommunityData
+import com.primapp.model.community.CommunityData
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.CommunityMembersImageAdapter
-import com.primapp.ui.communities.adapter.CommunityPagedListAdapter
 import com.primapp.utils.DialogUtils
 import com.primapp.utils.OverlapItemDecorantion
 import com.primapp.utils.visible
@@ -48,10 +46,11 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
     }
 
     private fun setData() {
-        CommunityDetailsFragmentArgs.fromBundle(requireArguments()).let { args ->
-            viewModel.getCommunityDetails(args.communityId)
-            communityData = args.communityData
-        }
+        CommunityDetailsFragmentArgs.fromBundle(requireArguments())
+            .let { args ->
+                viewModel.getCommunityDetails(args.communityId)
+                communityData = args.communityData
+            }
 
         binding.type = CommunityFilterTypes.COMMUNITY_DETAILS
         binding.data = communityData
@@ -65,6 +64,11 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
                         showAdditionalData(true)
                         response.data?.content?.apply {
                             communityData.isJoined = isJoined
+                            communityData.communityName = communityName
+                            communityData.communityDescription = communityDescription
+                            communityData.communityImageFile = communityImageFile
+                            communityData.status = status
+                            communityData.udate = udate
                             binding.data = communityData
                         }
                     }
@@ -119,7 +123,9 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
     private fun setClicks() {
         btnJoin.setOnClickListener {
             if (communityData.isCreatedByMe == true) {
-                showInfo(requireContext(), "Not yet implemented.")
+                val bundle = Bundle()
+                bundle.putSerializable("communityData", communityData)
+                findNavController().navigate(R.id.editCommunityFragment, bundle)
             } else {
                 if (communityData.isJoined == true) {
                     DialogUtils.showYesNoDialog(

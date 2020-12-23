@@ -1,7 +1,10 @@
 package com.primapp.di.modules
 
-import com.primapp.ui.SplashFragment
+import com.primapp.ui.splash.SplashFragment
 import com.primapp.ui.communities.*
+import com.primapp.ui.communities.create.CreateCommunityFragment
+import com.primapp.ui.communities.details.CommunityDetailsFragment
+import com.primapp.ui.communities.edit.EditCommunityFragment
 import com.primapp.ui.initial.*
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -50,4 +53,7 @@ abstract class AuthFragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeCommunityDetailsFragment(): CommunityDetailsFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeEditCommunityFragment(): EditCommunityFragment
 }

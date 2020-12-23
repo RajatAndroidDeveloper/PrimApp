@@ -18,7 +18,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        setToolbar("Profile", toolbar)
+        setToolbar(getString(R.string.profile), toolbar)
         setData()
     }
 

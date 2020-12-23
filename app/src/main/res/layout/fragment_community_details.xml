@@ -7,7 +7,7 @@
 
         <variable
             name="data"
-            type="com.primapp.model.category.CommunityData" />
+            type="com.primapp.model.community.CommunityData" />
 
         <variable
             name="type"

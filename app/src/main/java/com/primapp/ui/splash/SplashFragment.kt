@@ -1,9 +1,6 @@
-package com.primapp.ui
+package com.primapp.ui.splash
 
 import android.os.Bundle
-import android.os.Handler
-import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.primapp.R

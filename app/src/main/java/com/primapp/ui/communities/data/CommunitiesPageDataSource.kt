@@ -2,7 +2,7 @@ package com.primapp.ui.communities.data
 
 import android.util.Log
 import androidx.paging.PagingSource
-import com.primapp.model.category.CommunityData
+import com.primapp.model.community.CommunityData
 import com.primapp.retrofit.ApiService
 import retrofit2.HttpException
 import java.io.IOException

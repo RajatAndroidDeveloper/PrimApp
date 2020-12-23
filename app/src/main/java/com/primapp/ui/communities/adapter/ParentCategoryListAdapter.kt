@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.primapp.R
 import com.primapp.databinding.ItemListParentCategoryBinding
-import com.primapp.model.category.CommunityData
 import com.primapp.model.category.ParentCategoryResult
 import javax.inject.Inject
 
