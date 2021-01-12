@@ -1,11 +1,18 @@
 package com.primapp.retrofit
 
 import com.primapp.model.auth.*
-import com.primapp.model.category.*
+import com.primapp.model.aws.PresignedURLRequest
+import com.primapp.model.aws.PresignedURLResponseModel
+import com.primapp.model.category.ParentCategoryResponseModel
 import com.primapp.model.community.*
 import com.primapp.model.profile.EditProfileRequestModel
 import com.primapp.retrofit.base.BaseDataModel
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.*
+
 
 interface ApiService {
 
@@ -97,4 +104,20 @@ interface ApiService {
         @Path("communityId") communityId: Int,
         @Body editCommunityRequestModel: EditCommunityRequestModel
     ): CommunityDetailsResponseModel
+
+    @POST(ApiConstant.PRESIGNED_URL)
+    suspend fun generatePresignedURL(@Body presignedURLRequest: PresignedURLRequest): PresignedURLResponseModel
+
+    @Multipart
+    @POST
+    @Headers("@: NoAuth")
+    suspend fun uploadToAWS(
+        @Url url: String,
+        @Part("key") key: RequestBody?,
+        @Part("AWSAccessKeyId") awsAccessKey: RequestBody?,
+        @Part("x-amz-security-token") amzSecurityToken: RequestBody?,
+        @Part("policy") policy: RequestBody?,
+        @Part("signature") signature: RequestBody?,
+        @Part file: MultipartBody.Part?
+    ): Response<Unit>
 }

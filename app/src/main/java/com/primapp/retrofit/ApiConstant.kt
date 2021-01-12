@@ -30,4 +30,7 @@ object ApiConstant {
 
     //Profile
     const val EDIT_PROFILE = "users/{userId}"
+
+    //AWS
+    const val PRESIGNED_URL = "generate-presigned-url"
 }

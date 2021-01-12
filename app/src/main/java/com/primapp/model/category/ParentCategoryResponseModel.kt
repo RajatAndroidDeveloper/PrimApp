@@ -22,8 +22,8 @@ data class Content(
 data class ParentCategoryResult(
     @SerializedName("category_description")
     val categoryDescription: String,
-    @SerializedName("category_image_file")
-    val categoryImageFile: Any?,
+    @SerializedName("get_image_url")
+    val imageUrl: String?,
     @SerializedName("category_leader")
     val categoryLeader: String,
     @SerializedName("category_name")

@@ -5,6 +5,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
+import com.primapp.model.aws.PresignedURLRequest
+import com.primapp.model.aws.PresignedURLResponseModel
 import com.primapp.model.category.*
 import com.primapp.model.community.*
 import com.primapp.retrofit.ApiConstant
@@ -14,6 +16,10 @@ import com.primapp.retrofit.base.Resource
 import com.primapp.retrofit.base.ResponseHandler
 import com.primapp.ui.communities.data.CommunitiesPageDataSource
 import com.primapp.ui.communities.data.ParentCategoriesPageDataSource
+import com.primapp.utils.RetrofitUtils
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import retrofit2.Response
 import javax.inject.Inject
 
 class CommunitiesRepository @Inject constructor(
@@ -107,6 +113,39 @@ class CommunitiesRepository @Inject constructor(
     ): Resource<CommunityDetailsResponseModel> {
         return try {
             responseHandler.handleResponse(apiService.editCommunity(communityId, editCommunityRequestModel))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    suspend fun generatePresignedURL(fileName: String): Resource<PresignedURLResponseModel> {
+        return try {
+            responseHandler.handleResponse(apiService.generatePresignedURL(PresignedURLRequest(fileName)))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    suspend fun uploadtoAWS(
+        url: String,
+        key: String,
+        accessKey: String,
+        amzSecurityToken: String?,
+        policy: String,
+        signature: String,
+        file: MultipartBody.Part?
+    ): Resource<Response<Unit>> {
+        return try {
+            responseHandler.handleResponse(
+                apiService.uploadToAWS(
+                    url,
+                    RetrofitUtils.getRequestBody(key),
+                    RetrofitUtils.getRequestBody(accessKey),
+                    RetrofitUtils.getRequestBody(amzSecurityToken),
+                    RetrofitUtils.getRequestBody(policy),
+                    RetrofitUtils.getRequestBody(signature),
+                    file
+                ))
         } catch (e: Exception) {
             responseHandler.handleException(e)
         }

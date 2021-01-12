@@ -14,15 +14,18 @@ import com.primapp.extensions.loadCircularImageWithoutCache
 import com.primapp.extensions.showError
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
-import com.primapp.ui.communities.create.CreateCommunityFragmentArgs
+import com.primapp.utils.AwsHelper
 import com.primapp.utils.DialogUtils
 import com.primapp.utils.FileUtils
+import com.primapp.utils.RetrofitUtils
 import com.primapp.viewmodels.CommunitiesViewModel
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
 import java.io.File
 
 
 class CreateCommunityFragment : BaseFragment<FragmentCreateCommunityBinding>() {
+
+    var imageFile: File? = null
 
     var parentCategoryId: Int = -1
 
@@ -61,6 +64,51 @@ class CreateCommunityFragment : BaseFragment<FragmentCreateCommunityBinding>() {
                         DialogUtils.showCloseDialog(requireActivity(), R.string.create_community_success) {
                             findNavController().popBackStack()
                         }
+                    }
+                }
+            }
+        })
+
+        viewModel.generatePresignedURLLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message.toString())
+                    }
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.SUCCESS -> {
+                        it.data?.content?.let {
+                            viewModel.createCommunityRequestDataModel.value?.communityImageFile = it.fields.key
+                            viewModel.uploadAWS(
+                                it.url,
+                                it.fields.key,
+                                it.fields.aWSAccessKeyId,
+                                it.fields.xAmzSecurityToken,
+                                it.fields.policy,
+                                it.fields.signature,
+                                RetrofitUtils.fileToRequestBody(File(imageFile!!.absolutePath), "file")
+                            )
+                        }
+                    }
+                }
+            }
+        })
+
+        viewModel.uploadAWSLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message.toString())
+                    }
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.SUCCESS -> {
+                        viewModel.createCommunity(parentCategoryId)
                     }
                 }
             }
@@ -119,7 +167,7 @@ class CreateCommunityFragment : BaseFragment<FragmentCreateCommunityBinding>() {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 FileUtils.IMAGE_REQUEST_CODE -> {
-                    var imageFile: File? = null
+                    //var imageFile: File? = null
                     if (data?.data != null) {
                         //Photo from gallery.
                         imageFile = FileUtils.getFileFromUri(context, data.data!!)
@@ -129,8 +177,8 @@ class CreateCommunityFragment : BaseFragment<FragmentCreateCommunityBinding>() {
                     }
 
                     if (imageFile != null) {
-                        binding.ivProfilePic.loadCircularImageWithoutCache(imageFile.absolutePath)
-                        Log.d(FileUtils.FILE_PICK_TAG, "File Path : ${imageFile.absolutePath}")
+                        binding.ivProfilePic.loadCircularImageWithoutCache(imageFile!!.absolutePath)
+                        Log.d(FileUtils.FILE_PICK_TAG, "File Path : ${imageFile!!.absolutePath}")
                     } else {
                         Log.e(FileUtils.FILE_PICK_TAG, "Error getting file")
                     }
@@ -142,7 +190,17 @@ class CreateCommunityFragment : BaseFragment<FragmentCreateCommunityBinding>() {
 
     fun save() {
         if (viewModel.validateCreateCommunity()) {
-            viewModel.createCommunity(parentCategoryId)
+            if (imageFile != null) {
+                viewModel.generatePresignedUrl(
+                    AwsHelper.getObjectName(
+                        AwsHelper.AWS_OBJECT_TYPE.COMMUNITY,
+                        parentCategoryId,
+                        imageFile!!.extension
+                    )
+                )
+            } else {
+                viewModel.createCommunity(parentCategoryId)
+            }
         }
     }
 

@@ -17,7 +17,7 @@ data class EditProfileRequestModel(
     @SerializedName("profile_summary")
     var profileSummary: String?,
     @SerializedName("user_image_file")
-    var userImageFile: Any?
+    var userImageFile: String? = null
 ): Serializable {
     fun isValidFormData(): ValidationResults {
         if (firstName.isNullOrEmpty())

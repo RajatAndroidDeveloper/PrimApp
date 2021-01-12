@@ -66,7 +66,7 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
                             communityData.isJoined = isJoined
                             communityData.communityName = communityName
                             communityData.communityDescription = communityDescription
-                            communityData.communityImageFile = communityImageFile
+                            communityData.imageUrl = imageUrl
                             communityData.status = status
                             communityData.udate = udate
                             communityData.totalActiveMember = totalActiveMember

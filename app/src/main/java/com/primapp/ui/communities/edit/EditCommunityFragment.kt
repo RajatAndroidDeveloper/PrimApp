@@ -12,18 +12,23 @@ import androidx.navigation.fragment.findNavController
 import com.primapp.R
 import com.primapp.constants.CommunityStatusTypes
 import com.primapp.databinding.FragmentEditCommunityBinding
+import com.primapp.extensions.loadCircularImage
 import com.primapp.extensions.loadCircularImageWithoutCache
 import com.primapp.extensions.showError
 import com.primapp.model.community.CommunityData
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
+import com.primapp.utils.AwsHelper
 import com.primapp.utils.DialogUtils
 import com.primapp.utils.FileUtils
+import com.primapp.utils.RetrofitUtils
 import com.primapp.viewmodels.CommunitiesViewModel
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
 import java.io.File
 
 class EditCommunityFragment : BaseFragment<FragmentEditCommunityBinding>() {
+
+    var imageFile: File? = null
 
     lateinit var communityData: CommunityData
 
@@ -51,6 +56,8 @@ class EditCommunityFragment : BaseFragment<FragmentEditCommunityBinding>() {
             status = communityData.status
         }
 
+        binding.ivProfilePic.loadCircularImage(requireContext(), communityData.imageUrl)
+
         binding.frag = this
         binding.viewModel = viewModel
     }
@@ -69,7 +76,7 @@ class EditCommunityFragment : BaseFragment<FragmentEditCommunityBinding>() {
                             communityData.communityName = communityName
                             communityData.communityDescription = communityDescription
                             communityData.status = status
-                            communityData.communityImageFile = communityImageFile
+                            communityData.imageUrl = imageUrl
                             communityData.totalActiveMember = totalActiveMember
                         }
 
@@ -80,6 +87,51 @@ class EditCommunityFragment : BaseFragment<FragmentEditCommunityBinding>() {
 
                     Status.ERROR -> {
                         showError(requireContext(), it.message!!)
+                    }
+                }
+            }
+        })
+
+        viewModel.generatePresignedURLLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message.toString())
+                    }
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.SUCCESS -> {
+                        it.data?.content?.let {
+                            viewModel.editCommunityRequestModel.value?.communityImageFile = it.fields.key
+                            viewModel.uploadAWS(
+                                it.url,
+                                it.fields.key,
+                                it.fields.aWSAccessKeyId,
+                                it.fields.xAmzSecurityToken,
+                                it.fields.policy,
+                                it.fields.signature,
+                                RetrofitUtils.fileToRequestBody(File(imageFile!!.absolutePath), "file")
+                            )
+                        }
+                    }
+                }
+            }
+        })
+
+        viewModel.uploadAWSLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message.toString())
+                    }
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.SUCCESS -> {
+                        viewModel.editCommunity(communityData.id)
                     }
                 }
             }
@@ -138,7 +190,6 @@ class EditCommunityFragment : BaseFragment<FragmentEditCommunityBinding>() {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 FileUtils.IMAGE_REQUEST_CODE -> {
-                    var imageFile: File? = null
                     if (data?.data != null) {
                         //Photo from gallery.
                         imageFile = FileUtils.getFileFromUri(context, data.data!!)
@@ -148,8 +199,8 @@ class EditCommunityFragment : BaseFragment<FragmentEditCommunityBinding>() {
                     }
 
                     if (imageFile != null) {
-                        binding.ivProfilePic.loadCircularImageWithoutCache(imageFile.absolutePath)
-                        Log.d(FileUtils.FILE_PICK_TAG, "File Path : ${imageFile.absolutePath}")
+                        binding.ivProfilePic.loadCircularImageWithoutCache(imageFile!!.absolutePath)
+                        Log.d(FileUtils.FILE_PICK_TAG, "File Path : ${imageFile!!.absolutePath}")
                     } else {
                         Log.e(FileUtils.FILE_PICK_TAG, "Error getting file")
                     }
@@ -182,7 +233,17 @@ class EditCommunityFragment : BaseFragment<FragmentEditCommunityBinding>() {
 
     fun save() {
         if (viewModel.validateEditCommunity()) {
-            viewModel.editCommunity(communityData.id)
+            if (imageFile != null) {
+                viewModel.generatePresignedUrl(
+                    AwsHelper.getObjectName(
+                        AwsHelper.AWS_OBJECT_TYPE.COMMUNITY,
+                        communityData.id,
+                        imageFile!!.extension
+                    )
+                )
+            } else {
+                viewModel.editCommunity(communityData.id)
+            }
         }
     }
 

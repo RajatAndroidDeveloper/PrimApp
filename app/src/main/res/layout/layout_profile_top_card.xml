@@ -26,6 +26,7 @@
             android:id="@+id/ivProfilePic"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            loadCircularImage="@{user.userImage}"
             android:background="@drawable/shape_circle_accent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

@@ -34,7 +34,7 @@ data class UserData(
     val userName: String,
     @SerializedName("gender_value")
     val genderValue: String?,
-    @SerializedName("user_image_file")
+    @SerializedName("get_image_url")
     val userImage: String?,
     @SerializedName("profile_summary")
     val profileSummary: String?,

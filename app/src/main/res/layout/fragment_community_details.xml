@@ -29,7 +29,6 @@
 
             <include
                 layout="@layout/item_list_community"
-                android:layout_height="wrap_content"
                 app:data="@{data}"
                 app:type="@{type}" />
 

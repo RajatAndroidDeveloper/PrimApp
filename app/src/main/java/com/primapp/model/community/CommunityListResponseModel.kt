@@ -48,8 +48,8 @@ data class CommunityData(
     val communityApprover: String,
     @SerializedName("community_description")
     var communityDescription: String,
-    @SerializedName("community_image_file")
-    var communityImageFile: Any?,
+    @SerializedName("get_image_url")
+    var imageUrl: String?,
     @SerializedName("community_moderator")
     val communityModerator: String,
     @SerializedName("community_name")

@@ -24,6 +24,7 @@ fun ImageView.loadImageWithProgress(context: Context, url: String?) {
     Glide.with(context)
         .load(url)
         .apply(requestOptions)
+        .error(R.drawable.placeholder)
         .into(this)
 }
 
@@ -49,7 +50,7 @@ fun ImageView.loadCircularImage(context: Context, url: String?) {
     Glide.with(context)
         .load(url)
         .apply(RequestOptions.circleCropTransform())
-        .placeholder(R.mipmap.ic_launcher_round)
+        .placeholder(R.drawable.placeholder_circle)
         .into(this)
 }
 

@@ -10,7 +10,9 @@ data class EditCommunityRequestModel(
     @SerializedName("community_name")
     var communityName: String?,
     @SerializedName("status")
-    var status: String
+    var status: String,
+    @SerializedName("community_image_file")
+    var communityImageFile: String? = null
 ) {
     fun isValidFormData(): ValidationResults {
         if (communityName.isNullOrEmpty())

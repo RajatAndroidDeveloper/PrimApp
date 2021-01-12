@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.primapp.PrimApp
 import com.primapp.R
+import com.primapp.model.aws.PresignedURLResponseModel
 import com.primapp.model.community.CommunityDetailsResponseModel
 import com.primapp.model.community.CreateCommunityRequestModel
 import com.primapp.model.community.EditCommunityRequestModel
@@ -19,6 +20,8 @@ import com.primapp.retrofit.base.Resource
 import com.primapp.utils.ErrorFields
 import com.primapp.utils.ValidationResults
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
+import retrofit2.Response
 import javax.inject.Inject
 
 
@@ -82,4 +85,35 @@ class EditCommunityViewModel @Inject constructor(
         )
     }
 
+    //Get Presigned URL
+    private var _generatePresignedURLLiveData = MutableLiveData<Event<Resource<PresignedURLResponseModel>>>()
+    var generatePresignedURLLiveData: LiveData<Event<Resource<PresignedURLResponseModel>>> =
+        _generatePresignedURLLiveData
+
+    fun generatePresignedUrl(fileName: String) = viewModelScope.launch {
+        _generatePresignedURLLiveData.postValue(Event(Resource.loading(null)))
+        _generatePresignedURLLiveData.postValue(
+            Event(repo.generatePresignedURL(fileName))
+        )
+    }
+
+    //Upload to AWS
+    private var _uploadAWSLiveData = MutableLiveData<Event<Resource<Response<Unit>>>>()
+    var uploadAWSLiveData: LiveData<Event<Resource<Response<Unit>>>> =
+        _uploadAWSLiveData
+
+    fun uploadAWS(
+        url: String,
+        key: String,
+        accessKey: String,
+        amzSecurityToken: String?,
+        policy: String,
+        signature: String,
+        file: MultipartBody.Part?
+    ) = viewModelScope.launch {
+        _uploadAWSLiveData.postValue(Event(Resource.loading(null)))
+        _uploadAWSLiveData.postValue(
+            Event(repo.uploadtoAWS(url, key, accessKey,amzSecurityToken, policy, signature, file))
+        )
+    }
 }

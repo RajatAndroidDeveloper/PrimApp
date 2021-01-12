@@ -23,6 +23,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.primapp.R
 import com.primapp.constants.CommunityFilterTypes
 import com.primapp.extensions.loadCircularImage
+import com.primapp.extensions.loadImageWithProgress
 import com.primapp.extensions.removeLinksUnderline
 import com.primapp.model.auth.UserData
 import com.primapp.model.community.CommunityData
@@ -186,4 +187,9 @@ fun joinButtonStyle(button: Button, isJoined: Boolean, isCreatedByMe: Boolean, t
             button.isEnabled = true
         }
     }
+}
+
+@BindingAdapter("loadImageFromUrl")
+fun loadImageFromUrl(imgView: ImageView, url: String?) {
+    imgView.loadImageWithProgress(imgView.context, url)
 }
