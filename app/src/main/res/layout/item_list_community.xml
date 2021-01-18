@@ -47,11 +47,12 @@
             android:layout_marginEnd="@dimen/space_medium"
             android:ellipsize="end"
             android:fontFamily="@font/poppins_medium"
-            android:maxLines="1"
+            android:maxLines="2"
             android:text="@{data.communityName}"
             app:layout_constraintEnd_toStartOf="@id/btnJoin"
             app:layout_constraintStart_toEndOf="@id/cardProfilePic"
             app:layout_constraintTop_toTopOf="@id/cardProfilePic"
+            app:layout_constraintBottom_toTopOf="@id/tvEmail"
             tools:text="Sports are back!" />
 
         <TextView
@@ -59,7 +60,6 @@
             style="@style/normalBodyText"
             membersAndCreatedDate="@{data}"
             type="@{type}"
-            android:layout_marginTop="@dimen/space_small"
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/textColorLight"
@@ -67,6 +67,7 @@
             app:layout_constraintEnd_toEndOf="@id/tvName"
             app:layout_constraintStart_toStartOf="@id/tvName"
             app:layout_constraintTop_toBottomOf="@id/tvName"
+            app:layout_constraintBottom_toBottomOf="@id/cardProfilePic"
             tools:text="3.1 k members  |  02 May, 2020" />
 
         <Button

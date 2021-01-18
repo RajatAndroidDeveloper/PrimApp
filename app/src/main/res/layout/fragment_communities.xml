@@ -27,7 +27,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_normal"
-            android:gravity="center"
             android:text="@string/categories"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
@@ -58,115 +57,6 @@
                 tools:spanCount="2" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-        <!--
-
-                <ImageView
-                    android:id="@+id/ivSocial"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:onClick="@{()->frag.openCommunities(@string/social)}"
-                    android:src="@drawable/social"
-                    app:layout_constraintEnd_toStartOf="@id/ivLifestyle"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/guideHorizontal" />
-
-                <TextView
-                    android:id="@+id/tvSocial"
-                    style="@style/primaryHeadingAccent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_large"
-                    android:text="@string/social"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/textLarge"
-                    app:layout_constraintEnd_toEndOf="@id/ivSocial"
-                    app:layout_constraintStart_toStartOf="@id/ivSocial"
-                    app:layout_constraintTop_toBottomOf="@id/ivSocial" />
-
-
-                <ImageView
-                    android:id="@+id/ivLifestyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:onClick="@{()->frag.openCommunities(@string/lifestyle)}"
-                    android:src="@drawable/lifestyle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/ivSocial"
-                    app:layout_constraintTop_toTopOf="@id/ivSocial" />
-
-                <TextView
-                    android:id="@+id/tvLifestyle"
-                    style="@style/primaryHeadingAccent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_large"
-                    android:text="@string/lifestyle"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/textLarge"
-                    app:layout_constraintEnd_toEndOf="@id/ivLifestyle"
-                    app:layout_constraintStart_toStartOf="@id/ivLifestyle"
-                    app:layout_constraintTop_toBottomOf="@id/ivLifestyle" />
-
-
-                <ImageView
-                    android:id="@+id/ivEducation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_extraLarge"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:onClick="@{()->frag.openCommunities(@string/education)}"
-                    android:src="@drawable/education"
-                    app:layout_constraintEnd_toStartOf="@id/ivLifestyle"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvSocial" />
-
-                <TextView
-                    android:id="@+id/tvEducation"
-                    style="@style/primaryHeadingAccent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_large"
-                    android:text="@string/education"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/textLarge"
-                    app:layout_constraintEnd_toEndOf="@id/ivEducation"
-                    app:layout_constraintStart_toStartOf="@id/ivEducation"
-                    app:layout_constraintTop_toBottomOf="@id/ivEducation" />
-
-
-                <ImageView
-                    android:id="@+id/ivBusiness"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:onClick="@{()->frag.openCommunities(@string/business)}"
-                    android:src="@drawable/business"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/ivEducation"
-                    app:layout_constraintTop_toTopOf="@id/ivEducation" />
-
-                <TextView
-                    android:id="@+id/tvBusiness"
-                    style="@style/primaryHeadingAccent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_large"
-                    android:text="@string/business"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/textLarge"
-                    app:layout_constraintEnd_toEndOf="@id/ivBusiness"
-                    app:layout_constraintStart_toStartOf="@id/ivBusiness"
-                    app:layout_constraintTop_toBottomOf="@id/ivBusiness" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideHorizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".10" />
- -->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

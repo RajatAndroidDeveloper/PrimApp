@@ -82,7 +82,9 @@
     <string name="valid_empty_dob">Please select date of birth</string>
     <string name="valid_country">Please select a valid country</string>
     <string name="valid_community_name">Please enter community name</string>
+    <string name="valid_community_name_length">Please enter community name upto 100 characters only</string>
     <string name="valid_community_description">Please enter community description</string>
+    <string name="valid_community_description_length">Please enter community description upto 500 characters only</string>
 
     <string name="privacy_policy_help_text">Please accept terms of service and privacy policy.</string>
     <string name="valid_username">Please enter a valid username</string>

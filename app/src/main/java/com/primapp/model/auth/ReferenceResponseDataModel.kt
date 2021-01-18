@@ -13,7 +13,7 @@ data class Content(
     @SerializedName("entity")
     val entity: String?,
     @SerializedName("items")
-    val referenceItemsList: List<ReferenceItems>?
+    val referenceItemsList: ArrayList<ReferenceItems>?
 )
 
 data class ReferenceItems(

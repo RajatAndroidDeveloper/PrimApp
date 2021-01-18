@@ -57,9 +57,19 @@ class CommunitiesViewModel @Inject constructor(
                     context.getString(R.string.valid_community_name)
             }
 
+            ValidationResults.INVALID_COMMUNITY_NAME_LENGTH -> {
+                errorFieldsLiveData.value?.errorCommunityName =
+                    context.getString(R.string.valid_community_name_length)
+            }
+
             ValidationResults.EMPTY_COMMUNITY_DESCRIPTION -> {
                 errorFieldsLiveData.value?.errorCommunityDescription =
                     context.getString(R.string.valid_community_description)
+            }
+
+            ValidationResults.INVALID_COMMUNITY_DESCRIPTION_LENGTH -> {
+                errorFieldsLiveData.value?.errorCommunityName =
+                    context.getString(R.string.valid_community_description_length)
             }
 
             ValidationResults.SUCCESS -> {
@@ -192,7 +202,7 @@ class CommunitiesViewModel @Inject constructor(
     ) = viewModelScope.launch {
         _uploadAWSLiveData.postValue(Event(Resource.loading(null)))
         _uploadAWSLiveData.postValue(
-            Event(repo.uploadtoAWS(url, key, accessKey,amzSecurityToken, policy, signature, file))
+            Event(repo.uploadtoAWS(url, key, accessKey, amzSecurityToken, policy, signature, file))
         )
     }
 

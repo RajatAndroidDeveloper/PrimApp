@@ -12,18 +12,18 @@ import com.primapp.R
 
 
 fun ImageView.loadImageWithProgress(context: Context, url: String?) {
-    val circularProgressDrawable = CircularProgressDrawable(context)
-    circularProgressDrawable.strokeWidth = 5f
-    circularProgressDrawable.centerRadius = 30f
-    circularProgressDrawable.start()
-
-    val requestOptions = RequestOptions().apply {
-        placeholder(circularProgressDrawable)
-    }
+//    val circularProgressDrawable = CircularProgressDrawable(context)
+//    circularProgressDrawable.strokeWidth = 5f
+//    circularProgressDrawable.centerRadius = 30f
+//    circularProgressDrawable.start()
+//
+//    val requestOptions = RequestOptions().apply {
+//        placeholder(circularProgressDrawable)
+//    }
 
     Glide.with(context)
         .load(url)
-        .apply(requestOptions)
+       // .apply(requestOptions)
         .error(R.drawable.placeholder)
         .into(this)
 }

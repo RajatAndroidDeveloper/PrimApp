@@ -84,6 +84,12 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
                         }
                         ReferenceEntityTypes.COUNTRY_LIST -> {
                             it.data.content.referenceItemsList?.apply {
+                                val usaItem = this.find { it.itemValue.equals("US") }
+                                usaItem?.let {
+                                    val index: Int = this.indexOf(it)
+                                    this.removeAt(index)
+                                    this.add(0, it)
+                                }
                                 countryAdapter.addAll(this)
                             }
                         }

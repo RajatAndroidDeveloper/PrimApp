@@ -17,7 +17,7 @@
         android:id="@+id/communitiesFragment"
         android:enabled="true"
         android:icon="@drawable/community"
-        android:title="@string/categories" />
+        android:title="@string/communities" />
 
     <item
         android:id="@+id/profileFragment"
