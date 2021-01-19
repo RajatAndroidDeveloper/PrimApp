@@ -165,4 +165,7 @@
     <string name="category">Category</string>
     <string name="status">Status</string>
     <string name="community_inactive_status_message">Are you sure to inactive your community?</string>
+    <string name="create_post">Create Post</string>
+    <string name="write_text_here">Write text here...</string>
+    <string name="select_community">Select Community</string>
 </resources>

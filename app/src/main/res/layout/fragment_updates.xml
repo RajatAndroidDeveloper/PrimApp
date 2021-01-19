@@ -3,39 +3,76 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+
+        <variable
+            name="frag"
+            type="com.primapp.ui.dashboard.UpdatesFragment" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white">
+        android:layout_height="match_parent">
 
-        <include layout="@layout/toolbar_dashboard_accent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
 
-        <include
-            layout="@layout/layout_create_new_post"
-            android:visibility="gone" />
+            <include layout="@layout/toolbar_dashboard_accent" />
 
-        <ImageView
-            android:id="@+id/ivUpdateMockup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_normal"
-            android:src="@drawable/updates_mockup"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardCreatePost" />
+            <include
+                layout="@layout/layout_create_new_post"
+                app:frag="@{frag}" />
 
-        <TextView
-            style="@style/primaryBodyText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_large"
-            android:gravity="center"
-            android:text="@string/empty_communities_description"
-            android:textColor="@color/colorAccent"
-            android:textSize="@dimen/textMedium"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivUpdateMockup" />
+            <ImageView
+                android:id="@+id/ivUpdateMockup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_normal"
+                android:src="@drawable/updates_mockup"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardCreatePost" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/tvNoPost"
+                style="@style/primaryBodyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_large"
+                android:gravity="center"
+                android:text="@string/empty_communities_description"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/textMedium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivUpdateMockup" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvCommunityPosts"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvNoPost"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_list_post" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/groupNoPostView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="ivUpdateMockup,tvNoPost" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/groupPostView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:constraint_referenced_ids="cardCreatePost,rvCommunityPosts" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>

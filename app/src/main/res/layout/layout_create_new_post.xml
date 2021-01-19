@@ -1,55 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cardCreatePost"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/space_large"
-    android:layout_marginEnd="@dimen/space_large"
-    android:foreground="?attr/selectableItemBackground"
-    app:cardBackgroundColor="@color/lightAccent"
-    app:cardCornerRadius="@dimen/space_small"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/clToolbar">
+<layout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+
+        <variable
+            name="frag"
+            type="com.primapp.ui.dashboard.UpdatesFragment" />
+    </data>
+
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/cardCreatePost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/space_small">
+        android:layout_marginStart="@dimen/space_large"
+        android:layout_marginEnd="@dimen/space_large"
+        android:foreground="?attr/selectableItemBackground"
+        android:onClick="@{()->frag.createPost()}"
+        app:cardBackgroundColor="@color/lightAccent"
+        app:cardCornerRadius="@dimen/space_small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clToolbar">
 
-        <ImageView
-            android:id="@+id/ivProfilePic"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/logo"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/space_small">
 
-        <TextView
-            android:id="@+id/tvCreatePostHeading"
-            style="@style/normalBodyText"
-            android:layout_marginStart="@dimen/space_small"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@string/create_post_message"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/ivProfilePic"
-            app:layout_constraintTop_toTopOf="@id/ivProfilePic" />
+            <ImageView
+                android:id="@+id/ivProfilePic"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/logo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tvAbout"
-            style="@style/normalBodyText"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@string/photo_video_gif"
-            android:textColor="@color/colorAccent"
-            android:textSize="@dimen/textNormal"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/ivProfilePic"
-            app:layout_constraintEnd_toEndOf="@id/tvCreatePostHeading"
-            app:layout_constraintStart_toStartOf="@id/tvCreatePostHeading"
-            app:layout_constraintTop_toBottomOf="@id/tvCreatePostHeading" />
+            <TextView
+                android:id="@+id/tvCreatePostHeading"
+                style="@style/normalBodyText"
+                android:layout_marginStart="@dimen/space_small"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/create_post_message"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ivProfilePic"
+                app:layout_constraintTop_toTopOf="@id/ivProfilePic" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+            <TextView
+                android:id="@+id/tvAbout"
+                style="@style/normalBodyText"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/photo_video_gif"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/textNormal"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/ivProfilePic"
+                app:layout_constraintEnd_toEndOf="@id/tvCreatePostHeading"
+                app:layout_constraintStart_toStartOf="@id/tvCreatePostHeading"
+                app:layout_constraintTop_toBottomOf="@id/tvCreatePostHeading" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

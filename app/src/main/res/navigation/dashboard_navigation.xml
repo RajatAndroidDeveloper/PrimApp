@@ -27,7 +27,11 @@
         android:id="@+id/updatesFragment"
         android:name="com.primapp.ui.dashboard.UpdatesFragment"
         android:label="UpdatesFragment"
-        tools:layout="@layout/fragment_updates" />
+        tools:layout="@layout/fragment_updates">
+        <action
+            android:id="@+id/action_updatesFragment_to_createPostFragment"
+            app:destination="@id/createPostFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.primapp.ui.dashboard.ProfileFragment"
@@ -112,7 +116,7 @@
     <fragment
         android:id="@+id/editProfileFragment"
         android:name="com.primapp.ui.profile.EditProfileFragment"
-        tools:layout="@layout/fragment_edit_profile"/>
+        tools:layout="@layout/fragment_edit_profile" />
     <fragment
         android:id="@+id/editCommunityFragment"
         android:name="com.primapp.ui.communities.edit.EditCommunityFragment"
@@ -121,8 +125,13 @@
         <argument
             android:name="communityData"
             app:argType="com.primapp.model.community.CommunityData" />
-<!--        <argument-->
-<!--            android:name="parentCategoryName"-->
-<!--            app:argType="string" />-->
+        <!--        <argument-->
+        <!--            android:name="parentCategoryName"-->
+        <!--            app:argType="string" />-->
     </fragment>
+    <fragment
+        android:id="@+id/createPostFragment"
+        android:name="com.primapp.ui.post.CreatePostFragment"
+        android:label="CreatePostFragment"
+        tools:layout="@layout/fragment_create_post" />
 </navigation>
