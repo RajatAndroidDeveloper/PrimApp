@@ -13,65 +13,66 @@
         <EditText
             android:id="@+id/etPost"
             style="@style/editTextSearchBox"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_large"
-            android:layout_marginTop="@dimen/space_large"
-            android:layout_marginEnd="@dimen/space_large"
             android:drawableStart="@null"
             android:gravity="top"
             android:hint="@string/write_text_here"
             android:imeActionLabel="Done"
             android:imeOptions="actionDone"
             android:lines="5"
-            app:layout_constraintTop_toBottomOf="@+id/clToolbar" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clToolbar"
+            app:layout_constraintWidth_percent=".9" />
 
         <RadioGroup
             android:id="@+id/rgFileType"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:checkedButton="@+id/rbNone"
             android:orientation="horizontal"
-            android:padding="15dp"
+            android:paddingTop="@dimen/space_normal"
+            android:paddingBottom="@dimen/space_normal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etPost">
+            app:layout_constraintTop_toBottomOf="@id/etPost"
+            app:layout_constraintWidth_percent=".9">
 
             <RadioButton
-                android:id="@+id/rb_coldfusion"
+                android:id="@+id/rbImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingRight="10dp"
-                android:text="Image" />
+                android:paddingEnd="10dp"
+                android:text="@string/image" />
 
             <RadioButton
-                android:id="@+id/rb_flex"
+                android:id="@+id/rbVideo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingRight="10dp"
-                android:text="Video" />
+                android:paddingEnd="10dp"
+                android:text="@string/video" />
 
             <RadioButton
-                android:id="@+id/rb_flash"
+                android:id="@+id/rbGif"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingRight="10dp"
-                android:text="GIF" />
+                android:paddingEnd="10dp"
+                android:text="@string/gif" />
 
             <RadioButton
-                android:id="@+id/rb_none"
+                android:id="@+id/rbNone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingRight="10dp"
-                android:text="None" />
+                android:text="@string/none" />
         </RadioGroup>
 
         <Button
             android:id="@+id/btnSelect"
             style="@style/buttonOutlinedAccent"
             android:layout_width="wrap_content"
-            android:layout_marginStart="@dimen/space_large"
             android:text="Select"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/rgFileType"
             app:layout_constraintTop_toBottomOf="@id/rgFileType" />
 
         <TextView
@@ -81,12 +82,14 @@
             android:layout_marginStart="@dimen/space_small"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@string/long_about_text"
+            android:text="IMG_00232.png"
             app:layout_constraintBottom_toBottomOf="@id/btnSelect"
             app:layout_constraintEnd_toStartOf="@id/ivDelete"
             app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toEndOf="@id/btnSelect"
-            app:layout_constraintTop_toTopOf="@id/btnSelect" />
+            app:layout_constraintTop_toTopOf="@id/btnSelect"
+            app:layout_constraintWidth_default="wrap" />
 
         <ImageView
             android:id="@+id/ivDelete"
@@ -129,6 +132,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tlSelectCommunity" />
 
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/groupSelectFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="btnSelect,tvFileName,ivDelete" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
