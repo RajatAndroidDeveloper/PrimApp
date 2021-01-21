@@ -25,7 +25,7 @@
     </dialog>
     <fragment
         android:id="@+id/updatesFragment"
-        android:name="com.primapp.ui.dashboard.UpdatesFragment"
+        android:name="com.primapp.ui.post.UpdatesFragment"
         android:label="UpdatesFragment"
         tools:layout="@layout/fragment_updates">
         <action
@@ -131,7 +131,13 @@
     </fragment>
     <fragment
         android:id="@+id/createPostFragment"
-        android:name="com.primapp.ui.post.CreatePostFragment"
+        android:name="com.primapp.ui.post.create.CreatePostFragment"
         android:label="CreatePostFragment"
-        tools:layout="@layout/fragment_create_post" />
+        tools:layout="@layout/fragment_create_post" >
+        <argument
+            android:name="joinedCommunityResponse"
+            app:argType="com.primapp.model.community.JoinedCommunityListModel"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
 </navigation>

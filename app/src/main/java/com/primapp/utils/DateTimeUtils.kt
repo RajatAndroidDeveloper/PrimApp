@@ -1,7 +1,9 @@
 package com.primapp.utils
 
+import android.text.format.DateUtils
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 object DateTimeUtils {
 
@@ -27,5 +29,15 @@ object DateTimeUtils {
         val timestampFormat = SimpleDateFormat(DEFAULT_SERVER_TIME_FORMAT, Locale.getDefault())
         val date = timestampFormat.parse(timestamp)
         return if (date == null) null else SimpleDateFormat(format, Locale.getDefault()).format(date)
+    }
+
+    fun getTimeAgoFromTimeStamp(timestamp: String): String? {
+        val timestampFormat = SimpleDateFormat(DEFAULT_SERVER_TIME_FORMAT, Locale.getDefault())
+        val date = timestampFormat.parse(timestamp)
+        return if (date == null) null else DateUtils.getRelativeTimeSpanString(
+            date.time,
+            Calendar.getInstance().timeInMillis,
+            DateUtils.MINUTE_IN_MILLIS
+        ).toString()
     }
 }

@@ -27,10 +27,15 @@ object ApiConstant {
     const val JOIN_COMMUNITY = "communities/{communityId}/users/{userId}"
     const val GET_COMMUNITY = "communities/{communityId}"
     const val EDIT_COMMUNITY = "communities/{communityId}"
+    const val JOINED_COMMUNITY_LIST = "joined_community_list"
 
     //Profile
     const val EDIT_PROFILE = "users/{userId}"
 
     //AWS
     const val PRESIGNED_URL = "generate-presigned-url"
+
+    //Post
+    const val GET_POST_LIST = "post_list"
+    const val CREATE_POST = "communities/{communityId}/users/{userId}"
 }

@@ -27,14 +27,6 @@ class CommunitiesRepository @Inject constructor(
     private val responseHandler: ResponseHandler
 ) {
 
-    suspend fun getParentCategoryList(offset: Int, limit: Int): Resource<ParentCategoryResponseModel> {
-        return try {
-            responseHandler.handleResponse(apiService.getParentCategories(offset, limit))
-        } catch (e: Exception) {
-            responseHandler.handleException(e)
-        }
-    }
-
     fun getParentCategoryList(): LiveData<PagingData<ParentCategoryResult>> {
         return Pager(
             config = PagingConfig(

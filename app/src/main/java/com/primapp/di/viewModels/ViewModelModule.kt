@@ -3,6 +3,7 @@ package com.primapp.di.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.primapp.ui.communities.edit.EditCommunityViewModel
+import com.primapp.ui.post.create.CreatePostViewModel
 import com.primapp.ui.splash.SplashViewModel
 import com.primapp.viewmodels.*
 import dagger.Binds
@@ -56,6 +57,16 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(EditCommunityViewModel::class)
     abstract fun bindEditCommunityViewModel(viewModel: EditCommunityViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PostsViewModel::class)
+    abstract fun bindPostsViewModel(viewModel: PostsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CreatePostViewModel::class)
+    abstract fun bindCreatePostViewModel(viewModel: CreatePostViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

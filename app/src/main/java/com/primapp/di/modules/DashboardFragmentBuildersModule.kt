@@ -6,8 +6,8 @@ import com.primapp.ui.communities.details.CommunityDetailsFragment
 import com.primapp.ui.communities.edit.EditCommunityFragment
 import com.primapp.ui.dashboard.NotificationsFragment
 import com.primapp.ui.dashboard.ProfileFragment
-import com.primapp.ui.dashboard.UpdatesFragment
-import com.primapp.ui.post.CreatePostFragment
+import com.primapp.ui.post.UpdatesFragment
+import com.primapp.ui.post.create.CreatePostFragment
 import com.primapp.ui.profile.EditProfileFragment
 import com.primapp.ui.settings.AboutUsFragment
 import com.primapp.ui.settings.SettingsFragment

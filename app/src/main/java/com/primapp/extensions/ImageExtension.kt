@@ -24,10 +24,20 @@ fun ImageView.loadImageWithProgress(context: Context, url: String?) {
     Glide.with(context)
         .load(url)
        // .apply(requestOptions)
+        .placeholder(R.drawable.placeholder)
         .error(R.drawable.placeholder)
         .into(this)
 }
 
+fun ImageView.loadImageWithFitCenter(context: Context, url: String?) {
+
+    Glide.with(context)
+        .load(url)
+        .fitCenter()
+        .placeholder(R.drawable.placeholder)
+        .error(R.drawable.placeholder)
+        .into(this)
+}
 
 fun ImageView.loadImageWithRoundedCorners(context: Context, url: String?) {
     val circularProgressDrawable = CircularProgressDrawable(context)

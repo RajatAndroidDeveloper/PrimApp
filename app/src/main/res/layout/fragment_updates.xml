@@ -7,12 +7,8 @@
 
         <variable
             name="frag"
-            type="com.primapp.ui.dashboard.UpdatesFragment" />
+            type="com.primapp.ui.post.UpdatesFragment" />
     </data>
-
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -25,11 +21,21 @@
                 layout="@layout/layout_create_new_post"
                 app:frag="@{frag}" />
 
+            <ProgressBar
+                android:id="@+id/pbPost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
             <ImageView
                 android:id="@+id/ivUpdateMockup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_normal"
+                android:layout_marginTop="@dimen/space_large"
                 android:src="@drawable/updates_mockup"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -49,15 +55,24 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ivUpdateMockup" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvCommunityPosts"
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipeRefresh"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvNoPost"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:onRefreshListener="@{()->frag.refreshData()}">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvCommunityPosts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 tools:itemCount="3"
                 tools:listitem="@layout/item_list_post" />
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             <androidx.constraintlayout.widget.Group
                 android:id="@+id/groupNoPostView"
@@ -71,8 +86,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="visible"
-                app:constraint_referenced_ids="cardCreatePost,rvCommunityPosts" />
+                app:constraint_referenced_ids="rvCommunityPosts, swipeRefresh" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/groupNoCommunityView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="cardCreatePost,groupPostView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
 </layout>

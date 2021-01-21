@@ -133,6 +133,7 @@
 
     <string name="file_provider_name" translatable="false">.fileProvider</string>
     <string name="select_capture_image">Select or capture image</string>
+    <string name="select_capture_video">Select or capture video</string>
     <string name="error_camera_permission">Camera permission are necessary in order to capture image.</string>
     <string name="profile">Profile</string>
     <string name="notifications">Notifications</string>
@@ -172,4 +173,5 @@
     <string name="video">Video</string>
     <string name="gif">GIF</string>
     <string name="none">None</string>
+    <string name="post_created_success">Your post has been created successfully</string>
 </resources>

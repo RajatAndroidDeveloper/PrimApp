@@ -23,6 +23,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.primapp.R
 import com.primapp.constants.CommunityFilterTypes
 import com.primapp.extensions.loadCircularImage
+import com.primapp.extensions.loadImageWithFitCenter
 import com.primapp.extensions.loadImageWithProgress
 import com.primapp.extensions.removeLinksUnderline
 import com.primapp.model.auth.UserData
@@ -192,4 +193,21 @@ fun joinButtonStyle(button: Button, isJoined: Boolean, isCreatedByMe: Boolean, t
 @BindingAdapter("loadImageFromUrl")
 fun loadImageFromUrl(imgView: ImageView, url: String?) {
     imgView.loadImageWithProgress(imgView.context, url)
+}
+
+@BindingAdapter("loadPostImageFromUrl")
+fun loadPostImageFromUrl(imgView: ImageView, url: String?) {
+    imgView.loadImageWithFitCenter(imgView.context, url)
+}
+
+@SuppressLint("SetTextI18n")
+@BindingAdapter("timeAgoFromTimeStamp")
+fun timeAgoFromTimeStamp(textView: TextView, timeStamp: String?) {
+    timeStamp?.let { textView.text = DateTimeUtils.getTimeAgoFromTimeStamp(it) }
+}
+
+@SuppressLint("SetTextI18n")
+@BindingAdapter("prettyNumber")
+fun prettyNumber(textView: TextView, number: Int?) {
+    number?.let { textView.text = getPrettyNumber(it.toLong()) }
 }

@@ -15,6 +15,7 @@ import java.io.FileOutputStream
 
 object FileUtils {
     const val IMAGE_REQUEST_CODE = 1
+    const val VIDEO_REQUEST_CODE = 2
     const val FILE_PICK_TAG = "filePicker"
 
     fun getPickImageIntent(context: Context?): Intent? {
@@ -36,6 +37,37 @@ object FileUtils {
                 chooserIntent = Intent.createChooser(
                     intentList.removeAt(intentList.size - 1),
                     context.getString(R.string.select_capture_image)
+                )
+
+                chooserIntent?.putExtra(
+                    Intent.EXTRA_INITIAL_INTENTS,
+                    intentList.toTypedArray<Parcelable>()
+                )
+            }
+        }
+
+        return chooserIntent
+    }
+
+    fun getPickVideoIntent(context: Context?): Intent? {
+        var chooserIntent: Intent? = null
+
+        if (context != null && getImageUri(context) != Uri.EMPTY) {
+            var intentList: MutableList<Intent> = ArrayList()
+            //Intent to show gallery option
+            val pickIntent =
+                Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
+            //Intent to add camera option to chooser
+            val takePhotoIntent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
+            takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, getImageUri(context))
+
+            intentList = addIntentsToList(context, intentList, pickIntent)
+            intentList = addIntentsToList(context, intentList, takePhotoIntent)
+
+            if (intentList.size > 0) {
+                chooserIntent = Intent.createChooser(
+                    intentList.removeAt(intentList.size - 1),
+                    context.getString(R.string.select_capture_video)
                 )
 
                 chooserIntent?.putExtra(

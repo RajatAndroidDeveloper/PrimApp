@@ -3,10 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="frag"
+            type="com.primapp.ui.post.create.CreatePostFragment" />
+
+        <variable
+            name="viewModel"
+            type="com.primapp.ui.post.create.CreatePostViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.post.CreatePostFragment">
+        tools:context=".ui.post.create.CreatePostFragment">
 
         <include layout="@layout/toolbar_inner_back" />
 
@@ -20,7 +31,8 @@
             android:hint="@string/write_text_here"
             android:imeActionLabel="Done"
             android:imeOptions="actionDone"
-            android:lines="5"
+            android:lines="6"
+            android:text="@={viewModel.createPostRequestModel.postText}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/clToolbar"
@@ -71,6 +83,7 @@
             android:id="@+id/btnSelect"
             style="@style/buttonOutlinedAccent"
             android:layout_width="wrap_content"
+            android:onClick="@{()->frag.pickFileAskPermission()}"
             android:text="Select"
             app:layout_constraintStart_toStartOf="@id/rgFileType"
             app:layout_constraintTop_toBottomOf="@id/rgFileType" />
@@ -106,7 +119,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tlSelectCommunity"
             style="@style/myTextInputLabel_DropDown"
-            android:layout_marginTop="@dimen/space_small"
+            android:layout_marginTop="@dimen/space_normal"
             android:hint="@string/select_community"
             app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
@@ -127,6 +140,7 @@
             android:id="@+id/btnSubmit"
             style="@style/buttonFilledPrimary"
             android:layout_marginTop="@dimen/space_small"
+            android:onClick="@{()->frag.createPost()}"
             android:text="@string/submit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

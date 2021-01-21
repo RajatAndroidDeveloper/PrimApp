@@ -5,6 +5,8 @@ import com.primapp.model.aws.PresignedURLRequest
 import com.primapp.model.aws.PresignedURLResponseModel
 import com.primapp.model.category.ParentCategoryResponseModel
 import com.primapp.model.community.*
+import com.primapp.model.post.CreatePostRequestModel
+import com.primapp.model.post.PostListResponseModel
 import com.primapp.model.profile.EditProfileRequestModel
 import com.primapp.retrofit.base.BaseDataModel
 import okhttp3.MultipartBody
@@ -120,4 +122,20 @@ interface ApiService {
         @Part("signature") signature: RequestBody?,
         @Part file: MultipartBody.Part?
     ): Response<Unit>
+
+    @GET(ApiConstant.GET_POST_LIST)
+    suspend fun getPostList(
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int
+    ): PostListResponseModel
+
+    @GET(ApiConstant.JOINED_COMMUNITY_LIST)
+    suspend fun getJoinedCommunityList(): JoinedCommunityListModel
+
+    @POST(ApiConstant.CREATE_POST)
+    suspend fun createPost(
+        @Path("communityId") communityId: Int,
+        @Path("userId") userId: Int,
+        @Body createPostRequestModel: CreatePostRequestModel
+    ): BaseDataModel
 }

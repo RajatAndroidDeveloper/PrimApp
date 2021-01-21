@@ -5,7 +5,7 @@
 
         <variable
             name="frag"
-            type="com.primapp.ui.dashboard.UpdatesFragment" />
+            type="com.primapp.ui.post.UpdatesFragment" />
     </data>
 
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
