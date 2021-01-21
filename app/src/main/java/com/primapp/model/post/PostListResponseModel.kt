@@ -43,7 +43,9 @@ data class PostListResult(
     @SerializedName("udate")
     val udate: String,
     @SerializedName("user")
-    val user: User
+    val user: User,
+    @SerializedName("file_type")
+    val fileType:String?
 )
 
 data class Community(

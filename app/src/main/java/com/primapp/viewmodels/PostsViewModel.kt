@@ -29,9 +29,9 @@ class PostsViewModel @Inject constructor(
 
     fun getParentCategoriesListData(): LiveData<PagingData<PostListResult>> {
         val lastResult = postListResultLiveData
-        if (lastResult != null) {
-            return lastResult
-        }
+//        if (lastResult != null) {
+//            return lastResult
+//        }
         val newResultLiveData: LiveData<PagingData<PostListResult>> =
             repo.getPostList().cachedIn(viewModelScope)
         postListResultLiveData = newResultLiveData

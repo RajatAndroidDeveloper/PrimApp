@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="data"
             type="com.primapp.model.post.PostListResult" />
@@ -22,10 +24,9 @@
 
             <ImageView
                 android:id="@+id/ivProfilePic"
+                loadCircularImage="@{data.user.getImageUrl}"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                loadCircularImage="@{data.user.getImageUrl}"
-                android:layout_marginStart="8dp"
                 android:background="@drawable/shape_circle_accent"
                 app:layout_constraintBottom_toBottomOf="@id/tvPostTime"
                 app:layout_constraintDimensionRatio="1:1"
@@ -99,7 +100,9 @@
                 android:layout_marginTop="@dimen/space_normal"
                 android:ellipsize="end"
                 android:maxLines="4"
+
                 android:text="@{data.postText}"
+                android:visibility="@{(data.postText==null)? View.GONE : View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="@id/ivMore"
                 app:layout_constraintStart_toStartOf="@id/ivProfilePic"
                 app:layout_constraintTop_toBottomOf="@id/ivProfilePic"
@@ -110,10 +113,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_small"
+                android:visibility="@{(data.fileType == null ) ? View.GONE : View.VISIBLE}"
                 app:cardCornerRadius="@dimen/space_largeX"
                 app:layout_constraintDimensionRatio="2:1.3"
-                app:layout_constraintEnd_toEndOf="@id/tvCaption"
-                app:layout_constraintStart_toStartOf="@id/tvCaption"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvCaption">
 
                 <ImageView
@@ -135,7 +139,7 @@
                 android:drawablePadding="@dimen/space_small"
                 android:textSize="@dimen/textMedium"
                 app:drawableStartCompat="@drawable/like_color"
-                app:layout_constraintStart_toStartOf="@id/tvCaption"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cardPostAttachment"
                 tools:text="8k" />
 

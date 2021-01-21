@@ -37,6 +37,28 @@ object DialogUtils {
         dialog.show()
     }
 
+    fun showCloseDialog(
+        activity: Activity,
+        message: String,
+        @DrawableRes drawableRes: Int? = null,
+        closeCallback: (() -> Unit)? = null
+    ) {
+        val dialog = Dialog(activity, R.style.Theme_Dialog)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.layout_dialog_help1)
+        drawableRes?.let { dialog.ivDialogImage.setImageResource(it) }
+        dialog.tvDialogMessage.text = message
+
+        dialog.btnClose.setOnClickListener {
+            closeCallback?.invoke()
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
     fun showYesNoDialog(
         activity: Activity,
         @StringRes messageId: Int,

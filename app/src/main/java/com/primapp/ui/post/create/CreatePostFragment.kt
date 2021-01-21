@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.AutoCompleteTextView
 import android.widget.RadioGroup
 import androidx.core.view.isVisible
@@ -22,15 +23,17 @@ import com.primapp.model.community.JoinedCommunityListModel
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.post.create.adapter.AutocompleteCommunityArrayAdapter
+import com.primapp.utils.AwsHelper
 import com.primapp.utils.DialogUtils
 import com.primapp.utils.FileUtils
+import com.primapp.utils.RetrofitUtils
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
 import java.io.File
 
 
 class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
 
-    var imageFile: File? = null
+    var selectedFile: File? = null
 
     var postFileType: String? = null
 
@@ -69,20 +72,28 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
             override fun onCheckedChanged(p0: RadioGroup?, p1: Int) {
                 when (p1) {
                     R.id.rbImage -> {
+                        selectedFile = null
                         postFileType = PostFileType.IMAGE
-                        binding.groupSelectFile.isVisible = true
+                        binding.btnSelect.isVisible = true
+                        binding.groupSelectFileName.isVisible = false
                     }
                     R.id.rbVideo -> {
+                        selectedFile = null
                         postFileType = PostFileType.VIDEO
-                        binding.groupSelectFile.isVisible = true
+                        binding.btnSelect.isVisible = true
+                        binding.groupSelectFileName.isVisible = false
                     }
                     R.id.rbGif -> {
+                        selectedFile = null
                         postFileType = PostFileType.GIF
-                        binding.groupSelectFile.isVisible = true
+                        binding.btnSelect.isVisible = true
+                        binding.groupSelectFileName.isVisible = false
                     }
                     R.id.rbNone -> {
+                        selectedFile = null
                         postFileType = null
-                        binding.groupSelectFile.isVisible = false
+                        binding.btnSelect.isVisible = false
+                        binding.groupSelectFileName.isVisible = false
                     }
                 }
             }
@@ -104,6 +115,52 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                     }
                     Status.LOADING -> {
                         showLoading()
+                    }
+                }
+            }
+        })
+
+        viewModel.generatePresignedURLLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message.toString())
+                    }
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.SUCCESS -> {
+                        it.data?.content?.let {
+                            viewModel.createPostRequestModel.value?.postContentFile = it.fields.key
+                            viewModel.createPostRequestModel.value?.fileType = postFileType
+                            viewModel.uploadAWS(
+                                it.url,
+                                it.fields.key,
+                                it.fields.aWSAccessKeyId,
+                                it.fields.xAmzSecurityToken,
+                                it.fields.policy,
+                                it.fields.signature,
+                                RetrofitUtils.fileToRequestBody(File(selectedFile!!.absolutePath), "file")
+                            )
+                        }
+                    }
+                }
+            }
+        })
+
+        viewModel.uploadAWSLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message.toString())
+                    }
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.SUCCESS -> {
+                        sendPost()
                     }
                 }
             }
@@ -139,15 +196,41 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
             binding.tlSelectCommunity.error = null
             if (postFileType == null && binding.etPost.text.isNotEmpty()) {
                 binding.etPost.error = null
-                viewModel.createPost(selectedCommunityId!!, UserCache.getUser(requireContext())!!.id)
+                sendPost()
             } else if (postFileType != null) {
-                showInfo(requireContext(), "${postFileType} upload is not implemented yet")
+                if (postFileType == PostFileType.IMAGE && selectedFile != null) {
+                    viewModel.generatePresignedUrl(
+                        AwsHelper.getObjectName(
+                            AwsHelper.AWS_OBJECT_TYPE.POST,
+                            UserCache.getUser(requireContext())!!.id,
+                            selectedFile!!.extension
+                        )
+                    )
+                } else if (postFileType == PostFileType.IMAGE && selectedFile == null) {
+                    DialogUtils.showCloseDialog(
+                        requireActivity(),
+                        getString(R.string.file_type_error, postFileType),
+                        R.drawable.question_mark
+                    )
+                } else {
+                    showInfo(requireContext(), "${postFileType} upload is not implemented yet")
+                }
             } else {
                 binding.etPost.error = "Text can't be empty"
+                binding.etPost.requestFocus()
             }
         } else {
             binding.tlSelectCommunity.error = "Please select community"
         }
+    }
+
+    private fun sendPost() {
+        viewModel.createPost(selectedCommunityId!!, UserCache.getUser(requireContext())!!.id)
+    }
+
+    fun clearAttachment() {
+        selectedFile = null
+        binding.groupSelectFileName.isVisible = false
     }
 
     /*--------- File Picker Code ----------*/
@@ -213,15 +296,16 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                 FileUtils.IMAGE_REQUEST_CODE -> {
                     if (data?.data != null) {
                         //Photo from gallery.
-                        imageFile = FileUtils.getFileFromUri(context, data.data!!)
+                        selectedFile = FileUtils.getFileFromUri(context, data.data!!)
                     } else {
                         //Photo from camera.
-                        imageFile = FileUtils.getImageFile(context)
+                        selectedFile = FileUtils.getImageFile(context)
                     }
 
-                    if (imageFile != null) {
-                        binding.tvFileName.text = "${imageFile!!.name}"
-                        Log.d(FileUtils.FILE_PICK_TAG, "File Path : ${imageFile!!.absolutePath}")
+                    if (selectedFile != null) {
+                        binding.groupSelectFileName.isVisible = true
+                        binding.tvFileName.text = "${selectedFile!!.name}"
+                        Log.d(FileUtils.FILE_PICK_TAG, "File Path : ${selectedFile!!.absolutePath}")
                     } else {
                         Log.e(FileUtils.FILE_PICK_TAG, "Error getting file")
                     }

@@ -113,7 +113,8 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
 
             } else {
                 //binding.swipeRefresh.isRefreshing = true
-                binding.pbPost.isVisible = true
+                if (!binding.swipeRefresh.isRefreshing)
+                    binding.pbPost.isVisible = true
             }
         }
     }

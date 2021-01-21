@@ -37,5 +37,5 @@ object ApiConstant {
 
     //Post
     const val GET_POST_LIST = "post_list"
-    const val CREATE_POST = "communities/{communityId}/users/{userId}"
+    const val CREATE_POST = "communities/{communityId}/users/{userId}/posts"
 }

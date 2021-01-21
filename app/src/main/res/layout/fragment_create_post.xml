@@ -85,6 +85,7 @@
             android:layout_width="wrap_content"
             android:onClick="@{()->frag.pickFileAskPermission()}"
             android:text="Select"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="@id/rgFileType"
             app:layout_constraintTop_toBottomOf="@id/rgFileType" />
 
@@ -109,6 +110,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginEnd="@dimen/space_large"
+            android:onClick="@{()->frag.clearAttachment()}"
             android:padding="@dimen/space_small"
             android:src="@drawable/delete"
             app:layout_constraintBottom_toBottomOf="@id/tvFileName"
@@ -147,11 +149,11 @@
             app:layout_constraintTop_toBottomOf="@id/tlSelectCommunity" />
 
         <androidx.constraintlayout.widget.Group
-            android:id="@+id/groupSelectFile"
+            android:id="@+id/groupSelectFileName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:constraint_referenced_ids="btnSelect,tvFileName,ivDelete" />
+            app:constraint_referenced_ids="tvFileName,ivDelete" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
