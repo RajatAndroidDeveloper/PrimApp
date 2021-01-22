@@ -140,4 +140,22 @@
             app:nullable="true"
             android:defaultValue="@null" />
     </fragment>
+    <dialog
+        android:id="@+id/imageViewDialog"
+        android:name="com.primapp.ui.base.ImageViewDialog"
+        android:label="ImageViewDialog" >
+        <argument
+            android:name="url"
+            app:argType="string"
+            app:nullable="true" />
+    </dialog>
+    <dialog
+        android:id="@+id/videoViewDialog"
+        android:name="com.primapp.ui.base.VideoViewDialog"
+        android:label="VideoViewDialog" >
+        <argument
+            android:name="url"
+            app:argType="string"
+            app:nullable="true" />
+    </dialog>
 </navigation>

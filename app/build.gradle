@@ -106,4 +106,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-messaging-ktx'
 
+    //ExoPlayer
+    implementation "com.google.android.exoplayer:exoplayer:$rootProject.exoPlayer"
+
 }

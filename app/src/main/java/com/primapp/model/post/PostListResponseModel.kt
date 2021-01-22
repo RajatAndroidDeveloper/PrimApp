@@ -39,7 +39,7 @@ data class PostListResult(
     @SerializedName("post_likes")
     val postLikes: Int,
     @SerializedName("post_text")
-    val postText: String,
+    val postText: String?,
     @SerializedName("udate")
     val udate: String,
     @SerializedName("user")

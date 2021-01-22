@@ -14,9 +14,12 @@ import com.primapp.extensions.showError
 import com.primapp.model.community.JoinedCommunityListModel
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
+import com.primapp.ui.base.VideoViewDialog
 import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
 import com.primapp.ui.post.UpdatesFragmentDirections
 import com.primapp.ui.post.adapter.PostListPagedAdapter
+import com.primapp.ui.post.adapter.ShowImage
+import com.primapp.ui.post.adapter.ShowVideo
 import com.primapp.viewmodels.PostsViewModel
 import kotlinx.coroutines.launch
 
@@ -132,6 +135,17 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
     }
 
     private fun onItemClick(item: Any?) {
-        TODO("Not yet implemented")
+        when (item) {
+            is ShowImage -> {
+                val bundle = Bundle()
+                bundle.putString("url", item.url)
+                findNavController().navigate(R.id.imageViewDialog, bundle)
+            }
+            is ShowVideo -> {
+                val bundle = Bundle()
+                bundle.putString("url", item.url)
+                findNavController().navigate(R.id.videoViewDialog, bundle)
+            }
+        }
     }
 }

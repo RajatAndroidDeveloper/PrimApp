@@ -7,6 +7,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.primapp.R
+import com.primapp.constants.PostFileType
 import com.primapp.databinding.ItemListPostBinding
 import com.primapp.model.post.PostListResult
 import javax.inject.Inject
@@ -34,9 +35,16 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: PostListResult?) {
             binding.data = data
-//            binding.root.setOnClickListener {
-//                onItemClick(parentCategory)
-//            }
+            binding.cardPostAttachment.setOnClickListener {
+                when (data!!.fileType) {
+                    PostFileType.VIDEO -> {
+                        onItemClick(ShowVideo(data.getImageUrl))
+                    }
+                    PostFileType.IMAGE -> {
+                        onItemClick(ShowImage(data.getImageUrl))
+                    }
+                }
+            }
         }
     }
 
@@ -50,3 +58,6 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
         }
     }
 }
+
+data class ShowImage(val url: String)
+data class ShowVideo(val url: String)

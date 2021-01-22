@@ -33,6 +33,7 @@ object DateTimeUtils {
 
     fun getTimeAgoFromTimeStamp(timestamp: String): String? {
         val timestampFormat = SimpleDateFormat(DEFAULT_SERVER_TIME_FORMAT, Locale.getDefault())
+        timestampFormat.timeZone = TimeZone.getTimeZone("UTC")
         val date = timestampFormat.parse(timestamp)
         return if (date == null) null else DateUtils.getRelativeTimeSpanString(
             date.time,

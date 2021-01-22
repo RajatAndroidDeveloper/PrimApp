@@ -52,14 +52,14 @@ object FileUtils {
     fun getPickVideoIntent(context: Context?): Intent? {
         var chooserIntent: Intent? = null
 
-        if (context != null && getImageUri(context) != Uri.EMPTY) {
+        if (context != null && getVideoUri(context) != Uri.EMPTY) {
             var intentList: MutableList<Intent> = ArrayList()
             //Intent to show gallery option
             val pickIntent =
                 Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
             //Intent to add camera option to chooser
             val takePhotoIntent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
-            takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, getImageUri(context))
+            takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, getVideoUri(context))
 
             intentList = addIntentsToList(context, intentList, pickIntent)
             intentList = addIntentsToList(context, intentList, takePhotoIntent)
@@ -95,6 +95,20 @@ object FileUtils {
         return Uri.EMPTY
     }
 
+    private fun getVideoUri(context: Context?): Uri {
+        val imageFile = getVideoFile(context)
+
+        if (context != null && imageFile != null) {
+            return FileProvider.getUriForFile(
+                context,
+                BuildConfig.APPLICATION_ID + context.getString(R.string.file_provider_name),
+                imageFile
+            )
+        }
+
+        return Uri.EMPTY
+    }
+
 
     fun getImageFile(context: Context?): File? {
         if (context != null) {
@@ -105,6 +119,22 @@ object FileUtils {
             folder.mkdirs()
             val file = File(folder, "image_temp.jpg")
             Log.d(FILE_PICK_TAG, "ImageFile: $file")
+            file.createNewFile()
+            return file
+        }
+
+        return null
+    }
+
+    fun getVideoFile(context: Context?): File? {
+        if (context != null) {
+            val pathname = "${context.getExternalFilesDir(Environment.DIRECTORY_DCIM)}"
+
+            Log.d(FILE_PICK_TAG, "VideFilePath : $pathname")
+            val folder = File(pathname)
+            folder.mkdirs()
+            val file = File(folder, "video_temp.mov")
+            Log.d(FILE_PICK_TAG, "VideoFile: $file")
             file.createNewFile()
             return file
         }
@@ -152,6 +182,31 @@ object FileUtils {
                     }
                     output.flush()
                     return imageFile
+                }
+            }
+        }
+        return null
+    }
+
+    fun getVideoFileFromUri(context: Context?, uri: Uri): File? {
+        val videoFile = getVideoFile(context)
+
+        if (context != null && videoFile != null) {
+            val inputStream = context.contentResolver.openInputStream(uri)
+            inputStream.use { input ->
+                val outputStream = FileOutputStream(videoFile)
+                outputStream.use { output ->
+                    val buffer = ByteArray(4 * 1024) // buffer size
+                    while (true) {
+                        val byteCount = input?.read(buffer)
+
+                        if (byteCount != null) {
+                            if (byteCount < 0) break
+                            output.write(buffer, 0, byteCount)
+                        }
+                    }
+                    output.flush()
+                    return videoFile
                 }
             }
         }

@@ -198,7 +198,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                 binding.etPost.error = null
                 sendPost()
             } else if (postFileType != null) {
-                if (postFileType == PostFileType.IMAGE && selectedFile != null) {
+                if ((postFileType == PostFileType.IMAGE || postFileType == PostFileType.VIDEO) && selectedFile != null) {
                     viewModel.generatePresignedUrl(
                         AwsHelper.getObjectName(
                             AwsHelper.AWS_OBJECT_TYPE.POST,
@@ -206,7 +206,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                             selectedFile!!.extension
                         )
                     )
-                } else if (postFileType == PostFileType.IMAGE && selectedFile == null) {
+                } else if ((postFileType == PostFileType.IMAGE || postFileType == PostFileType.VIDEO) && selectedFile == null) {
                     DialogUtils.showCloseDialog(
                         requireActivity(),
                         getString(R.string.file_type_error, postFileType),
@@ -313,8 +313,26 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                 }
 
                 FileUtils.VIDEO_REQUEST_CODE -> {
-                    if (data?.data != null) {
-                        Log.e(FileUtils.FILE_PICK_TAG, "Video : ${Gson().toJson(data?.data)}")
+                    var tempFile: File? = null
+                    if (data?.data != null && !data.data?.lastPathSegment.equals("video_temp.mov")) {
+                        //Photo from gallery.
+                        tempFile = FileUtils.getVideoFileFromUri(context, data.data!!)
+                    } else {
+                        //Photo from camera.
+                        tempFile = FileUtils.getVideoFile(context)
+                    }
+
+                    if (tempFile != null && tempFile.exists()) {
+                        val fileSize = (tempFile.length() / 1024) / 1024
+                        if (fileSize > 10) {
+                            showError(requireContext(), "File size too big. Please upload a video with upto 10mb only")
+                        } else {
+                            selectedFile = tempFile
+                            binding.groupSelectFileName.isVisible = true
+                            binding.tvFileName.text = "${selectedFile!!.name}"
+                        }
+                    } else {
+                        Log.e(FileUtils.FILE_PICK_TAG, "Error getting file")
                     }
                 }
             }
