@@ -23,10 +23,7 @@ import com.primapp.model.community.JoinedCommunityListModel
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.post.create.adapter.AutocompleteCommunityArrayAdapter
-import com.primapp.utils.AwsHelper
-import com.primapp.utils.DialogUtils
-import com.primapp.utils.FileUtils
-import com.primapp.utils.RetrofitUtils
+import com.primapp.utils.*
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
 import java.io.File
 
@@ -194,11 +191,13 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
         binding.mAutoCompleteCommunity.clearFocus()
         if (selectedCommunityId != null) {
             binding.tlSelectCommunity.error = null
-            if (postFileType == null && binding.etPost.text.isNotEmpty()) {
+            if (postFileType == null && binding.etPost.text.isNotEmpty() && Validator.isValidPostTextLength(binding.etPost.text.toString())) {
+                //Text Only Post Type
                 binding.etPost.error = null
                 sendPost()
-            } else if (postFileType != null) {
-                if ((postFileType == PostFileType.IMAGE || postFileType == PostFileType.VIDEO) && selectedFile != null) {
+            } else if (postFileType != null && Validator.isValidPostTextLength(binding.etPost.text.toString())) {
+                //Post with attachment
+                if (selectedFile != null) {
                     viewModel.generatePresignedUrl(
                         AwsHelper.getObjectName(
                             AwsHelper.AWS_OBJECT_TYPE.POST,
@@ -206,21 +205,23 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                             selectedFile!!.extension
                         )
                     )
-                } else if ((postFileType == PostFileType.IMAGE || postFileType == PostFileType.VIDEO) && selectedFile == null) {
+                } else {
+                    //Post with attachment selected but attachment not attached
                     DialogUtils.showCloseDialog(
                         requireActivity(),
                         getString(R.string.file_type_error, postFileType),
                         R.drawable.question_mark
                     )
-                } else {
-                    showInfo(requireContext(), "${postFileType} upload is not implemented yet")
                 }
             } else {
-                binding.etPost.error = "Text can't be empty"
+                if (binding.etPost.text.isEmpty())
+                    binding.etPost.error = getString(R.string.valid_post_text)
+                else
+                    binding.etPost.error = getString(R.string.valid_post_text_length)
                 binding.etPost.requestFocus()
             }
         } else {
-            binding.tlSelectCommunity.error = "Please select community"
+            binding.tlSelectCommunity.error = getString(R.string.valid_select_community)
         }
     }
 
@@ -246,9 +247,9 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
         }
     }
 
-    fun selectFile() {
+    private fun selectFile() {
         when (postFileType) {
-            PostFileType.IMAGE -> {
+            PostFileType.IMAGE, PostFileType.GIF -> {
                 startActivityForResult(FileUtils.getPickImageIntent(context), FileUtils.IMAGE_REQUEST_CODE)
             }
             PostFileType.VIDEO -> {
@@ -295,11 +296,22 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
             when (requestCode) {
                 FileUtils.IMAGE_REQUEST_CODE -> {
                     if (data?.data != null) {
+
                         //Photo from gallery.
-                        selectedFile = FileUtils.getFileFromUri(context, data.data!!)
+                        val path = FileUtils.getPathFromURI(requireContext(), data?.data!!)
+                        Log.d(FileUtils.FILE_PICK_TAG, "Path : ${path}")
+                        val splitPath = path.split("/")
+                        if (splitPath.last().contains(".gif")) {
+                            postFileType = PostFileType.GIF
+                            selectedFile = FileUtils.getFileFromUri(context, data.data!!, FileUtils.GIF)
+                        } else {
+                            postFileType = PostFileType.IMAGE
+                            selectedFile = FileUtils.getFileFromUri(context, data.data!!, FileUtils.IMAGE)
+                        }
+
                     } else {
                         //Photo from camera.
-                        selectedFile = FileUtils.getImageFile(context)
+                        selectedFile = FileUtils.getFile(context, FileUtils.IMAGE)
                     }
 
                     if (selectedFile != null) {
@@ -316,16 +328,16 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                     var tempFile: File? = null
                     if (data?.data != null && !data.data?.lastPathSegment.equals("video_temp.mov")) {
                         //Photo from gallery.
-                        tempFile = FileUtils.getVideoFileFromUri(context, data.data!!)
+                        tempFile = FileUtils.getFileFromUri(context, data.data!!, FileUtils.VIDEO)
                     } else {
                         //Photo from camera.
-                        tempFile = FileUtils.getVideoFile(context)
+                        tempFile = FileUtils.getFile(context, FileUtils.VIDEO)
                     }
 
                     if (tempFile != null && tempFile.exists()) {
                         val fileSize = (tempFile.length() / 1024) / 1024
-                        if (fileSize > 10) {
-                            showError(requireContext(), "File size too big. Please upload a video with upto 10mb only")
+                        if (fileSize > 18) {
+                            showError(requireContext(), "File size too big. Please upload a video with upto 18mb only")
                         } else {
                             selectedFile = tempFile
                             binding.groupSelectFileName.isVisible = true

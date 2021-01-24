@@ -299,10 +299,10 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
                 FileUtils.IMAGE_REQUEST_CODE -> {
                     if (data?.data != null) {
                         //Photo from gallery.
-                        imageFile = FileUtils.getFileFromUri(context, data.data!!)
+                        imageFile = FileUtils.getFileFromUri(context, data.data!!, FileUtils.IMAGE)
                     } else {
                         //Photo from camera.
-                        imageFile = FileUtils.getImageFile(context)
+                        imageFile = FileUtils.getFile(context, FileUtils.IMAGE)
                     }
 
                     if (imageFile != null) {

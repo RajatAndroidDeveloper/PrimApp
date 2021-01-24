@@ -35,4 +35,8 @@ object Validator {
     fun isValidCommunityDescriptionLength(name: String?): Boolean {
         return name != null && name.length <= 500
     }
+
+    fun isValidPostTextLength(name: String?): Boolean {
+        return name.isNullOrEmpty() || name.length <= 2000
+    }
 }

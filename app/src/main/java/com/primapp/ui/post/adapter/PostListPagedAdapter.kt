@@ -43,6 +43,9 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
                     PostFileType.IMAGE -> {
                         onItemClick(ShowImage(data.getImageUrl))
                     }
+                    PostFileType.GIF -> {
+                        onItemClick(ShowImage(data.getImageUrl))
+                    }
                 }
             }
         }

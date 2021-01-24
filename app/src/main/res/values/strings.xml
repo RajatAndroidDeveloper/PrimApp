@@ -85,6 +85,9 @@
     <string name="valid_community_name_length">Please enter community name upto 100 characters only</string>
     <string name="valid_community_description">Please enter community description</string>
     <string name="valid_community_description_length">Please enter community description upto 500 characters only</string>
+    <string name="valid_post_text_length">Please enter post text upto 2000 characters only</string>
+    <string name="valid_post_text">Post text can\'t be empty</string>
+    <string name="valid_select_community">Please select community</string>
 
     <string name="privacy_policy_help_text">Please accept terms of service and privacy policy.</string>
     <string name="valid_username">Please enter a valid username</string>
@@ -170,6 +173,7 @@
     <string name="write_text_here">Write text here...</string>
     <string name="select_community">Select Community</string>
     <string name="image">Image</string>
+    <string name="image_gif">Image/GIF</string>
     <string name="video">Video</string>
     <string name="gif">GIF</string>
     <string name="none">None</string>

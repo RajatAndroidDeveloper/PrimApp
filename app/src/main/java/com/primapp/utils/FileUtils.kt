@@ -1,10 +1,13 @@
 package com.primapp.utils
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.database.Cursor
 import android.net.Uri
 import android.os.Environment
 import android.os.Parcelable
+import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.util.Log
 import androidx.core.content.FileProvider
@@ -13,22 +16,28 @@ import com.primapp.R
 import java.io.File
 import java.io.FileOutputStream
 
+
 object FileUtils {
     const val IMAGE_REQUEST_CODE = 1
     const val VIDEO_REQUEST_CODE = 2
+    const val GIF_REQUEST_CODE = 3
     const val FILE_PICK_TAG = "filePicker"
+
+    const val IMAGE = "image"
+    const val VIDEO = "video"
+    const val GIF = "gif"
 
     fun getPickImageIntent(context: Context?): Intent? {
         var chooserIntent: Intent? = null
 
-        if (context != null && getImageUri(context) != Uri.EMPTY) {
+        if (context != null && getFileUri(context, IMAGE) != Uri.EMPTY) {
             var intentList: MutableList<Intent> = ArrayList()
             //Intent to show gallery option
             val pickIntent =
                 Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             //Intent to add camera option to chooser
             val takePhotoIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, getImageUri(context))
+            takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, getFileUri(context, IMAGE))
 
             intentList = addIntentsToList(context, intentList, pickIntent)
             intentList = addIntentsToList(context, intentList, takePhotoIntent)
@@ -52,14 +61,14 @@ object FileUtils {
     fun getPickVideoIntent(context: Context?): Intent? {
         var chooserIntent: Intent? = null
 
-        if (context != null && getVideoUri(context) != Uri.EMPTY) {
+        if (context != null && getFileUri(context, VIDEO) != Uri.EMPTY) {
             var intentList: MutableList<Intent> = ArrayList()
             //Intent to show gallery option
             val pickIntent =
                 Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
             //Intent to add camera option to chooser
             val takePhotoIntent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
-            takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, getVideoUri(context))
+            takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, getFileUri(context, VIDEO))
 
             intentList = addIntentsToList(context, intentList, pickIntent)
             intentList = addIntentsToList(context, intentList, takePhotoIntent)
@@ -80,60 +89,72 @@ object FileUtils {
         return chooserIntent
     }
 
+    fun getGifIntent(context: Context?): Intent? {
+        var chooserIntent: Intent? = null
 
-    private fun getImageUri(context: Context?): Uri {
-        val imageFile = getImageFile(context)
+        if (context != null && getFileUri(context, GIF) != Uri.EMPTY) {
+            var intentList: MutableList<Intent> = ArrayList()
 
-        if (context != null && imageFile != null) {
+            val mimeTypes = arrayOf("images/gif")
+            //Intent to show gallery option
+            val pickIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            pickIntent.setType("image/*")
+            pickIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+            pickIntent.putExtra(MediaStore.EXTRA_OUTPUT, getFileUri(context, GIF));
+
+            intentList = addIntentsToList(context, intentList, pickIntent)
+
+            if (intentList.size > 0) {
+                chooserIntent = Intent.createChooser(
+                    intentList.removeAt(intentList.size - 1),
+                    context.getString(R.string.select_capture_video)
+                )
+
+                chooserIntent?.putExtra(
+                    Intent.EXTRA_INITIAL_INTENTS,
+                    intentList.toTypedArray<Parcelable>()
+                )
+            }
+        }
+
+        return chooserIntent
+    }
+
+    private fun getFileUri(context: Context?, type: String): Uri {
+        val file = getFile(context, type)
+
+        if (context != null && file != null) {
             return FileProvider.getUriForFile(
                 context,
                 BuildConfig.APPLICATION_ID + context.getString(R.string.file_provider_name),
-                imageFile
+                file
             )
         }
-
         return Uri.EMPTY
     }
 
-    private fun getVideoUri(context: Context?): Uri {
-        val imageFile = getVideoFile(context)
-
-        if (context != null && imageFile != null) {
-            return FileProvider.getUriForFile(
-                context,
-                BuildConfig.APPLICATION_ID + context.getString(R.string.file_provider_name),
-                imageFile
-            )
-        }
-
-        return Uri.EMPTY
-    }
-
-
-    fun getImageFile(context: Context?): File? {
+    fun getFile(context: Context?, type: String): File? {
         if (context != null) {
             val pathname = "${context.getExternalFilesDir(Environment.DIRECTORY_DCIM)}"
 
-            Log.d(FILE_PICK_TAG, "ImageFilePath: $pathname")
             val folder = File(pathname)
             folder.mkdirs()
-            val file = File(folder, "image_temp.jpg")
-            Log.d(FILE_PICK_TAG, "ImageFile: $file")
-            file.createNewFile()
-            return file
-        }
 
-        return null
-    }
+            var fileName = "image_temp.jpg"
 
-    fun getVideoFile(context: Context?): File? {
-        if (context != null) {
-            val pathname = "${context.getExternalFilesDir(Environment.DIRECTORY_DCIM)}"
+            when (type) {
+                IMAGE -> {
+                    fileName = "image_temp.jpg"
+                }
+                VIDEO -> {
+                    fileName = "video_temp.mov"
+                }
+                GIF -> {
+                    fileName = "gif_temp.gif"
+                }
+            }
 
-            Log.d(FILE_PICK_TAG, "VideFilePath : $pathname")
-            val folder = File(pathname)
-            folder.mkdirs()
-            val file = File(folder, "video_temp.mov")
+            val file = File(folder, fileName)
             Log.d(FILE_PICK_TAG, "VideoFile: $file")
             file.createNewFile()
             return file
@@ -163,8 +184,8 @@ object FileUtils {
     *   Get Image file from URI (i.e. Call when you get image from gallery)
     * */
 
-    fun getFileFromUri(context: Context?, uri: Uri): File? {
-        val imageFile = getImageFile(context)
+    fun getFileFromUri(context: Context?, uri: Uri, type: String): File? {
+        val imageFile = getFile(context, type)
 
         if (context != null && imageFile != null) {
             val inputStream = context.contentResolver.openInputStream(uri)
@@ -188,28 +209,45 @@ object FileUtils {
         return null
     }
 
-    fun getVideoFileFromUri(context: Context?, uri: Uri): File? {
-        val videoFile = getVideoFile(context)
 
-        if (context != null && videoFile != null) {
-            val inputStream = context.contentResolver.openInputStream(uri)
-            inputStream.use { input ->
-                val outputStream = FileOutputStream(videoFile)
-                outputStream.use { output ->
-                    val buffer = ByteArray(4 * 1024) // buffer size
-                    while (true) {
-                        val byteCount = input?.read(buffer)
+     fun getPathFromURI(context: Context, uri: Uri): String {
+        var realPath = String()
+        uri.path?.let { path ->
 
-                        if (byteCount != null) {
-                            if (byteCount < 0) break
-                            output.write(buffer, 0, byteCount)
-                        }
+            val databaseUri: Uri
+            val selection: String?
+            val selectionArgs: Array<String>?
+            if (path.contains("/document/image:")) { // files selected from "Documents"
+                databaseUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                selection = "_id=?"
+                selectionArgs = arrayOf(DocumentsContract.getDocumentId(uri).split(":")[1])
+            } else { // files selected from all other sources, especially on Samsung devices
+                databaseUri = uri
+                selection = null
+                selectionArgs = null
+            }
+            try {
+                val column = "_data"
+                val projection = arrayOf(column)
+                val cursor = context.contentResolver.query(
+                    databaseUri,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null
+                )
+                cursor?.let {
+                    if (it.moveToFirst()) {
+                        val columnIndex = cursor.getColumnIndexOrThrow(column)
+                        realPath = cursor.getString(columnIndex)
                     }
-                    output.flush()
-                    return videoFile
+                    cursor.close()
                 }
+            } catch (e: Exception) {
+                println(e)
             }
         }
-        return null
+        return realPath
     }
+
 }
