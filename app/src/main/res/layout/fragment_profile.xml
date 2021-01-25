@@ -23,8 +23,33 @@
 
         <include
             layout="@layout/layout_profile_top_card"
-            app:user="@{user}"
-            app:frag="@{frag}"/>
+            app:frag="@{frag}"
+            app:user="@{user}" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_small"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/clProfileCard"
+            app:tabBackground="@drawable/profile_tab_background"
+            app:tabIndicator="@null"
+            app:tabPadding="@dimen/space_normal"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextAppearance="@style/MyProfileTabTextAppearance"
+            app:tabTextColor="@color/black" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tabLayout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

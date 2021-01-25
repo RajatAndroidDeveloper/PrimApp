@@ -1,4 +1,4 @@
-package com.primapp.ui.post
+package com.primapp.ui.profile
 
 import android.os.Bundle
 import androidx.core.view.isVisible
@@ -10,14 +10,11 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.primapp.R
 import com.primapp.cache.UserCache
-import com.primapp.databinding.FragmentUpdatesBinding
+import com.primapp.databinding.FragmentUserPostsBinding
 import com.primapp.extensions.showError
-import com.primapp.model.community.JoinedCommunityListModel
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
-import com.primapp.ui.base.VideoViewDialog
 import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
-import com.primapp.ui.post.UpdatesFragmentDirections
 import com.primapp.ui.post.adapter.LikePost
 import com.primapp.ui.post.adapter.PostListPagedAdapter
 import com.primapp.ui.post.adapter.ShowImage
@@ -25,15 +22,13 @@ import com.primapp.ui.post.adapter.ShowVideo
 import com.primapp.viewmodels.PostsViewModel
 import kotlinx.coroutines.launch
 
-class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
-
-    var joinedCommunityResponse: JoinedCommunityListModel? = null
+class UserPostsFragment : BaseFragment<FragmentUserPostsBinding>() {
 
     val adapter by lazy { PostListPagedAdapter { item -> onItemClick(item) } }
 
     val viewModel by viewModels<PostsViewModel> { viewModelFactory }
 
-    override fun getLayoutRes(): Int = R.layout.fragment_updates
+    override fun getLayoutRes(): Int = R.layout.fragment_user_posts
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -41,6 +36,7 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
         setData()
         setAdapter()
         setObserver()
+
     }
 
     private fun setData() {
@@ -48,33 +44,7 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
     }
 
     private fun setObserver() {
-
-        viewModel.joinedCommunityLiveData.observe(viewLifecycleOwner, Observer {
-            it.getContentIfNotHandled()?.let {
-                binding.pbPost.isVisible = false
-                when (it.status) {
-                    Status.SUCCESS -> {
-                        joinedCommunityResponse = it.data
-                        it.data?.let {
-                            binding.groupNoPostView.isVisible = it.content.isEmpty()
-                            binding.groupNoCommunityView.isVisible = it.content.isNotEmpty()
-                            binding.groupPostView.isVisible = it.content.isNotEmpty()
-                        }
-                    }
-
-                    Status.LOADING -> {
-                        binding.pbPost.isVisible = true
-                    }
-
-                    Status.ERROR -> {
-                    }
-                }
-            }
-        })
-
-        viewModel.getJoinedCommunityList()
-
-        viewModel.getPostsList().observe(viewLifecycleOwner, Observer {
+        viewModel.getUserPostsListData().observe(viewLifecycleOwner, Observer {
             it?.let {
                 lifecycleScope.launch {
                     adapter.submitData(it)
@@ -124,6 +94,7 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
     private fun setAdapter() {
         binding.rvCommunityPosts.apply {
             layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
         }
 
         binding.rvCommunityPosts.adapter = adapter.withLoadStateHeaderAndFooter(
@@ -164,14 +135,6 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
 
     fun refreshData() {
         adapter.refresh()
-    }
-
-    fun createPost() {
-        val action =
-            UpdatesFragmentDirections.actionUpdatesFragmentToCreatePostFragment(
-                joinedCommunityResponse
-            )
-        findNavController().navigate(action)
     }
 
     private fun onItemClick(item: Any?) {

@@ -31,13 +31,13 @@ data class PostListResult(
     @SerializedName("is_bookmark")
     val isBookmark: Boolean,
     @SerializedName("is_like")
-    val isLike: Boolean,
+    var isLike: Boolean,
     @SerializedName("post_comments")
     val postComments: Int,
     @SerializedName("post_content_file")
     val postContentFile: String,
     @SerializedName("post_likes")
-    val postLikes: Int,
+    var postLikes: Int,
     @SerializedName("post_text")
     val postText: String?,
     @SerializedName("udate")

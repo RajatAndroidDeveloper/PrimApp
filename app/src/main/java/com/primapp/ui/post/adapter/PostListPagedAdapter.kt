@@ -15,6 +15,26 @@ import javax.inject.Inject
 class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) :
     PagingDataAdapter<PostListResult, PostListPagedAdapter.PostsViewHolder>(PostListDiffCallback()) {
 
+    fun markPostAsLiked(postId: Int?) {
+        val item: PostListResult? = snapshot().items.find { it.id == postId }
+        item?.let {
+            val position = snapshot().items.indexOf(it)
+            snapshot().items.get(position).isLike = true
+            snapshot().items.get(position).postLikes++
+            notifyItemChanged(position)
+        }
+    }
+
+    fun markPostAsDisliked(postId: Int?) {
+        val item: PostListResult? = snapshot().items.find { it.id == postId }
+        item?.let {
+            val position = snapshot().items.indexOf(it)
+            snapshot().items.get(position).isLike = false
+            snapshot().items.get(position).postLikes--
+            notifyItemChanged(position)
+        }
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostsViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         return PostsViewHolder(
@@ -48,6 +68,12 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
                     }
                 }
             }
+
+            binding.ivLike.setOnClickListener {
+                data?.let {
+                    onItemClick(LikePost(it.community.id, it.id, it.isLike))
+                }
+            }
         }
     }
 
@@ -64,3 +90,4 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
 
 data class ShowImage(val url: String)
 data class ShowVideo(val url: String)
+data class LikePost(val communityId: Int, val postId: Int, val isLike: Boolean)

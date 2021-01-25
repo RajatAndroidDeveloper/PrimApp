@@ -9,8 +9,10 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.primapp.model.community.CommunityDetailsResponseModel
 import com.primapp.model.community.JoinedCommunityListModel
+import com.primapp.model.post.LikePostResponseModel
 import com.primapp.model.post.PostListResult
 import com.primapp.repository.PostRepository
+import com.primapp.retrofit.base.BaseDataModel
 import com.primapp.retrofit.base.Event
 import com.primapp.retrofit.base.Resource
 import com.primapp.utils.ErrorFields
@@ -27,7 +29,7 @@ class PostsViewModel @Inject constructor(
     // get Post List
     private var postListResultLiveData: LiveData<PagingData<PostListResult>>? = null
 
-    fun getParentCategoriesListData(): LiveData<PagingData<PostListResult>> {
+    fun getPostsList(): LiveData<PagingData<PostListResult>> {
         val lastResult = postListResultLiveData
 //        if (lastResult != null) {
 //            return lastResult
@@ -46,5 +48,38 @@ class PostsViewModel @Inject constructor(
         _joinedCommunityLiveData.postValue(Event(Resource.loading(null)))
         _joinedCommunityLiveData.postValue(Event(repo.getJoinedCommunity()))
     }
+
+    //Like post
+    private var _likePostLiveData = MutableLiveData<Event<Resource<LikePostResponseModel>>>()
+    var likePostLiveData: LiveData<Event<Resource<LikePostResponseModel>>> = _likePostLiveData
+
+    fun likePost(communityId: Int, userId: Int, postId: Int) = viewModelScope.launch {
+        _likePostLiveData.postValue(Event(Resource.loading(null)))
+        _likePostLiveData.postValue(Event(repo.likePost(communityId, userId, postId)))
+    }
+
+    //UnLike post
+    private var _unlikePostLiveData = MutableLiveData<Event<Resource<LikePostResponseModel>>>()
+    var unlikePostLiveData: LiveData<Event<Resource<LikePostResponseModel>>> = _unlikePostLiveData
+
+    fun unlikePost(communityId: Int, userId: Int, postId: Int) = viewModelScope.launch {
+        _unlikePostLiveData.postValue(Event(Resource.loading(null)))
+        _unlikePostLiveData.postValue(Event(repo.unlikePost(communityId, userId, postId)))
+    }
+
+    // get User Post List
+    private var userPostListResultLiveData: LiveData<PagingData<PostListResult>>? = null
+
+    fun getUserPostsListData(): LiveData<PagingData<PostListResult>> {
+        val lastResult = postListResultLiveData
+        if (lastResult != null) {
+            return lastResult
+        }
+        val newResultLiveData: LiveData<PagingData<PostListResult>> =
+            repo.getUserPostList().cachedIn(viewModelScope)
+        userPostListResultLiveData = newResultLiveData
+        return newResultLiveData
+    }
+
 
 }

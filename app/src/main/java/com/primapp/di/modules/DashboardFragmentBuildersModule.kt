@@ -8,7 +8,7 @@ import com.primapp.ui.dashboard.NotificationsFragment
 import com.primapp.ui.dashboard.ProfileFragment
 import com.primapp.ui.post.UpdatesFragment
 import com.primapp.ui.post.create.CreatePostFragment
-import com.primapp.ui.profile.EditProfileFragment
+import com.primapp.ui.profile.*
 import com.primapp.ui.settings.AboutUsFragment
 import com.primapp.ui.settings.SettingsFragment
 import dagger.Module
@@ -61,4 +61,17 @@ abstract class DashboardFragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeCreatePostFragment(): CreatePostFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeUserPostsFragment(): UserPostsFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeUserJoinedCommunitiesFragment(): UserJoinedCommunitiesFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeUserMentorsFragment(): UserMentorsFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeUserMenteesFragment(): UserMenteesFragment
+
 }

@@ -6,6 +6,7 @@ import com.primapp.model.aws.PresignedURLResponseModel
 import com.primapp.model.category.ParentCategoryResponseModel
 import com.primapp.model.community.*
 import com.primapp.model.post.CreatePostRequestModel
+import com.primapp.model.post.LikePostResponseModel
 import com.primapp.model.post.PostListResponseModel
 import com.primapp.model.profile.EditProfileRequestModel
 import com.primapp.retrofit.base.BaseDataModel
@@ -138,4 +139,24 @@ interface ApiService {
         @Path("userId") userId: Int,
         @Body createPostRequestModel: CreatePostRequestModel
     ): BaseDataModel
+
+    @POST(ApiConstant.LIKE_POST)
+    suspend fun likePost(
+        @Path("communityId") communityId: Int,
+        @Path("userId") userId: Int,
+        @Path("postId") postId: Int
+    ): LikePostResponseModel
+
+    @DELETE(ApiConstant.UNLIKE_POST)
+    suspend fun unlikePost(
+        @Path("communityId") communityId: Int,
+        @Path("userId") userId: Int,
+        @Path("postId") postId: Int
+    ): LikePostResponseModel
+
+    @GET(ApiConstant.USER_POST_LIST)
+    suspend fun getUserPostList(
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int
+    ): PostListResponseModel
 }
