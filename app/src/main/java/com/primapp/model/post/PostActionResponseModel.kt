@@ -3,12 +3,12 @@ package com.primapp.model.post
 import com.google.gson.annotations.SerializedName
 import com.primapp.retrofit.base.BaseDataModel
 
-data class LikePostResponseModel(
+data class PostActionResponseModel(
     @SerializedName("content")
-    val content: LikePostContent
+    val content: PostActionContent
 ) : BaseDataModel()
 
-data class LikePostContent(
+data class PostActionContent(
     @SerializedName("community_id")
     val communityId: Int,
     @SerializedName("like_id")

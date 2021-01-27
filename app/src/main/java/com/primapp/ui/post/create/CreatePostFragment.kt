@@ -307,11 +307,13 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                         } else {
                             postFileType = PostFileType.IMAGE
                             selectedFile = FileUtils.getFileFromUri(context, data.data!!, FileUtils.IMAGE)
+                            FileUtils.compressImage(selectedFile!!.absolutePath)
                         }
 
                     } else {
                         //Photo from camera.
                         selectedFile = FileUtils.getFile(context, FileUtils.IMAGE)
+                        FileUtils.compressImage(selectedFile!!.absolutePath)
                     }
 
                     if (selectedFile != null) {

@@ -9,7 +9,7 @@ import com.primapp.model.aws.PresignedURLRequest
 import com.primapp.model.aws.PresignedURLResponseModel
 import com.primapp.model.community.JoinedCommunityListModel
 import com.primapp.model.post.CreatePostRequestModel
-import com.primapp.model.post.LikePostResponseModel
+import com.primapp.model.post.PostActionResponseModel
 import com.primapp.model.post.PostListResult
 import com.primapp.retrofit.ApiConstant
 import com.primapp.retrofit.ApiService
@@ -98,7 +98,7 @@ class PostRepository @Inject constructor(
         communityId: Int,
         userId: Int,
         postId: Int
-    ): Resource<LikePostResponseModel> {
+    ): Resource<PostActionResponseModel> {
         return try {
             responseHandler.handleResponse(apiService.likePost(communityId, userId, postId))
         } catch (e: Exception) {
@@ -110,7 +110,7 @@ class PostRepository @Inject constructor(
         communityId: Int,
         userId: Int,
         postId: Int
-    ): Resource<LikePostResponseModel> {
+    ): Resource<PostActionResponseModel> {
         return try {
             responseHandler.handleResponse(apiService.unlikePost(communityId, userId, postId))
         } catch (e: Exception) {
@@ -129,6 +129,18 @@ class PostRepository @Inject constructor(
                 UserPostListPageDataSource(apiService)
             }
         ).liveData
+    }
+
+    suspend fun deletePost(
+        communityId: Int,
+        userId: Int,
+        postId: Int
+    ): Resource<PostActionResponseModel> {
+        return try {
+            responseHandler.handleResponse(apiService.deletePost(communityId, userId, postId))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
     }
 
 }

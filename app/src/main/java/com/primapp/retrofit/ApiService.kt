@@ -6,13 +6,12 @@ import com.primapp.model.aws.PresignedURLResponseModel
 import com.primapp.model.category.ParentCategoryResponseModel
 import com.primapp.model.community.*
 import com.primapp.model.post.CreatePostRequestModel
-import com.primapp.model.post.LikePostResponseModel
+import com.primapp.model.post.PostActionResponseModel
 import com.primapp.model.post.PostListResponseModel
 import com.primapp.model.profile.EditProfileRequestModel
 import com.primapp.retrofit.base.BaseDataModel
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -145,18 +144,30 @@ interface ApiService {
         @Path("communityId") communityId: Int,
         @Path("userId") userId: Int,
         @Path("postId") postId: Int
-    ): LikePostResponseModel
+    ): PostActionResponseModel
 
     @DELETE(ApiConstant.UNLIKE_POST)
     suspend fun unlikePost(
         @Path("communityId") communityId: Int,
         @Path("userId") userId: Int,
         @Path("postId") postId: Int
-    ): LikePostResponseModel
+    ): PostActionResponseModel
 
     @GET(ApiConstant.USER_POST_LIST)
     suspend fun getUserPostList(
         @Query("offset") offset: Int,
         @Query("limit") limit: Int
     ): PostListResponseModel
+
+    @GET(ApiConstant.GET_PROFILE)
+    suspend fun getUserProfile(
+        @Path("userId") userId: Int
+    ): VerifyUserResponseModel
+
+    @DELETE(ApiConstant.DELETE_POST)
+    suspend fun deletePost(
+        @Path("communityId") communityId: Int,
+        @Path("userId") userId: Int,
+        @Path("postId") postId: Int
+    ): PostActionResponseModel
 }

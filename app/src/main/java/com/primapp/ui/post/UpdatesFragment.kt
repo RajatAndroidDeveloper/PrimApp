@@ -12,20 +12,20 @@ import com.primapp.R
 import com.primapp.cache.UserCache
 import com.primapp.databinding.FragmentUpdatesBinding
 import com.primapp.extensions.showError
+import com.primapp.extensions.showInfo
+import com.primapp.model.*
 import com.primapp.model.community.JoinedCommunityListModel
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
-import com.primapp.ui.base.VideoViewDialog
 import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
-import com.primapp.ui.post.UpdatesFragmentDirections
-import com.primapp.ui.post.adapter.LikePost
 import com.primapp.ui.post.adapter.PostListPagedAdapter
-import com.primapp.ui.post.adapter.ShowImage
-import com.primapp.ui.post.adapter.ShowVideo
+import com.primapp.utils.DialogUtils
 import com.primapp.viewmodels.PostsViewModel
 import kotlinx.coroutines.launch
 
 class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
+
+    val userData by lazy { UserCache.getUser(requireContext()) }
 
     var joinedCommunityResponse: JoinedCommunityListModel? = null
 
@@ -45,6 +45,7 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
 
     private fun setData() {
         binding.frag = this
+        binding.userData = userData
     }
 
     private fun setObserver() {
@@ -119,6 +120,25 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                 }
             }
         })
+
+        viewModel.deletePostLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.SUCCESS -> {
+                        it.data?.content?.let {
+                            adapter.removePost(it.postId)
+                        }
+                    }
+                }
+            }
+        })
     }
 
     private fun setAdapter() {
@@ -188,10 +208,20 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
             }
             is LikePost -> {
                 if (item.isLike) {
-                    viewModel.unlikePost(item.communityId, UserCache.getUser(requireContext())!!.id, item.postId)
+                    viewModel.unlikePost(item.communityId, userData!!.id, item.postId)
                 } else {
-                    viewModel.likePost(item.communityId, UserCache.getUser(requireContext())!!.id, item.postId)
+                    viewModel.likePost(item.communityId, userData!!.id, item.postId)
                 }
+            }
+
+            is EditPost, is HidePost, is ReportPost -> {
+                showInfo(requireContext(), "Not yet implemented!")
+            }
+
+            is DeletePost -> {
+                DialogUtils.showYesNoDialog(requireActivity(), R.string.delete_post_message, {
+                    viewModel.deletePost(item.postData.community.id, userData!!.id, item.postData.id)
+                })
             }
         }
     }

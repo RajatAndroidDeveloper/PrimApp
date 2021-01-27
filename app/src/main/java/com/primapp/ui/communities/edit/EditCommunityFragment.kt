@@ -199,6 +199,7 @@ class EditCommunityFragment : BaseFragment<FragmentEditCommunityBinding>() {
                     }
 
                     if (imageFile != null) {
+                        FileUtils.compressImage(imageFile!!.absolutePath)
                         binding.ivProfilePic.loadCircularImageWithoutCache(imageFile!!.absolutePath)
                         Log.d(FileUtils.FILE_PICK_TAG, "File Path : ${imageFile!!.absolutePath}")
                     } else {

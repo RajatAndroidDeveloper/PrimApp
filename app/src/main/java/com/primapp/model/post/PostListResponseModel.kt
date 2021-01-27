@@ -1,4 +1,5 @@
 package com.primapp.model.post
+
 import com.google.gson.annotations.SerializedName
 import com.primapp.retrofit.base.BaseDataModel
 
@@ -6,7 +7,7 @@ import com.primapp.retrofit.base.BaseDataModel
 data class PostListResponseModel(
     @SerializedName("content")
     val content: Content
-):BaseDataModel()
+) : BaseDataModel()
 
 data class Content(
     @SerializedName("count")
@@ -45,7 +46,9 @@ data class PostListResult(
     @SerializedName("user")
     val user: User,
     @SerializedName("file_type")
-    val fileType:String?
+    val fileType: String?,
+    @SerializedName("is_createdbyme")
+    val isCreatedByMe: Boolean
 )
 
 data class Community(

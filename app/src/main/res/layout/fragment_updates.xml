@@ -8,62 +8,66 @@
         <variable
             name="frag"
             type="com.primapp.ui.post.UpdatesFragment" />
+
+        <variable
+            name="userData"
+            type="com.primapp.model.auth.UserData" />
     </data>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <include layout="@layout/toolbar_dashboard_accent" />
+
+        <include
+            layout="@layout/layout_create_new_post"
+            app:frag="@{frag}"
+            app:userData="@{userData}" />
+
+        <ProgressBar
+            android:id="@+id/pbPost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivUpdateMockup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_large"
+            android:src="@drawable/updates_mockup"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardCreatePost" />
+
+        <TextView
+            android:id="@+id/tvNoPost"
+            style="@style/primaryBodyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_large"
+            android:gravity="center"
+            android:text="@string/empty_communities_description"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/textMedium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivUpdateMockup" />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white">
-
-            <include layout="@layout/toolbar_dashboard_accent" />
-
-            <include
-                layout="@layout/layout_create_new_post"
-                app:frag="@{frag}" />
-
-            <ProgressBar
-                android:id="@+id/pbPost"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
-
-            <ImageView
-                android:id="@+id/ivUpdateMockup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_large"
-                android:src="@drawable/updates_mockup"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardCreatePost" />
-
-            <TextView
-                android:id="@+id/tvNoPost"
-                style="@style/primaryBodyText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_large"
-                android:gravity="center"
-                android:text="@string/empty_communities_description"
-                android:textColor="@color/colorAccent"
-                android:textSize="@dimen/textMedium"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ivUpdateMockup" />
-
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/swipeRefresh"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvNoPost"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:onRefreshListener="@{()->frag.refreshData()}">
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvNoPost"
+            app:onRefreshListener="@{()->frag.refreshData()}">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvCommunityPosts"
@@ -72,28 +76,28 @@
                 tools:itemCount="3"
                 tools:listitem="@layout/item_list_post" />
 
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-            <androidx.constraintlayout.widget.Group
-                android:id="@+id/groupNoPostView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:constraint_referenced_ids="ivUpdateMockup,tvNoPost" />
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/groupNoPostView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="ivUpdateMockup,tvNoPost" />
 
-            <androidx.constraintlayout.widget.Group
-                android:id="@+id/groupPostView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="visible"
-                app:constraint_referenced_ids="rvCommunityPosts, swipeRefresh" />
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/groupPostView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:constraint_referenced_ids="rvCommunityPosts, swipeRefresh" />
 
-            <androidx.constraintlayout.widget.Group
-                android:id="@+id/groupNoCommunityView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:constraint_referenced_ids="cardCreatePost,groupPostView" />
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/groupNoCommunityView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="cardCreatePost,groupPostView" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

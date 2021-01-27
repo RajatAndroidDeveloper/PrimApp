@@ -1,9 +1,10 @@
 package com.primapp.utils
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.database.Cursor
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.media.ExifInterface
 import android.net.Uri
 import android.os.Environment
 import android.os.Parcelable
@@ -66,12 +67,15 @@ object FileUtils {
             //Intent to show gallery option
             val pickIntent =
                 Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
+            val videoSize: Long = 17 * 1024 * 1024
             //Intent to add camera option to chooser
-            val takePhotoIntent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
-            takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, getFileUri(context, VIDEO))
+            val takeVideoIntent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
+            takeVideoIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1)
+            takeVideoIntent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, videoSize)
+            takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, getFileUri(context, VIDEO))
 
             intentList = addIntentsToList(context, intentList, pickIntent)
-            intentList = addIntentsToList(context, intentList, takePhotoIntent)
+            intentList = addIntentsToList(context, intentList, takeVideoIntent)
 
             if (intentList.size > 0) {
                 chooserIntent = Intent.createChooser(
@@ -210,7 +214,7 @@ object FileUtils {
     }
 
 
-     fun getPathFromURI(context: Context, uri: Uri): String {
+    fun getPathFromURI(context: Context, uri: Uri): String {
         var realPath = String()
         uri.path?.let { path ->
 
@@ -248,6 +252,42 @@ object FileUtils {
             }
         }
         return realPath
+    }
+
+
+    fun compressImage(imageUrl: String) {
+        val compressionRatio = 60 //1 == originalImage, 2 = 50% compression, 4=25% compress
+
+        val file = File(imageUrl)
+        val fileSize = (file.length() / 1024) / 1024
+        try {
+            if (fileSize >= 2) {
+                val oldExif = ExifInterface(imageUrl)
+                val exifOrientation: String? = oldExif.getAttribute(ExifInterface.TAG_ORIENTATION)
+
+                Log.d(FILE_PICK_TAG, "Compressing File....")
+                val bitmap = BitmapFactory.decodeFile(file.path)
+                Log.d(FILE_PICK_TAG, "Original size : $fileSize Resolution : ${bitmap.width}X${bitmap.height}")
+                bitmap.compress(Bitmap.CompressFormat.JPEG, compressionRatio, FileOutputStream(file))
+
+                if (exifOrientation != null) {
+                    val newExif = ExifInterface(imageUrl)
+                    newExif.setAttribute(ExifInterface.TAG_ORIENTATION, exifOrientation)
+                    newExif.saveAttributes()
+                }
+
+                val compressedBitmap = BitmapFactory.decodeFile(file.path)
+                val compressedFileSize = (file.length() / 1024) / 1024
+                Log.d(
+                    FILE_PICK_TAG,
+                    "Compressed size : $compressedFileSize Resolution : ${compressedBitmap.width}X${compressedBitmap.height}"
+                )
+
+            }
+        } catch (t: Throwable) {
+            Log.e(FILE_PICK_TAG, "Error compressing file.$t")
+            t.printStackTrace()
+        }
     }
 
 }

@@ -7,12 +7,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.primapp.model.community.CommunityDetailsResponseModel
 import com.primapp.model.community.JoinedCommunityListModel
-import com.primapp.model.post.LikePostResponseModel
+import com.primapp.model.post.PostActionResponseModel
 import com.primapp.model.post.PostListResult
 import com.primapp.repository.PostRepository
-import com.primapp.retrofit.base.BaseDataModel
 import com.primapp.retrofit.base.Event
 import com.primapp.retrofit.base.Resource
 import com.primapp.utils.ErrorFields
@@ -50,8 +48,8 @@ class PostsViewModel @Inject constructor(
     }
 
     //Like post
-    private var _likePostLiveData = MutableLiveData<Event<Resource<LikePostResponseModel>>>()
-    var likePostLiveData: LiveData<Event<Resource<LikePostResponseModel>>> = _likePostLiveData
+    private var _likePostLiveData = MutableLiveData<Event<Resource<PostActionResponseModel>>>()
+    var likePostLiveData: LiveData<Event<Resource<PostActionResponseModel>>> = _likePostLiveData
 
     fun likePost(communityId: Int, userId: Int, postId: Int) = viewModelScope.launch {
         _likePostLiveData.postValue(Event(Resource.loading(null)))
@@ -59,12 +57,21 @@ class PostsViewModel @Inject constructor(
     }
 
     //UnLike post
-    private var _unlikePostLiveData = MutableLiveData<Event<Resource<LikePostResponseModel>>>()
-    var unlikePostLiveData: LiveData<Event<Resource<LikePostResponseModel>>> = _unlikePostLiveData
+    private var _unlikePostLiveData = MutableLiveData<Event<Resource<PostActionResponseModel>>>()
+    var unlikePostLiveData: LiveData<Event<Resource<PostActionResponseModel>>> = _unlikePostLiveData
 
     fun unlikePost(communityId: Int, userId: Int, postId: Int) = viewModelScope.launch {
         _unlikePostLiveData.postValue(Event(Resource.loading(null)))
         _unlikePostLiveData.postValue(Event(repo.unlikePost(communityId, userId, postId)))
+    }
+
+    //Delete post
+    private var _deletePostLiveData = MutableLiveData<Event<Resource<PostActionResponseModel>>>()
+    var deletePostLiveData: LiveData<Event<Resource<PostActionResponseModel>>> = _deletePostLiveData
+
+    fun deletePost(communityId: Int, userId: Int, postId: Int) = viewModelScope.launch {
+        _deletePostLiveData.postValue(Event(Resource.loading(null)))
+        _deletePostLiveData.postValue(Event(repo.deletePost(communityId, userId, postId)))
     }
 
     // get User Post List

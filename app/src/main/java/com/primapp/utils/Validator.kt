@@ -25,7 +25,7 @@ object Validator {
     }
 
     fun isUsernameValid(username: String?): Boolean {
-        return username != null && username.matches("^[a-zA-Z][a-zA-Z0-9_.]{3,19}\$".toRegex())
+        return username != null && username.matches("^[a-zA-Z][a-zA-Z0-9_.]{5,19}\$".toRegex())
     }
 
     fun isValidCommunityNameLength(name: String?): Boolean {

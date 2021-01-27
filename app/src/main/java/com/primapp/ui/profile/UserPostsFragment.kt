@@ -12,17 +12,19 @@ import com.primapp.R
 import com.primapp.cache.UserCache
 import com.primapp.databinding.FragmentUserPostsBinding
 import com.primapp.extensions.showError
+import com.primapp.extensions.showInfo
+import com.primapp.model.*
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
-import com.primapp.ui.post.adapter.LikePost
 import com.primapp.ui.post.adapter.PostListPagedAdapter
-import com.primapp.ui.post.adapter.ShowImage
-import com.primapp.ui.post.adapter.ShowVideo
+import com.primapp.utils.DialogUtils
 import com.primapp.viewmodels.PostsViewModel
 import kotlinx.coroutines.launch
 
 class UserPostsFragment : BaseFragment<FragmentUserPostsBinding>() {
+
+    val userData by lazy { UserCache.getUser(requireContext()) }
 
     val adapter by lazy { PostListPagedAdapter { item -> onItemClick(item) } }
 
@@ -89,12 +91,30 @@ class UserPostsFragment : BaseFragment<FragmentUserPostsBinding>() {
                 }
             }
         })
+
+        viewModel.deletePostLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.SUCCESS -> {
+                        it.data?.content?.let {
+                            adapter.removePost(it.postId)
+                        }
+                    }
+                }
+            }
+        })
     }
 
     private fun setAdapter() {
         binding.rvCommunityPosts.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            setHasFixedSize(true)
         }
 
         binding.rvCommunityPosts.adapter = adapter.withLoadStateHeaderAndFooter(
@@ -106,6 +126,7 @@ class UserPostsFragment : BaseFragment<FragmentUserPostsBinding>() {
             if (loadState.refresh !is LoadState.Loading) {
                 binding.swipeRefresh.isRefreshing = false
                 binding.pbPost.isVisible = false
+                binding.rvCommunityPosts.isVisible = true
 
                 val error = when {
                     loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
@@ -127,8 +148,10 @@ class UserPostsFragment : BaseFragment<FragmentUserPostsBinding>() {
 
             } else {
                 //binding.swipeRefresh.isRefreshing = true
-                if (!binding.swipeRefresh.isRefreshing)
+                if (!binding.swipeRefresh.isRefreshing) {
                     binding.pbPost.isVisible = true
+                    binding.rvCommunityPosts.isVisible = false
+                }
             }
         }
     }
@@ -151,10 +174,18 @@ class UserPostsFragment : BaseFragment<FragmentUserPostsBinding>() {
             }
             is LikePost -> {
                 if (item.isLike) {
-                    viewModel.unlikePost(item.communityId, UserCache.getUser(requireContext())!!.id, item.postId)
+                    viewModel.unlikePost(item.communityId, userData!!.id, item.postId)
                 } else {
-                    viewModel.likePost(item.communityId, UserCache.getUser(requireContext())!!.id, item.postId)
+                    viewModel.likePost(item.communityId, userData!!.id, item.postId)
                 }
+            }
+            is EditPost, is HidePost, is ReportPost -> {
+                showInfo(requireContext(), "Not yet implemented!")
+            }
+            is DeletePost -> {
+                DialogUtils.showYesNoDialog(requireActivity(), R.string.delete_post_message, {
+                    viewModel.deletePost(item.postData.community.id, userData!!.id, item.postData.id)
+                })
             }
         }
     }

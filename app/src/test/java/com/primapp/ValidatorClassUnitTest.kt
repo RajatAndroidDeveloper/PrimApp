@@ -93,7 +93,7 @@ class ValidatorClassUnitTest {
 
     @Test
     fun usernameValidator_InvalidUsername_ShortLength_ReturnsFalse(){
-        assertFalse(Validator.isUsernameValid("abc"))
+        assertFalse(Validator.isUsernameValid("abcde"))
     }
 
     @Test

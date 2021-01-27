@@ -31,6 +31,7 @@ object ApiConstant {
 
     //Profile
     const val EDIT_PROFILE = "users/{userId}"
+    const val GET_PROFILE = "users/{userId}"
 
     //AWS
     const val PRESIGNED_URL = "generate-presigned-url"
@@ -41,4 +42,5 @@ object ApiConstant {
     const val LIKE_POST = "communities/{communityId}/users/{userId}/posts/{postId}/likes"
     const val UNLIKE_POST = "communities/{communityId}/users/{userId}/posts/{postId}/likes"
     const val USER_POST_LIST = "user_post_list"
+    const val DELETE_POST = "communities/{communityId}/users/{userId}/posts/{postId}"
 }

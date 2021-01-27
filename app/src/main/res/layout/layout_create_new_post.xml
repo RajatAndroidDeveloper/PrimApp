@@ -6,6 +6,10 @@
         <variable
             name="frag"
             type="com.primapp.ui.post.UpdatesFragment" />
+
+        <variable
+            name="userData"
+            type="com.primapp.model.auth.UserData" />
     </data>
 
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -32,7 +36,7 @@
                 android:id="@+id/ivProfilePic"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/logo"
+                loadCircularImage="@{userData.userImage}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

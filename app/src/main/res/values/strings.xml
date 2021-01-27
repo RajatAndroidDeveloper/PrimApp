@@ -2,7 +2,7 @@
     <string name="app_name">PRIM</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="prim_slogan">A Community-Based\nVirtual Mentoring Platform</string>
+    <string name="prim_slogan">Communities + Mentoring</string> <!--A Community-Based\nVirtual Mentoring Platform-->
     <string name="welcome">Welcome!</string>
 
     <string name="i_m_a_new_user">I\'m a new user,</string>
@@ -10,7 +10,7 @@
     <string name="already_a_user_please">Already a user ? Please</string>
     <string name="login_period">Login.</string>
     <string name="close">Close</string>
-    <string name="username_help_text">User name must start with a letter and follow with any combination of letters, numbers, periods and underscore with minimum length of 4 characters.</string>
+    <string name="username_help_text">User name must start with a letter and follow with any combination of letters, numbers, periods and underscore with minimum length of 6 characters.</string>
 
     <string-array name="gender">
         <item>Male</item>
@@ -179,4 +179,5 @@
     <string name="none">None</string>
     <string name="post_created_success">Your post has been created successfully</string>
     <string name="file_type_error">Filetype %s selected but file not attached. Please attach a file.</string>
+    <string name="delete_post_message">Are you sure to delete this post?</string>
 </resources>

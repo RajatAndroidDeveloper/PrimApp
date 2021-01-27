@@ -1,7 +1,9 @@
 package com.primapp.ui.post.adapter
 
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.databinding.DataBindingUtil
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -9,8 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.primapp.R
 import com.primapp.constants.PostFileType
 import com.primapp.databinding.ItemListPostBinding
+import com.primapp.model.*
 import com.primapp.model.post.PostListResult
 import javax.inject.Inject
+
 
 class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) :
     PagingDataAdapter<PostListResult, PostListPagedAdapter.PostsViewHolder>(PostListDiffCallback()) {
@@ -32,6 +36,14 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
             snapshot().items.get(position).isLike = false
             snapshot().items.get(position).postLikes--
             notifyItemChanged(position)
+        }
+    }
+
+    fun removePost(postId: Int?) {
+        val item: PostListResult? = snapshot().items.find { it.id == postId }
+        item?.let {
+            val position = snapshot().items.indexOf(it)
+            notifyItemRemoved(position)
         }
     }
 
@@ -74,6 +86,42 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
                     onItemClick(LikePost(it.community.id, it.id, it.isLike))
                 }
             }
+
+            binding.ivMore.setOnClickListener {
+                //creating a popup menu
+                val popup = PopupMenu(binding.root.context, binding.ivMore)
+                //inflating menu from xml resource
+                if (data!!.isCreatedByMe) {
+                    popup.inflate(R.menu.post_edit_menu)
+                } else {
+                    popup.inflate(R.menu.post_report_menu)
+                }
+                //adding click listener
+                popup.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
+                    override fun onMenuItemClick(p0: MenuItem?): Boolean {
+                        when (p0?.itemId) {
+                            R.id.editPost -> {
+                                onItemClick(EditPost(data))
+                            }
+
+                            R.id.deletePost -> {
+                                onItemClick(DeletePost(data))
+                            }
+                            R.id.hidePost -> {
+                                onItemClick(HidePost(data))
+                            }
+                            R.id.reportPost -> {
+                                onItemClick(ReportPost(data))
+                            }
+                        }
+
+                        return false
+                    }
+
+                })
+                //displaying the popup
+                popup.show()
+            }
         }
     }
 
@@ -87,7 +135,3 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
         }
     }
 }
-
-data class ShowImage(val url: String)
-data class ShowVideo(val url: String)
-data class LikePost(val communityId: Int, val postId: Int, val isLike: Boolean)
