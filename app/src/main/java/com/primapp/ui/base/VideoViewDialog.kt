@@ -28,6 +28,10 @@ class VideoViewDialog : BaseDialogFragment<LayoutVideoViewBinding>() {
         super.onActivityCreated(savedInstanceState)
 
         playerView = binding.fullScreenVideo
+
+        binding.ivClose.setOnClickListener {
+            dismiss()
+        }
     }
 
     override fun onStart() {

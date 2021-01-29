@@ -37,7 +37,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
         setToolbar(getString(R.string.profile), toolbar)
         setData()
-        initViewPager()
+
     }
 
     private fun setData() {
@@ -45,7 +45,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         ivEndIcon.setImageResource(R.drawable.setting)
         binding.user = user
         binding.frag = this
-
+        initViewPager()
         ivEndIcon.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_settingsFragment)
         }
@@ -58,10 +58,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
     private fun initViewPager() {
         val titles = arrayListOf<SpannableStringBuilder>(
-            getTabHeader(0, "Posts"),
-            getTabHeader(0, "Communities"),
-            getTabHeader(0, "Mentors"),
-            getTabHeader(0, "Mentees")
+            getTabHeader(user.postsCount, "Posts"),
+            getTabHeader(user.joinedCommunityCount, "Communities"),
+            getTabHeader(user.mentorCount, "Mentors"),
+            getTabHeader(user.menteeCount, "Mentees")
         )
 
         val fragmentList = arrayListOf<Fragment>(
@@ -96,15 +96,16 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
     }
 
-    private fun getTabHeader(number: Int, text: String): SpannableStringBuilder {
+    private fun getTabHeader(number: Int? = 0, text: String): SpannableStringBuilder {
+        val num = number.toString()
         val sb = SpannableStringBuilder("$number")
         val boldStyleSpan: StyleSpan = StyleSpan(Typeface.BOLD)
         val normalStyleSpan: StyleSpan = StyleSpan(Typeface.NORMAL)
         sb.append("\n")
         sb.append(text)
-        sb.setSpan(boldStyleSpan, 0, 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-        sb.setSpan(RelativeSizeSpan(1.3f), 0, 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-        sb.setSpan(normalStyleSpan, 1, sb.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+        sb.setSpan(boldStyleSpan, 0, num.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+        sb.setSpan(RelativeSizeSpan(1.3f), 0, num.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+        sb.setSpan(normalStyleSpan, num.length + 1, sb.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         return sb
     }
 }

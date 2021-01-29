@@ -23,12 +23,12 @@ open class ResponseHandler @Inject constructor() {
     fun <T : Any> handleException(e: Exception): Resource<T> {
         Log.e("API_ERROR", "Reason : ${e.message}")
         return when (e) {
-            is HttpException -> Resource.error(getErrorMessage(e), null)
-            is NumberFormatException -> Resource.error("Error : ${e.localizedMessage}", null)
-            is MalformedJsonException -> Resource.error(getErrorMessage(46456), null)
-            is SocketTimeoutException -> Resource.error(getErrorMessage(25345), null)
-            is IOException -> Resource.error(getErrorMessage(403), null)
-            else -> Resource.error(getErrorMessage(Int.MAX_VALUE), null)
+            is HttpException -> Resource.error(getErrorMessage(e), null, e.code())
+            is NumberFormatException -> Resource.error("Error : ${e.localizedMessage}", null, null)
+            is MalformedJsonException -> Resource.error(getErrorMessage(46456), null, null)
+            is SocketTimeoutException -> Resource.error(getErrorMessage(25345), null, null)
+            is IOException -> Resource.error(getErrorMessage(403), null, null)
+            else -> Resource.error(getErrorMessage(Int.MAX_VALUE), null, null)
         }
     }
 

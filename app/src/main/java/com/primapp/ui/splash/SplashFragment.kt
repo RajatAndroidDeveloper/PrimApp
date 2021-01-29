@@ -47,7 +47,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
                         }
                     }
                     Status.ERROR -> {
-                        if (it.message.equals("Unauthorised")) {
+                        if (it.errorCode == 401) {
                             showError(requireContext(), "Session expired")
                             UserCache.clearAll(requireContext())
                             gotoLogin()

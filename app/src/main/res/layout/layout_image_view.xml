@@ -6,14 +6,25 @@
         android:id="@+id/rlMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/black"
         android:orientation="vertical"
         tools:ignore="Overdraw">
 
         <ImageView
+            android:id="@+id/ivClose"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/space_normal"
+            android:layout_marginEnd="@dimen/space_normal"
+            android:src="@drawable/ic_close" />
+
+        <com.primapp.extensions.TouchImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="30dp"
+            android:layout_below="@id/ivClose"
+            android:layout_marginTop="@dimen/space_small"
             android:layout_marginBottom="30dp"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"

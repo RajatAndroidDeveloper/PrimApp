@@ -9,11 +9,21 @@
         android:orientation="vertical"
         tools:ignore="Overdraw">
 
+        <ImageView
+            android:id="@+id/ivClose"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/space_normal"
+            android:layout_marginEnd="@dimen/space_normal"
+            android:src="@drawable/ic_close" />
+
         <com.google.android.exoplayer2.ui.PlayerView
             android:id="@+id/full_screen_video"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="30dp"
+            android:layout_below="@id/ivClose"
+            android:layout_marginTop="@dimen/space_small"
             android:layout_marginBottom="30dp"
             android:adjustViewBounds="true"
             android:background="@android:color/black"

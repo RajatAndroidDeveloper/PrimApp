@@ -27,7 +27,7 @@ class ImageViewDialog : BaseDialogFragment<LayoutImageViewBinding>() {
 
         binding.imageView.loadImageWithFitCenter(requireContext(), url)
 
-        binding.rlMain.setOnClickListener {
+        binding.ivClose.setOnClickListener {
             dismiss()
         }
     }
