@@ -133,17 +133,11 @@
         android:id="@+id/createPostFragment"
         android:name="com.primapp.ui.post.create.CreatePostFragment"
         android:label="CreatePostFragment"
-        tools:layout="@layout/fragment_create_post" >
-        <argument
-            android:name="joinedCommunityResponse"
-            app:argType="com.primapp.model.community.JoinedCommunityListModel"
-            app:nullable="true"
-            android:defaultValue="@null" />
-    </fragment>
+        tools:layout="@layout/fragment_create_post" />
     <dialog
         android:id="@+id/imageViewDialog"
         android:name="com.primapp.ui.base.ImageViewDialog"
-        android:label="ImageViewDialog" >
+        android:label="ImageViewDialog">
         <argument
             android:name="url"
             app:argType="string"
@@ -152,7 +146,7 @@
     <dialog
         android:id="@+id/videoViewDialog"
         android:name="com.primapp.ui.base.VideoViewDialog"
-        android:label="VideoViewDialog" >
+        android:label="VideoViewDialog">
         <argument
             android:name="url"
             app:argType="string"

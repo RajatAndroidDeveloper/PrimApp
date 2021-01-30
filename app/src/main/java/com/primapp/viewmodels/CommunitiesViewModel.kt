@@ -81,18 +81,6 @@ class CommunitiesViewModel @Inject constructor(
         return false
 
     }
-//
-//    var isLoading = MutableLiveData<Boolean>()
-//
-//    // get Parent Category List
-//    private var _parentCategoryLiveData = MutableLiveData<Resource<ParentCategoryResponseModel>>()
-//    var parentCategoryLiveData: LiveData<Resource<ParentCategoryResponseModel>> =
-//        _parentCategoryLiveData
-//
-//    fun getParentCategoriesList(offset: Int, limit: Int) = viewModelScope.launch {
-//        _parentCategoryLiveData.postValue(Resource.loading(null))
-//        _parentCategoryLiveData.postValue(repo.getParentCategoryList(offset, limit))
-//    }
 
     // get Parent Category List
     private var parentCategoryResultLiveData: LiveData<PagingData<ParentCategoryResult>>? = null

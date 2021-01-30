@@ -16,6 +16,7 @@ import com.primapp.databinding.FragmentAllCommunityBinding
 import com.primapp.extensions.setDivider
 import com.primapp.extensions.showError
 import com.primapp.model.community.CommunityData
+import com.primapp.model.post.User
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.ActionCommunityDetails
@@ -57,6 +58,7 @@ class AllCommunityFragment : BaseFragment<FragmentAllCommunityBinding>() {
                 when (response.status) {
                     Status.SUCCESS -> {
                         adapter.markCommunityAsJoined(response.data?.content?.id)
+                        UserCache.incrementJoinedCommunityCount(requireContext())
                     }
                     Status.LOADING -> {
                         showLoading()

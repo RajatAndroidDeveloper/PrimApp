@@ -7,6 +7,7 @@ import androidx.paging.PagingData
 import androidx.paging.liveData
 import com.primapp.model.aws.PresignedURLRequest
 import com.primapp.model.aws.PresignedURLResponseModel
+import com.primapp.model.category.ParentCategoryResponseModel
 import com.primapp.model.community.JoinedCommunityListModel
 import com.primapp.model.post.CreatePostRequestModel
 import com.primapp.model.post.PostActionResponseModel
@@ -88,7 +89,8 @@ class PostRepository @Inject constructor(
                     RetrofitUtils.getRequestBody(policy),
                     RetrofitUtils.getRequestBody(signature),
                     file
-                ))
+                )
+            )
         } catch (e: Exception) {
             responseHandler.handleException(e)
         }
@@ -142,5 +144,22 @@ class PostRepository @Inject constructor(
             responseHandler.handleException(e)
         }
     }
+
+    suspend fun getParentCategoryList(offset: Int, limit: Int): Resource<ParentCategoryResponseModel> {
+        return try {
+            responseHandler.handleResponse(apiService.getParentCategories(offset, limit))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    suspend fun getCategoryJoinedCommunity(categoryId: Int): Resource<JoinedCommunityListModel> {
+        return try {
+            responseHandler.handleResponse(apiService.getCategoryJoinedCommunityList(categoryId))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
 
 }

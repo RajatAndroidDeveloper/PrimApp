@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.primapp.PrimApp
 import com.primapp.model.aws.PresignedURLResponseModel
+import com.primapp.model.category.ParentCategoryResponseModel
 import com.primapp.model.community.EditCommunityRequestModel
 import com.primapp.model.community.JoinedCommunityListModel
 import com.primapp.model.post.CreatePostRequestModel
@@ -34,7 +35,7 @@ class CreatePostViewModel @Inject constructor(
 
     init {
         errorFieldsLiveData.value = errorFields
-        createPostRequestModel.value = CreatePostRequestModel(null, null, null)
+        createPostRequestModel.value = CreatePostRequestModel(null, null, null, null)
     }
 
     //Create post
@@ -75,8 +76,30 @@ class CreatePostViewModel @Inject constructor(
     ) = viewModelScope.launch {
         _uploadAWSLiveData.postValue(Event(Resource.loading(null)))
         _uploadAWSLiveData.postValue(
-            Event(repo.uploadtoAWS(url, key, accessKey,amzSecurityToken, policy, signature, file))
+            Event(repo.uploadtoAWS(url, key, accessKey, amzSecurityToken, policy, signature, file))
         )
     }
+
+
+    // get Parent Category List
+    private var _parentCategoryLiveData = MutableLiveData<Event<Resource<ParentCategoryResponseModel>>>()
+    var parentCategoryLiveData: LiveData<Event<Resource<ParentCategoryResponseModel>>> =
+        _parentCategoryLiveData
+
+    fun getParentCategoriesList(offset: Int, limit: Int) = viewModelScope.launch {
+        _parentCategoryLiveData.postValue(Event(Resource.loading(null)))
+        _parentCategoryLiveData.postValue(Event(repo.getParentCategoryList(offset, limit)))
+    }
+
+    // get Category Joined community List
+    private var _categoryJoinedCommunityLiveData = MutableLiveData<Event<Resource<JoinedCommunityListModel>>>()
+    var categoryJoinedCommunityLiveData: LiveData<Event<Resource<JoinedCommunityListModel>>> =
+        _categoryJoinedCommunityLiveData
+
+    fun getCategoryJoinedCommunityListData(categoryId: Int) = viewModelScope.launch {
+        _categoryJoinedCommunityLiveData.postValue(Event(Resource.loading(null)))
+        _categoryJoinedCommunityLiveData.postValue(Event(repo.getCategoryJoinedCommunity(categoryId)))
+    }
+
 
 }

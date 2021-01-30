@@ -38,4 +38,20 @@ object UserCache {
         return getAccessToken(context).isNotEmpty() && getUser(context) != null
     }
 
+    fun incrementJoinedCommunityCount(context: Context) {
+        val user = getUser(context)
+        user?.let {
+            it.joinedCommunityCount++
+            saveUser(context, it)
+        }
+    }
+
+    fun decrementJoinedCommunityCount(context: Context) {
+        val user = getUser(context)
+        user?.let {
+            it.joinedCommunityCount--
+            saveUser(context, it)
+        }
+    }
+
 }

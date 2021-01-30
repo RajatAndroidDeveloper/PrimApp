@@ -73,6 +73,7 @@
                 android:id="@+id/rvCommunityPosts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:scrollbars="vertical"
                 tools:itemCount="3"
                 tools:listitem="@layout/item_list_post" />
 
@@ -85,19 +86,19 @@
             android:visibility="gone"
             app:constraint_referenced_ids="ivUpdateMockup,tvNoPost" />
 
-        <androidx.constraintlayout.widget.Group
+     <!--   <androidx.constraintlayout.widget.Group
             android:id="@+id/groupPostView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="visible"
             app:constraint_referenced_ids="rvCommunityPosts, swipeRefresh" />
-
+-->
         <androidx.constraintlayout.widget.Group
             android:id="@+id/groupNoCommunityView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:constraint_referenced_ids="cardCreatePost,groupPostView" />
+            app:constraint_referenced_ids="cardCreatePost,rvCommunityPosts, swipeRefresh" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

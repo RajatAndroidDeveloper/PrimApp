@@ -28,7 +28,7 @@ class PostsViewModel @Inject constructor(
     private var postListResultLiveData: LiveData<PagingData<PostListResult>>? = null
 
     fun getPostsList(): LiveData<PagingData<PostListResult>> {
-        val lastResult = postListResultLiveData
+//        val lastResult = postListResultLiveData
 //        if (lastResult != null) {
 //            return lastResult
 //        }

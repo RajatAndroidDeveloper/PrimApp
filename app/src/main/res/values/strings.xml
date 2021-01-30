@@ -88,6 +88,7 @@
     <string name="valid_post_text_length">Please enter post text upto 2000 characters only</string>
     <string name="valid_post_text">Post text can\'t be empty</string>
     <string name="valid_select_community">Please select community</string>
+    <string name="valid_select_category">Please select category</string>
 
     <string name="privacy_policy_help_text">Please accept terms of service and privacy policy.</string>
     <string name="valid_username">Please enter a valid username</string>
@@ -180,4 +181,5 @@
     <string name="post_created_success">Your post has been created successfully</string>
     <string name="file_type_error">Filetype %s selected but file not attached. Please attach a file.</string>
     <string name="delete_post_message">Are you sure to delete this post?</string>
+    <string name="select_category">Select Category</string>
 </resources>

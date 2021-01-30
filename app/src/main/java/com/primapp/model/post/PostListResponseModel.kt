@@ -48,14 +48,20 @@ data class PostListResult(
     @SerializedName("file_type")
     val fileType: String?,
     @SerializedName("is_createdbyme")
-    val isCreatedByMe: Boolean
+    val isCreatedByMe: Boolean,
+    @SerializedName("thumbnail_file")
+    val thumbnailFile:String?,
+    @SerializedName("get_thumbnail_url")
+    val getThumbnailUrl:String?
 )
 
 data class Community(
     @SerializedName("community_name")
     val communityName: String,
     @SerializedName("id")
-    val id: Int
+    val id: Int,
+    @SerializedName("category")
+    val category: Category
 )
 
 data class User(
@@ -69,4 +75,11 @@ data class User(
     val lastName: String,
     @SerializedName("username")
     val username: String
+)
+
+data class Category(
+    @SerializedName("category_name")
+    val categoryName: String,
+    @SerializedName("id")
+    val id: Int
 )

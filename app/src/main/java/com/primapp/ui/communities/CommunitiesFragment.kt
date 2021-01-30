@@ -77,28 +77,6 @@ class CommunitiesFragment : BaseFragment<FragmentCommunitiesBinding>() {
     }
 
     private fun setObserver() {
-//        viewModel.parentCategoryLiveData.observe(viewLifecycleOwner, Observer {
-//            when (it.status) {
-//                Status.ERROR -> {
-//                    viewModel.isLoading.value = false
-//                    showError(requireContext(), it.message!!)
-//                }
-//
-//                Status.LOADING -> {
-//                    viewModel.isLoading.value = true
-//                }
-//
-//                Status.SUCCESS -> {
-//                    viewModel.isLoading.value = false
-//                    it.data?.content?.results?.let {
-//                        adapter.addData(it)
-//                    }
-//                }
-//            }
-//        })
-//
-//        viewModel.getParentCategoriesList(0, ApiConstant.NETWORK_PAGE_SIZE)
-
         viewModel.getParentCategoriesListData().observe(viewLifecycleOwner, Observer {
             it?.let {
                 lifecycleScope.launch {

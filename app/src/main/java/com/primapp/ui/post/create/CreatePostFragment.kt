@@ -5,26 +5,25 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.AutoCompleteTextView
 import android.widget.RadioGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.google.gson.Gson
 import com.primapp.R
 import com.primapp.cache.UserCache
 import com.primapp.constants.PostFileType
 import com.primapp.databinding.FragmentCreatePostBinding
 import com.primapp.extensions.showError
-import com.primapp.extensions.showInfo
-import com.primapp.model.community.JoinedCommunityListModel
+import com.primapp.retrofit.ApiConstant
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
+import com.primapp.ui.post.create.adapter.AutoCompleteCategoryArrayAdapter
 import com.primapp.ui.post.create.adapter.AutocompleteCommunityArrayAdapter
 import com.primapp.utils.*
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
+import okhttp3.MultipartBody
 import java.io.File
 
 
@@ -32,13 +31,17 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
 
     var selectedFile: File? = null
 
+    var isThumbnailUploaded: Boolean = false
+
     var postFileType: String? = null
+
+    var selectedCategoryId: Int? = null
 
     var selectedCommunityId: Int? = null
 
-    var joinedCommunityResponse: JoinedCommunityListModel? = null
-
     val communityAdapter by lazy { AutocompleteCommunityArrayAdapter(requireContext(), R.layout.item_simple_text) }
+
+    val categoryAdapter by lazy { AutoCompleteCategoryArrayAdapter(requireContext(), R.layout.item_simple_text) }
 
     val viewModel by viewModels<CreatePostViewModel> { viewModelFactory }
 
@@ -56,14 +59,6 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
     private fun setData() {
         binding.frag = this
         binding.viewModel = viewModel
-
-        joinedCommunityResponse = CreatePostFragmentArgs.fromBundle(
-            requireArguments()
-        ).joinedCommunityResponse
-
-        joinedCommunityResponse?.let {
-            communityAdapter.addAll(it.content)
-        }
 
         binding.rgFileType.setOnCheckedChangeListener(object : RadioGroup.OnCheckedChangeListener {
             override fun onCheckedChanged(p0: RadioGroup?, p1: Int) {
@@ -98,6 +93,53 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
     }
 
     private fun setObserver() {
+
+        viewModel.parentCategoryLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+
+                    Status.SUCCESS -> {
+                        it.data?.content?.results?.let {
+                            categoryAdapter.addAll(it)
+                        }
+                    }
+                }
+            }
+        })
+
+        viewModel.getParentCategoriesList(0, 1000)
+
+        viewModel.categoryJoinedCommunityLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                binding.tlSelectCommunity.isVisible = true
+                hideLoading()
+                when (it.status) {
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+
+                    Status.SUCCESS -> {
+                        it.data?.content?.let {
+                            communityAdapter.addAll(it)
+                        }
+                    }
+                }
+            }
+        })
+
+
         viewModel.createPostLiveData.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
                 hideLoading()
@@ -129,7 +171,16 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                     }
                     Status.SUCCESS -> {
                         it.data?.content?.let {
-                            viewModel.createPostRequestModel.value?.postContentFile = it.fields.key
+                            val part: MultipartBody.Part
+                            if (isThumbnailUploaded) {
+                                viewModel.createPostRequestModel.value?.thumbnailFile = it.fields.key
+                                val bitmap = FileUtils.getBitmapThumbnailForVideo(requireContext(), selectedFile!!)
+                                part = RetrofitUtils.bitmapToMultipartBody(bitmap, it.fields.key, "file")
+                            } else {
+                                viewModel.createPostRequestModel.value?.postContentFile = it.fields.key
+                                part = RetrofitUtils.fileToRequestBody(selectedFile!!, "file")
+                            }
+
                             viewModel.createPostRequestModel.value?.fileType = postFileType
                             viewModel.uploadAWS(
                                 it.url,
@@ -138,7 +189,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                                 it.fields.xAmzSecurityToken,
                                 it.fields.policy,
                                 it.fields.signature,
-                                RetrofitUtils.fileToRequestBody(File(selectedFile!!.absolutePath), "file")
+                                part
                             )
                         }
                     }
@@ -157,7 +208,18 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                         showLoading()
                     }
                     Status.SUCCESS -> {
-                        sendPost()
+                        if (postFileType == PostFileType.VIDEO && !isThumbnailUploaded) {
+                            isThumbnailUploaded = true
+                            viewModel.generatePresignedUrl(
+                                AwsHelper.getObjectName(
+                                    AwsHelper.AWS_OBJECT_TYPE.THUMBNAIL,
+                                    UserCache.getUser(requireContext())!!.id,
+                                    "jpg"
+                                )
+                            )
+                        } else {
+                            sendPost()
+                        }
                     }
                 }
             }
@@ -177,6 +239,9 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                     val isDataValid = communityAdapter.contains(p0.toString())
                     if (isDataValid) {
                         selectedCommunityId = communityAdapter.getItemId(p0.toString())
+                        selectedCommunityId?.let {
+                            binding.tlSelectCommunity.error = null
+                        }
                     } else {
                         selectedCommunityId = null
                     }
@@ -184,13 +249,43 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                     return isDataValid
                 }
             }
+
+            binding.mAutoCompleteCategory.setAdapter(categoryAdapter)
+
+            binding.mAutoCompleteCategory.validator = object : AutoCompleteTextView.Validator {
+                override fun fixText(p0: CharSequence?): CharSequence {
+                    return ""
+                }
+
+                override fun isValid(p0: CharSequence?): Boolean {
+                    val isDataValid = categoryAdapter.contains(p0.toString())
+                    if (isDataValid) {
+                        selectedCategoryId = categoryAdapter.getItemId(p0.toString())
+                        selectedCategoryId?.let {
+                            binding.tlSelectCategory.error = null
+                            viewModel.getCategoryJoinedCommunityListData(it)
+                        }
+                    } else {
+                        selectedCategoryId = null
+                    }
+
+                    return isDataValid
+                }
+            }
+
+            binding.mAutoCompleteCategory.setOnItemClickListener { adapterView, view, i, l ->
+                binding.mAutoCompleteCategory.clearFocus()
+            }
+            binding.mAutoCompleteCommunity.setOnItemClickListener { adapterView, view, i, l ->
+                binding.mAutoCompleteCommunity.clearFocus()
+            }
         }
     }
 
     fun createPost() {
         binding.mAutoCompleteCommunity.clearFocus()
-        if (selectedCommunityId != null) {
-            binding.tlSelectCommunity.error = null
+        binding.mAutoCompleteCategory.clearFocus()
+        if (selectedCategoryId != null && selectedCommunityId != null) {
             if (postFileType == null && binding.etPost.text.isNotEmpty() && Validator.isValidPostTextLength(binding.etPost.text.toString())) {
                 //Text Only Post Type
                 binding.etPost.error = null
@@ -221,7 +316,10 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                 binding.etPost.requestFocus()
             }
         } else {
-            binding.tlSelectCommunity.error = getString(R.string.valid_select_community)
+            if (selectedCategoryId == null)
+                binding.tlSelectCategory.error = getString(R.string.valid_select_category)
+            else
+                binding.tlSelectCommunity.error = getString(R.string.valid_select_community)
         }
     }
 

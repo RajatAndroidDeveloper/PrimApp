@@ -1,6 +1,7 @@
 package com.primapp.ui.post
 
 import android.os.Bundle
+import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -27,8 +28,6 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
 
     val userData by lazy { UserCache.getUser(requireContext()) }
 
-    var joinedCommunityResponse: JoinedCommunityListModel? = null
-
     val adapter by lazy { PostListPagedAdapter { item -> onItemClick(item) } }
 
     val viewModel by viewModels<PostsViewModel> { viewModelFactory }
@@ -46,34 +45,12 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
     private fun setData() {
         binding.frag = this
         binding.userData = userData
+
+        binding.groupNoPostView.isVisible = userData!!.joinedCommunityCount == 0
+        binding.groupNoCommunityView.isVisible = userData!!.joinedCommunityCount > 0
     }
 
     private fun setObserver() {
-
-        viewModel.joinedCommunityLiveData.observe(viewLifecycleOwner, Observer {
-            it.getContentIfNotHandled()?.let {
-                binding.pbPost.isVisible = false
-                when (it.status) {
-                    Status.SUCCESS -> {
-                        joinedCommunityResponse = it.data
-                        it.data?.let {
-                            binding.groupNoPostView.isVisible = it.content.isEmpty()
-                            binding.groupNoCommunityView.isVisible = it.content.isNotEmpty()
-                            binding.groupPostView.isVisible = it.content.isNotEmpty()
-                        }
-                    }
-
-                    Status.LOADING -> {
-                        binding.pbPost.isVisible = true
-                    }
-
-                    Status.ERROR -> {
-                    }
-                }
-            }
-        })
-
-        viewModel.getJoinedCommunityList()
 
         viewModel.getPostsList().observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -175,9 +152,9 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                 }*/
 
             } else {
-                //binding.swipeRefresh.isRefreshing = true
-                if (!binding.swipeRefresh.isRefreshing)
+                if (!binding.swipeRefresh.isRefreshing && userData!!.joinedCommunityCount != 0 && adapter.itemCount < 1) {
                     binding.pbPost.isVisible = true
+                }
             }
         }
     }
@@ -188,9 +165,7 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
 
     fun createPost() {
         val action =
-            UpdatesFragmentDirections.actionUpdatesFragmentToCreatePostFragment(
-                joinedCommunityResponse
-            )
+            UpdatesFragmentDirections.actionUpdatesFragmentToCreatePostFragment()
         findNavController().navigate(action)
     }
 

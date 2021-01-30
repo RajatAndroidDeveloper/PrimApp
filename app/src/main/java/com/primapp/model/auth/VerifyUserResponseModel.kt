@@ -43,12 +43,12 @@ data class UserData(
     @SerializedName("country_iso_code")
     val countryIsoCode: String?,
     @SerializedName("joined_community_count")
-    val joinedCommunityCount: Int? = 0,
+    var joinedCommunityCount: Int = 0,
     @SerializedName("posts_count")
-    val postsCount: Int? = 0,
+    val postsCount: Int = 0,
     @SerializedName("mentee_count")
-    val menteeCount: Int? = 0,
+    val menteeCount: Int = 0,
     @SerializedName("mentor_count")
-    val mentorCount: Int? = 0
+    val mentorCount: Int = 0
 
 )

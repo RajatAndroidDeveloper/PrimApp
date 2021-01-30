@@ -69,9 +69,9 @@
                 android:id="@+id/rbGif"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:paddingEnd="10dp"
-                android:text="@string/gif" />
+                android:text="@string/gif"
+                android:visibility="gone" />
 
             <RadioButton
                 android:id="@+id/rbNone"
@@ -120,14 +120,35 @@
             app:layout_constraintTop_toTopOf="@id/tvFileName" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tlSelectCommunity"
+            android:id="@+id/tlSelectCategory"
             style="@style/myTextInputLabel_DropDown"
             android:layout_marginTop="@dimen/space_normal"
-            android:hint="@string/select_community"
+            android:hint="@string/select_category"
             app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btnSelect">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/mAutoCompleteCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeActionLabel="Done"
+                android:imeOptions="actionDone"
+                android:singleLine="true" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tlSelectCommunity"
+            style="@style/myTextInputLabel_DropDown"
+            android:hint="@string/select_community"
+            android:visibility="gone"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tlSelectCategory"
+            tools:visibility="visible">
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/mAutoCompleteCommunity"

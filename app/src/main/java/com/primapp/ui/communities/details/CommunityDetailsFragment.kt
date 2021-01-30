@@ -92,6 +92,11 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
                         response.data?.content?.apply {
                             communityData.isJoined = isJoined
                             communityData.totalActiveMember = totalActiveMember
+                            if (isJoined == true) {
+                                UserCache.incrementJoinedCommunityCount(requireContext())
+                            } else {
+                                UserCache.decrementJoinedCommunityCount(requireContext())
+                            }
                         }
 
                         binding.data = communityData

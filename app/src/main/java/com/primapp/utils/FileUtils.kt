@@ -5,12 +5,15 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.media.ExifInterface
+import android.media.ThumbnailUtils
 import android.net.Uri
+import android.os.Build
 import android.os.Environment
 import android.os.Parcelable
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.util.Log
+import android.util.Size
 import androidx.core.content.FileProvider
 import com.primapp.BuildConfig
 import com.primapp.R
@@ -287,6 +290,24 @@ object FileUtils {
         } catch (t: Throwable) {
             Log.e(FILE_PICK_TAG, "Error compressing file.$t")
             t.printStackTrace()
+        }
+    }
+
+    fun getBitmapThumbnailForVideo(context: Context, file: File): Bitmap {
+        val bitmap: Bitmap?
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            bitmap = ThumbnailUtils.createVideoThumbnail(file, Size(500, 500), null)
+        } else {
+            bitmap = ThumbnailUtils.createVideoThumbnail(
+                file.absolutePath,
+                MediaStore.Video.Thumbnails.MINI_KIND
+            )
+        }
+
+        if (bitmap == null) {
+            return BitmapFactory.decodeResource(context.resources, R.drawable.logo);
+        } else {
+            return bitmap
         }
     }
 

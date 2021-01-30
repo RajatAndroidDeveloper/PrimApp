@@ -170,4 +170,17 @@ interface ApiService {
         @Path("userId") userId: Int,
         @Path("postId") postId: Int
     ): PostActionResponseModel
+
+    @GET(ApiConstant.CATEGORY_JOINED_COMMUNITY_LIST)
+    suspend fun getCategoryJoinedCommunityList(
+        @Path("categoryId") categoryId: Int
+    ): JoinedCommunityListModel
+
+    @POST(ApiConstant.EDIT_POST)
+    suspend fun editPost(
+        @Path("communityId") communityId: Int,
+        @Path("userId") userId: Int,
+        @Path("postId") postId: Int,
+        @Body createPostRequestModel: CreatePostRequestModel
+    ): BaseDataModel
 }

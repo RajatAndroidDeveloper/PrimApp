@@ -126,7 +126,7 @@
 
                     <ImageView
                         android:id="@+id/ivPostPreview"
-                        loadPostImageFromUrl="@{data.getImageUrl}"
+                        loadPostImageFromUrl="@{data.getThumbnailUrl == null ? data.getImageUrl : data.getThumbnailUrl}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:scaleType="centerCrop"
@@ -148,7 +148,6 @@
                         app:tint="@color/colorAccent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
-
 
             <TextView
                 android:id="@+id/tvLikesCount"

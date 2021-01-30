@@ -28,6 +28,7 @@ object ApiConstant {
     const val GET_COMMUNITY = "communities/{communityId}"
     const val EDIT_COMMUNITY = "communities/{communityId}"
     const val JOINED_COMMUNITY_LIST = "joined_community_list"
+    const val CATEGORY_JOINED_COMMUNITY_LIST = "{categoryId}/joined_community_list"
 
     //Profile
     const val EDIT_PROFILE = "users/{userId}"
@@ -43,4 +44,5 @@ object ApiConstant {
     const val UNLIKE_POST = "communities/{communityId}/users/{userId}/posts/{postId}/likes"
     const val USER_POST_LIST = "user_post_list"
     const val DELETE_POST = "communities/{communityId}/users/{userId}/posts/{postId}"
+    const val EDIT_POST = "communities/{communityId}/users/{userId}/posts/{postId}"
 }

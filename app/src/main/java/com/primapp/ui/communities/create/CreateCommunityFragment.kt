@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.primapp.R
+import com.primapp.cache.UserCache
 import com.primapp.databinding.FragmentCreateCommunityBinding
 import com.primapp.extensions.loadCircularImageWithoutCache
 import com.primapp.extensions.showError
@@ -61,6 +62,7 @@ class CreateCommunityFragment : BaseFragment<FragmentCreateCommunityBinding>() {
                         showLoading()
                     }
                     Status.SUCCESS -> {
+                        UserCache.incrementJoinedCommunityCount(requireContext())
                         DialogUtils.showCloseDialog(requireActivity(), R.string.create_community_success) {
                             findNavController().popBackStack()
                         }
