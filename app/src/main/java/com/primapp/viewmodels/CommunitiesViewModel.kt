@@ -14,6 +14,8 @@ import com.primapp.model.community.CommunityData
 import com.primapp.model.community.CommunityDetailsResponseModel
 import com.primapp.model.community.CreateCommunityRequestModel
 import com.primapp.model.community.JoinCommunityResponseModel
+import com.primapp.model.post.PostActionResponseModel
+import com.primapp.model.post.PostListResult
 import com.primapp.repository.CommunitiesRepository
 import com.primapp.retrofit.base.BaseDataModel
 import com.primapp.retrofit.base.Event
@@ -162,6 +164,30 @@ class CommunitiesViewModel @Inject constructor(
         )
     }
 
+    //Get Joined Community list without category
+    private var joinedCommunityLiveData: LiveData<PagingData<CommunityData>>? = null
+
+    fun getAllJoinedCommunityList(filter: String): LiveData<PagingData<CommunityData>> {
+        val newResultLiveData: LiveData<PagingData<CommunityData>> =
+            repo.getAllJoinedCommunity(filter).cachedIn(viewModelScope)
+        joinedCommunityLiveData = newResultLiveData
+        return newResultLiveData
+    }
+
+    // get Communities Post List Paged Data
+    private var communityPostListResultLiveData: LiveData<PagingData<PostListResult>>? = null
+
+    fun getCommunityPostsListData(communityId: Int): LiveData<PagingData<PostListResult>> {
+        val lastResult = communityPostListResultLiveData
+        if (lastResult != null) {
+            return lastResult
+        }
+        val newResultLiveData: LiveData<PagingData<PostListResult>> =
+            repo.getCommunitiesPostList(communityId).cachedIn(viewModelScope)
+        communityPostListResultLiveData = newResultLiveData
+        return newResultLiveData
+    }
+
     //Get Presigned URL
     private var _generatePresignedURLLiveData = MutableLiveData<Event<Resource<PresignedURLResponseModel>>>()
     var generatePresignedURLLiveData: LiveData<Event<Resource<PresignedURLResponseModel>>> =
@@ -192,6 +218,36 @@ class CommunitiesViewModel @Inject constructor(
         _uploadAWSLiveData.postValue(
             Event(repo.uploadtoAWS(url, key, accessKey, amzSecurityToken, policy, signature, file))
         )
+    }
+
+    //---------------POST--------------------
+
+
+    //Like post
+    private var _likePostLiveData = MutableLiveData<Event<Resource<PostActionResponseModel>>>()
+    var likePostLiveData: LiveData<Event<Resource<PostActionResponseModel>>> = _likePostLiveData
+
+    fun likePost(communityId: Int, userId: Int, postId: Int) = viewModelScope.launch {
+        _likePostLiveData.postValue(Event(Resource.loading(null)))
+        _likePostLiveData.postValue(Event(repo.likePost(communityId, userId, postId)))
+    }
+
+    //UnLike post
+    private var _unlikePostLiveData = MutableLiveData<Event<Resource<PostActionResponseModel>>>()
+    var unlikePostLiveData: LiveData<Event<Resource<PostActionResponseModel>>> = _unlikePostLiveData
+
+    fun unlikePost(communityId: Int, userId: Int, postId: Int) = viewModelScope.launch {
+        _unlikePostLiveData.postValue(Event(Resource.loading(null)))
+        _unlikePostLiveData.postValue(Event(repo.unlikePost(communityId, userId, postId)))
+    }
+
+    //Delete post
+    private var _deletePostLiveData = MutableLiveData<Event<Resource<PostActionResponseModel>>>()
+    var deletePostLiveData: LiveData<Event<Resource<PostActionResponseModel>>> = _deletePostLiveData
+
+    fun deletePost(communityId: Int, userId: Int, postId: Int) = viewModelScope.launch {
+        _deletePostLiveData.postValue(Event(Resource.loading(null)))
+        _deletePostLiveData.postValue(Event(repo.deletePost(communityId, userId, postId)))
     }
 
 }

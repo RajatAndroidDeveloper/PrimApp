@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="frag"
+            type="com.primapp.ui.post.create.CreatePostFragment" />
+
+        <variable
+            name="viewModel"
+            type="com.primapp.ui.post.create.CreatePostViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.post.create.CreatePostFragment">
+
+        <include layout="@layout/toolbar_inner_back" />
+
+        <EditText
+            android:id="@+id/etPost"
+            style="@style/editTextSearchBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:drawableStart="@null"
+            android:gravity="top"
+            android:hint="@string/write_text_here"
+            android:imeActionLabel="Done"
+            android:imeOptions="actionDone"
+            android:lines="6"
+            android:text="@={viewModel.createPostRequestModel.postText}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clToolbar"
+            app:layout_constraintWidth_percent=".9" />
+
+        <RadioGroup
+            android:id="@+id/rgFileType"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:checkedButton="@+id/rbNone"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/space_normal"
+            android:paddingBottom="@dimen/space_normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etPost"
+            app:layout_constraintWidth_percent=".9">
+
+            <RadioButton
+                android:id="@+id/rbImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="10dp"
+                android:text="@string/image_gif" />
+
+            <RadioButton
+                android:id="@+id/rbVideo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="10dp"
+                android:text="@string/video" />
+
+            <RadioButton
+                android:id="@+id/rbGif"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="10dp"
+                android:text="@string/gif"
+                android:visibility="gone" />
+
+            <RadioButton
+                android:id="@+id/rbNone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/none" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btnSelect"
+            style="@style/buttonOutlinedAccent"
+            android:layout_width="wrap_content"
+            android:onClick="@{()->frag.pickFileAskPermission()}"
+            android:text="Select"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@id/rgFileType"
+            app:layout_constraintTop_toBottomOf="@id/rgFileType" />
+
+        <TextView
+            android:id="@+id/tvFileName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_small"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="IMG_00232.png"
+            app:layout_constraintBottom_toBottomOf="@id/btnSelect"
+            app:layout_constraintEnd_toStartOf="@id/ivDelete"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@id/btnSelect"
+            app:layout_constraintTop_toTopOf="@id/btnSelect"
+            app:layout_constraintWidth_default="wrap" />
+
+        <ImageView
+            android:id="@+id/ivDelete"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="@dimen/space_large"
+            android:onClick="@{()->frag.clearAttachment()}"
+            android:padding="@dimen/space_small"
+            android:src="@drawable/delete"
+            app:layout_constraintBottom_toBottomOf="@id/tvFileName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvFileName"
+            app:layout_constraintTop_toTopOf="@id/tvFileName" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tlSelectCategory"
+            style="@style/myTextInputLabel_DropDown"
+            android:layout_marginTop="@dimen/space_normal"
+            android:enabled="false"
+            android:hint="@string/select_category"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSelect">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/mAutoCompleteCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeActionLabel="Done"
+                android:imeOptions="actionDone"
+                android:singleLine="true" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tlSelectCommunity"
+            style="@style/myTextInputLabel_DropDown"
+            android:enabled="false"
+            android:hint="@string/select_community"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tlSelectCategory">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/mAutoCompleteCommunity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeActionLabel="Done"
+                android:imeOptions="actionDone"
+                android:singleLine="true" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnSubmit"
+            style="@style/buttonFilledPrimary"
+            android:layout_marginTop="@dimen/space_small"
+            android:onClick="@{()->frag.createPost()}"
+            android:text="@string/submit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tlSelectCommunity" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/groupSelectFileName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="tvFileName,ivDelete" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -110,6 +110,7 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                     }
                     Status.SUCCESS -> {
                         it.data?.content?.let {
+                            UserCache.decrementPostCount(requireContext())
                             adapter.removePost(it.postId)
                         }
                     }

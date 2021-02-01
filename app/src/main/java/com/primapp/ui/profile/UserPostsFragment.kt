@@ -17,6 +17,7 @@ import com.primapp.model.*
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
+import com.primapp.ui.dashboard.ProfileFragment
 import com.primapp.ui.post.adapter.PostListPagedAdapter
 import com.primapp.utils.DialogUtils
 import com.primapp.viewmodels.PostsViewModel
@@ -38,7 +39,6 @@ class UserPostsFragment : BaseFragment<FragmentUserPostsBinding>() {
         setData()
         setAdapter()
         setObserver()
-
     }
 
     private fun setData() {
@@ -104,6 +104,8 @@ class UserPostsFragment : BaseFragment<FragmentUserPostsBinding>() {
                     }
                     Status.SUCCESS -> {
                         it.data?.content?.let {
+                            UserCache.decrementPostCount(requireContext())
+                            (parentFragment as ProfileFragment).refreshTabs()
                             adapter.removePost(it.postId)
                         }
                     }

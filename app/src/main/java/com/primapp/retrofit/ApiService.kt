@@ -130,7 +130,11 @@ interface ApiService {
     ): PostListResponseModel
 
     @GET(ApiConstant.JOINED_COMMUNITY_LIST)
-    suspend fun getJoinedCommunityList(): JoinedCommunityListModel
+    suspend fun getJoinedCommunityList(
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int,
+        @Query("type") filterType: String
+    ): CommunityListResponseModel
 
     @POST(ApiConstant.CREATE_POST)
     suspend fun createPost(
@@ -183,4 +187,11 @@ interface ApiService {
         @Path("postId") postId: Int,
         @Body createPostRequestModel: CreatePostRequestModel
     ): BaseDataModel
+
+    @GET(ApiConstant.COMMUNITY_POST_LIST)
+    suspend fun getCommunityPostList(
+        @Path("communityId") communityId: Int,
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int
+    ): PostListResponseModel
 }

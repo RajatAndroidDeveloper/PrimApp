@@ -145,6 +145,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                 hideLoading()
                 when (it.status) {
                     Status.SUCCESS -> {
+                        UserCache.incrementPostCount(requireContext())
                         DialogUtils.showCloseDialog(requireActivity(), R.string.post_created_success) {
                             findNavController().popBackStack()
                         }

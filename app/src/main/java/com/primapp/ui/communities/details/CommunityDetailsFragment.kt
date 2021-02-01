@@ -1,9 +1,11 @@
 package com.primapp.ui.communities.details
 
 import android.os.Bundle
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.primapp.R
 import com.primapp.cache.UserCache
@@ -11,22 +13,31 @@ import com.primapp.constants.CommunityFilterTypes
 import com.primapp.databinding.FragmentCommunityDetailsBinding
 import com.primapp.extensions.showError
 import com.primapp.extensions.showInfo
+import com.primapp.model.*
 import com.primapp.model.community.CommunityData
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.CommunityMembersImageAdapter
+import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
+import com.primapp.ui.dashboard.ProfileFragment
+import com.primapp.ui.post.adapter.PostListPagedAdapter
 import com.primapp.utils.DialogUtils
 import com.primapp.utils.OverlapItemDecorantion
 import com.primapp.utils.visible
 import com.primapp.viewmodels.CommunitiesViewModel
 import kotlinx.android.synthetic.main.item_list_community.*
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>() {
 
     lateinit var communityData: CommunityData
 
-    val adapter by lazy { CommunityMembersImageAdapter() }
+    val userAdapter by lazy { CommunityMembersImageAdapter() }
+
+    val postsAdapter by lazy { PostListPagedAdapter { item -> onItemClick(item) } }
 
     val viewModel by viewModels<CommunitiesViewModel> { viewModelFactory }
 
@@ -38,20 +49,15 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
         super.onActivityCreated(savedInstanceState)
 
         setToolbar("", toolbar)
-        setObserver()
         setData()
+        setObserver()
         setAdapter()
         setClicks()
 
     }
 
     private fun setData() {
-        CommunityDetailsFragmentArgs.fromBundle(requireArguments())
-            .let { args ->
-                viewModel.getCommunityDetails(args.communityId)
-                communityData = args.communityData
-            }
-
+        communityData = CommunityDetailsFragmentArgs.fromBundle(requireArguments()).communityData
         binding.type = CommunityFilterTypes.COMMUNITY_DETAILS
         binding.data = communityData
     }
@@ -84,6 +90,8 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
             }
         })
 
+        viewModel.getCommunityDetails(communityData.id)
+
         viewModel.joinCommunityLiveData.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let { response ->
                 hideLoading()
@@ -110,6 +118,72 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
                 }
             }
         })
+
+        viewModel.getCommunityPostsListData(communityData.id).observe(viewLifecycleOwner, Observer {
+            it?.let {
+                CoroutineScope(Dispatchers.Main).launch {
+                    postsAdapter.submitData(it)
+                }
+            }
+        })
+
+        viewModel.likePostLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.SUCCESS -> {
+                        it.data?.content?.let {
+                            postsAdapter.markPostAsLiked(it.postId)
+                        }
+                    }
+                }
+            }
+        })
+
+        viewModel.unlikePostLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.SUCCESS -> {
+                        it.data?.content?.let {
+                            postsAdapter.markPostAsDisliked(it.postId)
+                        }
+                    }
+                }
+            }
+        })
+
+        viewModel.deletePostLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.SUCCESS -> {
+                        it.data?.content?.let {
+                            UserCache.decrementPostCount(requireContext())
+                            postsAdapter.removePost(it.postId)
+                        }
+                    }
+                }
+            }
+        })
     }
 
     private fun showAdditionalData(visibility: Boolean) {
@@ -127,7 +201,41 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
             addItemDecoration(OverlapItemDecorantion())
 
         }
-        binding.rvMembersImages.adapter = adapter
+        binding.rvMembersImages.adapter = userAdapter
+
+
+        // Posts Adapter
+
+        binding.rvCommunityPosts.apply {
+            this.layoutManager = LinearLayoutManager(requireContext())
+        }
+
+        binding.rvCommunityPosts.adapter = postsAdapter.withLoadStateHeaderAndFooter(
+            header = CommunityPagedLoadStateAdapter { postsAdapter.retry() },
+            footer = CommunityPagedLoadStateAdapter { postsAdapter.retry() }
+        )
+
+        postsAdapter.addLoadStateListener { loadState ->
+            if (loadState.refresh !is LoadState.Loading) {
+                binding.rvCommunityPosts.isVisible = true
+
+                val error = when {
+                    loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
+                    loadState.append is LoadState.Error -> loadState.append as LoadState.Error
+                    loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
+
+                    else -> null
+                }
+                error?.let {
+                    if (postsAdapter.snapshot().isEmpty()) {
+                        showError(requireContext(), it.error.localizedMessage)
+                    }
+                }
+
+            } else {
+                binding.rvCommunityPosts.isVisible = false
+            }
+        }
     }
 
     private fun setClicks() {
@@ -151,5 +259,33 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
         }
     }
 
-
+    private fun onItemClick(item: Any?) {
+        when (item) {
+            is ShowImage -> {
+                val bundle = Bundle()
+                bundle.putString("url", item.url)
+                findNavController().navigate(R.id.imageViewDialog, bundle)
+            }
+            is ShowVideo -> {
+                val bundle = Bundle()
+                bundle.putString("url", item.url)
+                findNavController().navigate(R.id.videoViewDialog, bundle)
+            }
+             is LikePost -> {
+                 if (item.isLike) {
+                     viewModel.unlikePost(item.communityId, userData!!.id, item.postId)
+                 } else {
+                     viewModel.likePost(item.communityId, userData!!.id, item.postId)
+                 }
+             }
+             is EditPost, is HidePost, is ReportPost -> {
+                 showInfo(requireContext(), "Not yet implemented!")
+             }
+             is DeletePost -> {
+                 DialogUtils.showYesNoDialog(requireActivity(), R.string.delete_post_message, {
+                     viewModel.deletePost(item.postData.community.id, userData!!.id, item.postData.id)
+                 })
+             }
+        }
+    }
 }

@@ -54,4 +54,20 @@ object UserCache {
         }
     }
 
+    fun incrementPostCount(context: Context) {
+        val user = getUser(context)
+        user?.let {
+            it.postsCount++
+            saveUser(context, it)
+        }
+    }
+
+    fun decrementPostCount(context: Context) {
+        val user = getUser(context)
+        user?.let {
+            it.postsCount--
+            saveUser(context, it)
+        }
+    }
+
 }

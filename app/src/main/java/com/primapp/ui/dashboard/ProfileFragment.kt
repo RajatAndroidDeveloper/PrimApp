@@ -32,6 +32,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
     lateinit var user: UserData
 
+    lateinit var titles: ArrayList<SpannableStringBuilder>
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -57,12 +59,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     }
 
     private fun initViewPager() {
-        val titles = arrayListOf<SpannableStringBuilder>(
-            getTabHeader(user.postsCount, "Posts"),
-            getTabHeader(user.joinedCommunityCount, "Communities"),
-            getTabHeader(user.mentorCount, "Mentors"),
-            getTabHeader(user.menteeCount, "Mentees")
-        )
+        titles = initTitle()
 
         val fragmentList = arrayListOf<Fragment>(
             UserPostsFragment(),
@@ -94,6 +91,21 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             }
         ).attach()
 
+    }
+
+    fun refreshTabs() {
+        user = UserCache.getUser(requireContext())!!
+        titles = initTitle()
+        binding.viewPager.adapter?.notifyDataSetChanged()
+    }
+
+    private fun initTitle(): ArrayList<SpannableStringBuilder> {
+        return arrayListOf<SpannableStringBuilder>(
+            getTabHeader(user.postsCount, "Posts"),
+            getTabHeader(user.joinedCommunityCount, "Communities"),
+            getTabHeader(user.mentorCount, "Mentors"),
+            getTabHeader(user.menteeCount, "Mentees")
+        )
     }
 
     private fun getTabHeader(number: Int? = 0, text: String): SpannableStringBuilder {

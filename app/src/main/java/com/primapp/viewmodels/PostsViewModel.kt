@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.primapp.model.community.JoinedCommunityListModel
 import com.primapp.model.post.PostActionResponseModel
 import com.primapp.model.post.PostListResult
 import com.primapp.repository.PostRepository
@@ -36,15 +35,6 @@ class PostsViewModel @Inject constructor(
             repo.getPostList().cachedIn(viewModelScope)
         postListResultLiveData = newResultLiveData
         return newResultLiveData
-    }
-
-    //Get Joined Community
-    private var _joinedCommunityLiveData = MutableLiveData<Event<Resource<JoinedCommunityListModel>>>()
-    var joinedCommunityLiveData: LiveData<Event<Resource<JoinedCommunityListModel>>> = _joinedCommunityLiveData
-
-    fun getJoinedCommunityList() = viewModelScope.launch {
-        _joinedCommunityLiveData.postValue(Event(Resource.loading(null)))
-        _joinedCommunityLiveData.postValue(Event(repo.getJoinedCommunity()))
     }
 
     //Like post
@@ -87,6 +77,5 @@ class PostsViewModel @Inject constructor(
         userPostListResultLiveData = newResultLiveData
         return newResultLiveData
     }
-
 
 }

@@ -42,14 +42,6 @@ class PostRepository @Inject constructor(
         ).liveData
     }
 
-    suspend fun getJoinedCommunity(): Resource<JoinedCommunityListModel> {
-        return try {
-            responseHandler.handleResponse(apiService.getJoinedCommunityList())
-        } catch (e: Exception) {
-            responseHandler.handleException(e)
-        }
-    }
-
     suspend fun createPost(
         communityId: Int,
         userId: Int,
