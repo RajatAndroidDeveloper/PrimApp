@@ -83,7 +83,7 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
 
             binding.ivLike.setOnClickListener {
                 data?.let {
-                    onItemClick(LikePost(it.community.id, it.id, it.isLike))
+                    onItemClick(LikePost(it.community.id, it.id, it.isLike, it.community.isJoined))
                 }
             }
 

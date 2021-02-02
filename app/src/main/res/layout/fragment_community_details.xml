@@ -255,6 +255,7 @@
                     android:id="@+id/rvCommunityPosts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_extraSmall"
                     tools:itemCount="2"
                     tools:listitem="@layout/item_list_post" />
 

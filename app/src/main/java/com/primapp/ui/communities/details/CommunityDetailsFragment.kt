@@ -271,21 +271,29 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
                 bundle.putString("url", item.url)
                 findNavController().navigate(R.id.videoViewDialog, bundle)
             }
-             is LikePost -> {
-                 if (item.isLike) {
-                     viewModel.unlikePost(item.communityId, userData!!.id, item.postId)
-                 } else {
-                     viewModel.likePost(item.communityId, userData!!.id, item.postId)
-                 }
-             }
-             is EditPost, is HidePost, is ReportPost -> {
-                 showInfo(requireContext(), "Not yet implemented!")
-             }
-             is DeletePost -> {
-                 DialogUtils.showYesNoDialog(requireActivity(), R.string.delete_post_message, {
-                     viewModel.deletePost(item.postData.community.id, userData!!.id, item.postData.id)
-                 })
-             }
+            is LikePost -> {
+                if (communityData.isJoined == false) {
+                    DialogUtils.showCloseDialog(
+                        requireActivity(),
+                        R.string.non_joined_community_action_error_message,
+                        R.drawable.question_mark
+                    )
+                } else {
+                    if (item.isLike) {
+                        viewModel.unlikePost(item.communityId, userData!!.id, item.postId)
+                    } else {
+                        viewModel.likePost(item.communityId, userData!!.id, item.postId)
+                    }
+                }
+            }
+            is EditPost, is HidePost, is ReportPost -> {
+                showInfo(requireContext(), "Not yet implemented!")
+            }
+            is DeletePost -> {
+                DialogUtils.showYesNoDialog(requireActivity(), R.string.delete_post_message, {
+                    viewModel.deletePost(item.postData.community.id, userData!!.id, item.postData.id)
+                })
+            }
         }
     }
 }

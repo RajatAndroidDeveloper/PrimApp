@@ -25,7 +25,7 @@ object DateTimeUtils {
         ).format(Date(millis))
     }
 
-    fun convertServerTimeStamp(timestamp: String, format: String? = STRING_DATE_FORMAT): String? {
+    fun convertServerTimeStamp(timestamp: String, format: String? = DOB_FORMAT): String? {
         val timestampFormat = SimpleDateFormat(DEFAULT_SERVER_TIME_FORMAT, Locale.getDefault())
         val date = timestampFormat.parse(timestamp)
         return if (date == null) null else SimpleDateFormat(format, Locale.getDefault()).format(date)
