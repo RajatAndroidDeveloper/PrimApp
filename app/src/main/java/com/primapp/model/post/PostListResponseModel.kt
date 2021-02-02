@@ -2,6 +2,7 @@ package com.primapp.model.post
 
 import com.google.gson.annotations.SerializedName
 import com.primapp.retrofit.base.BaseDataModel
+import java.io.Serializable
 
 
 data class PostListResponseModel(
@@ -53,7 +54,7 @@ data class PostListResult(
     val thumbnailFile: String?,
     @SerializedName("get_thumbnail_url")
     val getThumbnailUrl: String?
-)
+) : Serializable
 
 data class Community(
     @SerializedName("community_name")

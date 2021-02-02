@@ -4,6 +4,8 @@ import com.primapp.model.auth.*
 import com.primapp.model.aws.PresignedURLRequest
 import com.primapp.model.aws.PresignedURLResponseModel
 import com.primapp.model.category.ParentCategoryResponseModel
+import com.primapp.model.comment.CommentListResponseModel
+import com.primapp.model.comment.CreateCommentRequestModel
 import com.primapp.model.community.*
 import com.primapp.model.post.CreatePostRequestModel
 import com.primapp.model.post.PostActionResponseModel
@@ -194,4 +196,21 @@ interface ApiService {
         @Query("offset") offset: Int,
         @Query("limit") limit: Int
     ): PostListResponseModel
+
+    @GET(ApiConstant.COMMENT_LIST)
+    suspend fun getPostComments(
+        @Path("communityId") communityId: Int,
+        @Path("userId") userId: Int,
+        @Path("postId") postId: Int,
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int
+    ): CommentListResponseModel
+
+    @POST(ApiConstant.CREATE_COMMENT)
+    suspend fun createComment(
+        @Path("communityId") communityId: Int,
+        @Path("userId") userId: Int,
+        @Path("postId") postId: Int,
+        @Body createCommentRequestModel: CreateCommentRequestModel
+    ): BaseDataModel
 }

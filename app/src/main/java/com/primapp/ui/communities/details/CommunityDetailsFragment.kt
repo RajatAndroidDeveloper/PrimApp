@@ -294,6 +294,11 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
                     viewModel.deletePost(item.postData.community.id, userData!!.id, item.postData.id)
                 })
             }
+            is CommentPost -> {
+                val bundle = Bundle()
+                bundle.putSerializable("postData", item.postData)
+                findNavController().navigate(R.id.postCommentFragment, bundle)
+            }
         }
     }
 }

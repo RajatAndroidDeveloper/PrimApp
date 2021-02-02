@@ -8,6 +8,8 @@ import androidx.paging.liveData
 import com.primapp.model.aws.PresignedURLRequest
 import com.primapp.model.aws.PresignedURLResponseModel
 import com.primapp.model.category.ParentCategoryResponseModel
+import com.primapp.model.comment.CommentData
+import com.primapp.model.comment.CreateCommentRequestModel
 import com.primapp.model.community.JoinedCommunityListModel
 import com.primapp.model.post.CreatePostRequestModel
 import com.primapp.model.post.PostActionResponseModel
@@ -17,6 +19,7 @@ import com.primapp.retrofit.ApiService
 import com.primapp.retrofit.base.BaseDataModel
 import com.primapp.retrofit.base.Resource
 import com.primapp.retrofit.base.ResponseHandler
+import com.primapp.ui.post.comment.PostCommentListDataSource
 import com.primapp.ui.post.source.PostListPageDataSource
 import com.primapp.ui.profile.source.UserPostListPageDataSource
 import com.primapp.utils.RetrofitUtils
@@ -148,6 +151,43 @@ class PostRepository @Inject constructor(
     suspend fun getCategoryJoinedCommunity(categoryId: Int): Resource<JoinedCommunityListModel> {
         return try {
             responseHandler.handleResponse(apiService.getCategoryJoinedCommunityList(categoryId))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    fun getPostComments(
+        communityId: Int,
+        userId: Int,
+        postId: Int
+    ): LiveData<PagingData<CommentData>> {
+        return Pager(
+            config = PagingConfig(
+                enablePlaceholders = false,
+                pageSize = ApiConstant.NETWORK_PAGE_SIZE,
+                initialLoadSize = ApiConstant.NETWORK_PAGE_SIZE
+            ),
+            pagingSourceFactory = {
+                PostCommentListDataSource(apiService, communityId, userId, postId)
+            }
+        ).liveData
+    }
+
+    suspend fun createComment(
+        communityId: Int,
+        userId: Int,
+        postId: Int,
+        createCommentRequestModel: CreateCommentRequestModel
+    ): Resource<BaseDataModel> {
+        return try {
+            responseHandler.handleResponse(
+                apiService.createComment(
+                    communityId,
+                    userId,
+                    postId,
+                    createCommentRequestModel
+                )
+            )
         } catch (e: Exception) {
             responseHandler.handleException(e)
         }

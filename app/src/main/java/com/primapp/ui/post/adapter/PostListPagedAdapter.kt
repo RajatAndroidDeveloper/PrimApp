@@ -15,7 +15,6 @@ import com.primapp.model.*
 import com.primapp.model.post.PostListResult
 import javax.inject.Inject
 
-
 class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) :
     PagingDataAdapter<PostListResult, PostListPagedAdapter.PostsViewHolder>(PostListDiffCallback()) {
 
@@ -84,6 +83,12 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
             binding.ivLike.setOnClickListener {
                 data?.let {
                     onItemClick(LikePost(it.community.id, it.id, it.isLike, it.community.isJoined))
+                }
+            }
+
+            binding.ivComment.setOnClickListener {
+                data?.let {
+                    onItemClick(CommentPost(it))
                 }
             }
 

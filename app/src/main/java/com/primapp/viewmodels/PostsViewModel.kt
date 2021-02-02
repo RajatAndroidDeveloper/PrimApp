@@ -7,9 +7,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.primapp.model.comment.CommentData
+import com.primapp.model.comment.CreateCommentRequestModel
 import com.primapp.model.post.PostActionResponseModel
 import com.primapp.model.post.PostListResult
 import com.primapp.repository.PostRepository
+import com.primapp.retrofit.base.BaseDataModel
 import com.primapp.retrofit.base.Event
 import com.primapp.retrofit.base.Resource
 import com.primapp.utils.ErrorFields
@@ -76,6 +79,30 @@ class PostsViewModel @Inject constructor(
             repo.getUserPostList().cachedIn(viewModelScope)
         userPostListResultLiveData = newResultLiveData
         return newResultLiveData
+    }
+
+    // getComment List
+    private var postCommentsListResultLiveData: LiveData<PagingData<CommentData>>? = null
+
+    fun getPostCommentsListData(communityId: Int, userId: Int, postId: Int): LiveData<PagingData<CommentData>> {
+        val lastResult = postCommentsListResultLiveData
+        if (lastResult != null) {
+            return lastResult
+        }
+        val newResultLiveData: LiveData<PagingData<CommentData>> =
+            repo.getPostComments(communityId, userId, postId).cachedIn(viewModelScope)
+        postCommentsListResultLiveData = newResultLiveData
+        return newResultLiveData
+    }
+
+    private var _createCommentLiveData = MutableLiveData<Event<Resource<BaseDataModel>>>()
+    var createCommentLiveData: LiveData<Event<Resource<BaseDataModel>>> = _createCommentLiveData
+
+    fun createComment(communityId: Int, userId: Int, postId: Int, commentText: String) = viewModelScope.launch {
+        _createCommentLiveData.postValue(Event(Resource.loading(null)))
+        _createCommentLiveData.postValue(
+            Event(repo.createComment(communityId, userId, postId, CreateCommentRequestModel(commentText)))
+        )
     }
 
 }

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="frag"
+            type="com.primapp.ui.post.comment.PostCommentFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/toolbar_inner_back" />
+
+        <TextView
+            android:id="@+id/tvMostRelevant"
+            style="@style/primaryHeadingAccent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_large"
+            android:text="Most Relevant"
+            android:textColor="@color/black"
+            android:textSize="@dimen/textNormal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clToolbar" />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/etComment"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvMostRelevant"
+            app:onRefreshListener="@{()->frag.refreshData()}">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvComments"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/space_small"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_post_comment" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/etComment"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvMostRelevant" />
+
+        <EditText
+            android:id="@+id/etComment"
+            style="@style/editTextSearchBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_normal"
+            android:layout_marginBottom="@dimen/space_medium"
+            android:background="@drawable/shape_rounded_corner_search_box"
+            android:drawableStart="@null"
+            android:gravity="center_vertical"
+            android:hint="Write your comment here..."
+            android:imeActionLabel="Done"
+            android:imeOptions="actionDone"
+            android:padding="@dimen/space_normal"
+            android:singleLine="true"
+            android:textSize="@dimen/textNormal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ivSend"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent="1" />
+
+        <ImageView
+            android:id="@+id/ivSend"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:onClick="@{()->frag.postComment()}"
+            android:padding="@dimen/space_extraSmall"
+            android:src="@drawable/ic_send"
+            app:layout_constraintBottom_toBottomOf="@id/etComment"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/etComment" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -183,4 +183,11 @@
     <string name="delete_post_message">Are you sure to delete this post?</string>
     <string name="select_category">Select Category</string>
     <string name="non_joined_community_action_error_message">Sorry! You are not able to like or comment at this time.\nPlease join the community.</string>
+    <string name="mentor">Mentor</string>
+    <string name="mentee">Mentee</string>
+    <string name="comments">Comments</string>
+    <string name="comment_posted_success">Your comment is posted successfully.</string>
+    <string name="like">Like</string>
+    <string name="liked">Liked</string>
+    <string name="reply">Reply</string>
 </resources>
