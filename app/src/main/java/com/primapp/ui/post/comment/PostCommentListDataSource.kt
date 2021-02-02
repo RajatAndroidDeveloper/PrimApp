@@ -4,11 +4,16 @@ import android.util.Log
 import androidx.paging.PagingSource
 import com.primapp.model.comment.CommentData
 import com.primapp.retrofit.ApiService
+import com.primapp.retrofit.base.Resource
+import com.primapp.retrofit.base.ResponseHandler
 import retrofit2.HttpException
+import retrofit2.Response
 import java.io.IOException
+import java.lang.Exception
 
 
 class PostCommentListDataSource(
+    private val responseHandler: ResponseHandler,
     private val apiService: ApiService,
     private val communityId: Int,
     private val userId: Int,
@@ -34,10 +39,11 @@ class PostCommentListDataSource(
             )
 
         } catch (exception: IOException) {
-            val error = IOException("Please Check Internet Connection")
+            val error = IOException("Server is not reachable")
             LoadResult.Error(error)
         } catch (exception: HttpException) {
-            LoadResult.Error(exception)
+            val error = Exception(responseHandler.getErrorMessage(exception))
+            LoadResult.Error(error)
         }
 
     }

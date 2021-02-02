@@ -32,7 +32,7 @@ open class ResponseHandler @Inject constructor() {
         }
     }
 
-    private fun getErrorMessage(e: HttpException): String {
+    fun getErrorMessage(e: HttpException): String {
         return getErrorMsg(e.response()?.errorBody()!!).error
     }
 

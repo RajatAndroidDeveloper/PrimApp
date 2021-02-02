@@ -168,7 +168,7 @@ class PostRepository @Inject constructor(
                 initialLoadSize = ApiConstant.NETWORK_PAGE_SIZE
             ),
             pagingSourceFactory = {
-                PostCommentListDataSource(apiService, communityId, userId, postId)
+                PostCommentListDataSource(responseHandler, apiService, communityId, userId, postId)
             }
         ).liveData
     }
