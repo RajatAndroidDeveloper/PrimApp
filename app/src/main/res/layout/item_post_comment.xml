@@ -102,6 +102,7 @@
                 android:textSize="@dimen/textSmall"
                 tools:text="@string/like" />
 
+            <!--  android:textColor="@{data.like ? @color/colorAccent : @android:color/tab_indicator_text}" -->
             <TextView
                 android:id="@+id/tvCommentReply"
                 android:layout_width="wrap_content"

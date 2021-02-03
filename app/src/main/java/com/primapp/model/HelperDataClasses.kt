@@ -1,5 +1,6 @@
 package com.primapp.model
 
+import com.primapp.model.comment.CommentData
 import com.primapp.model.post.PostListResult
 
 
@@ -11,3 +12,4 @@ data class DeletePost(val postData: PostListResult)
 data class HidePost(val postData: PostListResult)
 data class ReportPost(val postData: PostListResult)
 data class CommentPost(val postData: PostListResult)
+data class LikeComment(val commentData: CommentData)

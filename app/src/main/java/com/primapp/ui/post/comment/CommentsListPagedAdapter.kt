@@ -8,11 +8,31 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.primapp.R
 import com.primapp.databinding.ItemPostCommentBinding
+import com.primapp.model.LikeComment
 import com.primapp.model.comment.CommentData
 import javax.inject.Inject
 
 class CommentsListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) :
     PagingDataAdapter<CommentData, CommentsListPagedAdapter.CommentsViewHolder>(PostListDiffCallback()) {
+
+    fun markCommentAsLiked(commentId: Int?) {
+        val item: CommentData? = snapshot().items.find { it.id == commentId }
+        item?.let {
+            val position = snapshot().items.indexOf(it)
+            snapshot().items.get(position).isLike = true
+            notifyItemChanged(position)
+        }
+    }
+
+    fun markCommentAsDisliked(commentId: Int?) {
+        val item: CommentData? = snapshot().items.find { it.id == commentId }
+        item?.let {
+            val position = snapshot().items.indexOf(it)
+            snapshot().items.get(position).isLike = false
+            notifyItemChanged(position)
+        }
+    }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentsViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -34,6 +54,10 @@ class CommentsListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Un
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: CommentData) {
             binding.data = data
+
+            binding.tvCommentLike.setOnClickListener {
+              onItemClick(LikeComment(data))
+            }
         }
     }
 

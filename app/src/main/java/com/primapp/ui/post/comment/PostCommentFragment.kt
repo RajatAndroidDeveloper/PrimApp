@@ -11,6 +11,7 @@ import com.primapp.R
 import com.primapp.cache.UserCache
 import com.primapp.databinding.FragmentPostCommentBinding
 import com.primapp.extensions.showError
+import com.primapp.model.LikeComment
 import com.primapp.model.post.PostListResult
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
@@ -76,6 +77,44 @@ class PostCommentFragment : BaseFragment<FragmentPostCommentBinding>() {
                 }
             }
         })
+
+        viewModel.likeCommentLiveData.observe(viewLifecycleOwner, Observer {
+            hideLoading()
+            it.getContentIfNotHandled()?.let {
+                when (it.status) {
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.SUCCESS -> {
+                        it.data?.content?.let {
+                            adapter.markCommentAsLiked(it.commentId)
+                        }
+                    }
+                }
+            }
+        })
+
+        viewModel.unlikeCommentLiveData.observe(viewLifecycleOwner, Observer {
+            hideLoading()
+            it.getContentIfNotHandled()?.let {
+                when (it.status) {
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.SUCCESS -> {
+                        it.data?.content?.let {
+                            adapter.markCommentAsDisliked(it.commentId)
+                        }
+                    }
+                }
+            }
+        })
     }
 
     fun postComment() {
@@ -128,6 +167,14 @@ class PostCommentFragment : BaseFragment<FragmentPostCommentBinding>() {
     }
 
     fun onItemClick(any: Any?) {
-
+        when (any) {
+            is LikeComment -> {
+                if (any.commentData.isLike) {
+                    viewModel.unlikeComment(postData.community.id, userData!!.id, postData.id, any.commentData.id)
+                } else {
+                    viewModel.likeComment(postData.community.id, userData!!.id, postData.id, any.commentData.id)
+                }
+            }
+        }
     }
 }

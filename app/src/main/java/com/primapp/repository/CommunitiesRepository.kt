@@ -9,6 +9,7 @@ import com.primapp.model.aws.PresignedURLRequest
 import com.primapp.model.aws.PresignedURLResponseModel
 import com.primapp.model.category.*
 import com.primapp.model.community.*
+import com.primapp.model.members.CommunityMembersData
 import com.primapp.model.post.PostActionResponseModel
 import com.primapp.model.post.PostListResult
 import com.primapp.retrofit.ApiConstant
@@ -19,6 +20,7 @@ import com.primapp.retrofit.base.ResponseHandler
 import com.primapp.ui.communities.data.CommunitiesPageDataSource
 import com.primapp.ui.communities.data.ParentCategoriesPageDataSource
 import com.primapp.ui.communities.details.source.CommunitiesPostListDataSource
+import com.primapp.ui.communities.members.CommunityMembersDataSource
 import com.primapp.ui.profile.source.UserJoinedCommunityPageDataSource
 import com.primapp.ui.profile.source.UserPostListPageDataSource
 import com.primapp.utils.RetrofitUtils
@@ -211,6 +213,22 @@ class CommunitiesRepository @Inject constructor(
         } catch (e: Exception) {
             responseHandler.handleException(e)
         }
+    }
+
+    //------ END OF POST --------
+
+
+    fun getCommunityMembers(communityId: Int, search: String?): LiveData<PagingData<CommunityMembersData>> {
+        return Pager(
+            config = PagingConfig(
+                enablePlaceholders = false,
+                pageSize = ApiConstant.NETWORK_PAGE_SIZE,
+                initialLoadSize = ApiConstant.NETWORK_PAGE_SIZE
+            ),
+            pagingSourceFactory = {
+                CommunityMembersDataSource(responseHandler, apiService, communityId, search)
+            }
+        ).liveData
     }
 
 }

@@ -165,4 +165,14 @@
             android:name="postData"
             app:argType="com.primapp.model.post.PostListResult" />
     </fragment>
+    <fragment
+        android:id="@+id/communityMembersFragment"
+        android:name="com.primapp.ui.communities.members.CommunityMembersFragment"
+        android:label="CommunityMembersFragment"
+        tools:layout="@layout/fragment_community_members"
+        >
+        <argument
+            android:name="communityId"
+            app:argType="integer" />
+    </fragment>
 </navigation>

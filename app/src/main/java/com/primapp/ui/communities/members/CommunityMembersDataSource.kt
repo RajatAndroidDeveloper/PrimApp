@@ -1,25 +1,23 @@
-package com.primapp.ui.post.comment
+package com.primapp.ui.communities.members
 
 import android.util.Log
 import androidx.paging.PagingSource
-import com.primapp.model.comment.CommentData
+import com.primapp.model.members.CommunityMembersData
 import com.primapp.retrofit.ApiService
-import com.primapp.retrofit.base.Resource
 import com.primapp.retrofit.base.ResponseHandler
 import retrofit2.HttpException
-import retrofit2.Response
 import java.io.IOException
 import java.lang.Exception
 
-class PostCommentListDataSource(
+
+class CommunityMembersDataSource(
     private val responseHandler: ResponseHandler,
     private val apiService: ApiService,
     private val communityId: Int,
-    private val userId: Int,
-    private val postId: Int
-) : PagingSource<Int, CommentData>() {
+    private val search: String?
+) : PagingSource<Int, CommunityMembersData>() {
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CommentData> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CommunityMembersData> {
         val page = params.key ?: STARTING_PAGE_INDEX
         return try {
             /*
@@ -30,7 +28,7 @@ class PostCommentListDataSource(
             * */
             val offset = page * params.loadSize
             Log.d("anshul_paging", "Page:$page LoadSize : ${params.loadSize} Offset : $offset")
-            val response = apiService.getPostComments(communityId, userId, postId, offset, params.loadSize)
+            val response = apiService.getCommunityMembers(communityId, search, offset, params.loadSize)
             LoadResult.Page(
                 data = response.content.results,
                 prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1,

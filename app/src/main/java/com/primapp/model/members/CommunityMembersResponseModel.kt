@@ -1,14 +1,11 @@
-package com.primapp.model.post
-
+package com.primapp.model.members
 import com.google.gson.annotations.SerializedName
-import com.primapp.retrofit.base.BaseDataModel
-import java.io.Serializable
 
 
-data class PostListResponseModel(
+data class CommunityMembersResponseModel(
     @SerializedName("content")
     val content: Content
-) : BaseDataModel()
+)
 
 data class Content(
     @SerializedName("count")
@@ -18,54 +15,32 @@ data class Content(
     @SerializedName("prev_page")
     val prevPage: Any?,
     @SerializedName("results")
-    val results: List<PostListResult>
+    val results: List<CommunityMembersData>
 )
 
-data class PostListResult(
+data class CommunityMembersData(
     @SerializedName("cdate")
     val cdate: String,
     @SerializedName("community")
     val community: Community,
-    @SerializedName("get_image_url")
-    val getImageUrl: String,
     @SerializedName("id")
     val id: Int,
-    @SerializedName("is_bookmark")
-    val isBookmark: Boolean,
-    @SerializedName("is_like")
-    var isLike: Boolean,
-    @SerializedName("post_comments")
-    val postComments: Int,
-    @SerializedName("post_content_file")
-    val postContentFile: String,
-    @SerializedName("post_likes")
-    var postLikes: Int,
-    @SerializedName("post_text")
-    val postText: String?,
     @SerializedName("udate")
     val udate: String,
     @SerializedName("user")
-    val user: User,
-    @SerializedName("file_type")
-    val fileType: String?,
-    @SerializedName("is_createdbyme")
-    val isCreatedByMe: Boolean,
-    @SerializedName("thumbnail_file")
-    val thumbnailFile: String?,
-    @SerializedName("get_thumbnail_url")
-    val getThumbnailUrl: String?
-) : Serializable
+    val user: User
+)
 
 data class Community(
+    @SerializedName("category")
+    val category: Category,
     @SerializedName("community_name")
     val communityName: String,
     @SerializedName("id")
     val id: Int,
-    @SerializedName("category")
-    val category: Category,
     @SerializedName("is_joined")
     val isJoined: Boolean
-) : Serializable
+)
 
 data class User(
     @SerializedName("first_name")
@@ -74,15 +49,19 @@ data class User(
     val getImageUrl: String,
     @SerializedName("id")
     val id: Int,
+    @SerializedName("is_mentee")
+    val isMentee: Boolean,
+    @SerializedName("is_mentor")
+    val isMentor: Boolean,
     @SerializedName("last_name")
     val lastName: String,
     @SerializedName("username")
     val username: String
-) : Serializable
+)
 
 data class Category(
     @SerializedName("category_name")
     val categoryName: String,
     @SerializedName("id")
     val id: Int
-) : Serializable
+)

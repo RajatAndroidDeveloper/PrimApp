@@ -7,6 +7,7 @@ import com.primapp.model.category.ParentCategoryResponseModel
 import com.primapp.model.comment.CommentListResponseModel
 import com.primapp.model.comment.CreateCommentRequestModel
 import com.primapp.model.community.*
+import com.primapp.model.members.CommunityMembersResponseModel
 import com.primapp.model.post.CreatePostRequestModel
 import com.primapp.model.post.PostActionResponseModel
 import com.primapp.model.post.PostListResponseModel
@@ -213,4 +214,28 @@ interface ApiService {
         @Path("postId") postId: Int,
         @Body createCommentRequestModel: CreateCommentRequestModel
     ): BaseDataModel
+
+    @GET(ApiConstant.COMMUNITY_MEMBERS_LIST)
+    suspend fun getCommunityMembers(
+        @Path("communityId") communityId: Int,
+        @Query("search") search: String?,
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int
+    ): CommunityMembersResponseModel
+
+    @POST(ApiConstant.LIKE_COMMENT)
+    suspend fun likeComment(
+        @Path("communityId") communityId: Int,
+        @Path("userId") userId: Int,
+        @Path("postId") postId: Int,
+        @Path("commentId") commentId: Int
+    ): PostActionResponseModel
+
+    @DELETE(ApiConstant.LIKE_COMMENT)
+    suspend fun unlikeComment(
+        @Path("communityId") communityId: Int,
+        @Path("userId") userId: Int,
+        @Path("postId") postId: Int,
+        @Path("commentId") commentId: Int
+    ): PostActionResponseModel
 }

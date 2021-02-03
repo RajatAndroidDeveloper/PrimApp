@@ -193,5 +193,31 @@ class PostRepository @Inject constructor(
         }
     }
 
+    suspend fun likeComment(
+        communityId: Int,
+        userId: Int,
+        postId: Int,
+        commentId: Int
+    ): Resource<PostActionResponseModel> {
+        return try {
+            responseHandler.handleResponse(apiService.likeComment(communityId, userId, postId, commentId))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    suspend fun unlikeComment(
+        communityId: Int,
+        userId: Int,
+        postId: Int,
+        commentId: Int
+    ): Resource<PostActionResponseModel> {
+        return try {
+            responseHandler.handleResponse(apiService.unlikeComment(communityId, userId, postId, commentId))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
 
 }

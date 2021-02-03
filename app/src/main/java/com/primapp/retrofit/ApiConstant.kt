@@ -6,7 +6,7 @@ object ApiConstant {
 
     const val BASE_URL = BuildConfig.BASE_URL
 
-    const val NETWORK_PAGE_SIZE = 10
+    const val NETWORK_PAGE_SIZE = 15
 
     //Auth
     const val REFERENCE_DATA = "reference-data"
@@ -29,6 +29,7 @@ object ApiConstant {
     const val EDIT_COMMUNITY = "communities/{communityId}"
     const val JOINED_COMMUNITY_LIST = "joined_community_list"
     const val CATEGORY_JOINED_COMMUNITY_LIST = "{categoryId}/joined_community_list"
+    const val COMMUNITY_MEMBERS_LIST = "{communityId}/community_member_list"
 
     //Profile
     const val EDIT_PROFILE = "users/{userId}"
@@ -50,4 +51,5 @@ object ApiConstant {
     //Post Comment
     const val COMMENT_LIST = "communities/{communityId}/users/{userId}/posts/{postId}/comments"
     const val CREATE_COMMENT = "communities/{communityId}/users/{userId}/posts/{postId}/comments"
+    const val LIKE_COMMENT = "communities/{communityId}/users/{userId}/posts/{postId}/comments/{commentId}/likes"
 }

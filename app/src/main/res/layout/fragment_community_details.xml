@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="frag"
+            type="com.primapp.ui.communities.details.CommunityDetailsFragment" />
+
+        <variable
             name="data"
             type="com.primapp.model.community.CommunityData" />
 
@@ -234,6 +238,7 @@
                         android:ellipsize="end"
                         android:fontFamily="@font/poppins_medium"
                         android:maxLines="1"
+                        android:onClick="@{()->frag.showAllMembers()}"
                         android:text="@string/show_all"
                         android:textColor="@color/colorAccent"
                         android:textSize="@dimen/textSmall" />

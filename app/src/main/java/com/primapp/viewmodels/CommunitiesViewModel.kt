@@ -14,6 +14,7 @@ import com.primapp.model.community.CommunityData
 import com.primapp.model.community.CommunityDetailsResponseModel
 import com.primapp.model.community.CreateCommunityRequestModel
 import com.primapp.model.community.JoinCommunityResponseModel
+import com.primapp.model.members.CommunityMembersData
 import com.primapp.model.post.PostActionResponseModel
 import com.primapp.model.post.PostListResult
 import com.primapp.repository.CommunitiesRepository
@@ -178,10 +179,10 @@ class CommunitiesViewModel @Inject constructor(
     private var communityPostListResultLiveData: LiveData<PagingData<PostListResult>>? = null
 
     fun getCommunityPostsListData(communityId: Int): LiveData<PagingData<PostListResult>> {
-        val lastResult = communityPostListResultLiveData
+       /* val lastResult = communityPostListResultLiveData
         if (lastResult != null) {
             return lastResult
-        }
+        }*/
         val newResultLiveData: LiveData<PagingData<PostListResult>> =
             repo.getCommunitiesPostList(communityId).cachedIn(viewModelScope)
         communityPostListResultLiveData = newResultLiveData
@@ -222,7 +223,6 @@ class CommunitiesViewModel @Inject constructor(
 
     //---------------POST--------------------
 
-
     //Like post
     private var _likePostLiveData = MutableLiveData<Event<Resource<PostActionResponseModel>>>()
     var likePostLiveData: LiveData<Event<Resource<PostActionResponseModel>>> = _likePostLiveData
@@ -250,4 +250,14 @@ class CommunitiesViewModel @Inject constructor(
         _deletePostLiveData.postValue(Event(repo.deletePost(communityId, userId, postId)))
     }
 
+    //--------------------------- END POST ---------------------------
+
+    private var communityMembersListLiveData: LiveData<PagingData<CommunityMembersData>>? = null
+
+    fun getCommunityMembers(communityId: Int, search: String?): LiveData<PagingData<CommunityMembersData>> {
+        val newResultLiveData: LiveData<PagingData<CommunityMembersData>> =
+            repo.getCommunityMembers(communityId, search).cachedIn(viewModelScope)
+        communityMembersListLiveData = newResultLiveData
+        return newResultLiveData
+    }
 }

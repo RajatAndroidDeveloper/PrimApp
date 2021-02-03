@@ -1,0 +1,138 @@
+package com.primapp.ui.communities.members
+
+import android.os.Bundle
+import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
+import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.primapp.R
+import com.primapp.databinding.FragmentCommunityMembersBinding
+import com.primapp.extensions.setDivider
+import com.primapp.extensions.showError
+import com.primapp.ui.base.BaseFragment
+import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
+import com.primapp.viewmodels.CommunitiesViewModel
+import kotlinx.android.synthetic.main.toolbar_inner_back.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+
+class CommunityMembersFragment : BaseFragment<FragmentCommunityMembersBinding>() {
+
+    private var communityId: Int? = null
+
+    private var searchJob: Job? = null
+
+    val adapter by lazy { CommunityMembersListPagedAdapter { item -> onItemClick(item) } }
+
+    val viewModel by viewModels<CommunitiesViewModel> { viewModelFactory }
+
+    override fun getLayoutRes(): Int = R.layout.fragment_community_members
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        setToolbar(getString(R.string.members), toolbar)
+        setData()
+        setAdapter()
+        setObserver()
+        initTextListeners()
+    }
+
+    private fun setData() {
+        binding.frag = this
+        communityId = CommunityMembersFragmentArgs.fromBundle(requireArguments()).communityId
+        searchCommunityMembers(null)
+    }
+
+    private fun setObserver() {
+
+    }
+
+    private fun searchCommunityMembers(query: String?) {
+        searchJob?.cancel()
+        searchJob = lifecycleScope.launch {
+            viewModel.getCommunityMembers(communityId!!, query).observe(viewLifecycleOwner, Observer {
+                adapter.submitData(lifecycle, it)
+            })
+        }
+    }
+
+    private fun setAdapter() {
+        binding.rvCommunityMembers.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
+            setDivider(R.drawable.recyclerview_divider)
+        }
+
+        binding.rvCommunityMembers.adapter = adapter.withLoadStateHeaderAndFooter(
+            header = CommunityPagedLoadStateAdapter { adapter.retry() },
+            footer = CommunityPagedLoadStateAdapter { adapter.retry() }
+        )
+
+        adapter.addLoadStateListener { loadState ->
+            if (loadState.refresh !is LoadState.Loading) {
+                binding.swipeRefresh.isRefreshing = false
+                binding.rvCommunityMembers.isVisible = true
+
+                val error = when {
+                    loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
+                    loadState.append is LoadState.Error -> loadState.append as LoadState.Error
+                    loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
+
+                    else -> null
+                }
+                error?.let {
+                    if (adapter.snapshot().isEmpty()) {
+                        showError(requireContext(), it.error.localizedMessage)
+                    }
+                }
+
+            } else {
+                binding.swipeRefresh.isRefreshing = true
+                binding.rvCommunityMembers.isVisible = false
+            }
+        }
+    }
+
+    fun refreshData() {
+        adapter.refresh()
+    }
+
+    private fun onItemClick(item: Any?) {
+
+    }
+
+    private fun initTextListeners() {
+        binding.etSearch.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                updateCommunityMembersListFromInput()
+                true
+            } else {
+                false
+            }
+        }
+        binding.etSearch.setOnKeyListener { _, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                updateCommunityMembersListFromInput()
+                true
+            } else {
+                false
+            }
+        }
+    }
+
+    private fun updateCommunityMembersListFromInput() {
+        binding.etSearch.text.trim().let {
+            if (it.isNotEmpty()) {
+                searchCommunityMembers(it.toString())
+            } else {
+                searchCommunityMembers(null)
+            }
+        }
+    }
+
+}

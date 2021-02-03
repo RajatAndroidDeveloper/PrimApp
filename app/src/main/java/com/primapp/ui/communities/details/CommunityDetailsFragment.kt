@@ -60,6 +60,7 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
         communityData = CommunityDetailsFragmentArgs.fromBundle(requireArguments()).communityData
         binding.type = CommunityFilterTypes.COMMUNITY_DETAILS
         binding.data = communityData
+        binding.frag = this
     }
 
     private fun setObserver() {
@@ -257,6 +258,12 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
                 }
             }
         }
+    }
+
+    fun showAllMembers() {
+        val bundle = Bundle()
+        bundle.putInt("communityId", communityData.id)
+        findNavController().navigate(R.id.communityMembersFragment, bundle)
     }
 
     private fun onItemClick(item: Any?) {

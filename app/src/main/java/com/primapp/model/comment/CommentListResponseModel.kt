@@ -31,7 +31,7 @@ data class CommentData(
     @SerializedName("id")
     val id: Int,
     @SerializedName("is_like")
-    val isLike: Boolean,
+    var isLike: Boolean,
     @SerializedName("post")
     val post: Int,
     @SerializedName("udate")
