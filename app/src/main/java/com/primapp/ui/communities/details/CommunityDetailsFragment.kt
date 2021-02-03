@@ -78,6 +78,7 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
                             communityData.udate = udate
                             communityData.totalActiveMember = totalActiveMember
                             binding.data = communityData
+                            userAdapter.addData(communityJoiner)
                         }
                     }
                     Status.LOADING -> {

@@ -12,11 +12,11 @@ import javax.inject.Inject
 class CommunityMembersImageAdapter @Inject constructor() :
     RecyclerView.Adapter<CommunityMembersImageAdapter.CommunityImageViewHolder>() {
 
-    val psychicList = ArrayList<String>()
+    val list = ArrayList<String>()
 
     fun addData(listData: List<String>) {
-        psychicList.clear()
-        psychicList.addAll(listData)
+        list.clear()
+        list.addAll(listData)
         notifyDataSetChanged()
     }
 
@@ -32,16 +32,16 @@ class CommunityMembersImageAdapter @Inject constructor() :
         )
     }
 
-    override fun getItemCount(): Int = 5 //psychicList.size
+    override fun getItemCount(): Int = list.size
 
     override fun onBindViewHolder(holder: CommunityImageViewHolder, position: Int) {
-        holder.bind()
+        holder.bind(list[position])
     }
 
     inner class CommunityImageViewHolder(val binding: ItemListMemberImagesBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind() {
-            binding.ivProfilePic.loadCircularImageWithBorder("https://static.toiimg.com/thumb/msid-73540687,width-800,height-600,resizemode-75,imgsize-575035,pt-32,y_pad-40/73540687.jpg")
+        fun bind(url: String) {
+            binding.ivProfilePic.loadCircularImageWithBorder(url)
         }
     }
 }

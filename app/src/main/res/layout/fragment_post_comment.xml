@@ -58,24 +58,25 @@
 
         <EditText
             android:id="@+id/etComment"
-            style="@style/editTextSearchBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_normal"
             android:layout_marginBottom="@dimen/space_medium"
             android:background="@drawable/shape_rounded_corner_search_box"
             android:drawableStart="@null"
+            android:fontFamily="@font/poppins_regular"
             android:gravity="center_vertical"
             android:hint="Write your comment here..."
             android:imeActionLabel="Done"
             android:imeOptions="actionDone"
             android:padding="@dimen/space_normal"
             android:singleLine="true"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
             android:textSize="@dimen/textNormal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/ivSend"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintWidth_percent="1" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
             android:id="@+id/ivSend"

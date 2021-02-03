@@ -69,5 +69,7 @@ data class CommunityData(
     @SerializedName("community_creater")
     val communityCreator: String?,
     @SerializedName("community_category")
-    val communityCategory: String?
+    val communityCategory: String?,
+    @SerializedName("community_joiner")
+    val communityJoiner: List<String>
 ) : Serializable
