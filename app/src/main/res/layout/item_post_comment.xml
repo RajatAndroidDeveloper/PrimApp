@@ -98,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_normal"
                 android:fontFamily="@font/poppins_semibold"
-                android:text="@{data.like? @string/liked : @string/like}"
+                android:text="@{data.like? @string/unlike : @string/like}"
                 android:textSize="@dimen/textSmall"
                 tools:text="@string/like" />
 

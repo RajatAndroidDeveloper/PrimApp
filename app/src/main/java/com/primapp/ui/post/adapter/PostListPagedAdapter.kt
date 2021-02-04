@@ -98,6 +98,12 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
                 }
             }
 
+            binding.tvLikesCount.setOnClickListener {
+                data?.let {
+                    onItemClick(LikePostMembers(it))
+                }
+            }
+
             binding.ivMore.setOnClickListener {
                 //creating a popup menu
                 val popup = PopupMenu(binding.root.context, binding.ivMore)

@@ -22,7 +22,10 @@ import kotlinx.coroutines.launch
 
 class CommunityMembersFragment : BaseFragment<FragmentCommunityMembersBinding>() {
 
+    private lateinit var viewType: String
+
     private var communityId: Int? = null
+    private var postId: Int? = null
 
     private var searchJob: Job? = null
 
@@ -45,19 +48,35 @@ class CommunityMembersFragment : BaseFragment<FragmentCommunityMembersBinding>()
     private fun setData() {
         binding.frag = this
         communityId = CommunityMembersFragmentArgs.fromBundle(requireArguments()).communityId
-        searchCommunityMembers(null)
+        viewType = CommunityMembersFragmentArgs.fromBundle(requireArguments()).type
+        postId = CommunityMembersFragmentArgs.fromBundle(requireArguments()).postId
+
+        if (viewType == POST_LIKE_MEMBERS_LIST) {
+            binding.etSearch.isVisible = false
+            tvTitle.text = getString(R.string.likes)
+        }
+
+        searchMembers(null)
     }
 
     private fun setObserver() {
 
     }
 
-    private fun searchCommunityMembers(query: String?) {
+    private fun searchMembers(query: String?) {
         searchJob?.cancel()
-        searchJob = lifecycleScope.launch {
-            viewModel.getCommunityMembers(communityId!!, query).observe(viewLifecycleOwner, Observer {
-                adapter.submitData(lifecycle, it)
-            })
+        searchJob = if (viewType == COMMUNITY_MEMBERS_LIST) {
+            lifecycleScope.launch {
+                viewModel.getCommunityMembers(communityId!!, query).observe(viewLifecycleOwner, Observer {
+                    adapter.submitData(lifecycle, it)
+                })
+            }
+        } else {
+            lifecycleScope.launch {
+                viewModel.getPostLikeMembersList(communityId!!, postId!!, query).observe(viewLifecycleOwner, Observer {
+                    adapter.submitData(lifecycle, it)
+                })
+            }
         }
     }
 
@@ -128,11 +147,16 @@ class CommunityMembersFragment : BaseFragment<FragmentCommunityMembersBinding>()
     private fun updateCommunityMembersListFromInput() {
         binding.etSearch.text.trim().let {
             if (it.isNotEmpty()) {
-                searchCommunityMembers(it.toString())
+                searchMembers(it.toString())
             } else {
-                searchCommunityMembers(null)
+                searchMembers(null)
             }
         }
+    }
+
+    companion object {
+        const val COMMUNITY_MEMBERS_LIST = "communityMembersList"
+        const val POST_LIKE_MEMBERS_LIST = "postLikeMembersList"
     }
 
 }

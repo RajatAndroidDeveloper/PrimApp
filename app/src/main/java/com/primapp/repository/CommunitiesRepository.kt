@@ -21,6 +21,7 @@ import com.primapp.ui.communities.data.CommunitiesPageDataSource
 import com.primapp.ui.communities.data.ParentCategoriesPageDataSource
 import com.primapp.ui.communities.details.source.CommunitiesPostListDataSource
 import com.primapp.ui.communities.members.CommunityMembersDataSource
+import com.primapp.ui.post.likes.LikesMemberListDataSource
 import com.primapp.ui.profile.source.UserJoinedCommunityPageDataSource
 import com.primapp.ui.profile.source.UserPostListPageDataSource
 import com.primapp.utils.RetrofitUtils
@@ -227,6 +228,23 @@ class CommunitiesRepository @Inject constructor(
             ),
             pagingSourceFactory = {
                 CommunityMembersDataSource(responseHandler, apiService, communityId, search)
+            }
+        ).liveData
+    }
+
+    fun getPostLikeMembersList(
+        communityId: Int,
+        postId: Int,
+        search: String?
+    ): LiveData<PagingData<CommunityMembersData>> {
+        return Pager(
+            config = PagingConfig(
+                enablePlaceholders = false,
+                pageSize = ApiConstant.NETWORK_PAGE_SIZE,
+                initialLoadSize = ApiConstant.NETWORK_PAGE_SIZE
+            ),
+            pagingSourceFactory = {
+                LikesMemberListDataSource(responseHandler, apiService, communityId, postId, search)
             }
         ).liveData
     }

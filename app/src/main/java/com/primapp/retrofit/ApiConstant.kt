@@ -47,6 +47,7 @@ object ApiConstant {
     const val DELETE_POST = "communities/{communityId}/users/{userId}/posts/{postId}"
     const val EDIT_POST = "communities/{communityId}/users/{userId}/posts/{postId}"
     const val COMMUNITY_POST_LIST = "{communityId}/community_post_list"
+    const val LIKE_POST_MEMBERS_LIST = "community/{communityId}/post/{postId}/post_liked_user_list"
 
     //Post Comment
     const val COMMENT_LIST = "communities/{communityId}/users/{userId}/posts/{postId}/comments"

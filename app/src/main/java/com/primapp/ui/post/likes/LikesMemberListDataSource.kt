@@ -1,4 +1,4 @@
-package com.primapp.ui.communities.members
+package com.primapp.ui.post.likes
 
 import android.util.Log
 import androidx.paging.PagingSource
@@ -9,10 +9,11 @@ import retrofit2.HttpException
 import java.io.IOException
 import java.lang.Exception
 
-class CommunityMembersDataSource(
+class LikesMemberListDataSource(
     private val responseHandler: ResponseHandler,
     private val apiService: ApiService,
     private val communityId: Int,
+    private val postId: Int,
     private val search: String?
 ) : PagingSource<Int, CommunityMembersData>() {
 
@@ -27,7 +28,7 @@ class CommunityMembersDataSource(
             * */
             val offset = page * params.loadSize
             Log.d("anshul_paging", "Page:$page LoadSize : ${params.loadSize} Offset : $offset")
-            val response = apiService.getCommunityMembers(communityId, search, offset, params.loadSize)
+            val response = apiService.getPostLikeMembersList(communityId, postId, search, offset, params.loadSize)
             LoadResult.Page(
                 data = response.content.results,
                 prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1,

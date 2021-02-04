@@ -1,4 +1,5 @@
 package com.primapp.model.members
+
 import com.google.gson.annotations.SerializedName
 
 
@@ -20,15 +21,17 @@ data class Content(
 
 data class CommunityMembersData(
     @SerializedName("cdate")
-    val cdate: String,
+    val cdate: String?,
     @SerializedName("community")
-    val community: Community,
+    val community: Community?,
     @SerializedName("id")
-    val id: Int,
+    val id: Int?,
     @SerializedName("udate")
-    val udate: String,
+    val udate: String?,
     @SerializedName("user")
-    val user: User
+    val user: User,
+    @SerializedName("post")
+    val post: Int?
 )
 
 data class Community(

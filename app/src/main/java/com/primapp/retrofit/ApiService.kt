@@ -238,4 +238,13 @@ interface ApiService {
         @Path("postId") postId: Int,
         @Path("commentId") commentId: Int
     ): PostActionResponseModel
+
+    @GET(ApiConstant.LIKE_POST_MEMBERS_LIST)
+    suspend fun getPostLikeMembersList(
+        @Path("communityId") communityId: Int,
+        @Path("postId") postId: Int,
+        @Query("search") search: String?,
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int
+    ): CommunityMembersResponseModel
 }

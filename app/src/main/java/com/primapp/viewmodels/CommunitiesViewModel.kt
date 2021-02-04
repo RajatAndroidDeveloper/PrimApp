@@ -260,4 +260,17 @@ class CommunitiesViewModel @Inject constructor(
         communityMembersListLiveData = newResultLiveData
         return newResultLiveData
     }
+
+    private var postLikesMembersListLiveData: LiveData<PagingData<CommunityMembersData>>? = null
+
+    fun getPostLikeMembersList(
+        communityId: Int,
+        postId: Int,
+        search: String?
+    ): LiveData<PagingData<CommunityMembersData>> {
+        val newResultLiveData: LiveData<PagingData<CommunityMembersData>> =
+            repo.getPostLikeMembersList(communityId, postId, search).cachedIn(viewModelScope)
+        postLikesMembersListLiveData = newResultLiveData
+        return newResultLiveData
+    }
 }

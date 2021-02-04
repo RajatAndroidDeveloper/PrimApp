@@ -174,5 +174,12 @@
         <argument
             android:name="communityId"
             app:argType="integer" />
+        <argument
+            android:name="type"
+            app:argType="string" />
+        <argument
+            android:name="postId"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
 </navigation>

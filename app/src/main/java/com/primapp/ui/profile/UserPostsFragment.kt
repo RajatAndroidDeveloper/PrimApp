@@ -17,6 +17,7 @@ import com.primapp.model.*
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
+import com.primapp.ui.communities.members.CommunityMembersFragment
 import com.primapp.ui.dashboard.ProfileFragment
 import com.primapp.ui.post.adapter.PostListPagedAdapter
 import com.primapp.utils.DialogUtils
@@ -193,6 +194,13 @@ class UserPostsFragment : BaseFragment<FragmentUserPostsBinding>() {
                 val bundle = Bundle()
                 bundle.putSerializable("postData", item.postData)
                 findNavController().navigate(R.id.postCommentFragment, bundle)
+            }
+            is LikePostMembers -> {
+                val bundle = Bundle()
+                bundle.putInt("communityId", item.postData.community.id)
+                bundle.putInt("postId", item.postData.id)
+                bundle.putString("type", CommunityMembersFragment.POST_LIKE_MEMBERS_LIST)
+                findNavController().navigate(R.id.communityMembersFragment, bundle)
             }
         }
     }

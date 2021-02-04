@@ -74,16 +74,16 @@
                 app:layout_constraintTop_toBottomOf="@id/tvCommunityName"
                 tools:text="45 min ago" />
 
-
             <ImageView
                 android:id="@+id/ivBookmark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/space_extraSmall"
-                android:src="@drawable/ic_bookmark"
+                android:src="@{data.bookmark ? @drawable/bookmark_selected : @drawable/ic_bookmark}"
                 app:layout_constraintEnd_toStartOf="@id/ivMore"
                 app:layout_constraintStart_toEndOf="@id/tvName"
-                app:layout_constraintTop_toTopOf="@id/tvName" />
+                app:layout_constraintTop_toTopOf="@id/tvName"
+                tools:src="@drawable/ic_bookmark" />
 
             <ImageView
                 android:id="@+id/ivMore"
@@ -94,7 +94,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/ivBookmark"
                 app:layout_constraintTop_toTopOf="@id/tvName" />
-
 
             <com.primapp.extensions.ExpandableTextView
                 android:id="@+id/tvCaption"
