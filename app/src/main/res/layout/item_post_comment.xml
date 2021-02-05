@@ -60,7 +60,6 @@
                 android:fontFamily="@font/poppins_medium"
                 android:text="@{data.user.firstName +' '+data.user.lastName}"
                 android:textColor="@color/black"
-                android:textSize="@dimen/textSmall"
                 tools:text="Gordon kelly Jordan" />
 
             <TextView
@@ -69,7 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{data.commentText}"
-                android:textSize="@dimen/textExtraSmall"
+                android:textSize="@dimen/textSmall"
                 tools:text="@string/long_about_text" />
 
         </LinearLayout>
@@ -89,7 +88,6 @@
                 timeAgoFromTimeStamp="@{data.cdate}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/textSmall"
                 tools:text="48 m" />
 
             <TextView
@@ -99,7 +97,6 @@
                 android:layout_marginStart="@dimen/space_normal"
                 android:fontFamily="@font/poppins_semibold"
                 android:text="@{data.like? @string/unlike : @string/like}"
-                android:textSize="@dimen/textSmall"
                 tools:text="@string/like" />
 
             <!--  android:textColor="@{data.like ? @color/colorAccent : @android:color/tab_indicator_text}" -->
@@ -110,7 +107,6 @@
                 android:layout_marginStart="@dimen/space_normal"
                 android:fontFamily="@font/poppins_semibold"
                 android:text="@string/reply"
-                android:textSize="@dimen/textSmall"
                 tools:text="@string/reply" />
 
         </LinearLayout>

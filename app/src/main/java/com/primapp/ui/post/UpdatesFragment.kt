@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.primapp.R
 import com.primapp.cache.UserCache
 import com.primapp.databinding.FragmentUpdatesBinding
@@ -23,6 +24,7 @@ import com.primapp.ui.communities.members.CommunityMembersFragment
 import com.primapp.ui.post.adapter.PostListPagedAdapter
 import com.primapp.utils.DialogUtils
 import com.primapp.viewmodels.PostsViewModel
+import kotlinx.android.synthetic.main.fragment_updates.*
 import kotlinx.coroutines.launch
 
 class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
@@ -121,8 +123,29 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
     }
 
     private fun setAdapter() {
+        val lm = LinearLayoutManager(requireContext())
         binding.rvCommunityPosts.apply {
-            layoutManager = LinearLayoutManager(requireContext())
+            layoutManager = lm
+        }
+
+        binding.rvCommunityPosts.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val firstVisibleItem = lm.findFirstVisibleItemPosition()
+
+                if (firstVisibleItem > 1) {
+                    //  && dy < 0 Show FAB if 1st item is not visible and scrolling upside
+                    binding.tvScrollUp.visibility = View.VISIBLE
+                } else {
+                    //Hide FAB
+                    binding.tvScrollUp.visibility = View.GONE
+                }
+            }
+        })
+
+        binding.tvScrollUp.setOnClickListener {
+            rvCommunityPosts.smoothScrollToPosition(0)
         }
 
         binding.rvCommunityPosts.adapter = adapter.withLoadStateHeaderAndFooter(
