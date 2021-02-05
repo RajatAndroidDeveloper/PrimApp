@@ -211,3 +211,12 @@ fun timeAgoFromTimeStamp(textView: TextView, timeStamp: String?) {
 fun prettyNumber(textView: TextView, number: Int?) {
     number?.let { textView.text = getPrettyNumber(it.toLong()) }
 }
+
+
+@SuppressLint("SetTextI18n")
+@BindingAdapter("memberSince")
+fun memberSince(textView: TextView, date: String?) {
+    date?.let {
+        textView.text = textView.resources.getString(R.string.member_since, DateTimeUtils.convertServerTimeStamp(it))
+    }
+}

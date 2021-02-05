@@ -72,6 +72,18 @@
                 android:textSize="@dimen/textSmall"
                 tools:text="@string/long_about_text" />
 
+            <TextView
+                android:id="@+id/tvMemberSince"
+                style="@style/primaryBodyText"
+                memberSince="@{data.cdate}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="@dimen/textSmall"
+                android:visibility="@{data.cdate!=null ? View.VISIBLE : View.GONE}"
+                tools:text="Member Since : Jan 26, 2020" />
+
         </LinearLayout>
 
         <Button

@@ -195,4 +195,5 @@
     <string name="invite_mentor">Invite Mentor</string>
     <string name="back_to_top">Back to top</string>
     <string name="replies">Replies</string>
+    <string name="member_since">Member Since : %s</string>
 </resources>
