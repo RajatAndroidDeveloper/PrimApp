@@ -12,6 +12,8 @@ import com.primapp.model.post.CreatePostRequestModel
 import com.primapp.model.post.PostActionResponseModel
 import com.primapp.model.post.PostListResponseModel
 import com.primapp.model.profile.EditProfileRequestModel
+import com.primapp.model.reply.CommentReplyResponseModel
+import com.primapp.model.reply.CreateReplyRequestModel
 import com.primapp.retrofit.base.BaseDataModel
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -247,4 +249,20 @@ interface ApiService {
         @Query("offset") offset: Int,
         @Query("limit") limit: Int
     ): CommunityMembersResponseModel
+
+    @GET(ApiConstant.GET_POST_COMMENT_REPLIES)
+    suspend fun getPostCommentReply(
+        @Path("commentId") commentId: Int,
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int
+    ): CommentReplyResponseModel
+
+    @POST(ApiConstant.CREATE_REPLY)
+    suspend fun createCommentReply(
+        @Path("communityId") communityId: Int,
+        @Path("userId") userId: Int,
+        @Path("postId") postId: Int,
+        @Path("commentId") commentId: Int,
+        @Body createReplyRequestModel: CreateReplyRequestModel
+    ): BaseDataModel
 }

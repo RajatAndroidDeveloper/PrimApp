@@ -1,4 +1,4 @@
-package com.primapp.ui.post.comment
+package com.primapp.ui.post.reply
 
 import android.os.Bundle
 import androidx.core.view.isVisible
@@ -9,9 +9,9 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.primapp.R
 import com.primapp.cache.UserCache
-import com.primapp.databinding.FragmentPostCommentBinding
+import com.primapp.databinding.FragmentPostCommentReplyBinding
 import com.primapp.extensions.showError
-import com.primapp.model.LikeComment
+import com.primapp.model.LikeReply
 import com.primapp.model.comment.CommentData
 import com.primapp.model.post.PostListResult
 import com.primapp.retrofit.base.Status
@@ -24,34 +24,40 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class PostCommentFragment : BaseFragment<FragmentPostCommentBinding>() {
+class PostCommentReplyFragment : BaseFragment<FragmentPostCommentReplyBinding>() {
+
+    lateinit var mainCommentData: CommentData
 
     lateinit var postData: PostListResult
 
     val userData by lazy { UserCache.getUser(requireContext()) }
 
-    val adapter by lazy { CommentsListPagedAdapter { item -> onItemClick(item) } }
+    val adapter by lazy { PostCommentReplyPagedAdapter { item -> onItemClick(item) } }
 
     val viewModel by viewModels<PostsViewModel> { viewModelFactory }
 
-    override fun getLayoutRes(): Int = R.layout.fragment_post_comment
+    override fun getLayoutRes(): Int = R.layout.fragment_post_comment_reply
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        setToolbar(getString(R.string.comments), toolbar)
+        setToolbar(getString(R.string.replies), toolbar)
         setData()
         setAdapter()
         setObserver()
+        setClicks()
     }
 
     private fun setData() {
-        postData = PostCommentFragmentArgs.fromBundle(requireArguments()).postData
+        mainCommentData = PostCommentReplyFragmentArgs.fromBundle(requireArguments()).mainCommentData
+        postData = PostCommentReplyFragmentArgs.fromBundle(requireArguments()).postData
+        binding.mainCommentData = mainCommentData
         binding.frag = this
+        binding.includeMainComment.tvCommentReply.isVisible = false
     }
 
     private fun setObserver() {
-        viewModel.getPostCommentsListData(postData.community.id, userData!!.id, postData.id)
+        viewModel.getCommentsReply(mainCommentData.id)
             .observe(viewLifecycleOwner, Observer {
                 it?.let {
                     CoroutineScope(Dispatchers.Main).launch {
@@ -60,7 +66,7 @@ class PostCommentFragment : BaseFragment<FragmentPostCommentBinding>() {
                 }
             })
 
-        viewModel.createCommentLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.createCommentReplyLiveData.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
                 hideLoading()
                 when (it.status) {
@@ -71,7 +77,7 @@ class PostCommentFragment : BaseFragment<FragmentPostCommentBinding>() {
                         showError(requireContext(), it.message!!)
                     }
                     Status.SUCCESS -> {
-                        DialogUtils.showCloseDialog(requireActivity(), R.string.comment_posted_success) {
+                        DialogUtils.showCloseDialog(requireActivity(), R.string.reply_posted_success) {
                             findNavController().popBackStack()
                         }
                     }
@@ -91,7 +97,8 @@ class PostCommentFragment : BaseFragment<FragmentPostCommentBinding>() {
                     }
                     Status.SUCCESS -> {
                         it.data?.content?.let {
-                            adapter.markCommentAsLiked(it.commentId)
+                            mainCommentData.isLike = true
+                            binding.mainCommentData = mainCommentData
                         }
                     }
                 }
@@ -110,7 +117,8 @@ class PostCommentFragment : BaseFragment<FragmentPostCommentBinding>() {
                     }
                     Status.SUCCESS -> {
                         it.data?.content?.let {
-                            adapter.markCommentAsDisliked(it.commentId)
+                            mainCommentData.isLike = false
+                            binding.mainCommentData = mainCommentData
                         }
                     }
                 }
@@ -118,19 +126,25 @@ class PostCommentFragment : BaseFragment<FragmentPostCommentBinding>() {
         })
     }
 
-    fun postComment() {
-        val commentText = binding.etComment.text.toString().trim()
-        if (commentText.isNotEmpty()) {
-            viewModel.createComment(postData.community.id, userData!!.id, postData.id, commentText)
+    fun postReply() {
+        val replyText = binding.etReply.text.toString().trim()
+        if (replyText.isNotEmpty()) {
+            viewModel.createCommentReply(
+                postData.community.id,
+                userData!!.id,
+                postData.id,
+                mainCommentData.id,
+                replyText
+            )
         }
     }
 
     private fun setAdapter() {
-        binding.rvComments.apply {
+        binding.rvCommentsReply.apply {
             layoutManager = LinearLayoutManager(requireContext())
         }
 
-        binding.rvComments.adapter = adapter.withLoadStateHeaderAndFooter(
+        binding.rvCommentsReply.adapter = adapter.withLoadStateHeaderAndFooter(
             header = CommunityPagedLoadStateAdapter { adapter.retry() },
             footer = CommunityPagedLoadStateAdapter { adapter.retry() }
         )
@@ -139,7 +153,7 @@ class PostCommentFragment : BaseFragment<FragmentPostCommentBinding>() {
             if (loadState.refresh !is LoadState.Loading) {
                 binding.swipeRefresh.isRefreshing = false
                 binding.progressBar.isVisible = false
-                binding.rvComments.isVisible = true
+                binding.rvCommentsReply.isVisible = true
 
                 val error = when {
                     loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
@@ -157,7 +171,7 @@ class PostCommentFragment : BaseFragment<FragmentPostCommentBinding>() {
             } else {
                 if (!binding.swipeRefresh.isRefreshing) {
                     binding.progressBar.isVisible = true
-                    binding.rvComments.isVisible = false
+                    binding.rvCommentsReply.isVisible = false
                 }
             }
         }
@@ -169,19 +183,18 @@ class PostCommentFragment : BaseFragment<FragmentPostCommentBinding>() {
 
     fun onItemClick(any: Any?) {
         when (any) {
-            is LikeComment -> {
-                if (any.commentData.isLike) {
-                    viewModel.unlikeComment(postData.community.id, userData!!.id, postData.id, any.commentData.id)
-                } else {
-                    viewModel.likeComment(postData.community.id, userData!!.id, postData.id, any.commentData.id)
-                }
-            }
+            is LikeReply -> {
 
-            is CommentData -> {
-                val bundle = Bundle()
-                bundle.putSerializable("mainCommentData", any)
-                bundle.putSerializable("postData", postData)
-                findNavController().navigate(R.id.postCommentReplyFragment, bundle)
+            }
+        }
+    }
+
+    private fun setClicks() {
+        binding.includeMainComment.tvCommentLike.setOnClickListener {
+            if (mainCommentData.isLike) {
+                viewModel.unlikeComment(postData.community.id, userData!!.id, postData.id, mainCommentData.id)
+            } else {
+                viewModel.likeComment(postData.community.id, userData!!.id, postData.id, mainCommentData.id)
             }
         }
     }

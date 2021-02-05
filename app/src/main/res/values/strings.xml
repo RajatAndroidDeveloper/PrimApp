@@ -187,10 +187,12 @@
     <string name="mentee">Mentee</string>
     <string name="comments">Comments</string>
     <string name="comment_posted_success">Your comment is posted successfully.</string>
+    <string name="reply_posted_success">Your reply is posted successfully.</string>
     <string name="like">Like</string>
     <string name="likes">Likes</string>
     <string name="unlike">Unlike</string>
     <string name="reply">Reply</string>
     <string name="invite_mentor">Invite Mentor</string>
     <string name="back_to_top">Back to top</string>
+    <string name="replies">Replies</string>
 </resources>

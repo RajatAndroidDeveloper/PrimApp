@@ -14,12 +14,15 @@ import com.primapp.model.community.JoinedCommunityListModel
 import com.primapp.model.post.CreatePostRequestModel
 import com.primapp.model.post.PostActionResponseModel
 import com.primapp.model.post.PostListResult
+import com.primapp.model.reply.CreateReplyRequestModel
+import com.primapp.model.reply.ReplyData
 import com.primapp.retrofit.ApiConstant
 import com.primapp.retrofit.ApiService
 import com.primapp.retrofit.base.BaseDataModel
 import com.primapp.retrofit.base.Resource
 import com.primapp.retrofit.base.ResponseHandler
 import com.primapp.ui.post.comment.PostCommentListDataSource
+import com.primapp.ui.post.reply.PostCommentReplyDataSource
 import com.primapp.ui.post.source.PostListPageDataSource
 import com.primapp.ui.profile.source.UserPostListPageDataSource
 import com.primapp.utils.RetrofitUtils
@@ -219,5 +222,39 @@ class PostRepository @Inject constructor(
         }
     }
 
+    fun getPostReplies(commentId: Int): LiveData<PagingData<ReplyData>> {
+        return Pager(
+            config = PagingConfig(
+                enablePlaceholders = false,
+                pageSize = ApiConstant.NETWORK_PAGE_SIZE,
+                initialLoadSize = ApiConstant.NETWORK_PAGE_SIZE
+            ),
+            pagingSourceFactory = {
+                PostCommentReplyDataSource(responseHandler, apiService, commentId)
+            }
+        ).liveData
+    }
+
+    suspend fun createCommentReply(
+        communityId: Int,
+        userId: Int,
+        postId: Int,
+        commentId: Int,
+        createReplyRequestModel: CreateReplyRequestModel
+    ): Resource<BaseDataModel> {
+        return try {
+            responseHandler.handleResponse(
+                apiService.createCommentReply(
+                    communityId,
+                    userId,
+                    postId,
+                    commentId,
+                    createReplyRequestModel
+                )
+            )
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
 
 }

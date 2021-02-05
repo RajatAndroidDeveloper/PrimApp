@@ -11,6 +11,8 @@ import com.primapp.model.comment.CommentData
 import com.primapp.model.comment.CreateCommentRequestModel
 import com.primapp.model.post.PostActionResponseModel
 import com.primapp.model.post.PostListResult
+import com.primapp.model.reply.CreateReplyRequestModel
+import com.primapp.model.reply.ReplyData
 import com.primapp.repository.PostRepository
 import com.primapp.retrofit.base.BaseDataModel
 import com.primapp.retrofit.base.Event
@@ -122,6 +124,40 @@ class PostsViewModel @Inject constructor(
         _unlikeCommentLiveData.postValue(Event(Resource.loading(null)))
         _unlikeCommentLiveData.postValue(Event(repo.unlikeComment(communityId, userId, postId, commentId)))
     }
+
+    //Replies
+
+    private var postReplyListResultLiveData: LiveData<PagingData<ReplyData>>? = null
+
+    fun getCommentsReply(commentId: Int): LiveData<PagingData<ReplyData>> {
+        val lastResult = postReplyListResultLiveData
+        if (lastResult != null) {
+            return lastResult
+        }
+        val newResultLiveData: LiveData<PagingData<ReplyData>> =
+            repo.getPostReplies(commentId).cachedIn(viewModelScope)
+        postReplyListResultLiveData = newResultLiveData
+        return newResultLiveData
+    }
+
+    private var _createReplyLiveData = MutableLiveData<Event<Resource<BaseDataModel>>>()
+    var createCommentReplyLiveData: LiveData<Event<Resource<BaseDataModel>>> = _createReplyLiveData
+
+    fun createCommentReply(communityId: Int, userId: Int, postId: Int, commentId: Int, replyText: String) =
+        viewModelScope.launch {
+            _createReplyLiveData.postValue(Event(Resource.loading(null)))
+            _createReplyLiveData.postValue(
+                Event(
+                    repo.createCommentReply(
+                        communityId,
+                        userId,
+                        postId,
+                        commentId,
+                        CreateReplyRequestModel(replyText)
+                    )
+                )
+            )
+        }
 
 
 }

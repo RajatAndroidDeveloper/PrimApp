@@ -138,8 +138,7 @@
         android:id="@+id/imageViewDialog"
         android:name="com.primapp.ui.base.ImageViewDialog"
         android:label="ImageViewDialog"
-        tools:layout="@layout/layout_image_view"
-        >
+        tools:layout="@layout/layout_image_view">
         <argument
             android:name="url"
             app:argType="string"
@@ -149,8 +148,7 @@
         android:id="@+id/videoViewDialog"
         android:name="com.primapp.ui.base.VideoViewDialog"
         android:label="VideoViewDialog"
-        tools:layout="@layout/layout_video_view"
-        >
+        tools:layout="@layout/layout_video_view">
         <argument
             android:name="url"
             app:argType="string"
@@ -160,7 +158,7 @@
         android:id="@+id/postCommentFragment"
         android:name="com.primapp.ui.post.comment.PostCommentFragment"
         android:label="PostCommentFragment"
-        tools:layout="@layout/fragment_post_comment" >
+        tools:layout="@layout/fragment_post_comment">
         <argument
             android:name="postData"
             app:argType="com.primapp.model.post.PostListResult" />
@@ -169,8 +167,7 @@
         android:id="@+id/communityMembersFragment"
         android:name="com.primapp.ui.communities.members.CommunityMembersFragment"
         android:label="CommunityMembersFragment"
-        tools:layout="@layout/fragment_community_members"
-        >
+        tools:layout="@layout/fragment_community_members">
         <argument
             android:name="communityId"
             app:argType="integer" />
@@ -179,7 +176,19 @@
             app:argType="string" />
         <argument
             android:name="postId"
-            app:argType="integer"
-            android:defaultValue="-1" />
+            android:defaultValue="-1"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/postCommentReplyFragment"
+        android:name="com.primapp.ui.post.reply.PostCommentReplyFragment"
+        android:label="PostCommentReplyFragment"
+        tools:layout="@layout/fragment_post_comment_reply" >
+        <argument
+            android:name="mainCommentData"
+            app:argType="com.primapp.model.comment.CommentData" />
+        <argument
+            android:name="postData"
+            app:argType="com.primapp.model.post.PostListResult" />
     </fragment>
 </navigation>

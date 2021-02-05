@@ -1,4 +1,4 @@
-package com.primapp.ui.post.comment
+package com.primapp.ui.post.reply
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,16 +7,16 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.primapp.R
-import com.primapp.databinding.ItemPostCommentBinding
-import com.primapp.model.LikeComment
-import com.primapp.model.comment.CommentData
+import com.primapp.databinding.ItemPostCommentReplyBinding
+import com.primapp.model.LikeReply
+import com.primapp.model.reply.ReplyData
 import javax.inject.Inject
 
-class CommentsListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) :
-    PagingDataAdapter<CommentData, CommentsListPagedAdapter.CommentsViewHolder>(PostListDiffCallback()) {
+class PostCommentReplyPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) :
+    PagingDataAdapter<ReplyData, PostCommentReplyPagedAdapter.CommentsViewHolder>(PostCommentReplyDiffCallback()) {
 
-    fun markCommentAsLiked(commentId: Int?) {
-        val item: CommentData? = snapshot().items.find { it.id == commentId }
+    fun markReplyAsLiked(commentId: Int?) {
+        val item: ReplyData? = snapshot().items.find { it.id == commentId }
         item?.let {
             val position = snapshot().items.indexOf(it)
             snapshot().items.get(position).isLike = true
@@ -24,8 +24,8 @@ class CommentsListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Un
         }
     }
 
-    fun markCommentAsDisliked(commentId: Int?) {
-        val item: CommentData? = snapshot().items.find { it.id == commentId }
+    fun markReplyAsDisliked(commentId: Int?) {
+        val item: ReplyData? = snapshot().items.find { it.id == commentId }
         item?.let {
             val position = snapshot().items.indexOf(it)
             snapshot().items.get(position).isLike = false
@@ -39,7 +39,7 @@ class CommentsListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Un
         return CommentsViewHolder(
             DataBindingUtil.inflate(
                 layoutInflater,
-                R.layout.item_post_comment,
+                R.layout.item_post_comment_reply,
                 parent,
                 false
             )
@@ -50,27 +50,23 @@ class CommentsListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Un
         holder.bind(getItem(position)!!)
     }
 
-    inner class CommentsViewHolder(val binding: ItemPostCommentBinding) :
+    inner class CommentsViewHolder(val binding: ItemPostCommentReplyBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: CommentData) {
+        fun bind(data: ReplyData) {
             binding.data = data
 
-            binding.tvCommentLike.setOnClickListener {
-                onItemClick(LikeComment(data))
-            }
-
-            binding.tvCommentReply.setOnClickListener {
-                onItemClick(data)
+            binding.tvReplyLike.setOnClickListener {
+                onItemClick(LikeReply(data))
             }
         }
     }
 
-    private class PostListDiffCallback : DiffUtil.ItemCallback<CommentData>() {
-        override fun areItemsTheSame(oldItem: CommentData, newItem: CommentData): Boolean {
+    private class PostCommentReplyDiffCallback : DiffUtil.ItemCallback<ReplyData>() {
+        override fun areItemsTheSame(oldItem: ReplyData, newItem: ReplyData): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: CommentData, newItem: CommentData): Boolean {
+        override fun areContentsTheSame(oldItem: ReplyData, newItem: ReplyData): Boolean {
             return oldItem == newItem
         }
     }

@@ -1,6 +1,7 @@
 package com.primapp.model.comment
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 
 data class CommentListResponseModel(
@@ -38,7 +39,7 @@ data class CommentData(
     val udate: String,
     @SerializedName("user")
     val user: User
-)
+) : Serializable
 
 data class User(
     @SerializedName("first_name")
@@ -55,4 +56,4 @@ data class User(
     val isMentor: Boolean,
     @SerializedName("is_mentee")
     val isMentee: Boolean
-)
+) : Serializable
