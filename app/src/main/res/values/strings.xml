@@ -209,6 +209,6 @@
         <item quantity="other">%s likes</item>
     </plurals>
 
-    <string name="inactive_community_action_message">Sorry! The community is inactive at this time.</string>
+    <string name="inactive_community_action_message">Sorry! You can\'t add post or perform any action under this community. This community is not active at this moment.</string>
 
 </resources>
