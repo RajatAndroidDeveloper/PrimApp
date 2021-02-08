@@ -87,7 +87,7 @@
                 timeAgoFromTimeStamp="@{data.cdate}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/textSmall"
+                android:textSize="@dimen/textExtraSmall"
                 tools:text="48 m" />
 
             <TextView
@@ -98,6 +98,7 @@
                 android:fontFamily="@font/poppins_semibold"
                 android:padding="@dimen/space_small"
                 android:text="@{data.like? @string/unlike : @string/like}"
+                android:textSize="@dimen/textSmall"
                 tools:text="@string/like" />
 
             <TextView

@@ -16,7 +16,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <include layout="@layout/toolbar_inner_back" />
 
@@ -93,6 +94,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_normal"
+            android:layout_marginTop="@dimen/space_small"
             android:layout_marginBottom="@dimen/space_medium"
             android:background="@drawable/shape_rounded_corner_search_box"
             android:drawableStart="@null"
@@ -106,11 +108,10 @@
             android:textColor="@color/black"
             android:textColorHint="@color/black"
             android:textSize="@dimen/textNormal"
-            android:layout_marginTop="@dimen/space_small"
-            app:layout_constraintTop_toBottomOf="@id/swipeRefresh"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/ivSend"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/swipeRefresh" />
 
         <ImageView
             android:id="@+id/ivSend"
