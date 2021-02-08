@@ -212,11 +212,30 @@ fun prettyNumber(textView: TextView, number: Int?) {
     number?.let { textView.text = getPrettyNumber(it.toLong()) }
 }
 
+@SuppressLint("SetTextI18n")
+@BindingAdapter("prettyNumber")
+fun prettyNumber(textView: TextView, number: Long?) {
+    number?.let { textView.text = getPrettyNumber(it) }
+}
+
 
 @SuppressLint("SetTextI18n")
 @BindingAdapter("memberSince")
 fun memberSince(textView: TextView, date: String?) {
     date?.let {
         textView.text = textView.resources.getString(R.string.member_since, DateTimeUtils.convertServerTimeStamp(it))
+    }
+}
+
+@BindingAdapter("replyCount")
+fun replyCount(textView: TextView, count: Long?) {
+    count?.let {
+        textView.text = textView.resources.getQuantityString(R.plurals.reply_count, it.toInt(), getPrettyNumber(it))
+    }
+}
+@BindingAdapter("likeCount")
+fun likeCount(textView: TextView, count: Long?) {
+    count?.let {
+        textView.text = textView.resources.getQuantityString(R.plurals.like_count, it.toInt(), getPrettyNumber(it))
     }
 }

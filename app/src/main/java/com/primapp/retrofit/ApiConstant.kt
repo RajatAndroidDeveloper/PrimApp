@@ -55,4 +55,5 @@ object ApiConstant {
     const val LIKE_COMMENT = "communities/{communityId}/users/{userId}/posts/{postId}/comments/{commentId}/likes"
     const val GET_POST_COMMENT_REPLIES = "comment/{commentId}/replies_list"
     const val CREATE_REPLY = "communities/{communityId}/users/{userId}/posts/{postId}/comments/{commentId}/replies"
+    const val LIKE_UNLIKE_REPLY = "communities/{communityId}/users/{userId}/posts/{postId}/comments/{commentId}/replies/{replyId}/likes"
 }

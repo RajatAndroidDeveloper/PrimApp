@@ -18,5 +18,7 @@ data class PostActionContent(
     @SerializedName("user_id")
     val userId: Int,
     @SerializedName("comment_id")
-    val commentId: Int?
+    val commentId: Int?,
+    @SerializedName("reply_id")
+    val replyId: Int?
 )

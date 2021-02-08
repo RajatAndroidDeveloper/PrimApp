@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,11 +15,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
-import com.primapp.R
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.toolbar_inner_back.view.*
 import javax.inject.Inject
@@ -155,10 +151,16 @@ abstract class BaseFragment<DB : ViewDataBinding> : DaggerFragment() {
     fun hideKeyBoard(input: View?) {
         input?.let {
             val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(input.windowToken, 0)
+            imm.hideSoftInputFromWindow(it.windowToken, 0)
         }
     }
 
+    fun showKeyBoard(input: View?){
+       input?.let {
+           val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+           imm.showSoftInput(it, InputMethodManager.SHOW_IMPLICIT)
+       }
+    }
 
     fun isPermissionGranted(permission: String): Boolean {
         val context = this.context

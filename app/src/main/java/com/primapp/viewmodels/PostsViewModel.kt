@@ -159,5 +159,23 @@ class PostsViewModel @Inject constructor(
             )
         }
 
+    //Like Reply
+    private var _likeReplyLiveData = MutableLiveData<Event<Resource<PostActionResponseModel>>>()
+    var likeReplyLiveData: LiveData<Event<Resource<PostActionResponseModel>>> = _likeReplyLiveData
+
+    fun likeReply(communityId: Int, userId: Int, postId: Int, commentId: Int, replyId: Int) = viewModelScope.launch {
+        _likeReplyLiveData.postValue(Event(Resource.loading(null)))
+        _likeReplyLiveData.postValue(Event(repo.likeReply(communityId, userId, postId, commentId, replyId)))
+    }
+
+    //UnLike Reply
+    private var _unlikeReplyLiveData = MutableLiveData<Event<Resource<PostActionResponseModel>>>()
+    var unlikeReplyLiveData: LiveData<Event<Resource<PostActionResponseModel>>> = _unlikeReplyLiveData
+
+    fun unlikeReply(communityId: Int, userId: Int, postId: Int, commentId: Int, replyId: Int) = viewModelScope.launch {
+        _unlikeReplyLiveData.postValue(Event(Resource.loading(null)))
+        _unlikeReplyLiveData.postValue(Event(repo.unlikeReply(communityId, userId, postId, commentId, replyId)))
+    }
+
 
 }

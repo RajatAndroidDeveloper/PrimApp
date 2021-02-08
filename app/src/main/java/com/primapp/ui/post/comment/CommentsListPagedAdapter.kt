@@ -20,6 +20,7 @@ class CommentsListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Un
         item?.let {
             val position = snapshot().items.indexOf(it)
             snapshot().items.get(position).isLike = true
+            snapshot().items[position].likeCount++
             notifyItemChanged(position)
         }
     }
@@ -29,6 +30,7 @@ class CommentsListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Un
         item?.let {
             val position = snapshot().items.indexOf(it)
             snapshot().items.get(position).isLike = false
+            snapshot().items[position].likeCount--
             notifyItemChanged(position)
         }
     }
@@ -60,6 +62,10 @@ class CommentsListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Un
             }
 
             binding.tvCommentReply.setOnClickListener {
+                onItemClick(data)
+            }
+
+            binding.tvRepliesCount.setOnClickListener {
                 onItemClick(data)
             }
         }

@@ -38,7 +38,11 @@ data class CommentData(
     @SerializedName("udate")
     val udate: String,
     @SerializedName("user")
-    val user: User
+    val user: User,
+    @SerializedName("like_count")
+    var likeCount: Long = 0L,
+    @SerializedName("get_reply_count")
+    var replyCount: Long = 0L
 ) : Serializable
 
 data class User(

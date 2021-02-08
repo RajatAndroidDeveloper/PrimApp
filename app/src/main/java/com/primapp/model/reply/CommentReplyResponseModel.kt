@@ -32,5 +32,7 @@ data class ReplyData(
     @SerializedName("reply_text")
     val replyText: String,
     @SerializedName("user")
-    val user: User
+    val user: User,
+    @SerializedName("like_count")
+    var likeCount: Long? = 0L
 )

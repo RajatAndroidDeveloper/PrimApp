@@ -11,6 +11,7 @@ import com.primapp.R
 import com.primapp.cache.UserCache
 import com.primapp.databinding.FragmentPostCommentReplyBinding
 import com.primapp.extensions.showError
+import com.primapp.extensions.smoothScrollTo
 import com.primapp.model.LikeReply
 import com.primapp.model.comment.CommentData
 import com.primapp.model.post.PostListResult
@@ -53,7 +54,6 @@ class PostCommentReplyFragment : BaseFragment<FragmentPostCommentReplyBinding>()
         postData = PostCommentReplyFragmentArgs.fromBundle(requireArguments()).postData
         binding.mainCommentData = mainCommentData
         binding.frag = this
-        binding.includeMainComment.tvCommentReply.isVisible = false
     }
 
     private fun setObserver() {
@@ -77,6 +77,7 @@ class PostCommentReplyFragment : BaseFragment<FragmentPostCommentReplyBinding>()
                         showError(requireContext(), it.message!!)
                     }
                     Status.SUCCESS -> {
+                        mainCommentData.replyCount++
                         DialogUtils.showCloseDialog(requireActivity(), R.string.reply_posted_success) {
                             findNavController().popBackStack()
                         }
@@ -98,6 +99,7 @@ class PostCommentReplyFragment : BaseFragment<FragmentPostCommentReplyBinding>()
                     Status.SUCCESS -> {
                         it.data?.content?.let {
                             mainCommentData.isLike = true
+                            mainCommentData.likeCount++
                             binding.mainCommentData = mainCommentData
                         }
                     }
@@ -118,7 +120,46 @@ class PostCommentReplyFragment : BaseFragment<FragmentPostCommentReplyBinding>()
                     Status.SUCCESS -> {
                         it.data?.content?.let {
                             mainCommentData.isLike = false
+                            mainCommentData.likeCount--
                             binding.mainCommentData = mainCommentData
+                        }
+                    }
+                }
+            }
+        })
+
+        viewModel.likeReplyLiveData.observe(viewLifecycleOwner, Observer {
+            hideLoading()
+            it.getContentIfNotHandled()?.let {
+                when (it.status) {
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.SUCCESS -> {
+                        it.data?.content?.let {
+                            adapter.markReplyAsLiked(it.replyId)
+                        }
+                    }
+                }
+            }
+        })
+
+        viewModel.unlikeReplyLiveData.observe(viewLifecycleOwner, Observer {
+            hideLoading()
+            it.getContentIfNotHandled()?.let {
+                when (it.status) {
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.SUCCESS -> {
+                        it.data?.content?.let {
+                            adapter.markReplyAsDisliked(it.replyId)
                         }
                     }
                 }
@@ -183,8 +224,25 @@ class PostCommentReplyFragment : BaseFragment<FragmentPostCommentReplyBinding>()
 
     fun onItemClick(any: Any?) {
         when (any) {
-            is LikeReply -> {
 
+            is LikeReply -> {
+                if (any.replyData.isLike) {
+                    viewModel.unlikeReply(
+                        postData.community.id,
+                        userData!!.id,
+                        postData.id,
+                        mainCommentData.id,
+                        any.replyData.id
+                    )
+                } else {
+                    viewModel.likeReply(
+                        postData.community.id,
+                        userData!!.id,
+                        postData.id,
+                        mainCommentData.id,
+                        any.replyData.id
+                    )
+                }
             }
         }
     }
@@ -196,6 +254,15 @@ class PostCommentReplyFragment : BaseFragment<FragmentPostCommentReplyBinding>()
             } else {
                 viewModel.likeComment(postData.community.id, userData!!.id, postData.id, mainCommentData.id)
             }
+        }
+
+        binding.includeMainComment.tvCommentReply.setOnClickListener {
+            binding.etReply.requestFocus()
+            showKeyBoard(binding.etReply)
+        }
+
+        binding.includeMainComment.tvRepliesCount.setOnClickListener {
+            binding.nestedScrollView.smoothScrollTo(binding.rvCommentsReply)
         }
     }
 }

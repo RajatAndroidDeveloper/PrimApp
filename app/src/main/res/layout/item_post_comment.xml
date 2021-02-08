@@ -76,7 +76,6 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_small"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="@id/llCommentPost"
             app:layout_constraintStart_toStartOf="@id/llCommentPost"
@@ -88,26 +87,78 @@
                 timeAgoFromTimeStamp="@{data.cdate}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/textSmall"
                 tools:text="48 m" />
 
             <TextView
                 android:id="@+id/tvCommentLike"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/space_normal"
+                android:background="?attr/selectableItemBackground"
                 android:fontFamily="@font/poppins_semibold"
+                android:padding="@dimen/space_small"
                 android:text="@{data.like? @string/unlike : @string/like}"
                 tools:text="@string/like" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_semibold"
+                android:gravity="center_vertical"
+                android:text="@string/middot"
+                android:visibility="@{data.likeCount>0 ? View.VISIBLE : View.GONE }" />
+
+            <TextView
+                likeCount="@{data.likeCount}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:drawablePadding="@dimen/space_small"
+                android:padding="@dimen/space_small"
+                android:textSize="@dimen/textSmall"
+                android:visibility="@{data.likeCount>0 ? View.VISIBLE : View.GONE }"
+                tools:text="12 likes" />
+
+            <TextView
+                android:id="@+id/tvSeparator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/poppins_semibold"
+                android:gravity="center_vertical"
+                android:text="@string/separator" />
 
             <!--  android:textColor="@{data.like ? @color/colorAccent : @android:color/tab_indicator_text}" -->
             <TextView
                 android:id="@+id/tvCommentReply"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/space_normal"
+                android:background="?attr/selectableItemBackground"
                 android:fontFamily="@font/poppins_semibold"
+                android:padding="@dimen/space_small"
                 android:text="@string/reply"
                 tools:text="@string/reply" />
+
+            <TextView
+                android:id="@+id/tvReplyMiddot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_semibold"
+                android:gravity="center_vertical"
+                android:text="@string/middot"
+                android:visibility="@{data.replyCount>0 ? View.VISIBLE : View.GONE }" />
+
+            <TextView
+                android:id="@+id/tvRepliesCount"
+                replyCount="@{data.replyCount}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:drawablePadding="@dimen/space_small"
+                android:padding="@dimen/space_small"
+                android:textSize="@dimen/textSmall"
+                android:visibility="@{data.replyCount>0 ? View.VISIBLE : View.GONE }"
+                tools:text="12 replies" />
 
         </LinearLayout>
 

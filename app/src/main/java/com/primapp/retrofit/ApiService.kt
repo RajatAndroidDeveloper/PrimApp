@@ -265,4 +265,22 @@ interface ApiService {
         @Path("commentId") commentId: Int,
         @Body createReplyRequestModel: CreateReplyRequestModel
     ): BaseDataModel
+
+    @POST(ApiConstant.LIKE_UNLIKE_REPLY)
+    suspend fun likeReply(
+        @Path("communityId") communityId: Int,
+        @Path("userId") userId: Int,
+        @Path("postId") postId: Int,
+        @Path("commentId") commentId: Int,
+        @Path("replyId") replyId: Int
+    ): PostActionResponseModel
+
+    @DELETE(ApiConstant.LIKE_UNLIKE_REPLY)
+    suspend fun unlikeReply(
+        @Path("communityId") communityId: Int,
+        @Path("userId") userId: Int,
+        @Path("postId") postId: Int,
+        @Path("commentId") commentId: Int,
+        @Path("replyId") replyId: Int
+    ): PostActionResponseModel
 }

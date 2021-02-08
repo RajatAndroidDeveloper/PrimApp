@@ -15,20 +15,24 @@ import javax.inject.Inject
 class PostCommentReplyPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) :
     PagingDataAdapter<ReplyData, PostCommentReplyPagedAdapter.CommentsViewHolder>(PostCommentReplyDiffCallback()) {
 
-    fun markReplyAsLiked(commentId: Int?) {
-        val item: ReplyData? = snapshot().items.find { it.id == commentId }
+    fun markReplyAsLiked(replyId: Int?) {
+        val item: ReplyData? = snapshot().items.find { it.id == replyId }
         item?.let {
             val position = snapshot().items.indexOf(it)
             snapshot().items.get(position).isLike = true
+            var likeCount = snapshot().items[position].likeCount ?: 0L
+            snapshot().items[position].likeCount = ++likeCount
             notifyItemChanged(position)
         }
     }
 
-    fun markReplyAsDisliked(commentId: Int?) {
-        val item: ReplyData? = snapshot().items.find { it.id == commentId }
+    fun markReplyAsDisliked(replyId: Int?) {
+        val item: ReplyData? = snapshot().items.find { it.id == replyId }
         item?.let {
             val position = snapshot().items.indexOf(it)
             snapshot().items.get(position).isLike = false
+            var likeCount = snapshot().items[position].likeCount ?: 0L
+            snapshot().items[position].likeCount = --likeCount
             notifyItemChanged(position)
         }
     }
