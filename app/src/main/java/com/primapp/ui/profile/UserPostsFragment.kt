@@ -10,6 +10,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.primapp.R
 import com.primapp.cache.UserCache
+import com.primapp.constants.CommunityStatusTypes
 import com.primapp.databinding.FragmentUserPostsBinding
 import com.primapp.extensions.showError
 import com.primapp.extensions.showInfo
@@ -176,16 +177,34 @@ class UserPostsFragment : BaseFragment<FragmentUserPostsBinding>() {
                 findNavController().navigate(R.id.videoViewDialog, bundle)
             }
             is LikePost -> {
-                if (item.isLike) {
-                    viewModel.unlikePost(item.communityId, userData!!.id, item.postId)
+                if (item.postData.community.status.equals(CommunityStatusTypes.INACTIVE, true)) {
+                    DialogUtils.showCloseDialog(
+                        requireActivity(),
+                        R.string.inactive_community_action_message,
+                        R.drawable.question_mark
+                    )
+                    return
+                }
+
+                if (item.postData.isLike) {
+                    viewModel.unlikePost(item.postData.community.id, userData!!.id, item.postData.id)
                 } else {
-                    viewModel.likePost(item.communityId, userData!!.id, item.postId)
+                    viewModel.likePost(item.postData.community.id, userData!!.id, item.postData.id)
                 }
             }
             is EditPost, is HidePost, is ReportPost -> {
                 showInfo(requireContext(), "Not yet implemented!")
             }
             is DeletePost -> {
+                if (item.postData.community.status.equals(CommunityStatusTypes.INACTIVE, true)) {
+                    DialogUtils.showCloseDialog(
+                        requireActivity(),
+                        R.string.inactive_community_action_message,
+                        R.drawable.question_mark
+                    )
+                    return
+                }
+
                 DialogUtils.showYesNoDialog(requireActivity(), R.string.delete_post_message, {
                     viewModel.deletePost(item.postData.community.id, userData!!.id, item.postData.id)
                 })

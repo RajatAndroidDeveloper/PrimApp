@@ -64,7 +64,9 @@ data class Community(
     @SerializedName("category")
     val category: Category,
     @SerializedName("is_joined")
-    val isJoined: Boolean
+    val isJoined: Boolean,
+    @SerializedName("status")
+    val status: String
 ) : Serializable
 
 data class User(

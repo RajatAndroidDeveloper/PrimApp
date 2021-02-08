@@ -7,7 +7,7 @@ import com.primapp.model.reply.ReplyData
 
 data class ShowImage(val url: String)
 data class ShowVideo(val url: String)
-data class LikePost(val communityId: Int, val postId: Int, val isLike: Boolean, val isJoined:Boolean)
+data class LikePost(val postData: PostListResult)
 data class EditPost(val postData: PostListResult)
 data class DeletePost(val postData: PostListResult)
 data class HidePost(val postData: PostListResult)
