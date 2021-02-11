@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.primapp.R
+import com.primapp.cache.UserCache
 import com.primapp.databinding.FragmentUserJoinedCommunitiesBinding
 import com.primapp.extensions.setDivider
 import com.primapp.extensions.showError
@@ -42,7 +43,7 @@ class UserJoinedCommunitiesFragment : BaseFragment<FragmentUserJoinedCommunities
     }
 
     private fun setObserver() {
-        viewModel.getAllJoinedCommunityList(JoinedCommunityFilterType.ALL)
+        viewModel.getAllJoinedCommunityList(JoinedCommunityFilterType.ALL, UserCache.getUserId(requireContext()))
             .observe(viewLifecycleOwner, Observer {
                 it?.let {
                     lifecycleScope.launch {

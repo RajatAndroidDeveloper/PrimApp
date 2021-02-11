@@ -48,7 +48,7 @@ class UserPostsFragment : BaseFragment<FragmentUserPostsBinding>() {
     }
 
     private fun setObserver() {
-        viewModel.getUserPostsListData().observe(viewLifecycleOwner, Observer {
+        viewModel.getUserPostsListData(userData!!.id).observe(viewLifecycleOwner, Observer {
             it?.let {
                 lifecycleScope.launch {
                     adapter.submitData(it)

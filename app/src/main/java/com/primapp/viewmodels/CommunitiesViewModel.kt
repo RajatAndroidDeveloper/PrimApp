@@ -170,9 +170,9 @@ class CommunitiesViewModel @Inject constructor(
     //Get Joined Community list without category
     private var joinedCommunityLiveData: LiveData<PagingData<CommunityData>>? = null
 
-    fun getAllJoinedCommunityList(filter: String): LiveData<PagingData<CommunityData>> {
+    fun getAllJoinedCommunityList(filter: String, userId: Int): LiveData<PagingData<CommunityData>> {
         val newResultLiveData: LiveData<PagingData<CommunityData>> =
-            repo.getAllJoinedCommunity(filter).cachedIn(viewModelScope)
+            repo.getAllJoinedCommunity(filter, userId).cachedIn(viewModelScope)
         joinedCommunityLiveData = newResultLiveData
         return newResultLiveData
     }

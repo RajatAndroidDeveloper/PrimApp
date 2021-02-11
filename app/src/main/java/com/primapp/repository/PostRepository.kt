@@ -118,7 +118,7 @@ class PostRepository @Inject constructor(
         }
     }
 
-    fun getUserPostList(): LiveData<PagingData<PostListResult>> {
+    fun getUserPostList(userId: Int): LiveData<PagingData<PostListResult>> {
         return Pager(
             config = PagingConfig(
                 enablePlaceholders = false,
@@ -126,7 +126,7 @@ class PostRepository @Inject constructor(
                 initialLoadSize = ApiConstant.NETWORK_PAGE_SIZE
             ),
             pagingSourceFactory = {
-                UserPostListPageDataSource(apiService)
+                UserPostListPageDataSource(responseHandler, apiService, userId)
             }
         ).liveData
     }

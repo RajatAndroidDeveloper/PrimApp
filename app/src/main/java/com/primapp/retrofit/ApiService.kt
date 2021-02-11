@@ -138,6 +138,7 @@ interface ApiService {
 
     @GET(ApiConstant.JOINED_COMMUNITY_LIST)
     suspend fun getJoinedCommunityList(
+        @Path("userId") userId: Int,
         @Query("offset") offset: Int,
         @Query("limit") limit: Int,
         @Query("type") filterType: String
@@ -166,6 +167,7 @@ interface ApiService {
 
     @GET(ApiConstant.USER_POST_LIST)
     suspend fun getUserPostList(
+        @Path("userId") userId: Int,
         @Query("offset") offset: Int,
         @Query("limit") limit: Int
     ): PostListResponseModel

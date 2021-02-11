@@ -5,10 +5,17 @@ import androidx.paging.PagingSource
 import com.primapp.model.community.CommunityData
 import com.primapp.model.post.PostListResult
 import com.primapp.retrofit.ApiService
+import com.primapp.retrofit.base.ResponseHandler
 import retrofit2.HttpException
 import java.io.IOException
+import java.lang.Exception
 
-class UserJoinedCommunityPageDataSource(private val apiService: ApiService, private val filter: String) :
+class UserJoinedCommunityPageDataSource(
+    private val responseHandler: ResponseHandler,
+    private val apiService: ApiService,
+    private val filter: String,
+    private val userId: Int
+) :
     PagingSource<Int, CommunityData>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CommunityData> {
@@ -22,7 +29,7 @@ class UserJoinedCommunityPageDataSource(private val apiService: ApiService, priv
             * */
             val offset = page * params.loadSize
             Log.d("anshul_paging", "Page:$page LoadSize : ${params.loadSize} Offset : $offset")
-            val response = apiService.getJoinedCommunityList(offset, params.loadSize, filter)
+            val response = apiService.getJoinedCommunityList(userId, offset, params.loadSize, filter)
             LoadResult.Page(
                 data = response.content.results,
                 prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1,
@@ -30,10 +37,11 @@ class UserJoinedCommunityPageDataSource(private val apiService: ApiService, priv
             )
 
         } catch (exception: IOException) {
-            val error = IOException("Please Check Internet Connection")
+            val error = IOException("Server is not reachable")
             LoadResult.Error(error)
         } catch (exception: HttpException) {
-            LoadResult.Error(exception)
+            val error = Exception(responseHandler.getErrorMessage(exception))
+            LoadResult.Error(error)
         }
 
     }

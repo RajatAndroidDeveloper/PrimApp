@@ -72,13 +72,13 @@ class PostsViewModel @Inject constructor(
     // get User Post List
     private var userPostListResultLiveData: LiveData<PagingData<PostListResult>>? = null
 
-    fun getUserPostsListData(): LiveData<PagingData<PostListResult>> {
+    fun getUserPostsListData(userId: Int): LiveData<PagingData<PostListResult>> {
         val lastResult = postListResultLiveData
         if (lastResult != null) {
             return lastResult
         }
         val newResultLiveData: LiveData<PagingData<PostListResult>> =
-            repo.getUserPostList().cachedIn(viewModelScope)
+            repo.getUserPostList(userId).cachedIn(viewModelScope)
         userPostListResultLiveData = newResultLiveData
         return newResultLiveData
     }
