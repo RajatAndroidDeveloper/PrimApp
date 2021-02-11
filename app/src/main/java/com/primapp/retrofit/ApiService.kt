@@ -8,6 +8,8 @@ import com.primapp.model.comment.CommentListResponseModel
 import com.primapp.model.comment.CreateCommentRequestModel
 import com.primapp.model.community.*
 import com.primapp.model.members.CommunityMembersResponseModel
+import com.primapp.model.mentor.RequestMentorDataModel
+import com.primapp.model.mentor.RequestMentorResponseModel
 import com.primapp.model.post.CreatePostRequestModel
 import com.primapp.model.post.PostActionResponseModel
 import com.primapp.model.post.PostListResponseModel
@@ -283,4 +285,11 @@ interface ApiService {
         @Path("commentId") commentId: Int,
         @Path("replyId") replyId: Int
     ): PostActionResponseModel
+
+    @POST(ApiConstant.REQUEST_MENTOR)
+    suspend fun requestMentor(
+        @Path("communityId") communityId: Int,
+        @Path("userId") userId: Int,
+        @Body requestMentorDataModel: RequestMentorDataModel
+    ): RequestMentorResponseModel
 }

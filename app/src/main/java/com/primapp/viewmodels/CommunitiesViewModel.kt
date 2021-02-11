@@ -15,6 +15,8 @@ import com.primapp.model.community.CommunityDetailsResponseModel
 import com.primapp.model.community.CreateCommunityRequestModel
 import com.primapp.model.community.JoinCommunityResponseModel
 import com.primapp.model.members.CommunityMembersData
+import com.primapp.model.mentor.RequestMentorDataModel
+import com.primapp.model.mentor.RequestMentorResponseModel
 import com.primapp.model.post.PostActionResponseModel
 import com.primapp.model.post.PostListResult
 import com.primapp.repository.CommunitiesRepository
@@ -179,10 +181,10 @@ class CommunitiesViewModel @Inject constructor(
     private var communityPostListResultLiveData: LiveData<PagingData<PostListResult>>? = null
 
     fun getCommunityPostsListData(communityId: Int): LiveData<PagingData<PostListResult>> {
-       /* val lastResult = communityPostListResultLiveData
-        if (lastResult != null) {
-            return lastResult
-        }*/
+        /* val lastResult = communityPostListResultLiveData
+         if (lastResult != null) {
+             return lastResult
+         }*/
         val newResultLiveData: LiveData<PagingData<PostListResult>> =
             repo.getCommunitiesPostList(communityId).cachedIn(viewModelScope)
         communityPostListResultLiveData = newResultLiveData
@@ -273,4 +275,15 @@ class CommunitiesViewModel @Inject constructor(
         postLikesMembersListLiveData = newResultLiveData
         return newResultLiveData
     }
+
+    //-------------------------Mentor Mentee--------------------
+    //Delete post
+    private var _requestMentorLiveData = MutableLiveData<Event<Resource<RequestMentorResponseModel>>>()
+    var requestMentorLiveData: LiveData<Event<Resource<RequestMentorResponseModel>>> = _requestMentorLiveData
+
+    fun requestMentor(communityId: Int, userId: Int, requestMentorDataModel: RequestMentorDataModel) =
+        viewModelScope.launch {
+            _requestMentorLiveData.postValue(Event(Resource.loading(null)))
+            _requestMentorLiveData.postValue(Event(repo.requestMentor(communityId, userId, requestMentorDataModel)))
+        }
 }

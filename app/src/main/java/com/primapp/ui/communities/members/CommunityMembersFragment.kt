@@ -10,9 +10,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.primapp.R
+import com.primapp.cache.UserCache
 import com.primapp.databinding.FragmentCommunityMembersBinding
 import com.primapp.extensions.setDivider
 import com.primapp.extensions.showError
+import com.primapp.model.RequestMentor
+import com.primapp.model.mentor.RequestMentorDataModel
+import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
 import com.primapp.viewmodels.CommunitiesViewModel
@@ -60,7 +64,22 @@ class CommunityMembersFragment : BaseFragment<FragmentCommunityMembersBinding>()
     }
 
     private fun setObserver() {
-
+        viewModel.requestMentorLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.SUCCESS -> {
+                      //  it.data.content.status
+                    }
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                }
+            }
+        })
     }
 
     private fun searchMembers(query: String?) {
@@ -121,8 +140,15 @@ class CommunityMembersFragment : BaseFragment<FragmentCommunityMembersBinding>()
         adapter.refresh()
     }
 
-    private fun onItemClick(item: Any?) {
-
+    private fun onItemClick(any: Any?) {
+        when (any) {
+            is RequestMentor -> {
+                viewModel.requestMentor(
+                    any.membersData.community!!.id, UserCache.getUserId(requireContext()),
+                    RequestMentorDataModel(any.membersData.user.id, null)
+                )
+            }
+        }
     }
 
     private fun initTextListeners() {

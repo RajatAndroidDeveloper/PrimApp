@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.primapp.R
 import com.primapp.databinding.ItemCommunityMembersBinding
+import com.primapp.model.RequestMentor
 import com.primapp.model.members.CommunityMembersData
 import javax.inject.Inject
 
@@ -36,6 +37,10 @@ class CommunityMembersListPagedAdapter @Inject constructor(val onItemClick: (Any
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: CommunityMembersData) {
             binding.data = data
+
+            binding.btnInviteMembers.setOnClickListener {
+                onItemClick(RequestMentor(data))
+            }
         }
     }
 

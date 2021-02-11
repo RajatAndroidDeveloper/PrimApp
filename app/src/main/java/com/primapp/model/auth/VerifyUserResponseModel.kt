@@ -50,5 +50,4 @@ data class UserData(
     val menteeCount: Int = 0,
     @SerializedName("mentor_count")
     val mentorCount: Int = 0
-
 )

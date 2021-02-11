@@ -14,6 +14,11 @@ object UserCache {
         Prefs.with(context)?.save(PrefNames.ACCESS_TOKEN, token)
     }
 
+    fun getUserId(context: Context): Int {
+        val user = getUser(context)
+        return user!!.id
+    }
+
     fun getFCMToken(context: Context): String {
         return Prefs.with(context)?.getString(PrefNames.PUSH_TOKEN, "") ?: ""
     }

@@ -9,6 +9,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.primapp.R
 import com.primapp.cache.UserCache
+import com.primapp.constants.CommunityStatusTypes
 import com.primapp.databinding.FragmentPostCommentReplyBinding
 import com.primapp.extensions.showError
 import com.primapp.extensions.smoothScrollTo
@@ -168,6 +169,25 @@ class PostCommentReplyFragment : BaseFragment<FragmentPostCommentReplyBinding>()
     }
 
     fun postReply() {
+        //If community is not joined don't allow to post reply
+        if(!postData.community.isJoined){
+            DialogUtils.showCloseDialog(
+                requireActivity(),
+                R.string.non_joined_community_action_error_message,
+                R.drawable.question_mark
+            )
+            return
+        }
+        //If community is inactive don't allow to post reply
+        if (postData.community.status.equals(CommunityStatusTypes.INACTIVE, true)) {
+            DialogUtils.showCloseDialog(
+                requireActivity(),
+                R.string.inactive_community_action_message,
+                R.drawable.question_mark
+            )
+            return
+        }
+
         val replyText = binding.etReply.text.toString().trim()
         if (replyText.isNotEmpty()) {
             viewModel.createCommentReply(
@@ -226,6 +246,25 @@ class PostCommentReplyFragment : BaseFragment<FragmentPostCommentReplyBinding>()
         when (any) {
 
             is LikeReply -> {
+                //If community is not joined don't allow to post reply
+                if(!postData.community.isJoined){
+                    DialogUtils.showCloseDialog(
+                        requireActivity(),
+                        R.string.non_joined_community_action_error_message,
+                        R.drawable.question_mark
+                    )
+                    return
+                }
+                //If community is inactive don't allow to post reply
+                if (postData.community.status.equals(CommunityStatusTypes.INACTIVE, true)) {
+                    DialogUtils.showCloseDialog(
+                        requireActivity(),
+                        R.string.inactive_community_action_message,
+                        R.drawable.question_mark
+                    )
+                    return
+                }
+
                 if (any.replyData.isLike) {
                     viewModel.unlikeReply(
                         postData.community.id,
@@ -249,6 +288,25 @@ class PostCommentReplyFragment : BaseFragment<FragmentPostCommentReplyBinding>()
 
     private fun setClicks() {
         binding.includeMainComment.tvCommentLike.setOnClickListener {
+            //If community is not joined don't allow to post reply
+            if(!postData.community.isJoined){
+                DialogUtils.showCloseDialog(
+                    requireActivity(),
+                    R.string.non_joined_community_action_error_message,
+                    R.drawable.question_mark
+                )
+                return@setOnClickListener
+            }
+            //If community is inactive don't allow to post reply
+            if (postData.community.status.equals(CommunityStatusTypes.INACTIVE, true)) {
+                DialogUtils.showCloseDialog(
+                    requireActivity(),
+                    R.string.inactive_community_action_message,
+                    R.drawable.question_mark
+                )
+                return@setOnClickListener
+            }
+
             if (mainCommentData.isLike) {
                 viewModel.unlikeComment(postData.community.id, userData!!.id, postData.id, mainCommentData.id)
             } else {

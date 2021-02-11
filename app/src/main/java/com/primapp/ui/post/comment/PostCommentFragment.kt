@@ -9,6 +9,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.primapp.R
 import com.primapp.cache.UserCache
+import com.primapp.constants.CommunityStatusTypes
 import com.primapp.databinding.FragmentPostCommentBinding
 import com.primapp.extensions.showError
 import com.primapp.model.LikeComment
@@ -119,6 +120,25 @@ class PostCommentFragment : BaseFragment<FragmentPostCommentBinding>() {
     }
 
     fun postComment() {
+        //If community is not joined don't allow to post comment
+        if(!postData.community.isJoined){
+            DialogUtils.showCloseDialog(
+                requireActivity(),
+                R.string.non_joined_community_action_error_message,
+                R.drawable.question_mark
+            )
+            return
+        }
+        //If community is inactive don't allow to post comment
+        if (postData.community.status.equals(CommunityStatusTypes.INACTIVE, true)) {
+            DialogUtils.showCloseDialog(
+                requireActivity(),
+                R.string.inactive_community_action_message,
+                R.drawable.question_mark
+            )
+            return
+        }
+
         val commentText = binding.etComment.text.toString().trim()
         if (commentText.isNotEmpty()) {
             viewModel.createComment(postData.community.id, userData!!.id, postData.id, commentText)
@@ -170,6 +190,25 @@ class PostCommentFragment : BaseFragment<FragmentPostCommentBinding>() {
     fun onItemClick(any: Any?) {
         when (any) {
             is LikeComment -> {
+                //If community is not joined don't allow to post comment
+                if(!postData.community.isJoined){
+                    DialogUtils.showCloseDialog(
+                        requireActivity(),
+                        R.string.non_joined_community_action_error_message,
+                        R.drawable.question_mark
+                    )
+                    return
+                }
+                //If community is inactive don't allow to post comment
+                if (postData.community.status.equals(CommunityStatusTypes.INACTIVE, true)) {
+                    DialogUtils.showCloseDialog(
+                        requireActivity(),
+                        R.string.inactive_community_action_message,
+                        R.drawable.question_mark
+                    )
+                    return
+                }
+
                 if (any.commentData.isLike) {
                     viewModel.unlikeComment(postData.community.id, userData!!.id, postData.id, any.commentData.id)
                 } else {

@@ -10,6 +10,8 @@ import com.primapp.model.aws.PresignedURLResponseModel
 import com.primapp.model.category.*
 import com.primapp.model.community.*
 import com.primapp.model.members.CommunityMembersData
+import com.primapp.model.mentor.RequestMentorDataModel
+import com.primapp.model.mentor.RequestMentorResponseModel
 import com.primapp.model.post.PostActionResponseModel
 import com.primapp.model.post.PostListResult
 import com.primapp.retrofit.ApiConstant
@@ -249,4 +251,17 @@ class CommunitiesRepository @Inject constructor(
         ).liveData
     }
 
+    //------------- Mentor Mentee----------------
+
+    suspend fun requestMentor(
+        communityId: Int,
+        userId: Int,
+       requestMentorDataModel: RequestMentorDataModel
+    ): Resource<RequestMentorResponseModel> {
+        return try {
+            responseHandler.handleResponse(apiService.requestMentor(communityId, userId, requestMentorDataModel))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
 }
