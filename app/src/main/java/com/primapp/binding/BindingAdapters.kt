@@ -233,9 +233,27 @@ fun replyCount(textView: TextView, count: Long?) {
         textView.text = textView.resources.getQuantityString(R.plurals.reply_count, it.toInt(), getPrettyNumber(it))
     }
 }
+
 @BindingAdapter("likeCount")
 fun likeCount(textView: TextView, count: Long?) {
     count?.let {
         textView.text = textView.resources.getQuantityString(R.plurals.like_count, it.toInt(), getPrettyNumber(it))
+    }
+}
+
+@BindingAdapter("inviteMentorButtonStyle")
+fun inviteMentorButtonStyle(button: Button, status: Int) {
+    if (status == 2) {
+        button.background = ContextCompat.getDrawable(button.context, R.drawable.button_primary_grey_filled)
+        button.setTextColor(ContextCompat.getColor(button.context, R.color.black))
+        button.typeface = ResourcesCompat.getFont(button.context, R.font.poppins_regular)
+        button.isEnabled = false
+        button.text = button.context.getString(R.string.requested)
+    } else {
+        button.background = ContextCompat.getDrawable(button.context, R.drawable.button_primary_blue_filled)
+        button.setTextColor(ContextCompat.getColor(button.context, R.color.white))
+        button.typeface = ResourcesCompat.getFont(button.context, R.font.poppins_regular)
+        button.isEnabled = true
+        button.text = button.context.getString(R.string.invite_mentor)
     }
 }

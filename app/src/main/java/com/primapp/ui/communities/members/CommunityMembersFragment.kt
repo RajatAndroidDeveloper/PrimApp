@@ -69,7 +69,9 @@ class CommunityMembersFragment : BaseFragment<FragmentCommunityMembersBinding>()
                 hideLoading()
                 when (it.status) {
                     Status.SUCCESS -> {
-                      //  it.data.content.status
+                        it.data?.content?.mentor?.let {
+                            adapter.markRequestAsSent(it.id)
+                        }
                     }
                     Status.LOADING -> {
                         showLoading()

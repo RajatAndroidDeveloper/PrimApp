@@ -192,7 +192,7 @@
     <string name="likes">Likes</string>
     <string name="unlike">Unlike</string>
     <string name="reply">Reply</string>
-    <string name="invite_mentor">Invite Mentor</string>
+    <string name="invite_mentor">Request Mentor</string>
     <string name="back_to_top">Back to top</string>
     <string name="replies">Replies</string>
     <string name="member_since">Member Since : %s</string>
@@ -210,5 +210,5 @@
     </plurals>
 
     <string name="inactive_community_action_message">Sorry! You can\'t add post or perform any action under this community. This community is not active at this moment.</string>
-
+    <string name="requested">Requested</string>
 </resources>

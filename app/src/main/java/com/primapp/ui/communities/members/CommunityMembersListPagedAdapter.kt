@@ -17,6 +17,15 @@ class CommunityMembersListPagedAdapter @Inject constructor(val onItemClick: (Any
         CommunityMembersDiffCallback()
     ) {
 
+    fun markRequestAsSent(mentorId: Int) {
+        val item: CommunityMembersData? = snapshot().items.find { it.user.id == mentorId }
+        item?.let {
+            val position = snapshot().items.indexOf(it)
+            snapshot().items[position].user.mentor_status = 2
+            notifyItemChanged(position)
+        }
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommunityMembersViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         return CommunityMembersViewHolder(

@@ -61,7 +61,7 @@ data class User(
     @SerializedName("username")
     val username: String,
     @SerializedName("is_mentor_status")
-    val mentor_status: Int,
+    var mentor_status: Int,
     @SerializedName("is_loggedIn_user")
     val isLoggedInUser: Boolean
 )
