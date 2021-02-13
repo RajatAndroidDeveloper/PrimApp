@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.text.TextUtils" />
+
         <import type="android.view.View" />
 
         <import type="com.primapp.constants.PostFileType" />
@@ -101,7 +103,7 @@
                 android:layout_marginTop="@dimen/space_normal"
                 android:ellipsize="end"
                 android:text="@{data.postText}"
-                android:visibility="@{(data.postText==null)? View.GONE : View.VISIBLE}"
+                android:visibility="@{(data.postText==null || TextUtils.isEmpty(data.postText))? View.GONE : View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="@id/ivMore"
                 app:layout_constraintStart_toStartOf="@id/ivProfilePic"
                 app:layout_constraintTop_toBottomOf="@id/ivProfilePic"

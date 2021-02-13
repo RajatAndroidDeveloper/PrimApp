@@ -15,7 +15,9 @@ import com.primapp.extensions.setDivider
 import com.primapp.extensions.showError
 import com.primapp.model.JoinedCommunityFilterType
 import com.primapp.model.community.CommunityData
+import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
+import com.primapp.ui.communities.adapter.ActionCommunityDetails
 import com.primapp.ui.communities.adapter.CommunityPagedListAdapter
 import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
 import com.primapp.viewmodels.CommunitiesViewModel
@@ -51,6 +53,24 @@ class UserJoinedCommunitiesFragment(private val userId: Int) : BaseFragment<Frag
                     }
                 }
             })
+
+        viewModel.joinCommunityLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let { response ->
+                hideLoading()
+                when (response.status) {
+                    Status.SUCCESS -> {
+                        adapter.markCommunityAsJoined(response.data?.content?.id)
+                        UserCache.incrementJoinedCommunityCount(requireContext())
+                    }
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), response.message!!)
+                    }
+                }
+            }
+        })
     }
 
 
@@ -106,6 +126,10 @@ class UserJoinedCommunitiesFragment(private val userId: Int) : BaseFragment<Frag
 
     private fun onItemClick(any: Any?) {
         when (any) {
+            is ActionCommunityDetails -> {
+                viewModel.joinCommunity(any.communityData!!.id, UserCache.getUser(requireContext())!!.id)
+            }
+
             is CommunityData -> {
                 val bundle = Bundle()
                 bundle.putInt("communityId", any.id)
