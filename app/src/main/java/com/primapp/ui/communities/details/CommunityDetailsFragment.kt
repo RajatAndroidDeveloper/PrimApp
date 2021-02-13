@@ -333,6 +333,11 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
                 bundle.putString("type", CommunityMembersFragment.POST_LIKE_MEMBERS_LIST)
                 findNavController().navigate(R.id.communityMembersFragment, bundle)
             }
+            is ShowUserProfile -> {
+                val bundle = Bundle()
+                bundle.putInt("userId", item.postData.user.id)
+                findNavController().navigate(R.id.otherUserProfileFragment, bundle)
+            }
         }
     }
 }

@@ -2,6 +2,7 @@ package com.primapp.ui.post.adapter
 
 import android.view.LayoutInflater
 import android.view.MenuItem
+import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.databinding.DataBindingUtil
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.primapp.R
 import com.primapp.constants.PostFileType
 import com.primapp.databinding.ItemListPostBinding
+import com.primapp.extensions.setAllOnClickListener
 import com.primapp.model.*
 import com.primapp.model.post.PostListResult
 import javax.inject.Inject
@@ -103,6 +105,12 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
                     onItemClick(LikePostMembers(it))
                 }
             }
+
+            binding.groupProfileInfo.setAllOnClickListener(View.OnClickListener {
+                data?.let {
+                    onItemClick(ShowUserProfile(it))
+                }
+            })
 
             binding.ivMore.setOnClickListener {
                 //creating a popup menu

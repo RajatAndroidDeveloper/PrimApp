@@ -136,6 +136,37 @@ fun genderAndDobFormatText(textView: TextView, user: UserData) {
 }
 
 @SuppressLint("SetTextI18n")
+@BindingAdapter("genderDobCountry")
+fun genderDobCountryTextView(textView: TextView, user: UserData?) {
+    val dob = DateTimeUtils.getDateFromMillis(user?.dateOfBirth)
+    var text = ""
+
+    if (user?.genderValue.isNullOrEmpty() && dob.isEmpty() && user?.country.isNullOrEmpty()) {
+        textView.visibility = View.GONE
+    }
+
+    if (!user?.genderValue.isNullOrEmpty()) {
+        text = user?.genderValue.toString()
+    }
+
+    if (text.isNotEmpty())
+        text = "$text | "
+
+    if (dob.isNotEmpty()) {
+        text = "$text$dob"
+    }
+
+    if (text.isNotEmpty())
+        text = "$text | "
+
+    if (!user?.country.isNullOrEmpty()) {
+        text = "$text${user?.country}"
+    }
+
+    textView.text = text
+}
+
+@SuppressLint("SetTextI18n")
 @BindingAdapter("membersAndCreatedDate", "type")
 fun membersAndCreatedDate(textView: TextView, data: CommunityData?, type: String?) {
     data?.let {

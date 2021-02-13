@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="frag"
             type="com.primapp.ui.settings.SettingsFragment" />
@@ -24,8 +25,8 @@
             android:focusable="true"
             android:fontFamily="@font/poppins_medium"
             android:gravity="center_vertical"
-            android:padding="@dimen/space_small"
             android:onClick="@{()->frag.openAboutUs()}"
+            android:padding="@dimen/space_small"
             android:paddingStart="@dimen/space_extraLarge"
             android:paddingEnd="@dimen/space_extraLarge"
             android:text="@string/about_us"
@@ -82,16 +83,25 @@
             android:focusable="true"
             android:fontFamily="@font/poppins_medium"
             android:gravity="center_vertical"
+            android:onClick="@{()->frag.logout()}"
             android:padding="@dimen/space_small"
             android:paddingStart="@dimen/space_extraLarge"
             android:paddingEnd="@dimen/space_extraLarge"
             android:text="@string/logout"
             android:textSize="@dimen/textMediumX"
             app:drawableStartCompat="@drawable/logout"
-            android:onClick="@{()->frag.logout()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvSecurity" />
+
+        <TextView
+            android:id="@+id/tvAppVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_medium"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

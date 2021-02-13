@@ -129,13 +129,13 @@ class PostsViewModel @Inject constructor(
 
     private var postReplyListResultLiveData: LiveData<PagingData<ReplyData>>? = null
 
-    fun getCommentsReply(commentId: Int): LiveData<PagingData<ReplyData>> {
+    fun getCommentsReply(communityId: Int, commentId: Int): LiveData<PagingData<ReplyData>> {
         val lastResult = postReplyListResultLiveData
         if (lastResult != null) {
             return lastResult
         }
         val newResultLiveData: LiveData<PagingData<ReplyData>> =
-            repo.getPostReplies(commentId).cachedIn(viewModelScope)
+            repo.getPostReplies(communityId, commentId).cachedIn(viewModelScope)
         postReplyListResultLiveData = newResultLiveData
         return newResultLiveData
     }

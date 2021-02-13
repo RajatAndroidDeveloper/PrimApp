@@ -5,6 +5,7 @@ import android.text.TextPaint
 import android.text.style.URLSpan
 import android.view.View
 import android.widget.TextView
+import androidx.constraintlayout.widget.Group
 import androidx.core.widget.NestedScrollView
 
 fun TextView.removeLinksUnderline() {
@@ -30,4 +31,11 @@ fun NestedScrollView.smoothScrollTo(view: View) {
         viewParent = viewParent.getParent()
     }
     smoothScrollTo(0, distance)
+}
+
+
+fun Group.setAllOnClickListener(listener: View.OnClickListener?) {
+    referencedIds.forEach { id ->
+        rootView.findViewById<View>(id).setOnClickListener(listener)
+    }
 }

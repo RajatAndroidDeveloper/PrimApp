@@ -78,8 +78,7 @@ abstract class BaseFragment<DB : ViewDataBinding> : DaggerFragment() {
         }
 
         if (name.isNotEmpty())
-            toolbar.tvTitle.setCompoundDrawables(null, null, null, null)
-        toolbar.tvTitle.text = name
+            toolbar.tvTitle.text = name
     }
 
     fun showLoading() {
@@ -155,11 +154,11 @@ abstract class BaseFragment<DB : ViewDataBinding> : DaggerFragment() {
         }
     }
 
-    fun showKeyBoard(input: View?){
-       input?.let {
-           val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-           imm.showSoftInput(it, InputMethodManager.SHOW_IMPLICIT)
-       }
+    fun showKeyBoard(input: View?) {
+        input?.let {
+            val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(it, InputMethodManager.SHOW_IMPLICIT)
+        }
     }
 
     fun isPermissionGranted(permission: String): Boolean {

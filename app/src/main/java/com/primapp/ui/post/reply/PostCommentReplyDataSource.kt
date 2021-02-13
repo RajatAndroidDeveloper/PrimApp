@@ -12,6 +12,7 @@ import java.lang.Exception
 class PostCommentReplyDataSource(
     private val responseHandler: ResponseHandler,
     private val apiService: ApiService,
+    private val communityId:Int,
     private val commentId: Int
 ) : PagingSource<Int, ReplyData>() {
 
@@ -26,7 +27,7 @@ class PostCommentReplyDataSource(
             * */
             val offset = page * params.loadSize
             Log.d("anshul_paging", "Page:$page LoadSize : ${params.loadSize} Offset : $offset")
-            val response = apiService.getPostCommentReply(commentId, offset, params.loadSize)
+            val response = apiService.getPostCommentReply(communityId, commentId, offset, params.loadSize)
             LoadResult.Page(
                 data = response.content.results,
                 prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1,

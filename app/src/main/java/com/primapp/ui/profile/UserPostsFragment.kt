@@ -21,11 +21,12 @@ import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
 import com.primapp.ui.communities.members.CommunityMembersFragment
 import com.primapp.ui.dashboard.ProfileFragment
 import com.primapp.ui.post.adapter.PostListPagedAdapter
+import com.primapp.ui.profile.other.OtherUserProfileFragment
 import com.primapp.utils.DialogUtils
 import com.primapp.viewmodels.PostsViewModel
 import kotlinx.coroutines.launch
 
-class UserPostsFragment : BaseFragment<FragmentUserPostsBinding>() {
+class UserPostsFragment(private val userId: Int) : BaseFragment<FragmentUserPostsBinding>() {
 
     val userData by lazy { UserCache.getUser(requireContext()) }
 
@@ -48,7 +49,7 @@ class UserPostsFragment : BaseFragment<FragmentUserPostsBinding>() {
     }
 
     private fun setObserver() {
-        viewModel.getUserPostsListData(userData!!.id).observe(viewLifecycleOwner, Observer {
+        viewModel.getUserPostsListData(userId).observe(viewLifecycleOwner, Observer {
             it?.let {
                 lifecycleScope.launch {
                     adapter.submitData(it)
@@ -107,7 +108,8 @@ class UserPostsFragment : BaseFragment<FragmentUserPostsBinding>() {
                     Status.SUCCESS -> {
                         it.data?.content?.let {
                             UserCache.decrementPostCount(requireContext())
-                            (parentFragment as ProfileFragment).refreshTabs()
+                            (parentFragment as? ProfileFragment)?.refreshTabs()
+                            (parentFragment as? OtherUserProfileFragment)?.refreshTabs()
                             adapter.removePost(it.postId)
                         }
                     }
@@ -220,6 +222,11 @@ class UserPostsFragment : BaseFragment<FragmentUserPostsBinding>() {
                 bundle.putInt("postId", item.postData.id)
                 bundle.putString("type", CommunityMembersFragment.POST_LIKE_MEMBERS_LIST)
                 findNavController().navigate(R.id.communityMembersFragment, bundle)
+            }
+            is ShowUserProfile -> {
+                val bundle = Bundle()
+                bundle.putInt("userId", item.postData.user.id)
+                findNavController().navigate(R.id.otherUserProfileFragment, bundle)
             }
         }
     }

@@ -12,6 +12,7 @@ import com.primapp.ui.post.comment.PostCommentFragment
 import com.primapp.ui.post.create.CreatePostFragment
 import com.primapp.ui.post.reply.PostCommentReplyFragment
 import com.primapp.ui.profile.*
+import com.primapp.ui.profile.other.OtherUserProfileFragment
 import com.primapp.ui.settings.AboutUsFragment
 import com.primapp.ui.settings.SettingsFragment
 import dagger.Module
@@ -85,5 +86,8 @@ abstract class DashboardFragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributePostCommentReplyFragment(): PostCommentReplyFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeOtherUserProfileFragment(): OtherUserProfileFragment
 
 }

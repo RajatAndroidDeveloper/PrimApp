@@ -222,7 +222,7 @@ class PostRepository @Inject constructor(
         }
     }
 
-    fun getPostReplies(commentId: Int): LiveData<PagingData<ReplyData>> {
+    fun getPostReplies(communityId: Int, commentId: Int): LiveData<PagingData<ReplyData>> {
         return Pager(
             config = PagingConfig(
                 enablePlaceholders = false,
@@ -230,7 +230,7 @@ class PostRepository @Inject constructor(
                 initialLoadSize = ApiConstant.NETWORK_PAGE_SIZE
             ),
             pagingSourceFactory = {
-                PostCommentReplyDataSource(responseHandler, apiService, commentId)
+                PostCommentReplyDataSource(responseHandler, apiService, communityId, commentId)
             }
         ).liveData
     }

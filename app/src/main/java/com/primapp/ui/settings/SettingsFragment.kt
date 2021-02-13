@@ -3,6 +3,7 @@ package com.primapp.ui.settings
 import android.content.Intent
 import android.os.Bundle
 import androidx.navigation.fragment.findNavController
+import com.primapp.BuildConfig
 import com.primapp.R
 import com.primapp.cache.UserCache
 import com.primapp.databinding.FragmentSettingsBinding
@@ -25,6 +26,8 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
 
     private fun setData() {
         binding.frag = this
+
+        binding.tvAppVersion.text = "v${BuildConfig.VERSION_NAME}"
     }
 
     fun openAboutUs() {

@@ -58,7 +58,7 @@ class PostCommentReplyFragment : BaseFragment<FragmentPostCommentReplyBinding>()
     }
 
     private fun setObserver() {
-        viewModel.getCommentsReply(mainCommentData.id)
+        viewModel.getCommentsReply(postData.community.id, mainCommentData.id)
             .observe(viewLifecycleOwner, Observer {
                 it?.let {
                     CoroutineScope(Dispatchers.Main).launch {
@@ -170,7 +170,7 @@ class PostCommentReplyFragment : BaseFragment<FragmentPostCommentReplyBinding>()
 
     fun postReply() {
         //If community is not joined don't allow to post reply
-        if(!postData.community.isJoined){
+        if (!postData.community.isJoined) {
             DialogUtils.showCloseDialog(
                 requireActivity(),
                 R.string.non_joined_community_action_error_message,
@@ -247,7 +247,7 @@ class PostCommentReplyFragment : BaseFragment<FragmentPostCommentReplyBinding>()
 
             is LikeReply -> {
                 //If community is not joined don't allow to post reply
-                if(!postData.community.isJoined){
+                if (!postData.community.isJoined) {
                     DialogUtils.showCloseDialog(
                         requireActivity(),
                         R.string.non_joined_community_action_error_message,
@@ -289,7 +289,7 @@ class PostCommentReplyFragment : BaseFragment<FragmentPostCommentReplyBinding>()
     private fun setClicks() {
         binding.includeMainComment.tvCommentLike.setOnClickListener {
             //If community is not joined don't allow to post reply
-            if(!postData.community.isJoined){
+            if (!postData.community.isJoined) {
                 DialogUtils.showCloseDialog(
                     requireActivity(),
                     R.string.non_joined_community_action_error_message,

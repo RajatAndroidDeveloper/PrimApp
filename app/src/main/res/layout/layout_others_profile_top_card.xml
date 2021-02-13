@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="frag"
+            type="com.primapp.ui.profile.other.OtherUserProfileFragment" />
+
+        <variable
+            name="user"
+            type="com.primapp.model.auth.UserData" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clProfileCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/space_large"
+        android:paddingEnd="@dimen/space_large"
+        app:layout_constraintTop_toBottomOf="@id/clToolbar">
+
+        <ImageView
+            android:id="@+id/ivProfilePic"
+            loadCircularImage="@{user.userImage}"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="@dimen/space_extraSmall"
+            app:layout_constraintBottom_toBottomOf="@id/btnInviteMembers"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvName" />
+
+        <TextView
+            android:id="@+id/tvName"
+            style="@style/normalBodyText"
+            android:layout_marginStart="@dimen/space_small"
+            android:ellipsize="end"
+            android:fontFamily="@font/poppins_medium"
+            android:maxLines="1"
+            android:text="@{user.firstName +' '+ user.lastName}"
+            android:textSize="@dimen/textMediumX"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivProfilePic"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Andrew Russel" />
+
+        <TextView
+            android:id="@+id/tvEmail"
+            style="@style/normalBodyText"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{user.email}"
+            android:textSize="@dimen/textSmall"
+            app:layout_constraintEnd_toEndOf="@id/tvName"
+            app:layout_constraintStart_toStartOf="@id/tvName"
+            app:layout_constraintTop_toBottomOf="@id/tvName"
+            tools:text="andrewrussel@gmail.com" />
+
+        <TextView
+            android:id="@+id/tvGenderDobCountry"
+            style="@style/normalBodyText"
+            genderDobCountry="@{user}"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textSize="@dimen/textSmall"
+            app:layout_constraintEnd_toEndOf="@id/tvName"
+            app:layout_constraintStart_toStartOf="@id/tvName"
+            app:layout_constraintTop_toBottomOf="@id/tvEmail"
+            tools:text="Male | May 22, 1996 | United States of America" />
+
+        <Button
+            android:id="@+id/btnInviteMembers"
+            style="@style/buttonFilledPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:layout_marginTop="@dimen/space_extraSmall"
+            android:text="@string/invite_mentor"
+            android:textAllCaps="false"
+            android:textSize="@dimen/textSmall"
+            app:layout_constraintStart_toStartOf="@id/tvName"
+            app:layout_constraintTop_toBottomOf="@id/tvGenderDobCountry" />
+
+        <TextView
+            android:id="@+id/tvAbout"
+            style="@style/normalBodyText"
+            android:layout_marginTop="@dimen/space_normal"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/about"
+            app:layout_constraintStart_toStartOf="@id/ivProfilePic"
+            app:layout_constraintTop_toBottomOf="@id/btnInviteMembers" />
+
+        <com.primapp.extensions.ExpandableTextView
+            android:id="@+id/tvAboutDescription"
+            style="@style/primaryBodyText"
+            android:layout_marginTop="@dimen/space_small"
+            android:text="@{user.profileSummary}"
+            android:justificationMode="inter_word"
+            android:textColor="@android:color/tab_indicator_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="@id/tvAbout"
+            app:layout_constraintTop_toBottomOf="@id/tvAbout"
+            app:layout_constraintWidth_percent="1"
+            app:trimLength="100"
+            tools:text="@string/long_about_text"
+            tools:targetApi="o" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

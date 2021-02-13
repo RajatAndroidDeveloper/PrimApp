@@ -8,6 +8,7 @@ import androidx.paging.cachedIn
 import com.google.gson.Gson
 import com.primapp.PrimApp
 import com.primapp.R
+import com.primapp.model.auth.VerifyUserResponseModel
 import com.primapp.model.aws.PresignedURLResponseModel
 import com.primapp.model.category.*
 import com.primapp.model.community.CommunityData
@@ -286,4 +287,14 @@ class CommunitiesViewModel @Inject constructor(
             _requestMentorLiveData.postValue(Event(Resource.loading(null)))
             _requestMentorLiveData.postValue(Event(repo.requestMentor(communityId, userId, requestMentorDataModel)))
         }
+
+
+    //---- User profile Data----
+    private var _getUserLiveData = MutableLiveData<Event<Resource<VerifyUserResponseModel>>>()
+    var userLiveData: LiveData<Event<Resource<VerifyUserResponseModel>>> = _getUserLiveData
+
+    fun getUserData(userId: Int) = viewModelScope.launch {
+        _getUserLiveData.postValue(Event(Resource.loading(null)))
+        _getUserLiveData.postValue(Event(repo.getUserData(userId)))
+    }
 }

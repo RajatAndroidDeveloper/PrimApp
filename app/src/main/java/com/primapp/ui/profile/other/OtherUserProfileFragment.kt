@@ -1,4 +1,4 @@
-package com.primapp.ui.dashboard
+package com.primapp.ui.profile.other
 
 import android.graphics.Color
 import android.graphics.Typeface
@@ -9,61 +9,90 @@ import android.text.SpannableStringBuilder
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
 import android.widget.LinearLayout
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.primapp.R
 import com.primapp.cache.UserCache
-import com.primapp.databinding.FragmentProfileBinding
+import com.primapp.databinding.FragmentOtherUserProfileBinding
+import com.primapp.extensions.showError
 import com.primapp.model.auth.UserData
+import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.ViewPagerCommunityAdapter
 import com.primapp.ui.profile.UserJoinedCommunitiesFragment
 import com.primapp.ui.profile.UserMenteesFragment
 import com.primapp.ui.profile.UserMentorsFragment
 import com.primapp.ui.profile.UserPostsFragment
-import kotlinx.android.synthetic.main.toolbar_dashboard_accent.*
+import com.primapp.viewmodels.CommunitiesViewModel
+import kotlinx.android.synthetic.main.fragment_other_user_profile.*
 
+class OtherUserProfileFragment : BaseFragment<FragmentOtherUserProfileBinding>() {
 
-class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
-
-    override fun getLayoutRes(): Int = R.layout.fragment_profile
+    var userId: Int? = null
 
     lateinit var user: UserData
 
     lateinit var titles: ArrayList<SpannableStringBuilder>
 
+    val viewModel by viewModels<CommunitiesViewModel> { viewModelFactory }
+
+    override fun getLayoutRes(): Int = R.layout.fragment_other_user_profile
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        setToolbar(getString(R.string.profile), toolbar)
+        setToolbar("", toolbar)
         setData()
-
+        setObserver()
     }
 
     private fun setData() {
-        user = UserCache.getUser(requireContext())!!
-        ivEndIcon.setImageResource(R.drawable.setting)
-        binding.user = user
-        binding.frag = this
-        initViewPager()
-        ivEndIcon.setOnClickListener {
-            findNavController().navigate(R.id.action_profileFragment_to_settingsFragment)
+        userId = OtherUserProfileFragmentArgs.fromBundle(requireArguments()).userId
+
+        if(isLoaded){
+            return
         }
-
+        viewModel.getUserData(userId!!)
     }
 
-    fun editProfile() {
-        findNavController().navigate(R.id.action_profileFragment_to_editProfileFragment)
+    private fun setObserver() {
+        viewModel.userLiveData.observe(viewLifecycleOwner, Observer {
+            it.peekContent().let {
+                hideLoading()
+                when(it.status){
+                    Status.ERROR->{
+                        showError(requireContext(),it.message!!)
+                    }
+                    Status.LOADING->{
+                        showLoading()
+                        binding.includeProfileCard.clProfileCard.isVisible = false
+                    }
+                    Status.SUCCESS->{
+                        it.data?.content?.let {
+                            binding.includeProfileCard.clProfileCard.isVisible = true
+                            user = it
+                            binding.user = user
+                            initViewPager()
+                        }
+                    }
+                }
+            }
+        })
     }
+
+    //----------------------- View Pager and Tabs Data ---------------------------
 
     private fun initViewPager() {
         titles = initTitle()
 
         val fragmentList = arrayListOf<Fragment>(
-            UserPostsFragment(user.id),
-            UserJoinedCommunitiesFragment(user.id),
+            UserPostsFragment(userId!!),
+            UserJoinedCommunitiesFragment(userId!!),
             UserMentorsFragment(),
             UserMenteesFragment()
         )

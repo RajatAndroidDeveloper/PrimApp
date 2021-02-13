@@ -97,7 +97,8 @@
                 android:background="?attr/selectableItemBackground"
                 android:fontFamily="@font/poppins_semibold"
                 android:padding="@dimen/space_small"
-                android:text="@{data.like? @string/unlike : @string/like}"
+                android:textColor="@{data.like ? @color/colorAccent : @android:color/tab_indicator_text}"
+                android:text="@string/like"
                 android:textSize="@dimen/textSmall"
                 tools:text="@string/like" />
 

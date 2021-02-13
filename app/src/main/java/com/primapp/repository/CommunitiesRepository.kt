@@ -5,6 +5,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
+import com.primapp.model.auth.VerifyUserResponseModel
 import com.primapp.model.aws.PresignedURLRequest
 import com.primapp.model.aws.PresignedURLResponseModel
 import com.primapp.model.category.*
@@ -260,6 +261,15 @@ class CommunitiesRepository @Inject constructor(
     ): Resource<RequestMentorResponseModel> {
         return try {
             responseHandler.handleResponse(apiService.requestMentor(communityId, userId, requestMentorDataModel))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    //---- User profile ----
+    suspend fun getUserData(userId: Int): Resource<VerifyUserResponseModel> {
+        return try {
+            responseHandler.handleResponse(apiService.getUserProfile(userId))
         } catch (e: Exception) {
             responseHandler.handleException(e)
         }

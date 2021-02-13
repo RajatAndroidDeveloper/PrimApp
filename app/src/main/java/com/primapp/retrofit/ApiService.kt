@@ -256,6 +256,7 @@ interface ApiService {
 
     @GET(ApiConstant.GET_POST_COMMENT_REPLIES)
     suspend fun getPostCommentReply(
+        @Path("communityId") communityId: Int,
         @Path("commentId") commentId: Int,
         @Query("offset") offset: Int,
         @Query("limit") limit: Int
