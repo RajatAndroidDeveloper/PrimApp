@@ -54,7 +54,7 @@ class OtherUserProfileFragment : BaseFragment<FragmentOtherUserProfileBinding>()
     private fun setData() {
         userId = OtherUserProfileFragmentArgs.fromBundle(requireArguments()).userId
 
-        if(isLoaded){
+        if (isLoaded) {
             return
         }
         viewModel.getUserData(userId!!)
@@ -63,16 +63,16 @@ class OtherUserProfileFragment : BaseFragment<FragmentOtherUserProfileBinding>()
     private fun setObserver() {
         viewModel.userLiveData.observe(viewLifecycleOwner, Observer {
             it.peekContent().let {
-                hideLoading()
-                when(it.status){
-                    Status.ERROR->{
-                        showError(requireContext(),it.message!!)
+                when (it.status) {
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
                     }
-                    Status.LOADING->{
-                        showLoading()
+                    Status.LOADING -> {
+                        showLoading(true)
                         binding.includeProfileCard.clProfileCard.isVisible = false
                     }
-                    Status.SUCCESS->{
+                    Status.SUCCESS -> {
+                        showLoading(false)
                         it.data?.content?.let {
                             binding.includeProfileCard.clProfileCard.isVisible = true
                             user = it
@@ -83,6 +83,14 @@ class OtherUserProfileFragment : BaseFragment<FragmentOtherUserProfileBinding>()
                 }
             }
         })
+    }
+
+    fun showLoading(visible: Boolean) {
+        // if loader is shown then hide other views
+        binding.includeProfileCard.clProfileCard.isVisible = !visible
+        binding.tabLayout.isVisible = !visible
+        binding.viewPager.isVisible = !visible
+        binding.progressBar.isVisible = visible
     }
 
     //----------------------- View Pager and Tabs Data ---------------------------
