@@ -22,12 +22,14 @@ import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.textfield.TextInputLayout
 import com.primapp.R
 import com.primapp.constants.CommunityFilterTypes
+import com.primapp.constants.NotificationTypes
 import com.primapp.extensions.loadCircularImage
 import com.primapp.extensions.loadImageWithFitCenter
 import com.primapp.extensions.loadImageWithProgress
 import com.primapp.extensions.removeLinksUnderline
 import com.primapp.model.auth.UserData
 import com.primapp.model.community.CommunityData
+import com.primapp.model.notification.NotificationResult
 import com.primapp.utils.DateTimeUtils
 import com.primapp.utils.getPrettyNumber
 
@@ -119,6 +121,8 @@ fun genderAndDobFormatText(textView: TextView, user: UserData) {
 
     if (user.genderValue.isNullOrEmpty() && dob.isEmpty()) {
         textView.visibility = View.GONE
+    } else {
+        textView.visibility = View.VISIBLE
     }
 
     if (!user.genderValue.isNullOrEmpty()) {
@@ -143,6 +147,8 @@ fun genderDobCountryTextView(textView: TextView, user: UserData?) {
 
     if (user?.genderValue.isNullOrEmpty() && dob.isEmpty() && user?.country.isNullOrEmpty()) {
         textView.visibility = View.GONE
+    } else {
+        textView.visibility = View.VISIBLE
     }
 
     if (!user?.genderValue.isNullOrEmpty()) {
@@ -287,4 +293,38 @@ fun inviteMentorButtonStyle(button: Button, status: Int) {
         button.isEnabled = true
         button.text = button.context.getString(R.string.invite_mentor)
     }
+}
+
+
+@BindingAdapter("notificationTitle")
+fun makeNotificationMentorRequest(textView: TextView, notificationData: NotificationResult?) {
+    if (notificationData == null) return
+    val mentorName = "${notificationData.sender?.firstName} ${notificationData.sender?.lastName}"
+    var msg = ""
+    if (notificationData.title.equals("sent", true)) {
+        msg = "sent you a mentor request."
+    } else if (notificationData.title.equals("rejected", true)) {
+        msg = "You rejected"
+    } else if (notificationData.title.equals("accepted", true)) {
+        msg = "You accepted"
+    }
+
+    val text = when (notificationData.notificationType) {
+        NotificationTypes.MENTORSHIP_REQUEST ->
+            textView.context.getString(R.string.mentorship_request_msg, mentorName, msg)
+        NotificationTypes.MENTORSHIP_UPDATE ->
+            textView.context.getString(R.string.mentorship_update_msg, msg, mentorName, "request for mentorship.")
+        else -> textView.context.getString(R.string.mentorship_request_msg, mentorName, msg)
+    }
+
+    val htmlText = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        Html.fromHtml(
+            text,
+            HtmlCompat.FROM_HTML_MODE_LEGACY
+        )
+    } else {
+        Html.fromHtml(text)
+    }
+    textView.text = htmlText
+    textView.removeLinksUnderline()
 }

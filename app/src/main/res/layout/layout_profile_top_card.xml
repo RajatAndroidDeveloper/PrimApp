@@ -27,6 +27,7 @@
             loadCircularImage="@{user.userImage}"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:onClick="@{()->frag.showImage()}"
             app:layout_constraintBottom_toBottomOf="@id/tvCountry"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintStart_toStartOf="parent"

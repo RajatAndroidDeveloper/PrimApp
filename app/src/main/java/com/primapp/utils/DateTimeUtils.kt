@@ -41,4 +41,22 @@ object DateTimeUtils {
             DateUtils.MINUTE_IN_MILLIS
         ).toString()
     }
+
+    fun getDateFromTimeStamp(timestamp: String): Date? {
+        val timestampFormat = SimpleDateFormat(DEFAULT_SERVER_TIME_FORMAT, Locale.getDefault())
+        timestampFormat.timeZone = TimeZone.getTimeZone("UTC")
+        return timestampFormat.parse(timestamp)
+    }
+
+    fun getDayAgoFromTimeStamp(timestamp: String): String? {
+        val timestampFormat = SimpleDateFormat(DEFAULT_SERVER_TIME_FORMAT, Locale.getDefault())
+        timestampFormat.timeZone = TimeZone.getTimeZone("UTC")
+        val date = timestampFormat.parse(timestamp)
+        return if (date == null) null else DateUtils.getRelativeTimeSpanString(
+            date.time,
+            Calendar.getInstance().timeInMillis,
+            DateUtils.DAY_IN_MILLIS,
+            DateUtils.FORMAT_ABBREV_RELATIVE
+        ).toString()
+    }
 }

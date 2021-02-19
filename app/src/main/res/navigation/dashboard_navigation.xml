@@ -46,7 +46,7 @@
     </fragment>
     <fragment
         android:id="@+id/notificationsFragment"
-        android:name="com.primapp.ui.dashboard.NotificationsFragment"
+        android:name="com.primapp.ui.notification.NotificationsFragment"
         android:label="NotificationsFragment"
         tools:layout="@layout/fragment_notifications" />
     <fragment
@@ -198,6 +198,16 @@
         tools:layout="@layout/fragment_other_user_profile" >
         <argument
             android:name="userId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/mentorRequestRejectionFragment"
+        android:name="com.primapp.ui.notification.MentorRequestRejectionFragment"
+        android:label="MentorRequestRejectionFragment"
+        tools:layout="@layout/fragment_mentor_request_rejection"
+        >
+        <argument
+            android:name="requestId"
             app:argType="integer" />
     </fragment>
 </navigation>

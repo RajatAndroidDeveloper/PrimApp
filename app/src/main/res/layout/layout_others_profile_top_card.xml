@@ -28,6 +28,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:padding="@dimen/space_extraSmall"
+            android:onClick="@{()->frag.showImage()}"
             app:layout_constraintBottom_toBottomOf="@id/btnInviteMembers"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintStart_toStartOf="parent"
@@ -79,6 +80,7 @@
             android:layout_marginTop="@dimen/space_extraSmall"
             android:text="@string/invite_mentor"
             android:textAllCaps="false"
+            android:visibility="gone"
             android:textSize="@dimen/textSmall"
             app:layout_constraintStart_toStartOf="@id/tvName"
             app:layout_constraintTop_toBottomOf="@id/tvGenderDobCountry" />

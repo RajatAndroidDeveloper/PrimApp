@@ -38,6 +38,10 @@
         <item name="android:textSize">@dimen/textMedium</item>
     </style>
 
+    <style name="buttonFilledRed" parent="buttonFilledPrimary">
+        <item name="android:background">@drawable/button_primary_red_filled</item>
+    </style>
+
     <style name="buttonOutlinedPrimary" parent="TextAppearance.AppCompat.Button">
         <item name="android:layout_width">@dimen/dp_0</item>
         <item name="android:layout_height">wrap_content</item>

@@ -5,8 +5,9 @@ import com.primapp.ui.communities.create.CreateCommunityFragment
 import com.primapp.ui.communities.details.CommunityDetailsFragment
 import com.primapp.ui.communities.edit.EditCommunityFragment
 import com.primapp.ui.communities.members.CommunityMembersFragment
-import com.primapp.ui.dashboard.NotificationsFragment
+import com.primapp.ui.notification.NotificationsFragment
 import com.primapp.ui.dashboard.ProfileFragment
+import com.primapp.ui.notification.MentorRequestRejectionFragment
 import com.primapp.ui.post.UpdatesFragment
 import com.primapp.ui.post.comment.PostCommentFragment
 import com.primapp.ui.post.create.CreatePostFragment
@@ -89,5 +90,8 @@ abstract class DashboardFragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeOtherUserProfileFragment(): OtherUserProfileFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeMentorRequestRejectionFragment(): MentorRequestRejectionFragment
 
 }

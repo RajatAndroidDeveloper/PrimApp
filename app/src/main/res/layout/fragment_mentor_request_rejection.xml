@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="frag"
+            type="com.primapp.ui.notification.MentorRequestRejectionFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context=".ui.notification.MentorRequestRejectionFragment">
+
+        <include layout="@layout/toolbar_inner_back" />
+
+        <RadioGroup
+            android:id="@+id/rgRejectReason"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_medium"
+            android:checkedButton="@+id/rbCantAccept"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clToolbar"
+            app:layout_constraintWidth_percent=".9">
+
+            <RadioButton
+                android:id="@+id/rbCantAccept"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/radio_button_selector"
+                android:fontFamily="@font/poppins_semibold"
+                android:padding="@dimen/space_small"
+                android:text="Can't accept at this time"
+                android:textColor="@color/radio_text_color_selector" />
+
+            <RadioButton
+                android:id="@+id/rbVacation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/radio_button_selector"
+                android:fontFamily="@font/poppins_semibold"
+                android:padding="@dimen/space_small"
+                android:text="Vacation / Sabbatical."
+                android:textColor="@color/radio_text_color_selector" />
+
+            <RadioButton
+                android:id="@+id/rbLeavingCommunity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/radio_button_selector"
+                android:fontFamily="@font/poppins_semibold"
+                android:padding="@dimen/space_small"
+                android:text="Leaving Prim community."
+                android:textColor="@color/radio_text_color_selector" />
+
+            <RadioButton
+                android:id="@+id/rbOthers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/radio_button_selector"
+                android:fontFamily="@font/poppins_semibold"
+                android:padding="@dimen/space_small"
+                android:text="Personal / Other."
+                android:textColor="@color/radio_text_color_selector" />
+
+        </RadioGroup>
+
+        <EditText
+            android:id="@+id/etReason"
+            style="@style/editTextSearchBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_normal"
+            android:drawableStart="@null"
+            android:gravity="top"
+            android:imeActionLabel="Done"
+            android:imeOptions="actionDone"
+            android:lines="6"
+            android:hint="@string/mention_your_reason_here"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rgRejectReason"
+            app:layout_constraintWidth_percent=".9" />
+
+        <Button
+            android:id="@+id/btnSubmit"
+            style="@style/buttonFilledPrimary"
+            android:layout_marginTop="@dimen/space_largeX"
+            android:onClick="@{()->frag.submitReason()}"
+            android:text="@string/submit"
+            android:textAllCaps="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etReason" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

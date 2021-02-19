@@ -39,7 +39,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
         setToolbar(getString(R.string.profile), toolbar)
         setData()
-
     }
 
     private fun setData() {
@@ -51,11 +50,16 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         ivEndIcon.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_settingsFragment)
         }
-
     }
 
     fun editProfile() {
         findNavController().navigate(R.id.action_profileFragment_to_editProfileFragment)
+    }
+
+    fun showImage() {
+        val bundle = Bundle()
+        bundle.putString("url", user.userImage)
+        findNavController().navigate(R.id.imageViewDialog, bundle)
     }
 
     private fun initViewPager() {

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.primapp.model.notification.NotificationResult" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/space_medium"
+        android:paddingEnd="@dimen/space_medium">
+
+        <ImageView
+            android:id="@+id/ivProfilePic"
+            loadCircularImage="@{data.sender.userImage}"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/tvNotificationTime"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintHeight_max="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvNotificationMessage"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintWidth_max="50dp" />
+
+        <TextView
+            android:id="@+id/tvNotificationMessage"
+            notificationTitle="@{data}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_small"
+            android:layout_marginTop="@dimen/space_small"
+            android:fontFamily="@font/poppins_semibold"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivProfilePic"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Rob sent you a mentor request." />
+
+        <TextView
+            android:id="@+id/tvNotificationTime"
+            style="@style/primaryBodyText"
+            timeAgoFromTimeStamp="@{data.cdate}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_extraSmall"
+            android:drawablePadding="@dimen/space_extraSmall"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/textSmall"
+            app:drawableStartCompat="@drawable/ic_baseline_access_time_24"
+            app:layout_constraintStart_toStartOf="@id/tvNotificationMessage"
+            app:layout_constraintTop_toBottomOf="@id/tvNotificationMessage"
+            tools:text="2 days ago" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/space_small"
+            android:background="@color/grey"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvNotificationTime" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

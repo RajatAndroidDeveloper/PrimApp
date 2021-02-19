@@ -10,6 +10,7 @@ import com.primapp.model.community.*
 import com.primapp.model.members.CommunityMembersResponseModel
 import com.primapp.model.mentor.RequestMentorDataModel
 import com.primapp.model.mentor.RequestMentorResponseModel
+import com.primapp.model.notification.NotificationResponseModel
 import com.primapp.model.post.CreatePostRequestModel
 import com.primapp.model.post.PostActionResponseModel
 import com.primapp.model.post.PostListResponseModel
@@ -295,4 +296,17 @@ interface ApiService {
         @Path("userId") userId: Int,
         @Body requestMentorDataModel: RequestMentorDataModel
     ): RequestMentorResponseModel
+
+    @GET(ApiConstant.GET_NOTIFICATIONS)
+    suspend fun getNotifications(
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int
+    ): NotificationResponseModel
+
+    @PUT(ApiConstant.ACCEPT_REJECT_MENTORSHIP)
+    suspend fun acceptRejectMentorship(
+        @Query("request_id") requestId: Int,
+        @Query("action") action: String,
+        @Query("message") message: String?
+    ): BaseDataModel
 }

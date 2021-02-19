@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.primapp.R
@@ -52,6 +53,7 @@ class OtherUserProfileFragment : BaseFragment<FragmentOtherUserProfileBinding>()
     }
 
     private fun setData() {
+        binding.frag = this
         userId = OtherUserProfileFragmentArgs.fromBundle(requireArguments()).userId
 
         if (isLoaded) {
@@ -83,6 +85,12 @@ class OtherUserProfileFragment : BaseFragment<FragmentOtherUserProfileBinding>()
                 }
             }
         })
+    }
+
+    fun showImage() {
+        val bundle = Bundle()
+        bundle.putString("url", user.userImage)
+        findNavController().navigate(R.id.imageViewDialog, bundle)
     }
 
     fun showLoading(visible: Boolean) {

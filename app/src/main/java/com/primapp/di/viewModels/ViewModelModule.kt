@@ -69,5 +69,10 @@ abstract class ViewModelModule {
     abstract fun bindCreatePostViewModel(viewModel: CreatePostViewModel): ViewModel
 
     @Binds
+    @IntoMap
+    @ViewModelKey(NotificationViewModel::class)
+    abstract fun bindNotificationViewModel(viewModel: NotificationViewModel): ViewModel
+
+    @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 }

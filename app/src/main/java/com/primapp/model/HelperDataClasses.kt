@@ -19,3 +19,7 @@ data class LikePostMembers(val postData: PostListResult)
 data class LikeReply(val replyData: ReplyData)
 data class RequestMentor(val membersData: CommunityMembersData)
 data class ShowUserProfile(val postData: PostListResult)
+
+//Mentorship request action
+data class AcceptMetorRequest(val id: Int)
+data class RejectMetorRequest(val id: Int)
