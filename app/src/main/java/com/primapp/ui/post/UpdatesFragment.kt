@@ -23,6 +23,7 @@ import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
 import com.primapp.ui.communities.members.CommunityMembersFragment
 import com.primapp.ui.post.adapter.PostListPagedAdapter
+import com.primapp.ui.post.create.CreatePostFragment
 import com.primapp.utils.DialogUtils
 import com.primapp.viewmodels.PostsViewModel
 import kotlinx.android.synthetic.main.fragment_updates.*
@@ -191,7 +192,7 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
 
     fun createPost() {
         val action =
-            UpdatesFragmentDirections.actionUpdatesFragmentToCreatePostFragment()
+            UpdatesFragmentDirections.actionUpdatesFragmentToCreatePostFragment(null)
         findNavController().navigate(action)
     }
 
@@ -224,7 +225,14 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                 }
             }
 
-            is EditPost, is HidePost, is ReportPost -> {
+            is EditPost -> {
+                val bundle = Bundle()
+                bundle.putString("type", CreatePostFragment.UPDATE_POST)
+                bundle.putSerializable("postData", item.postData)
+                findNavController().navigate(R.id.createPostFragment, bundle)
+            }
+
+            is HidePost, is ReportPost -> {
                 showInfo(requireContext(), "Not yet implemented!")
             }
 

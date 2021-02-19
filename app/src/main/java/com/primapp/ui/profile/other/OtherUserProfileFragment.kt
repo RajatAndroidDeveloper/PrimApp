@@ -79,6 +79,10 @@ class OtherUserProfileFragment : BaseFragment<FragmentOtherUserProfileBinding>()
                             binding.includeProfileCard.clProfileCard.isVisible = true
                             user = it
                             binding.user = user
+                            if (UserCache.getUserId(requireContext()) == it.id) {
+                                //Update user data if viewing own profile
+                                UserCache.saveUser(requireContext(), it)
+                            }
                             initViewPager()
                         }
                     }

@@ -7,15 +7,18 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.AutoCompleteTextView
 import android.widget.RadioGroup
+import androidx.activity.addCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.google.gson.Gson
 import com.primapp.R
 import com.primapp.cache.UserCache
 import com.primapp.constants.PostFileType
 import com.primapp.databinding.FragmentCreatePostBinding
 import com.primapp.extensions.showError
+import com.primapp.model.post.PostListResult
 import com.primapp.retrofit.ApiConstant
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
@@ -28,6 +31,12 @@ import java.io.File
 
 
 class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
+
+    lateinit var type: String
+
+    //incase of update post
+    var postData: PostListResult? = null
+    var isUpdatedPostAttachment: Boolean = false
 
     var selectedFile: File? = null
 
@@ -51,45 +60,94 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
         super.onActivityCreated(savedInstanceState)
 
         setToolbar(getString(R.string.create_post), toolbar)
-        setAdapter()
         setData()
+        setAdapter()
         setObserver()
     }
 
     private fun setData() {
         binding.frag = this
         binding.viewModel = viewModel
+        CreatePostFragmentArgs.fromBundle(requireArguments()).let { arguments ->
+            type = arguments.type ?: CREATE_POST
+            postData = arguments.postData
+        }
+
+        if (type == CREATE_POST) {
+            viewModel.getParentCategoriesList(0, 1000)
+        } else {
+            //EDIT_POST
+            binding.tlSelectCategory.isEnabled = false
+            binding.tlSelectCommunity.isEnabled = false
+            binding.tlSelectCommunity.isVisible = true
+            postData?.let {
+                binding.mAutoCompleteCategory.setText(it.community.category.categoryName)
+                binding.mAutoCompleteCommunity.setText(it.community.communityName)
+                val requestModel = viewModel.createPostRequestModel.value
+                requestModel?.postText = it.postText
+                requestModel?.fileType = it.fileType
+                requestModel?.postContentFile = it.postContentFile
+                requestModel?.thumbnailFile = it.thumbnailFile
+                viewModel.createPostRequestModel.value = requestModel
+                //set local variables
+                selectedCategoryId = it.community.category.id
+                selectedCommunityId = it.community.id
+                postFileType = it.fileType
+                when (it.fileType) {
+                    PostFileType.IMAGE -> binding.rgFileType.check(R.id.rbImage)
+                    PostFileType.GIF -> binding.rgFileType.check(R.id.rbImage)
+                    PostFileType.VIDEO -> binding.rgFileType.check(R.id.rbVideo)
+                    null -> binding.rgFileType.check(R.id.rbNone)
+                }
+                if (it.fileType != null) {
+                    binding.btnSelect.isVisible = true
+                    binding.groupSelectFileName.isVisible = true
+                    binding.tvFileName.text = it.postContentFile
+                }
+            }
+        }
 
         binding.rgFileType.setOnCheckedChangeListener(object : RadioGroup.OnCheckedChangeListener {
             override fun onCheckedChanged(p0: RadioGroup?, p1: Int) {
+                selectedFile = null
+                binding.btnSelect.isVisible = true
+                binding.groupSelectFileName.isVisible = false
                 when (p1) {
                     R.id.rbImage -> {
-                        selectedFile = null
                         postFileType = PostFileType.IMAGE
-                        binding.btnSelect.isVisible = true
-                        binding.groupSelectFileName.isVisible = false
                     }
                     R.id.rbVideo -> {
-                        selectedFile = null
                         postFileType = PostFileType.VIDEO
-                        binding.btnSelect.isVisible = true
-                        binding.groupSelectFileName.isVisible = false
                     }
                     R.id.rbGif -> {
-                        selectedFile = null
                         postFileType = PostFileType.GIF
-                        binding.btnSelect.isVisible = true
-                        binding.groupSelectFileName.isVisible = false
                     }
                     R.id.rbNone -> {
-                        selectedFile = null
                         postFileType = null
                         binding.btnSelect.isVisible = false
-                        binding.groupSelectFileName.isVisible = false
                     }
                 }
+                //For update post, so that we can remove data if filetype changes in viewmodel
+                viewModel.createPostRequestModel.value?.fileType = postFileType
+                isUpdatedPostAttachment = true
             }
         })
+
+        //Back button press callback
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            if (type == CREATE_POST) {
+                val requestData = viewModel.createPostRequestModel.value
+                if (!requestData?.postText.isNullOrEmpty() || selectedFile != null) {
+                    DialogUtils.showYesNoDialog(requireActivity(), R.string.create_post_discard_msg, {
+                        findNavController().popBackStack()
+                    })
+                } else {
+                    findNavController().popBackStack()
+                }
+            } else {
+                findNavController().popBackStack()
+            }
+        }
     }
 
     private fun setObserver() {
@@ -114,8 +172,6 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                 }
             }
         })
-
-        viewModel.getParentCategoriesList(0, 1000)
 
         viewModel.categoryJoinedCommunityLiveData.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
@@ -225,6 +281,33 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                 }
             }
         })
+
+        viewModel.updatePostLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.SUCCESS -> {
+                        it.data?.content?.let {
+                            postData?.postContentFile = it.postContentFile
+                            postData?.fileType = it.fileType
+                            postData?.postText = it.postText
+                            postData?.thumbnailFile = it.thumbnailFile
+                            postData?.imageUrl = it.imageUrl
+                            postData?.getThumbnailUrl = it.getThumbnailUrl
+                        }
+                        DialogUtils.showCloseDialog(requireActivity(), R.string.changes_saved_successfully) {
+                            findNavController().popBackStack()
+                        }
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                }
+            }
+        })
     }
 
     private fun setAdapter() {
@@ -293,22 +376,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                 sendPost()
             } else if (postFileType != null && Validator.isValidPostTextLength(binding.etPost.text.toString())) {
                 //Post with attachment
-                if (selectedFile != null) {
-                    viewModel.generatePresignedUrl(
-                        AwsHelper.getObjectName(
-                            AwsHelper.AWS_OBJECT_TYPE.POST,
-                            UserCache.getUser(requireContext())!!.id,
-                            selectedFile!!.extension
-                        )
-                    )
-                } else {
-                    //Post with attachment selected but attachment not attached
-                    DialogUtils.showCloseDialog(
-                        requireActivity(),
-                        getString(R.string.file_type_error, postFileType),
-                        R.drawable.question_mark
-                    )
-                }
+                attachFileToPost()
             } else {
                 if (binding.etPost.text.isEmpty())
                     binding.etPost.error = getString(R.string.valid_post_text)
@@ -324,11 +392,39 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
         }
     }
 
+    private fun attachFileToPost() {
+        if (selectedFile != null) {
+            viewModel.generatePresignedUrl(
+                AwsHelper.getObjectName(
+                    AwsHelper.AWS_OBJECT_TYPE.POST,
+                    UserCache.getUser(requireContext())!!.id,
+                    selectedFile!!.extension
+                )
+            )
+        } else if (selectedFile == null && type == UPDATE_POST && !isUpdatedPostAttachment) {
+            Log.d("anshul_update", "-----Not updated post attachment-----")
+            sendPost()
+        } else {
+            //Post with attachment selected but attachment not attached
+            DialogUtils.showCloseDialog(
+                requireActivity(),
+                getString(R.string.file_type_error, postFileType),
+                R.drawable.question_mark
+            )
+        }
+    }
+
     private fun sendPost() {
-        viewModel.createPost(selectedCommunityId!!, UserCache.getUser(requireContext())!!.id)
+        if (type == CREATE_POST)
+            viewModel.createPost(selectedCommunityId!!, UserCache.getUser(requireContext())!!.id)
+        else {
+            Log.d("anshul_update", Gson().toJson(viewModel.createPostRequestModel.value))
+            viewModel.updatePost(selectedCommunityId!!, UserCache.getUser(requireContext())!!.id, postData!!.id)
+        }
     }
 
     fun clearAttachment() {
+        isUpdatedPostAttachment = true
         selectedFile = null
         binding.groupSelectFileName.isVisible = false
     }
@@ -450,5 +546,10 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                 }
             }
         }
+    }
+
+    companion object {
+        const val CREATE_POST = "create_post"
+        const val UPDATE_POST = "update_post"
     }
 }

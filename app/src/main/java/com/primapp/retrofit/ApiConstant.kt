@@ -41,6 +41,7 @@ object ApiConstant {
     //Post
     const val GET_POST_LIST = "post_list"
     const val CREATE_POST = "communities/{communityId}/users/{userId}/posts"
+    const val UPDATE_POST = "communities/{communityId}/users/{userId}/posts/{postId}"
     const val LIKE_POST = "communities/{communityId}/users/{userId}/posts/{postId}/likes"
     const val UNLIKE_POST = "communities/{communityId}/users/{userId}/posts/{postId}/likes"
     const val USER_POST_LIST = "user_post_list/{userId}"

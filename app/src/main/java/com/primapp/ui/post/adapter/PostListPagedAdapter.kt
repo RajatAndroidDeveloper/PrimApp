@@ -71,13 +71,13 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
             binding.cardPostAttachment.setOnClickListener {
                 when (data!!.fileType) {
                     PostFileType.VIDEO -> {
-                        onItemClick(ShowVideo(data.getImageUrl))
+                        onItemClick(ShowVideo(data.imageUrl.toString()))
                     }
                     PostFileType.IMAGE -> {
-                        onItemClick(ShowImage(data.getImageUrl))
+                        onItemClick(ShowImage(data.imageUrl.toString()))
                     }
                     PostFileType.GIF -> {
-                        onItemClick(ShowImage(data.getImageUrl))
+                        onItemClick(ShowImage(data.imageUrl.toString()))
                     }
                 }
             }

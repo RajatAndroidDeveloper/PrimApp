@@ -133,7 +133,17 @@
         android:id="@+id/createPostFragment"
         android:name="com.primapp.ui.post.create.CreatePostFragment"
         android:label="CreatePostFragment"
-        tools:layout="@layout/fragment_create_post" />
+        tools:layout="@layout/fragment_create_post" >
+        <argument
+            android:name="type"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="postData"
+            app:argType="com.primapp.model.post.PostListResult"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
     <dialog
         android:id="@+id/imageViewDialog"
         android:name="com.primapp.ui.base.ImageViewDialog"

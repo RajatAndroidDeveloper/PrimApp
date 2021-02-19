@@ -27,7 +27,7 @@ data class PostListResult(
     @SerializedName("community")
     val community: Community,
     @SerializedName("get_image_url")
-    val getImageUrl: String,
+    var imageUrl: String?,
     @SerializedName("id")
     val id: Int,
     @SerializedName("is_bookmark")
@@ -37,23 +37,23 @@ data class PostListResult(
     @SerializedName("post_comments")
     val postComments: Int,
     @SerializedName("post_content_file")
-    val postContentFile: String,
+    var postContentFile: String,
     @SerializedName("post_likes")
     var postLikes: Int,
     @SerializedName("post_text")
-    val postText: String?,
+    var postText: String?,
     @SerializedName("udate")
     val udate: String,
     @SerializedName("user")
     val user: User,
     @SerializedName("file_type")
-    val fileType: String?,
+    var fileType: String?,
     @SerializedName("is_createdbyme")
     val isCreatedByMe: Boolean,
     @SerializedName("thumbnail_file")
-    val thumbnailFile: String?,
+    var thumbnailFile: String?,
     @SerializedName("get_thumbnail_url")
-    val getThumbnailUrl: String?
+    var getThumbnailUrl: String?
 ) : Serializable
 
 data class Community(

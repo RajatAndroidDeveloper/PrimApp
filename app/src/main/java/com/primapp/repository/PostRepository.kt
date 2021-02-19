@@ -14,6 +14,7 @@ import com.primapp.model.community.JoinedCommunityListModel
 import com.primapp.model.post.CreatePostRequestModel
 import com.primapp.model.post.PostActionResponseModel
 import com.primapp.model.post.PostListResult
+import com.primapp.model.post.UpdatePostResponseModel
 import com.primapp.model.reply.CreateReplyRequestModel
 import com.primapp.model.reply.ReplyData
 import com.primapp.retrofit.ApiConstant
@@ -280,6 +281,19 @@ class PostRepository @Inject constructor(
     ): Resource<PostActionResponseModel> {
         return try {
             responseHandler.handleResponse(apiService.unlikeReply(communityId, userId, postId, commentId, replyId))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    suspend fun updatePost(
+        communityId: Int,
+        userId: Int,
+        postId: Int,
+        createPostRequestModel: CreatePostRequestModel
+    ): Resource<UpdatePostResponseModel> {
+        return try {
+            responseHandler.handleResponse(apiService.updatePost(communityId, userId, postId, createPostRequestModel))
         } catch (e: Exception) {
             responseHandler.handleException(e)
         }

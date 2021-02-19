@@ -14,6 +14,7 @@ import com.primapp.model.notification.NotificationResponseModel
 import com.primapp.model.post.CreatePostRequestModel
 import com.primapp.model.post.PostActionResponseModel
 import com.primapp.model.post.PostListResponseModel
+import com.primapp.model.post.UpdatePostResponseModel
 import com.primapp.model.profile.EditProfileRequestModel
 import com.primapp.model.reply.CommentReplyResponseModel
 import com.primapp.model.reply.CreateReplyRequestModel
@@ -309,4 +310,12 @@ interface ApiService {
         @Query("action") action: String,
         @Query("message") message: String?
     ): BaseDataModel
+
+    @PUT(ApiConstant.UPDATE_POST)
+    suspend fun updatePost(
+        @Path("communityId") communityId: Int,
+        @Path("userId") userId: Int,
+        @Path("postId") postId: Int,
+        @Body createPostRequestModel: CreatePostRequestModel
+    ): UpdatePostResponseModel
 }
