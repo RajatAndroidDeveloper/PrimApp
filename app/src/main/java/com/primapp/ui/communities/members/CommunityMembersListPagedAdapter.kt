@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.primapp.R
 import com.primapp.databinding.ItemCommunityMembersBinding
 import com.primapp.model.RequestMentor
+import com.primapp.model.ShowImage
+import com.primapp.model.ShowUserProfile
 import com.primapp.model.members.CommunityMembersData
 import javax.inject.Inject
 
@@ -49,6 +51,14 @@ class CommunityMembersListPagedAdapter @Inject constructor(val onItemClick: (Any
 
             binding.btnInviteMembers.setOnClickListener {
                 onItemClick(RequestMentor(data))
+            }
+
+            binding.llMemberDetails.setOnClickListener {
+                onItemClick(ShowUserProfile(data.user.id))
+            }
+
+            binding.ivProfilePic.setOnClickListener {
+                onItemClick(ShowImage(data.user.getImageUrl))
             }
         }
     }

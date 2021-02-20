@@ -232,7 +232,7 @@ class UserPostsFragment(private val userId: Int) : BaseFragment<FragmentUserPost
             }
             is ShowUserProfile -> {
                 val bundle = Bundle()
-                bundle.putInt("userId", item.postData.user.id)
+                bundle.putInt("userId", item.userId)
                 findNavController().navigate(R.id.otherUserProfileFragment, bundle)
             }
         }

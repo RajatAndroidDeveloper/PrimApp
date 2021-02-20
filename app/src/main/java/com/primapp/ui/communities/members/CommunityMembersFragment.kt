@@ -7,6 +7,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.primapp.R
@@ -15,6 +16,8 @@ import com.primapp.databinding.FragmentCommunityMembersBinding
 import com.primapp.extensions.setDivider
 import com.primapp.extensions.showError
 import com.primapp.model.RequestMentor
+import com.primapp.model.ShowImage
+import com.primapp.model.ShowUserProfile
 import com.primapp.model.mentor.RequestMentorDataModel
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
@@ -149,6 +152,18 @@ class CommunityMembersFragment : BaseFragment<FragmentCommunityMembersBinding>()
                     any.membersData.community!!.id, UserCache.getUserId(requireContext()),
                     RequestMentorDataModel(any.membersData.user.id, null)
                 )
+            }
+
+            is ShowImage -> {
+                val bundle = Bundle()
+                bundle.putString("url", any.url)
+                findNavController().navigate(R.id.imageViewDialog, bundle)
+            }
+
+            is ShowUserProfile -> {
+                val bundle = Bundle()
+                bundle.putInt("userId", any.userId)
+                findNavController().navigate(R.id.otherUserProfileFragment, bundle)
             }
         }
     }

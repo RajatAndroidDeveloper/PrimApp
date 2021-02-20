@@ -108,7 +108,7 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
 
             binding.groupProfileInfo.setAllOnClickListener(View.OnClickListener {
                 data?.let {
-                    onItemClick(ShowUserProfile(it))
+                    onItemClick(ShowUserProfile(it.user.id))
                 }
             })
 
