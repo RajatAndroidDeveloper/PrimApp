@@ -37,7 +37,7 @@ data class PostListResult(
     @SerializedName("post_comments")
     val postComments: Int,
     @SerializedName("post_content_file")
-    var postContentFile: String,
+    var postContentFile: String?,
     @SerializedName("post_likes")
     var postLikes: Int,
     @SerializedName("post_text")

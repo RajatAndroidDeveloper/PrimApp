@@ -21,6 +21,7 @@ import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
 import com.primapp.ui.communities.members.CommunityMembersFragment
 import com.primapp.ui.dashboard.ProfileFragment
 import com.primapp.ui.post.adapter.PostListPagedAdapter
+import com.primapp.ui.post.create.CreatePostFragment
 import com.primapp.ui.profile.other.OtherUserProfileFragment
 import com.primapp.utils.DialogUtils
 import com.primapp.viewmodels.PostsViewModel
@@ -194,7 +195,13 @@ class UserPostsFragment(private val userId: Int) : BaseFragment<FragmentUserPost
                     viewModel.likePost(item.postData.community.id, userData!!.id, item.postData.id)
                 }
             }
-            is EditPost, is HidePost, is ReportPost -> {
+            is EditPost -> {
+                val bundle = Bundle()
+                bundle.putString("type", CreatePostFragment.UPDATE_POST)
+                bundle.putSerializable("postData", item.postData)
+                findNavController().navigate(R.id.createPostFragment, bundle)
+            }
+            is HidePost, is ReportPost -> {
                 showInfo(requireContext(), "Not yet implemented!")
             }
             is DeletePost -> {
