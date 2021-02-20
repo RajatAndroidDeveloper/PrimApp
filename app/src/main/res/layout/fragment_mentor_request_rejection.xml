@@ -37,7 +37,7 @@
                 android:button="@drawable/radio_button_selector"
                 android:fontFamily="@font/poppins_semibold"
                 android:padding="@dimen/space_small"
-                android:text="Can't accept at this time"
+                android:text="@string/can_t_accept_at_this_time"
                 android:textColor="@color/radio_text_color_selector" />
 
             <RadioButton
@@ -47,7 +47,7 @@
                 android:button="@drawable/radio_button_selector"
                 android:fontFamily="@font/poppins_semibold"
                 android:padding="@dimen/space_small"
-                android:text="Vacation / Sabbatical."
+                android:text="@string/vacation_sabbatical"
                 android:textColor="@color/radio_text_color_selector" />
 
             <RadioButton
@@ -57,7 +57,7 @@
                 android:button="@drawable/radio_button_selector"
                 android:fontFamily="@font/poppins_semibold"
                 android:padding="@dimen/space_small"
-                android:text="Leaving Prim community."
+                android:text="@string/leaving_prim_community"
                 android:textColor="@color/radio_text_color_selector" />
 
             <RadioButton
@@ -67,7 +67,7 @@
                 android:button="@drawable/radio_button_selector"
                 android:fontFamily="@font/poppins_semibold"
                 android:padding="@dimen/space_small"
-                android:text="Personal / Other."
+                android:text="@string/personal_other"
                 android:textColor="@color/radio_text_color_selector" />
 
         </RadioGroup>
@@ -80,11 +80,11 @@
             android:layout_marginTop="@dimen/space_normal"
             android:drawableStart="@null"
             android:gravity="top"
+            android:hint="@string/mention_your_reason_here"
             android:imeActionLabel="Done"
             android:imeOptions="actionDone"
             android:lines="6"
-            android:hint="@string/mention_your_reason_here"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rgRejectReason"

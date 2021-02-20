@@ -32,7 +32,7 @@ class NotificationsPagedAdapter @Inject constructor(val onItemClick: (Any?) -> U
         item?.let {
             val position = snapshot().items.indexOf(it)
             (snapshot().items.get(position) as NotificationUIModel.NotificationItem).notification.notificationType =
-                NotificationTypes.MENTORSHIP_UPDATE
+                NotificationTypes.MENTORSHIP_REQUEST_ACTION
             (snapshot().items.get(position) as NotificationUIModel.NotificationItem).notification.title = "accepted"
             notifyItemChanged(position)
         }
@@ -46,7 +46,7 @@ class NotificationsPagedAdapter @Inject constructor(val onItemClick: (Any?) -> U
                     NotificationTypes.MENTORSHIP_REQUEST -> {
                         NotificationViewTypes.MENTORSHIP_REQUEST_VIEW
                     }
-                    NotificationTypes.MENTORSHIP_UPDATE -> {
+                    NotificationTypes.MENTORSHIP_UPDATE, NotificationTypes.MENTORSHIP_REQUEST_ACTION -> {
                         NotificationViewTypes.MENTORSHIP_UPDATE_VIEW
                     }
                     else -> {

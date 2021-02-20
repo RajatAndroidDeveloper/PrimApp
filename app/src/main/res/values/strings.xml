@@ -244,4 +244,8 @@
     <string name="mentor_request_rejection_message">Mentor request rejected successfully!</string>
     <string name="mention_your_reason_here">Mention your reason here...</string>
     <string name="create_post_discard_msg">Are you sure you want to discard the post?</string>
+    <string name="can_t_accept_at_this_time">Can\'t accept at this time</string>
+    <string name="vacation_sabbatical">Vacation / Sabbatical.</string>
+    <string name="leaving_prim_community">Leaving Prim community.</string>
+    <string name="personal_other">Personal / Other.</string>
 </resources>

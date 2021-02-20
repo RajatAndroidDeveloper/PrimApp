@@ -5,6 +5,7 @@ import android.graphics.Typeface
 import android.os.Build
 import android.text.Html
 import android.text.SpannableString
+import android.text.SpannableStringBuilder
 import android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE
 import android.text.TextUtils
 import android.text.method.LinkMovementMethod
@@ -17,16 +18,14 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.text.HtmlCompat
+import androidx.core.text.bold
 import androidx.databinding.BindingAdapter
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.textfield.TextInputLayout
 import com.primapp.R
 import com.primapp.constants.CommunityFilterTypes
 import com.primapp.constants.NotificationTypes
-import com.primapp.extensions.loadCircularImage
-import com.primapp.extensions.loadImageWithFitCenter
-import com.primapp.extensions.loadImageWithProgress
-import com.primapp.extensions.removeLinksUnderline
+import com.primapp.extensions.*
 import com.primapp.model.auth.UserData
 import com.primapp.model.community.CommunityData
 import com.primapp.model.notification.NotificationResult
@@ -295,6 +294,7 @@ fun inviteMentorButtonStyle(button: Button, status: Int) {
     }
 }
 
+/*
 
 @BindingAdapter("notificationTitle")
 fun makeNotificationMentorRequest(textView: TextView, notificationData: NotificationResult?) {
@@ -303,17 +303,29 @@ fun makeNotificationMentorRequest(textView: TextView, notificationData: Notifica
     var msg = ""
     if (notificationData.title.equals("sent", true)) {
         msg = "sent you a mentor request."
-    } else if (notificationData.title.equals("rejected", true)) {
+    } else if (notificationData.title.equals("rejected", true)
+        && notificationData.notificationType.equals(NotificationTypes.MENTORSHIP_REQUEST_ACTION,true)) {
         msg = "You rejected"
-    } else if (notificationData.title.equals("accepted", true)) {
+    } else if (notificationData.title.equals("accepted", true)
+        && notificationData.notificationType.equals(NotificationTypes.MENTORSHIP_REQUEST_ACTION,true)
+    ) {
         msg = "You accepted"
+    }else if (notificationData.title.equals("rejected", true)
+        && notificationData.notificationType.equals(NotificationTypes.MENTORSHIP_UPDATE,true)) {
+        msg = "Your request for mentorship is rejected by"
+    } else if (notificationData.title.equals("accepted", true)
+        && notificationData.notificationType.equals(NotificationTypes.MENTORSHIP_UPDATE,true)
+    ) {
+        msg = "Your request for mentorship is accepted by"
     }
 
     val text = when (notificationData.notificationType) {
         NotificationTypes.MENTORSHIP_REQUEST ->
             textView.context.getString(R.string.mentorship_request_msg, mentorName, msg)
-        NotificationTypes.MENTORSHIP_UPDATE ->
+        NotificationTypes.MENTORSHIP_REQUEST_ACTION ->
             textView.context.getString(R.string.mentorship_update_msg, msg, mentorName, "request for mentorship.")
+        NotificationTypes.MENTORSHIP_UPDATE ->
+            textView.context.getString(R.string.mentorship_update_msg, msg, mentorName, ".")
         else -> textView.context.getString(R.string.mentorship_request_msg, mentorName, msg)
     }
 
@@ -327,4 +339,60 @@ fun makeNotificationMentorRequest(textView: TextView, notificationData: Notifica
     }
     textView.text = htmlText
     textView.removeLinksUnderline()
+}
+*/
+
+
+@BindingAdapter("notificationTitle")
+fun makeNotificationMentorRequest(textView: TextView, notificationData: NotificationResult?) {
+    notificationData?.let {
+        val colorToHighlight = ContextCompat.getColor(textView.context, R.color.colorAccent)
+        val senderFullName = getHighlightedText(
+            colorToHighlight,
+            "${notificationData.sender?.firstName} ${notificationData.sender?.lastName}"
+        )
+        val communityName = getHighlightedText(colorToHighlight, it.community.communityName)
+        val textToSend = SpannableStringBuilder("")
+        when (it.notificationType) {
+            NotificationTypes.MENTORSHIP_REQUEST -> {
+                //Mentor side notification
+                textToSend.append(senderFullName)
+                    .append(" sent you a mentorship request in ")
+                    .append(communityName)
+            }
+            NotificationTypes.MENTORSHIP_REQUEST_ACTION -> {
+                //Mentor side notification
+                if (it.title.equals("accepted", true)) {
+                    textToSend.append("You accepted ")
+                        .append(senderFullName)
+                        .append("'s request for mentorship in ")
+                        .append(communityName)
+                } else if (it.title.equals("rejected", true)) {
+                    textToSend.append("You rejected ")
+                        .append(senderFullName)
+                        .append("'s request for mentorship in ")
+                        .append(communityName)
+                }
+            }
+            NotificationTypes.MENTORSHIP_UPDATE -> {
+                //Mentee side notification
+                if (it.title.equals("accepted", true)) {
+                    textToSend.append("Your request for mentorship in ")
+                        .append(communityName)
+                        .append(" is accepted by ")
+                        .append(senderFullName)
+                } else if (it.title.equals("rejected", true)) {
+                    textToSend.append("Your request for mentorship in ")
+                        .append(communityName)
+                        .append(" is rejected by ")
+                        .append(senderFullName)
+                        .append(".\n").bold { }
+                        .append("Reason : ")
+                        .normal(it.message)
+                }
+            }
+        }
+        textToSend.append(".")
+        textView.text = textToSend
+    }
 }

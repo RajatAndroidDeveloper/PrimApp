@@ -2,6 +2,7 @@ package com.primapp.model.notification
 
 import com.google.gson.annotations.SerializedName
 import com.primapp.model.auth.UserData
+import com.primapp.model.community.CommunityData
 import com.primapp.utils.DateTimeUtils
 import java.util.*
 
@@ -40,7 +41,9 @@ data class NotificationResult(
     @SerializedName("cdate")
     val cdate: String,
     @SerializedName("udate")
-    val udate: String
+    val udate: String,
+    @SerializedName("community")
+    val community: CommunityData
 )
 
 sealed class NotificationUIModel {

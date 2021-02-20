@@ -98,7 +98,7 @@
             android:text="@string/invite_mentor"
             android:textAllCaps="false"
             android:textSize="@dimen/textSmall"
-            android:visibility="@{(!data.user.loggedInUser &amp;&amp; data.community.joined &amp;&amp; (data.user.mentor_status == 3 || data.user.mentor_status == 2 )) ? View.VISIBLE : View.GONE}"
+            android:visibility="@{(!data.user.loggedInUser &amp;&amp; data.community.joined &amp;&amp;  data.user.mentor_status!=0 &amp;&amp; (data.user.mentor_status == 3 || data.user.mentor_status == 2 )) ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@id/llMemberDetails"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/llMemberDetails" />

@@ -3,6 +3,7 @@ package com.primapp.constants
 object NotificationTypes {
     const val MENTORSHIP_REQUEST = "mentorship_request"
     const val MENTORSHIP_UPDATE = "mentorship_update"
+    const val MENTORSHIP_REQUEST_ACTION = "mentorship_request_action"
 }
 
 object NotificationViewTypes {

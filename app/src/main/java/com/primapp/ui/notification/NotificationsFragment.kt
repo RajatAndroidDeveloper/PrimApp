@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.primapp.R
+import com.primapp.cache.UserCache
 import com.primapp.constants.MentorshipRequestActionType
 import com.primapp.databinding.FragmentNotificationsBinding
 import com.primapp.extensions.setDivider
@@ -61,6 +62,7 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
                 when (it.status) {
                     Status.SUCCESS -> {
                         adapter.updateRequestAsAccepted(requestId)
+                        UserCache.incrementMentorsCount(requireContext())
                     }
                     Status.LOADING -> {
                         showLoading()
