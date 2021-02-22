@@ -65,8 +65,11 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     private fun initViewPager() {
         titles = initTitle()
 
+        val userPostFragment = UserPostsFragment()
+        userPostFragment.userId = user.id
+
         val fragmentList = arrayListOf<Fragment>(
-            UserPostsFragment(user.id),
+            userPostFragment,
             UserJoinedCommunitiesFragment(user.id),
             UserMentorsFragment(),
             UserMenteesFragment()

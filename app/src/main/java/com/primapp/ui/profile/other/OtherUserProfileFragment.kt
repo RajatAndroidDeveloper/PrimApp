@@ -110,8 +110,11 @@ class OtherUserProfileFragment : BaseFragment<FragmentOtherUserProfileBinding>()
     private fun initViewPager() {
         titles = initTitle()
 
+        val userPostFragment = UserPostsFragment()
+        userPostFragment.userId = userId!!
+
         val fragmentList = arrayListOf<Fragment>(
-            UserPostsFragment(userId!!),
+            userPostFragment,
             UserJoinedCommunitiesFragment(userId!!),
             UserMentorsFragment(),
             UserMenteesFragment()

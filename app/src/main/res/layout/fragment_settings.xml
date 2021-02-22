@@ -17,6 +17,26 @@
         <include layout="@layout/toolbar_inner_back" />
 
         <TextView
+            android:id="@+id/tvBookmarks"
+            style="@style/normalBodyText"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:drawablePadding="@dimen/space_normal"
+            android:focusable="true"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center_vertical"
+            android:onClick="@{()->frag.openBookmarks()}"
+            android:padding="@dimen/space_small"
+            android:paddingStart="@dimen/space_extraLarge"
+            android:paddingEnd="@dimen/space_extraLarge"
+            android:text="@string/bookmarks"
+            android:textSize="@dimen/textMediumX"
+            app:drawableStartCompat="@drawable/ic_bookmark_collection"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clToolbar" />
+
+        <TextView
             android:id="@+id/tvAboutUs"
             style="@style/normalBodyText"
             android:background="?attr/selectableItemBackground"
@@ -34,7 +54,7 @@
             app:drawableStartCompat="@drawable/about_us"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clToolbar" />
+            app:layout_constraintTop_toBottomOf="@+id/tvBookmarks" />
 
         <TextView
             android:id="@+id/tvHelp"

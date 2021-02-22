@@ -332,4 +332,7 @@ interface ApiService {
         @Path("userId") userId: Int,
         @Path("postId") postId: Int
     ): PostActionResponseModel
+
+    @GET(ApiConstant.GET_BOOKMARK_POSTS)
+    suspend fun getBookmarkedPost(): PostListResponseModel
 }

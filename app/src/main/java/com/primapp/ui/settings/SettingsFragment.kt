@@ -10,6 +10,7 @@ import com.primapp.databinding.FragmentSettingsBinding
 import com.primapp.extensions.showSuccess
 import com.primapp.ui.MainActivity
 import com.primapp.ui.base.BaseFragment
+import com.primapp.ui.profile.UserPostsFragment
 import com.primapp.utils.DialogUtils
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
 
@@ -32,6 +33,12 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
 
     fun openAboutUs() {
         findNavController().navigate(R.id.action_settingsFragment_to_aboutUsFragment)
+    }
+
+    fun openBookmarks() {
+        val bundle = Bundle()
+        bundle.putString("type", UserPostsFragment.BOOKMARK_POST)
+        findNavController().navigate(R.id.userPostsFragment, bundle)
     }
 
     fun logout() {

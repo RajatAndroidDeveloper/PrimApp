@@ -25,9 +25,14 @@ import com.primapp.ui.post.create.CreatePostFragment
 import com.primapp.ui.profile.other.OtherUserProfileFragment
 import com.primapp.utils.DialogUtils
 import com.primapp.viewmodels.PostsViewModel
+import kotlinx.android.synthetic.main.toolbar_inner_back.*
 import kotlinx.coroutines.launch
 
-class UserPostsFragment(private val userId: Int) : BaseFragment<FragmentUserPostsBinding>() {
+class UserPostsFragment() : BaseFragment<FragmentUserPostsBinding>() {
+
+    var userId: Int? = null
+
+    private var type: String = USER_POST
 
     val userData by lazy { UserCache.getUser(requireContext()) }
 
@@ -40,6 +45,7 @@ class UserPostsFragment(private val userId: Int) : BaseFragment<FragmentUserPost
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+
         setData()
         setAdapter()
         setObserver()
@@ -47,10 +53,20 @@ class UserPostsFragment(private val userId: Int) : BaseFragment<FragmentUserPost
 
     private fun setData() {
         binding.frag = this
+        arguments?.let {
+            type = UserPostsFragmentArgs.fromBundle(requireArguments()).type ?: USER_POST
+        }
+
+        if (type == BOOKMARK_POST) {
+            setToolbar(getString(R.string.bookmarks), toolbar)
+            userId = UserCache.getUserId(requireContext())
+        } else {
+            clToolbar.isVisible = false
+        }
     }
 
     private fun setObserver() {
-        viewModel.getUserPostsListData(userId).observe(viewLifecycleOwner, Observer {
+        viewModel.getUserPostsListData(type, userId!!).observe(viewLifecycleOwner, Observer {
             it?.let {
                 lifecycleScope.launch {
                     adapter.submitData(it)
@@ -149,7 +165,11 @@ class UserPostsFragment(private val userId: Int) : BaseFragment<FragmentUserPost
                     }
                     Status.SUCCESS -> {
                         it.data?.content?.let {
-                            adapter.removePostAsBookmarked(it.postId)
+                            if (type == BOOKMARK_POST) {
+                                adapter.removePost(it.postId)
+                            } else {
+                                adapter.removePostAsBookmarked(it.postId)
+                            }
                         }
                     }
                 }
@@ -314,5 +334,10 @@ class UserPostsFragment(private val userId: Int) : BaseFragment<FragmentUserPost
                 findNavController().navigate(R.id.otherUserProfileFragment, bundle)
             }
         }
+    }
+
+    companion object {
+        const val USER_POST = "userPosts"
+        const val BOOKMARK_POST = "boookmarkPosts"
     }
 }

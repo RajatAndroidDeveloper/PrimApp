@@ -133,16 +133,16 @@
         android:id="@+id/createPostFragment"
         android:name="com.primapp.ui.post.create.CreatePostFragment"
         android:label="CreatePostFragment"
-        tools:layout="@layout/fragment_create_post" >
+        tools:layout="@layout/fragment_create_post">
         <argument
             android:name="type"
             app:argType="string"
             app:nullable="true" />
         <argument
             android:name="postData"
+            android:defaultValue="@null"
             app:argType="com.primapp.model.post.PostListResult"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
     </fragment>
     <dialog
         android:id="@+id/imageViewDialog"
@@ -205,7 +205,7 @@
         android:id="@+id/otherUserProfileFragment"
         android:name="com.primapp.ui.profile.other.OtherUserProfileFragment"
         android:label="OtherUserProfileFragment"
-        tools:layout="@layout/fragment_other_user_profile" >
+        tools:layout="@layout/fragment_other_user_profile">
         <argument
             android:name="userId"
             app:argType="integer" />
@@ -214,10 +214,19 @@
         android:id="@+id/mentorRequestRejectionFragment"
         android:name="com.primapp.ui.notification.MentorRequestRejectionFragment"
         android:label="MentorRequestRejectionFragment"
-        tools:layout="@layout/fragment_mentor_request_rejection"
-        >
+        tools:layout="@layout/fragment_mentor_request_rejection">
         <argument
             android:name="requestId"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/userPostsFragment"
+        android:name="com.primapp.ui.profile.UserPostsFragment"
+        android:label="UserPostsFragment">
+        <argument
+            android:name="type"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 </navigation>
