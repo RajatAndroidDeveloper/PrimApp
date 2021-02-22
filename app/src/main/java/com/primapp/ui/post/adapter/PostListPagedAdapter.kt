@@ -40,6 +40,24 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
         }
     }
 
+    fun addPostToBookmark(postId: Int?) {
+        val item: PostListResult? = snapshot().items.find { it.id == postId }
+        item?.let {
+            val position = snapshot().items.indexOf(it)
+            snapshot().items.get(position).isBookmark = true
+            notifyItemChanged(position)
+        }
+    }
+
+    fun removePostAsBookmarked(postId: Int?) {
+        val item: PostListResult? = snapshot().items.find { it.id == postId }
+        item?.let {
+            val position = snapshot().items.indexOf(it)
+            snapshot().items.get(position).isBookmark = false
+            notifyItemChanged(position)
+        }
+    }
+
     fun removePost(postId: Int?) {
         val item: PostListResult? = snapshot().items.find { it.id == postId }
         item?.let {
@@ -111,6 +129,12 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
                     onItemClick(ShowUserProfile(it.user.id))
                 }
             })
+
+            binding.ivBookmark.setOnClickListener {
+                data?.let {
+                    onItemClick(BookmarkPost(it))
+                }
+            }
 
             binding.ivMore.setOnClickListener {
                 //creating a popup menu

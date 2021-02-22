@@ -248,4 +248,9 @@
     <string name="vacation_sabbatical">Vacation / Sabbatical.</string>
     <string name="leaving_prim_community">Leaving Prim community.</string>
     <string name="personal_other">Personal / Other.</string>
+    <string name="add_bookmark">Add Bookmark</string>
+    <string name="remove_bookmark">Remove Bookmark</string>
+    <string name="more_options">More Options</string>
+    <string name="share">Share</string>
+    <string name="edit_post">Edit Post</string>
 </resources>

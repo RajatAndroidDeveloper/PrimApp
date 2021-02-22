@@ -117,6 +117,44 @@ class UserPostsFragment(private val userId: Int) : BaseFragment<FragmentUserPost
                 }
             }
         })
+
+        viewModel.bookmarkPostLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.SUCCESS -> {
+                        it.data?.content?.let {
+                            adapter.addPostToBookmark(it.postId)
+                        }
+                    }
+                }
+            }
+        })
+
+        viewModel.removeBookmarkLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.SUCCESS -> {
+                        it.data?.content?.let {
+                            adapter.removePostAsBookmarked(it.postId)
+                        }
+                    }
+                }
+            }
+        })
     }
 
     private fun setAdapter() {
@@ -189,10 +227,42 @@ class UserPostsFragment(private val userId: Int) : BaseFragment<FragmentUserPost
                     return
                 }
 
-                if (item.postData.isLike) {
-                    viewModel.unlikePost(item.postData.community.id, userData!!.id, item.postData.id)
+                if (!item.postData.community.isJoined) {
+                    DialogUtils.showCloseDialog(
+                        requireActivity(),
+                        R.string.non_joined_community_action_error_message,
+                        R.drawable.question_mark
+                    )
                 } else {
-                    viewModel.likePost(item.postData.community.id, userData!!.id, item.postData.id)
+                    if (item.postData.isLike) {
+                        viewModel.unlikePost(item.postData.community.id, userData!!.id, item.postData.id)
+                    } else {
+                        viewModel.likePost(item.postData.community.id, userData!!.id, item.postData.id)
+                    }
+                }
+            }
+            is BookmarkPost -> {
+                if (item.postData.community.status.equals(CommunityStatusTypes.INACTIVE, true)) {
+                    DialogUtils.showCloseDialog(
+                        requireActivity(),
+                        R.string.inactive_community_action_message,
+                        R.drawable.question_mark
+                    )
+                    return
+                }
+
+                if (!item.postData.community.isJoined) {
+                    DialogUtils.showCloseDialog(
+                        requireActivity(),
+                        R.string.non_joined_community_action_error_message,
+                        R.drawable.question_mark
+                    )
+                } else {
+                    if (item.postData.isBookmark) {
+                        viewModel.removeBookmark(item.postData.community.id, userData!!.id, item.postData.id)
+                    } else {
+                        viewModel.bookmarkPost(item.postData.community.id, userData!!.id, item.postData.id)
+                    }
                 }
             }
             is EditPost -> {
@@ -214,9 +284,17 @@ class UserPostsFragment(private val userId: Int) : BaseFragment<FragmentUserPost
                     return
                 }
 
-                DialogUtils.showYesNoDialog(requireActivity(), R.string.delete_post_message, {
-                    viewModel.deletePost(item.postData.community.id, userData!!.id, item.postData.id)
-                })
+                if (!item.postData.community.isJoined) {
+                    DialogUtils.showCloseDialog(
+                        requireActivity(),
+                        R.string.non_joined_community_action_error_message,
+                        R.drawable.question_mark
+                    )
+                } else {
+                    DialogUtils.showYesNoDialog(requireActivity(), R.string.delete_post_message, {
+                        viewModel.deletePost(item.postData.community.id, userData!!.id, item.postData.id)
+                    })
+                }
             }
             is CommentPost -> {
                 val bundle = Bundle()

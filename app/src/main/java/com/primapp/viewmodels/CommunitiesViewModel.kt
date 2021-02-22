@@ -253,6 +253,23 @@ class CommunitiesViewModel @Inject constructor(
         _deletePostLiveData.postValue(Event(repo.deletePost(communityId, userId, postId)))
     }
 
+    //Bookmark post
+    private var _bookmarkPostLiveData = MutableLiveData<Event<Resource<PostActionResponseModel>>>()
+    var bookmarkPostLiveData: LiveData<Event<Resource<PostActionResponseModel>>> = _bookmarkPostLiveData
+
+    fun bookmarkPost(communityId: Int, userId: Int, postId: Int) = viewModelScope.launch {
+        _bookmarkPostLiveData.postValue(Event(Resource.loading(null)))
+        _bookmarkPostLiveData.postValue(Event(repo.addBookmark(communityId, userId, postId)))
+    }
+    //Remove bookmark post
+    private var _removeBookmarkPostLiveData = MutableLiveData<Event<Resource<PostActionResponseModel>>>()
+    var removeBookmarkLiveData: LiveData<Event<Resource<PostActionResponseModel>>> = _removeBookmarkPostLiveData
+
+    fun removeBookmark(communityId: Int, userId: Int, postId: Int) = viewModelScope.launch {
+        _removeBookmarkPostLiveData.postValue(Event(Resource.loading(null)))
+        _removeBookmarkPostLiveData.postValue(Event(repo.removeBookmark(communityId, userId, postId)))
+    }
+
     //--------------------------- END POST ---------------------------
 
     private var communityMembersListLiveData: LiveData<PagingData<CommunityMembersData>>? = null

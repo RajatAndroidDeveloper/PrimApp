@@ -177,5 +177,21 @@ class PostsViewModel @Inject constructor(
         _unlikeReplyLiveData.postValue(Event(repo.unlikeReply(communityId, userId, postId, commentId, replyId)))
     }
 
+    private var _bookmarkPostLiveData = MutableLiveData<Event<Resource<PostActionResponseModel>>>()
+    var bookmarkPostLiveData: LiveData<Event<Resource<PostActionResponseModel>>> = _bookmarkPostLiveData
+
+    fun bookmarkPost(communityId: Int, userId: Int, postId: Int) = viewModelScope.launch {
+        _bookmarkPostLiveData.postValue(Event(Resource.loading(null)))
+        _bookmarkPostLiveData.postValue(Event(repo.addBookmark(communityId, userId, postId)))
+    }
+
+    private var _removeBookmarkPostLiveData = MutableLiveData<Event<Resource<PostActionResponseModel>>>()
+    var removeBookmarkLiveData: LiveData<Event<Resource<PostActionResponseModel>>> = _removeBookmarkPostLiveData
+
+    fun removeBookmark(communityId: Int, userId: Int, postId: Int) = viewModelScope.launch {
+        _removeBookmarkPostLiveData.postValue(Event(Resource.loading(null)))
+        _removeBookmarkPostLiveData.postValue(Event(repo.removeBookmark(communityId, userId, postId)))
+    }
+
 
 }

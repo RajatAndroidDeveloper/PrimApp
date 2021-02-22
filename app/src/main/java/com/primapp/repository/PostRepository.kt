@@ -299,4 +299,28 @@ class PostRepository @Inject constructor(
         }
     }
 
+    suspend fun addBookmark(
+        communityId: Int,
+        userId: Int,
+        postId: Int
+    ): Resource<PostActionResponseModel> {
+        return try {
+            responseHandler.handleResponse(apiService.addBookmarkPost(communityId, userId, postId))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    suspend fun removeBookmark(
+        communityId: Int,
+        userId: Int,
+        postId: Int
+    ): Resource<PostActionResponseModel> {
+        return try {
+            responseHandler.handleResponse(apiService.removeBookmarkPost(communityId, userId, postId))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
 }

@@ -189,6 +189,44 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
                 }
             }
         })
+
+        viewModel.bookmarkPostLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.SUCCESS -> {
+                        it.data?.content?.let {
+                            postsAdapter.addPostToBookmark(it.postId)
+                        }
+                    }
+                }
+            }
+        })
+
+        viewModel.removeBookmarkLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.SUCCESS -> {
+                        it.data?.content?.let {
+                            postsAdapter.removePostAsBookmarked(it.postId)
+                        }
+                    }
+                }
+            }
+        })
     }
 
     private fun showAdditionalData(visibility: Boolean) {
@@ -262,6 +300,12 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
                 }
             }
         }
+
+        cardProfilePic.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("url", communityData.imageUrl.toString())
+            findNavController().navigate(R.id.imageViewDialog, bundle)
+        }
     }
 
     fun showAllMembers() {
@@ -303,6 +347,30 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
                         viewModel.unlikePost(item.postData.community.id, userData!!.id, item.postData.id)
                     } else {
                         viewModel.likePost(item.postData.community.id, userData!!.id, item.postData.id)
+                    }
+                }
+            }
+            is BookmarkPost -> {
+                if (item.postData.community.status.equals(CommunityStatusTypes.INACTIVE, true)) {
+                    DialogUtils.showCloseDialog(
+                        requireActivity(),
+                        R.string.inactive_community_action_message,
+                        R.drawable.question_mark
+                    )
+                    return
+                }
+
+                if (communityData.isJoined == false) {
+                    DialogUtils.showCloseDialog(
+                        requireActivity(),
+                        R.string.non_joined_community_action_error_message,
+                        R.drawable.question_mark
+                    )
+                } else {
+                    if (item.postData.isBookmark) {
+                        viewModel.removeBookmark(item.postData.community.id, userData!!.id, item.postData.id)
+                    } else {
+                        viewModel.bookmarkPost(item.postData.community.id, userData!!.id, item.postData.id)
                     }
                 }
             }

@@ -77,6 +77,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
             viewModel.getParentCategoriesList(0, 1000)
         } else {
             //EDIT_POST
+            tvTitle.text = getString(R.string.edit_post)
             binding.tlSelectCategory.isEnabled = false
             binding.tlSelectCommunity.isEnabled = false
             binding.tlSelectCommunity.isVisible = true

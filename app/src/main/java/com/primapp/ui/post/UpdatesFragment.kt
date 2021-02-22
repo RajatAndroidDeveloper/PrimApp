@@ -122,6 +122,44 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                 }
             }
         })
+
+        viewModel.bookmarkPostLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.SUCCESS -> {
+                        it.data?.content?.let {
+                            adapter.addPostToBookmark(it.postId)
+                        }
+                    }
+                }
+            }
+        })
+
+        viewModel.removeBookmarkLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.SUCCESS -> {
+                        it.data?.content?.let {
+                            adapter.removePostAsBookmarked(it.postId)
+                        }
+                    }
+                }
+            }
+        })
     }
 
     private fun setAdapter() {
@@ -222,6 +260,23 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                     viewModel.unlikePost(item.postData.community.id, userData!!.id, item.postData.id)
                 } else {
                     viewModel.likePost(item.postData.community.id, userData!!.id, item.postData.id)
+                }
+            }
+
+            is BookmarkPost -> {
+                if (item.postData.community.status.equals(CommunityStatusTypes.INACTIVE, true)) {
+                    DialogUtils.showCloseDialog(
+                        requireActivity(),
+                        R.string.inactive_community_action_message,
+                        R.drawable.question_mark
+                    )
+                    return
+                }
+
+                if (item.postData.isBookmark) {
+                    viewModel.removeBookmark(item.postData.community.id, userData!!.id, item.postData.id)
+                } else {
+                    viewModel.bookmarkPost(item.postData.community.id, userData!!.id, item.postData.id)
                 }
             }
 

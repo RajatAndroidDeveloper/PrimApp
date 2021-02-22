@@ -80,18 +80,24 @@
                 android:id="@+id/ivBookmark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
                 android:padding="@dimen/space_extraSmall"
-                android:src="@{data.bookmark ? @drawable/bookmark_selected : @drawable/ic_bookmark}"
+                android:tooltipText="@{data.bookmark ? @string/remove_bookmark : @string/add_bookmark}"
+                android:contentDescription="@{data.bookmark ? @string/remove_bookmark : @string/add_bookmark}"
+                android:src="@{data.bookmark ? @drawable/ic_bookmark_filled : @drawable/ic_bookmark_outline}"
                 app:layout_constraintEnd_toStartOf="@id/ivMore"
                 app:layout_constraintStart_toEndOf="@id/tvName"
                 app:layout_constraintTop_toTopOf="@id/tvName"
-                tools:src="@drawable/ic_bookmark" />
+                tools:src="@drawable/ic_bookmark_outline" />
 
             <ImageView
                 android:id="@+id/ivMore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="@dimen/space_extraSmall"
+                android:tooltipText="@string/more_options"
+                android:contentDescription="@string/more_options"
                 android:src="@drawable/ic_more_vert_dots"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/ivBookmark"
@@ -130,6 +136,7 @@
                         loadPostImageFromUrl="@{data.getThumbnailUrl == null ? data.imageUrl : data.getThumbnailUrl}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
                         android:scaleType="centerCrop"
                         android:src="@drawable/placeholder"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -140,6 +147,7 @@
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
                         android:src="@drawable/ic_play"
                         android:visibility="@{data.fileType.equals(PostFileType.VIDEO) ? View.VISIBLE : View.GONE}"
                         app:layout_constraintBottom_toBottomOf="@id/ivPostPreview"
@@ -198,9 +206,13 @@
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:background="#F2F2F2"
+                android:foreground="?attr/selectableItemBackground"
                 android:padding="@dimen/space_large"
+                android:contentDescription="@string/like"
+                android:tooltipText="@string/like"
                 android:src="@{data.like ? @drawable/like_color : @drawable/like}"
-                tools:src="@drawable/like" />
+                tools:src="@drawable/like"
+                tools:targetApi="m" />
 
             <ImageView
                 android:id="@+id/ivComment"
@@ -209,8 +221,12 @@
                 android:layout_marginStart="2dp"
                 android:layout_weight="1"
                 android:background="#F2F2F2"
+                android:foreground="?attr/selectableItemBackground"
                 android:padding="@dimen/space_large"
-                android:src="@drawable/comment_grey" />
+                android:contentDescription="@string/comments"
+                android:tooltipText="@string/comments"
+                android:src="@drawable/comment_grey"
+                tools:targetApi="m" />
 
             <ImageView
                 android:id="@+id/ivShare"
@@ -219,8 +235,12 @@
                 android:layout_marginStart="2dp"
                 android:layout_weight="1"
                 android:background="#F2F2F2"
+                android:contentDescription="@string/share"
+                android:tooltipText="@string/share"
+                android:foreground="?attr/selectableItemBackground"
                 android:padding="@dimen/space_large"
-                android:src="@drawable/share" />
+                android:src="@drawable/share"
+                tools:targetApi="m" />
 
         </LinearLayout>
 

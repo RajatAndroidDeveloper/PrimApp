@@ -318,4 +318,18 @@ interface ApiService {
         @Path("postId") postId: Int,
         @Body createPostRequestModel: CreatePostRequestModel
     ): UpdatePostResponseModel
+
+    @POST(ApiConstant.BOOKMARK_POST_ACTION)
+    suspend fun addBookmarkPost(
+        @Path("communityId") communityId: Int,
+        @Path("userId") userId: Int,
+        @Path("postId") postId: Int
+    ): PostActionResponseModel
+
+    @DELETE(ApiConstant.BOOKMARK_POST_ACTION)
+    suspend fun removeBookmarkPost(
+        @Path("communityId") communityId: Int,
+        @Path("userId") userId: Int,
+        @Path("postId") postId: Int
+    ): PostActionResponseModel
 }
