@@ -21,6 +21,7 @@
 
         <ImageView
             android:id="@+id/ivProfilePic"
+            name="@{data.user.firstName +' '+ data.user.lastName}"
             loadCircularImage="@{data.user.getImageUrl}"
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -97,8 +98,8 @@
                 android:background="?attr/selectableItemBackground"
                 android:fontFamily="@font/poppins_semibold"
                 android:padding="@dimen/space_small"
-                android:textColor="@{data.like ? @color/colorAccent : @android:color/tab_indicator_text}"
                 android:text="@string/like"
+                android:textColor="@{data.like ? @color/colorAccent : @android:color/tab_indicator_text}"
                 android:textSize="@dimen/textSmall"
                 tools:text="@string/like" />
 

@@ -19,6 +19,7 @@
 
         <ImageView
             android:id="@+id/ivProfilePic"
+            name="@{data.user.firstName +' '+data.user.lastName}"
             loadCircularImage="@{data.user.getImageUrl}"
             android:layout_width="0dp"
             android:layout_height="0dp"

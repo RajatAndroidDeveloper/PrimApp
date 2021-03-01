@@ -22,6 +22,7 @@
         <ImageView
             android:id="@+id/ivProfilePic"
             loadCircularImage="@{data.user.getImageUrl}"
+            name="@{data.user.firstName +' '+ data.user.lastName}"
             android:layout_width="30dp"
             android:layout_height="30dp"
             app:layout_constraintEnd_toStartOf="@id/llCommentPost"

@@ -28,6 +28,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:padding="@dimen/space_extraSmall"
+            name="@{user.firstName +' '+ user.lastName}"
             android:onClick="@{()->frag.showImage()}"
             app:layout_constraintBottom_toBottomOf="@id/btnInviteMembers"
             app:layout_constraintDimensionRatio="1:1"

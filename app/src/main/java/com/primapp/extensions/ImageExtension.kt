@@ -9,6 +9,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.primapp.R
+import com.primapp.utils.LetterTileProvider
 
 
 fun ImageView.loadImageWithProgress(context: Context, url: String?) {
@@ -61,6 +62,15 @@ fun ImageView.loadCircularImage(context: Context, url: String?) {
         .load(url)
         .apply(RequestOptions.circleCropTransform())
         .placeholder(R.drawable.placeholder_circle)
+        .into(this)
+}
+
+fun ImageView.loadCircularImageWithName(name: String, url: String?) {
+    val letterBitmap = LetterTileProvider.avatarImage(context, 200, LetterTileProvider.CIRCLE, name)
+    Glide.with(context)
+        .load(url)
+        .apply(RequestOptions.circleCropTransform())
+        .placeholder(letterBitmap)
         .into(this)
 }
 

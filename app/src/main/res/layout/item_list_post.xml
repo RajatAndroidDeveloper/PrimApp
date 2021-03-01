@@ -28,6 +28,7 @@
 
             <ImageView
                 android:id="@+id/ivProfilePic"
+                name="@{data.user.firstName +' '+ data.user.lastName}"
                 loadCircularImage="@{data.user.getImageUrl}"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -81,10 +82,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
-                android:padding="@dimen/space_extraSmall"
-                android:tooltipText="@{data.bookmark ? @string/remove_bookmark : @string/add_bookmark}"
                 android:contentDescription="@{data.bookmark ? @string/remove_bookmark : @string/add_bookmark}"
+                android:padding="@dimen/space_extraSmall"
                 android:src="@{data.bookmark ? @drawable/ic_bookmark_filled : @drawable/ic_bookmark_outline}"
+                android:tooltipText="@{data.bookmark ? @string/remove_bookmark : @string/add_bookmark}"
                 app:layout_constraintEnd_toStartOf="@id/ivMore"
                 app:layout_constraintStart_toEndOf="@id/tvName"
                 app:layout_constraintTop_toTopOf="@id/tvName"
@@ -95,10 +96,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="@dimen/space_extraSmall"
-                android:tooltipText="@string/more_options"
                 android:contentDescription="@string/more_options"
+                android:padding="@dimen/space_extraSmall"
                 android:src="@drawable/ic_more_vert_dots"
+                android:tooltipText="@string/more_options"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/ivBookmark"
                 app:layout_constraintTop_toTopOf="@id/tvName" />
@@ -206,11 +207,11 @@
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:background="#F2F2F2"
+                android:contentDescription="@string/like"
                 android:foreground="?attr/selectableItemBackground"
                 android:padding="@dimen/space_large"
-                android:contentDescription="@string/like"
-                android:tooltipText="@string/like"
                 android:src="@{data.like ? @drawable/like_color : @drawable/like}"
+                android:tooltipText="@string/like"
                 tools:src="@drawable/like"
                 tools:targetApi="m" />
 
@@ -221,11 +222,11 @@
                 android:layout_marginStart="2dp"
                 android:layout_weight="1"
                 android:background="#F2F2F2"
+                android:contentDescription="@string/comments"
                 android:foreground="?attr/selectableItemBackground"
                 android:padding="@dimen/space_large"
-                android:contentDescription="@string/comments"
-                android:tooltipText="@string/comments"
                 android:src="@drawable/comment_grey"
+                android:tooltipText="@string/comments"
                 tools:targetApi="m" />
 
             <ImageView
@@ -236,10 +237,10 @@
                 android:layout_weight="1"
                 android:background="#F2F2F2"
                 android:contentDescription="@string/share"
-                android:tooltipText="@string/share"
                 android:foreground="?attr/selectableItemBackground"
                 android:padding="@dimen/space_large"
                 android:src="@drawable/share"
+                android:tooltipText="@string/share"
                 tools:targetApi="m" />
 
         </LinearLayout>
