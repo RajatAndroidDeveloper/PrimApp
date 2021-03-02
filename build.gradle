@@ -10,7 +10,7 @@ buildscript {
     ext.coroutinesVersion = '1.3.3'
     ext.materialVersion = '1.2.1'
     ext.paging_version = '3.0.0-alpha10'
-    ext.firebaseVersion = '26.1.1'
+    ext.firebaseVersion = '26.5.0'
     ext.exoPlayer = '2.12.3'
 
 
@@ -19,10 +19,11 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.0.1"
+        classpath "com.android.tools.build:gradle:4.1.2"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationVersion"
-        classpath 'com.google.gms:google-services:4.3.4'
+        classpath 'com.google.gms:google-services:4.3.5'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.5.0'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
