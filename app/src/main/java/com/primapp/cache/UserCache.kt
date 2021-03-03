@@ -75,10 +75,10 @@ object UserCache {
         }
     }
 
-    fun incrementMentorsCount(context: Context) {
+    fun incrementMenteeCount(context: Context) {
         val user = getUser(context)
         user?.let {
-            it.mentorCount++
+            it.menteeCount++
             saveUser(context, it)
         }
     }

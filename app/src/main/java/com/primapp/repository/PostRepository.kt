@@ -227,8 +227,8 @@ class PostRepository @Inject constructor(
         return Pager(
             config = PagingConfig(
                 enablePlaceholders = false,
-                pageSize = ApiConstant.NETWORK_PAGE_SIZE,
-                initialLoadSize = ApiConstant.NETWORK_PAGE_SIZE
+                pageSize = 100,
+                initialLoadSize = 100
             ),
             pagingSourceFactory = {
                 PostCommentReplyDataSource(responseHandler, apiService, communityId, commentId)

@@ -19,9 +19,8 @@ import com.primapp.databinding.FragmentProfileBinding
 import com.primapp.model.auth.UserData
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.ViewPagerCommunityAdapter
+import com.primapp.ui.communities.members.CommunityMembersFragment
 import com.primapp.ui.profile.UserJoinedCommunitiesFragment
-import com.primapp.ui.profile.UserMenteesFragment
-import com.primapp.ui.profile.UserMentorsFragment
 import com.primapp.ui.profile.UserPostsFragment
 import kotlinx.android.synthetic.main.toolbar_dashboard_accent.*
 
@@ -66,13 +65,32 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         titles = initTitle()
 
         val userPostFragment = UserPostsFragment()
-        userPostFragment.userId = user.id
+        userPostFragment.arguments = Bundle().apply {
+            putInt("userId", user.id)
+        }
+
+        val userJoinedCommunity = UserJoinedCommunitiesFragment()
+        userJoinedCommunity.arguments = Bundle().apply {
+            putInt("userId", user.id)
+        }
+
+        val mentorMembersFragment = CommunityMembersFragment()
+        mentorMembersFragment.arguments = Bundle().apply {
+            putInt("userId", user.id)
+            putString("type", CommunityMembersFragment.MENTOR_MEMBERS_LIST)
+        }
+
+        val menteeMemberFragment = CommunityMembersFragment()
+        menteeMemberFragment.arguments = Bundle().apply {
+            putInt("userId", user.id)
+            putString("type", CommunityMembersFragment.MENTEE_MEMBERS_LIST)
+        }
 
         val fragmentList = arrayListOf<Fragment>(
             userPostFragment,
-            UserJoinedCommunitiesFragment(user.id),
-            UserMentorsFragment(),
-            UserMenteesFragment()
+            userJoinedCommunity,
+            mentorMembersFragment,
+            menteeMemberFragment
         )
 
         binding.viewPager.adapter = ViewPagerCommunityAdapter(

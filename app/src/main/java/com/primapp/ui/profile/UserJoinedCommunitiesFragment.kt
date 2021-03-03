@@ -24,7 +24,9 @@ import com.primapp.viewmodels.CommunitiesViewModel
 import com.primapp.viewmodels.PostsViewModel
 import kotlinx.coroutines.launch
 
-class UserJoinedCommunitiesFragment(private val userId: Int) : BaseFragment<FragmentUserJoinedCommunitiesBinding>() {
+class UserJoinedCommunitiesFragment() : BaseFragment<FragmentUserJoinedCommunitiesBinding>() {
+
+    private var userId: Int? = null
 
     val adapter by lazy { CommunityPagedListAdapter { item -> onItemClick(item) } }
 
@@ -42,10 +44,13 @@ class UserJoinedCommunitiesFragment(private val userId: Int) : BaseFragment<Frag
 
     private fun setData() {
         binding.frag = this
+        arguments?.apply {
+            userId = getInt("userId")
+        }
     }
 
     private fun setObserver() {
-        viewModel.getAllJoinedCommunityList(JoinedCommunityFilterType.ALL, userId)
+        viewModel.getAllJoinedCommunityList(JoinedCommunityFilterType.ALL, userId!!)
             .observe(viewLifecycleOwner, Observer {
                 it?.let {
                     lifecycleScope.launch {

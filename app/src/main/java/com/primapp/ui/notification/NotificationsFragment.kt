@@ -62,7 +62,7 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
                 when (it.status) {
                     Status.SUCCESS -> {
                         adapter.updateRequestAsAccepted(requestId)
-                        UserCache.incrementMentorsCount(requireContext())
+                        UserCache.incrementMenteeCount(requireContext())
                     }
                     Status.LOADING -> {
                         showLoading()

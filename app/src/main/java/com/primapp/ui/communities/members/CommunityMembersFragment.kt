@@ -12,6 +12,8 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.primapp.R
 import com.primapp.cache.UserCache
+import com.primapp.constants.MentorMenteeUserType
+import com.primapp.constants.MentorshipStatusTypes
 import com.primapp.databinding.FragmentCommunityMembersBinding
 import com.primapp.extensions.setDivider
 import com.primapp.extensions.showError
@@ -33,6 +35,7 @@ class CommunityMembersFragment : BaseFragment<FragmentCommunityMembersBinding>()
 
     private var communityId: Int? = null
     private var postId: Int? = null
+    private var userId: Int? = null
 
     private var searchJob: Job? = null
 
@@ -54,13 +57,30 @@ class CommunityMembersFragment : BaseFragment<FragmentCommunityMembersBinding>()
 
     private fun setData() {
         binding.frag = this
-        communityId = CommunityMembersFragmentArgs.fromBundle(requireArguments()).communityId
         viewType = CommunityMembersFragmentArgs.fromBundle(requireArguments()).type
+        //For community Member list
+        communityId = CommunityMembersFragmentArgs.fromBundle(requireArguments()).communityId
+        //For post like member list
         postId = CommunityMembersFragmentArgs.fromBundle(requireArguments()).postId
+        //For MentorMentee list
+        userId = CommunityMembersFragmentArgs.fromBundle(requireArguments()).userId
 
-        if (viewType == POST_LIKE_MEMBERS_LIST) {
+
+        /*if (viewType == POST_LIKE_MEMBERS_LIST) {
             binding.etSearch.isVisible = false
             tvTitle.text = getString(R.string.likes)
+        }*/
+
+        //Set views (default is for community members list
+        when (viewType) {
+            POST_LIKE_MEMBERS_LIST -> {
+                binding.etSearch.isVisible = false
+                tvTitle.text = getString(R.string.likes)
+            }
+            MENTOR_MEMBERS_LIST, MENTEE_MEMBERS_LIST -> {
+                clToolbar.isVisible = false
+                binding.etSearch.isVisible = false
+            }
         }
 
         searchMembers(null)
@@ -89,17 +109,50 @@ class CommunityMembersFragment : BaseFragment<FragmentCommunityMembersBinding>()
 
     private fun searchMembers(query: String?) {
         searchJob?.cancel()
-        searchJob = if (viewType == COMMUNITY_MEMBERS_LIST) {
-            lifecycleScope.launch {
-                viewModel.getCommunityMembers(communityId!!, query).observe(viewLifecycleOwner, Observer {
-                    adapter.submitData(lifecycle, it)
-                })
+        searchJob = when (viewType) {
+
+            POST_LIKE_MEMBERS_LIST -> {
+                lifecycleScope.launch {
+                    viewModel.getPostLikeMembersList(communityId!!, postId!!, query)
+                        .observe(viewLifecycleOwner, Observer {
+                            adapter.submitData(lifecycle, it)
+                        })
+                }
             }
-        } else {
-            lifecycleScope.launch {
-                viewModel.getPostLikeMembersList(communityId!!, postId!!, query).observe(viewLifecycleOwner, Observer {
-                    adapter.submitData(lifecycle, it)
-                })
+
+            MENTOR_MEMBERS_LIST -> {
+                lifecycleScope.launch {
+                    viewModel.getMentorMenteeMemberList(
+                        userId!!,
+                        MentorMenteeUserType.MENTOR,
+                        MentorshipStatusTypes.ACCEPTED
+                    )
+                        .observe(viewLifecycleOwner, Observer {
+                            adapter.submitData(lifecycle, it)
+                        })
+                }
+            }
+
+            MENTEE_MEMBERS_LIST -> {
+                lifecycleScope.launch {
+                    viewModel.getMentorMenteeMemberList(
+                        userId!!,
+                        MentorMenteeUserType.MENTEE,
+                        MentorshipStatusTypes.ACCEPTED
+                    )
+                        .observe(viewLifecycleOwner, Observer {
+                            adapter.submitData(lifecycle, it)
+                        })
+                }
+            }
+
+            else -> {
+                //Default is Community Members List
+                lifecycleScope.launch {
+                    viewModel.getCommunityMembers(communityId!!, query).observe(viewLifecycleOwner, Observer {
+                        adapter.submitData(lifecycle, it)
+                    })
+                }
             }
         }
     }
@@ -200,6 +253,8 @@ class CommunityMembersFragment : BaseFragment<FragmentCommunityMembersBinding>()
     companion object {
         const val COMMUNITY_MEMBERS_LIST = "communityMembersList"
         const val POST_LIKE_MEMBERS_LIST = "postLikeMembersList"
+        const val MENTOR_MEMBERS_LIST = "mentorMembersList"
+        const val MENTEE_MEMBERS_LIST = "menteeMemberList"
     }
 
 }

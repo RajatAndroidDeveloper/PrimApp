@@ -74,12 +74,6 @@ abstract class DashboardFragmentBuildersModule {
     abstract fun contributeUserJoinedCommunitiesFragment(): UserJoinedCommunitiesFragment
 
     @ContributesAndroidInjector
-    abstract fun contributeUserMentorsFragment(): UserMentorsFragment
-
-    @ContributesAndroidInjector
-    abstract fun contributeUserMenteesFragment(): UserMenteesFragment
-
-    @ContributesAndroidInjector
     abstract fun contributePostCommentFragment(): PostCommentFragment
 
     @ContributesAndroidInjector

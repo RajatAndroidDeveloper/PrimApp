@@ -11,7 +11,6 @@ import android.text.style.StyleSpan
 import android.widget.LinearLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -25,9 +24,8 @@ import com.primapp.model.auth.UserData
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.ViewPagerCommunityAdapter
+import com.primapp.ui.communities.members.CommunityMembersFragment
 import com.primapp.ui.profile.UserJoinedCommunitiesFragment
-import com.primapp.ui.profile.UserMenteesFragment
-import com.primapp.ui.profile.UserMentorsFragment
 import com.primapp.ui.profile.UserPostsFragment
 import com.primapp.viewmodels.CommunitiesViewModel
 import kotlinx.android.synthetic.main.fragment_other_user_profile.*
@@ -111,13 +109,31 @@ class OtherUserProfileFragment : BaseFragment<FragmentOtherUserProfileBinding>()
         titles = initTitle()
 
         val userPostFragment = UserPostsFragment()
-        userPostFragment.userId = userId!!
+        userPostFragment.arguments = Bundle().apply {
+            putInt("userId", userId!!)
+        }
+        val userJoinedCommunity = UserJoinedCommunitiesFragment()
+        userJoinedCommunity.arguments = Bundle().apply {
+            putInt("userId", userId!!)
+        }
+
+        val mentorMembersFragment = CommunityMembersFragment()
+        mentorMembersFragment.arguments = Bundle().apply {
+            putInt("userId", userId!!)
+            putString("type", CommunityMembersFragment.MENTOR_MEMBERS_LIST)
+        }
+
+        val menteeMemberFragment = CommunityMembersFragment()
+        menteeMemberFragment.arguments = Bundle().apply {
+            putInt("userId", userId!!)
+            putString("type", CommunityMembersFragment.MENTEE_MEMBERS_LIST)
+        }
 
         val fragmentList = arrayListOf<Fragment>(
             userPostFragment,
-            UserJoinedCommunitiesFragment(userId!!),
-            UserMentorsFragment(),
-            UserMenteesFragment()
+            userJoinedCommunity,
+            mentorMembersFragment,
+            menteeMemberFragment
         )
 
         binding.viewPager.adapter = ViewPagerCommunityAdapter(

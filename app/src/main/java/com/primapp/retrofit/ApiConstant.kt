@@ -62,6 +62,7 @@ object ApiConstant {
 
     //Mentor Mentee
     const val REQUEST_MENTOR = "communities/{communityId}/users/{userId}/mentors"
+    const val GET_MENTOR_MENTEE_LIST = "user/{userId}/mentor_mentee_list"
 
     //Notification
     const val GET_NOTIFICATIONS = "user_notifications"

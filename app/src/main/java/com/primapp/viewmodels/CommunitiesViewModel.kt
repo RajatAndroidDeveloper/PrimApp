@@ -261,6 +261,7 @@ class CommunitiesViewModel @Inject constructor(
         _bookmarkPostLiveData.postValue(Event(Resource.loading(null)))
         _bookmarkPostLiveData.postValue(Event(repo.addBookmark(communityId, userId, postId)))
     }
+
     //Remove bookmark post
     private var _removeBookmarkPostLiveData = MutableLiveData<Event<Resource<PostActionResponseModel>>>()
     var removeBookmarkLiveData: LiveData<Event<Resource<PostActionResponseModel>>> = _removeBookmarkPostLiveData
@@ -304,6 +305,16 @@ class CommunitiesViewModel @Inject constructor(
             _requestMentorLiveData.postValue(Event(Resource.loading(null)))
             _requestMentorLiveData.postValue(Event(repo.requestMentor(communityId, userId, requestMentorDataModel)))
         }
+
+
+    private var mentorMenteeMemberListLiveData: LiveData<PagingData<CommunityMembersData>>? = null
+
+    fun getMentorMenteeMemberList(userId: Int, type: String, status: Int): LiveData<PagingData<CommunityMembersData>> {
+        val newResultLiveData: LiveData<PagingData<CommunityMembersData>> =
+            repo.getMentorMenteeMemberList(userId, type, status).cachedIn(viewModelScope)
+        mentorMenteeMemberListLiveData = newResultLiveData
+        return newResultLiveData
+    }
 
 
     //---- User profile Data----

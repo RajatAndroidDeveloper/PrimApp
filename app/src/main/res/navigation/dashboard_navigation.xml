@@ -180,12 +180,17 @@
         tools:layout="@layout/fragment_community_members">
         <argument
             android:name="communityId"
+            android:defaultValue="-1"
             app:argType="integer" />
         <argument
             android:name="type"
             app:argType="string" />
         <argument
             android:name="postId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+        <argument
+            android:name="userId"
             android:defaultValue="-1"
             app:argType="integer" />
     </fragment>
@@ -228,5 +233,8 @@
             android:defaultValue="@null"
             app:argType="string"
             app:nullable="true" />
+        <argument
+            android:name="userId"
+            app:argType="integer" />
     </fragment>
 </navigation>

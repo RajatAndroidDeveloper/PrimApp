@@ -335,4 +335,13 @@ interface ApiService {
 
     @GET(ApiConstant.GET_BOOKMARK_POSTS)
     suspend fun getBookmarkedPost(): PostListResponseModel
+
+    @GET(ApiConstant.GET_MENTOR_MENTEE_LIST)
+    suspend fun getMentorMenteeList(
+        @Path("userId") userId: Int,
+        @Query("users_type") type: String,
+        @Query("status") status: Int,
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int
+    ): CommunityMembersResponseModel
 }

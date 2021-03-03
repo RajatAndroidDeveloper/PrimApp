@@ -25,6 +25,7 @@ import com.primapp.ui.communities.data.ParentCategoriesPageDataSource
 import com.primapp.ui.communities.details.source.CommunitiesPostListDataSource
 import com.primapp.ui.communities.members.CommunityMembersDataSource
 import com.primapp.ui.post.likes.LikesMemberListDataSource
+import com.primapp.ui.profile.source.MentorMenteeMemberListDataSource
 import com.primapp.ui.profile.source.UserJoinedCommunityPageDataSource
 import com.primapp.ui.profile.source.UserPostListPageDataSource
 import com.primapp.utils.RetrofitUtils
@@ -288,6 +289,19 @@ class CommunitiesRepository @Inject constructor(
         } catch (e: Exception) {
             responseHandler.handleException(e)
         }
+    }
+
+    fun getMentorMenteeMemberList(userId: Int, type: String, status: Int): LiveData<PagingData<CommunityMembersData>> {
+        return Pager(
+            config = PagingConfig(
+                enablePlaceholders = false,
+                pageSize = ApiConstant.NETWORK_PAGE_SIZE,
+                initialLoadSize = ApiConstant.NETWORK_PAGE_SIZE
+            ),
+            pagingSourceFactory = {
+                MentorMenteeMemberListDataSource(responseHandler, apiService, userId, type, status)
+            }
+        ).liveData
     }
 
     //---- User profile ----

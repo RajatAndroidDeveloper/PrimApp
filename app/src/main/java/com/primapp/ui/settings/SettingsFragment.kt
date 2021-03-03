@@ -38,6 +38,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
     fun openBookmarks() {
         val bundle = Bundle()
         bundle.putString("type", UserPostsFragment.BOOKMARK_POST)
+        bundle.putInt("userId", UserCache.getUserId(requireContext()))
         findNavController().navigate(R.id.userPostsFragment, bundle)
     }
 

@@ -47,7 +47,7 @@ data class UserData(
     @SerializedName("posts_count")
     var postsCount: Int = 0,
     @SerializedName("mentee_count")
-    val menteeCount: Int = 0,
+    var menteeCount: Int = 0,
     @SerializedName("mentor_count")
-    var mentorCount: Int = 0
+    val mentorCount: Int = 0
 )

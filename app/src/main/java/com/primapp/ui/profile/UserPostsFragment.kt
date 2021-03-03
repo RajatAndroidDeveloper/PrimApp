@@ -30,7 +30,7 @@ import kotlinx.coroutines.launch
 
 class UserPostsFragment() : BaseFragment<FragmentUserPostsBinding>() {
 
-    var userId: Int? = null
+    private var userId: Int? = null
 
     private var type: String = USER_POST
 
@@ -55,11 +55,12 @@ class UserPostsFragment() : BaseFragment<FragmentUserPostsBinding>() {
         binding.frag = this
         arguments?.let {
             type = UserPostsFragmentArgs.fromBundle(requireArguments()).type ?: USER_POST
+            userId = UserPostsFragmentArgs.fromBundle(requireArguments()).userId
         }
 
         if (type == BOOKMARK_POST) {
             setToolbar(getString(R.string.bookmarks), toolbar)
-            userId = UserCache.getUserId(requireContext())
+            //userId = UserCache.getUserId(requireContext())
         } else {
             clToolbar.isVisible = false
         }

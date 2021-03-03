@@ -30,8 +30,10 @@ data class CommunityMembersData(
     val udate: String?,
     @SerializedName("user")
     val user: User,
-    @SerializedName("post")
-    val post: Int?
+    @SerializedName("post") //for post likes
+    val post: Int?,
+    @SerializedName("status") //for mentor/mentee list
+    val status: Int?
 )
 
 data class Community(

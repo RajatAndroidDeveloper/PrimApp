@@ -1,9 +1,11 @@
 package com.primapp.ui.post.reply
 
 import android.os.Bundle
+import android.util.Log
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +26,10 @@ import com.primapp.viewmodels.PostsViewModel
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 
 class PostCommentReplyFragment : BaseFragment<FragmentPostCommentReplyBinding>() {
@@ -202,7 +208,7 @@ class PostCommentReplyFragment : BaseFragment<FragmentPostCommentReplyBinding>()
 
     private fun setAdapter() {
         binding.rvCommentsReply.apply {
-            layoutManager = LinearLayoutManager(requireContext())
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true)
         }
 
         binding.rvCommentsReply.adapter = adapter.withLoadStateHeaderAndFooter(
@@ -236,6 +242,28 @@ class PostCommentReplyFragment : BaseFragment<FragmentPostCommentReplyBinding>()
                 }
             }
         }
+
+        // Scroll to top when the list is refreshed from network.
+        lifecycleScope.launch {
+            adapter.loadStateFlow
+                // Only emit when REFRESH LoadState for RemoteMediator changes.
+                .distinctUntilChangedBy { it.refresh }
+                // Only react to cases where Remote REFRESH completes i.e., NotLoading.
+                .filter { it.refresh is LoadState.NotLoading }
+                .collect {
+                    Log.d("anshul", "----data observer called : ${it.prepend.endOfPaginationReached}")
+                    if (it.prepend.endOfPaginationReached && adapter.itemCount > 0) {
+                        binding.rvCommentsReply.postDelayed({
+                            val y: Float =
+                                binding.rvCommentsReply.y + binding.rvCommentsReply.getChildAt(0).y
+                            binding.nestedScrollView.smoothScrollTo(0, y.toInt())
+                            Log.d("anshul", "--->data observer called : ${y}")
+                        }, 300)
+                    }
+                }
+        }
+
+
     }
 
     fun refreshData() {
