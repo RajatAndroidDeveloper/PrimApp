@@ -4,6 +4,7 @@ object NotificationTypes {
     const val MENTORSHIP_REQUEST = "mentorship_request"
     const val MENTORSHIP_UPDATE = "mentorship_update"
     const val MENTORSHIP_REQUEST_ACTION = "mentorship_request_action"
+    const val COMMUNITY_NOTIFICATION = "community_notification"
 }
 
 object NotificationViewTypes {

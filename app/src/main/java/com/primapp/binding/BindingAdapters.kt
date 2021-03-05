@@ -396,6 +396,17 @@ fun makeNotificationMentorRequest(textView: TextView, notificationData: Notifica
                         .normal(it.message)
                 }
             }
+            NotificationTypes.COMMUNITY_NOTIFICATION -> {
+                if(it.title.equals("community_join_request",true)){
+                    textToSend.append(senderFullName)
+                        .append(" joined your community ")
+                        .append(communityName)
+                }else if(it.title.equals("community_leave_request",true)){
+                    textToSend.append(senderFullName)
+                        .append(" left your community ")
+                        .append(communityName)
+                }
+            }
         }
         textToSend.append(".")
         textView.text = textToSend
