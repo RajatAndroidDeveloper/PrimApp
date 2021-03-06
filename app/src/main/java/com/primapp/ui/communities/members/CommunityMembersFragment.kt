@@ -65,12 +65,6 @@ class CommunityMembersFragment : BaseFragment<FragmentCommunityMembersBinding>()
         //For MentorMentee list
         userId = CommunityMembersFragmentArgs.fromBundle(requireArguments()).userId
 
-
-        /*if (viewType == POST_LIKE_MEMBERS_LIST) {
-            binding.etSearch.isVisible = false
-            tvTitle.text = getString(R.string.likes)
-        }*/
-
         //Set views (default is for community members list
         when (viewType) {
             POST_LIKE_MEMBERS_LIST -> {
@@ -82,6 +76,8 @@ class CommunityMembersFragment : BaseFragment<FragmentCommunityMembersBinding>()
                 binding.etSearch.isVisible = false
             }
         }
+        //To show community name in mentor/mentee list view type
+        adapter.setViewType(type = viewType)
 
         searchMembers(null)
     }

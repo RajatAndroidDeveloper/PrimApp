@@ -2,6 +2,7 @@ package com.primapp.ui.communities.members
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -19,6 +20,8 @@ class CommunityMembersListPagedAdapter @Inject constructor(val onItemClick: (Any
         CommunityMembersDiffCallback()
     ) {
 
+    private var listViewType: String? = null
+
     fun markRequestAsSent(mentorId: Int) {
         val item: CommunityMembersData? = snapshot().items.find { it.user.id == mentorId }
         item?.let {
@@ -26,6 +29,10 @@ class CommunityMembersListPagedAdapter @Inject constructor(val onItemClick: (Any
             snapshot().items[position].user.mentor_status = 2
             notifyItemChanged(position)
         }
+    }
+
+    fun setViewType(type: String) {
+        listViewType = type
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommunityMembersViewHolder {
@@ -59,6 +66,17 @@ class CommunityMembersListPagedAdapter @Inject constructor(val onItemClick: (Any
 
             binding.ivProfilePic.setOnClickListener {
                 onItemClick(ShowImage(data.user.getImageUrl))
+            }
+
+            // Show community name instead of username in case of mentor/mentee list
+            if (listViewType == CommunityMembersFragment.MENTOR_MEMBERS_LIST ||
+                listViewType == CommunityMembersFragment.MENTEE_MEMBERS_LIST
+            ) {
+                binding.tvUsername.isVisible = false
+                binding.tvCommunityName.isVisible = true
+            }else{
+                binding.tvUsername.isVisible = true
+                binding.tvCommunityName.isVisible = false
             }
         }
     }
