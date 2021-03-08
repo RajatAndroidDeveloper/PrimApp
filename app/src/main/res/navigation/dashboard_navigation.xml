@@ -237,4 +237,13 @@
             android:name="userId"
             app:argType="integer" />
     </fragment>
+    <dialog
+        android:id="@+id/popUpReportPost"
+        android:name="com.primapp.ui.base.PopUpReportPost"
+        android:label="PopUpReportPost"
+        tools:layout="@layout/layout_report_post_pop_up">
+        <argument
+            android:name="postData"
+            app:argType="com.primapp.model.post.PostListResult" />
+    </dialog>
 </navigation>

@@ -254,4 +254,12 @@
     <string name="share">Share</string>
     <string name="edit_post">Edit Post</string>
     <string name="bookmarks">Bookmarks</string>
+    <string name="report_reason_rude_language">It\'s rude, vulgar or uses bad language</string>
+    <string name="report_reason_sexual">It\'s sexually explicit</string>
+    <string name="report_reason_harassment">It\'s harassment or hate speech</string>
+    <string name="report_reason_threatening">It\'s threatening, violent or suicidal</string>
+    <string name="report_reason_something_else">Something else</string>
+    <string name="report_title">Help us understand the problem</string>
+    <string name="would_you_like_to_describe">Would you like to describe the issue? (optional)</string>
+    <string name="error_reason">Please mention a reason</string>
 </resources>

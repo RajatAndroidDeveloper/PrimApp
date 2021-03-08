@@ -1,5 +1,6 @@
 package com.primapp.ui.base
 
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -11,14 +12,22 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.ViewModelProvider
 import com.primapp.R
+import dagger.android.support.DaggerDialogFragment
+import javax.inject.Inject
 
-abstract class BaseDialogFragment<DB : ViewDataBinding>: DialogFragment()  {
+abstract class BaseDialogFragment<DB : ViewDataBinding>: DaggerDialogFragment()  {
 
     open lateinit var binding: DB
 
     @LayoutRes
     abstract fun getLayoutRes(): Int
+
+    @Inject
+    open lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private lateinit var baseActivity: BaseActivity
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,5 +51,21 @@ abstract class BaseDialogFragment<DB : ViewDataBinding>: DialogFragment()  {
                 ViewGroup.LayoutParams.MATCH_PARENT
             );
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        if (context is BaseActivity) {
+            this.baseActivity = context
+        }
+    }
+
+    fun showLoading() {
+        baseActivity.showLoading()
+    }
+
+    fun hideLoading() {
+        baseActivity.hideLoading()
     }
 }

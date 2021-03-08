@@ -287,7 +287,13 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                 findNavController().navigate(R.id.createPostFragment, bundle)
             }
 
-            is HidePost, is ReportPost -> {
+            is ReportPost -> {
+                val bundle = Bundle()
+                bundle.putSerializable("postData", item.postData)
+                findNavController().navigate(R.id.popUpReportPost, bundle)
+            }
+
+            is HidePost -> {
                 showInfo(requireContext(), "Not yet implemented!")
             }
 

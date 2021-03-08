@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="pop"
+            type="com.primapp.ui.base.PopUpReportPost" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/llMainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <RelativeLayout
+            android:id="@+id/card_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginRight="24dp">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foreground="?android:attr/selectableItemBackground"
+                card_view:cardBackgroundColor="@color/backgroundColor"
+                card_view:cardCornerRadius="12dp"
+                card_view:cardElevation="0dp"
+                card_view:cardUseCompatPadding="false">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/normalBodyText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="@dimen/space_normal"
+                        android:text="@string/report_title"
+                        android:textSize="@dimen/textMedium"
+                        android:textStyle="bold" />
+
+                    <RadioGroup
+                        android:id="@+id/rgReportOptions"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checkedButton="@+id/rbRudeLanguage"
+                        android:orientation="vertical"
+                        android:padding="@dimen/space_small">
+
+                        <RadioButton
+                            android:id="@+id/rbRudeLanguage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:button="@drawable/radio_button_selector"
+                            android:fontFamily="@font/poppins_semibold"
+                            android:padding="@dimen/space_small"
+                            android:text="@string/report_reason_rude_language"
+                            android:textColor="@color/radio_text_color_selector" />
+
+                        <RadioButton
+                            android:id="@+id/rbSexualContent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:button="@drawable/radio_button_selector"
+                            android:fontFamily="@font/poppins_semibold"
+                            android:padding="@dimen/space_small"
+                            android:text="@string/report_reason_sexual"
+                            android:textColor="@color/radio_text_color_selector" />
+
+                        <RadioButton
+                            android:id="@+id/rbHarassment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:button="@drawable/radio_button_selector"
+                            android:fontFamily="@font/poppins_semibold"
+                            android:padding="@dimen/space_small"
+                            android:text="@string/report_reason_harassment"
+                            android:textColor="@color/radio_text_color_selector" />
+
+                        <RadioButton
+                            android:id="@+id/rbViolent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:button="@drawable/radio_button_selector"
+                            android:fontFamily="@font/poppins_semibold"
+                            android:padding="@dimen/space_small"
+                            android:text="@string/report_reason_threatening"
+                            android:textColor="@color/radio_text_color_selector" />
+
+                        <RadioButton
+                            android:id="@+id/rbOthers"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:button="@drawable/radio_button_selector"
+                            android:fontFamily="@font/poppins_semibold"
+                            android:padding="@dimen/space_small"
+                            android:text="@string/report_reason_something_else"
+                            android:textColor="@color/radio_text_color_selector" />
+
+                    </RadioGroup>
+
+                    <EditText
+                        android:id="@+id/etReason"
+                        style="@style/editTextSearchBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/space_normal"
+                        android:drawableStart="@null"
+                        android:gravity="top"
+                        android:hint="@string/would_you_like_to_describe"
+                        android:imeActionLabel="Done"
+                        android:imeOptions="actionDone"
+                        android:lines="3"
+                        android:textSize="@dimen/textNormal" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btnSubmit"
+                            style="@style/buttonFilledPrimary"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@color/colorAccent"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:onClick="@{()->pop.reportPost()}"
+                            android:padding="@dimen/space_large"
+                            android:text="@string/submit" />
+
+                        <Button
+                            android:id="@+id/btnCancel"
+                            style="@style/buttonFilledRed"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@color/grey"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:onClick="@{()->pop.dismiss()}"
+                            android:padding="@dimen/space_large"
+                            android:text="@string/cancel" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

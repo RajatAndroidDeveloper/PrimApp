@@ -88,7 +88,7 @@ class MentorRequestRejectionFragment : BaseFragment<FragmentMentorRequestRejecti
             if (text.isNotEmpty()) {
                 sendRejectRequest(text)
             } else {
-                binding.etReason.setError("Please mention a reason")
+                binding.etReason.error = getString(R.string.error_reason)
                 binding.etReason.requestFocus()
             }
         } else {

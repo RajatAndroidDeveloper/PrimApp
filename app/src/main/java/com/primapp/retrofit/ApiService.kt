@@ -11,10 +11,7 @@ import com.primapp.model.members.CommunityMembersResponseModel
 import com.primapp.model.mentor.RequestMentorDataModel
 import com.primapp.model.mentor.RequestMentorResponseModel
 import com.primapp.model.notification.NotificationResponseModel
-import com.primapp.model.post.CreatePostRequestModel
-import com.primapp.model.post.PostActionResponseModel
-import com.primapp.model.post.PostListResponseModel
-import com.primapp.model.post.UpdatePostResponseModel
+import com.primapp.model.post.*
 import com.primapp.model.profile.EditProfileRequestModel
 import com.primapp.model.reply.CommentReplyResponseModel
 import com.primapp.model.reply.CreateReplyRequestModel
@@ -344,4 +341,11 @@ interface ApiService {
         @Query("offset") offset: Int,
         @Query("limit") limit: Int
     ): CommunityMembersResponseModel
+
+    @POST(ApiConstant.REPORT_POST)
+    suspend fun reportPost(
+        @Path("communityId") communityId: Int,
+        @Path("postId") postId: Int,
+        @Body reportPostRequestModel: ReportPostRequestModel
+    ): BaseDataModel
 }

@@ -21,7 +21,6 @@ import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.toolbar_inner_back.view.*
 import javax.inject.Inject
 
-
 abstract class BaseFragment<DB : ViewDataBinding> : DaggerFragment() {
 
     var isLoaded: Boolean = false

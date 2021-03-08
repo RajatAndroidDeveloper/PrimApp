@@ -166,6 +166,7 @@ class NotificationsPagedAdapter @Inject constructor(val onItemClick: (Any?) -> U
     inner class OthersViewHolder(private val binding: ItemSimpleTextBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bindView(data: NotificationResult?) {
+            binding.root.isVisible = false
             binding.data = "Other View Type : Not implemented yet!!"
         }
     }
