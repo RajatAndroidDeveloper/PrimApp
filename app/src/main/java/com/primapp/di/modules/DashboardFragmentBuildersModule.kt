@@ -1,6 +1,8 @@
 package com.primapp.di.modules
 
+import com.primapp.ui.base.ImageViewDialog
 import com.primapp.ui.base.PopUpReportPost
+import com.primapp.ui.base.VideoViewDialog
 import com.primapp.ui.communities.*
 import com.primapp.ui.communities.create.CreateCommunityFragment
 import com.primapp.ui.communities.details.CommunityDetailsFragment
@@ -90,5 +92,11 @@ abstract class DashboardFragmentBuildersModule {
     abstract fun contributeMentorRequestRejectionFragment(): MentorRequestRejectionFragment
 
     @ContributesAndroidInjector
-    abstract fun contributeMentorPopUpRquest(): PopUpReportPost
+    abstract fun contributePopUpRequestDialogFragment(): PopUpReportPost
+
+    @ContributesAndroidInjector
+    abstract fun contributeImageViewDialogFragment(): ImageViewDialog
+
+    @ContributesAndroidInjector
+    abstract fun contributeVideoViewDialogFragment(): VideoViewDialog
 }
