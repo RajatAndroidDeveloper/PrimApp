@@ -43,7 +43,24 @@ data class NotificationResult(
     @SerializedName("udate")
     val udate: String,
     @SerializedName("community")
-    val community: CommunityData
+    val community: CommunityData,
+    @SerializedName("post_data")
+    val postData: PostData?
+)
+
+data class PostData(
+    @SerializedName("file_type")
+    val fileType: String?,
+    @SerializedName("get_image_url")
+    val getImageUrl: String,
+    @SerializedName("get_thumbnail_url")
+    val getThumbnailUrl: Any?,
+    @SerializedName("id")
+    val id: Int,
+    @SerializedName("post_text")
+    val postText: String?,
+    @SerializedName("reply_text")
+    val replyText: String?
 )
 
 sealed class NotificationUIModel {

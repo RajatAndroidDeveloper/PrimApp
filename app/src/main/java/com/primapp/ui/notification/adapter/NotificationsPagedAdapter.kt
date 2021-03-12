@@ -10,15 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.primapp.R
 import com.primapp.constants.NotificationTypes
 import com.primapp.constants.NotificationViewTypes
-import com.primapp.databinding.ItemMentorRequestBinding
-import com.primapp.databinding.ItemNotificationNormalBinding
-import com.primapp.databinding.ItemNotificationSeparatorBinding
-import com.primapp.databinding.ItemSimpleTextBinding
+import com.primapp.databinding.*
 import com.primapp.model.AcceptMetorRequest
 import com.primapp.model.RejectMetorRequest
 import com.primapp.model.notification.NotificationResult
 import com.primapp.model.notification.NotificationUIModel
-import com.primapp.model.reply.ReplyData
 import javax.inject.Inject
 
 class NotificationsPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) :
@@ -49,6 +45,9 @@ class NotificationsPagedAdapter @Inject constructor(val onItemClick: (Any?) -> U
                     NotificationTypes.MENTORSHIP_UPDATE, NotificationTypes.MENTORSHIP_REQUEST_ACTION,
                     NotificationTypes.COMMUNITY_NOTIFICATION -> {
                         NotificationViewTypes.MENTORSHIP_UPDATE_VIEW
+                    }
+                    NotificationTypes.POST_RELATED_NOTIFICATION -> {
+                        NotificationViewTypes.POST_NOTIFICATION_VIEW
                     }
                     else -> {
                         NotificationViewTypes.OTHERS_VIEW
@@ -88,6 +87,16 @@ class NotificationsPagedAdapter @Inject constructor(val onItemClick: (Any?) -> U
                     )
                 )
             }
+            NotificationViewTypes.POST_NOTIFICATION_VIEW -> {
+                return PostNotificationViewHolder(
+                    DataBindingUtil.inflate(
+                        layoutInflater,
+                        R.layout.item_notification_post,
+                        parent,
+                        false
+                    )
+                )
+            }
             NotificationViewTypes.SEPARATOR_VIEW -> {
                 return SeparatorViewHolder(
                     DataBindingUtil.inflate(
@@ -121,6 +130,9 @@ class NotificationsPagedAdapter @Inject constructor(val onItemClick: (Any?) -> U
                     }
                     NotificationViewTypes.MENTORSHIP_UPDATE_VIEW -> {
                         (holder as MentorsRequestUpdateViewHolder).bindView(uiModel.notification)
+                    }
+                    NotificationViewTypes.POST_NOTIFICATION_VIEW->{
+                        (holder as PostNotificationViewHolder).bindView(uiModel.notification)
                     }
                     else -> {
                         (holder as OthersViewHolder).bindView(uiModel.notification)
@@ -156,6 +168,13 @@ class NotificationsPagedAdapter @Inject constructor(val onItemClick: (Any?) -> U
         }
     }
 
+    inner class PostNotificationViewHolder(private val binding: ItemNotificationPostBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bindView(data: NotificationResult?) {
+            binding.data = data
+        }
+    }
+
     inner class SeparatorViewHolder(private val binding: ItemNotificationSeparatorBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bindView(data: String?) {
@@ -166,7 +185,10 @@ class NotificationsPagedAdapter @Inject constructor(val onItemClick: (Any?) -> U
     inner class OthersViewHolder(private val binding: ItemSimpleTextBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bindView(data: NotificationResult?) {
+            val param = itemView.layoutParams as RecyclerView.LayoutParams
             binding.root.isVisible = false
+            param.height = 0
+            param.width = 0
             binding.data = "Other View Type : Not implemented yet!!"
         }
     }

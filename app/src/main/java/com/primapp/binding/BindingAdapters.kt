@@ -24,6 +24,7 @@ import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.textfield.TextInputLayout
 import com.primapp.R
 import com.primapp.constants.CommunityFilterTypes
+import com.primapp.constants.NotificationSubTypes
 import com.primapp.constants.NotificationTypes
 import com.primapp.extensions.*
 import com.primapp.model.auth.UserData
@@ -31,6 +32,7 @@ import com.primapp.model.community.CommunityData
 import com.primapp.model.notification.NotificationResult
 import com.primapp.utils.DateTimeUtils
 import com.primapp.utils.getPrettyNumber
+import kotlin.math.min
 
 
 @BindingAdapter("isRequired")
@@ -367,12 +369,12 @@ fun makeNotificationMentorRequest(textView: TextView, notificationData: Notifica
             }
             NotificationTypes.MENTORSHIP_REQUEST_ACTION -> {
                 //Mentor side notification
-                if (it.title.equals("accepted", true)) {
+                if (it.title.equals(NotificationSubTypes.REQUEST_ACCEPTED, true)) {
                     textToSend.append("You accepted ")
                         .append(senderFullName)
                         .append("'s request for mentorship in ")
                         .append(communityName)
-                } else if (it.title.equals("rejected", true)) {
+                } else if (it.title.equals(NotificationSubTypes.REQUEST_REJECTED, true)) {
                     textToSend.append("You rejected ")
                         .append(senderFullName)
                         .append("'s request for mentorship in ")
@@ -381,12 +383,12 @@ fun makeNotificationMentorRequest(textView: TextView, notificationData: Notifica
             }
             NotificationTypes.MENTORSHIP_UPDATE -> {
                 //Mentee side notification
-                if (it.title.equals("accepted", true)) {
+                if (it.title.equals(NotificationSubTypes.REQUEST_ACCEPTED, true)) {
                     textToSend.append("Your request for mentorship in ")
                         .append(communityName)
                         .append(" is accepted by ")
                         .append(senderFullName)
-                } else if (it.title.equals("rejected", true)) {
+                } else if (it.title.equals(NotificationSubTypes.REQUEST_REJECTED, true)) {
                     textToSend.append("Your request for mentorship in ")
                         .append(communityName)
                         .append(" is rejected by ")
@@ -397,13 +399,68 @@ fun makeNotificationMentorRequest(textView: TextView, notificationData: Notifica
                 }
             }
             NotificationTypes.COMMUNITY_NOTIFICATION -> {
-                if(it.title.equals("community_join_request",true)){
+                if (it.title.equals(NotificationSubTypes.COMMUNITY_JOIN_REQUEST, true)) {
                     textToSend.append(senderFullName)
                         .append(" joined your community ")
                         .append(communityName)
-                }else if(it.title.equals("community_leave_request",true)){
+                } else if (it.title.equals(NotificationSubTypes.COMMUNITY_LEAVE_REQUEST, true)) {
                     textToSend.append(senderFullName)
                         .append(" left your community ")
+                        .append(communityName)
+                }
+            }
+            NotificationTypes.POST_RELATED_NOTIFICATION -> {
+                val trimmedPostText = it.postData?.postText?.substring(0, min(it.postData.postText.length, 20));
+
+                if (it.title.equals(NotificationSubTypes.POST_LIKE, true)) {
+                    textToSend.append(senderFullName)
+                        .append(" liked your post ")
+
+                    if (it.postData?.fileType == null) {
+                        textToSend.append("\"$trimmedPostText...\" ")
+                    }
+
+                    textToSend.append("in ")
+                        .append(communityName)
+                } else if (it.title.equals(NotificationSubTypes.POST_COMMENT, true)) {
+                    textToSend.append(senderFullName)
+                        .append(" commented on your post ")
+
+                    if (it.postData?.fileType == null) {
+                        textToSend.append("\"$trimmedPostText...\" ")
+                    }
+
+                    textToSend.append("in ")
+                        .append(communityName)
+                } else if (it.title.equals(NotificationSubTypes.POST_REPLY, true)) {
+                    textToSend.append(senderFullName)
+                        .append(" replied to your comment ")
+
+                    if (it.postData?.fileType == null && it.postData?.postText != null) {
+                        textToSend.append("on ").append("\"$trimmedPostText...\" ")
+                    }
+
+                    textToSend.append("in ")
+                        .append(communityName)
+                }else if(it.title.equals(NotificationSubTypes.POST_COMMENT_LIKE, true)){
+                    textToSend.append(senderFullName)
+                        .append(" like your comment ")
+
+                    if (it.postData?.fileType == null && it.postData?.postText != null) {
+                        textToSend.append("on ").append("\"$trimmedPostText...\" ")
+                    }
+
+                    textToSend.append("in ")
+                        .append(communityName)
+                }else if(it.title.equals(NotificationSubTypes.POST_REPLY_LIKE, true)){
+                    textToSend.append(senderFullName)
+                        .append(" like your reply ")
+
+                    if (it.postData?.fileType == null && it.postData?.postText != null) {
+                        textToSend.append("on ").append("\"$trimmedPostText...\" ")
+                    }
+
+                    textToSend.append("in ")
                         .append(communityName)
                 }
             }

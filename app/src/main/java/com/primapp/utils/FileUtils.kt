@@ -264,7 +264,7 @@ object FileUtils {
         val file = File(imageUrl)
         val fileSize = (file.length() / 1024) / 1024
         try {
-            if (fileSize >= 2) {
+            if (fileSize >= 1) {
                 val oldExif = ExifInterface(imageUrl)
                 val exifOrientation: String? = oldExif.getAttribute(ExifInterface.TAG_ORIENTATION)
 
