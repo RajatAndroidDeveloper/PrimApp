@@ -83,4 +83,12 @@ object UserCache {
         }
     }
 
+    fun decrementMenteeCount(context: Context) {
+        val user = getUser(context)
+        user?.let {
+            it.menteeCount--
+            saveUser(context, it)
+        }
+    }
+
 }

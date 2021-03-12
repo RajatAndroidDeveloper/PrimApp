@@ -8,6 +8,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.primapp.R
+import com.primapp.constants.MentorshipStatusTypes
 import com.primapp.databinding.ItemCommunityMembersBinding
 import com.primapp.model.RequestMentor
 import com.primapp.model.ShowImage
@@ -21,6 +22,7 @@ class CommunityMembersListPagedAdapter @Inject constructor(val onItemClick: (Any
     ) {
 
     private var listViewType: String? = null
+    private var otherUserProfile: Boolean = false
 
     fun markRequestAsSent(mentorId: Int) {
         val item: CommunityMembersData? = snapshot().items.find { it.user.id == mentorId }
@@ -31,8 +33,17 @@ class CommunityMembersListPagedAdapter @Inject constructor(val onItemClick: (Any
         }
     }
 
-    fun setViewType(type: String) {
+    fun removeMember(requestId: Int?) {
+        val item: CommunityMembersData? = snapshot().items.find { it.id == requestId }
+        item?.let {
+            val position = snapshot().items.indexOf(it)
+            notifyItemRemoved(position)
+        }
+    }
+
+    fun setViewType(type: String, isOtherProfile: Boolean) {
         listViewType = type
+        otherUserProfile = isOtherProfile
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommunityMembersViewHolder {
@@ -74,9 +85,18 @@ class CommunityMembersListPagedAdapter @Inject constructor(val onItemClick: (Any
             ) {
                 binding.tvUsername.isVisible = false
                 binding.tvCommunityName.isVisible = true
-            }else{
+            } else {
                 binding.tvUsername.isVisible = true
                 binding.tvCommunityName.isVisible = false
+            }
+
+            if (listViewType == CommunityMembersFragment.MENTEE_MEMBERS_LIST && !otherUserProfile) {
+                //Show end mentorship button
+                binding.btnInviteMembers.isVisible = true
+            } else {
+                binding.btnInviteMembers.isVisible =
+                    data.community?.isJoined == true && (data.user.mentor_status == MentorshipStatusTypes.PENDING || data.user.mentor_status == MentorshipStatusTypes.CAN_SEND_REQUEST)
+
             }
         }
     }

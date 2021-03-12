@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.primapp.R
 import com.primapp.cache.UserCache
 import com.primapp.constants.MentorMenteeUserType
+import com.primapp.constants.MentorshipRequestActionType
 import com.primapp.constants.MentorshipStatusTypes
 import com.primapp.databinding.FragmentCommunityMembersBinding
 import com.primapp.extensions.setDivider
@@ -24,6 +25,8 @@ import com.primapp.model.mentor.RequestMentorDataModel
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
+import com.primapp.ui.dashboard.ProfileFragment
+import com.primapp.utils.DialogUtils
 import com.primapp.viewmodels.CommunitiesViewModel
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
 import kotlinx.coroutines.Job
@@ -38,6 +41,7 @@ class CommunityMembersFragment : BaseFragment<FragmentCommunityMembersBinding>()
     private var userId: Int? = null
 
     private var searchJob: Job? = null
+    private var requesId: Int? = null //for end mentorship
 
     val adapter by lazy { CommunityMembersListPagedAdapter { item -> onItemClick(item) } }
 
@@ -77,7 +81,7 @@ class CommunityMembersFragment : BaseFragment<FragmentCommunityMembersBinding>()
             }
         }
         //To show community name in mentor/mentee list view type
-        adapter.setViewType(type = viewType)
+        adapter.setViewType(type = viewType, isOtherProfile = userId != UserCache.getUserId(requireContext()))
 
         searchMembers(null)
     }
@@ -91,6 +95,25 @@ class CommunityMembersFragment : BaseFragment<FragmentCommunityMembersBinding>()
                         it.data?.content?.mentor?.let {
                             adapter.markRequestAsSent(it.id)
                         }
+                    }
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                }
+            }
+        })
+
+        viewModel.acceptRejectMentorshipLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.SUCCESS -> {
+                        UserCache.decrementMenteeCount(requireContext())
+                        (parentFragment as? ProfileFragment)?.refreshTabs()
+                        adapter.removeMember(requesId)
                     }
                     Status.LOADING -> {
                         showLoading()
@@ -197,10 +220,17 @@ class CommunityMembersFragment : BaseFragment<FragmentCommunityMembersBinding>()
     private fun onItemClick(any: Any?) {
         when (any) {
             is RequestMentor -> {
-                viewModel.requestMentor(
-                    any.membersData.community!!.id, UserCache.getUserId(requireContext()),
-                    RequestMentorDataModel(any.membersData.user.id, null)
-                )
+                if (viewType == MENTEE_MEMBERS_LIST) {
+                    requesId = any.membersData.id
+                    DialogUtils.showYesNoDialog(requireActivity(), R.string.end_mentorship_confirmation, {
+                        viewModel.acceptRejectMentorship(any.membersData.id, MentorshipRequestActionType.END, null)
+                    })
+                } else {
+                    viewModel.requestMentor(
+                        any.membersData.community!!.id, UserCache.getUserId(requireContext()),
+                        RequestMentorDataModel(any.membersData.user.id, null)
+                    )
+                }
             }
 
             is ShowImage -> {

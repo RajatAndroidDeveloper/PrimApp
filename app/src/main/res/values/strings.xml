@@ -262,4 +262,6 @@
     <string name="report_title">Help us understand the problem</string>
     <string name="would_you_like_to_describe">Would you like to describe the issue? (optional)</string>
     <string name="error_reason">Please mention a reason</string>
+    <string name="end_mentorship">End Mentorship</string>
+    <string name="end_mentorship_confirmation">Are you sure you want to end the mentorship?</string>
 </resources>

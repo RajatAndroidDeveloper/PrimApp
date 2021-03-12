@@ -24,6 +24,7 @@ import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.textfield.TextInputLayout
 import com.primapp.R
 import com.primapp.constants.CommunityFilterTypes
+import com.primapp.constants.MentorshipStatusTypes
 import com.primapp.constants.NotificationSubTypes
 import com.primapp.constants.NotificationTypes
 import com.primapp.extensions.*
@@ -286,7 +287,13 @@ fun likeCount(textView: TextView, count: Long?) {
 
 @BindingAdapter("inviteMentorButtonStyle")
 fun inviteMentorButtonStyle(button: Button, status: Int) {
-    if (status == 2) {
+    if (status == MentorshipStatusTypes.ACCEPTED) {
+        button.background = ContextCompat.getDrawable(button.context, R.drawable.button_primary_grey_filled)
+        button.setTextColor(ContextCompat.getColor(button.context, R.color.black))
+        button.typeface = ResourcesCompat.getFont(button.context, R.font.poppins_regular)
+        button.isEnabled = true
+        button.text = button.context.getString(R.string.end_mentorship)
+    } else if (status == MentorshipStatusTypes.PENDING) {
         button.background = ContextCompat.getDrawable(button.context, R.drawable.button_primary_grey_filled)
         button.setTextColor(ContextCompat.getColor(button.context, R.color.black))
         button.typeface = ResourcesCompat.getFont(button.context, R.font.poppins_regular)
@@ -379,6 +386,11 @@ fun makeNotificationMentorRequest(textView: TextView, notificationData: Notifica
                         .append(senderFullName)
                         .append("'s request for mentorship in ")
                         .append(communityName)
+                }else if(it.title.equals(NotificationSubTypes.REQUEST_END, true)){
+                    textToSend.append("You end the mentorship relation with ")
+                        .append(senderFullName)
+                        .append(" in ")
+                        .append(communityName)
                 }
             }
             NotificationTypes.MENTORSHIP_UPDATE -> {
@@ -396,6 +408,11 @@ fun makeNotificationMentorRequest(textView: TextView, notificationData: Notifica
                         .append(".\n").bold { }
                         .append("Reason : ")
                         .normal(it.message)
+                }else if(it.title.equals(NotificationSubTypes.REQUEST_END, true)){
+                    textToSend.append("Your mentorship relation was ended by ")
+                        .append(senderFullName)
+                        .append(" in ")
+                        .append(communityName)
                 }
             }
             NotificationTypes.COMMUNITY_NOTIFICATION -> {
@@ -442,7 +459,7 @@ fun makeNotificationMentorRequest(textView: TextView, notificationData: Notifica
 
                     textToSend.append("in ")
                         .append(communityName)
-                }else if(it.title.equals(NotificationSubTypes.POST_COMMENT_LIKE, true)){
+                } else if (it.title.equals(NotificationSubTypes.POST_COMMENT_LIKE, true)) {
                     textToSend.append(senderFullName)
                         .append(" like your comment ")
 
@@ -452,7 +469,7 @@ fun makeNotificationMentorRequest(textView: TextView, notificationData: Notifica
 
                     textToSend.append("in ")
                         .append(communityName)
-                }else if(it.title.equals(NotificationSubTypes.POST_REPLY_LIKE, true)){
+                } else if (it.title.equals(NotificationSubTypes.POST_REPLY_LIKE, true)) {
                     textToSend.append(senderFullName)
                         .append(" like your reply ")
 

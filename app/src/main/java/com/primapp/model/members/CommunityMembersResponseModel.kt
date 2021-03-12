@@ -25,7 +25,7 @@ data class CommunityMembersData(
     @SerializedName("community")
     val community: Community?,
     @SerializedName("id")
-    val id: Int?,
+    val id: Int,
     @SerializedName("udate")
     val udate: String?,
     @SerializedName("user")
@@ -63,7 +63,7 @@ data class User(
     @SerializedName("username")
     val username: String,
     @SerializedName("is_mentor_status")
-    var mentor_status: Int,
+    var mentor_status: Int?,
     @SerializedName("is_loggedIn_user")
     val isLoggedInUser: Boolean
 )
