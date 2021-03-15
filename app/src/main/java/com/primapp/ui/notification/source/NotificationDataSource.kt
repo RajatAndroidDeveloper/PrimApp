@@ -11,7 +11,8 @@ import java.lang.Exception
 
 class NotificationDataSource(
     private val responseHandler: ResponseHandler,
-    private val apiService: ApiService
+    private val apiService: ApiService,
+    private val notificationType: String?
 ) : PagingSource<Int, NotificationResult>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, NotificationResult> {
@@ -25,7 +26,7 @@ class NotificationDataSource(
             * */
             val offset = page * params.loadSize
             Log.d("anshul_paging", "Page:$page LoadSize : ${params.loadSize} Offset : $offset")
-            val response = apiService.getNotifications(offset, params.loadSize)
+            val response = apiService.getNotifications(offset, params.loadSize, notificationType)
             LoadResult.Page(
                 data = response.content.results,
                 prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1,

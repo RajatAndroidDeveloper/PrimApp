@@ -407,12 +407,15 @@ fun makeNotificationMentorRequest(textView: TextView, notificationData: Notifica
                         .append(senderFullName)
                         .append(".\n").bold { }
                         .append("Reason : ")
-                        .normal(it.message)
+                        .normal(it.message ?: "No reason specified")
                 }else if(it.title.equals(NotificationSubTypes.REQUEST_END, true)){
                     textToSend.append("Your mentorship relation was ended by ")
                         .append(senderFullName)
                         .append(" in ")
                         .append(communityName)
+                        .append(".\n").bold { }
+                        .append("Reason : ")
+                        .normal(it.message ?: "No reason specified")
                 }
             }
             NotificationTypes.COMMUNITY_NOTIFICATION -> {

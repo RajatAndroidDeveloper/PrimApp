@@ -12,8 +12,8 @@ import com.primapp.R
 import com.primapp.cache.UserCache
 import com.primapp.constants.MentorshipRequestActionType
 import com.primapp.databinding.FragmentNotificationsBinding
-import com.primapp.extensions.setDivider
 import com.primapp.extensions.showError
+import com.primapp.extensions.showInfo
 import com.primapp.model.AcceptMetorRequest
 import com.primapp.model.RejectMetorRequest
 import com.primapp.retrofit.base.Status
@@ -23,11 +23,15 @@ import com.primapp.ui.notification.adapter.NotificationsPagedAdapter
 import com.primapp.utils.DialogUtils
 import com.primapp.viewmodels.NotificationViewModel
 import kotlinx.android.synthetic.main.toolbar_dashboard_accent.*
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
 
+    private var notificationJob: Job? = null
+
     private var requestId: Int? = null
+    private var notificationFilterType: String? = null
 
     val adapter by lazy { NotificationsPagedAdapter { item -> onItemClick(item) } }
 
@@ -47,14 +51,34 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
     private fun setData() {
         ivEndIcon.setImageResource(R.drawable.filter)
         binding.frag = this
+
+        ivEndIcon.setOnClickListener {
+            DialogUtils.showNotificationFilter(requireActivity(), notificationFilterType) { filterType ->
+                notificationFilterType = filterType
+                getNotification(notificationFilterType)
+            }
+        }
+
+        //get notification for first time
+        getNotification(notificationFilterType)
+    }
+
+    private fun getNotification(filter: String?) {
+        // Make sure we cancel the previous job before creating a new one
+        notificationJob?.cancel()
+        notificationJob = lifecycleScope.launch {
+            viewModel.getUserNotification(notificationFilterType).observe(viewLifecycleOwner, Observer {
+                adapter.submitData(lifecycle, it)
+            })
+        }
     }
 
     private fun setObserver() {
-        viewModel.getUserNotification().observe(viewLifecycleOwner, Observer {
-            lifecycleScope.launch {
-                adapter.submitData(it)
-            }
-        })
+        /*  viewModel.getUserNotification(notificationFilterType).observe(viewLifecycleOwner, Observer {
+              lifecycleScope.launch {
+                  adapter.submitData(it)
+              }
+          })*/
 
         viewModel.acceptRejectMentorshipLiveData.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
@@ -127,6 +151,7 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
             is RejectMetorRequest -> {
                 val bundle = Bundle()
                 bundle.putInt("requestId", any.id)
+                bundle.putString("type", MentorRequestRejectionFragment.MENTORSHIP_REQUEST_REJECT)
                 findNavController().navigate(R.id.mentorRequestRejectionFragment, bundle)
             }
         }

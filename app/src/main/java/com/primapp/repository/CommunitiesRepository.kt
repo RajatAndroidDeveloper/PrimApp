@@ -304,14 +304,6 @@ class CommunitiesRepository @Inject constructor(
         ).liveData
     }
 
-    suspend fun acceptRejectMentorship(requestId: Int, action: String, message: String?): Resource<BaseDataModel> {
-        return try {
-            responseHandler.handleResponse(apiService.acceptRejectMentorship(requestId, action, message))
-        } catch (e: Exception) {
-            responseHandler.handleException(e)
-        }
-    }
-
     //---- User profile ----
     suspend fun getUserData(userId: Int): Resource<VerifyUserResponseModel> {
         return try {

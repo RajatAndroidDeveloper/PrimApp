@@ -18,7 +18,7 @@ class NotificationRepository @Inject constructor(
     private val apiService: ApiService,
     private val responseHandler: ResponseHandler
 ) {
-    fun getUserNotifications(): LiveData<PagingData<NotificationResult>> {
+    fun getUserNotifications(notificationType: String?): LiveData<PagingData<NotificationResult>> {
         return Pager(
             config = PagingConfig(
                 enablePlaceholders = false,
@@ -26,7 +26,7 @@ class NotificationRepository @Inject constructor(
                 initialLoadSize = ApiConstant.NETWORK_PAGE_SIZE
             ),
             pagingSourceFactory = {
-                NotificationDataSource(responseHandler, apiService)
+                NotificationDataSource(responseHandler, apiService, notificationType)
             }
         ).liveData
     }

@@ -24,14 +24,15 @@ class NotificationViewModel @Inject constructor(
 ) : AndroidViewModel(app) {
 
     private var notificationLiveData: LiveData<PagingData<NotificationUIModel>>? = null
-
-    fun getUserNotification(): LiveData<PagingData<NotificationUIModel>> {
+    private var currentFilterType: String? = null
+    fun getUserNotification(notificationFilterType: String?): LiveData<PagingData<NotificationUIModel>> {
         val lastResult = notificationLiveData
-        if (lastResult != null) {
+        if (currentFilterType.equals(notificationFilterType) && lastResult != null) {
             return lastResult
         }
+        currentFilterType = notificationFilterType
         val newResultLiveData: LiveData<PagingData<NotificationUIModel>> =
-            repo.getUserNotifications().map { pagingData ->
+            repo.getUserNotifications(notificationFilterType).map { pagingData ->
                 pagingData.map { NotificationUIModel.NotificationItem(it) }
             }.map {
                 it.insertSeparators<NotificationUIModel.NotificationItem, NotificationUIModel> { before, after ->

@@ -242,12 +242,13 @@
     </string>
     <string name="select_a_reason">Select a reason</string>
     <string name="mentor_request_rejection_message">Mentor request rejected successfully!</string>
+    <string name="mentor_relation_end_message">Mentorship realtion ended successfully!</string>
     <string name="mention_your_reason_here">Mention your reason here...</string>
     <string name="create_post_discard_msg">Are you sure you want to discard the post?</string>
     <string name="can_t_accept_at_this_time">Can\'t accept at this time</string>
-    <string name="vacation_sabbatical">Vacation / Sabbatical.</string>
-    <string name="leaving_prim_community">Leaving Prim community.</string>
-    <string name="personal_other">Personal / Other.</string>
+    <string name="vacation_sabbatical">Vacation / Sabbatical</string>
+    <string name="leaving_prim_community">Leaving Prim community</string>
+    <string name="personal_other">Personal / Other</string>
     <string name="add_bookmark">Add Bookmark</string>
     <string name="remove_bookmark">Remove Bookmark</string>
     <string name="more_options">More Options</string>
@@ -264,4 +265,13 @@
     <string name="error_reason">Please mention a reason</string>
     <string name="end_mentorship">End Mentorship</string>
     <string name="end_mentorship_confirmation">Are you sure you want to end the mentorship?</string>
+    <string name="relation_not_fit">Relationship not a fit</string>
+    <string name="expertise_not_aligned">Expertise not aligned</string>
+    <string name="referred_to_new_mentor">Referred to new mentor</string>
+    <string name="other">Other</string>
+    <string name="notification_filter_all">All</string>
+    <string name="notification_filter_mentoring_relationship">Mentoring Relationship</string>
+    <string name="notification_filter_community_related">Community Related</string>
+    <string name="notification_filter_post_related">Post Related</string>
+
 </resources>

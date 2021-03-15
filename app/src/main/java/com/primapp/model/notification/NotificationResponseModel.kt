@@ -29,7 +29,7 @@ data class NotificationResult(
     @SerializedName("is_read")
     val isRead: Boolean,
     @SerializedName("message")
-    val message: String,
+    val message: String?,
     @SerializedName("notification_type")
     var notificationType: String,
     @SerializedName("receiver")

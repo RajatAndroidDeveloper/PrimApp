@@ -316,15 +316,6 @@ class CommunitiesViewModel @Inject constructor(
         return newResultLiveData
     }
 
-    private var _acceptRejectMentorshipLiveData = MutableLiveData<Event<Resource<BaseDataModel>>>()
-    var acceptRejectMentorshipLiveData: LiveData<Event<Resource<BaseDataModel>>> = _acceptRejectMentorshipLiveData
-
-    fun acceptRejectMentorship(requestId: Int, action: String, message: String?) = viewModelScope.launch {
-        _acceptRejectMentorshipLiveData.postValue(Event(Resource.loading(null)))
-        _acceptRejectMentorshipLiveData.postValue(Event(repo.acceptRejectMentorship(requestId, action, message)))
-    }
-
-
     //---- User profile Data----
     private var _getUserLiveData = MutableLiveData<Event<Resource<VerifyUserResponseModel>>>()
     var userLiveData: LiveData<Event<Resource<VerifyUserResponseModel>>> = _getUserLiveData

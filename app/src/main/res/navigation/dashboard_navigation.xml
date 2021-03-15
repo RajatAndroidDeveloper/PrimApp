@@ -223,6 +223,9 @@
         <argument
             android:name="requestId"
             app:argType="integer" />
+        <argument
+            android:name="type"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/userPostsFragment"

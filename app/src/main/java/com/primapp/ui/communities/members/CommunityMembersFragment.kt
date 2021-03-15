@@ -26,6 +26,7 @@ import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
 import com.primapp.ui.dashboard.ProfileFragment
+import com.primapp.ui.notification.MentorRequestRejectionFragment
 import com.primapp.utils.DialogUtils
 import com.primapp.viewmodels.CommunitiesViewModel
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
@@ -41,7 +42,6 @@ class CommunityMembersFragment : BaseFragment<FragmentCommunityMembersBinding>()
     private var userId: Int? = null
 
     private var searchJob: Job? = null
-    private var requesId: Int? = null //for end mentorship
 
     val adapter by lazy { CommunityMembersListPagedAdapter { item -> onItemClick(item) } }
 
@@ -95,25 +95,6 @@ class CommunityMembersFragment : BaseFragment<FragmentCommunityMembersBinding>()
                         it.data?.content?.mentor?.let {
                             adapter.markRequestAsSent(it.id)
                         }
-                    }
-                    Status.LOADING -> {
-                        showLoading()
-                    }
-                    Status.ERROR -> {
-                        showError(requireContext(), it.message!!)
-                    }
-                }
-            }
-        })
-
-        viewModel.acceptRejectMentorshipLiveData.observe(viewLifecycleOwner, Observer {
-            it.getContentIfNotHandled()?.let {
-                hideLoading()
-                when (it.status) {
-                    Status.SUCCESS -> {
-                        UserCache.decrementMenteeCount(requireContext())
-                        (parentFragment as? ProfileFragment)?.refreshTabs()
-                        adapter.removeMember(requesId)
                     }
                     Status.LOADING -> {
                         showLoading()
@@ -221,10 +202,10 @@ class CommunityMembersFragment : BaseFragment<FragmentCommunityMembersBinding>()
         when (any) {
             is RequestMentor -> {
                 if (viewType == MENTEE_MEMBERS_LIST) {
-                    requesId = any.membersData.id
-                    DialogUtils.showYesNoDialog(requireActivity(), R.string.end_mentorship_confirmation, {
-                        viewModel.acceptRejectMentorship(any.membersData.id, MentorshipRequestActionType.END, null)
-                    })
+                    val bundle = Bundle()
+                    bundle.putInt("requestId", any.membersData.id)
+                    bundle.putString("type", MentorRequestRejectionFragment.MENTORSHIP_END)
+                    findNavController().navigate(R.id.mentorRequestRejectionFragment, bundle)
                 } else {
                     viewModel.requestMentor(
                         any.membersData.community!!.id, UserCache.getUserId(requireContext()),

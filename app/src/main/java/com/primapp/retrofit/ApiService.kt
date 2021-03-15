@@ -298,7 +298,8 @@ interface ApiService {
     @GET(ApiConstant.GET_NOTIFICATIONS)
     suspend fun getNotifications(
         @Query("offset") offset: Int,
-        @Query("limit") limit: Int
+        @Query("limit") limit: Int,
+        @Query("notification_type") notificationType: String?
     ): NotificationResponseModel
 
     @PUT(ApiConstant.ACCEPT_REJECT_MENTORSHIP)

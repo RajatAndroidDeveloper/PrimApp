@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="?android:attr/selectableItemBackground"
+        card_view:cardBackgroundColor="@color/backgroundColor"
+        card_view:cardCornerRadius="12dp"
+        card_view:cardElevation="0dp"
+        card_view:cardUseCompatPadding="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvDialogMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="Filter Notification By"
+                android:paddingStart="@dimen/space_large"
+                android:paddingEnd="@dimen/space_large"
+                android:paddingTop="@dimen/space_large"
+                android:textAppearance="?attr/textAppearanceSearchResultTitle"
+                android:textColor="@color/textColor" />
+
+            <RadioGroup
+                android:id="@+id/rgNotificationFilter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checkedButton="@+id/rbAll"
+                android:paddingStart="@dimen/space_large"
+                android:paddingEnd="@dimen/space_large"
+                android:paddingBottom="@dimen/space_large"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/rbAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/radio_button_selector"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:padding="@dimen/space_small"
+                    android:text="@string/notification_filter_all"
+                    android:textColor="@color/radio_text_color_selector" />
+
+                <RadioButton
+                    android:id="@+id/rbMentoringRelation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/radio_button_selector"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:padding="@dimen/space_small"
+                    android:text="@string/notification_filter_mentoring_relationship"
+                    android:textColor="@color/radio_text_color_selector" />
+
+                <RadioButton
+                    android:id="@+id/rbCommunityJoin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/radio_button_selector"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:padding="@dimen/space_small"
+                    android:text="@string/notification_filter_community_related"
+                    android:textColor="@color/radio_text_color_selector" />
+
+                <RadioButton
+                    android:id="@+id/rbPostRelated"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/radio_button_selector"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:padding="@dimen/space_small"
+                    android:text="@string/notification_filter_post_related"
+                    android:textColor="@color/radio_text_color_selector" />
+
+            </RadioGroup>
+
+
+            <Button
+                android:id="@+id/btnClose"
+                style="@style/buttonFilledPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="@dimen/space_large"
+                android:text="@string/close" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.primapp.R
+import com.primapp.cache.UserCache
 import com.primapp.constants.MentorshipRequestActionType
 import com.primapp.databinding.FragmentMentorRequestRejectionBinding
 import com.primapp.extensions.showError
@@ -17,13 +18,13 @@ import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.utils.DialogUtils
 import com.primapp.viewmodels.NotificationViewModel
-import kotlinx.android.synthetic.main.fragment_mentor_request_rejection.*
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
 
 
 class MentorRequestRejectionFragment : BaseFragment<FragmentMentorRequestRejectionBinding>() {
 
     private var requestId: Int? = null
+    lateinit var type: String
 
     val viewModel by viewModels<NotificationViewModel> { viewModelFactory }
 
@@ -40,6 +41,14 @@ class MentorRequestRejectionFragment : BaseFragment<FragmentMentorRequestRejecti
     private fun setData() {
         binding.frag = this
         requestId = MentorRequestRejectionFragmentArgs.fromBundle(requireArguments()).requestId
+        type = MentorRequestRejectionFragmentArgs.fromBundle(requireArguments()).type
+
+        if (type == MENTORSHIP_END) {
+            binding.rbCantAccept.text = getString(R.string.relation_not_fit)
+            binding.rbVacation.text = getString(R.string.expertise_not_aligned)
+            binding.rbLeavingCommunity.text = getString(R.string.referred_to_new_mentor)
+            binding.rbOthers.text = getString(R.string.other)
+        }
 
         binding.rgRejectReason.setOnCheckedChangeListener(object : RadioGroup.OnCheckedChangeListener {
             override fun onCheckedChanged(p0: RadioGroup?, p1: Int) {
@@ -67,7 +76,17 @@ class MentorRequestRejectionFragment : BaseFragment<FragmentMentorRequestRejecti
                 hideLoading()
                 when (it.status) {
                     Status.SUCCESS -> {
-                        DialogUtils.showCloseDialog(requireActivity(), R.string.mentor_request_rejection_message) {
+                        if (type == MENTORSHIP_END) {
+                            UserCache.decrementMenteeCount(requireContext())
+                        }
+
+                        val messageId = if (type == MENTORSHIP_REQUEST_REJECT) {
+                            R.string.mentor_request_rejection_message
+                        } else {
+                            R.string.mentor_relation_end_message
+                        }
+
+                        DialogUtils.showCloseDialog(requireActivity(), messageId) {
                             findNavController().popBackStack()
                         }
                     }
@@ -92,13 +111,22 @@ class MentorRequestRejectionFragment : BaseFragment<FragmentMentorRequestRejecti
                 binding.etReason.requestFocus()
             }
         } else {
-            val selectedId: Int = rgRejectReason.checkedRadioButtonId
+            val selectedId: Int = binding.rgRejectReason.checkedRadioButtonId
             val radioButton = view?.findViewById<RadioButton>(selectedId)
             sendRejectRequest(radioButton?.text.toString())
         }
     }
 
     private fun sendRejectRequest(reason: String) {
-        viewModel.acceptRejectMentorship(requestId!!, MentorshipRequestActionType.REJECT, reason)
+        if (type == MENTORSHIP_END) {
+            viewModel.acceptRejectMentorship(requestId!!, MentorshipRequestActionType.END, reason)
+        } else {
+            viewModel.acceptRejectMentorship(requestId!!, MentorshipRequestActionType.REJECT, reason)
+        }
+    }
+
+    companion object {
+        const val MENTORSHIP_REQUEST_REJECT = "RejectCommunityAction"
+        const val MENTORSHIP_END = "EndRelationshipForMentorship"
     }
 }
