@@ -68,4 +68,5 @@ object ApiConstant {
     //Notification
     const val GET_NOTIFICATIONS = "user_notifications"
     const val ACCEPT_REJECT_MENTORSHIP = "accept_reject_mentorship"
+    const val READ_ALL_NOTIFICATION = "check_all_notifications"
 }

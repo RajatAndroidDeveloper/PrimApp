@@ -91,4 +91,12 @@ object UserCache {
         }
     }
 
+    fun resetNotification(context: Context){
+        val user = getUser(context)
+        user?.let {
+            it.notificationsCount = 0
+            saveUser(context, it)
+        }
+    }
+
 }

@@ -38,4 +38,12 @@ class NotificationRepository @Inject constructor(
             responseHandler.handleException(e)
         }
     }
+
+    suspend fun markNotificationAsRead(): Resource<BaseDataModel> {
+        return try {
+            responseHandler.handleResponse(apiService.markNotificationAsRead())
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
 }

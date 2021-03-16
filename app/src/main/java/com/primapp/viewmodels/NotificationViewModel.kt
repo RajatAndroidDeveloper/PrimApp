@@ -70,4 +70,12 @@ class NotificationViewModel @Inject constructor(
         _acceptRejectMentorshipLiveData.postValue(Event(repo.acceptRejectMentorship(requestId, action, message)))
     }
 
+    private var _readAllNotificationLiveData = MutableLiveData<Event<Resource<BaseDataModel>>>()
+    var readAllNotificationLiveData: LiveData<Event<Resource<BaseDataModel>>> = _readAllNotificationLiveData
+
+    fun markNotificationAsRead() = viewModelScope.launch {
+        _readAllNotificationLiveData.postValue(Event(Resource.loading(null)))
+        _readAllNotificationLiveData.postValue(Event(repo.markNotificationAsRead()))
+    }
+
 }

@@ -19,6 +19,7 @@ import com.primapp.model.RejectMetorRequest
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
+import com.primapp.ui.dashboard.DashboardActivity
 import com.primapp.ui.notification.adapter.NotificationsPagedAdapter
 import com.primapp.utils.DialogUtils
 import com.primapp.viewmodels.NotificationViewModel
@@ -74,12 +75,6 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
     }
 
     private fun setObserver() {
-        /*  viewModel.getUserNotification(notificationFilterType).observe(viewLifecycleOwner, Observer {
-              lifecycleScope.launch {
-                  adapter.submitData(it)
-              }
-          })*/
-
         viewModel.acceptRejectMentorshipLiveData.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
                 hideLoading()
@@ -97,6 +92,25 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
                 }
             }
         })
+
+        viewModel.readAllNotificationLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                when (it.status) {
+                    Status.SUCCESS -> {
+                        UserCache.resetNotification(requireContext())
+                        (activity as? DashboardActivity)?.refreshNotificationBadge()
+                    }
+                    Status.LOADING -> {
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                }
+            }
+        })
+
+        //Reset notification Counter
+        viewModel.markNotificationAsRead()
     }
 
     private fun setAdapter() {

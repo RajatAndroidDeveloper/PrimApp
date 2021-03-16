@@ -349,4 +349,7 @@ interface ApiService {
         @Path("postId") postId: Int,
         @Body reportPostRequestModel: ReportPostRequestModel
     ): BaseDataModel
+
+    @POST(ApiConstant.READ_ALL_NOTIFICATION)
+    suspend fun markNotificationAsRead(): BaseDataModel
 }

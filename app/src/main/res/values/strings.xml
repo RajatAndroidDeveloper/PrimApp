@@ -180,7 +180,7 @@
     <string name="none">None</string>
     <string name="post_created_success">Your post has been created successfully</string>
     <string name="file_type_error">Filetype %s selected but file not attached. Please attach a file.</string>
-    <string name="delete_post_message">Are you sure to delete this post?</string>
+    <string name="delete_post_message">Are you sure that you want to delete this post?</string>
     <string name="select_category">Select Category</string>
     <string name="non_joined_community_action_error_message">Sorry! You are not able to like or comment at this time.\nPlease join the community.</string>
     <string name="mentor">Mentor</string>

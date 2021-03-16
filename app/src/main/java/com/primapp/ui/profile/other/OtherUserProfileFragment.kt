@@ -25,6 +25,7 @@ import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.ViewPagerCommunityAdapter
 import com.primapp.ui.communities.members.CommunityMembersFragment
+import com.primapp.ui.dashboard.DashboardActivity
 import com.primapp.ui.profile.UserJoinedCommunitiesFragment
 import com.primapp.ui.profile.UserPostsFragment
 import com.primapp.viewmodels.CommunitiesViewModel
@@ -80,6 +81,7 @@ class OtherUserProfileFragment : BaseFragment<FragmentOtherUserProfileBinding>()
                             if (UserCache.getUserId(requireContext()) == it.id) {
                                 //Update user data if viewing own profile
                                 UserCache.saveUser(requireContext(), it)
+                                (activity as? DashboardActivity)?.refreshNotificationBadge()
                             }
                             initViewPager()
                         }

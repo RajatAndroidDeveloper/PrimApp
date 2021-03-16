@@ -2,10 +2,14 @@ package com.primapp.ui.dashboard
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.badge.BadgeDrawable
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.primapp.R
+import com.primapp.cache.UserCache
 import com.primapp.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_dashboard.*
 
@@ -14,6 +18,7 @@ class DashboardActivity : BaseActivity() {
     override fun showTitleBar(): Boolean = false
 
     private lateinit var navController: NavController
+    private lateinit var navBar: BottomNavigationView
 
     var bottomNavLabels: ArrayList<String> = arrayListOf(
         "UpdatesFragment",
@@ -31,6 +36,22 @@ class DashboardActivity : BaseActivity() {
 
     private fun initData() {
         navController = findNavController(R.id.nav_host_fragment)
+        navBar = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+    }
+
+    fun refreshNotificationBadge() {
+        val userData = UserCache.getUser(this)
+        userData?.let {
+            if (it.notificationsCount > 0) {
+                val badge: BadgeDrawable = navBar.getOrCreateBadge(R.id.notificationsFragment)
+                badge.backgroundColor = ContextCompat.getColor(this, R.color.red)
+                badge.verticalOffset = 6
+                badge.number = it.notificationsCount
+
+            } else {
+                navBar.removeBadge(R.id.notificationsFragment)
+            }
+        }
     }
 
     private fun setupNavigation() {
@@ -56,6 +77,7 @@ class DashboardActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         navController.addOnDestinationChangedListener(navListener)
+        refreshNotificationBadge()
     }
 
 }
