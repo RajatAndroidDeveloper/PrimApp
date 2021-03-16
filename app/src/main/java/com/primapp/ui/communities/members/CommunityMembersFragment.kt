@@ -202,10 +202,12 @@ class CommunityMembersFragment : BaseFragment<FragmentCommunityMembersBinding>()
         when (any) {
             is RequestMentor -> {
                 if (viewType == MENTEE_MEMBERS_LIST) {
-                    val bundle = Bundle()
-                    bundle.putInt("requestId", any.membersData.id)
-                    bundle.putString("type", MentorRequestRejectionFragment.MENTORSHIP_END)
-                    findNavController().navigate(R.id.mentorRequestRejectionFragment, bundle)
+                    DialogUtils.showYesNoDialog(requireActivity(), R.string.end_mentorship_confirmation, {
+                        val bundle = Bundle()
+                        bundle.putInt("requestId", any.membersData.id)
+                        bundle.putString("type", MentorRequestRejectionFragment.MENTORSHIP_END)
+                        findNavController().navigate(R.id.mentorRequestRejectionFragment, bundle)
+                    })
                 } else {
                     viewModel.requestMentor(
                         any.membersData.community!!.id, UserCache.getUserId(requireContext()),

@@ -387,7 +387,7 @@ fun makeNotificationMentorRequest(textView: TextView, notificationData: Notifica
                         .append("'s request for mentorship in ")
                         .append(communityName)
                 }else if(it.title.equals(NotificationSubTypes.REQUEST_END, true)){
-                    textToSend.append("You end the mentorship relation with ")
+                    textToSend.append("You ended the mentorship relation with ")
                         .append(senderFullName)
                         .append(" in ")
                         .append(communityName)
@@ -464,7 +464,7 @@ fun makeNotificationMentorRequest(textView: TextView, notificationData: Notifica
                         .append(communityName)
                 } else if (it.title.equals(NotificationSubTypes.POST_COMMENT_LIKE, true)) {
                     textToSend.append(senderFullName)
-                        .append(" like your comment ")
+                        .append(" liked your comment ")
 
                     if (it.postData?.fileType == null && it.postData?.postText != null) {
                         textToSend.append("on ").append("\"$trimmedPostText...\" ")
@@ -474,7 +474,7 @@ fun makeNotificationMentorRequest(textView: TextView, notificationData: Notifica
                         .append(communityName)
                 } else if (it.title.equals(NotificationSubTypes.POST_REPLY_LIKE, true)) {
                     textToSend.append(senderFullName)
-                        .append(" like your reply ")
+                        .append(" liked your reply ")
 
                     if (it.postData?.fileType == null && it.postData?.postText != null) {
                         textToSend.append("on ").append("\"$trimmedPostText...\" ")

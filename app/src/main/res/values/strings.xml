@@ -264,7 +264,7 @@
     <string name="would_you_like_to_describe">Would you like to describe the issue? (optional)</string>
     <string name="error_reason">Please mention a reason</string>
     <string name="end_mentorship">End Mentorship</string>
-    <string name="end_mentorship_confirmation">Are you sure you want to end the mentorship?</string>
+    <string name="end_mentorship_confirmation">Are you sure you want to end mentorship relation?</string>
     <string name="relation_not_fit">Relationship not a fit</string>
     <string name="expertise_not_aligned">Expertise not aligned</string>
     <string name="referred_to_new_mentor">Referred to new mentor</string>
