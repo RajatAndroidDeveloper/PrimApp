@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="frag"
+            type="com.primapp.ui.settings.help.HelpAndSupportFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/toolbar_inner_back" />
+
+        <TextView
+            android:id="@+id/tvHelp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_small"
+            android:fontFamily="@font/poppins_bold"
+            android:text="@string/help"
+            android:textColor="@color/black"
+            android:textSize="@dimen/textMedium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clToolbar"
+            app:layout_constraintWidth_percent=".9" />
+
+        <TextView
+            android:id="@+id/tvReportProblem"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_small"
+            android:drawablePadding="@dimen/space_small"
+            android:fontFamily="@font/poppins_medium"
+            android:onClick="@{()->frag.openReportProblem()}"
+            android:text="@string/report_a_problem"
+            android:textColor="@color/black"
+            app:drawableStartCompat="@drawable/privacy"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvHelp"
+            app:layout_constraintWidth_percent=".9" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:onClick="@{()->frag.openReportProblem()}"
+            android:paddingStart="28dp"
+            android:text="@string/report_problem_message"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvReportProblem"
+            app:layout_constraintWidth_percent=".9" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -230,7 +230,8 @@
     <fragment
         android:id="@+id/userPostsFragment"
         android:name="com.primapp.ui.profile.UserPostsFragment"
-        android:label="UserPostsFragment">
+        android:label="UserPostsFragment"
+        tools:layout="@layout/fragment_user_posts">
         <argument
             android:name="type"
             android:defaultValue="@null"
@@ -249,4 +250,19 @@
             android:name="postData"
             app:argType="com.primapp.model.post.PostListResult" />
     </dialog>
+    <fragment
+        android:id="@+id/helpAndSupportFragment"
+        android:name="com.primapp.ui.settings.help.HelpAndSupportFragment"
+        android:label="HelpAndSupportFragment"
+        tools:layout="@layout/fragment_help_and_support" />
+    <fragment
+        android:id="@+id/securityFragment"
+        android:name="com.primapp.ui.settings.security.SecurityFragment"
+        android:label="SecurityFragment"
+        tools:layout="@layout/fragment_security" />
+    <fragment
+        android:id="@+id/reportProblemFragment"
+        android:name="com.primapp.ui.settings.help.ReportProblemFragment"
+        android:label="ReportProblemFragment"
+        tools:layout="@layout/fragment_report_problem" />
 </navigation>

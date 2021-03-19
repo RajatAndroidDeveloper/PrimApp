@@ -85,18 +85,12 @@ class CommunityMembersListPagedAdapter @Inject constructor(val onItemClick: (Any
             ) {
                 binding.tvUsername.isVisible = false
                 binding.tvCommunityName.isVisible = true
+                binding.btnInviteMembers.isVisible = !otherUserProfile
             } else {
                 binding.tvUsername.isVisible = true
                 binding.tvCommunityName.isVisible = false
-            }
-
-            if (listViewType == CommunityMembersFragment.MENTEE_MEMBERS_LIST && !otherUserProfile) {
-                //Show end mentorship button
-                binding.btnInviteMembers.isVisible = true
-            } else {
                 binding.btnInviteMembers.isVisible =
                     data.community?.isJoined == true && (data.user.mentor_status == MentorshipStatusTypes.PENDING || data.user.mentor_status == MentorshipStatusTypes.CAN_SEND_REQUEST)
-
             }
         }
     }

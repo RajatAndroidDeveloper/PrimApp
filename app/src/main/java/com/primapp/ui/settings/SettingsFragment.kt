@@ -35,6 +35,14 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         findNavController().navigate(R.id.action_settingsFragment_to_aboutUsFragment)
     }
 
+    fun openHelpSupport() {
+        findNavController().navigate(R.id.helpAndSupportFragment)
+    }
+
+    fun openSecurity() {
+        findNavController().navigate(R.id.securityFragment)
+    }
+
     fun openBookmarks() {
         val bundle = Bundle()
         bundle.putString("type", UserPostsFragment.BOOKMARK_POST)

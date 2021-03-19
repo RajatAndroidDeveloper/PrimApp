@@ -19,6 +19,9 @@ import com.primapp.ui.profile.*
 import com.primapp.ui.profile.other.OtherUserProfileFragment
 import com.primapp.ui.settings.AboutUsFragment
 import com.primapp.ui.settings.SettingsFragment
+import com.primapp.ui.settings.help.HelpAndSupportFragment
+import com.primapp.ui.settings.help.ReportProblemFragment
+import com.primapp.ui.settings.security.SecurityFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -99,4 +102,13 @@ abstract class DashboardFragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeVideoViewDialogFragment(): VideoViewDialog
+
+    @ContributesAndroidInjector
+    abstract fun contributeHelpAndSupportFragment(): HelpAndSupportFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeSecurityFragment(): SecurityFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeReportProblemFragment(): ReportProblemFragment
 }

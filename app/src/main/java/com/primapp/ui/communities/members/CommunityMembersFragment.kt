@@ -201,7 +201,7 @@ class CommunityMembersFragment : BaseFragment<FragmentCommunityMembersBinding>()
     private fun onItemClick(any: Any?) {
         when (any) {
             is RequestMentor -> {
-                if (viewType == MENTEE_MEMBERS_LIST) {
+                if (viewType == MENTEE_MEMBERS_LIST || viewType == MENTOR_MEMBERS_LIST) {
                     DialogUtils.showYesNoDialog(requireActivity(), R.string.end_mentorship_confirmation, {
                         val bundle = Bundle()
                         bundle.putInt("requestId", any.membersData.id)
