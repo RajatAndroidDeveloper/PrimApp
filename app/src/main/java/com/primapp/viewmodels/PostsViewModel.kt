@@ -72,7 +72,7 @@ class PostsViewModel @Inject constructor(
     // get User Post List
     private var userPostListResultLiveData: LiveData<PagingData<PostListResult>>? = null
 
-    fun getUserPostsListData(type:String, userId: Int): LiveData<PagingData<PostListResult>> {
+    fun getUserPostsListData(type: String, userId: Int): LiveData<PagingData<PostListResult>> {
         val lastResult = postListResultLiveData
         if (lastResult != null) {
             return lastResult
@@ -193,5 +193,12 @@ class PostsViewModel @Inject constructor(
         _removeBookmarkPostLiveData.postValue(Event(repo.removeBookmark(communityId, userId, postId)))
     }
 
+    private var _hidePostLiveData = MutableLiveData<Event<Resource<PostActionResponseModel>>>()
+    var hidePostLiveData: LiveData<Event<Resource<PostActionResponseModel>>> = _hidePostLiveData
+
+    fun hidePost(postId: Int) = viewModelScope.launch {
+        _hidePostLiveData.postValue(Event(Resource.loading(null)))
+        _hidePostLiveData.postValue(Event(repo.hidePost(postId)))
+    }
 
 }

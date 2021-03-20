@@ -205,7 +205,12 @@ class CommunityMembersFragment : BaseFragment<FragmentCommunityMembersBinding>()
                     DialogUtils.showYesNoDialog(requireActivity(), R.string.end_mentorship_confirmation, {
                         val bundle = Bundle()
                         bundle.putInt("requestId", any.membersData.id)
-                        bundle.putString("type", MentorRequestRejectionFragment.MENTORSHIP_END)
+                        if(viewType == MENTEE_MEMBERS_LIST){
+                            //ViewType is Mentee means, I'm mentor of them
+                            bundle.putString("type", MentorRequestRejectionFragment.MENTOR_END_RELATION)
+                        }else{
+                            bundle.putString("type", MentorRequestRejectionFragment.MENTEE_END_RELATION)
+                        }
                         findNavController().navigate(R.id.mentorRequestRejectionFragment, bundle)
                     })
                 } else {

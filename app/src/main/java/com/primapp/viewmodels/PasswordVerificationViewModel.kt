@@ -15,6 +15,7 @@ import com.primapp.repository.RegistrationRepository
 import com.primapp.retrofit.base.BaseDataModel
 import com.primapp.retrofit.base.Event
 import com.primapp.retrofit.base.Resource
+import com.primapp.ui.initial.PasswordVerificationFragment
 import com.primapp.utils.ErrorFields
 import com.primapp.utils.ValidationResults
 import kotlinx.coroutines.launch
@@ -36,22 +37,34 @@ class PasswordVerificationViewModel @Inject constructor(
 
     init {
         errorFieldsLiveData.value = errorFields
-        passwordVerificationRequestModel.value = PasswordVerificationRequestModel("", "")
+        passwordVerificationRequestModel.value = PasswordVerificationRequestModel(null, "", "")
     }
 
-    fun validatePasswords(): Boolean {
+    fun validatePasswords(type: String): Boolean {
         val error = errorFieldsLiveData.value
         error?.errorPassword = null
         error?.errorConfirmPassword = null
+        error?.errorOldPassword = null
         errorFieldsLiveData.value = error
 
         Log.i("anshul", "validating")
 
-        val result = passwordVerificationRequestModel.value?.isValidFormData()
+        val result = if (type == PasswordVerificationFragment.FORGOT_PASSWORD)
+            passwordVerificationRequestModel.value?.isValidFormData()
+        else
+            passwordVerificationRequestModel.value?.isValidChangePasswordFormData()
 
         Log.i("anshul", "$result")
 
         when (result) {
+            ValidationResults.EMPTY_OLD_PASSWORD -> {
+                errorFieldsLiveData.value?.errorOldPassword =
+                    context.getString(R.string.valid_password)
+            }
+            ValidationResults.INVALID_OLD_PASSWORD -> {
+                errorFieldsLiveData.value?.errorOldPassword =
+                    context.getString(R.string.invalid_password)
+            }
             ValidationResults.EMPTY_PASSWORD -> {
                 errorFieldsLiveData.value?.errorPassword =
                     context.getString(R.string.valid_password)

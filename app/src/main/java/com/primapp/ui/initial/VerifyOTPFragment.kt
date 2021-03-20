@@ -108,7 +108,7 @@ class VerifyOTPFragment : BaseFragment<FragmentVerifyOtpBinding>() {
                     Status.SUCCESS -> {
                         val action =
                             VerifyOTPFragmentDirections.actionVerifyOTPFragmentToPasswordVerificationFragment(
-                                userId
+                                userId, PasswordVerificationFragment.FORGOT_PASSWORD
                             )
                         findNavController().navigate(action)
                     }

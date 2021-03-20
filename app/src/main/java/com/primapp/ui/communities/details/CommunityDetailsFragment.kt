@@ -227,6 +227,25 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
                 }
             }
         })
+
+        viewModel.hidePostLiveData.observe(viewLifecycleOwner, Observer {
+            hideLoading()
+            it.getContentIfNotHandled()?.let {
+                when (it.status) {
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.SUCCESS -> {
+                        it.data?.content?.let {
+                            postsAdapter.removePost(it.postId)
+                        }
+                    }
+                }
+            }
+        })
     }
 
     private fun showAdditionalData(visibility: Boolean) {
@@ -386,7 +405,9 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
                 findNavController().navigate(R.id.popUpReportPost, bundle)
             }
             is HidePost -> {
-                showInfo(requireContext(), "Not yet implemented!")
+                DialogUtils.showYesNoDialog(requireActivity(), R.string.hide_post_confirmation, {
+                    viewModel.hidePost(item.postData.id)
+                })
             }
             is DeletePost -> {
                 if (item.postData.community.status.equals(CommunityStatusTypes.INACTIVE, true)) {

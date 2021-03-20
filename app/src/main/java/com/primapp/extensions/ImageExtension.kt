@@ -85,6 +85,15 @@ fun ImageView.loadCircularImageWithoutCache(url: String?) {
         .into(this)
 }
 
+fun ImageView.loadImageWithoutCache(url: String?) {
+    Glide.with(this.context)
+        .asBitmap()
+        .diskCacheStrategy(DiskCacheStrategy.NONE)
+        .skipMemoryCache(true)
+        .load(url)
+        .into(this)
+}
+
 
 fun ImageView.loadCircularImageWithBorder(url: String?) {
     Glide.with(this.context)

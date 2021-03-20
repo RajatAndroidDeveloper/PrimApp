@@ -52,6 +52,7 @@ object ApiConstant {
     const val BOOKMARK_POST_ACTION = "communities/{communityId}/users/{userId}/posts/{postId}/bookmarks"
     const val GET_BOOKMARK_POSTS = "bookmarked_post_list"
     const val REPORT_POST = "community/{communityId}/post/{postId}/report"
+    const val HIDE_POST = "hide_post/{postId}"
 
     //Post Comment
     const val COMMENT_LIST = "communities/{communityId}/users/{userId}/posts/{postId}/comments"
@@ -69,4 +70,7 @@ object ApiConstant {
     const val GET_NOTIFICATIONS = "user_notifications"
     const val ACCEPT_REJECT_MENTORSHIP = "accept_reject_mentorship"
     const val READ_ALL_NOTIFICATION = "check_all_notifications"
+
+    //Report
+    const val REPORT_ISSUE = "report_issue"
 }

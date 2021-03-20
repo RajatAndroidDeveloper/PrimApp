@@ -3,11 +3,78 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="frag"
+            type="com.primapp.ui.settings.help.ReportProblemFragment" />
+
+        <variable
+            name="viewModel"
+            type="com.primapp.viewmodels.ReportIssueViewModel" />
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <include layout="@layout/toolbar_inner_back" />
+
+        <EditText
+            android:id="@+id/etIssueText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/what_went_wrong"
+            android:maxLines="4"
+            android:text="@={viewModel.reportIssueRequestModel.message}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clToolbar"
+            app:layout_constraintWidth_percent=".9" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardReportIssue"
+            android:layout_width="110dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="@dimen/space_medium"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{()->frag.pickImageAskPermission()}"
+            app:cardBackgroundColor="#F2F2F2"
+            app:cardCornerRadius="@dimen/space_small"
+            app:layout_constraintStart_toStartOf="@id/etIssueText"
+            app:layout_constraintTop_toBottomOf="@+id/etIssueText">
+
+            <ImageView
+                android:id="@+id/ivIssueImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:scaleType="center"
+                android:src="@drawable/ic_baseline_add_24" />
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tvReportDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_large"
+            android:text="@string/report_problem_info"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardReportIssue"
+            app:layout_constraintWidth_percent=".9" />
+
+        <Button
+            android:id="@+id/btnSave"
+            style="@style/buttonFilledPrimary"
+            android:layout_marginTop="@dimen/space_extraLarge"
+            android:onClick="@{()->frag.reportIssue()}"
+            android:text="@string/save"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvReportDescription" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

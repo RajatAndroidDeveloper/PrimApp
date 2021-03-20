@@ -30,32 +30,46 @@
             app:layout_constraintTop_toBottomOf="@+id/clToolbar"
             app:layout_constraintWidth_percent=".9" />
 
-        <TextView
-            android:id="@+id/tvReportProblem"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_small"
-            android:drawablePadding="@dimen/space_small"
-            android:fontFamily="@font/poppins_medium"
-            android:onClick="@{()->frag.openReportProblem()}"
-            android:text="@string/report_a_problem"
-            android:textColor="@color/black"
-            app:drawableStartCompat="@drawable/privacy"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvHelp"
-            app:layout_constraintWidth_percent=".9" />
 
-        <TextView
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/llReportProblem"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
             android:onClick="@{()->frag.openReportProblem()}"
-            android:paddingStart="28dp"
-            android:text="@string/report_problem_message"
+            android:orientation="horizontal"
+            android:padding="@dimen/space_small"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvReportProblem"
-            app:layout_constraintWidth_percent=".9" />
+            app:layout_constraintTop_toBottomOf="@id/tvHelp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/space_small"
+                android:src="@drawable/privacy" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvReportProblem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="@string/report_a_problem"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/report_problem_message" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

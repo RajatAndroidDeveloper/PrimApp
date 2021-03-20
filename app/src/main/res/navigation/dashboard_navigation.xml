@@ -265,4 +265,19 @@
         android:name="com.primapp.ui.settings.help.ReportProblemFragment"
         android:label="ReportProblemFragment"
         tools:layout="@layout/fragment_report_problem" />
+
+    <fragment
+        android:id="@+id/passwordVerificationFragment"
+        android:name="com.primapp.ui.initial.PasswordVerificationFragment"
+        android:label="PasswordVerificationFragment"
+        tools:layout="@layout/fragment_password_verification">
+        <argument
+            android:name="userId"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="type"
+            app:argType="string" />
+    </fragment>
 </navigation>

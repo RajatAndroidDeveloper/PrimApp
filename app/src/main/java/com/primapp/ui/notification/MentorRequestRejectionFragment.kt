@@ -43,11 +43,21 @@ class MentorRequestRejectionFragment : BaseFragment<FragmentMentorRequestRejecti
         requestId = MentorRequestRejectionFragmentArgs.fromBundle(requireArguments()).requestId
         type = MentorRequestRejectionFragmentArgs.fromBundle(requireArguments()).type
 
-        if (type == MENTORSHIP_END) {
-            binding.rbCantAccept.text = getString(R.string.relation_not_fit)
-            binding.rbVacation.text = getString(R.string.expertise_not_aligned)
-            binding.rbLeavingCommunity.text = getString(R.string.referred_to_new_mentor)
-            binding.rbOthers.text = getString(R.string.other)
+        when(type){
+            MENTEE_END_RELATION->{
+                //Mentee ending means -> appears in mentor list
+                binding.rbCantAccept.text = getString(R.string.mentee_reason_relation_not_fit)
+                binding.rbVacation.text = getString(R.string.mentee_reason_expertise_not_aligned)
+                binding.rbLeavingCommunity.text = getString(R.string.mentee_reason_referred_to_new_mentor)
+                binding.rbOthers.text = getString(R.string.other)
+            }
+            MENTOR_END_RELATION->{
+                //Mentor ending means -> appears in mentee list
+                binding.rbCantAccept.text = getString(R.string.mentor_end_reason_max_learning)
+                binding.rbVacation.text = getString(R.string.mentor_end_reason_relation_not_fit)
+                binding.rbLeavingCommunity.text = getString(R.string.mentor_end_reason_untenable)
+                binding.rbOthers.text = getString(R.string.other)
+            }
         }
 
         binding.rgRejectReason.setOnCheckedChangeListener(object : RadioGroup.OnCheckedChangeListener {
@@ -76,7 +86,7 @@ class MentorRequestRejectionFragment : BaseFragment<FragmentMentorRequestRejecti
                 hideLoading()
                 when (it.status) {
                     Status.SUCCESS -> {
-                        if (type == MENTORSHIP_END) {
+                        if (type == MENTOR_END_RELATION || type == MENTEE_END_RELATION) {
                             UserCache.decrementMenteeCount(requireContext())
                         }
 
@@ -118,7 +128,7 @@ class MentorRequestRejectionFragment : BaseFragment<FragmentMentorRequestRejecti
     }
 
     private fun sendRejectRequest(reason: String) {
-        if (type == MENTORSHIP_END) {
+        if (type == MENTEE_END_RELATION || type == MENTOR_END_RELATION) {
             viewModel.acceptRejectMentorship(requestId!!, MentorshipRequestActionType.END, reason)
         } else {
             viewModel.acceptRejectMentorship(requestId!!, MentorshipRequestActionType.REJECT, reason)
@@ -127,6 +137,7 @@ class MentorRequestRejectionFragment : BaseFragment<FragmentMentorRequestRejecti
 
     companion object {
         const val MENTORSHIP_REQUEST_REJECT = "RejectCommunityAction"
-        const val MENTORSHIP_END = "EndRelationshipForMentorship"
+        const val MENTEE_END_RELATION = "EndRelationshipForMentorship"
+        const val MENTOR_END_RELATION = "endRelationofMentor"
     }
 }

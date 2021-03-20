@@ -15,6 +15,7 @@ import com.primapp.model.post.*
 import com.primapp.model.profile.EditProfileRequestModel
 import com.primapp.model.reply.CommentReplyResponseModel
 import com.primapp.model.reply.CreateReplyRequestModel
+import com.primapp.model.settings.ReportIssueRequestModel
 import com.primapp.retrofit.base.BaseDataModel
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -352,4 +353,10 @@ interface ApiService {
 
     @POST(ApiConstant.READ_ALL_NOTIFICATION)
     suspend fun markNotificationAsRead(): BaseDataModel
+
+    @POST(ApiConstant.HIDE_POST)
+    suspend fun hidePost(@Path("postId") postId: Int): PostActionResponseModel
+
+    @POST(ApiConstant.REPORT_ISSUE)
+    suspend fun reportIssue(@Body reportIssueRequestModel: ReportIssueRequestModel): BaseDataModel
 }

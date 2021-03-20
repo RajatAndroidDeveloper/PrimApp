@@ -1,9 +1,11 @@
 package com.primapp.ui.post.comment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +25,9 @@ import com.primapp.viewmodels.PostsViewModel
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 
 class PostCommentFragment : BaseFragment<FragmentPostCommentBinding>() {
@@ -147,7 +152,7 @@ class PostCommentFragment : BaseFragment<FragmentPostCommentBinding>() {
 
     private fun setAdapter() {
         binding.rvComments.apply {
-            layoutManager = LinearLayoutManager(requireContext())
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true)
         }
 
         binding.rvComments.adapter = adapter.withLoadStateHeaderAndFooter(
@@ -180,6 +185,23 @@ class PostCommentFragment : BaseFragment<FragmentPostCommentBinding>() {
                     binding.rvComments.isVisible = false
                 }
             }
+        }
+
+        // Scroll to top when the list is refreshed from network.
+        lifecycleScope.launch {
+            adapter.loadStateFlow
+                // Only emit when REFRESH LoadState for RemoteMediator changes.
+                .distinctUntilChangedBy { it.refresh }
+                // Only react to cases where Remote REFRESH completes i.e., NotLoading.
+                .filter { it.refresh is LoadState.NotLoading }
+                .collect {
+                    Log.d("anshul", "----data observer called : ${it.prepend.endOfPaginationReached}")
+                    if (it.prepend.endOfPaginationReached && adapter.itemCount > 0) {
+                        binding.rvComments.postDelayed({
+                            binding.rvComments.smoothScrollToPosition(0)
+                        }, 300)
+                    }
+                }
         }
     }
 

@@ -244,6 +244,14 @@ class CommunitiesRepository @Inject constructor(
         }
     }
 
+    suspend fun hidePost(postId: Int): Resource<PostActionResponseModel> {
+        return try {
+            responseHandler.handleResponse(apiService.hidePost(postId))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
     //------ END OF POST --------
 
 

@@ -87,6 +87,7 @@
     <string name="valid_community_description_length">Please enter community description upto 500 characters only</string>
     <string name="valid_post_text_length">Please enter post text upto 2000 characters only</string>
     <string name="valid_post_text">Post text can\'t be empty</string>
+    <string name="valid_issue_text">Issue message can\'t be empty</string>
     <string name="valid_select_community">Please select community</string>
     <string name="valid_select_category">Please select category</string>
 
@@ -104,7 +105,9 @@
     <string name="otp_sent_success">A one-time passcode (OTP) was sent to your registered email.</string>
     <string name="forgot_username_verify_success">Your username was sent to your email.</string>
     <string name="new_password">New Password</string>
+    <string name="old_password">Old Password</string>
     <string name="password_reset_success">You have successfully reset your password.</string>
+    <string name="password_change_success">You have successfully changed your password.</string>
     <string name="search">Search</string>
     <string name="edit">Edit</string>
     <string name="about">About</string>
@@ -265,9 +268,9 @@
     <string name="error_reason">Please mention a reason</string>
     <string name="end_mentorship">End Mentorship</string>
     <string name="end_mentorship_confirmation">Are you sure you want to end mentorship relation?</string>
-    <string name="relation_not_fit">Relationship not a fit</string>
-    <string name="expertise_not_aligned">Expertise not aligned</string>
-    <string name="referred_to_new_mentor">Referred to new mentor</string>
+    <string name="mentee_reason_relation_not_fit">Relationship not a fit</string>
+    <string name="mentee_reason_expertise_not_aligned">Expertise not aligned</string>
+    <string name="mentee_reason_referred_to_new_mentor">Referred to new mentor</string>
     <string name="other">Other</string>
     <string name="notification_filter_all">All</string>
     <string name="notification_filter_mentoring_relationship">Mentoring Relationship</string>
@@ -280,5 +283,11 @@
     <string name="login">Login</string>
     <string name="change_password">Change Password</string>
     <string name="change_password_description">It\'s a good idea to use a strong password that you\'re  not using elsewhere.</string>
-
+    <string name="mentor_end_reason_max_learning">Mentee has maximized learning</string>
+    <string name="mentor_end_reason_relation_not_fit">Relationship is not a proper fit</string>
+    <string name="mentor_end_reason_untenable">Mentoring relationship is untenable</string>
+    <string name="hide_post_confirmation">Are you sure you want to hide this post?</string>
+    <string name="what_went_wrong">What went wrong?</string>
+    <string name="report_problem_info">Please only leave feedback about PRIM and features. Visit our help center to learn about reporting content posted on PRIM that violated our community guidelines, like, abuse, spam or intellectual property. All reports are subject to our terms of use.</string>
+    <string name="report_problem_success">Your report was sent to our help center.</string>
 </resources>

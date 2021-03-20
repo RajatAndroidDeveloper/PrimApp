@@ -160,6 +160,25 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                 }
             }
         })
+
+        viewModel.hidePostLiveData.observe(viewLifecycleOwner, Observer {
+            hideLoading()
+            it.getContentIfNotHandled()?.let {
+                when(it.status){
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.SUCCESS -> {
+                        it.data?.content?.let {
+                            adapter.removePost(it.postId)
+                        }
+                    }
+                }
+            }
+        })
     }
 
     private fun setAdapter() {
@@ -294,7 +313,9 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
             }
 
             is HidePost -> {
-                showInfo(requireContext(), "Not yet implemented!")
+                DialogUtils.showYesNoDialog(requireActivity(),R.string.hide_post_confirmation,{
+                    viewModel.hidePost(item.postData.id)
+                })
             }
 
             is DeletePost -> {

@@ -74,5 +74,10 @@ abstract class ViewModelModule {
     abstract fun bindNotificationViewModel(viewModel: NotificationViewModel): ViewModel
 
     @Binds
+    @IntoMap
+    @ViewModelKey(ReportIssueViewModel::class)
+    abstract fun bindReportIssueViewModel(viewModel: ReportIssueViewModel): ViewModel
+
+    @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 }

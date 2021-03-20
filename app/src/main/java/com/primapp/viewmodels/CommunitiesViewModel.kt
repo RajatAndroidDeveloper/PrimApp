@@ -324,4 +324,12 @@ class CommunitiesViewModel @Inject constructor(
         _getUserLiveData.postValue(Event(Resource.loading(null)))
         _getUserLiveData.postValue(Event(repo.getUserData(userId)))
     }
+
+    private var _hidePostLiveData = MutableLiveData<Event<Resource<PostActionResponseModel>>>()
+    var hidePostLiveData: LiveData<Event<Resource<PostActionResponseModel>>> = _hidePostLiveData
+
+    fun hidePost(postId: Int) = viewModelScope.launch {
+        _hidePostLiveData.postValue(Event(Resource.loading(null)))
+        _hidePostLiveData.postValue(Event(repo.hidePost(postId)))
+    }
 }
