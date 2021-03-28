@@ -39,6 +39,23 @@
                 app:layout_constraintTop_toTopOf="@id/tvName" />
 
             <TextView
+                android:id="@+id/tvMentorMentee"
+                style="@style/normalBodyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_rounded_corner_light_grey"
+                android:paddingStart="@dimen/textExtraSmall"
+                android:paddingEnd="@dimen/textExtraSmall"
+                android:text="@{data.user.mentor ? @string/mentor : @string/mentee}"
+                android:textSize="@dimen/textExtraSmall"
+                android:visibility="@{(data.user.mentor || data.user.mentee) ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@id/ivProfilePic"
+                app:layout_constraintEnd_toEndOf="@id/ivProfilePic"
+                app:layout_constraintStart_toStartOf="@id/ivProfilePic"
+                tools:text="@string/mentor"
+                tools:visibility="visible" />
+
+            <TextView
                 android:id="@+id/tvName"
                 style="@style/normalBodyText"
                 android:layout_marginStart="@dimen/space_small"
@@ -107,13 +124,13 @@
             <com.primapp.extensions.ExpandableTextView
                 android:id="@+id/tvCaption"
                 style="@style/normalBodyText"
-                android:layout_marginTop="@dimen/space_normal"
+                android:layout_marginTop="@dimen/space_small"
                 android:ellipsize="end"
                 android:text="@{data.postText}"
                 android:visibility="@{(data.postText==null || TextUtils.isEmpty(data.postText))? View.GONE : View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="@id/ivMore"
                 app:layout_constraintStart_toStartOf="@id/ivProfilePic"
-                app:layout_constraintTop_toBottomOf="@id/ivProfilePic"
+                app:layout_constraintTop_toBottomOf="@id/tvPostTime"
                 app:trimLength="@{data.fileType == null? 400 : 200}"
                 tools:text="@string/long_about_text" />
 

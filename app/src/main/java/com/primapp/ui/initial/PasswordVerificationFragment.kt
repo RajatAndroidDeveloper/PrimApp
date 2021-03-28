@@ -1,6 +1,7 @@
 package com.primapp.ui.initial
 
 import android.os.Bundle
+import android.provider.ContactsContract
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -19,6 +20,8 @@ import kotlinx.android.synthetic.main.toolbar_inner_back.*
 class PasswordVerificationFragment : BaseFragment<FragmentPasswordVerificationBinding>() {
 
     private lateinit var type: String
+    var email: String? = null
+    var code: String? = null
 
     override fun getLayoutRes(): Int = R.layout.fragment_password_verification
 
@@ -39,16 +42,20 @@ class PasswordVerificationFragment : BaseFragment<FragmentPasswordVerificationBi
         binding.viewModel = viewModel
         userId = PasswordVerificationFragmentArgs.fromBundle(requireArguments()).userId
         type = PasswordVerificationFragmentArgs.fromBundle(requireArguments()).type
+        email = PasswordVerificationFragmentArgs.fromBundle(requireArguments()).email
+        code = PasswordVerificationFragmentArgs.fromBundle(requireArguments()).code
 
         if (type == CHANGE_PASSWORD) {
-            userId = UserCache.getUserId(requireContext()).toString()
             binding.tvHeading.isVisible = false
             binding.tlOldPassword.isVisible = true
             tvTitle.setText(getString(R.string.change_password))
         } else {
             //Forgot password
             binding.tlOldPassword.isVisible = false
-
+            val data = viewModel.passwordVerificationRequestModel.value
+            data?.email = email
+            data?.code = code
+            viewModel.passwordVerificationRequestModel.value = data
         }
     }
 
@@ -64,16 +71,29 @@ class PasswordVerificationFragment : BaseFragment<FragmentPasswordVerificationBi
                         showError(requireContext(), it.message!!)
                     }
                     Status.SUCCESS -> {
-                        val stringId =
-                            if (type == FORGOT_PASSWORD) R.string.password_reset_success else R.string.password_change_success
-                        DialogUtils.showCloseDialog(requireActivity(), stringId) {
-                            if (type == FORGOT_PASSWORD) {
-                                val action =
-                                    PasswordVerificationFragmentDirections.actionPasswordVerificationFragmentToLoginFragment()
-                                findNavController().navigate(action)
-                            } else {
-                                findNavController().popBackStack()
-                            }
+                        DialogUtils.showCloseDialog(requireActivity(), R.string.password_change_success) {
+                            findNavController().popBackStack()
+                        }
+                    }
+                }
+            }
+        })
+
+        viewModel.resetPasswordLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.SUCCESS -> {
+                        DialogUtils.showCloseDialog(requireActivity(), R.string.password_reset_success) {
+                            val action =
+                                PasswordVerificationFragmentDirections.actionPasswordVerificationFragmentToLoginFragment()
+                            findNavController().navigate(action)
                         }
                     }
                 }
@@ -86,7 +106,7 @@ class PasswordVerificationFragment : BaseFragment<FragmentPasswordVerificationBi
             if (type == CHANGE_PASSWORD)
                 viewModel.changePassword(userId!!)
             else
-                showInfo(requireContext(), "Not yet implemented!")
+                viewModel.resetPassword(userId!!)
         }
     }
 

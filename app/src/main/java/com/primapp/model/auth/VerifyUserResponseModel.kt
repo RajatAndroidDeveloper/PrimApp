@@ -49,7 +49,7 @@ data class UserData(
     @SerializedName("mentee_count")
     var menteeCount: Int = 0,
     @SerializedName("mentor_count")
-    val mentorCount: Int = 0,
+    var mentorCount: Int = 0,
     @SerializedName("total_notifications")
     var notificationsCount: Int = 0
 )

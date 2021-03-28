@@ -5,6 +5,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
+import com.primapp.model.community.JoinCommunityResponseModel
+import com.primapp.model.community.CommunityActionRequestModel
 import com.primapp.model.notification.NotificationResult
 import com.primapp.retrofit.ApiConstant
 import com.primapp.retrofit.ApiService
@@ -42,6 +44,19 @@ class NotificationRepository @Inject constructor(
     suspend fun markNotificationAsRead(): Resource<BaseDataModel> {
         return try {
             responseHandler.handleResponse(apiService.markNotificationAsRead())
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+
+    suspend fun leaveCommunity(
+        communityId: Int,
+        userId: Int,
+        communityActionRequestModel: CommunityActionRequestModel
+    ): Resource<JoinCommunityResponseModel> {
+        return try {
+            responseHandler.handleResponse(apiService.leaveCommunity(communityId, userId, communityActionRequestModel))
         } catch (e: Exception) {
             responseHandler.handleException(e)
         }

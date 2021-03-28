@@ -360,6 +360,9 @@ class UserPostsFragment() : BaseFragment<FragmentUserPostsBinding>() {
                 bundle.putInt("userId", item.userId)
                 findNavController().navigate(R.id.otherUserProfileFragment, bundle)
             }
+            is SharePost -> {
+                showInfo(requireContext(), getString(R.string.not_yet_implemented))
+            }
         }
     }
 

@@ -14,6 +14,7 @@ import com.primapp.cache.UserCache
 import com.primapp.constants.MentorshipRequestActionType
 import com.primapp.databinding.FragmentMentorRequestRejectionBinding
 import com.primapp.extensions.showError
+import com.primapp.model.community.CommunityData
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.utils.DialogUtils
@@ -25,6 +26,7 @@ class MentorRequestRejectionFragment : BaseFragment<FragmentMentorRequestRejecti
 
     private var requestId: Int? = null
     lateinit var type: String
+    var communityData: CommunityData? = null
 
     val viewModel by viewModels<NotificationViewModel> { viewModelFactory }
 
@@ -42,21 +44,31 @@ class MentorRequestRejectionFragment : BaseFragment<FragmentMentorRequestRejecti
         binding.frag = this
         requestId = MentorRequestRejectionFragmentArgs.fromBundle(requireArguments()).requestId
         type = MentorRequestRejectionFragmentArgs.fromBundle(requireArguments()).type
+        communityData = MentorRequestRejectionFragmentArgs.fromBundle(requireArguments()).communityData
 
-        when(type){
-            MENTEE_END_RELATION->{
+        when (type) {
+            MENTEE_END_RELATION -> {
                 //Mentee ending means -> appears in mentor list
                 binding.rbCantAccept.text = getString(R.string.mentee_reason_relation_not_fit)
                 binding.rbVacation.text = getString(R.string.mentee_reason_expertise_not_aligned)
                 binding.rbLeavingCommunity.text = getString(R.string.mentee_reason_referred_to_new_mentor)
                 binding.rbOthers.text = getString(R.string.other)
             }
-            MENTOR_END_RELATION->{
+            MENTOR_END_RELATION -> {
                 //Mentor ending means -> appears in mentee list
                 binding.rbCantAccept.text = getString(R.string.mentor_end_reason_max_learning)
                 binding.rbVacation.text = getString(R.string.mentor_end_reason_relation_not_fit)
                 binding.rbLeavingCommunity.text = getString(R.string.mentor_end_reason_untenable)
                 binding.rbOthers.text = getString(R.string.other)
+            }
+            LEAVE_COMMUNITY -> {
+                //Leave community reasons
+                binding.rbCantAccept.text = getString(R.string.leave_reason_relation_not_fit)
+                binding.rbVacation.text = getString(R.string.leave_reason_expertise_not_aligned)
+                binding.rbLeavingCommunity.text = getString(R.string.leave_reason_refered_to_mentor)
+                binding.rbOthers.text = getString(R.string.other)
+
+                binding.ratingBar.isVisible = true
             }
         }
 
@@ -86,7 +98,11 @@ class MentorRequestRejectionFragment : BaseFragment<FragmentMentorRequestRejecti
                 hideLoading()
                 when (it.status) {
                     Status.SUCCESS -> {
-                        if (type == MENTOR_END_RELATION || type == MENTEE_END_RELATION) {
+                        if (type == MENTEE_END_RELATION) {
+                            UserCache.decrementMentorCount(requireContext())
+                        }
+
+                        if (type == MENTOR_END_RELATION) {
                             UserCache.decrementMenteeCount(requireContext())
                         }
 
@@ -105,6 +121,33 @@ class MentorRequestRejectionFragment : BaseFragment<FragmentMentorRequestRejecti
                     }
                     Status.ERROR -> {
                         showError(requireContext(), it.message!!)
+                    }
+                }
+            }
+        })
+
+        viewModel.leaveCommunityLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let { response ->
+                hideLoading()
+                when (response.status) {
+                    Status.SUCCESS -> {
+                        response.data?.content?.apply {
+                            communityData?.isJoined = isJoined
+                            communityData?.totalActiveMember = totalActiveMember
+                            if (isJoined == true) {
+                                UserCache.incrementJoinedCommunityCount(requireContext())
+                            } else {
+                                UserCache.decrementJoinedCommunityCount(requireContext())
+                            }
+
+                            findNavController().popBackStack()
+                        }
+                    }
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), response.message!!)
                     }
                 }
             }
@@ -128,10 +171,26 @@ class MentorRequestRejectionFragment : BaseFragment<FragmentMentorRequestRejecti
     }
 
     private fun sendRejectRequest(reason: String) {
-        if (type == MENTEE_END_RELATION || type == MENTOR_END_RELATION) {
-            viewModel.acceptRejectMentorship(requestId!!, MentorshipRequestActionType.END, reason)
-        } else {
-            viewModel.acceptRejectMentorship(requestId!!, MentorshipRequestActionType.REJECT, reason)
+        if (binding.ratingBar.isVisible && binding.ratingBar.rating == 0.0f) {
+            showError(requireContext(), getString(R.string.please_give_rating))
+            return
+        }
+
+        when (type) {
+            MENTORSHIP_REQUEST_REJECT -> {
+                viewModel.acceptRejectMentorship(requestId!!, MentorshipRequestActionType.REJECT, reason)
+            }
+            MENTEE_END_RELATION, MENTOR_END_RELATION -> {
+                viewModel.acceptRejectMentorship(requestId!!, MentorshipRequestActionType.END, reason)
+            }
+            LEAVE_COMMUNITY -> {
+                viewModel.leaveCommunity(
+                    communityData!!.id,
+                    UserCache.getUserId(requireContext()),
+                    reason,
+                    binding.ratingBar.rating.toDouble()
+                )
+            }
         }
     }
 
@@ -139,5 +198,6 @@ class MentorRequestRejectionFragment : BaseFragment<FragmentMentorRequestRejecti
         const val MENTORSHIP_REQUEST_REJECT = "RejectCommunityAction"
         const val MENTEE_END_RELATION = "EndRelationshipForMentorship"
         const val MENTOR_END_RELATION = "endRelationofMentor"
+        const val LEAVE_COMMUNITY = "leaveCommunity"
     }
 }

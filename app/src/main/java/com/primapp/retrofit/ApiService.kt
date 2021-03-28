@@ -53,10 +53,16 @@ interface ApiService {
     suspend fun forgotPasswordVerify(
         @Path("userId") userId: String,
         @Body verifyOTPRequestModel: VerifyOTPRequestModel
-    ): BaseDataModel
+    ): VerifyForgotPasswordResponse
 
     @PUT(ApiConstant.CHANGE_PASSWORD)
     suspend fun changePassword(
+        @Path("userId") userId: String,
+        @Body verifyPasswordRequestModel: PasswordVerificationRequestModel
+    ): VerifyUserResponseModel
+
+    @PUT(ApiConstant.RESET_PASSWORD)
+    suspend fun resetPassword(
         @Path("userId") userId: String,
         @Body verifyPasswordRequestModel: PasswordVerificationRequestModel
     ): VerifyUserResponseModel
@@ -88,7 +94,8 @@ interface ApiService {
     @POST(ApiConstant.JOIN_COMMUNITY)
     suspend fun joinCommunity(
         @Path("communityId") communityId: Int,
-        @Path("userId") userId: Int
+        @Path("userId") userId: Int,
+        @Body communityActionRequestModel: CommunityActionRequestModel
     ): JoinCommunityResponseModel
 
     @GET(ApiConstant.GET_COMMUNITY)
@@ -96,10 +103,11 @@ interface ApiService {
         @Path("communityId") communityId: Int
     ): CommunityDetailsResponseModel
 
-    @DELETE(ApiConstant.JOIN_COMMUNITY)
+    @POST(ApiConstant.JOIN_COMMUNITY)
     suspend fun leaveCommunity(
         @Path("communityId") communityId: Int,
-        @Path("userId") userId: Int
+        @Path("userId") userId: Int,
+        @Body communityActionRequestModel: CommunityActionRequestModel
     ): JoinCommunityResponseModel
 
     @PUT(ApiConstant.EDIT_PROFILE)

@@ -22,6 +22,7 @@ import com.primapp.ui.communities.adapter.CommunityMembersImageAdapter
 import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
 import com.primapp.ui.communities.members.CommunityMembersFragment
 import com.primapp.ui.dashboard.ProfileFragment
+import com.primapp.ui.notification.MentorRequestRejectionFragment
 import com.primapp.ui.post.adapter.PostListPagedAdapter
 import com.primapp.ui.post.create.CreatePostFragment
 import com.primapp.utils.DialogUtils
@@ -312,7 +313,10 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
                         requireActivity(),
                         R.string.leave_Community_message,
                         yesClickCallback = {
-                            viewModel.leaveCommunity(communityData.id, userData!!.id)
+                            val bundle = Bundle()
+                            bundle.putSerializable("communityData", communityData)
+                            bundle.putString("type", MentorRequestRejectionFragment.LEAVE_COMMUNITY)
+                            findNavController().navigate(R.id.mentorRequestRejectionFragment, bundle)
                         })
                 } else {
                     viewModel.joinCommunity(communityData.id, userData!!.id)
@@ -438,6 +442,9 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
                 val bundle = Bundle()
                 bundle.putInt("userId", item.userId)
                 findNavController().navigate(R.id.otherUserProfileFragment, bundle)
+            }
+            is SharePost -> {
+                showInfo(requireContext(), getString(R.string.not_yet_implemented))
             }
         }
     }

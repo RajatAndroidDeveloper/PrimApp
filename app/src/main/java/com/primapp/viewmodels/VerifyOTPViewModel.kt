@@ -10,6 +10,7 @@ import com.google.gson.Gson
 import com.primapp.PrimApp
 import com.primapp.R
 import com.primapp.model.auth.SignUpRequestDataModel
+import com.primapp.model.auth.VerifyForgotPasswordResponse
 import com.primapp.model.auth.VerifyOTPRequestModel
 import com.primapp.model.auth.VerifyUserResponseModel
 import com.primapp.repository.RegistrationRepository
@@ -82,8 +83,8 @@ class VerifyOTPViewModel @Inject constructor(
             )
         }
 
-    private var _forgotPasswordVerifyOTPLiveData = MutableLiveData<Event<Resource<BaseDataModel>>>()
-    var forgotPasswordVerifyOTP: LiveData<Event<Resource<BaseDataModel>>> =
+    private var _forgotPasswordVerifyOTPLiveData = MutableLiveData<Event<Resource<VerifyForgotPasswordResponse>>>()
+    var forgotPasswordVerifyOTP: LiveData<Event<Resource<VerifyForgotPasswordResponse>>> =
         _forgotPasswordVerifyOTPLiveData
 
     fun forgotPasswordVerifyOTP(userId: String) =

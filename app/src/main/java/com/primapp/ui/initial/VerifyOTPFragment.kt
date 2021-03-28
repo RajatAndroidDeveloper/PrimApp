@@ -106,11 +106,13 @@ class VerifyOTPFragment : BaseFragment<FragmentVerifyOtpBinding>() {
                         showError(requireContext(), it.message!!)
                     }
                     Status.SUCCESS -> {
-                        val action =
-                            VerifyOTPFragmentDirections.actionVerifyOTPFragmentToPasswordVerificationFragment(
-                                userId, PasswordVerificationFragment.FORGOT_PASSWORD
-                            )
-                        findNavController().navigate(action)
+                        it.data?.content?.let {
+                            val action =
+                                VerifyOTPFragmentDirections.actionVerifyOTPFragmentToPasswordVerificationFragment(
+                                    userId, PasswordVerificationFragment.FORGOT_PASSWORD, it.email, viewModel.verifyOTPRequestModel.value?.code
+                                )
+                            findNavController().navigate(action)
+                        }
                     }
                 }
             }

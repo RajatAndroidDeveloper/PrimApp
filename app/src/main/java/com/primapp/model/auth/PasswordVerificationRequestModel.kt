@@ -5,6 +5,10 @@ import com.primapp.utils.Validator
 
 
 data class PasswordVerificationRequestModel(
+    @SerializedName("email")
+    var email: String?,
+    @SerializedName("code")
+    var code: String?,
     @SerializedName("old_pwd")
     var oldPassword: String?,
     @SerializedName("new_pwd")

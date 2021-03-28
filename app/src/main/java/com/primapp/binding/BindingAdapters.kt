@@ -427,6 +427,9 @@ fun makeNotificationMentorRequest(textView: TextView, notificationData: Notifica
                     textToSend.append(senderFullName)
                         .append(" left your community ")
                         .append(communityName)
+                        .append(".\n")
+                        .append("Reason : ")
+                        .normal(it.message ?: "No reason specified")
                 }
             }
             NotificationTypes.POST_RELATED_NOTIFICATION -> {

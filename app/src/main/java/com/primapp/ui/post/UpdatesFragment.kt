@@ -27,6 +27,7 @@ import com.primapp.ui.post.create.CreatePostFragment
 import com.primapp.utils.DialogUtils
 import com.primapp.viewmodels.PostsViewModel
 import kotlinx.android.synthetic.main.fragment_updates.*
+import kotlinx.android.synthetic.main.toolbar_dashboard_accent.*
 import kotlinx.coroutines.launch
 
 class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
@@ -53,6 +54,10 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
 
         binding.groupNoPostView.isVisible = userData!!.joinedCommunityCount == 0
         binding.groupNoCommunityView.isVisible = userData!!.joinedCommunityCount > 0
+
+        ivEndIcon.setOnClickListener {
+            showInfo(requireContext(), getString(R.string.not_yet_implemented))
+        }
     }
 
     private fun setObserver() {
@@ -164,7 +169,7 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
         viewModel.hidePostLiveData.observe(viewLifecycleOwner, Observer {
             hideLoading()
             it.getContentIfNotHandled()?.let {
-                when(it.status){
+                when (it.status) {
                     Status.LOADING -> {
                         showLoading()
                     }
@@ -313,7 +318,7 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
             }
 
             is HidePost -> {
-                DialogUtils.showYesNoDialog(requireActivity(),R.string.hide_post_confirmation,{
+                DialogUtils.showYesNoDialog(requireActivity(), R.string.hide_post_confirmation, {
                     viewModel.hidePost(item.postData.id)
                 })
             }
@@ -351,6 +356,10 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                 val bundle = Bundle()
                 bundle.putInt("userId", item.userId)
                 findNavController().navigate(R.id.otherUserProfileFragment, bundle)
+            }
+
+            is SharePost -> {
+                showInfo(requireContext(), getString(R.string.not_yet_implemented))
             }
         }
     }

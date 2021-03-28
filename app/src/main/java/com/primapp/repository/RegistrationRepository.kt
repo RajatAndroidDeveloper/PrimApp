@@ -85,7 +85,7 @@ class RegistrationRepository @Inject constructor(
     suspend fun forgotPasswordVerify(
         userId: String,
         verifyOTPRequestModel: VerifyOTPRequestModel
-    ): Resource<BaseDataModel> {
+    ): Resource<VerifyForgotPasswordResponse> {
         return try {
             responseHandler.handleResponse(
                 apiService.forgotPasswordVerify(userId, verifyOTPRequestModel)
@@ -108,6 +108,19 @@ class RegistrationRepository @Inject constructor(
         }
     }
 
+    suspend fun resetPassword(
+        userId: String,
+        passwordVerificationRequestModel: PasswordVerificationRequestModel
+    ): Resource<VerifyUserResponseModel> {
+        return try {
+            responseHandler.handleResponse(
+                apiService.resetPassword(userId, passwordVerificationRequestModel)
+            )
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
     suspend fun resendOTP(email: String): Resource<BaseDataModel> {
         return try {
             responseHandler.handleResponse(
@@ -117,7 +130,6 @@ class RegistrationRepository @Inject constructor(
             responseHandler.handleException(e)
         }
     }
-
 
     private fun fetchAccessToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->

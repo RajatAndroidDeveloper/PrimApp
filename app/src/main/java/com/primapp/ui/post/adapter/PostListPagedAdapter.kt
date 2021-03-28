@@ -136,6 +136,12 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
                 }
             }
 
+            binding.ivShare.setOnClickListener {
+                data?.let {
+                    onItemClick(SharePost(it))
+                }
+            }
+
             binding.ivMore.setOnClickListener {
                 //creating a popup menu
                 val popup = PopupMenu(binding.root.context, binding.ivMore)

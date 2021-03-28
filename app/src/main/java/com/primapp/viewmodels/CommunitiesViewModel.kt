@@ -8,13 +8,11 @@ import androidx.paging.cachedIn
 import com.google.gson.Gson
 import com.primapp.PrimApp
 import com.primapp.R
+import com.primapp.constants.CommunityActionTypes
 import com.primapp.model.auth.VerifyUserResponseModel
 import com.primapp.model.aws.PresignedURLResponseModel
 import com.primapp.model.category.*
-import com.primapp.model.community.CommunityData
-import com.primapp.model.community.CommunityDetailsResponseModel
-import com.primapp.model.community.CreateCommunityRequestModel
-import com.primapp.model.community.JoinCommunityResponseModel
+import com.primapp.model.community.*
 import com.primapp.model.members.CommunityMembersData
 import com.primapp.model.mentor.RequestMentorDataModel
 import com.primapp.model.mentor.RequestMentorResponseModel
@@ -144,15 +142,7 @@ class CommunitiesViewModel @Inject constructor(
     fun joinCommunity(communityId: Int, userId: Int) = viewModelScope.launch {
         _joinCommunityLiveData.postValue(Event(Resource.loading(null)))
         _joinCommunityLiveData.postValue(
-            Event(repo.joinCommunity(communityId, userId))
-        )
-    }
-
-    //Leave Community
-    fun leaveCommunity(communityId: Int, userId: Int) = viewModelScope.launch {
-        _joinCommunityLiveData.postValue(Event(Resource.loading(null)))
-        _joinCommunityLiveData.postValue(
-            Event(repo.leaveCommunity(communityId, userId))
+            Event(repo.joinCommunity(communityId, userId, CommunityActionRequestModel(CommunityActionTypes.JOIN)))
         )
     }
 

@@ -6,6 +6,9 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.insertSeparators
 import androidx.paging.map
+import com.primapp.constants.CommunityActionTypes
+import com.primapp.model.community.JoinCommunityResponseModel
+import com.primapp.model.community.CommunityActionRequestModel
 import com.primapp.model.notification.NotificationUIModel
 import com.primapp.model.notification.dateFromTimeStamp
 import com.primapp.repository.NotificationRepository
@@ -76,6 +79,24 @@ class NotificationViewModel @Inject constructor(
     fun markNotificationAsRead() = viewModelScope.launch {
         _readAllNotificationLiveData.postValue(Event(Resource.loading(null)))
         _readAllNotificationLiveData.postValue(Event(repo.markNotificationAsRead()))
+    }
+
+    private var _leaveCommunityLiveData = MutableLiveData<Event<Resource<JoinCommunityResponseModel>>>()
+    var leaveCommunityLiveData: LiveData<Event<Resource<JoinCommunityResponseModel>>> =
+        _leaveCommunityLiveData
+
+    //Leave Community
+    fun leaveCommunity(communityId: Int, userId: Int, message: String, rating: Double) = viewModelScope.launch {
+        _leaveCommunityLiveData.postValue(Event(Resource.loading(null)))
+        _leaveCommunityLiveData.postValue(
+            Event(
+                repo.leaveCommunity(
+                    communityId,
+                    userId,
+                    CommunityActionRequestModel(CommunityActionTypes.LEAVE, message, rating)
+                )
+            )
+        )
     }
 
 }

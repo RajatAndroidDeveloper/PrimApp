@@ -222,10 +222,16 @@
         tools:layout="@layout/fragment_mentor_request_rejection">
         <argument
             android:name="requestId"
-            app:argType="integer" />
+            app:argType="integer"
+            android:defaultValue="-1" />
         <argument
             android:name="type"
             app:argType="string" />
+        <argument
+            android:name="communityData"
+            app:argType="com.primapp.model.community.CommunityData"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/userPostsFragment"
@@ -274,10 +280,20 @@
         <argument
             android:name="userId"
             app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
         <argument
             android:name="type"
             app:argType="string" />
+        <argument
+            android:name="email"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="code"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null"
+            />
     </fragment>
 </navigation>

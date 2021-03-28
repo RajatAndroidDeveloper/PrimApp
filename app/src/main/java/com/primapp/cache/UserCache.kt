@@ -91,6 +91,14 @@ object UserCache {
         }
     }
 
+    fun decrementMentorCount(context: Context) {
+        val user = getUser(context)
+        user?.let {
+            it.mentorCount--
+            saveUser(context, it)
+        }
+    }
+
     fun resetNotification(context: Context){
         val user = getUser(context)
         user?.let {

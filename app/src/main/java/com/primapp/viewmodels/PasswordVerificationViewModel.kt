@@ -37,7 +37,7 @@ class PasswordVerificationViewModel @Inject constructor(
 
     init {
         errorFieldsLiveData.value = errorFields
-        passwordVerificationRequestModel.value = PasswordVerificationRequestModel(null, "", "")
+        passwordVerificationRequestModel.value = PasswordVerificationRequestModel(null,null,null, "", "")
     }
 
     fun validatePasswords(type: String): Boolean {
@@ -103,6 +103,18 @@ class PasswordVerificationViewModel @Inject constructor(
             _changePasswordLiveData.postValue(Event(Resource.loading(null)))
             _changePasswordLiveData.postValue(
                 Event(repo.changePassword(userId, passwordVerificationRequestModel.value!!))
+            )
+        }
+
+    private var _resetPasswordLiveData = MutableLiveData<Event<Resource<VerifyUserResponseModel>>>()
+    var resetPasswordLiveData: LiveData<Event<Resource<VerifyUserResponseModel>>> =
+        _resetPasswordLiveData
+
+    fun resetPassword(userId: String) =
+        viewModelScope.launch {
+            _resetPasswordLiveData.postValue(Event(Resource.loading(null)))
+            _resetPasswordLiveData.postValue(
+                Event(repo.resetPassword(userId, passwordVerificationRequestModel.value!!))
             )
         }
 }
