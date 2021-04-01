@@ -63,9 +63,9 @@ class MentorRequestRejectionFragment : BaseFragment<FragmentMentorRequestRejecti
             }
             LEAVE_COMMUNITY -> {
                 //Leave community reasons
-                binding.rbCantAccept.text = getString(R.string.leave_reason_relation_not_fit)
-                binding.rbVacation.text = getString(R.string.leave_reason_expertise_not_aligned)
-                binding.rbLeavingCommunity.text = getString(R.string.leave_reason_refered_to_mentor)
+                binding.rbCantAccept.text = getString(R.string.leave_reason_1)
+                binding.rbVacation.text = getString(R.string.leave_reason_2)
+                binding.rbLeavingCommunity.text = getString(R.string.leave_reason_3)
                 binding.rbOthers.text = getString(R.string.other)
 
                 binding.ratingBar.isVisible = true

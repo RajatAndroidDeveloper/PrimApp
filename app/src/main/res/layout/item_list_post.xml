@@ -32,26 +32,30 @@
                 loadCircularImage="@{data.user.getImageUrl}"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:minHeight="58dp"
                 android:padding="2dp"
                 app:layout_constraintBottom_toBottomOf="@id/tvPostTime"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tvName" />
+                app:layout_constraintTop_toTopOf="@id/tvName"
+                app:layout_constraintWidth_min="58dp" />
 
             <TextView
                 android:id="@+id/tvMentorMentee"
                 style="@style/normalBodyText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_small"
                 android:background="@drawable/shape_rounded_corner_light_grey"
                 android:paddingStart="@dimen/textExtraSmall"
                 android:paddingEnd="@dimen/textExtraSmall"
                 android:text="@{data.user.mentor ? @string/mentor : @string/mentee}"
                 android:textSize="@dimen/textExtraSmall"
                 android:visibility="@{(data.user.mentor || data.user.mentee) ? View.VISIBLE : View.GONE}"
-                app:layout_constraintBottom_toBottomOf="@id/ivProfilePic"
-                app:layout_constraintEnd_toEndOf="@id/ivProfilePic"
-                app:layout_constraintStart_toStartOf="@id/ivProfilePic"
+                app:layout_constraintBottom_toBottomOf="@id/tvName"
+                app:layout_constraintEnd_toStartOf="@id/ivBookmark"
+                app:layout_constraintStart_toEndOf="@id/tvName"
+                app:layout_constraintTop_toTopOf="@id/tvName"
                 tools:text="@string/mentor"
                 tools:visibility="visible" />
 
@@ -61,11 +65,14 @@
                 android:layout_marginStart="@dimen/space_small"
                 android:ellipsize="end"
                 android:fontFamily="@font/poppins_medium"
-                android:maxLines="2"
+                android:maxLines="1"
                 android:text="@{data.user.firstName +' '+ data.user.lastName}"
-                app:layout_constraintEnd_toStartOf="@id/ivBookmark"
+                app:layout_constraintEnd_toStartOf="@id/tvMentorMentee"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toEndOf="@id/ivProfilePic"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_default="wrap"
                 tools:text="Gordon kelly Jordan" />
 
             <TextView
@@ -76,7 +83,7 @@
                 android:text="@{data.community.communityName}"
                 android:textColor="@color/textColorLight"
                 android:textSize="@dimen/textSmall"
-                app:layout_constraintEnd_toEndOf="@id/tvName"
+                app:layout_constraintEnd_toStartOf="@id/ivBookmark"
                 app:layout_constraintStart_toStartOf="@id/tvName"
                 app:layout_constraintTop_toBottomOf="@id/tvName"
                 tools:text="Professional Sports Resuming" />
@@ -89,7 +96,7 @@
                 android:maxLines="1"
                 android:textColor="@color/textColorLight"
                 android:textSize="@dimen/textSmall"
-                app:layout_constraintEnd_toEndOf="@id/tvName"
+                app:layout_constraintEnd_toEndOf="@id/tvCommunityName"
                 app:layout_constraintStart_toStartOf="@id/tvName"
                 app:layout_constraintTop_toBottomOf="@id/tvCommunityName"
                 tools:text="45 min ago" />
@@ -104,7 +111,6 @@
                 android:src="@{data.bookmark ? @drawable/ic_bookmark_filled : @drawable/ic_bookmark_outline}"
                 android:tooltipText="@{data.bookmark ? @string/remove_bookmark : @string/add_bookmark}"
                 app:layout_constraintEnd_toStartOf="@id/ivMore"
-                app:layout_constraintStart_toEndOf="@id/tvName"
                 app:layout_constraintTop_toTopOf="@id/tvName"
                 tools:src="@drawable/ic_bookmark_outline" />
 
@@ -118,7 +124,6 @@
                 android:src="@drawable/ic_more_vert_dots"
                 android:tooltipText="@string/more_options"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/ivBookmark"
                 app:layout_constraintTop_toTopOf="@id/tvName" />
 
             <com.primapp.extensions.ExpandableTextView

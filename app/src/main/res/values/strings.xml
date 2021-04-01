@@ -291,8 +291,8 @@
     <string name="report_problem_info">Please only leave feedback about PRIM and features. Visit our help center to learn about reporting content posted on PRIM that violated our community guidelines, like, abuse, spam or intellectual property. All reports are subject to our terms of use.</string>
     <string name="report_problem_success">Your report was sent to our help center.</string>
     <string name="not_yet_implemented">Not yet implemented!</string>
-    <string name="leave_reason_relation_not_fit">Relationship nit a fit</string>
-    <string name="leave_reason_expertise_not_aligned">Expertise not aligned</string>
-    <string name="leave_reason_refered_to_mentor">Referred to new mentor</string>
+    <string name="leave_reason_1">Community not helpful</string>
+    <string name="leave_reason_2">Joined wrong community</string>
+    <string name="leave_reason_3">Unruly community members</string>
     <string name="please_give_rating">Please provide rating for community</string>
 </resources>
