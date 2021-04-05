@@ -367,4 +367,10 @@ interface ApiService {
 
     @POST(ApiConstant.REPORT_ISSUE)
     suspend fun reportIssue(@Body reportIssueRequestModel: ReportIssueRequestModel): BaseDataModel
+
+    @GET(ApiConstant.POST_DETAILS)
+    suspend fun getPostDetails(
+        @Path("communityId") communityId: Int,
+        @Path("postId") postId: Int
+    ): PostDetailsResponseModel
 }

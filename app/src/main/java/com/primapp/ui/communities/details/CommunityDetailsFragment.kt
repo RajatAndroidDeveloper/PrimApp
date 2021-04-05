@@ -78,9 +78,11 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
                             communityData.communityName = communityName
                             communityData.communityDescription = communityDescription
                             communityData.imageUrl = imageUrl
+                            communityData.communityCreator = communityCreator
                             communityData.status = status
                             communityData.udate = udate
                             communityData.totalActiveMember = totalActiveMember
+                            communityData.cdate = cdate
                             binding.data = communityData
                             userAdapter.addData(communityJoiner)
                         }

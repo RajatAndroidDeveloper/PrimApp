@@ -296,4 +296,14 @@
             android:defaultValue="@null"
             />
     </fragment>
+    <fragment
+        android:id="@+id/postDetailsFragment"
+        android:name="com.primapp.ui.post.details.PostDetailsFragment"
+        android:label="PostDetailsFragment" >
+        <argument
+            android:name="postId"
+            app:argType="integer" />
+        <argument android:name="communityId"
+            app:argType="integer" />
+    </fragment>
 </navigation>

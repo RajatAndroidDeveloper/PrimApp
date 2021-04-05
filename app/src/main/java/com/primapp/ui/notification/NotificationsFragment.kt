@@ -14,8 +14,7 @@ import com.primapp.constants.MentorshipRequestActionType
 import com.primapp.databinding.FragmentNotificationsBinding
 import com.primapp.extensions.showError
 import com.primapp.extensions.showInfo
-import com.primapp.model.AcceptMetorRequest
-import com.primapp.model.RejectMetorRequest
+import com.primapp.model.*
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
@@ -167,6 +166,26 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
                 bundle.putInt("requestId", any.id)
                 bundle.putString("type", MentorRequestRejectionFragment.MENTORSHIP_REQUEST_REJECT)
                 findNavController().navigate(R.id.mentorRequestRejectionFragment, bundle)
+            }
+
+            is ShowUserProfile -> {
+                val bundle = Bundle()
+                bundle.putInt("userId", any.userId)
+                findNavController().navigate(R.id.otherUserProfileFragment, bundle)
+            }
+
+            is ShowCommunityDetails -> {
+                val bundle = Bundle()
+                bundle.putInt("communityId", any.communityData.id)
+                bundle.putSerializable("communityData", any.communityData)
+                findNavController().navigate(R.id.communityDetailsFragment, bundle)
+            }
+
+            is ShowPostDetails -> {
+                val bundle = Bundle()
+                bundle.putInt("communityId", any.communityId)
+                bundle.putSerializable("postId", any.postId)
+                findNavController().navigate(R.id.postDetailsFragment, bundle)
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.primapp.model
 
 import com.primapp.model.comment.CommentData
+import com.primapp.model.community.CommunityData
 import com.primapp.model.members.CommunityMembersData
 import com.primapp.model.post.PostListResult
 import com.primapp.model.reply.ReplyData
@@ -21,6 +22,8 @@ data class RequestMentor(val membersData: CommunityMembersData)
 data class ShowUserProfile(val userId: Int)
 data class BookmarkPost(val postData: PostListResult)
 data class SharePost(val postData: PostListResult)
+data class ShowCommunityDetails(val communityData: CommunityData)
+data class ShowPostDetails(val communityId: Int, val postId: Int)
 
 //Mentorship request action
 data class AcceptMetorRequest(val id: Int)

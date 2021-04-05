@@ -11,8 +11,10 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clNotificationMentorRequest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
         android:paddingStart="@dimen/space_medium"
         android:paddingEnd="@dimen/space_medium">
 
@@ -22,6 +24,7 @@
             loadCircularImage="@{data.sender.userImage}"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
             app:layout_constraintEnd_toStartOf="@id/tvNotificationMessage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvNotificationMessage" />

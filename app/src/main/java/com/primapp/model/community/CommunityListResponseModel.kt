@@ -43,7 +43,7 @@ data class CommunityListContent(
 
 data class CommunityData(
     @SerializedName("cdate")
-    val cdate: String,
+    var cdate: String?,
     @SerializedName("community_approver")
     val communityApprover: String,
     @SerializedName("community_description")
@@ -67,7 +67,7 @@ data class CommunityData(
     @SerializedName("is_createdbyme")
     val isCreatedByMe: Boolean?,
     @SerializedName("community_creater")
-    val communityCreator: String?,
+    var communityCreator: String?,
     @SerializedName("community_category")
     val communityCategory: String?,
     @SerializedName("community_joiner")

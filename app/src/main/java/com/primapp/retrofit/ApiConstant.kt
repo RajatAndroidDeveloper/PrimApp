@@ -54,6 +54,7 @@ object ApiConstant {
     const val GET_BOOKMARK_POSTS = "bookmarked_post_list"
     const val REPORT_POST = "community/{communityId}/post/{postId}/report"
     const val HIDE_POST = "hide_post/{postId}"
+    const val POST_DETAILS = "community/{communityId}/post/{postId}"
 
     //Post Comment
     const val COMMENT_LIST = "communities/{communityId}/users/{userId}/posts/{postId}/comments"

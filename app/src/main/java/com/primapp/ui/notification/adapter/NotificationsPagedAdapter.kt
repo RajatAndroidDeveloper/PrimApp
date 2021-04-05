@@ -11,8 +11,7 @@ import com.primapp.R
 import com.primapp.constants.NotificationTypes
 import com.primapp.constants.NotificationViewTypes
 import com.primapp.databinding.*
-import com.primapp.model.AcceptMetorRequest
-import com.primapp.model.RejectMetorRequest
+import com.primapp.model.*
 import com.primapp.model.notification.NotificationResult
 import com.primapp.model.notification.NotificationUIModel
 import javax.inject.Inject
@@ -131,7 +130,7 @@ class NotificationsPagedAdapter @Inject constructor(val onItemClick: (Any?) -> U
                     NotificationViewTypes.MENTORSHIP_UPDATE_VIEW -> {
                         (holder as MentorsRequestUpdateViewHolder).bindView(uiModel.notification)
                     }
-                    NotificationViewTypes.POST_NOTIFICATION_VIEW->{
+                    NotificationViewTypes.POST_NOTIFICATION_VIEW -> {
                         (holder as PostNotificationViewHolder).bindView(uiModel.notification)
                     }
                     else -> {
@@ -158,6 +157,18 @@ class NotificationsPagedAdapter @Inject constructor(val onItemClick: (Any?) -> U
             binding.btnReject.setOnClickListener {
                 onItemClick(RejectMetorRequest(data!!.dataId))
             }
+
+            binding.ivProfilePic.setOnClickListener {
+                data?.sender?.let {
+                    onItemClick(ShowUserProfile(it.id))
+                }
+            }
+
+            binding.clNotificationMentorRequest.setOnClickListener {
+                data?.community?.let {
+                    onItemClick(ShowCommunityDetails(it))
+                }
+            }
         }
     }
 
@@ -165,6 +176,18 @@ class NotificationsPagedAdapter @Inject constructor(val onItemClick: (Any?) -> U
         RecyclerView.ViewHolder(binding.root) {
         fun bindView(data: NotificationResult?) {
             binding.data = data
+
+            binding.ivProfilePic.setOnClickListener {
+                data?.sender?.let {
+                    onItemClick(ShowUserProfile(it.id))
+                }
+            }
+
+            binding.clNotificationNormal.setOnClickListener {
+                data?.community?.let {
+                    onItemClick(ShowCommunityDetails(it))
+                }
+            }
         }
     }
 
@@ -172,6 +195,18 @@ class NotificationsPagedAdapter @Inject constructor(val onItemClick: (Any?) -> U
         RecyclerView.ViewHolder(binding.root) {
         fun bindView(data: NotificationResult?) {
             binding.data = data
+
+            binding.ivProfilePic.setOnClickListener {
+                data?.sender?.let {
+                    onItemClick(ShowUserProfile(it.id))
+                }
+            }
+
+            binding.clNotificationPost.setOnClickListener {
+                data?.community?.let {
+                    onItemClick(ShowPostDetails(it.id, data.postData!!.id))
+                }
+            }
         }
     }
 

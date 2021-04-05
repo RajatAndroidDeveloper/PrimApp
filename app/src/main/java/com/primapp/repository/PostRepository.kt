@@ -11,10 +11,7 @@ import com.primapp.model.category.ParentCategoryResponseModel
 import com.primapp.model.comment.CommentData
 import com.primapp.model.comment.CreateCommentRequestModel
 import com.primapp.model.community.JoinedCommunityListModel
-import com.primapp.model.post.CreatePostRequestModel
-import com.primapp.model.post.PostActionResponseModel
-import com.primapp.model.post.PostListResult
-import com.primapp.model.post.UpdatePostResponseModel
+import com.primapp.model.post.*
 import com.primapp.model.reply.CreateReplyRequestModel
 import com.primapp.model.reply.ReplyData
 import com.primapp.retrofit.ApiConstant
@@ -326,6 +323,14 @@ class PostRepository @Inject constructor(
     suspend fun hidePost(postId: Int): Resource<PostActionResponseModel> {
         return try {
             responseHandler.handleResponse(apiService.hidePost(postId))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    suspend fun postDetails(communityId: Int, postId: Int): Resource<PostDetailsResponseModel> {
+        return try {
+            responseHandler.handleResponse(apiService.getPostDetails(communityId, postId))
         } catch (e: Exception) {
             responseHandler.handleException(e)
         }

@@ -10,6 +10,7 @@ import androidx.paging.cachedIn
 import com.primapp.model.comment.CommentData
 import com.primapp.model.comment.CreateCommentRequestModel
 import com.primapp.model.post.PostActionResponseModel
+import com.primapp.model.post.PostDetailsResponseModel
 import com.primapp.model.post.PostListResult
 import com.primapp.model.reply.CreateReplyRequestModel
 import com.primapp.model.reply.ReplyData
@@ -199,6 +200,14 @@ class PostsViewModel @Inject constructor(
     fun hidePost(postId: Int) = viewModelScope.launch {
         _hidePostLiveData.postValue(Event(Resource.loading(null)))
         _hidePostLiveData.postValue(Event(repo.hidePost(postId)))
+    }
+
+    private var _postDetailsLiveData = MutableLiveData<Event<Resource<PostDetailsResponseModel>>>()
+    var postDetailsLiveData: LiveData<Event<Resource<PostDetailsResponseModel>>> = _postDetailsLiveData
+
+    fun postDetails(communityId: Int, postId: Int) = viewModelScope.launch {
+        _postDetailsLiveData.postValue(Event(Resource.loading(null)))
+        _postDetailsLiveData.postValue(Event(repo.postDetails(communityId, postId)))
     }
 
 }
