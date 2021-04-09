@@ -30,7 +30,7 @@ class LoginViewModel @Inject constructor(
 
     init {
         errorFieldsLiveData.value = errorFields
-        loginRequestDataModel.value = LoginRequestDataModel("", "")
+        loginRequestDataModel.value = LoginRequestDataModel("", "","android","")
     }
 
     fun validateLoginUser() {
@@ -61,6 +61,7 @@ class LoginViewModel @Inject constructor(
             }
             ValidationResults.SUCCESS -> {
                 Log.i("anshul", "Success")
+                loginRequestDataModel.value?.deviceId = repo.token
                 loginUser()
             }
             else -> {

@@ -8,7 +8,11 @@ class LoginRequestDataModel(
     @SerializedName("username")
     var username: String?,
     @SerializedName("password")
-    var password: String?
+    var password: String?,
+    @SerializedName("device_type")
+    var deviceType: String?,
+    @SerializedName("device_id")
+    var deviceId: String?
 ){
     fun isValidFormData(): ValidationResults {
         if (username.isNullOrEmpty())
