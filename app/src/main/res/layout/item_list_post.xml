@@ -49,6 +49,7 @@
                 android:layout_marginStart="@dimen/space_small"
                 android:background="@drawable/shape_rounded_corner_light_grey"
                 android:paddingStart="@dimen/textExtraSmall"
+                android:paddingTop="1dp"
                 android:paddingEnd="@dimen/textExtraSmall"
                 android:text="@{data.user.mentor ? @string/mentor : @string/mentee}"
                 android:textSize="@dimen/textExtraSmall"
