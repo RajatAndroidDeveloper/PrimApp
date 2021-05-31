@@ -296,4 +296,5 @@
     <string name="leave_reason_2">Joined wrong community</string>
     <string name="leave_reason_3">Unruly community members</string>
     <string name="please_give_rating">Please provide rating for community</string>
+    <string name="write_your_comment_here">Write your comment here...</string>
 </resources>

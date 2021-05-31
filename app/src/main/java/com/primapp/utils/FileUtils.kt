@@ -295,7 +295,7 @@ object FileUtils {
 
     fun getBitmapThumbnailForVideo(context: Context, file: File): Bitmap {
         val bitmap: Bitmap?
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             bitmap = ThumbnailUtils.createVideoThumbnail(file, Size(500, 500), null)
         } else {
             bitmap = ThumbnailUtils.createVideoThumbnail(

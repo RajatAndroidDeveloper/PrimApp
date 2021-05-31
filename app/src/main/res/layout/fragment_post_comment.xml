@@ -68,7 +68,7 @@
             android:drawableStart="@null"
             android:fontFamily="@font/poppins_regular"
             android:gravity="center_vertical"
-            android:hint="Write your comment here..."
+            android:hint="@string/write_your_comment_here"
             android:imeActionLabel="Done"
             android:imeOptions="actionDone"
             android:padding="@dimen/space_normal"
