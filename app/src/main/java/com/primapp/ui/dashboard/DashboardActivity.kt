@@ -1,6 +1,7 @@
 package com.primapp.ui.dashboard
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
@@ -10,10 +11,14 @@ import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.primapp.R
 import com.primapp.cache.UserCache
+import com.primapp.chat.ConnectionManager
 import com.primapp.ui.base.BaseActivity
+import com.sendbird.android.SendBird
 import kotlinx.android.synthetic.main.activity_dashboard.*
 
 class DashboardActivity : BaseActivity() {
+
+    val userData by lazy { UserCache.getUser(this) }
 
     override fun showTitleBar(): Boolean = false
 
@@ -32,6 +37,32 @@ class DashboardActivity : BaseActivity() {
         setContentView(R.layout.activity_dashboard)
         initData()
         setupNavigation()
+        registerUserOnSendbird()
+    }
+
+    private fun registerUserOnSendbird() {
+        Log.d(ConnectionManager.TAG,"Connecting user to Sendbird : ${userData?.id}")
+        ConnectionManager.login(
+            userData!!.id.toString(),
+            SendBird.ConnectHandler { user, sendBirdException ->
+                if (sendBirdException != null) {
+                    Log.d(ConnectionManager.TAG,"Failed to connect to sendbird : ${sendBirdException.code} ${sendBirdException.cause}")
+                    return@ConnectHandler
+                }
+                Log.d(ConnectionManager.TAG,"Connected to Sendbird")
+                UserCache.saveSendBirdIsConnected(this, true)
+
+                // Update the user's nickname
+                updateCurrentUserInfo("${userData?.firstName} ${userData?.lastName}")
+            })
+    }
+
+    private fun updateCurrentUserInfo(name: String) {
+       SendBird.updateCurrentUserInfo(name,null, SendBird.UserInfoUpdateHandler {
+           if(it != null){
+               Log.d(ConnectionManager.TAG,"Failed to update name to sendbird")
+           }
+       })
     }
 
     private fun initData() {

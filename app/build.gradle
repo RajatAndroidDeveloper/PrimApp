@@ -16,7 +16,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 30
         versionCode 1
-        versionName "1.0.24"
+        versionName "1.0.25"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -27,10 +27,12 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField("String", "BASE_URL", "\"$BASE_URL\"")
+            buildConfigField("String", "SENDBIRD_APP_ID", "\"$SENDBIRD_APP_ID\"")
         }
         debug {
             minifyEnabled false
             buildConfigField("String", "BASE_URL", "\"$BASE_URL\"")
+            buildConfigField("String", "SENDBIRD_APP_ID", "\"$SENDBIRD_APP_ID\"")
         }
     }
 

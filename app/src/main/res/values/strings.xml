@@ -297,4 +297,9 @@
     <string name="leave_reason_3">Unruly community members</string>
     <string name="please_give_rating">Please provide rating for community</string>
     <string name="write_your_comment_here">Write your comment here...</string>
+    <string name="chat">Chat</string>
+    <string name="new_chat">New Chat</string>
+    <string name="send">Send</string>
+    <string name="edited">(edited)</string>
+    <string name="online">Online</string>
 </resources>

@@ -4,6 +4,7 @@ import com.primapp.model.auth.*
 import com.primapp.model.aws.PresignedURLRequest
 import com.primapp.model.aws.PresignedURLResponseModel
 import com.primapp.model.category.ParentCategoryResponseModel
+import com.primapp.model.chat.UserMenteeMentorUserReponseModel
 import com.primapp.model.comment.CommentListResponseModel
 import com.primapp.model.comment.CreateCommentRequestModel
 import com.primapp.model.community.*
@@ -373,4 +374,12 @@ interface ApiService {
         @Path("communityId") communityId: Int,
         @Path("postId") postId: Int
     ): PostDetailsResponseModel
+
+    @GET(ApiConstant.GET_MENTOR_MENTEE_LIST_FOR_CHAT)
+    suspend fun getMentorMenteeListForChat(
+        @Path("userId") userId: Int,
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int
+    ): UserMenteeMentorUserReponseModel
+
 }

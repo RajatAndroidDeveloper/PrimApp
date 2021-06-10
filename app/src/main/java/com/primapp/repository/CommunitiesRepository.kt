@@ -9,6 +9,7 @@ import com.primapp.model.auth.VerifyUserResponseModel
 import com.primapp.model.aws.PresignedURLRequest
 import com.primapp.model.aws.PresignedURLResponseModel
 import com.primapp.model.category.*
+import com.primapp.model.chat.ChatUser
 import com.primapp.model.community.*
 import com.primapp.model.members.CommunityMembersData
 import com.primapp.model.mentor.RequestMentorDataModel
@@ -20,6 +21,7 @@ import com.primapp.retrofit.ApiService
 import com.primapp.retrofit.base.BaseDataModel
 import com.primapp.retrofit.base.Resource
 import com.primapp.retrofit.base.ResponseHandler
+import com.primapp.ui.chat.source.UserMentorMenteeChatDataSource
 import com.primapp.ui.communities.data.CommunitiesPageDataSource
 import com.primapp.ui.communities.data.ParentCategoriesPageDataSource
 import com.primapp.ui.communities.details.source.CommunitiesPostListDataSource
@@ -298,6 +300,19 @@ class CommunitiesRepository @Inject constructor(
             ),
             pagingSourceFactory = {
                 MentorMenteeMemberListDataSource(responseHandler, apiService, userId, type, status)
+            }
+        ).liveData
+    }
+
+    fun getMentorMenteeUserForChat(userId: Int): LiveData<PagingData<ChatUser>> {
+        return Pager(
+            config = PagingConfig(
+                enablePlaceholders = false,
+                pageSize = ApiConstant.NETWORK_PAGE_SIZE,
+                initialLoadSize = ApiConstant.NETWORK_PAGE_SIZE
+            ),
+            pagingSourceFactory = {
+                UserMentorMenteeChatDataSource(responseHandler, apiService, userId)
             }
         ).liveData
     }

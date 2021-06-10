@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_updatesFragment_to_createPostFragment"
             app:destination="@id/createPostFragment" />
+        <action
+            android:id="@+id/action_updatesFragment_to_channelListFragment"
+            app:destination="@id/channelListFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -299,11 +302,42 @@
     <fragment
         android:id="@+id/postDetailsFragment"
         android:name="com.primapp.ui.post.details.PostDetailsFragment"
-        android:label="PostDetailsFragment" >
+        android:label="PostDetailsFragment"
+        tools:layout="@layout/fragment_post_details"
+        >
         <argument
             android:name="postId"
             app:argType="integer" />
         <argument android:name="communityId"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/channelListFragment"
+        android:name="com.primapp.ui.chat.ChannelListFragment"
+        android:label="ChannelListFragment"
+        tools:layout="@layout/fragment_channel_list"
+        />
+    <fragment
+        android:id="@+id/createChannelFragment"
+        android:name="com.primapp.ui.chat.CreateChannelFragment"
+        android:label="CreateChannelFragment"
+        tools:layout="@layout/fragment_create_channel"
+        >
+        <action
+            android:id="@+id/action_createChannelFragment_to_chatFragment"
+            app:destination="@id/chatFragment"
+            app:popUpTo="@id/createChannelFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.primapp.ui.chat.ChatFragment"
+        android:label="ChatFragment"
+        tools:layout="@layout/fragment_chat"
+        >
+        <argument
+            android:name="channelUrl"
+            app:argType="string" />
+    </fragment>
+
 </navigation>

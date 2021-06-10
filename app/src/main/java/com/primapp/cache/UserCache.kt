@@ -2,6 +2,8 @@ package com.primapp.cache
 
 import android.content.Context
 import com.primapp.model.auth.UserData
+import javax.inject.Inject
+import javax.inject.Singleton
 
 
 object UserCache {
@@ -107,4 +109,12 @@ object UserCache {
         }
     }
 
+    //SendBird Prefs
+    fun getSendBirdIsConnected(context: Context): Boolean {
+        return Prefs.with(context)?.getBoolean(PrefNames.SENDBIRD_CONNECTED, false) ?: false
+    }
+
+    fun saveSendBirdIsConnected(context: Context, connected: Boolean) {
+        Prefs.with(context)?.save(PrefNames.SENDBIRD_CONNECTED, connected)
+    }
 }

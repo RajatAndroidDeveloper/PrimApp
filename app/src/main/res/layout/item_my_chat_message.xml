@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="message"
+            type="com.sendbird.android.UserMessage" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginHorizontal="@dimen/space_small"
+            android:layout_marginTop="@dimen/space_small"
+            android:background="@drawable/chat_shape_my_message"
+            android:padding="@dimen/space_small">
+
+            <TextView
+                android:id="@+id/tvChatMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="300dp"
+                android:text="@{message.message}"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Hi, how are you today?" />
+
+            <TextView
+                android:id="@+id/tvEdited"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/space_extraSmall"
+                android:text="@string/edited"
+                android:textColor="#d8ceff"
+                android:textSize="@dimen/textSmall"
+                android:visibility="@{message.updatedAt > 0 ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@id/tvChatTime"
+                app:layout_constraintEnd_toStartOf="@id/tvChatTime"
+                app:layout_constraintTop_toTopOf="@id/tvChatTime"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tvChatTime"
+                messageTime="@{message.createdAt}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/space_extraSmall"
+                android:textColor="@color/white"
+                android:textSize="@dimen/textSmall"
+                app:layout_constraintBottom_toBottomOf="@id/tvMessageStatus"
+                app:layout_constraintEnd_toStartOf="@id/tvMessageStatus"
+                app:layout_constraintTop_toTopOf="@id/tvMessageStatus"
+                tools:text="21:27" />
+
+            <com.primapp.chat.widget.MessageStatusView
+                android:id="@+id/tvMessageStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvChatMessage" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </RelativeLayout>
+</layout>

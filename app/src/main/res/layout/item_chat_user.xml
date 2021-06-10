@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="data"
+            type="com.primapp.model.chat.ChatUser" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:padding="@dimen/space_normal">
+
+        <ImageView
+            android:id="@+id/ivProfilePic"
+            name="@{data.firstName +' '+data.lastName}"
+            loadCircularImage="@{data.getImageUrl}"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/llMemberDetails"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintHeight_max="60dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/llMemberDetails"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintWidth_max="60dp" />
+
+        <LinearLayout
+            android:id="@+id/llMemberDetails"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_small"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivProfilePic"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/poppins_medium"
+                android:maxLines="2"
+                android:text="@{data.firstName +' '+data.lastName}"
+                android:textColor="@color/black"
+                tools:text="Gordon kelly Jordan" />
+
+            <TextView
+                android:id="@+id/tvUsername"
+                style="@style/primaryBodyText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{data.username}"
+                android:textSize="@dimen/textSmall"
+                tools:text="@string/long_about_text" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

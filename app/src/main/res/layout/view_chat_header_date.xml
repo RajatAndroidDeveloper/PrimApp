@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/space_small">
+
+
+    <TextView
+        android:id="@+id/tvDateHeader"
+        fontPath="fonts/Roboto-Regular.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_rounded_corner_light_grey"
+        android:backgroundTint="@color/lightAccent"
+        android:gravity="center"
+        android:lineSpacingExtra="0sp"
+        android:paddingStart="@dimen/space_medium"
+        android:paddingTop="@dimen/space_extraSmall"
+        android:paddingEnd="@dimen/space_medium"
+        android:paddingBottom="@dimen/space_extraSmall"
+        android:text="6 April, 2019"
+        android:textColor="@color/colorAccent"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent=".9"
+        tools:ignore="MissingPrefix" />
+</androidx.constraintlayout.widget.ConstraintLayout>

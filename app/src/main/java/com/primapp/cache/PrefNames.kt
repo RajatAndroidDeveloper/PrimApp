@@ -6,4 +6,6 @@ object PrefNames {
     const val USER = "prim_user"
     const val PUSH_TOKEN = "pushToken"
 
+    //SendBird Prefs
+    const val SENDBIRD_CONNECTED = "chat_connected"
 }

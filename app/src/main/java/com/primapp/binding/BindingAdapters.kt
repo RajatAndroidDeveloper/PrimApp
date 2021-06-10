@@ -33,6 +33,7 @@ import com.primapp.model.community.CommunityData
 import com.primapp.model.notification.NotificationResult
 import com.primapp.utils.DateTimeUtils
 import com.primapp.utils.getPrettyNumber
+import com.sendbird.android.*
 import kotlin.math.min
 
 
@@ -386,7 +387,7 @@ fun makeNotificationMentorRequest(textView: TextView, notificationData: Notifica
                         .append(senderFullName)
                         .append("'s request for mentorship in ")
                         .append(communityName)
-                }else if(it.title.equals(NotificationSubTypes.REQUEST_END, true)){
+                } else if (it.title.equals(NotificationSubTypes.REQUEST_END, true)) {
                     textToSend.append("You ended the mentorship relation with ")
                         .append(senderFullName)
                         .append(" in ")
@@ -408,7 +409,7 @@ fun makeNotificationMentorRequest(textView: TextView, notificationData: Notifica
                         .append(".\n").bold { }
                         .append("Reason : ")
                         .normal(it.message ?: "No reason specified")
-                }else if(it.title.equals(NotificationSubTypes.REQUEST_END, true)){
+                } else if (it.title.equals(NotificationSubTypes.REQUEST_END, true)) {
                     textToSend.append("Your mentorship relation was ended by ")
                         .append(senderFullName)
                         .append(" in ")
@@ -490,5 +491,47 @@ fun makeNotificationMentorRequest(textView: TextView, notificationData: Notifica
         }
         textToSend.append(".")
         textView.text = textToSend
+    }
+}
+
+@SuppressLint("SetTextI18n")
+@BindingAdapter("lastMessage")
+fun sendBirdMessage(textView: TextView, lastMessage: BaseMessage?) {
+    if (lastMessage != null) {
+        when (lastMessage) {
+            is UserMessage -> textView.setText(lastMessage.message)
+            is AdminMessage -> textView.setText(lastMessage.message)
+            else -> {
+                val fileMessage = lastMessage as FileMessage
+                val sender = fileMessage.type
+
+                textView.text = "${sender} has sent a file."
+            }
+        }
+    }
+
+    if (textView.text.isNullOrEmpty()) {
+        textView.text = "Tap to start the chat."
+    }
+}
+
+@BindingAdapter("messageDateTime")
+fun sendBirdMessageDateTime(textView: TextView, lastMessage: BaseMessage?) {
+    lastMessage?.let {
+        textView.text = DateTimeUtils.formatDateTime(it.getCreatedAt())
+    }
+}
+
+@BindingAdapter("messageTime")
+fun sendBirdMessageTime(textView: TextView, time: Long?) {
+    time?.let {
+        textView.text = DateTimeUtils.formatTime(time)
+    }
+}
+
+@BindingAdapter("messageDate")
+fun sendBirdMessageDate(textView: TextView, time: Long?) {
+    time?.let {
+        textView.text = DateTimeUtils.formatDate(time)
     }
 }

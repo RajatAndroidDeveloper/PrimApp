@@ -12,6 +12,7 @@ import com.primapp.constants.CommunityActionTypes
 import com.primapp.model.auth.VerifyUserResponseModel
 import com.primapp.model.aws.PresignedURLResponseModel
 import com.primapp.model.category.*
+import com.primapp.model.chat.ChatUser
 import com.primapp.model.community.*
 import com.primapp.model.members.CommunityMembersData
 import com.primapp.model.mentor.RequestMentorDataModel
@@ -303,6 +304,15 @@ class CommunitiesViewModel @Inject constructor(
         val newResultLiveData: LiveData<PagingData<CommunityMembersData>> =
             repo.getMentorMenteeMemberList(userId, type, status).cachedIn(viewModelScope)
         mentorMenteeMemberListLiveData = newResultLiveData
+        return newResultLiveData
+    }
+
+    private var mentorMenteeMemberListForChatLiveData: LiveData<PagingData<ChatUser>>? = null
+
+    fun getMentorMenteeMemberList(userId: Int): LiveData<PagingData<ChatUser>> {
+        val newResultLiveData: LiveData<PagingData<ChatUser>> =
+            repo.getMentorMenteeUserForChat(userId).cachedIn(viewModelScope)
+        mentorMenteeMemberListForChatLiveData = newResultLiveData
         return newResultLiveData
     }
 

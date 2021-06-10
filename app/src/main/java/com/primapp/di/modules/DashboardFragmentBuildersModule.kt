@@ -3,6 +3,9 @@ package com.primapp.di.modules
 import com.primapp.ui.base.ImageViewDialog
 import com.primapp.ui.base.PopUpReportPost
 import com.primapp.ui.base.VideoViewDialog
+import com.primapp.ui.chat.ChannelListFragment
+import com.primapp.ui.chat.ChatFragment
+import com.primapp.ui.chat.CreateChannelFragment
 import com.primapp.ui.communities.*
 import com.primapp.ui.communities.create.CreateCommunityFragment
 import com.primapp.ui.communities.details.CommunityDetailsFragment
@@ -119,4 +122,13 @@ abstract class DashboardFragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributePostDetailsFragment(): PostDetailsFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeChannelListFragment(): ChannelListFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeCreateChannelFragment(): CreateChannelFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeChatFragment(): ChatFragment
 }

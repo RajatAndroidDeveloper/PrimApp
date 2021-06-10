@@ -17,7 +17,6 @@ import com.primapp.databinding.FragmentUpdatesBinding
 import com.primapp.extensions.showError
 import com.primapp.extensions.showInfo
 import com.primapp.model.*
-import com.primapp.model.community.JoinedCommunityListModel
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
@@ -25,12 +24,20 @@ import com.primapp.ui.communities.members.CommunityMembersFragment
 import com.primapp.ui.post.adapter.PostListPagedAdapter
 import com.primapp.ui.post.create.CreatePostFragment
 import com.primapp.utils.DialogUtils
+import com.primapp.utils.getPrettyNumber
 import com.primapp.viewmodels.PostsViewModel
+import com.sendbird.android.GroupChannel
+import com.sendbird.android.SendBird
+import com.sendbird.android.SendBird.UserEventHandler
+import com.sendbird.android.SendBirdException
+import com.sendbird.android.User
 import kotlinx.android.synthetic.main.fragment_updates.*
 import kotlinx.android.synthetic.main.toolbar_dashboard_accent.*
 import kotlinx.coroutines.launch
 
 class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
+
+    val UNIQUE_HANDLER_ID = "UserHandler_1"
 
     val userData by lazy { UserCache.getUser(requireContext()) }
 
@@ -55,8 +62,10 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
         binding.groupNoPostView.isVisible = userData!!.joinedCommunityCount == 0
         binding.groupNoCommunityView.isVisible = userData!!.joinedCommunityCount > 0
 
+        //Toolbar
+        checkUnreadMessages()
         ivEndIcon.setOnClickListener {
-            showInfo(requireContext(), getString(R.string.not_yet_implemented))
+            findNavController().navigate(R.id.channelListFragment)
         }
     }
 
@@ -362,5 +371,34 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                 showInfo(requireContext(), getString(R.string.not_yet_implemented))
             }
         }
+    }
+
+    private fun checkUnreadMessages() {
+        SendBird.getTotalUnreadMessageCount { totalUnreadMessageCount: Int, e: SendBirdException? ->
+            if (e != null) {
+                return@getTotalUnreadMessageCount
+            }
+            tvCount.text = getPrettyNumber(totalUnreadMessageCount.toLong())
+            tvCount.isVisible = totalUnreadMessageCount > 0
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        SendBird.addUserEventHandler(UNIQUE_HANDLER_ID, object : UserEventHandler() {
+            override fun onFriendsDiscovered(users: List<User?>?) {}
+            override fun onTotalUnreadMessageCountChanged(
+                totalCount: Int,
+                totalCountByCustomType: Map<String, Int>
+            ) {
+                tvCount.text = getPrettyNumber(totalCount.toLong())
+                tvCount.isVisible = totalCount > 0
+            }
+        })
+    }
+
+    override fun onPause() {
+        super.onPause()
+        SendBird.removeUserEventHandler(UNIQUE_HANDLER_ID);
     }
 }
