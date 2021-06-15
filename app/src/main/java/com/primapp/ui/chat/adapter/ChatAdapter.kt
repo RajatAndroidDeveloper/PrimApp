@@ -1,19 +1,23 @@
 package com.primapp.ui.chat.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.util.Util
 import com.primapp.R
 import com.primapp.databinding.ItemSimpleTextBinding
 import com.primapp.databinding.ListItemGroupChatAdminBinding
 import com.primapp.databinding.ListItemGroupChatUserMeBinding
 import com.primapp.databinding.ListItemGroupChatUserOtherBinding
 import com.primapp.utils.DateTimeUtils
+import com.primapp.utils.isOnlyEmoji
 import com.sendbird.android.*
 import com.sendbird.android.BaseChannel.GetMessagesHandler
+import java.util.regex.Pattern
 
 class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -170,6 +174,13 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
             binding.isContinuous = isContinuous
             binding.isNewDay = isNewDay
 
+            if(isOnlyEmoji(message.message)){
+                Log.d("anshul_matches",message.message)
+                binding.textGroupChatMessage.textSize = 40f
+            }else{
+                binding.textGroupChatMessage.textSize = 14f
+            }
+
             channel?.let { binding.messageStatusGroupChat.drawMessageStatus(it, message) }
         }
     }
@@ -181,9 +192,17 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
             isContinuous: Boolean,
             isNewDay: Boolean
         ) {
+
             binding.message = message
             binding.isContinuous = isContinuous
             binding.isNewDay = isNewDay
+
+            if(isOnlyEmoji(message.message)){
+                Log.d("anshul_matches",message.message)
+                binding.textGroupChatMessage.textSize = 40f
+            }else{
+                binding.textGroupChatMessage.textSize = 14f
+            }
         }
     }
 
