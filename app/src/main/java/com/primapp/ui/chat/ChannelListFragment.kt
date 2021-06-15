@@ -32,7 +32,7 @@ class ChannelListFragment : BaseFragment<FragmentChannelListBinding>() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        setToolbar(getString(R.string.chat), toolbar)
+        setToolbar(getString(R.string.message), toolbar)
         setData()
         setAdapter()
         initTextListeners()

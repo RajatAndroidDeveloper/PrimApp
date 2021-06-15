@@ -6,12 +6,13 @@ import androidx.navigation.fragment.findNavController
 import com.primapp.BuildConfig
 import com.primapp.R
 import com.primapp.cache.UserCache
+import com.primapp.chat.ConnectionManager
 import com.primapp.databinding.FragmentSettingsBinding
-import com.primapp.extensions.showSuccess
 import com.primapp.ui.MainActivity
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.profile.UserPostsFragment
 import com.primapp.utils.DialogUtils
+import com.sendbird.android.SendBird
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
 
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
@@ -53,6 +54,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
     fun logout() {
         DialogUtils.showYesNoDialog(requireActivity(), R.string.logout_message, {
             UserCache.clearAll(requireContext())
+            ConnectionManager.logout(SendBird.DisconnectHandler {
+
+            })
             startActivity(Intent(requireContext(), MainActivity::class.java))
             activity?.finish()
         })

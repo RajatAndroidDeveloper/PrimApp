@@ -1,7 +1,9 @@
 package com.primapp.cache
 
 import android.content.Context
+import com.google.gson.reflect.TypeToken
 import com.primapp.model.auth.UserData
+import com.primapp.model.notification.SendbirdNotiificationData
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -101,7 +103,7 @@ object UserCache {
         }
     }
 
-    fun resetNotification(context: Context){
+    fun resetNotification(context: Context) {
         val user = getUser(context)
         user?.let {
             it.notificationsCount = 0
@@ -116,5 +118,26 @@ object UserCache {
 
     fun saveSendBirdIsConnected(context: Context, connected: Boolean) {
         Prefs.with(context)?.save(PrefNames.SENDBIRD_CONNECTED, connected)
+    }
+
+    fun saveNotificationData(context: Context, notificationData: SendbirdNotiificationData) {
+        val newNotificationData = arrayListOf<SendbirdNotiificationData>()
+        val notificationCache = getNotificationData(context)
+        if (!notificationCache.isNullOrEmpty()) {
+            newNotificationData.addAll(notificationCache)
+        }
+        newNotificationData.add(notificationData)
+        Prefs.with(context)?.save(PrefNames.SENDBIRD_NOTIFICATION, newNotificationData)
+    }
+
+    fun getNotificationData(context: Context): List<SendbirdNotiificationData>? {
+        val type = object : TypeToken<List<SendbirdNotiificationData>?>() {}.type
+        return Prefs.with(context)?.getList<SendbirdNotiificationData>(
+            PrefNames.SENDBIRD_NOTIFICATION, type
+        )
+    }
+
+    fun clearNotificationCache(context: Context) {
+        Prefs.with(context)?.remove(PrefNames.SENDBIRD_NOTIFICATION)
     }
 }

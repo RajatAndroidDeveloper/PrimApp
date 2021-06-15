@@ -8,4 +8,5 @@ object PrefNames {
 
     //SendBird Prefs
     const val SENDBIRD_CONNECTED = "chat_connected"
+    const val SENDBIRD_NOTIFICATION = "notificationDataForChat"
 }

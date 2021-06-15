@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 import java.util.*
 
@@ -108,12 +109,18 @@ class Prefs @SuppressLint("CommitPrefEdits") internal constructor(context: Conte
         editor.apply()
     }
 
-    fun getList(name: String, type: Type?): Any {
+    fun <T> getList(name: String, type:Type): List<T>? {
         return GSON.fromJson(
             preferences.getString(name, ""),
             type
         )
-            ?: return ArrayList<Any>()
+            ?: return ArrayList<T>()
+    }
+
+    fun <T> setList(key: String?, list: List<T>?) {
+        val gson = Gson()
+        val json = gson.toJson(list)
+        editor.putString(key, json).apply()
     }
 
     private class Builder(context: Context?) {

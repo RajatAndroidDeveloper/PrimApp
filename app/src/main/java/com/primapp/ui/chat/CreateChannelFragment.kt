@@ -37,7 +37,7 @@ class CreateChannelFragment : BaseFragment<FragmentCreateChannelBinding>() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        setToolbar(getString(R.string.new_chat), toolbar)
+        setToolbar(getString(R.string.new_message), toolbar)
         setData()
         setObserver()
         setAdapter()

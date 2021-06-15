@@ -1,11 +1,9 @@
 package com.primapp.chat
 
-import android.app.Application
-import com.primapp.cache.UserCache
+import android.util.Log
 import com.sendbird.android.SendBird
 import com.sendbird.android.SendBird.ConnectHandler
 import com.sendbird.android.SendBird.DisconnectHandler
-import javax.inject.Inject
 
 object ConnectionManager {
 
@@ -14,7 +12,9 @@ object ConnectionManager {
     fun login(userId: String, handler: ConnectHandler?) {
         SendBird.connect(
             userId
-        ) { user, e -> handler?.onConnected(user, e) }
+        ) { user, e ->
+            handler?.onConnected(user, e)
+        }
     }
 
     fun logout(handler: DisconnectHandler?) {

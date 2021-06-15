@@ -1,6 +1,7 @@
 package com.primapp.ui.post
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -26,13 +27,14 @@ import com.primapp.ui.post.create.CreatePostFragment
 import com.primapp.utils.DialogUtils
 import com.primapp.utils.getPrettyNumber
 import com.primapp.viewmodels.PostsViewModel
-import com.sendbird.android.GroupChannel
 import com.sendbird.android.SendBird
 import com.sendbird.android.SendBird.UserEventHandler
 import com.sendbird.android.SendBirdException
 import com.sendbird.android.User
 import kotlinx.android.synthetic.main.fragment_updates.*
 import kotlinx.android.synthetic.main.toolbar_dashboard_accent.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
@@ -378,8 +380,7 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
             if (e != null) {
                 return@getTotalUnreadMessageCount
             }
-            tvCount.text = getPrettyNumber(totalUnreadMessageCount.toLong())
-            tvCount.isVisible = totalUnreadMessageCount > 0
+            updateUnreadMessageCount(totalUnreadMessageCount.toLong())
         }
     }
 
@@ -391,10 +392,17 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                 totalCount: Int,
                 totalCountByCustomType: Map<String, Int>
             ) {
-                tvCount.text = getPrettyNumber(totalCount.toLong())
-                tvCount.isVisible = totalCount > 0
+                updateUnreadMessageCount(totalCount.toLong())
             }
         })
+    }
+
+    fun updateUnreadMessageCount(totalUnreadMessageCount: Long) {
+        CoroutineScope(Dispatchers.Main).launch {
+            Log.d("anshul","textview is null : ${tvCount==null} conext : ${context==null}")
+            tvCount?.text = getPrettyNumber(totalUnreadMessageCount)
+            tvCount?.isVisible = totalUnreadMessageCount > 0
+        }
     }
 
     override fun onPause() {
