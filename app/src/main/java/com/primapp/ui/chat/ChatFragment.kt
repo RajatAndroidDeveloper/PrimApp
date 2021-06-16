@@ -221,11 +221,11 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
     }
 
     private fun updateActionBarTitle() {
-        tvTitle.text = SendBirdHelper.getGroupChannelTitle(mChannel!!)
+        tvTitle?.text = SendBirdHelper.getGroupChannelTitle(mChannel!!)
         if (SendBirdHelper.getMembersOnlineStatus(mChannel!!)) {
-            tvOnlineStatus.text = getString(R.string.online)
+            tvOnlineStatus?.text = getString(R.string.online)
         } else {
-            tvOnlineStatus.text = SendBirdHelper.getMembersLastSeen(mChannel!!)
+            tvOnlineStatus?.text = SendBirdHelper.getMembersLastSeen(mChannel!!)
         }
     }
 
