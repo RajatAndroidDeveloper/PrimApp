@@ -65,6 +65,21 @@
                     app:layout_constraintEnd_toStartOf="@+id/ivTickMark"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <ImageView
+                    android:id="@+id/ivCreateNewMessage"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="@dimen/space_medium"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/edit"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/ivTickMark"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/colorAccent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 

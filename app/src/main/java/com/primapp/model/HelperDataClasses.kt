@@ -5,6 +5,7 @@ import com.primapp.model.community.CommunityData
 import com.primapp.model.members.CommunityMembersData
 import com.primapp.model.post.PostListResult
 import com.primapp.model.reply.ReplyData
+import com.sendbird.android.BaseMessage
 
 
 data class ShowImage(val url: String)
@@ -28,3 +29,7 @@ data class ShowPostDetails(val communityId: Int, val postId: Int)
 //Mentorship request action
 data class AcceptMetorRequest(val id: Int)
 data class RejectMetorRequest(val id: Int)
+
+//Chat
+data class MyMessageLongPressCallback(val message: BaseMessage, val position: Int)
+data class OtherMessageLongPressCallback(val message: BaseMessage, val position: Int)

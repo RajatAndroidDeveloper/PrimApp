@@ -25,6 +25,5 @@ fun isOnlyEmoji(text: String?): Boolean {
     if (text.isNullOrEmpty()) {
         return false
     }
-    Log.d("anshul_emoji","length : ${text.length} $text")
     return EMOJI_PATTERN.matcher(text).matches() && text.length <= 2
 }

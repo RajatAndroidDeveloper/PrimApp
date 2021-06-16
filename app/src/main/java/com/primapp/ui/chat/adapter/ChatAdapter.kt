@@ -5,19 +5,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.util.Util
 import com.primapp.R
 import com.primapp.databinding.ItemSimpleTextBinding
 import com.primapp.databinding.ListItemGroupChatAdminBinding
 import com.primapp.databinding.ListItemGroupChatUserMeBinding
 import com.primapp.databinding.ListItemGroupChatUserOtherBinding
+import com.primapp.model.MyMessageLongPressCallback
+import com.primapp.model.OtherMessageLongPressCallback
 import com.primapp.utils.DateTimeUtils
 import com.primapp.utils.isOnlyEmoji
 import com.sendbird.android.*
 import com.sendbird.android.BaseChannel.GetMessagesHandler
-import java.util.regex.Pattern
 
 class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -51,6 +50,14 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
             messageList[index] = message
 
         notifyItemChanged(index)
+    }
+
+    fun deleteMessage(msgId: Long) {
+        val messageInList = messageList.find { it.messageId == msgId }
+        val index = messageList.indexOf(messageInList)
+        if (index != -1)
+            messageList.removeAt(index)
+        notifyItemRemoved(index)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -174,14 +181,19 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
             binding.isContinuous = isContinuous
             binding.isNewDay = isNewDay
 
-            if(isOnlyEmoji(message.message)){
-                Log.d("anshul_matches",message.message)
+            if (isOnlyEmoji(message.message)) {
+                Log.d("anshul_matches", message.message)
                 binding.textGroupChatMessage.textSize = 40f
-            }else{
+            } else {
                 binding.textGroupChatMessage.textSize = 14f
             }
 
             channel?.let { binding.messageStatusGroupChat.drawMessageStatus(it, message) }
+
+            binding.root.setOnLongClickListener {
+                onItemClick(MyMessageLongPressCallback(message, absoluteAdapterPosition))
+                true
+            }
         }
     }
 
@@ -197,11 +209,16 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
             binding.isContinuous = isContinuous
             binding.isNewDay = isNewDay
 
-            if(isOnlyEmoji(message.message)){
-                Log.d("anshul_matches",message.message)
+            if (isOnlyEmoji(message.message)) {
+                Log.d("anshul_matches", message.message)
                 binding.textGroupChatMessage.textSize = 40f
-            }else{
+            } else {
                 binding.textGroupChatMessage.textSize = 14f
+            }
+
+            binding.root.setOnLongClickListener {
+                onItemClick(OtherMessageLongPressCallback(message, absoluteAdapterPosition))
+                true
             }
         }
     }
@@ -280,7 +297,7 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
      */
     fun loadLatestMessages(limit: Int, handler: GetMessagesHandler?) {
 
-        if (isMessageListLoading() || channel==null) {
+        if (isMessageListLoading() || channel == null) {
             return
         }
         setMessageListLoading(true)
@@ -316,7 +333,7 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
      * @param handler
      */
     fun loadPreviousMessages(limit: Int, handler: GetMessagesHandler?) {
-        if (isMessageListLoading() || channel==null) {
+        if (isMessageListLoading() || channel == null) {
             return
         }
         var oldestMessageCreatedAt = Long.MAX_VALUE

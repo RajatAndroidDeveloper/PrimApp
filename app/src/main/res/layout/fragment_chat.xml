@@ -46,19 +46,22 @@
                 android:hint="Enter message"
                 android:maxLines="6" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/btnSend"
-                android:layout_width="64dp"
-                android:layout_height="48dp"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
                 android:layout_gravity="bottom"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center"
                 android:onClick="@{()->frag.sendUserMessage()}"
+                android:padding="@dimen/space_small"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_baseline_send_24"
                 android:text="@string/send"
                 android:textAllCaps="true"
-                android:textColor="@drawable/chat_send_button_selector"
+                android:tint="@drawable/chat_send_button_selector"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -96,10 +99,10 @@
                 <com.github.ybq.android.spinkit.SpinKitView
                     android:id="@+id/spin_kit"
                     style="@style/SpinKitView.ThreeBounce"
-                    android:layout_marginStart="@dimen/space_large"
-                    app:SpinKit_Color="@color/lightGrey"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_large"
+                    app:SpinKit_Color="@color/lightGrey" />
 
             </LinearLayout>
 

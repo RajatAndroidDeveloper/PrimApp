@@ -19,3 +19,7 @@ fun showInfo(context: Context, msg: String) {
 fun showWarning(context: Context, msg: String) {
     Toasty.warning(context, msg).show()
 }
+
+fun showNormalToast(context: Context, msg: String) {
+    Toasty.normal(context, msg).show()
+}

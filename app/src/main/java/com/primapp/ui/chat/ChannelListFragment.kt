@@ -32,7 +32,7 @@ class ChannelListFragment : BaseFragment<FragmentChannelListBinding>() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        setToolbar(getString(R.string.message), toolbar)
+        setToolbar(getString(R.string.messages), toolbar)
         setData()
         setAdapter()
         initTextListeners()
@@ -40,8 +40,10 @@ class ChannelListFragment : BaseFragment<FragmentChannelListBinding>() {
 
     private fun setData() {
         binding.frag = this
+        ivCreateNewMessage.isVisible = true
+        ivAdd.isVisible = false
 
-        ivAdd.setOnClickListener {
+        ivCreateNewMessage.setOnClickListener {
             findNavController().navigate(R.id.createChannelFragment)
         }
     }
@@ -58,6 +60,10 @@ class ChannelListFragment : BaseFragment<FragmentChannelListBinding>() {
         SendBird.addChannelHandler(CHANNEL_HANDLER, object : SendBird.ChannelHandler() {
             override fun onMessageReceived(p0: BaseChannel?, p1: BaseMessage?) {
                 adapter.updateChannel(p0 as? GroupChannel)
+            }
+
+            override fun onMessageDeleted(channel: BaseChannel?, msgId: Long) {
+                adapter.updateChannel(channel as? GroupChannel)
             }
         })
     }

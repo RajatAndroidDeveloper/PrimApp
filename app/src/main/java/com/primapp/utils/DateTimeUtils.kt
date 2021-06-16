@@ -78,7 +78,7 @@ object DateTimeUtils {
     }
 
     fun formatTime(timeInMillis: Long): String? {
-        val dateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
         return dateFormat.format(timeInMillis)
     }
 

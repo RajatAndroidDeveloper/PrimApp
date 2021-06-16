@@ -2,6 +2,7 @@ package com.primapp.ui.chat
 
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,11 +12,13 @@ import com.primapp.cache.UserCache
 import com.primapp.chat.ConnectionManager
 import com.primapp.chat.SendBirdHelper
 import com.primapp.databinding.FragmentChatBinding
+import com.primapp.extensions.showError
+import com.primapp.model.MyMessageLongPressCallback
+import com.primapp.model.OtherMessageLongPressCallback
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.chat.adapter.ChatAdapter
 import com.sendbird.android.*
-import com.sendbird.android.BaseChannel.GetMessagesHandler
-import com.sendbird.android.BaseChannel.SendUserMessageHandler
+import com.sendbird.android.BaseChannel.*
 import com.sendbird.android.GroupChannel.GroupChannelGetHandler
 import com.sendbird.android.GroupChannel.GroupChannelRefreshHandler
 import com.sendbird.android.SendBird.ChannelHandler
@@ -142,9 +145,9 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
 
                 override fun onMessageDeleted(baseChannel: BaseChannel, msgId: Long) {
                     super.onMessageDeleted(baseChannel, msgId)
-//                    if (baseChannel.url == mChannelUrl) {
-//                        adapter.delete(msgId)
-//                    }
+                    if (baseChannel.url == currentChannelUrl) {
+                        adapter.deleteMessage(msgId)
+                    }
                 }
 
                 override fun onMessageUpdated(channel: BaseChannel, message: BaseMessage) {
@@ -271,8 +274,56 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
     }
 
     private fun onItemClick(any: Any) {
-        TODO("Not yet implemented")
+        when (any) {
+            is MyMessageLongPressCallback -> {
+                showMessageOptionsDialog(
+                    any.message,
+                    any.position,
+                    any.message.sender.userId == SendBird.getCurrentUser().userId
+                )
+            }
+            is OtherMessageLongPressCallback -> {
+                showMessageOptionsDialog(
+                    any.message,
+                    any.position,
+                    any.message.sender.userId == SendBird.getCurrentUser().userId
+                )
+            }
+        }
     }
+
+    private fun showMessageOptionsDialog(message: BaseMessage, position: Int, isMyMessage: Boolean) {
+        val options = if (isMyMessage) {
+            arrayOf("Copy message", "Delete message")
+        } else {
+            arrayOf("Copy message")
+        }
+        val builder =
+            AlertDialog.Builder(requireActivity())
+        builder.setItems(options) { dialog, which ->
+            if (which == 0) {
+                copyTextToClipboard(message.message)
+            } else if (which == 1) {
+                deleteMessage(message)
+            }
+        }
+        builder.create().show()
+    }
+
+    private fun deleteMessage(message: BaseMessage) {
+        if (mChannel == null) {
+            return
+        }
+
+        mChannel!!.deleteMessage(message, DeleteMessageHandler { e ->
+            if (e != null) {
+                // Error!
+                showError(requireContext(), "Failed to delete the message")
+                return@DeleteMessageHandler
+            }
+        })
+    }
+
 
     /*    //To show date as sticky
         private var sectionItemDecoration: RecyclerDateSectionItemDecoration? = null

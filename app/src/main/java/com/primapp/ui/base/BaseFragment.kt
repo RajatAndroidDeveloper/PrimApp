@@ -1,5 +1,7 @@
 package com.primapp.ui.base
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -17,6 +19,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.ViewModelProvider
+import com.primapp.R
+import com.primapp.extensions.showError
+import com.primapp.extensions.showNormalToast
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.toolbar_inner_back.view.*
 import javax.inject.Inject
@@ -190,6 +195,13 @@ abstract class BaseFragment<DB : ViewDataBinding> : DaggerFragment() {
         val uri: Uri = Uri.fromParts("package", requireContext().packageName, null)
         intent.data = uri
         startActivity(intent)
+    }
+
+    fun copyTextToClipboard(textToCopy: String) {
+        val clipboard = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("label", textToCopy)
+        clipboard.setPrimaryClip(clip)
+        showNormalToast(requireContext(), getString(R.string.copied_to_clipboard))
     }
 
     companion object {
