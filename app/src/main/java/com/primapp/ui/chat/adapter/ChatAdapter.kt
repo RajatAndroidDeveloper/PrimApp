@@ -70,6 +70,9 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
                     VIEW_TYPE_USER_MESSAGE_OTHER
                 }
             }
+            is AdminMessage -> {
+                VIEW_TYPE_ADMIN_MESSAGE
+            }
             is FileMessage -> {
                 NOT_YET_IMPLEMENTED
                 /*  val fileMessage = message as FileMessage
