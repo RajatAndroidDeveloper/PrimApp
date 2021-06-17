@@ -304,7 +304,7 @@ class CommunitiesRepository @Inject constructor(
         ).liveData
     }
 
-    fun getMentorMenteeUserForChat(userId: Int): LiveData<PagingData<ChatUser>> {
+    fun getMentorMenteeUserForChat(userId: Int, search: String?): LiveData<PagingData<ChatUser>> {
         return Pager(
             config = PagingConfig(
                 enablePlaceholders = false,
@@ -312,7 +312,7 @@ class CommunitiesRepository @Inject constructor(
                 initialLoadSize = ApiConstant.NETWORK_PAGE_SIZE
             ),
             pagingSourceFactory = {
-                UserMentorMenteeChatDataSource(responseHandler, apiService, userId)
+                UserMentorMenteeChatDataSource(responseHandler, apiService, userId, search)
             }
         ).liveData
     }

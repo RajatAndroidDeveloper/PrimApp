@@ -378,6 +378,7 @@ interface ApiService {
     @GET(ApiConstant.GET_MENTOR_MENTEE_LIST_FOR_CHAT)
     suspend fun getMentorMenteeListForChat(
         @Path("userId") userId: Int,
+        @Query("search") search: String?,
         @Query("offset") offset: Int,
         @Query("limit") limit: Int
     ): UserMenteeMentorUserReponseModel

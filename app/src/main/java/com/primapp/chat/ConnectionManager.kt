@@ -1,6 +1,5 @@
 package com.primapp.chat
 
-import android.util.Log
 import com.sendbird.android.SendBird
 import com.sendbird.android.SendBird.ConnectHandler
 import com.sendbird.android.SendBird.DisconnectHandler

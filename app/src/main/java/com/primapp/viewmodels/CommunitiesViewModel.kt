@@ -309,9 +309,9 @@ class CommunitiesViewModel @Inject constructor(
 
     private var mentorMenteeMemberListForChatLiveData: LiveData<PagingData<ChatUser>>? = null
 
-    fun getMentorMenteeMemberList(userId: Int): LiveData<PagingData<ChatUser>> {
+    fun getMentorMenteeMemberList(userId: Int, search: String?): LiveData<PagingData<ChatUser>> {
         val newResultLiveData: LiveData<PagingData<ChatUser>> =
-            repo.getMentorMenteeUserForChat(userId).cachedIn(viewModelScope)
+            repo.getMentorMenteeUserForChat(userId, search).cachedIn(viewModelScope)
         mentorMenteeMemberListForChatLiveData = newResultLiveData
         return newResultLiveData
     }

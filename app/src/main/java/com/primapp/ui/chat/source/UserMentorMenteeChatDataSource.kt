@@ -12,7 +12,8 @@ import java.lang.Exception
 class UserMentorMenteeChatDataSource(
     private val responseHandler: ResponseHandler,
     private val apiService: ApiService,
-    private val userId: Int
+    private val userId: Int,
+    private val search: String?
 ) : PagingSource<Int, ChatUser>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ChatUser> {
@@ -26,7 +27,7 @@ class UserMentorMenteeChatDataSource(
             * */
             val offset = page * params.loadSize
             Log.d("anshul_paging", "Page:$page LoadSize : ${params.loadSize} Offset : $offset")
-            val response = apiService.getMentorMenteeListForChat(userId, offset, params.loadSize)
+            val response = apiService.getMentorMenteeListForChat(userId, search, offset, params.loadSize)
             LoadResult.Page(
                 data = response.content.results,
                 prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1,

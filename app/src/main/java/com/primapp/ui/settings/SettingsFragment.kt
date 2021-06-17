@@ -2,6 +2,7 @@ package com.primapp.ui.settings
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.navigation.fragment.findNavController
 import com.primapp.BuildConfig
 import com.primapp.R
@@ -13,6 +14,8 @@ import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.profile.UserPostsFragment
 import com.primapp.utils.DialogUtils
 import com.sendbird.android.SendBird
+import com.sendbird.android.SendBirdException
+import com.sendbird.android.SendBirdPushHelper
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
 
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
@@ -53,10 +56,29 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
 
     fun logout() {
         DialogUtils.showYesNoDialog(requireActivity(), R.string.logout_message, {
-            UserCache.clearAll(requireContext())
-            ConnectionManager.logout(SendBird.DisconnectHandler {
+            showLoading()
+            SendBirdPushHelper.unregisterPushHandler(object : SendBirdPushHelper.OnPushRequestCompleteListener {
+                override fun onComplete(p0: Boolean, p1: String?) {
+                    hideLoading()
+                    logoutFromSendBird()
+                }
 
+                override fun onError(p0: SendBirdException?) {
+                    hideLoading()
+                    Log.d(ConnectionManager.TAG, "Failed to unregister push helper ${p0?.code}")
+                    logoutFromSendBird()
+                }
             })
+
+
+        })
+    }
+
+    fun logoutFromSendBird(){
+        showLoading()
+        ConnectionManager.logout(SendBird.DisconnectHandler {
+            hideLoading()
+            UserCache.clearAll(requireContext())
             startActivity(Intent(requireContext(), MainActivity::class.java))
             activity?.finish()
         })

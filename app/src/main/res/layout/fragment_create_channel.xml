@@ -18,6 +18,18 @@
 
         <include layout="@layout/toolbar_inner_back" />
 
+        <EditText
+            android:id="@+id/etSearch"
+            style="@style/editTextSearchBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_large"
+            android:layout_marginEnd="@dimen/space_large"
+            android:hint="@string/search"
+            android:imeActionLabel="Done"
+            android:imeOptions="actionDone"
+            android:singleLine="true" />
+
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefresh"
             android:layout_width="match_parent"

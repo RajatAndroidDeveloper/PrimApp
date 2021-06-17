@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.primapp.R
@@ -17,6 +18,7 @@ import com.primapp.model.MyMessageLongPressCallback
 import com.primapp.model.OtherMessageLongPressCallback
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.chat.adapter.ChatAdapter
+import com.primapp.utils.DialogUtils
 import com.sendbird.android.*
 import com.sendbird.android.BaseChannel.*
 import com.sendbird.android.GroupChannel.GroupChannelGetHandler
@@ -117,6 +119,27 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
 
         binding.frag = this
         binding.btnSend.isEnabled = false
+
+        tvClearChat.setOnClickListener {
+            DialogUtils.showYesNoDialog(requireActivity(), R.string.delete_chat_history, {
+                resetMyChannelHistory()
+            })
+        }
+    }
+
+    private fun resetMyChannelHistory() {
+        if (mChannel == null) {
+            return
+        }
+        showLoading()
+        mChannel?.resetMyHistory {
+            hideLoading()
+            if (it != null) {
+                showError(requireContext(), "Failed to remove chat history")
+                Log.d(ConnectionManager.TAG, "Failed to remove chat history. Cause: ${it.cause} Code: ${it.code} ")
+            }
+            findNavController().popBackStack()
+        }
     }
 
     override fun onResume() {

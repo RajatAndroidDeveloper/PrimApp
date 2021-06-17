@@ -27,30 +27,53 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvTitle"
+                        style="@style/primaryHeadingAccent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:textSize="@dimen/textLarge"
+                        android:visibility="visible"
+                        tools:text="Anshul Thakur" />
+
+                    <TextView
+                        android:id="@+id/tvOnlineStatus"
+                        style="@style/primaryHeadingAccent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="marquee"
+                        android:fontFamily="@font/poppins_regular"
+                        android:marqueeRepeatLimit="1"
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/textSmall"
+                        android:visibility="visible"
+                        tools:text="Online" />
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/tvTitle"
-                    style="@style/primaryHeadingAccent"
+                    android:id="@+id/tvClearChat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/textLarge"
-                    android:visibility="visible"
-                    tools:text="Anshul Thakur" />
-
-                <TextView
-                    android:id="@+id/tvOnlineStatus"
-                    style="@style/primaryHeadingAccent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="marquee"
-                    android:marqueeRepeatLimit="1"
-                    android:scrollHorizontally="true"
-                    android:singleLine="true"
-                    android:textColor="@color/grey"
-                    android:textSize="@dimen/textSmall"
-                    android:visibility="visible"
-                    tools:text="Online" />
+                    android:layout_gravity="center"
+                    android:layout_weight="0"
+                    android:gravity="center"
+                    android:background="?attr/selectableItemBackground"
+                    android:fontFamily="@font/poppins_regular"
+                    android:padding="@dimen/space_small"
+                    android:text="@string/clear_chat"
+                    android:textColor="@color/red" />
             </LinearLayout>
 
         </androidx.appcompat.widget.Toolbar>

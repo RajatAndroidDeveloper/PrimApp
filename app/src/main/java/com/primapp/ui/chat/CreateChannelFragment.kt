@@ -2,7 +2,10 @@ package com.primapp.ui.chat
 
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -23,10 +26,13 @@ import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
 import com.primapp.viewmodels.CommunitiesViewModel
 import com.sendbird.android.*
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 
 class CreateChannelFragment : BaseFragment<FragmentCreateChannelBinding>() {
+
+    private var searchJob: Job? = null
 
     val viewModel by viewModels<CommunitiesViewModel> { viewModelFactory }
 
@@ -41,6 +47,7 @@ class CreateChannelFragment : BaseFragment<FragmentCreateChannelBinding>() {
         setData()
         setObserver()
         setAdapter()
+        initTextListeners()
     }
 
     private fun setAdapter() {
@@ -82,15 +89,10 @@ class CreateChannelFragment : BaseFragment<FragmentCreateChannelBinding>() {
 
     private fun setData() {
         binding.frag = this
+        searchChatUsers(null)
     }
 
     private fun setObserver() {
-        lifecycleScope.launch {
-            viewModel.getMentorMenteeMemberList(UserCache.getUserId(requireContext()))
-                .observe(viewLifecycleOwner, Observer {
-                    adapter.submitData(lifecycle, it)
-                })
-        }
     }
 
     private fun createChanel(userId: String) {
@@ -137,6 +139,51 @@ class CreateChannelFragment : BaseFragment<FragmentCreateChannelBinding>() {
             is ChatUser -> {
                 checkUserExistAndCreateChannel(any.id.toString())
             }
+        }
+    }
+
+    private fun initTextListeners() {
+        binding.etSearch.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                updateChatUserListFromInput()
+                true
+            } else {
+                false
+            }
+        }
+        binding.etSearch.setOnKeyListener { _, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                updateChatUserListFromInput()
+                true
+            } else {
+                false
+            }
+        }
+
+        binding.etSearch.addTextChangedListener {
+            if (it.isNullOrEmpty()) {
+               updateChatUserListFromInput()
+            }
+        }
+    }
+
+    private fun updateChatUserListFromInput() {
+        binding.etSearch.text.trim().let {
+            if (it.isNotEmpty()) {
+                searchChatUsers(it.toString())
+            } else {
+                searchChatUsers(null)
+            }
+        }
+    }
+
+    private fun searchChatUsers(query: String?) {
+        searchJob?.cancel()
+        searchJob =  lifecycleScope.launch {
+            viewModel.getMentorMenteeMemberList(UserCache.getUserId(requireContext()), query)
+                .observe(viewLifecycleOwner, Observer {
+                    adapter.submitData(lifecycle, it)
+                })
         }
     }
 
