@@ -15,10 +15,7 @@ import com.primapp.constants.PostFileType
 import com.primapp.databinding.FragmentPostDetailsBinding
 import com.primapp.extensions.setAllOnClickListener
 import com.primapp.extensions.showError
-import com.primapp.extensions.showInfo
 import com.primapp.model.LikeComment
-import com.primapp.model.ShowImage
-import com.primapp.model.ShowVideo
 import com.primapp.model.comment.CommentData
 import com.primapp.model.post.PostListResult
 import com.primapp.retrofit.base.Status
@@ -26,11 +23,8 @@ import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
 import com.primapp.ui.communities.members.CommunityMembersFragment
 import com.primapp.ui.post.comment.CommentsListPagedAdapter
-import com.primapp.ui.post.comment.PostCommentFragmentArgs
 import com.primapp.utils.DialogUtils
 import com.primapp.viewmodels.PostsViewModel
-import kotlinx.android.synthetic.main.fragment_other_user_profile.*
-import kotlinx.android.synthetic.main.toolbar_inner_back.*
 import kotlinx.android.synthetic.main.toolbar_inner_back.toolbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -366,7 +360,11 @@ class PostDetailsFragment : BaseFragment<FragmentPostDetailsBinding>() {
         }
 
         binding.includePostCard.ivShare.setOnClickListener {
-            showInfo(requireContext(), getString(R.string.not_yet_implemented))
+            sharePostAsImage(
+                binding.includePostCard.clPostToShare,
+                "${postData.user.firstName} ${postData.user.lastName}",
+                postData.community.communityName
+            )
         }
 
         binding.includePostCard.cardPostAttachment.setOnClickListener {

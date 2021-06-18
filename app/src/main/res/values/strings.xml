@@ -303,6 +303,6 @@
     <string name="edited">(edited)</string>
     <string name="online">Online</string>
     <string name="copied_to_clipboard">Copied to clipboard</string>
-    <string name="delete_chat_history">Are you sure you want to delete the recent chat history?</string>
-    <string name="clear_chat">Clear Chat</string>
+    <string name="delete_chat_history">Would you like to delete this conversation?</string>
+    <string name="delete">Delete</string>
 </resources>

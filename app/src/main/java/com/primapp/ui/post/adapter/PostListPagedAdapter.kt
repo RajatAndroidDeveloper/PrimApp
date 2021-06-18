@@ -138,7 +138,7 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
 
             binding.ivShare.setOnClickListener {
                 data?.let {
-                    onItemClick(SharePost(it))
+                    onItemClick(SharePost(it, binding.clPostToShare))
                 }
             }
 

@@ -41,7 +41,9 @@
                         style="@style/primaryHeadingAccent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:ellipsize="end"
                         android:fontFamily="@font/poppins_regular"
+                        android:maxLines="1"
                         android:textSize="@dimen/textLarge"
                         android:visibility="visible"
                         tools:text="Anshul Thakur" />
@@ -62,18 +64,21 @@
                         tools:text="Online" />
                 </LinearLayout>
 
-                <TextView
+                <ImageButton
                     android:id="@+id/tvClearChat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginEnd="@dimen/space_small"
                     android:layout_weight="0"
-                    android:gravity="center"
                     android:background="?attr/selectableItemBackground"
+                    android:contentDescription="@string/delete"
                     android:fontFamily="@font/poppins_regular"
+                    android:gravity="center"
                     android:padding="@dimen/space_small"
-                    android:text="@string/clear_chat"
-                    android:textColor="@color/red" />
+                    android:src="@drawable/ic_baseline_delete_24"
+                    android:text="@string/delete"
+                    android:textColor="@color/colorAccent" />
             </LinearLayout>
 
         </androidx.appcompat.widget.Toolbar>

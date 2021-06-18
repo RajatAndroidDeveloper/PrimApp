@@ -4,6 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.media.ExifInterface
 import android.media.ThumbnailUtils
 import android.net.Uri
@@ -14,11 +17,13 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.util.Log
 import android.util.Size
+import android.view.View
 import androidx.core.content.FileProvider
 import com.primapp.BuildConfig
 import com.primapp.R
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
 
 
 object FileUtils {
@@ -311,4 +316,48 @@ object FileUtils {
         }
     }
 
+    //For share post as Image
+
+    fun getBitmapFromView(view: View): Bitmap {
+        //Define a bitmap with the same size as the view
+        val returnedBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888)
+        //Bind a canvas to it
+        val canvas = Canvas(returnedBitmap)
+        //Get the view's background
+        val bgDrawable: Drawable? = view.getBackground()
+        if (bgDrawable != null) {
+            //has background drawable, then draw it on the canvas
+            bgDrawable.draw(canvas)
+        } else {
+            //does not have background drawable, then draw white background on the canvas
+            canvas.drawColor(Color.WHITE)
+        }
+        // draw the view on the canvas
+        view.draw(canvas)
+        //return the bitmap
+        return returnedBitmap
+    }
+
+    fun getURIFromBitmap(context: Context, bmp: Bitmap?): Uri? {
+        var bmpUri: Uri? = null
+        try {
+            val file = getFile(context, IMAGE)
+
+            val out = FileOutputStream(file)
+            bmp?.compress(Bitmap.CompressFormat.JPEG, 90, out)
+            out.close()
+            bmpUri = Uri.fromFile(file)
+            Log.d("anshul_uri",bmpUri.toString())
+            bmpUri = FileProvider.getUriForFile(
+                context,
+                BuildConfig.APPLICATION_ID + context.getString(R.string.file_provider_name),
+                file!!
+            )
+            Log.d("anshul_uri2",bmpUri.toString())
+
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return bmpUri
+    }
 }

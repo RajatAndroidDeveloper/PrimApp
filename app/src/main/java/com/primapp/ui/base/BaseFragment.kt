@@ -19,9 +19,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.ViewModelProvider
+import com.primapp.BuildConfig
 import com.primapp.R
-import com.primapp.extensions.showError
 import com.primapp.extensions.showNormalToast
+import com.primapp.utils.FileUtils
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.toolbar_inner_back.view.*
 import javax.inject.Inject
@@ -93,64 +94,6 @@ abstract class BaseFragment<DB : ViewDataBinding> : DaggerFragment() {
         baseActivity.hideLoading()
     }
 
-//    fun showCustomDialog(
-//        message: String,
-//        destinationId: Int? = null,
-//        requestCode: Int? = null,
-//        isHelperDialog: Boolean = false
-//    ) {
-//        val bundle = Bundle()
-//        bundle.putString("message", message)
-//        requestCode?.let {
-//            bundle.putInt("sourceId", it)
-//        }
-//        bundle.putBoolean("isHelperDialog", isHelperDialog)
-//        findNavController().navigate(R.id.popUpHelpMessage, bundle)
-//
-//        // Add callback to dialog dismiss if the destination id is provided.
-//        if (dialogLifeCycleEventObserver == null && destinationId != null) {
-//            setDialogCallback(destinationId)
-//        }
-//    }
-//
-//    private fun setDialogCallback(destinationId: Int) {
-//        val navBackStackEntry = findNavController().getBackStackEntry(destinationId)
-//
-//        // Create observer and add it to the NavBackStackEntry's lifecycle
-//        dialogLifeCycleEventObserver = LifecycleEventObserver { _, event ->
-//            if (event == Lifecycle.Event.ON_RESUME
-//                && navBackStackEntry.savedStateHandle.contains("key")
-//            ) {
-//                /*val result =
-//                    navBackStackEntry.savedStateHandle.get<Boolean>("key")
-//                // Do something with the result
-//                Log.d("dialog_back", Gson().toJson(result))
-//                onDialogDismiss(navBackStackEntry.savedStateHandle.get<Any>("key"))
-//
-//                */
-//                val result = navBackStackEntry.savedStateHandle.get<Int>("sourceId")
-//                onDialogDismiss(result)
-//            }
-//        }
-//        navBackStackEntry.lifecycle.addObserver(dialogLifeCycleEventObserver!!)
-//        Log.d("dialog_back", "Observer Added")
-//
-//        // As addObserver() does not automatically remove the observer, we
-//        // call removeObserver() manually when the view lifecycle is destroyed
-//        viewLifecycleOwner.lifecycle.addObserver(LifecycleEventObserver { _, event ->
-//            if (event == Lifecycle.Event.ON_DESTROY) {
-//                navBackStackEntry.lifecycle.removeObserver(dialogLifeCycleEventObserver!!)
-//                dialogLifeCycleEventObserver = null
-//                Log.d("dialog_back", "Observer removed : ${dialogLifeCycleEventObserver}")
-//            }
-//        })
-//    }
-//
-//    open fun onDialogDismiss(any: Any?) {
-//        Log.d("dialog_back", "dismissed base method called")
-//    }
-
-
     fun hideKeyBoard(input: View?) {
         input?.let {
             val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -202,6 +145,20 @@ abstract class BaseFragment<DB : ViewDataBinding> : DaggerFragment() {
         val clip = ClipData.newPlainText("label", textToCopy)
         clipboard.setPrimaryClip(clip)
         showNormalToast(requireContext(), getString(R.string.copied_to_clipboard))
+    }
+
+    //Share Post as Image
+    fun sharePostAsImage(view: View, authorName: String, communityName: String) {
+        val bitmap = FileUtils.getBitmapFromView(view)
+        val textToSend =
+            "Check this post by $authorName in $communityName only on virtual mentoring platform ${context?.getString(
+                R.string.app_name
+            )}. Download now : https://play.google.com/store/apps/details?id=${BuildConfig.APPLICATION_ID}"
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "image/*"
+        intent.putExtra(Intent.EXTRA_STREAM, FileUtils.getURIFromBitmap(requireContext(), bitmap))
+        intent.putExtra(Intent.EXTRA_TEXT, textToSend)
+        startActivity(Intent.createChooser(intent, "Share Post"))
     }
 
     companion object {

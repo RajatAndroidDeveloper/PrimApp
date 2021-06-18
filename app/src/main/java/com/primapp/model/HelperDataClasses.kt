@@ -1,5 +1,6 @@
 package com.primapp.model
 
+import android.view.View
 import com.primapp.model.comment.CommentData
 import com.primapp.model.community.CommunityData
 import com.primapp.model.members.CommunityMembersData
@@ -22,7 +23,7 @@ data class LikeReply(val replyData: ReplyData)
 data class RequestMentor(val membersData: CommunityMembersData)
 data class ShowUserProfile(val userId: Int)
 data class BookmarkPost(val postData: PostListResult)
-data class SharePost(val postData: PostListResult)
+data class SharePost(val postData: PostListResult, val view: View)
 data class ShowCommunityDetails(val communityData: CommunityData)
 data class ShowPostDetails(val communityId: Int, val postId: Int)
 

@@ -361,7 +361,11 @@ class UserPostsFragment() : BaseFragment<FragmentUserPostsBinding>() {
                 findNavController().navigate(R.id.otherUserProfileFragment, bundle)
             }
             is SharePost -> {
-                showInfo(requireContext(), getString(R.string.not_yet_implemented))
+                sharePostAsImage(
+                    item.view,
+                    "${item.postData.user.firstName} ${item.postData.user.lastName}",
+                    item.postData.community.communityName
+                )
             }
         }
     }

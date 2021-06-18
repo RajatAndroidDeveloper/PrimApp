@@ -23,6 +23,7 @@
         android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clPostToShare"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/space_medium">
@@ -49,11 +50,11 @@
                 android:layout_marginStart="@dimen/space_small"
                 android:background="@drawable/shape_rounded_corner_light_grey"
                 android:backgroundTint="@color/lightAccent"
-                android:textColor="@color/colorAccent"
                 android:paddingStart="@dimen/textExtraSmall"
                 android:paddingTop="1dp"
                 android:paddingEnd="@dimen/textExtraSmall"
                 android:text="@{data.user.mentor ? @string/mentor : @string/mentee}"
+                android:textColor="@color/colorAccent"
                 android:textSize="@dimen/textExtraSmall"
                 android:visibility="@{(data.user.mentor || data.user.mentee) ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@id/tvName"

@@ -370,7 +370,11 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
             }
 
             is SharePost -> {
-                showInfo(requireContext(), getString(R.string.not_yet_implemented))
+                sharePostAsImage(
+                    item.view,
+                    "${item.postData.user.firstName} ${item.postData.user.lastName}",
+                    item.postData.community.communityName
+                )
             }
         }
     }
@@ -399,7 +403,7 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
 
     fun updateUnreadMessageCount(totalUnreadMessageCount: Long) {
         CoroutineScope(Dispatchers.Main).launch {
-            Log.d("anshul","textview is null : ${tvCount==null} conext : ${context==null}")
+            Log.d("anshul", "textview is null : ${tvCount == null} conext : ${context == null}")
             tvCount?.text = getPrettyNumber(totalUnreadMessageCount)
             tvCount?.isVisible = totalUnreadMessageCount > 0
         }
