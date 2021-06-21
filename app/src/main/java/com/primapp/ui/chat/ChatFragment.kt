@@ -5,6 +5,8 @@ import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,11 +16,15 @@ import com.primapp.chat.ConnectionManager
 import com.primapp.chat.SendBirdHelper
 import com.primapp.databinding.FragmentChatBinding
 import com.primapp.extensions.showError
+import com.primapp.extensions.showInfo
 import com.primapp.model.MyMessageLongPressCallback
 import com.primapp.model.OtherMessageLongPressCallback
+import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.chat.adapter.ChatAdapter
+import com.primapp.ui.initial.PasswordVerificationFragmentDirections
 import com.primapp.utils.DialogUtils
+import com.primapp.viewmodels.CommunitiesViewModel
 import com.sendbird.android.*
 import com.sendbird.android.BaseChannel.*
 import com.sendbird.android.GroupChannel.GroupChannelGetHandler
@@ -39,6 +45,8 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
 
     val userData by lazy { UserCache.getUser(requireContext()) }
 
+    val viewModel by viewModels<CommunitiesViewModel> { viewModelFactory }
+
     override fun getLayoutRes(): Int = R.layout.fragment_chat
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -48,6 +56,38 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
         setData()
         setAdapter()
         initListeners()
+        setObserver()
+    }
+
+    private fun setObserver() {
+        viewModel.checkMentorMenteeRelationLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.SUCCESS -> {
+                        it.data?.content?.let {
+                            binding.llChatBox.isVisible = !it.isEmpty()
+                            if (it.isEmpty()) {
+                                showInfo(requireContext(), getString(R.string.no_relation_message))
+                            }
+                        }
+                    }
+                }
+            }
+        })
+    }
+
+    private fun checkRelation() {
+        if (mChannel == null) {
+            return
+        }
+        viewModel.checkMentorMenteeRelation(userId = SendBirdHelper.getGroupChannelOtherUserId(mChannel!!))
     }
 
     private fun initListeners() {
@@ -65,6 +105,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
 
     private fun setAdapter() {
         val mLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, true)
+        mLayoutManager.stackFromEnd = true
         binding.rvChat.apply {
             layoutManager = mLayoutManager
         }
@@ -228,8 +269,10 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
                 isLoadingFirstTime = true
                 adapter.loadLatestMessages(CHANNEL_LIST_LIMIT, GetMessagesHandler { list, e ->
                     adapter.markAllMessagesAsRead()
+                    binding.rvChat.scrollToPosition(0)
                 })
 
+                checkRelation()
             })
         } else {
             mChannel!!.refresh(GroupChannelRefreshHandler { e ->

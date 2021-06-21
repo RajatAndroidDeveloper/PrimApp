@@ -10,6 +10,7 @@ import com.primapp.model.aws.PresignedURLRequest
 import com.primapp.model.aws.PresignedURLResponseModel
 import com.primapp.model.category.*
 import com.primapp.model.chat.ChatUser
+import com.primapp.model.chat.MentorMenteeRelationResponse
 import com.primapp.model.community.*
 import com.primapp.model.members.CommunityMembersData
 import com.primapp.model.mentor.RequestMentorDataModel
@@ -315,6 +316,14 @@ class CommunitiesRepository @Inject constructor(
                 UserMentorMenteeChatDataSource(responseHandler, apiService, userId, search)
             }
         ).liveData
+    }
+
+    suspend fun checkMentorMenteeRelation(userId: Int): Resource<MentorMenteeRelationResponse> {
+        return try {
+            responseHandler.handleResponse(apiService.checkMentorMenteeRelation(userId))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
     }
 
     //---- User profile ----

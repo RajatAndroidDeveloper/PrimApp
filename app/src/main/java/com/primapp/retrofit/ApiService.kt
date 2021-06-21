@@ -4,6 +4,7 @@ import com.primapp.model.auth.*
 import com.primapp.model.aws.PresignedURLRequest
 import com.primapp.model.aws.PresignedURLResponseModel
 import com.primapp.model.category.ParentCategoryResponseModel
+import com.primapp.model.chat.MentorMenteeRelationResponse
 import com.primapp.model.chat.UserMenteeMentorUserReponseModel
 import com.primapp.model.comment.CommentListResponseModel
 import com.primapp.model.comment.CreateCommentRequestModel
@@ -382,5 +383,8 @@ interface ApiService {
         @Query("offset") offset: Int,
         @Query("limit") limit: Int
     ): UserMenteeMentorUserReponseModel
+
+    @GET(ApiConstant.CHECK_MENTOR_MENTEE_RELATION)
+    suspend fun checkMentorMenteeRelation(@Path("userId") userId: Int): MentorMenteeRelationResponse
 
 }

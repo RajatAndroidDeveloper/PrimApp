@@ -78,7 +78,7 @@ class ChannelListFragment : BaseFragment<FragmentChannelListBinding>() {
         showLoader(true)
         groupChannelListQuery = GroupChannel.createMyGroupChannelListQuery()
         groupChannelListQuery.limit = CHANNEL_LIST_LIMIT
-        groupChannelListQuery.isIncludeEmpty = true
+        groupChannelListQuery.isIncludeEmpty = false
         if (binding.etSearch.text.trim().isNotEmpty()) {
             groupChannelListQuery.nicknameContainsFilter = binding.etSearch.text.trim().toString()
         }

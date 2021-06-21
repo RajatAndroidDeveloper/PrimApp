@@ -91,4 +91,20 @@ object SendBirdHelper {
         }
     }
 
+    fun getGroupChannelOtherUserId(channel: GroupChannel): Int {
+        val members = channel.members
+        return if (members.size < 2 || SendBird.getCurrentUser() == null) {
+            -1
+        } else if (members.size == 2) {
+            members.forEach {
+                if (it.userId != SendBird.getCurrentUser().userId) {
+                    return it.userId.toInt()
+                }
+            }
+            return -1
+        } else {
+            -1
+        }
+    }
+
 }

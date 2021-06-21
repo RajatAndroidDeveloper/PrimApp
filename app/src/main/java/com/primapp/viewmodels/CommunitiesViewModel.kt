@@ -13,6 +13,7 @@ import com.primapp.model.auth.VerifyUserResponseModel
 import com.primapp.model.aws.PresignedURLResponseModel
 import com.primapp.model.category.*
 import com.primapp.model.chat.ChatUser
+import com.primapp.model.chat.MentorMenteeRelationResponse
 import com.primapp.model.community.*
 import com.primapp.model.members.CommunityMembersData
 import com.primapp.model.mentor.RequestMentorDataModel
@@ -315,6 +316,15 @@ class CommunitiesViewModel @Inject constructor(
         mentorMenteeMemberListForChatLiveData = newResultLiveData
         return newResultLiveData
     }
+
+    private var _checkMentorMenteeRelationLiveData = MutableLiveData<Event<Resource<MentorMenteeRelationResponse>>>()
+    var checkMentorMenteeRelationLiveData: LiveData<Event<Resource<MentorMenteeRelationResponse>>> = _checkMentorMenteeRelationLiveData
+
+    fun checkMentorMenteeRelation(userId: Int) =
+        viewModelScope.launch {
+            _checkMentorMenteeRelationLiveData.postValue(Event(Resource.loading(null)))
+            _checkMentorMenteeRelationLiveData.postValue(Event(repo.checkMentorMenteeRelation(userId)))
+        }
 
     //---- User profile Data----
     private var _getUserLiveData = MutableLiveData<Event<Resource<VerifyUserResponseModel>>>()
