@@ -132,7 +132,7 @@ class DashboardActivity : BaseActivity() {
         })
     }
 
-    private fun updateCurrentUserInfo(name: String, userImage: String?) {
+    fun updateCurrentUserInfo(name: String, userImage: String?) {
         SendBird.updateCurrentUserInfo(name, userImage, SendBird.UserInfoUpdateHandler {
             if (it != null) {
                 Log.d(ConnectionManager.TAG, "Failed to update name to sendbird")

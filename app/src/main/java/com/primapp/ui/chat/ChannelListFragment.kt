@@ -156,7 +156,7 @@ class ChannelListFragment : BaseFragment<FragmentChannelListBinding>() {
     }
 
     private fun showLoader(isVisible: Boolean) {
-        binding.progressBar.isVisible = isVisible
+        binding.progressBar.isVisible = isVisible && !binding.swipeRefresh.isRefreshing
         binding.rvChannelsList.isVisible = !isVisible
     }
 

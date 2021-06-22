@@ -18,6 +18,7 @@ import com.primapp.extensions.loadCircularImageWithoutCache
 import com.primapp.extensions.showError
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
+import com.primapp.ui.dashboard.DashboardActivity
 import com.primapp.ui.initial.AutocompleteListArrayAdapter
 import com.primapp.utils.AwsHelper
 import com.primapp.utils.DialogUtils
@@ -112,7 +113,9 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
             when (it.status) {
                 Status.SUCCESS -> {
                     DialogUtils.showCloseDialog(requireActivity(), R.string.changes_saved_successfully) {
-                        it.data?.content?.let { user -> UserCache.saveUser(requireContext(), user) }
+                        it.data?.content?.let { user -> UserCache.saveUser(requireContext(), user)
+                            (activity as? DashboardActivity)?.updateCurrentUserInfo("${user.firstName} ${user.lastName}", user.userImage)
+                        }
                         findNavController().popBackStack()
                     }
                 }
