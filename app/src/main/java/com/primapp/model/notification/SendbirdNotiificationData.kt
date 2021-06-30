@@ -18,7 +18,7 @@ data class SendbirdNotiificationData(
     @SerializedName("custom_type")
     val customType: String,
     @SerializedName("files")
-    val files: List<Any>,
+    val files: List<File>,
     @SerializedName("mentioned_users")
     val mentionedUsers: List<Any>,
     @SerializedName("message")
@@ -50,6 +50,32 @@ data class Channel(
     val customType: String,
     @SerializedName("name")
     val name: String
+)
+
+
+data class File(
+    @SerializedName("channel_id")
+    val channelId: Int,
+    @SerializedName("channel_url")
+    val channelUrl: String,
+    @SerializedName("custom")
+    val custom: String,
+    @SerializedName("edge_ts")
+    val edgeTs: Long,
+    @SerializedName("name")
+    val name: String,
+    @SerializedName("remote_addr")
+    val remoteAddr: String,
+    @SerializedName("req_id")
+    val reqId: String,
+    @SerializedName("require_auth")
+    val requireAuth: Boolean,
+    @SerializedName("size")
+    val size: Int,
+    @SerializedName("type")
+    val type: String,
+    @SerializedName("url")
+    val url: String
 )
 
 data class Recipient(

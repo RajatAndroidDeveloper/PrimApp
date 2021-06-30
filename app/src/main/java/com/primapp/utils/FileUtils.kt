@@ -1,5 +1,6 @@
 package com.primapp.utils
 
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -15,21 +16,25 @@ import android.os.Environment
 import android.os.Parcelable
 import android.provider.DocumentsContract
 import android.provider.MediaStore
+import android.provider.OpenableColumns
+import android.text.TextUtils
 import android.util.Log
 import android.util.Size
 import android.view.View
+import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
 import com.primapp.BuildConfig
 import com.primapp.R
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
+import java.io.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 object FileUtils {
     const val IMAGE_REQUEST_CODE = 1
     const val VIDEO_REQUEST_CODE = 2
     const val GIF_REQUEST_CODE = 3
+    const val PICK_ANY_FILE_REQUEST_CODE = 5
     const val FILE_PICK_TAG = "filePicker"
 
     const val IMAGE = "image"
@@ -347,17 +352,141 @@ object FileUtils {
             bmp?.compress(Bitmap.CompressFormat.JPEG, 90, out)
             out.close()
             bmpUri = Uri.fromFile(file)
-            Log.d("anshul_uri",bmpUri.toString())
+            Log.d("anshul_uri", bmpUri.toString())
             bmpUri = FileProvider.getUriForFile(
                 context,
                 BuildConfig.APPLICATION_ID + context.getString(R.string.file_provider_name),
                 file!!
             )
-            Log.d("anshul_uri2",bmpUri.toString())
+            Log.d("anshul_uri2", bmpUri.toString())
 
         } catch (e: IOException) {
             e.printStackTrace()
         }
         return bmpUri
+    }
+
+    //Request any file
+    fun requestAnyFile(context: Context): Intent {
+        val chooserIntent = Intent(Intent.ACTION_CHOOSER)
+
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, getFileUri(context, IMAGE))
+        val videoSize: Long = 10 * 1024 * 1024
+        val takeVideoIntent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
+        takeVideoIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1)
+        takeVideoIntent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, videoSize)
+        takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, getFileUri(context, VIDEO))
+
+        val contentSelectionIntent = Intent(Intent.ACTION_GET_CONTENT)
+        contentSelectionIntent.addCategory(Intent.CATEGORY_OPENABLE)
+        contentSelectionIntent.type = "*/*"
+
+        val intentArray = arrayOf(takePictureIntent, takeVideoIntent)
+        chooserIntent.putExtra(Intent.EXTRA_INTENT, contentSelectionIntent)
+        chooserIntent.putExtra(Intent.EXTRA_TITLE, "Choose a media file")
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray)
+
+        return chooserIntent
+    }
+
+    fun getFileFromUri(context: Context, selectedFileUri: Uri): File? {
+        val contentResolver = context.contentResolver
+        val parcelFileDescriptor = contentResolver.openFileDescriptor(selectedFileUri, "r", null) ?: return null
+
+        val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
+        val file = File(context.cacheDir, contentResolver.getFileName(selectedFileUri))
+        val outputStream = FileOutputStream(file)
+        inputStream.copyTo(outputStream)
+        return file
+    }
+
+    fun getFileInfo(
+        context: Context,
+        uri: Uri
+    ): Hashtable<String, Any?>? {
+        try {
+            context.contentResolver.query(uri, null, null, null, null).use { cursor ->
+                val mime = context.contentResolver.getType(uri)
+                if (cursor != null) {
+                    val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                    val sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE)
+                    val value =
+                        Hashtable<String, Any?>()
+                    if (cursor.moveToFirst()) {
+                        var name = cursor.getString(nameIndex)
+                        val size = cursor.getLong(sizeIndex).toInt()
+                        if (TextUtils.isEmpty(name)) {
+                            name =
+                                "Temp_" + uri.hashCode() + "." + extractExtension(context, uri)
+                        }
+                        val file = File(context.cacheDir, name)
+                        val inputPFD = context.contentResolver.openFileDescriptor(uri, "r")
+                        var fd: FileDescriptor? = null
+                        if (inputPFD != null) {
+                            fd = inputPFD.fileDescriptor
+                        }
+                        val inputStream = FileInputStream(fd)
+                        val outputStream = FileOutputStream(file)
+                        var read: Int
+                        val bytes = ByteArray(1024)
+                        while (inputStream.read(bytes).also { read = it } != -1) {
+                            outputStream.write(bytes, 0, read)
+                        }
+                        value["path"] = file.absolutePath
+                        value["size"] = size
+                        value["mime"] = mime
+                        value["name"] = name
+                    }
+                    return value
+                }
+            }
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+            Log.e(e.localizedMessage, "File not found.")
+            return null
+        }
+        return null
+    }
+
+    fun getFileInfo(
+        context: Context,
+        file: File
+    ): Hashtable<String, Any?>? {
+        try {
+            val value = Hashtable<String, Any?>()
+            var mime: String? = null
+            val extension = MimeTypeMap.getFileExtensionFromUrl(file.absolutePath)
+            if (extension != null) {
+                mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
+            }
+
+            val size = Integer.parseInt((file.length()).toString());
+            value["path"] = file.absolutePath
+            value["size"] = size
+            value["mime"] = mime
+            value["name"] = file.name
+
+            return value
+        }catch (e:java.lang.Exception){
+            Log.e(FILE_PICK_TAG, "File not found.")
+            return null
+        }
+        return null
+    }
+
+    private fun extractExtension(context: Context, uri: Uri): String? {
+        val extension: String = if (uri.scheme == ContentResolver.SCHEME_CONTENT) {
+            extractExtension(context.contentResolver.getType(uri).toString()) ?: ""
+        } else {
+            MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(File(uri.path)).toString())
+        }
+        return extension
+    }
+
+
+    private fun extractExtension(mimeType: String): String? {
+        val mime = MimeTypeMap.getSingleton()
+        return mime.getExtensionFromMimeType(mimeType)
     }
 }

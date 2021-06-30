@@ -21,6 +21,7 @@ import com.primapp.cache.UserCache
 import com.primapp.model.notification.SendbirdNotiificationData
 import com.primapp.ui.MainActivity
 import com.primapp.ui.dashboard.DashboardActivity
+import com.sendbird.android.FileMessage
 import com.sendbird.android.SendBird
 import com.sendbird.android.SendBird.PushTokenRegistrationStatus
 import org.json.JSONException
@@ -36,7 +37,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             if (remoteMessage.getData().containsKey("sendbird")) {
                 val sendbird = JSONObject(remoteMessage.getData().get("sendbird"))
 
-                val sendBirdNotificationData: SendbirdNotiificationData = Gson().fromJson(sendbird.toString(), SendbirdNotiificationData::class.java)
+                val sendBirdNotificationData: SendbirdNotiificationData =
+                    Gson().fromJson(sendbird.toString(), SendbirdNotiificationData::class.java)
 
                 val channel: JSONObject = sendbird.get("channel") as JSONObject
                 channelUrl = channel.get("channel_url").toString()
@@ -51,7 +53,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
                 // If you want to customize a notification with the received FCM message,
                 // write your method like the sendNotification() below.
-                showInboxStyleNotification(this, messageTitle, messageBody, channelUrl, sendBirdNotificationData)
+                showInboxStyleNotification(this, messageTitle, getNotificationDisplayMessage(sendBirdNotificationData), channelUrl, sendBirdNotificationData)
             }
         } catch (e: JSONException) {
             e.printStackTrace()
@@ -120,7 +122,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         notificationData: SendbirdNotiificationData?
     ) {
         val listNotification = UserCache.getNotificationData(context)
-        Log.d("fcm_Data",Gson().toJson(listNotification))
+        Log.d("fcm_Data", Gson().toJson(listNotification))
         val currentNotifications = listNotification?.filter { it.channel.channelUrl.equals(channelUrl) }
 
         if (currentNotifications == null || currentNotifications.size <= 1) {
@@ -138,7 +140,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 .setSummaryText("${currentNotifications.size} messages from ${senderName}")
                 .setBigContentTitle(senderName)
             currentNotifications.forEach {
-                inboxStyle.addLine(it.message)
+                inboxStyle.addLine(getNotificationDisplayMessage(it))
             }
 
             val notification = NotificationCompat.Builder(context, CHANNEL_ID)
@@ -157,6 +159,19 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             notificationManager.notify(notificationId, notification)
         }
 
+    }
+
+    private fun getNotificationDisplayMessage(it: SendbirdNotiificationData): String {
+        return if (it.type.equals("FILE", true) && it.files.isNotEmpty()) {
+            val fileType = it.files[0].type.split('/')
+            if (fileType.size > 1) {
+                "${fileType[0].capitalize()} file received"
+            } else {
+                "${it.sender.name} has sent a file"
+            }
+        } else {
+            it.message
+        }
     }
 
     fun getNotificationManager(context: Context): NotificationManager {

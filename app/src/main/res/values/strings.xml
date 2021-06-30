@@ -306,4 +306,5 @@
     <string name="delete_chat_history">Would you like to delete this conversation?</string>
     <string name="delete">Delete</string>
     <string name="no_relation_message">You can\'t send messages to this user as this user doesn\'t have any relation with you</string>
+    <string name="video_file_size_error_message">File size too big. Please upload a file with up to 18mb only</string>
 </resources>

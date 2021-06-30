@@ -3,20 +3,18 @@ package com.primapp.ui.chat.adapter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.primapp.R
-import com.primapp.databinding.ItemSimpleTextBinding
-import com.primapp.databinding.ListItemGroupChatAdminBinding
-import com.primapp.databinding.ListItemGroupChatUserMeBinding
-import com.primapp.databinding.ListItemGroupChatUserOtherBinding
-import com.primapp.model.MyMessageLongPressCallback
-import com.primapp.model.OtherMessageLongPressCallback
+import com.primapp.databinding.*
+import com.primapp.model.MessageLongPressCallback
 import com.primapp.utils.DateTimeUtils
 import com.primapp.utils.isOnlyEmoji
 import com.sendbird.android.*
 import com.sendbird.android.BaseChannel.GetMessagesHandler
+import java.util.*
 
 class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -75,6 +73,16 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
             }
             is FileMessage -> {
                 NOT_YET_IMPLEMENTED
+
+                return if (message.type.toLowerCase(Locale.ROOT).startsWith("image") || message.type.toLowerCase(Locale.ROOT).startsWith("video")) {
+                    if (message.getSender().userId == SendBird.getCurrentUser().userId) {
+                        VIEW_TYPE_FILE_MESSAGE_IMAGE_ME
+                    } else {
+                        VIEW_TYPE_FILE_MESSAGE_IMAGE_OTHER
+                    }
+                } else {
+                    NOT_YET_IMPLEMENTED
+                }
                 /*  val fileMessage = message as FileMessage
                    if (message.type.toLowerCase(Locale.ROOT).startsWith("image")) { }*/
             }
@@ -113,6 +121,26 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
                     DataBindingUtil.inflate(
                         layoutInflater,
                         R.layout.list_item_group_chat_admin,
+                        parent,
+                        false
+                    )
+                )
+            }
+            VIEW_TYPE_FILE_MESSAGE_IMAGE_ME -> {
+                return MyUserImageMessageHolder(
+                    DataBindingUtil.inflate(
+                        layoutInflater,
+                        R.layout.list_item_group_chat_file_image_me,
+                        parent,
+                        false
+                    )
+                )
+            }
+            VIEW_TYPE_FILE_MESSAGE_IMAGE_OTHER -> {
+                return OtherUserImageMessageHolder(
+                    DataBindingUtil.inflate(
+                        layoutInflater,
+                        R.layout.list_item_group_chat_file_image_other,
                         parent,
                         false
                     )
@@ -167,6 +195,12 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
             VIEW_TYPE_ADMIN_MESSAGE -> {
                 (holder as AdminUserMessageHolder).bind(message as AdminMessage, isContinuous, isNewDay)
             }
+            VIEW_TYPE_FILE_MESSAGE_IMAGE_ME -> {
+                (holder as MyUserImageMessageHolder).bind(message as FileMessage, isContinuous, isNewDay)
+            }
+            VIEW_TYPE_FILE_MESSAGE_IMAGE_OTHER -> {
+                (holder as OtherUserImageMessageHolder).bind(message as FileMessage, isContinuous, isNewDay)
+            }
             else -> {
                 (holder as OthersViewHolder).bindView()
             }
@@ -194,7 +228,7 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
             channel?.let { binding.messageStatusGroupChat.drawMessageStatus(it, message) }
 
             binding.root.setOnLongClickListener {
-                onItemClick(MyMessageLongPressCallback(message, absoluteAdapterPosition))
+                onItemClick(MessageLongPressCallback(message, absoluteAdapterPosition))
                 true
             }
         }
@@ -220,7 +254,59 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
             }
 
             binding.root.setOnLongClickListener {
-                onItemClick(OtherMessageLongPressCallback(message, absoluteAdapterPosition))
+                onItemClick(MessageLongPressCallback(message, absoluteAdapterPosition))
+                true
+            }
+        }
+    }
+
+    inner class MyUserImageMessageHolder(val binding: ListItemGroupChatFileImageMeBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(
+            message: FileMessage,
+            isContinuous: Boolean,
+            isNewDay: Boolean
+        ) {
+
+            binding.message = message
+            binding.isContinuous = isContinuous
+            binding.isNewDay = isNewDay
+
+            binding.ivPlay.isVisible = message.type.toLowerCase(Locale.ROOT).startsWith("video")
+
+            channel?.let { binding.messageStatusGroupChat.drawMessageStatus(it, message) }
+
+            binding.root.setOnClickListener {
+                onItemClick(message)
+            }
+
+            binding.root.setOnLongClickListener {
+                onItemClick(MessageLongPressCallback(message, absoluteAdapterPosition))
+                true
+            }
+
+        }
+    }
+
+    inner class OtherUserImageMessageHolder(val binding: ListItemGroupChatFileImageOtherBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(
+            message: FileMessage,
+            isContinuous: Boolean,
+            isNewDay: Boolean
+        ) {
+            binding.message = message
+            binding.isContinuous = isContinuous
+            binding.isNewDay = isNewDay
+
+            binding.ivPlay.isVisible = message.type.toLowerCase(Locale.ROOT).startsWith("video")
+
+            binding.root.setOnClickListener {
+                onItemClick(message)
+            }
+
+            binding.root.setOnLongClickListener {
+                onItemClick(MessageLongPressCallback(message, absoluteAdapterPosition))
                 true
             }
         }
@@ -277,6 +363,10 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
         // If admin message or
         return (!(currentUser == null || precedingUser == null)
                 && currentUser.userId == precedingUser.userId)
+    }
+
+    fun isFailedMessage(message: BaseMessage): Boolean {
+        return message.sendingStatus == BaseMessage.SendingStatus.FAILED
     }
 
     @Synchronized
@@ -381,10 +471,12 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
     companion object {
         const val URL_PREVIEW_CUSTOM_TYPE = "url_preview"
 
-        private val VIEW_TYPE_USER_MESSAGE_ME = 10
-        private val VIEW_TYPE_USER_MESSAGE_OTHER = 11
-        private val VIEW_TYPE_ADMIN_MESSAGE = 30
+        private const val VIEW_TYPE_USER_MESSAGE_ME = 10
+        private const val VIEW_TYPE_USER_MESSAGE_OTHER = 11
+        private const val VIEW_TYPE_ADMIN_MESSAGE = 30
+        private const val VIEW_TYPE_FILE_MESSAGE_IMAGE_ME = 22
+        private const val VIEW_TYPE_FILE_MESSAGE_IMAGE_OTHER = 23
 
-        private val NOT_YET_IMPLEMENTED = 101
+        private const val NOT_YET_IMPLEMENTED = 101
     }
 }

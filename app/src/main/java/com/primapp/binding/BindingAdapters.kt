@@ -503,9 +503,12 @@ fun sendBirdMessage(textView: TextView, lastMessage: BaseMessage?) {
             is AdminMessage -> textView.setText(lastMessage.message)
             else -> {
                 val fileMessage = lastMessage as FileMessage
-                val sender = fileMessage.type
-
-                textView.text = "${sender} has sent a file."
+                val fileType = fileMessage.type.split('/')
+                if (fileType.size > 1) {
+                    textView.text = "${fileType[0].capitalize()} file"
+                }else{
+                    textView.text = "${fileMessage.sender.nickname} has sent a file"
+                }
             }
         }
     }

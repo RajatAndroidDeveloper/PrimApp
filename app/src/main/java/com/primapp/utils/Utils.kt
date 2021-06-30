@@ -1,5 +1,8 @@
 package com.primapp.utils
 
+import android.content.ContentResolver
+import android.net.Uri
+import android.provider.OpenableColumns
 import android.util.Log
 import android.view.View
 import okio.utf8Size
@@ -26,4 +29,16 @@ fun isOnlyEmoji(text: String?): Boolean {
         return false
     }
     return EMOJI_PATTERN.matcher(text).matches() && text.length <= 2
+}
+
+fun ContentResolver.getFileName(fileUri: Uri): String {
+    var name = ""
+    val returnCursor = this.query(fileUri, null, null, null, null)
+    if (returnCursor != null) {
+        val nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+        returnCursor.moveToFirst()
+        name = returnCursor.getString(nameIndex)
+        returnCursor.close()
+    }
+    return name
 }

@@ -1,9 +1,11 @@
 package com.primapp.chat
 
 import com.primapp.utils.DateTimeUtils
+import com.sendbird.android.FileMessage
 import com.sendbird.android.GroupChannel
 import com.sendbird.android.SendBird
 import com.sendbird.android.User
+import java.util.*
 
 object SendBirdHelper {
 
@@ -77,10 +79,16 @@ object SendBirdHelper {
             members.forEach {
                 if (it.userId != SendBird.getCurrentUser().userId) {
                     var lastSeenText = "last seen "
-                    if(DateTimeUtils.isToday(it.lastSeenAt)){
-                        lastSeenText += "today at ${DateTimeUtils.getDateFromMillis(it.lastSeenAt, DateTimeUtils.TIME_FORMAT)}"
-                    }else{
-                        lastSeenText += DateTimeUtils.getDateFromMillis(it.lastSeenAt, DateTimeUtils.LAST_SEEN_DATE_FORMAT)
+                    if (DateTimeUtils.isToday(it.lastSeenAt)) {
+                        lastSeenText += "today at ${DateTimeUtils.getDateFromMillis(
+                            it.lastSeenAt,
+                            DateTimeUtils.TIME_FORMAT
+                        )}"
+                    } else {
+                        lastSeenText += DateTimeUtils.getDateFromMillis(
+                            it.lastSeenAt,
+                            DateTimeUtils.LAST_SEEN_DATE_FORMAT
+                        )
                     }
                     return lastSeenText
                 }
@@ -107,4 +115,16 @@ object SendBirdHelper {
         }
     }
 
+    fun getThumbnailUrl(message: FileMessage): String {
+        val thumbnails = message.thumbnails
+        return if (thumbnails.size > 0) {
+            if (message.type.toLowerCase(Locale.ROOT).contains("gif")) {
+                message.url
+            } else {
+                thumbnails[0].url
+            }
+        } else {
+            message.url
+        }
+    }
 }

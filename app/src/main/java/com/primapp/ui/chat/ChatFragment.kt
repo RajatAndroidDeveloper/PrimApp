@@ -1,5 +1,8 @@
 package com.primapp.ui.chat
 
+import android.Manifest
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
@@ -17,20 +20,23 @@ import com.primapp.chat.SendBirdHelper
 import com.primapp.databinding.FragmentChatBinding
 import com.primapp.extensions.showError
 import com.primapp.extensions.showInfo
-import com.primapp.model.MyMessageLongPressCallback
-import com.primapp.model.OtherMessageLongPressCallback
+import com.primapp.model.MessageLongPressCallback
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.chat.adapter.ChatAdapter
-import com.primapp.ui.initial.PasswordVerificationFragmentDirections
 import com.primapp.utils.DialogUtils
+import com.primapp.utils.FileUtils
 import com.primapp.viewmodels.CommunitiesViewModel
 import com.sendbird.android.*
 import com.sendbird.android.BaseChannel.*
+import com.sendbird.android.FileMessage.ThumbnailSize
 import com.sendbird.android.GroupChannel.GroupChannelGetHandler
 import com.sendbird.android.GroupChannel.GroupChannelRefreshHandler
 import com.sendbird.android.SendBird.ChannelHandler
 import kotlinx.android.synthetic.main.toolbar_chat.*
+import java.io.File
+import java.util.*
+
 
 class ChatFragment : BaseFragment<FragmentChatBinding>() {
 
@@ -341,26 +347,43 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
 
     private fun onItemClick(any: Any) {
         when (any) {
-            is MyMessageLongPressCallback -> {
+            is MessageLongPressCallback -> {
                 showMessageOptionsDialog(
                     any.message,
-                    any.position,
-                    any.message.sender.userId == SendBird.getCurrentUser().userId
+                    any.message.sender.userId == SendBird.getCurrentUser().userId,
+                    any.message is FileMessage
                 )
             }
-            is OtherMessageLongPressCallback -> {
-                showMessageOptionsDialog(
-                    any.message,
-                    any.position,
-                    any.message.sender.userId == SendBird.getCurrentUser().userId
-                )
+
+            is FileMessage -> {
+                val type: String = any.type.toLowerCase(Locale.ROOT)
+                if (type.startsWith("image")) {
+                    val bundle = Bundle()
+                    bundle.putString("url", any.url)
+                    findNavController().navigate(R.id.imageViewDialog, bundle)
+                } else if (type.startsWith("video")) {
+                    val bundle = Bundle()
+                    bundle.putString("url", any.url)
+                    findNavController().navigate(R.id.videoViewDialog, bundle)
+                } else {
+                    showInfo(requireContext(), "File type not supported.")
+                }
             }
         }
     }
 
-    private fun showMessageOptionsDialog(message: BaseMessage, position: Int, isMyMessage: Boolean) {
+    private fun showMessageOptionsDialog(
+        message: BaseMessage,
+        isMyMessage: Boolean,
+        isFileMessage: Boolean
+    ) {
+        if (isFileMessage && !isMyMessage) return
+
         val options = if (isMyMessage) {
-            arrayOf("Copy message", "Delete message")
+            if (isFileMessage)
+                arrayOf("Delete message")
+            else
+                arrayOf("Copy message", "Delete message")
         } else {
             arrayOf("Copy message")
         }
@@ -368,7 +391,10 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
             AlertDialog.Builder(requireActivity())
         builder.setItems(options) { dialog, which ->
             if (which == 0) {
-                copyTextToClipboard(message.message)
+                if (isFileMessage)
+                    deleteMessage(message)
+                else
+                    copyTextToClipboard(message.message)
             } else if (which == 1) {
                 deleteMessage(message)
             }
@@ -388,6 +414,140 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
                 return@DeleteMessageHandler
             }
         })
+    }
+
+    //For attachment to send files
+
+    fun requestMediaAskPermission() {
+        if (isPermissionGranted(Manifest.permission.CAMERA)) {
+            requestMedia()
+        } else {
+            requestPermissions(
+                arrayOf(Manifest.permission.CAMERA),
+                CAMERA_PERMISSION_REQUEST_CODE
+            )
+        }
+    }
+
+    fun requestMedia() {
+        startActivityForResult(FileUtils.requestAnyFile(requireContext()), FileUtils.PICK_ANY_FILE_REQUEST_CODE)
+        // Set this as false to maintain connection
+        // even when an external Activity is started.
+        SendBird.setAutoBackgroundDetection(false)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        val isGranted = isAllPermissionsGranted(grantResults)
+        when (requestCode) {
+            CAMERA_PERMISSION_REQUEST_CODE -> {
+                if (isGranted) {
+                    requestMedia()
+                } else {
+                    val showRationale = shouldShowRequestPermissionRationale(permissions[0])
+                    if (!showRationale) {
+                        /*
+                        *   Permissions are denied permanently, redirect to permissions page
+                        * */
+                        showError(requireContext(), getString(R.string.error_camera_permission))
+                        redirectUserToAppSettings()
+                    } else {
+                        DialogUtils.showCloseDialog(
+                            requireActivity(),
+                            R.string.error_camera_permission,
+                            R.drawable.question_mark
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        // Set this as true to restore background connection management.
+        SendBird.setAutoBackgroundDetection(true)
+        if (requestCode == FileUtils.PICK_ANY_FILE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            // If user has successfully chosen the image, show a dialog to confirm upload.
+//            if (data == null) {
+//                Log.d("Sendbird_File_Upload", "data is null!")
+//                return
+//            }
+            if (data?.data == null) {
+                val file = FileUtils.getFile(requireContext(), FileUtils.IMAGE)
+                sendFileWithThumbnail(file)
+            } else {
+                val file = FileUtils.getFileFromUri(requireContext(), data.data!!)
+                sendFileWithThumbnail(file)
+            }
+
+        }
+    }
+
+    private fun sendFileWithThumbnail(file: File?) {
+        if (file == null || mChannel == null) return
+
+        // Specify two dimensions of thumbnails to generate
+        val thumbnailSizes: MutableList<ThumbnailSize> = ArrayList()
+        thumbnailSizes.add(ThumbnailSize(240, 240))
+        thumbnailSizes.add(ThumbnailSize(320, 320))
+
+        val info: Hashtable<String, Any?>? = FileUtils.getFileInfo(requireContext(), file)
+
+        if (info == null || info.isEmpty) {
+            showError(requireContext(), "Invalid file selected, can't access information.")
+            return
+        }
+
+        val fileSize = (file.length() / 1024) / 1024
+        Log.d(FileUtils.FILE_PICK_TAG,"Sending File Message, Size : $fileSize")
+        
+        if (fileSize > 18) {
+            showError(requireContext(), getString(R.string.video_file_size_error_message))
+            return
+        }
+
+        val name: String?
+        name = if (info.containsKey("name")) {
+            info["name"] as String?
+        } else {
+            "Sendbird File"
+        }
+        val mime = info["mime"] as String?
+        val size = info["size"] as Int
+
+        if (mime?.toLowerCase(Locale.ROOT)?.startsWith("image") == true) {
+            FileUtils.compressImage(file.absolutePath)
+        }
+
+        val tempFileMessage: FileMessage = mChannel!!.sendFileMessage(
+            file,
+            name,
+            mime,
+            size,
+            "",
+            null,
+            thumbnailSizes
+        ) { fileMessage, e ->
+
+            if (e != null) {
+                // Error!
+                Log.e(ConnectionManager.TAG, e.toString())
+                adapter.updateMessage(fileMessage)
+                return@sendFileMessage
+            }
+            Log.d(ConnectionManager.TAG, "File Message Sent")
+            // Update a sent message to RecyclerView
+            adapter.updateMessage(fileMessage)
+        }
+
+        adapter.addFirst(tempFileMessage)
+        binding.rvChat.scrollToPosition(0)
     }
 
 

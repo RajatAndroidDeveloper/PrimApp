@@ -535,7 +535,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                     if (tempFile != null && tempFile.exists()) {
                         val fileSize = (tempFile.length() / 1024) / 1024
                         if (fileSize > 18) {
-                            showError(requireContext(), "File size too big. Please upload a video with upto 18mb only")
+                            showError(requireContext(), getString(R.string.video_file_size_error_message))
                         } else {
                             selectedFile = tempFile
                             binding.groupSelectFileName.isVisible = true

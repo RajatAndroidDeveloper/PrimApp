@@ -32,5 +32,5 @@ data class AcceptMetorRequest(val id: Int)
 data class RejectMetorRequest(val id: Int)
 
 //Chat
-data class MyMessageLongPressCallback(val message: BaseMessage, val position: Int)
-data class OtherMessageLongPressCallback(val message: BaseMessage, val position: Int)
+data class MessageLongPressCallback(val message: BaseMessage, val position: Int)
+//data class FileMessageLongPressCallback(val message: BaseMessage, val position: Int)
