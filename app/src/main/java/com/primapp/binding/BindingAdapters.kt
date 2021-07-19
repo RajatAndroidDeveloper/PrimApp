@@ -23,10 +23,7 @@ import androidx.databinding.BindingAdapter
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.textfield.TextInputLayout
 import com.primapp.R
-import com.primapp.constants.CommunityFilterTypes
-import com.primapp.constants.MentorshipStatusTypes
-import com.primapp.constants.NotificationSubTypes
-import com.primapp.constants.NotificationTypes
+import com.primapp.constants.*
 import com.primapp.extensions.*
 import com.primapp.model.auth.UserData
 import com.primapp.model.community.CommunityData
@@ -506,7 +503,7 @@ fun sendBirdMessage(textView: TextView, lastMessage: BaseMessage?) {
                 val fileType = fileMessage.type.split('/')
                 if (fileType.size > 1) {
                     textView.text = "${fileType[0].capitalize()} file"
-                }else{
+                } else {
                     textView.text = "${fileMessage.sender.nickname} has sent a file"
                 }
             }
@@ -537,4 +534,35 @@ fun sendBirdMessageDate(textView: TextView, time: Long?) {
     time?.let {
         textView.text = DateTimeUtils.formatDate(time)
     }
+}
+
+@BindingAdapter("tokensEarned")
+fun tokensEarned(textView: TextView, tokens: Int?) {
+    textView.text = textView.resources.getString(R.string.digital_tokens_earned, tokens.toString())
+    textView.isSelected = true
+}
+
+@BindingAdapter("rewardsCategory")
+fun rewardsStageCategory(textView: TextView, accountStage: String?) {
+    val drawable = when (accountStage) {
+        RewardsCategory.SILVER -> {
+            ContextCompat.getDrawable(textView.context, R.drawable.silver_bar)
+        }
+        RewardsCategory.GOLD -> {
+            ContextCompat.getDrawable(textView.context, R.drawable.gold_bar)
+        }
+        RewardsCategory.PLATINUM -> {
+            ContextCompat.getDrawable(textView.context, R.drawable.platinum_bar)
+        }
+        else -> {
+           null
+        }
+    }
+
+    textView.setCompoundDrawablesWithIntrinsicBounds(
+        ContextCompat.getDrawable(textView.context, R.drawable.prim_coin),
+        null,
+        drawable,
+        null
+    )
 }

@@ -9,23 +9,32 @@ import android.text.SpannableStringBuilder
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
 import android.widget.LinearLayout
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.primapp.R
 import com.primapp.cache.UserCache
 import com.primapp.databinding.FragmentProfileBinding
+import com.primapp.extensions.showError
+import com.primapp.extensions.showSuccess
 import com.primapp.model.auth.UserData
+import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.ViewPagerCommunityAdapter
 import com.primapp.ui.communities.members.CommunityMembersFragment
 import com.primapp.ui.profile.UserJoinedCommunitiesFragment
 import com.primapp.ui.profile.UserPostsFragment
+import com.primapp.ui.splash.SplashViewModel
+import kotlinx.android.synthetic.main.layout_profile_top_card.*
 import kotlinx.android.synthetic.main.toolbar_dashboard_accent.*
 
-
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
+
+    val viewModel by viewModels<SplashViewModel> { viewModelFactory }
 
     override fun getLayoutRes(): Int = R.layout.fragment_profile
 
@@ -38,6 +47,30 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
         setToolbar(getString(R.string.profile), toolbar)
         setData()
+        setObserver()
+    }
+
+    private fun setObserver() {
+        viewModel.rewardsLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                pbDigitalToken.isVisible = false
+                when (it.status) {
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.LOADING -> {
+                        pbDigitalToken.isVisible = true
+                    }
+                    Status.SUCCESS -> {
+                        it.data?.let {
+                           binding.rewardsData = it.content
+                        }
+                    }
+                }
+            }
+        })
+
+        viewModel.getRewardsData()
     }
 
     private fun setData() {

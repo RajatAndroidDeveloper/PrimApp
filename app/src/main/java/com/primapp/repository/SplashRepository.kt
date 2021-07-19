@@ -2,6 +2,7 @@ package com.primapp.repository
 
 import com.primapp.model.auth.VerifyUserResponseModel
 import com.primapp.model.post.ReportPostRequestModel
+import com.primapp.model.rewards.RewardsResponseModel
 import com.primapp.retrofit.ApiService
 import com.primapp.retrofit.base.BaseDataModel
 import com.primapp.retrofit.base.Resource
@@ -27,6 +28,15 @@ class SplashRepository @Inject constructor(
     ): Resource<BaseDataModel> {
         return try {
             responseHandler.handleResponse(apiService.reportPost(communityId, postId, reportPostRequestModel))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    suspend fun getRewardsData(
+    ): Resource<RewardsResponseModel> {
+        return try {
+            responseHandler.handleResponse(apiService.getRewards())
         } catch (e: Exception) {
             responseHandler.handleException(e)
         }

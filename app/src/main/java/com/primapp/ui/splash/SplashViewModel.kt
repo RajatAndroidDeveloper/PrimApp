@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.primapp.model.auth.VerifyUserResponseModel
 import com.primapp.model.post.ReportPostRequestModel
+import com.primapp.model.rewards.RewardsResponseModel
 import com.primapp.repository.SplashRepository
 import com.primapp.retrofit.base.BaseDataModel
 import com.primapp.retrofit.base.Event
@@ -43,5 +44,14 @@ class SplashViewModel @Inject constructor(val repo: SplashRepository) : ViewMode
                 )
             )
         )
+    }
+
+    //Get rewards data
+    private var _getRewardsLiveData = MutableLiveData<Event<Resource<RewardsResponseModel>>>()
+    var rewardsLiveData: LiveData<Event<Resource<RewardsResponseModel>>> = _getRewardsLiveData
+
+    fun getRewardsData() = viewModelScope.launch {
+        _getRewardsLiveData.postValue(Event(Resource.loading(null)))
+        _getRewardsLiveData.postValue(Event(repo.getRewardsData()))
     }
 }

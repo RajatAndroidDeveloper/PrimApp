@@ -12,6 +12,10 @@
         <variable
             name="user"
             type="com.primapp.model.auth.UserData" />
+
+        <variable
+            name="rewardsData"
+            type="com.primapp.model.rewards.RewardsContent" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,6 +28,7 @@
         <include
             layout="@layout/layout_profile_top_card"
             app:frag="@{frag}"
+            app:rewardsData="@{rewardsData}"
             app:user="@{user}" />
 
         <com.google.android.material.tabs.TabLayout

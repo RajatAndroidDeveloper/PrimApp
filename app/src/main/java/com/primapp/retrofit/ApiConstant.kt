@@ -79,4 +79,7 @@ object ApiConstant {
     //Chat
     const val GET_MENTOR_MENTEE_LIST_FOR_CHAT = "mentee-mentor-list/{userId}"
     const val CHECK_MENTOR_MENTEE_RELATION = "mentee-mentor-check/{userId}"
+
+    //Rewards
+    const val GET_REWARDS = "digital-assets"
 }

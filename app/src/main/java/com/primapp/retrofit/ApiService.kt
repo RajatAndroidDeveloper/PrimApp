@@ -17,6 +17,7 @@ import com.primapp.model.post.*
 import com.primapp.model.profile.EditProfileRequestModel
 import com.primapp.model.reply.CommentReplyResponseModel
 import com.primapp.model.reply.CreateReplyRequestModel
+import com.primapp.model.rewards.RewardsResponseModel
 import com.primapp.model.settings.ReportIssueRequestModel
 import com.primapp.retrofit.base.BaseDataModel
 import okhttp3.MultipartBody
@@ -387,4 +388,6 @@ interface ApiService {
     @GET(ApiConstant.CHECK_MENTOR_MENTEE_RELATION)
     suspend fun checkMentorMenteeRelation(@Path("userId") userId: Int): MentorMenteeRelationResponse
 
+    @GET(ApiConstant.GET_REWARDS)
+    suspend fun getRewards(): RewardsResponseModel
 }
