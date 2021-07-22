@@ -6,6 +6,9 @@ object ApiConstant {
 
     const val BASE_URL = BuildConfig.BASE_URL
 
+    const val ABOUT_US = "http://admin.prim-technology.com/about-us"
+    const val PRIM_REWARDS = "http://admin.prim-technology.com/prim-rewards"
+
     const val NETWORK_PAGE_SIZE = 15
 
     //Auth

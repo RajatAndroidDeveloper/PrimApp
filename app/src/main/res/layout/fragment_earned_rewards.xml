@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="tokens"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <include layout="@layout/toolbar_inner_back" />
+
+        <TextView
+            android:id="@+id/tvAvailableTokens"
+            style="@style/normalBodyText"
+            android:layout_marginStart="@dimen/space_normal"
+            android:layout_marginTop="@dimen/space_extraLarge"
+            android:ellipsize="end"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@string/available_tokens"
+            android:textSize="@dimen/textLargeX"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clToolbar" />
+
+        <TextView
+            android:id="@+id/tvEarnedTokens"
+            style="@style/normalBodyText"
+            android:layout_width="wrap_content"
+            android:layout_marginStart="@dimen/space_normal"
+            android:drawablePadding="@dimen/space_small"
+            android:ellipsize="end"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@{tokens}"
+            android:textSize="@dimen/textExtraLarge"
+            app:drawableStartCompat="@drawable/prim_coin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvAvailableTokens"
+            tools:text="1000" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_large"
+            android:layout_marginTop="@dimen/space_extraLarge"
+            android:background="@drawable/button_primary_blue_outlined"
+            android:orientation="vertical"
+            android:padding="@dimen/space_small"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvEarnedTokens">
+
+            <TextView
+                android:id="@+id/tvHowItWorks"
+                style="@style/normalBodyText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_normal"
+                android:ellipsize="end"
+                android:fontFamily="@font/poppins_medium"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="@string/how_it_works"
+                android:textSize="@dimen/textMediumX"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clToolbar" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/how_it_works_description"
+                android:textSize="@dimen/textSmall" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_small"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawablePadding="@dimen/space_normal"
+                    android:padding="@dimen/space_extraSmall"
+                    android:text="@string/how_it_works_1"
+                    android:textColor="@color/black"
+                    app:drawableStartCompat="@drawable/registration" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:drawablePadding="@dimen/space_extraSmall"
+                    android:padding="@dimen/space_extraSmall"
+                    android:text="@string/_20"
+                    android:textColor="@color/black"
+                    app:drawableStartCompat="@drawable/prim_coin" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawablePadding="@dimen/space_normal"
+                    android:padding="@dimen/space_extraSmall"
+                    android:text="@string/how_it_works_2"
+                    android:textColor="@color/black"
+                    app:drawableStartCompat="@drawable/community_rewards" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:drawablePadding="@dimen/space_extraSmall"
+                    android:padding="@dimen/space_extraSmall"
+                    android:text="@string/_20"
+                    android:textColor="@color/black"
+                    app:drawableStartCompat="@drawable/prim_coin" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawablePadding="@dimen/space_normal"
+                    android:padding="@dimen/space_extraSmall"
+                    android:text="@string/how_it_works_3"
+                    android:textColor="@color/black"
+                    app:drawableStartCompat="@drawable/user" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:drawablePadding="@dimen/space_extraSmall"
+                    android:padding="@dimen/space_extraSmall"
+                    android:text="@string/_20"
+                    android:textColor="@color/black"
+                    app:drawableStartCompat="@drawable/prim_coin" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

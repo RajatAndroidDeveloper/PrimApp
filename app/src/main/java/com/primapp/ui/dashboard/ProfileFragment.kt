@@ -34,6 +34,8 @@ import kotlinx.android.synthetic.main.toolbar_dashboard_accent.*
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
+    var earnedTokens: Int? = 0
+
     val viewModel by viewModels<SplashViewModel> { viewModelFactory }
 
     override fun getLayoutRes(): Int = R.layout.fragment_profile
@@ -63,7 +65,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                     }
                     Status.SUCCESS -> {
                         it.data?.let {
-                           binding.rewardsData = it.content
+                            earnedTokens = it.content.totalCoin
+                            binding.rewardsData = it.content
                         }
                     }
                 }
@@ -92,6 +95,16 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         val bundle = Bundle()
         bundle.putString("url", user.userImage)
         findNavController().navigate(R.id.imageViewDialog, bundle)
+    }
+
+    fun gotoEarnedRewards() {
+        if (pbDigitalToken.isVisible) {
+            return
+        }
+
+        val bundle = Bundle()
+        bundle.putString("tokens", earnedTokens.toString())
+        findNavController().navigate(R.id.earnedRewardsFragment, bundle)
     }
 
     private fun initViewPager() {

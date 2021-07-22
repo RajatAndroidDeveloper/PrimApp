@@ -1,5 +1,6 @@
 package com.primapp.di.modules
 
+import com.primapp.ui.base.CommonWebView
 import com.primapp.ui.base.ImageViewDialog
 import com.primapp.ui.base.PopUpReportPost
 import com.primapp.ui.base.VideoViewDialog
@@ -22,6 +23,7 @@ import com.primapp.ui.post.details.PostDetailsFragment
 import com.primapp.ui.post.reply.PostCommentReplyFragment
 import com.primapp.ui.profile.*
 import com.primapp.ui.profile.other.OtherUserProfileFragment
+import com.primapp.ui.rewards.EarnedRewardsFragment
 import com.primapp.ui.settings.AboutUsFragment
 import com.primapp.ui.settings.SettingsFragment
 import com.primapp.ui.settings.help.HelpAndSupportFragment
@@ -131,4 +133,10 @@ abstract class DashboardFragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeChatFragment(): ChatFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeCommonWebViewFragment(): CommonWebView
+
+    @ContributesAndroidInjector
+    abstract fun contributeEarnedRewardsFragment(): EarnedRewardsFragment
 }

@@ -46,6 +46,9 @@
         <action
             android:id="@+id/action_profileFragment_to_editProfileFragment"
             app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_earnedRewardsFragment"
+            app:destination="@id/earnedRewardsFragment" />
     </fragment>
     <fragment
         android:id="@+id/notificationsFragment"
@@ -225,16 +228,16 @@
         tools:layout="@layout/fragment_mentor_request_rejection">
         <argument
             android:name="requestId"
-            app:argType="integer"
-            android:defaultValue="-1" />
+            android:defaultValue="-1"
+            app:argType="integer" />
         <argument
             android:name="type"
             app:argType="string" />
         <argument
             android:name="communityData"
+            android:defaultValue="@null"
             app:argType="com.primapp.model.community.CommunityData"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/userPostsFragment"
@@ -289,40 +292,37 @@
             app:argType="string" />
         <argument
             android:name="email"
+            android:defaultValue="@null"
             app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
         <argument
             android:name="code"
-            app:argType="string"
-            app:nullable="true"
             android:defaultValue="@null"
-            />
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/postDetailsFragment"
         android:name="com.primapp.ui.post.details.PostDetailsFragment"
         android:label="PostDetailsFragment"
-        tools:layout="@layout/fragment_post_details"
-        >
+        tools:layout="@layout/fragment_post_details">
         <argument
             android:name="postId"
             app:argType="integer" />
-        <argument android:name="communityId"
+        <argument
+            android:name="communityId"
             app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/channelListFragment"
         android:name="com.primapp.ui.chat.ChannelListFragment"
         android:label="ChannelListFragment"
-        tools:layout="@layout/fragment_channel_list"
-        />
+        tools:layout="@layout/fragment_channel_list" />
     <fragment
         android:id="@+id/createChannelFragment"
         android:name="com.primapp.ui.chat.CreateChannelFragment"
         android:label="CreateChannelFragment"
-        tools:layout="@layout/fragment_create_channel"
-        >
+        tools:layout="@layout/fragment_create_channel">
         <action
             android:id="@+id/action_createChannelFragment_to_chatFragment"
             app:destination="@id/chatFragment"
@@ -333,11 +333,32 @@
         android:id="@+id/chatFragment"
         android:name="com.primapp.ui.chat.ChatFragment"
         android:label="ChatFragment"
-        tools:layout="@layout/fragment_chat"
-        >
+        tools:layout="@layout/fragment_chat">
         <argument
             android:name="channelUrl"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/commonWebView"
+        android:name="com.primapp.ui.base.CommonWebView"
+        android:label="CommonWebView"
+        tools:layout="@layout/fragment_common_web_view" >
+        <argument
+            android:name="title"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="url"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/earnedRewardsFragment"
+        android:name="com.primapp.ui.rewards.EarnedRewardsFragment"
+        android:label="EarnedRewardsFragment" >
+        <argument
+            android:name="tokens"
+            app:argType="string"
+            android:defaultValue="0" />
     </fragment>
 
 </navigation>

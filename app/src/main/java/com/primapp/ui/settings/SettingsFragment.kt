@@ -9,6 +9,7 @@ import com.primapp.R
 import com.primapp.cache.UserCache
 import com.primapp.chat.ConnectionManager
 import com.primapp.databinding.FragmentSettingsBinding
+import com.primapp.retrofit.ApiConstant
 import com.primapp.ui.MainActivity
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.profile.UserPostsFragment
@@ -36,7 +37,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
     }
 
     fun openAboutUs() {
-        findNavController().navigate(R.id.action_settingsFragment_to_aboutUsFragment)
+        val bundle = Bundle()
+        bundle.putString("title",getString(R.string.about_us))
+        bundle.putString("url", ApiConstant.ABOUT_US)
+        findNavController().navigate(R.id.commonWebView, bundle)
     }
 
     fun openHelpSupport() {
@@ -52,6 +56,13 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         bundle.putString("type", UserPostsFragment.BOOKMARK_POST)
         bundle.putInt("userId", UserCache.getUserId(requireContext()))
         findNavController().navigate(R.id.userPostsFragment, bundle)
+    }
+
+    fun openRewards() {
+        val bundle = Bundle()
+        bundle.putString("title","Prim Rewards")
+        bundle.putString("url", ApiConstant.PRIM_REWARDS)
+        findNavController().navigate(R.id.commonWebView, bundle)
     }
 
     fun logout() {

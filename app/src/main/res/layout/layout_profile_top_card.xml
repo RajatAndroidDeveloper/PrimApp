@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="frag"
             type="com.primapp.ui.dashboard.ProfileFragment" />
@@ -89,20 +90,22 @@
         <TextView
             android:id="@+id/tvDigitalTokenEarned"
             style="@style/normalBodyText"
+            rewardsCategory="@{rewardsData.accountStage}"
+            tokensEarned="@{rewardsData.totalCoin}"
+            android:background="?attr/selectableItemBackground"
             android:drawablePadding="@dimen/space_extraSmall"
             android:ellipsize="marquee"
-            android:marqueeRepeatLimit="marquee_forever"
             android:gravity="center_vertical"
-            tokensEarned="@{rewardsData.totalCoin}"
-            rewardsCategory="@{rewardsData.accountStage}"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:onClick="@{()->frag.gotoEarnedRewards()}"
+            android:singleLine="true"
             android:text="@{user.country}"
             android:textSize="@dimen/textSmall"
+            app:drawableStartCompat="@drawable/prim_coin"
             app:layout_constraintEnd_toEndOf="@id/tvName"
             app:layout_constraintStart_toStartOf="@id/tvName"
             app:layout_constraintTop_toBottomOf="@id/tvCountry"
-            tools:text="@string/digital_tokens_earned"
-            app:drawableStartCompat="@drawable/prim_coin"
-            android:singleLine="true" />
+            tools:text="@string/digital_tokens_earned" />
 
         <ProgressBar
             android:id="@+id/pbDigitalToken"

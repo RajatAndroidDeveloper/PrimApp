@@ -308,4 +308,12 @@
     <string name="no_relation_message">You can\'t send messages to this user as this user doesn\'t have any relation with you</string>
     <string name="video_file_size_error_message">File size too big. Please upload a file with up to 18mb only</string>
     <string name="digital_tokens_earned">Digital Tokens Earned: %s</string>
+    <string name="prim_rewards">Prim Rewards</string>
+    <string name="available_tokens">Available tokens</string>
+    <string name="how_it_works_description">You will earn following points whenever you complete these tasks.</string>
+    <string name="how_it_works">How it Works?</string>
+    <string name="how_it_works_1">When a user register for first time on Prim.</string>
+    <string name="how_it_works_2">When a user creates a community and gets approved.</string>
+    <string name="how_it_works_3">When a user adds a mentee or mentor.</string>
+    <string name="_20">20</string>
 </resources>
