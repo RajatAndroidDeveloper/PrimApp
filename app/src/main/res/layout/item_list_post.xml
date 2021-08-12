@@ -228,47 +228,89 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageView
+            <LinearLayout
                 android:id="@+id/ivLike"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:background="#F2F2F2"
-                android:contentDescription="@string/like"
+                android:clickable="true"
                 android:foreground="?attr/selectableItemBackground"
-                android:padding="@dimen/space_large"
-                android:src="@{data.like ? @drawable/like_color : @drawable/like}"
-                android:tooltipText="@string/like"
-                tools:src="@drawable/like"
-                tools:targetApi="m" />
+                android:gravity="center"
+                android:orientation="horizontal">
 
-            <ImageView
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    tools:src="@drawable/like_new"
+                    android:src="@{data.like ? @drawable/like_color_new : @drawable/like_new}" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/like" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/ivComment"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_marginStart="2dp"
                 android:layout_weight="1"
                 android:background="#F2F2F2"
-                android:contentDescription="@string/comments"
+                android:clickable="true"
                 android:foreground="?attr/selectableItemBackground"
-                android:padding="@dimen/space_large"
-                android:src="@drawable/comment_grey"
-                android:tooltipText="@string/comments"
-                tools:targetApi="m" />
+                android:gravity="center"
+                android:orientation="horizontal">
 
-            <ImageView
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/comment_new" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/comment" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/ivShare"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_marginStart="2dp"
                 android:layout_weight="1"
                 android:background="#F2F2F2"
-                android:contentDescription="@string/share"
+                android:clickable="true"
                 android:foreground="?attr/selectableItemBackground"
-                android:padding="@dimen/space_large"
-                android:src="@drawable/share"
-                android:tooltipText="@string/share"
-                tools:targetApi="m" />
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/share_new" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/share" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

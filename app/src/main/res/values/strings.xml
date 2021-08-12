@@ -312,8 +312,8 @@
     <string name="available_tokens">Available tokens</string>
     <string name="how_it_works_description">You will earn following points whenever you complete these tasks.</string>
     <string name="how_it_works">How it Works?</string>
-    <string name="how_it_works_1">When a user register for first time on Prim.</string>
-    <string name="how_it_works_2">When a user creates a community and gets approved.</string>
-    <string name="how_it_works_3">When a user adds a mentee or mentor.</string>
-    <string name="_20">20</string>
+    <string name="how_it_works_1">For being a \"Mentor\" to each Mentee.</string>
+    <string name="how_it_works_2">For creating and moderating an approved community.</string>
+    <string name="how_it_works_3">For each user who subsequently joins your community.</string>
+    <string name="comment">Comment</string>
 </resources>

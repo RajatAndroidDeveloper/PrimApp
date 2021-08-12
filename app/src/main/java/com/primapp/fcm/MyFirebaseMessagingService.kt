@@ -7,7 +7,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
@@ -19,9 +18,7 @@ import com.google.gson.Gson
 import com.primapp.R
 import com.primapp.cache.UserCache
 import com.primapp.model.notification.SendbirdNotiificationData
-import com.primapp.ui.MainActivity
 import com.primapp.ui.dashboard.DashboardActivity
-import com.sendbird.android.FileMessage
 import com.sendbird.android.SendBird
 import com.sendbird.android.SendBird.PushTokenRegistrationStatus
 import org.json.JSONException

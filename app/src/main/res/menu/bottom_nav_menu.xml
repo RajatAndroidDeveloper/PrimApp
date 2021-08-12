@@ -4,24 +4,24 @@
     <item
         android:id="@+id/updatesFragment"
         android:enabled="true"
-        android:icon="@drawable/update_grey"
+        android:icon="@drawable/ic_home"
         android:title="@string/updates" />
 
     <item
         android:id="@+id/notificationsFragment"
         android:enabled="true"
-        android:icon="@drawable/notifications"
+        android:icon="@drawable/ic_notification_bell"
         android:title="@string/notifications" />
 
     <item
         android:id="@+id/communitiesFragment"
         android:enabled="true"
-        android:icon="@drawable/ic_communication"
+        android:icon="@drawable/ic_community"
         android:title="@string/communities" />
 
     <item
         android:id="@+id/profileFragment"
         android:enabled="true"
-        android:icon="@drawable/icon_profile"
+        android:icon="@drawable/ic_person"
         android:title="@string/profile" />
 </menu>
