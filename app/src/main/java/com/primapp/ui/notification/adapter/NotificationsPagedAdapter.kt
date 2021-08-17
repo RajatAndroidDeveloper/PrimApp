@@ -42,7 +42,7 @@ class NotificationsPagedAdapter @Inject constructor(val onItemClick: (Any?) -> U
                         NotificationViewTypes.MENTORSHIP_REQUEST_VIEW
                     }
                     NotificationTypes.MENTORSHIP_UPDATE, NotificationTypes.MENTORSHIP_REQUEST_ACTION,
-                    NotificationTypes.COMMUNITY_NOTIFICATION -> {
+                    NotificationTypes.COMMUNITY_NOTIFICATION, NotificationTypes.ADMIN_ACTION_NOTIFICATION -> {
                         NotificationViewTypes.MENTORSHIP_UPDATE_VIEW
                     }
                     NotificationTypes.POST_RELATED_NOTIFICATION -> {

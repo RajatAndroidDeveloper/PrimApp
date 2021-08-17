@@ -75,6 +75,7 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
                         showAdditionalData(true)
                         response.data?.content?.apply {
                             communityData.isJoined = isJoined
+                            communityData.isCreatedByMe = isCreatedByMe
                             communityData.communityName = communityName
                             communityData.communityDescription = communityDescription
                             communityData.imageUrl = imageUrl

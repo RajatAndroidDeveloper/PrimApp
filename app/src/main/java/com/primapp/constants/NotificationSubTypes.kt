@@ -11,4 +11,6 @@ object NotificationSubTypes {
     const val POST_REPLY = "post_reply"
     const val POST_COMMENT_LIKE = "like_comment"
     const val POST_REPLY_LIKE = "like_reply"
+    const val COMMUNITY_APPROVED = "community approved"
+    const val COMMUNITY_REJECTED = "community rejected"
 }

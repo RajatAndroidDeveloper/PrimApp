@@ -182,30 +182,53 @@ fun genderDobCountryTextView(textView: TextView, user: UserData?) {
 fun membersAndCreatedDate(textView: TextView, data: CommunityData?, type: String?) {
     data?.let {
         if (type == CommunityFilterTypes.CREATED_COMMUNITY) {
-            textView.text =
-                "${data.status} | ${DateTimeUtils.convertServerTimeStamp(data.cdate)}"
+            if(data.adminStatus.equals("Approved",true)){
+                textView.text =
+                    "${data.status} | ${DateTimeUtils.convertServerTimeStamp(data.cdate)}"
+            }else {
+                textView.text =
+                    "${data.adminStatus} | ${DateTimeUtils.convertServerTimeStamp(data.cdate)}"
+            }
         } else {
             textView.text =
-                "${textView.resources.getQuantityString(
-                    R.plurals.member_count,
-                    it.totalActiveMember.toInt(),
-                    getPrettyNumber(it.totalActiveMember)
-                )} | ${DateTimeUtils.convertServerTimeStamp(data.cdate)}"
+                "${
+                    textView.resources.getQuantityString(
+                        R.plurals.member_count,
+                        it.totalActiveMember.toInt(),
+                        getPrettyNumber(it.totalActiveMember)
+                    )
+                } | ${DateTimeUtils.convertServerTimeStamp(data.cdate)}"
         }
     }
 }
 
-@BindingAdapter("isJoined", "isCreatedByMe", "type")
-fun joinButtonStyle(button: Button, isJoined: Boolean, isCreatedByMe: Boolean, type: String?) {
+@BindingAdapter("isJoined", "isCreatedByMe", "type", "adminStatus")
+fun joinButtonStyle(button: Button, isJoined: Boolean, isCreatedByMe: Boolean, type: String?, adminStatus: String?) {
     if (type == CommunityFilterTypes.CREATED_COMMUNITY) {
-        //Make the button as Edit
-        button.background = ContextCompat.getDrawable(button.context, R.drawable.button_primary_blue_filled)
-        button.setTextColor(ContextCompat.getColor(button.context, R.color.white))
-        button.text = button.context.getString(R.string.edit)
+        if(adminStatus.equals("Pending",true)){
+            button.background = ContextCompat.getDrawable(button.context, R.drawable.button_primary_grey_filled)
+            button.setTextColor(ContextCompat.getColor(button.context, R.color.black))
+            button.typeface = ResourcesCompat.getFont(button.context, R.font.poppins_regular)
+            button.text = button.context.getString(R.string.edit)
+            button.isEnabled = false
+        }else{
+            //Make the button as Edit
+            button.background = ContextCompat.getDrawable(button.context, R.drawable.button_primary_blue_filled)
+            button.setTextColor(ContextCompat.getColor(button.context, R.color.white))
+            button.text = button.context.getString(R.string.edit)
+            button.isEnabled = true
+        }
     } else if (type == CommunityFilterTypes.COMMUNITY_DETAILS) {
         if (isJoined) {
             if (isCreatedByMe) {
                 button.text = button.context.getString(R.string.edit)
+                if(adminStatus.equals("Pending",true)){
+                    button.background = ContextCompat.getDrawable(button.context, R.drawable.button_primary_grey_filled)
+                    button.setTextColor(ContextCompat.getColor(button.context, R.color.black))
+                    button.typeface = ResourcesCompat.getFont(button.context, R.font.poppins_regular)
+                    button.isEnabled = false
+                    return
+                }
             } else {
                 button.text = button.context.getString(R.string.leave)
             }
@@ -485,6 +508,20 @@ fun makeNotificationMentorRequest(textView: TextView, notificationData: Notifica
                         .append(communityName)
                 }
             }
+            NotificationTypes.ADMIN_ACTION_NOTIFICATION -> {
+                if (it.title.equals(NotificationSubTypes.COMMUNITY_APPROVED, true)) {
+                    textToSend.append("Your community ")
+                        .append(communityName)
+                        .append(" has been approved")
+                }else if(it.title.equals(NotificationSubTypes.COMMUNITY_REJECTED, true)){
+                    textToSend.append("Your community ")
+                        .append(communityName)
+                        .append(" has been rejected")
+                        .append(".\n").bold { }
+                        .append("Reason : ")
+                        .normal(it.message ?: "No reason specified")
+                }
+            }
         }
         textToSend.append(".")
         textView.text = textToSend
@@ -555,7 +592,7 @@ fun rewardsStageCategory(textView: TextView, accountStage: String?) {
             ContextCompat.getDrawable(textView.context, R.drawable.platinum_bar)
         }
         else -> {
-           null
+            null
         }
     }
 

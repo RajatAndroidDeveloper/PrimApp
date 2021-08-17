@@ -58,6 +58,8 @@ data class CommunityData(
     val id: Int,
     @SerializedName("status")
     var status: String,
+    @SerializedName("admin_status")
+    var adminStatus: String,
     @SerializedName("total_active_member")
     var totalActiveMember: Long,
     @SerializedName("udate")
@@ -65,7 +67,7 @@ data class CommunityData(
     @SerializedName("is_joined")
     var isJoined: Boolean?,
     @SerializedName("is_createdbyme")
-    val isCreatedByMe: Boolean?,
+    var isCreatedByMe: Boolean?,
     @SerializedName("community_creater")
     var communityCreator: String?,
     @SerializedName("community_category")
