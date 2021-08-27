@@ -175,7 +175,7 @@
     <string name="status">Status</string>
     <string name="community_inactive_status_message">Are you sure to inactive your community?</string>
     <string name="create_post">Create Post</string>
-    <string name="write_text_here">Write text here...</string>
+    <string name="write_text_here">Write text here…</string>
     <string name="select_community">Select Community</string>
     <string name="image">Image</string>
     <string name="image_gif">Image/GIF</string>
@@ -247,7 +247,7 @@
     <string name="select_a_reason">Select a reason</string>
     <string name="mentor_request_rejection_message">Mentor request rejected successfully!</string>
     <string name="mentor_relation_end_message">Mentorship realtion ended successfully!</string>
-    <string name="mention_your_reason_here">Mention your reason here...</string>
+    <string name="mention_your_reason_here">Mention your reason here…</string>
     <string name="create_post_discard_msg">Are you sure you want to discard the post?</string>
     <string name="can_t_accept_at_this_time">Can\'t accept at this time</string>
     <string name="vacation_sabbatical">Vacation / Sabbatical</string>
@@ -296,7 +296,7 @@
     <string name="leave_reason_2">Joined wrong community</string>
     <string name="leave_reason_3">Unruly community members</string>
     <string name="please_give_rating">Please provide rating for community</string>
-    <string name="write_your_comment_here">Write your comment here...</string>
+    <string name="write_your_comment_here">Write your comment here…</string>
     <string name="messages">Messages</string>
     <string name="new_message">New Message</string>
     <string name="send">Send</string>
@@ -316,4 +316,12 @@
     <string name="how_it_works_2">For creating and moderating an approved community.</string>
     <string name="how_it_works_3">For each user who subsequently joins your community.</string>
     <string name="comment">Comment</string>
+    <string name="network_error">Network Error</string>
+    <string name="network_error_full_messsage_html">
+        <![CDATA[
+            We apologize for the technical difficulties.<br>
+            The <b><a href="">PRIM</a></b> Team is working to fix the issue.<br>
+            Thank you for your patience!
+        ]]>
+    </string>
 </resources>

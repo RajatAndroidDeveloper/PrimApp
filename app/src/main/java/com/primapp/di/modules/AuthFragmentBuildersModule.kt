@@ -1,5 +1,6 @@
 package com.primapp.di.modules
 
+import com.primapp.ui.base.NetworkErrorFragment
 import com.primapp.ui.splash.SplashFragment
 import com.primapp.ui.communities.*
 import com.primapp.ui.communities.create.CreateCommunityFragment
@@ -56,4 +57,7 @@ abstract class AuthFragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeEditCommunityFragment(): EditCommunityFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeNetworkErrorFragment(): NetworkErrorFragment
 }

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.base.NetworkErrorFragment">
+
+        <ImageView
+            android:id="@+id/ivNetworkError"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/ic_network_error"
+            app:layout_constraintBottom_toTopOf="@id/tvNetworkErrorTitle"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.46"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintWidth_percent=".4" />
+
+        <TextView
+            android:id="@+id/tvNetworkErrorTitle"
+            style="@style/primaryHeadingAccent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_small"
+            android:gravity="center"
+            android:text="@string/network_error"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/textExtraLarge"
+            app:layout_constraintBottom_toTopOf="@id/tvNetworkErrorDescription"
+            app:layout_constraintEnd_toEndOf="@id/ivNetworkError"
+            app:layout_constraintStart_toStartOf="@id/ivNetworkError"
+            app:layout_constraintTop_toBottomOf="@id/ivNetworkError" />
+
+        <TextView
+            android:id="@+id/tvNetworkErrorDescription"
+            htmlText="@{@string/network_error_full_messsage_html}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_medium"
+            android:gravity="center"
+            android:text="@string/network_error_full_messsage_html"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/ivNetworkError"
+            app:layout_constraintStart_toStartOf="@id/ivNetworkError"
+            app:layout_constraintTop_toBottomOf="@id/tvNetworkErrorTitle" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

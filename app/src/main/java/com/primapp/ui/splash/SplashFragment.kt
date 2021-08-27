@@ -53,6 +53,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
                             gotoLogin()
                         } else {
                             showError(requireContext(), it.message!!)
+                            findNavController().navigate(R.id.action_splashFragment_to_networkErrorFragment)
                         }
                     }
                     Status.LOADING -> {
