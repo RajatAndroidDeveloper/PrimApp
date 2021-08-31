@@ -324,4 +324,5 @@
             Thank you for your patience!
         ]]>
     </string>
+    <string name="download_started">Downloading file…</string>
 </resources>

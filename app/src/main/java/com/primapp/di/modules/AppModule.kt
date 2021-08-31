@@ -1,8 +1,8 @@
 package com.primapp.di.modules
 
+import android.app.DownloadManager
 import android.content.Context
-import com.primapp.BuildConfig
-import com.primapp.cache.UserCache
+import android.content.Context.DOWNLOAD_SERVICE
 import com.primapp.di.CoroutineScopeIO
 import com.primapp.di.PrimAPI
 import com.primapp.di.viewModels.ViewModelModule
@@ -58,4 +58,9 @@ class AppModule {
             .build()
     }
 
+    @Singleton
+    @Provides
+    fun provideDownloadManager(context: Context): DownloadManager {
+        return context.getSystemService(DOWNLOAD_SERVICE) as DownloadManager
+    }
 }

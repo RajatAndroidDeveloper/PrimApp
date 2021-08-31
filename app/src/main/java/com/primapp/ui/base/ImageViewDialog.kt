@@ -1,13 +1,19 @@
 package com.primapp.ui.base
 
+import android.app.DownloadManager
 import android.os.Build
 import android.os.Bundle
 import android.view.Window
 import com.primapp.R
 import com.primapp.databinding.LayoutImageViewBinding
 import com.primapp.extensions.loadImageWithFitCenter
+import com.primapp.utils.DownloadUtils
+import javax.inject.Inject
 
 class ImageViewDialog : BaseDialogFragment<LayoutImageViewBinding>() {
+
+    @Inject
+    lateinit var downloadManager: DownloadManager
 
     override fun getLayoutRes(): Int = R.layout.layout_image_view
 
@@ -29,6 +35,12 @@ class ImageViewDialog : BaseDialogFragment<LayoutImageViewBinding>() {
 
         binding.ivClose.setOnClickListener {
             dismiss()
+        }
+
+        binding.fabDownload.setOnClickListener {
+            url?.let { it1 ->
+                DownloadUtils.download(requireContext(), downloadManager, it1)
+            }
         }
     }
 }

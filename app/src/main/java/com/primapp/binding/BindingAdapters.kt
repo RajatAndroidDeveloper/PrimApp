@@ -182,10 +182,10 @@ fun genderDobCountryTextView(textView: TextView, user: UserData?) {
 fun membersAndCreatedDate(textView: TextView, data: CommunityData?, type: String?) {
     data?.let {
         if (type == CommunityFilterTypes.CREATED_COMMUNITY) {
-            if(data.adminStatus.equals("Approved",true)){
+            if (data.adminStatus.equals("Approved", true)) {
                 textView.text =
                     "${data.status} | ${DateTimeUtils.convertServerTimeStamp(data.cdate)}"
-            }else {
+            } else {
                 textView.text =
                     "${data.adminStatus} | ${DateTimeUtils.convertServerTimeStamp(data.cdate)}"
             }
@@ -205,13 +205,13 @@ fun membersAndCreatedDate(textView: TextView, data: CommunityData?, type: String
 @BindingAdapter("isJoined", "isCreatedByMe", "type", "adminStatus")
 fun joinButtonStyle(button: Button, isJoined: Boolean, isCreatedByMe: Boolean, type: String?, adminStatus: String?) {
     if (type == CommunityFilterTypes.CREATED_COMMUNITY) {
-        if(adminStatus.equals("Pending",true)){
+        if (adminStatus.equals("Pending", true)) {
             button.background = ContextCompat.getDrawable(button.context, R.drawable.button_primary_grey_filled)
             button.setTextColor(ContextCompat.getColor(button.context, R.color.black))
             button.typeface = ResourcesCompat.getFont(button.context, R.font.poppins_regular)
             button.text = button.context.getString(R.string.edit)
             button.isEnabled = false
-        }else{
+        } else {
             //Make the button as Edit
             button.background = ContextCompat.getDrawable(button.context, R.drawable.button_primary_blue_filled)
             button.setTextColor(ContextCompat.getColor(button.context, R.color.white))
@@ -222,7 +222,7 @@ fun joinButtonStyle(button: Button, isJoined: Boolean, isCreatedByMe: Boolean, t
         if (isJoined) {
             if (isCreatedByMe) {
                 button.text = button.context.getString(R.string.edit)
-                if(adminStatus.equals("Pending",true)){
+                if (adminStatus.equals("Pending", true)) {
                     button.background = ContextCompat.getDrawable(button.context, R.drawable.button_primary_grey_filled)
                     button.setTextColor(ContextCompat.getColor(button.context, R.color.black))
                     button.typeface = ResourcesCompat.getFont(button.context, R.font.poppins_regular)
@@ -513,7 +513,7 @@ fun makeNotificationMentorRequest(textView: TextView, notificationData: Notifica
                     textToSend.append("Your community ")
                         .append(communityName)
                         .append(" has been approved")
-                }else if(it.title.equals(NotificationSubTypes.COMMUNITY_REJECTED, true)){
+                } else if (it.title.equals(NotificationSubTypes.COMMUNITY_REJECTED, true)) {
                     textToSend.append("Your community ")
                         .append(communityName)
                         .append(" has been rejected")
@@ -575,7 +575,7 @@ fun sendBirdMessageDate(textView: TextView, time: Long?) {
 
 @BindingAdapter("tokensEarned")
 fun tokensEarned(textView: TextView, tokens: Int?) {
-    textView.text = textView.resources.getString(R.string.digital_tokens_earned, tokens.toString())
+    textView.text = textView.resources.getString(R.string.digital_tokens_earned, (tokens ?: 0).toString())
     textView.isSelected = true
 }
 
