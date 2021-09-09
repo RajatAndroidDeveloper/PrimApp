@@ -22,6 +22,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.primapp.BuildConfig
 import com.primapp.R
 import com.primapp.extensions.showNormalToast
+import com.primapp.utils.AnalyticsManager
 import com.primapp.utils.FileUtils
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.toolbar_inner_back.view.*
@@ -35,6 +36,9 @@ abstract class BaseFragment<DB : ViewDataBinding> : DaggerFragment() {
 
     @Inject
     open lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    @Inject
+    lateinit var analyticsManager: AnalyticsManager
 
     @LayoutRes
     abstract fun getLayoutRes(): Int
@@ -151,9 +155,11 @@ abstract class BaseFragment<DB : ViewDataBinding> : DaggerFragment() {
     fun sharePostAsImage(view: View, authorName: String, communityName: String) {
         val bitmap = FileUtils.getBitmapFromView(view)
         val textToSend =
-            "Check this post by $authorName in $communityName only on virtual mentoring platform ${context?.getString(
-                R.string.app_name
-            )}. Download now : https://play.google.com/store/apps/details?id=${BuildConfig.APPLICATION_ID}"
+            "Check this post by $authorName in $communityName only on virtual mentoring platform ${
+                context?.getString(
+                    R.string.app_name
+                )
+            }. Download now : https://play.google.com/store/apps/details?id=${BuildConfig.APPLICATION_ID}"
         val intent = Intent(Intent.ACTION_SEND)
         intent.type = "image/*"
         intent.putExtra(Intent.EXTRA_STREAM, FileUtils.getURIFromBitmap(requireContext(), bitmap))

@@ -15,6 +15,7 @@ import com.primapp.model.category.ParentCategoryResult
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
 import com.primapp.ui.communities.adapter.ParentCategoryListAdapter
+import com.primapp.utils.AnalyticsManager
 import com.primapp.viewmodels.CommunitiesViewModel
 import kotlinx.coroutines.launch
 
@@ -71,6 +72,7 @@ class CommunitiesFragment : BaseFragment<FragmentCommunitiesBinding>() {
     }
 
     private fun setData() {
+        analyticsManager.trackScreenView(AnalyticsManager.SCREEN_COMMUNITIES)
         binding.frag = this
         binding.viewModel = viewModel
         isNewUser = CommunitiesFragmentArgs.fromBundle(requireArguments()).isNewUser

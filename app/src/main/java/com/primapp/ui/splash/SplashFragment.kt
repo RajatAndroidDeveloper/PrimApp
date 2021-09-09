@@ -10,6 +10,7 @@ import com.primapp.databinding.FragmentSplashBinding
 import com.primapp.extensions.showError
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
+import com.primapp.utils.AnalyticsManager
 import kotlinx.coroutines.*
 
 class SplashFragment : BaseFragment<FragmentSplashBinding>() {
@@ -23,6 +24,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        analyticsManager.trackScreenView(AnalyticsManager.SCREEN_SPLASH_VIEW)
 
         setObserver()
 
@@ -43,6 +45,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
                     Status.SUCCESS -> {
                         it.data?.content?.let { it1 ->
                             UserCache.saveUser(requireContext(), it1)
+                            analyticsManager.logUserProperties(it1)
                             gotoNextActivity()
                         }
                     }

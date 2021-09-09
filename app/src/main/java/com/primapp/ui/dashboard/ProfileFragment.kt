@@ -29,6 +29,7 @@ import com.primapp.ui.communities.members.CommunityMembersFragment
 import com.primapp.ui.profile.UserJoinedCommunitiesFragment
 import com.primapp.ui.profile.UserPostsFragment
 import com.primapp.ui.splash.SplashViewModel
+import com.primapp.utils.AnalyticsManager
 import kotlinx.android.synthetic.main.layout_profile_top_card.*
 import kotlinx.android.synthetic.main.toolbar_dashboard_accent.*
 
@@ -77,6 +78,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     }
 
     private fun setData() {
+        analyticsManager.trackScreenView(AnalyticsManager.SCREEN_PROFILE)
         user = UserCache.getUser(requireContext())!!
         ivEndIcon.setImageResource(R.drawable.setting)
         binding.user = user

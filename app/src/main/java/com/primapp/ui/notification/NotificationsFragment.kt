@@ -20,6 +20,7 @@ import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
 import com.primapp.ui.dashboard.DashboardActivity
 import com.primapp.ui.notification.adapter.NotificationsPagedAdapter
+import com.primapp.utils.AnalyticsManager
 import com.primapp.utils.DialogUtils
 import com.primapp.viewmodels.NotificationViewModel
 import kotlinx.android.synthetic.main.toolbar_dashboard_accent.*
@@ -49,6 +50,7 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
     }
 
     private fun setData() {
+        analyticsManager.trackScreenView(AnalyticsManager.SCREEN_NOTIFICATION)
         ivEndIcon.setImageResource(R.drawable.filter)
         binding.frag = this
 

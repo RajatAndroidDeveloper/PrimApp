@@ -24,6 +24,7 @@ import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
 import com.primapp.ui.communities.members.CommunityMembersFragment
 import com.primapp.ui.post.adapter.PostListPagedAdapter
 import com.primapp.ui.post.create.CreatePostFragment
+import com.primapp.utils.AnalyticsManager
 import com.primapp.utils.DialogUtils
 import com.primapp.utils.getPrettyNumber
 import com.primapp.viewmodels.PostsViewModel
@@ -58,6 +59,7 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
     }
 
     private fun setData() {
+        analyticsManager.trackScreenView(AnalyticsManager.SCREEN_UPDATES)
         binding.frag = this
         binding.userData = userData
 

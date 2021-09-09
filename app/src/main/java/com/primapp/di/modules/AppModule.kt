@@ -17,6 +17,9 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.primapp.utils.AnalyticsManager
+
 
 @Module(includes = [ViewModelModule::class, NetworkModule::class])
 class AppModule {
@@ -62,5 +65,16 @@ class AppModule {
     @Provides
     fun provideDownloadManager(context: Context): DownloadManager {
         return context.getSystemService(DOWNLOAD_SERVICE) as DownloadManager
+    }
+
+    @Provides
+    fun providesFirebaseAnalytics(context: Context): FirebaseAnalytics {
+        return FirebaseAnalytics.getInstance(context)
+    }
+
+    @Singleton
+    @Provides
+    fun providesAnalyticsManager(firebaseAnalytics: FirebaseAnalytics): AnalyticsManager {
+        return AnalyticsManager(firebaseAnalytics)
     }
 }
