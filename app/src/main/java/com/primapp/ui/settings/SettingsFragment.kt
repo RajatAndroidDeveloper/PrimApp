@@ -13,6 +13,7 @@ import com.primapp.retrofit.ApiConstant
 import com.primapp.ui.MainActivity
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.profile.UserPostsFragment
+import com.primapp.utils.AnalyticsManager
 import com.primapp.utils.DialogUtils
 import com.sendbird.android.SendBird
 import com.sendbird.android.SendBirdException
@@ -32,13 +33,13 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
 
     private fun setData() {
         binding.frag = this
-
+        analyticsManager.trackScreenView(AnalyticsManager.SCREEN_SETTINS)
         binding.tvAppVersion.text = "v${BuildConfig.VERSION_NAME}"
     }
 
     fun openAboutUs() {
         val bundle = Bundle()
-        bundle.putString("title",getString(R.string.about_us))
+        bundle.putString("title", getString(R.string.about_us))
         bundle.putString("url", ApiConstant.ABOUT_US)
         findNavController().navigate(R.id.commonWebView, bundle)
     }
@@ -60,7 +61,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
 
     fun openRewards() {
         val bundle = Bundle()
-        bundle.putString("title","Prim Rewards")
+        bundle.putString("title", "Prim Rewards")
         bundle.putString("url", ApiConstant.PRIM_REWARDS)
         findNavController().navigate(R.id.commonWebView, bundle)
     }
@@ -85,10 +86,13 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         })
     }
 
-    fun logoutFromSendBird(){
+    fun logoutFromSendBird() {
         showLoading()
         ConnectionManager.logout(SendBird.DisconnectHandler {
             hideLoading()
+            val analyticsData = Bundle()
+            analyticsData.putInt("user_id", UserCache.getUserId(requireContext()))
+            analyticsManager.logEvent(AnalyticsManager.EVENT_LOGOUT, analyticsData)
             UserCache.clearAll(requireContext())
             startActivity(Intent(requireContext(), MainActivity::class.java))
             activity?.finish()

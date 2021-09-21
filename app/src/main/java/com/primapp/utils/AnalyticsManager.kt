@@ -11,7 +11,7 @@ class AnalyticsManager(private val firebaseAnalytics: FirebaseAnalytics) {
         firebaseAnalytics.logEvent(screenNameToSend, null)
     }
 
-    fun logEvent(eventName: String, eventValue: Bundle?) {
+    fun logEvent(eventName: String, eventValue: Bundle? = null) {
         val eventNameToSend = "event_$eventName"
         firebaseAnalytics.logEvent(eventNameToSend, eventValue)
     }
@@ -31,5 +31,9 @@ class AnalyticsManager(private val firebaseAnalytics: FirebaseAnalytics) {
         const val SCREEN_COMMUNITIES = "Communities"
         const val SCREEN_PROFILE = "Profile"
         const val SCREEN_NETWORK_ERROR = "NetworkError"
+        const val SCREEN_SETTINS = "Settings"
+
+        const val EVENT_LOGOUT = "Logout"
+        const val EVENT_LOGIN = "Login"
     }
 }

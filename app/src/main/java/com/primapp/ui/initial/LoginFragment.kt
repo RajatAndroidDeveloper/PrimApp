@@ -16,6 +16,7 @@ import com.primapp.extensions.showError
 import com.primapp.model.auth.UserData
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
+import com.primapp.utils.AnalyticsManager
 import com.primapp.viewmodels.LoginViewModel
 
 
@@ -64,6 +65,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     }
 
     private fun openDashboardActivity(data: UserData) {
+        analyticsManager.logEvent(AnalyticsManager.EVENT_LOGIN)
+        analyticsManager.logUserProperties(data)
         UserCache.saveAccessToken(requireContext(), data.token)
         //UserCache.saveFCMToken(context!!,data.fcmToken)
         UserCache.saveUser(requireContext(), data)
