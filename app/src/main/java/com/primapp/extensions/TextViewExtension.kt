@@ -1,7 +1,5 @@
 package com.primapp.extensions
 
-import android.content.Context
-import android.graphics.Paint
 import android.graphics.Typeface
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
@@ -14,9 +12,11 @@ import android.view.View
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.constraintlayout.widget.Group
-import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
-import com.primapp.R
+import android.view.animation.Animation
+
+import android.view.animation.LinearInterpolator
+import android.view.animation.AlphaAnimation
 
 fun TextView.removeLinksUnderline() {
     val spannable = SpannableString(text)
@@ -67,4 +67,13 @@ fun SpannableStringBuilder.normal(text: String) {
     val startLength = this.length
     this.append(text)
     this.setSpan(StyleSpan(Typeface.NORMAL), startLength, this.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+}
+
+fun TextView.blink(){
+    val animation: Animation = AlphaAnimation(1f, 0f) // Change alpha from fully visible to invisible
+    animation.duration = 500 // duration - half a second
+    animation.interpolator = LinearInterpolator() // do not alter animation rate
+    animation.repeatCount = -1 // Repeat animation infinitely
+    animation.repeatMode = Animation.REVERSE // Reverse animation at the end so the button will fade back in
+    this.startAnimation(animation)
 }

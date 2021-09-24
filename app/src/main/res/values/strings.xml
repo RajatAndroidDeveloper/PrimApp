@@ -309,9 +309,9 @@
     <string name="video_file_size_error_message">File size too big. Please upload a file with up to 18mb only</string>
     <string name="digital_tokens_earned">Digital Tokens Earned: %s</string>
     <string name="prim_rewards">Prim Rewards</string>
-    <string name="available_tokens">Available tokens</string>
-    <string name="how_it_works_description">You will earn following points whenever you complete these tasks.</string>
-    <string name="how_it_works">How it Works?</string>
+    <string name="available_tokens">Available Tokens</string>
+    <string name="how_it_works_description">You will earn the following tokens when you participate on PRIM.</string>
+    <string name="how_it_works">How our Rewards Works?</string>
     <string name="how_it_works_1">For being a \"Mentor\" to each Mentee.</string>
     <string name="how_it_works_2">For creating and moderating an approved community.</string>
     <string name="how_it_works_3">For each user who subsequently joins your community.</string>
@@ -325,4 +325,5 @@
         ]]>
     </string>
     <string name="download_started">Downloading file…</string>
+    <string name="earned_tokens">Earned Tokens</string>
 </resources>

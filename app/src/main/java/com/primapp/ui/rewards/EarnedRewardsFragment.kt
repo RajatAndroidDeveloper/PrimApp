@@ -13,7 +13,7 @@ class EarnedRewardsFragment : BaseFragment<FragmentEarnedRewardsBinding>() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        setToolbar("Earned Rewards", toolbar = toolbar)
+        setToolbar(getString(R.string.earned_tokens), toolbar = toolbar)
         setData()
     }
 

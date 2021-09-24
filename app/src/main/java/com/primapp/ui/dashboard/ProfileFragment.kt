@@ -19,6 +19,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.primapp.R
 import com.primapp.cache.UserCache
 import com.primapp.databinding.FragmentProfileBinding
+import com.primapp.extensions.blink
 import com.primapp.extensions.showError
 import com.primapp.extensions.showSuccess
 import com.primapp.model.auth.UserData
@@ -87,6 +88,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         ivEndIcon.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_settingsFragment)
         }
+
+        tvDigitalTokenEarned.blink()
     }
 
     fun editProfile() {
