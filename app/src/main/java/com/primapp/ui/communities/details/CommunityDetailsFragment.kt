@@ -1,6 +1,8 @@
 package com.primapp.ui.communities.details
 
 import android.os.Bundle
+import android.view.MenuItem
+import android.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -14,6 +16,7 @@ import com.primapp.constants.CommunityStatusTypes
 import com.primapp.databinding.FragmentCommunityDetailsBinding
 import com.primapp.extensions.showError
 import com.primapp.extensions.showInfo
+import com.primapp.extensions.showNormalToast
 import com.primapp.model.*
 import com.primapp.model.community.CommunityData
 import com.primapp.retrofit.base.Status
@@ -30,7 +33,7 @@ import com.primapp.utils.OverlapItemDecorantion
 import com.primapp.utils.visible
 import com.primapp.viewmodels.CommunitiesViewModel
 import kotlinx.android.synthetic.main.item_list_community.*
-import kotlinx.android.synthetic.main.toolbar_inner_back.*
+import kotlinx.android.synthetic.main.toolbar_menu_more.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -57,7 +60,36 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
         setObserver()
         setAdapter()
         setClicks()
+        showPopUpMenu()
+    }
 
+    private fun showPopUpMenu() {
+        if (communityData.isCreatedByMe == false) {
+            return
+        }
+
+        ivMore.setOnClickListener {
+            //creating a popup menu
+            val popup = PopupMenu(requireContext(), ivMore)
+            //inflating menu from xml resource
+            popup.inflate(R.menu.post_details_menu)
+            //adding click listener
+            popup.setOnMenuItemClickListener { p0 ->
+                when (p0?.itemId) {
+                    R.id.reportedPost -> {
+                        val bundle = Bundle()
+                        bundle.putInt("communityId", communityData.id)
+                        findNavController().navigate(R.id.reportedPostsFragment, bundle)
+                    }
+                }
+
+                false
+            }
+            //displaying the popup
+            popup.show()
+        }
+
+        ivMore.isVisible = true
     }
 
     private fun setData() {

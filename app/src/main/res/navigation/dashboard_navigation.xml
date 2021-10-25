@@ -354,11 +354,23 @@
     <fragment
         android:id="@+id/earnedRewardsFragment"
         android:name="com.primapp.ui.rewards.EarnedRewardsFragment"
-        android:label="EarnedRewardsFragment" >
+        android:label="EarnedRewardsFragment"
+        tools:layout="@layout/fragment_earned_rewards"
+        >
         <argument
             android:name="tokens"
             app:argType="string"
             android:defaultValue="0" />
+    </fragment>
+    <fragment
+        android:id="@+id/reportedPostsFragment"
+        android:name="com.primapp.ui.post.reported_post.ReportedPostsFragment"
+        android:label="ReportedPostsFragment"
+        tools:layout="@layout/fragment_reported_posts"
+        >
+        <argument
+            android:name="communityId"
+            app:argType="integer" />
     </fragment>
 
 </navigation>

@@ -390,4 +390,7 @@ interface ApiService {
 
     @GET(ApiConstant.GET_REWARDS)
     suspend fun getRewards(): RewardsResponseModel
+
+    @GET(ApiConstant.REPORTED_POST)
+    suspend fun getReportedPosts(): BaseDataModel
 }

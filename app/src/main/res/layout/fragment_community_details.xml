@@ -30,7 +30,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <include layout="@layout/toolbar_inner_back" />
+            <include layout="@layout/toolbar_menu_more" />
 
             <include
                 layout="@layout/item_list_community"

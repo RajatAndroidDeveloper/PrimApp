@@ -85,4 +85,8 @@ object ApiConstant {
 
     //Rewards
     const val GET_REWARDS = "digital-assets"
+
+    //Reported Post
+    const val REPORTED_POST = "community/{communityId}/reported_post"
+    const val REPORTED_POST_MEMBERS = "community/{communityId}/reported_post/{postId}/members"
 }
