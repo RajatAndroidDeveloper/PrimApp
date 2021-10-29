@@ -5,6 +5,7 @@ import androidx.paging.PagingSource
 import com.primapp.model.post.PostListResult
 import com.primapp.retrofit.ApiService
 import com.primapp.retrofit.base.ResponseHandler
+import com.primapp.ui.post.reported_post.ReportedPostsFragment
 import com.primapp.ui.profile.UserPostsFragment
 import retrofit2.HttpException
 import java.io.IOException
@@ -28,10 +29,11 @@ class UserPostListPageDataSource(
             * */
             val offset = page * params.loadSize
             Log.d("anshul_paging", "Page:$page LoadSize : ${params.loadSize} Offset : $offset")
-            val response = if (type == UserPostsFragment.BOOKMARK_POST) {
-                apiService.getBookmarkedPost()
-            } else {
-                apiService.getUserPostList(userId, offset, params.loadSize)
+            val response = when (type) {
+                UserPostsFragment.BOOKMARK_POST -> apiService.getBookmarkedPost()
+                ReportedPostsFragment.REPORTED_POST -> apiService.getReportedPosts(userId)
+                else ->
+                    apiService.getUserPostList(userId, offset, params.loadSize)
             }
             LoadResult.Page(
                 data = response.content.results,

@@ -392,5 +392,7 @@ interface ApiService {
     suspend fun getRewards(): RewardsResponseModel
 
     @GET(ApiConstant.REPORTED_POST)
-    suspend fun getReportedPosts(): BaseDataModel
+    suspend fun getReportedPosts(
+        @Path("communityId") communityId: Int,
+    ): PostListResponseModel
 }

@@ -327,4 +327,6 @@
     <string name="download_started">Downloading file…</string>
     <string name="earned_tokens">Earned Tokens</string>
     <string name="reported_posts">Reported Posts</string>
+    <string name="remove_user">Remove User</string>
+    <string name="reports">Reports</string>
 </resources>

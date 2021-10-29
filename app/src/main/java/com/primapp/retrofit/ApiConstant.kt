@@ -89,4 +89,5 @@ object ApiConstant {
     //Reported Post
     const val REPORTED_POST = "community/{communityId}/reported_post"
     const val REPORTED_POST_MEMBERS = "community/{communityId}/reported_post/{postId}/members"
+    const val REMOVE_CULPRIT_MEMBER = "community/{communityId}/reported_post/{postId}/remove_member"
 }

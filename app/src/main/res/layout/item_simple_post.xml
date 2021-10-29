@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.text.TextUtils" />
+
+        <import type="android.view.View" />
+
+        <import type="com.primapp.constants.PostFileType" />
+
+        <variable
+            name="data"
+            type="com.primapp.model.post.PostListResult" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/llItemPost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clPostToShare"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/space_medium">
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_small"
+                android:ellipsize="end"
+                android:fontFamily="@font/poppins_semibold"
+                android:maxLines="1"
+                android:textSize="@dimen/textMedium"
+                android:text="@{data.user.firstName +' '+ data.user.lastName}"
+                android:textColor="@color/textColor"
+                app:layout_constraintEnd_toStartOf="@id/ivMore"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_default="wrap"
+                tools:text="Gordon kelly Jordan" />
+
+            <ImageView
+                android:id="@+id/ivMore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/more_options"
+                android:padding="@dimen/space_extraSmall"
+                android:src="@drawable/ic_more_vert_dots"
+                android:tooltipText="@string/more_options"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tvName" />
+
+            <com.primapp.extensions.ExpandableTextView
+                android:id="@+id/tvCaption"
+                style="@style/normalBodyText"
+                android:layout_marginTop="@dimen/space_small"
+                android:ellipsize="end"
+                android:text="@{data.postText}"
+                android:textColor="@color/textColorLight"
+                android:visibility="@{(data.postText==null || TextUtils.isEmpty(data.postText))? View.GONE : View.VISIBLE}"
+                app:layout_constraintEnd_toEndOf="@id/ivMore"
+                app:layout_constraintStart_toStartOf="@id/tvName"
+                app:layout_constraintTop_toBottomOf="@id/tvName"
+                app:trimLength="@{data.fileType == null? 400 : 200}"
+                tools:text="@string/long_about_text" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardPostAttachment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_small"
+                android:visibility="@{(data.fileType == null ) ? View.GONE : View.VISIBLE}"
+                app:cardCornerRadius="@dimen/space_largeX"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvCaption">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/ivPostPreview"
+                        loadPostImageFromUrl="@{data.getThumbnailUrl == null ? data.imageUrl : data.getThumbnailUrl}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/placeholder"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:src="@drawable/ic_play"
+                        android:visibility="@{data.fileType.equals(PostFileType.VIDEO) ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintBottom_toBottomOf="@id/ivPostPreview"
+                        app:layout_constraintEnd_toEndOf="@id/ivPostPreview"
+                        app:layout_constraintStart_toStartOf="@id/ivPostPreview"
+                        app:layout_constraintTop_toTopOf="@id/ivPostPreview"
+                        app:tint="@color/colorAccent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="@dimen/space_large"
+            android:background="@color/grey" />
+
+    </LinearLayout>
+</layout>
