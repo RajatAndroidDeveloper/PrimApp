@@ -329,4 +329,6 @@
     <string name="reported_posts">Reported Posts</string>
     <string name="remove_user">Remove User</string>
     <string name="reports">Reports</string>
+    <string name="remove_reported_user_consent">Are you sure you want to remove this user?</string>
+    <string name="reason_summary">Reason: %s</string>
 </resources>

@@ -400,4 +400,10 @@ interface ApiService {
         @Query("offset") offset: Int,
         @Query("limit") limit: Int
     ): PostListResponseModel
+
+    @GET(ApiConstant.REPORTED_POST_MEMBERS)
+    suspend fun getReportedPostsMembers(
+        @Path("communityId") communityId: Int,
+        @Path("postId") postId: Int
+    ): ReportedMembersResponseModel
 }

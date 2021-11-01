@@ -12,6 +12,7 @@ import com.primapp.model.comment.CreateCommentRequestModel
 import com.primapp.model.post.PostActionResponseModel
 import com.primapp.model.post.PostDetailsResponseModel
 import com.primapp.model.post.PostListResult
+import com.primapp.model.post.ReportedMembersResponseModel
 import com.primapp.model.reply.CreateReplyRequestModel
 import com.primapp.model.reply.ReplyData
 import com.primapp.repository.PostRepository
@@ -208,6 +209,14 @@ class PostsViewModel @Inject constructor(
     fun postDetails(communityId: Int, postId: Int) = viewModelScope.launch {
         _postDetailsLiveData.postValue(Event(Resource.loading(null)))
         _postDetailsLiveData.postValue(Event(repo.postDetails(communityId, postId)))
+    }
+
+    private var _reportedMembersLiveData = MutableLiveData<Event<Resource<ReportedMembersResponseModel>>>()
+    var reportedMembersLiveData: LiveData<Event<Resource<ReportedMembersResponseModel>>> = _reportedMembersLiveData
+
+    fun reportedPostMembers(communityId: Int, postId: Int) = viewModelScope.launch {
+        _reportedMembersLiveData.postValue(Event(Resource.loading(null)))
+        _reportedMembersLiveData.postValue(Event(repo.reportedPostMembers(communityId, postId)))
     }
 
 }

@@ -21,6 +21,7 @@ import com.primapp.ui.post.comment.PostCommentFragment
 import com.primapp.ui.post.create.CreatePostFragment
 import com.primapp.ui.post.details.PostDetailsFragment
 import com.primapp.ui.post.reply.PostCommentReplyFragment
+import com.primapp.ui.post.reported_post.ReportByMembersFragment
 import com.primapp.ui.post.reported_post.ReportedPostsFragment
 import com.primapp.ui.profile.*
 import com.primapp.ui.profile.other.OtherUserProfileFragment
@@ -143,4 +144,7 @@ abstract class DashboardFragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeReportedPostsFragment(): ReportedPostsFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeReportByMembersFragment(): ReportByMembersFragment
 }

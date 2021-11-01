@@ -1,7 +1,6 @@
 package com.primapp.ui.post.reported_post.adapter
 
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.databinding.DataBindingUtil
@@ -10,15 +9,19 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.primapp.R
 import com.primapp.constants.PostFileType
-import com.primapp.databinding.ItemListPostBinding
 import com.primapp.databinding.ItemSimplePostBinding
 import com.primapp.model.*
 import com.primapp.model.post.PostListResult
-import com.primapp.ui.post.reported_post.ReportedPostsFragment
 import javax.inject.Inject
 
 class SimplePostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) :
     PagingDataAdapter<PostListResult, SimplePostListPagedAdapter.SimplePostsViewHolder>(SimplePostListDiffCallback()) {
+
+    private var currentUserId: Int = -1
+
+    public fun setCurrentLoggedInUser(userId: Int) {
+        currentUserId = userId
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimplePostsViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -59,16 +62,18 @@ class SimplePostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> 
                 val popup = PopupMenu(binding.root.context, binding.ivMore)
                 //inflating menu from xml resource
                 popup.inflate(R.menu.reported_post_action_menu)
+                if (currentUserId != -1)
+                    popup.menu.findItem(R.id.removeUser).isVisible = currentUserId != data?.user?.id
 
                 //adding click listener
                 popup.setOnMenuItemClickListener { p0 ->
                     when (p0?.itemId) {
                         R.id.removeUser -> {
-                            onItemClick(ReportedPostsFragment.REMOVE_MEMBER_ACTION)
+                            onItemClick(RemoveReportedUser(data!!.id))
                         }
 
                         R.id.reports -> {
-                            onItemClick(ReportedPostsFragment.SHOW_MEMBERS_REPORTED_ACTION)
+                            onItemClick(ReportedByMembers(data!!.id))
                         }
                     }
 

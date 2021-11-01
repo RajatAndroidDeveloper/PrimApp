@@ -342,7 +342,7 @@
         android:id="@+id/commonWebView"
         android:name="com.primapp.ui.base.CommonWebView"
         android:label="CommonWebView"
-        tools:layout="@layout/fragment_common_web_view" >
+        tools:layout="@layout/fragment_common_web_view">
         <argument
             android:name="title"
             app:argType="string"
@@ -355,21 +355,31 @@
         android:id="@+id/earnedRewardsFragment"
         android:name="com.primapp.ui.rewards.EarnedRewardsFragment"
         android:label="EarnedRewardsFragment"
-        tools:layout="@layout/fragment_earned_rewards"
-        >
+        tools:layout="@layout/fragment_earned_rewards">
         <argument
             android:name="tokens"
-            app:argType="string"
-            android:defaultValue="0" />
+            android:defaultValue="0"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/reportedPostsFragment"
         android:name="com.primapp.ui.post.reported_post.ReportedPostsFragment"
         android:label="ReportedPostsFragment"
-        tools:layout="@layout/fragment_reported_posts"
-        >
+        tools:layout="@layout/fragment_reported_posts">
         <argument
             android:name="communityId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/reportByMembersFragment"
+        android:name="com.primapp.ui.post.reported_post.ReportByMembersFragment"
+        android:label="ReportByMembersFragment"
+        tools:layout="@layout/fragment_report_by_members">
+        <argument
+            android:name="communityId"
+            app:argType="integer" />
+        <argument
+            android:name="postId"
             app:argType="integer" />
     </fragment>
 

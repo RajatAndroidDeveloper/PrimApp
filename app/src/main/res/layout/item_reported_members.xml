@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.primapp.model.post.ReportedMembers" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:paddingStart="@dimen/space_medium"
+        android:paddingEnd="@dimen/space_medium">
+
+        <ImageView
+            android:id="@+id/ivProfilePic"
+            name="@{data.user.firstName +' '+ data.user.lastName}"
+            loadCircularImage="@{data.user.getImageUrl}"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:layout_constraintBottom_toBottomOf="@id/tvReason"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintHeight_max="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvName"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintWidth_max="50dp" />
+
+        <TextView
+            android:id="@+id/tvName"
+            android:text="@{data.user.firstName +' '+ data.user.lastName}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_small"
+            android:layout_marginTop="@dimen/space_small"
+            android:fontFamily="@font/poppins_regular"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivProfilePic"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Anshul Thakur" />
+
+        <TextView
+            android:id="@+id/tvReason"
+            style="@style/primaryBodyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_extraSmall"
+            android:drawablePadding="@dimen/space_extraSmall"
+            android:gravity="center_vertical"
+            android:text="@{@string/reason_summary(data.message)}"
+            android:textSize="@dimen/textSmall"
+            app:layout_constraintStart_toStartOf="@id/tvName"
+            app:layout_constraintTop_toBottomOf="@id/tvName"
+            tools:text="Reason: Vulgar" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/space_small"
+            android:background="@color/grey"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvReason"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

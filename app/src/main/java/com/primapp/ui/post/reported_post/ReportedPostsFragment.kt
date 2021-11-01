@@ -13,6 +13,8 @@ import com.primapp.cache.UserCache
 import com.primapp.databinding.FragmentReportedPostsBinding
 import com.primapp.extensions.showError
 import com.primapp.extensions.showInfo
+import com.primapp.model.RemoveReportedUser
+import com.primapp.model.ReportedByMembers
 import com.primapp.model.ShowImage
 import com.primapp.model.ShowVideo
 import com.primapp.ui.base.BaseFragment
@@ -20,6 +22,7 @@ import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
 import com.primapp.ui.post.adapter.PostListPagedAdapter
 import com.primapp.ui.post.reported_post.adapter.SimplePostListPagedAdapter
 import com.primapp.ui.profile.UserPostsFragmentArgs
+import com.primapp.utils.DialogUtils
 import com.primapp.viewmodels.PostsViewModel
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
 import kotlinx.coroutines.launch
@@ -50,6 +53,8 @@ class ReportedPostsFragment : BaseFragment<FragmentReportedPostsBinding>() {
         arguments?.let {
             communityId = ReportedPostsFragmentArgs.fromBundle(requireArguments()).communityId
         }
+
+        adapter.setCurrentLoggedInUser(userId = userData!!.id)
 
         binding.frag = this
     }
@@ -120,19 +125,22 @@ class ReportedPostsFragment : BaseFragment<FragmentReportedPostsBinding>() {
                 findNavController().navigate(R.id.videoViewDialog, bundle)
             }
 
-            REMOVE_MEMBER_ACTION -> {
-                showInfo(requireContext(),"remove member coming soon")
+            is RemoveReportedUser -> {
+                DialogUtils.showYesNoDialog(requireActivity(), R.string.remove_reported_user_consent, {
+                    showInfo(requireContext(), "Remove member coming soon")
+                })
             }
 
-            SHOW_MEMBERS_REPORTED_ACTION -> {
-                showInfo(requireContext(),"Show member coming soon")
+            is ReportedByMembers -> {
+                val bundle = Bundle()
+                bundle.putInt("communityId", communityId!!)
+                bundle.putInt("postId", item.postId)
+                findNavController().navigate(R.id.reportByMembersFragment, bundle)
             }
         }
     }
 
     companion object {
         const val REPORTED_POST = "reportedPosts"
-        const val REMOVE_MEMBER_ACTION = "removeMember"
-        const val SHOW_MEMBERS_REPORTED_ACTION = "showWhoReportedPost"
     }
 }

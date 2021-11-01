@@ -335,4 +335,12 @@ class PostRepository @Inject constructor(
             responseHandler.handleException(e)
         }
     }
+
+    suspend fun reportedPostMembers(communityId:Int, postId: Int): Resource<ReportedMembersResponseModel> {
+        return try {
+            responseHandler.handleResponse(apiService.getReportedPostsMembers(communityId, postId))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
 }
