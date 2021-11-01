@@ -344,7 +344,10 @@ interface ApiService {
     ): PostActionResponseModel
 
     @GET(ApiConstant.GET_BOOKMARK_POSTS)
-    suspend fun getBookmarkedPost(): PostListResponseModel
+    suspend fun getBookmarkedPost(
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int
+    ): PostListResponseModel
 
     @GET(ApiConstant.GET_MENTOR_MENTEE_LIST)
     suspend fun getMentorMenteeList(
@@ -394,5 +397,7 @@ interface ApiService {
     @GET(ApiConstant.REPORTED_POST)
     suspend fun getReportedPosts(
         @Path("communityId") communityId: Int,
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int
     ): PostListResponseModel
 }

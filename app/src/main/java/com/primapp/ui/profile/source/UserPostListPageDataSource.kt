@@ -30,8 +30,8 @@ class UserPostListPageDataSource(
             val offset = page * params.loadSize
             Log.d("anshul_paging", "Page:$page LoadSize : ${params.loadSize} Offset : $offset")
             val response = when (type) {
-                UserPostsFragment.BOOKMARK_POST -> apiService.getBookmarkedPost()
-                ReportedPostsFragment.REPORTED_POST -> apiService.getReportedPosts(userId)
+                UserPostsFragment.BOOKMARK_POST -> apiService.getBookmarkedPost(offset, params.loadSize)
+                ReportedPostsFragment.REPORTED_POST -> apiService.getReportedPosts(userId, offset, params.loadSize)
                 else ->
                     apiService.getUserPostList(userId, offset, params.loadSize)
             }
