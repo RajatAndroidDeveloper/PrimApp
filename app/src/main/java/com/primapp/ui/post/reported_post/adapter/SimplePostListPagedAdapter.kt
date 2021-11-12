@@ -69,7 +69,7 @@ class SimplePostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> 
                 popup.setOnMenuItemClickListener { p0 ->
                     when (p0?.itemId) {
                         R.id.removeUser -> {
-                            onItemClick(RemoveReportedUser(data!!.id))
+                            onItemClick(RemoveReportedUser(data!!.id, data.user.id))
                         }
 
                         R.id.reports -> {

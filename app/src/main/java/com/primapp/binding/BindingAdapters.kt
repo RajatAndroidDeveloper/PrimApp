@@ -28,6 +28,7 @@ import com.primapp.extensions.*
 import com.primapp.model.auth.UserData
 import com.primapp.model.community.CommunityData
 import com.primapp.model.notification.NotificationResult
+import com.primapp.model.post.ReportedMembers
 import com.primapp.utils.DateTimeUtils
 import com.primapp.utils.getPrettyNumber
 import com.sendbird.android.*
@@ -451,6 +452,10 @@ fun makeNotificationMentorRequest(textView: TextView, notificationData: Notifica
                         .append(".\n")
                         .append("Reason : ")
                         .normal(it.message ?: "No reason specified")
+                } else if (it.title.equals(NotificationSubTypes.COMMUNITY_REMOVE_REQUEST, true)) {
+                    textToSend.append(senderFullName)
+                        .append(" removed you from community ")
+                        .append(communityName)
                 }
             }
             NotificationTypes.POST_RELATED_NOTIFICATION -> {
@@ -602,4 +607,14 @@ fun rewardsStageCategory(textView: TextView, accountStage: String?) {
         drawable,
         null
     )
+}
+
+@BindingAdapter("removedMemberReason")
+fun removedMemberReasonText(textView: TextView, data: ReportedMembers?) {
+    data?.let {
+        textView.text = textView.resources.getString(
+            R.string.reason_summary,
+            ReportReasonTypes.getReportReasonMessage(textView.context, data.reportType) ?: data.message
+        )
+    }
 }

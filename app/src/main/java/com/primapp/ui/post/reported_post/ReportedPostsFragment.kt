@@ -17,6 +17,7 @@ import com.primapp.model.RemoveReportedUser
 import com.primapp.model.ReportedByMembers
 import com.primapp.model.ShowImage
 import com.primapp.model.ShowVideo
+import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
 import com.primapp.ui.post.adapter.PostListPagedAdapter
@@ -64,6 +65,23 @@ class ReportedPostsFragment : BaseFragment<FragmentReportedPostsBinding>() {
             it?.let {
                 lifecycleScope.launch {
                     adapter.submitData(it)
+                }
+            }
+        })
+
+        viewModel.removeCulpritMembersLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.SUCCESS -> {
+
+                    }
                 }
             }
         })
@@ -127,7 +145,7 @@ class ReportedPostsFragment : BaseFragment<FragmentReportedPostsBinding>() {
 
             is RemoveReportedUser -> {
                 DialogUtils.showYesNoDialog(requireActivity(), R.string.remove_reported_user_consent, {
-                    showInfo(requireContext(), "Remove member coming soon")
+                    viewModel.removeCulpritMembers(communityId!!,item.postId, item.userId)
                 })
             }
 

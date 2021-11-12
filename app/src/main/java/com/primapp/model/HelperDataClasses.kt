@@ -36,5 +36,5 @@ data class MessageLongPressCallback(val message: BaseMessage, val position: Int)
 //data class FileMessageLongPressCallback(val message: BaseMessage, val position: Int)
 
 //Reported Post
-data class RemoveReportedUser(val postId: Int)
+data class RemoveReportedUser(val postId: Int, val userId: Int)
 data class ReportedByMembers(val postId: Int)

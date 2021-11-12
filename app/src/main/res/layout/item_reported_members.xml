@@ -55,7 +55,7 @@
             android:layout_marginTop="@dimen/space_extraSmall"
             android:drawablePadding="@dimen/space_extraSmall"
             android:gravity="center_vertical"
-            android:text="@{@string/reason_summary(data.message)}"
+            removedMemberReason="@{data}"
             android:textSize="@dimen/textSmall"
             app:layout_constraintStart_toStartOf="@id/tvName"
             app:layout_constraintTop_toBottomOf="@id/tvName"
