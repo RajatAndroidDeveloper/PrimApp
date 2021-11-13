@@ -219,8 +219,8 @@ class PostsViewModel @Inject constructor(
         _reportedMembersLiveData.postValue(Event(repo.reportedPostMembers(communityId, postId)))
     }
 
-    private var _removeCulpritMembersLiveData = MutableLiveData<Event<Resource<BaseDataModel>>>()
-    var removeCulpritMembersLiveData: LiveData<Event<Resource<BaseDataModel>>> = _removeCulpritMembersLiveData
+    private var _removeCulpritMembersLiveData = MutableLiveData<Event<Resource<PostActionResponseModel>>>()
+    var removeCulpritMembersLiveData: LiveData<Event<Resource<PostActionResponseModel>>> = _removeCulpritMembersLiveData
 
     fun removeCulpritMembers(communityId: Int, postId: Int, userId:Int) = viewModelScope.launch {
         _removeCulpritMembersLiveData.postValue(Event(Resource.loading(null)))

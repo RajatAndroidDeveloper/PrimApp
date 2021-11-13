@@ -3,6 +3,7 @@ package com.primapp.ui.base
 import android.app.DownloadManager
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.view.Window
 import com.primapp.R
 import com.primapp.databinding.LayoutImageViewBinding
@@ -17,12 +18,15 @@ class ImageViewDialog : BaseDialogFragment<LayoutImageViewBinding>() {
 
     override fun getLayoutRes(): Int = R.layout.layout_image_view
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         if (Build.VERSION.SDK_INT >= 21) {
             dialog?.window?.requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
         }
-        super.onActivityCreated(savedInstanceState)
+        super.onCreate(savedInstanceState)
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setData()
     }
 

@@ -23,6 +23,14 @@ class SimplePostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> 
         currentUserId = userId
     }
 
+    fun removePost(postId: Int?) {
+        val item: PostListResult? = snapshot().items.find { it.id == postId }
+        item?.let {
+            val position = snapshot().items.indexOf(it)
+            notifyItemRemoved(position)
+        }
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimplePostsViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         return SimplePostsViewHolder(

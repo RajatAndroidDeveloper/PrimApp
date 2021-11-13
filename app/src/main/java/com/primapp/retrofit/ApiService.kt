@@ -412,5 +412,5 @@ interface ApiService {
         @Path("communityId") communityId: Int,
         @Path("postId") postId: Int,
         @Path("userId") userId: Int,
-    ): BaseDataModel
+    ): PostActionResponseModel
 }

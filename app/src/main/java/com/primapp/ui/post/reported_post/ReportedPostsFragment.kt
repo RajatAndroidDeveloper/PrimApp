@@ -12,7 +12,6 @@ import com.primapp.R
 import com.primapp.cache.UserCache
 import com.primapp.databinding.FragmentReportedPostsBinding
 import com.primapp.extensions.showError
-import com.primapp.extensions.showInfo
 import com.primapp.model.RemoveReportedUser
 import com.primapp.model.ReportedByMembers
 import com.primapp.model.ShowImage
@@ -20,9 +19,7 @@ import com.primapp.model.ShowVideo
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
-import com.primapp.ui.post.adapter.PostListPagedAdapter
 import com.primapp.ui.post.reported_post.adapter.SimplePostListPagedAdapter
-import com.primapp.ui.profile.UserPostsFragmentArgs
 import com.primapp.utils.DialogUtils
 import com.primapp.viewmodels.PostsViewModel
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
@@ -80,7 +77,9 @@ class ReportedPostsFragment : BaseFragment<FragmentReportedPostsBinding>() {
                         showError(requireContext(), it.message!!)
                     }
                     Status.SUCCESS -> {
-
+                        it.data?.content?.postId?.let{
+                            adapter.removePost(it)
+                        }
                     }
                 }
             }

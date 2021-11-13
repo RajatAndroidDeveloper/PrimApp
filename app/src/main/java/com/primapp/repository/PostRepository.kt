@@ -344,7 +344,7 @@ class PostRepository @Inject constructor(
         }
     }
 
-    suspend fun removeCulpritMember(communityId:Int, postId: Int, userId:Int): Resource<BaseDataModel> {
+    suspend fun removeCulpritMember(communityId:Int, postId: Int, userId:Int): Resource<PostActionResponseModel> {
         return try {
             responseHandler.handleResponse(apiService.removeCulpritMember(communityId, postId, userId))
         } catch (e: Exception) {
