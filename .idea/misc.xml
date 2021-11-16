@@ -11,6 +11,7 @@
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_report_by_members.xml" value="0.21354166666666666" />
         <entry key="app/src/main/res/layout/fragment_reported_posts.xml" value="0.21354166666666666" />
+        <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.21388888888888888" />
         <entry key="app/src/main/res/layout/fragment_user_posts.xml" value="0.2241025641025641" />
         <entry key="app/src/main/res/layout/item_list_post.xml" value="0.2241025641025641" />
         <entry key="app/src/main/res/layout/item_notification_normal.xml" value="0.22037037037037038" />
