@@ -101,6 +101,7 @@ class ReportedPostsFragment : BaseFragment<FragmentReportedPostsBinding>() {
                 binding.swipeRefresh.isRefreshing = false
                 binding.pbPost.isVisible = false
                 binding.rvCommunityPosts.isVisible = true
+                binding.tvNothingToShow.isVisible = false
 
                 val error = when {
                     loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
@@ -113,6 +114,11 @@ class ReportedPostsFragment : BaseFragment<FragmentReportedPostsBinding>() {
                     if (adapter.snapshot().isEmpty()) {
                         showError(requireContext(), it.error.localizedMessage)
                     }
+                }
+
+                if (loadState.append.endOfPaginationReached && adapter.itemCount < 1) {
+                    binding.rvCommunityPosts.isVisible = false
+                    binding.tvNothingToShow.isVisible = true
                 }
 
             } else {

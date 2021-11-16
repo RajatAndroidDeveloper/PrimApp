@@ -212,6 +212,7 @@ class UserPostsFragment() : BaseFragment<FragmentUserPostsBinding>() {
                 binding.swipeRefresh.isRefreshing = false
                 binding.pbPost.isVisible = false
                 binding.rvCommunityPosts.isVisible = true
+                binding.tvNothingToShow.isVisible = false
 
                 val error = when {
                     loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
@@ -225,11 +226,11 @@ class UserPostsFragment() : BaseFragment<FragmentUserPostsBinding>() {
                         showError(requireContext(), it.error.localizedMessage)
                     }
                 }
-                /*
+
                 if (loadState.append.endOfPaginationReached && adapter.itemCount < 1) {
-                    binding.groupPostView.isVisible = false
-                    binding.groupNoPostView.isVisible = true
-                }*/
+                    binding.rvCommunityPosts.isVisible = false
+                    binding.tvNothingToShow.isVisible = true
+                }
 
             } else {
                 //binding.swipeRefresh.isRefreshing = true
