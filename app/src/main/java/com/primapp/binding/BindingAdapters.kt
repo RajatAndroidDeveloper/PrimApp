@@ -115,8 +115,8 @@ fun loadCircularImageFromUrl(imgView: ImageView, url: String?) {
 }
 
 @BindingAdapter("loadCircularImage", "name")
-fun loadCircularImageFromUrlWithName(imgView: ImageView, url: String?, name: String) {
-    imgView.loadCircularImageWithName(name, url)
+fun loadCircularImageFromUrlWithName(imgView: ImageView, url: String?, name: String?) {
+    imgView.loadCircularImageWithName(name ?: "?", url)
 }
 
 @SuppressLint("SetTextI18n")
