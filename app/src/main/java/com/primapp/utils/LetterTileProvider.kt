@@ -19,7 +19,7 @@ class LetterTileProvider {
         private lateinit var uiContext: Context
         private var texSize = 0F
 
-        fun avatarImage(context: Context, size: Int, shape: Int, name: String): BitmapDrawable {
+        fun avatarImage(context: Context, size: Int, shape: Int, name: String?): BitmapDrawable {
             return avatarImageGenerate(context, size, shape, name, COLOR700)
         }
 
@@ -38,7 +38,7 @@ class LetterTileProvider {
             context: Context,
             size: Int,
             shape: Int,
-            name: String,
+            name: String?,
             colorModel: Int
         ): BitmapDrawable {
             uiContext = context
@@ -81,8 +81,12 @@ class LetterTileProvider {
         }
 
 
-        private fun getNameInitials(name: String): String {
-            return name
+        private fun getNameInitials(name: String?): String {
+            var alteredName:String = name ?: "?"
+            if(alteredName.trim().isEmpty()) {
+                alteredName = "?"
+            }
+            return alteredName
                 .split(' ')
                 .mapNotNull { it.firstOrNull()?.toString() }
                 .reduce { acc, s -> acc + s }

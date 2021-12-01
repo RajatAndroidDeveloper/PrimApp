@@ -65,7 +65,7 @@ fun ImageView.loadCircularImage(context: Context, url: String?) {
         .into(this)
 }
 
-fun ImageView.loadCircularImageWithName(name: String, url: String?) {
+fun ImageView.loadCircularImageWithName(name: String?, url: String?) {
     val letterBitmap = LetterTileProvider.avatarImage(context, 200, LetterTileProvider.CIRCLE, name)
     Glide.with(context)
         .load(url)
