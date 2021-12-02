@@ -45,7 +45,7 @@ object SendBirdHelper {
             ""
         } else if (members.size == 2) {
             members.forEach {
-                if (it.userId != SendBird.getCurrentUser().userId && it.connectionStatus == User.ConnectionStatus.ONLINE) {
+                if (it.userId != SendBird.getCurrentUser().userId) {
                     return it.profileUrl
                 }
             }
