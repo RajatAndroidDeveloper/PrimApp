@@ -29,8 +29,8 @@
     <string name="privacy_policy">
         <![CDATA[
             I\'ve read and accept
-            <a href="">Terms of Services</a> &amp;
-            <a href="">Privacy Policy</a>
+            <a href="https://www.prim-technology.com/terms-of-service/">Terms of Services</a> &amp;
+            <a href="https://www.prim-technology.com/privacy-policy/">Privacy Policy</a>
         ]]>
     </string>
     <string name="forgot_username_description">Please enter the email that was used to create your account. We will email you a temporary one-time code to reset your username.</string>
