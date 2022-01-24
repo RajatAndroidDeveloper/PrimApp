@@ -245,14 +245,15 @@
                     android:layout_marginRight="15dp"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
-                    tools:src="@drawable/like_new"
-                    android:src="@{data.like ? @drawable/like_color_new : @drawable/like_new}" />
+                    android:src="@{data.like ? @drawable/like_color_new : @drawable/like_new}"
+                    tools:src="@drawable/like_new" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@string/like" />
+                    android:text="@string/like"
+                    android:textColor="@color/textColorLight" />
 
             </LinearLayout>
 
@@ -280,7 +281,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@string/comment" />
+                    android:text="@string/comment"
+                    android:textColor="@color/textColorLight" />
 
             </LinearLayout>
 
@@ -308,7 +310,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@string/share" />
+                    android:text="@string/share"
+                    android:textColor="@color/textColorLight" />
 
             </LinearLayout>
 

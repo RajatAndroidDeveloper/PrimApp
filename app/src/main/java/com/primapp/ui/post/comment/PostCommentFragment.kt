@@ -151,8 +151,7 @@ class PostCommentFragment : BaseFragment<FragmentPostCommentBinding>() {
     }
 
     private fun setAdapter() {
-        val lm = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true)
-        lm.stackFromEnd = true
+        val lm = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rvComments.apply {
             layoutManager = lm
         }
