@@ -2,6 +2,8 @@ package com.primapp.retrofit.base
 
 
 import android.util.Log
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
 import com.google.gson.stream.MalformedJsonException
 import okhttp3.ResponseBody
 import org.json.JSONObject
@@ -33,7 +35,11 @@ open class ResponseHandler @Inject constructor() {
     }
 
     fun getErrorMessage(e: HttpException): String {
-        return getErrorMsg(e.response()?.errorBody()!!).error
+        val errorMsg = getErrorMsg(e.response()?.errorBody()!!).error
+        //Log HTTP API failure to firebase
+        Firebase.crashlytics.log("API_ERROR (${e.response()?.raw()?.request?.url}): $errorMsg")
+        Firebase.crashlytics.recordException(e)
+        return errorMsg
     }
 
     private fun getErrorMessage(code: Int): String {

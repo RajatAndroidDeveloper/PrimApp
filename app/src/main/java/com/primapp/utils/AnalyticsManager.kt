@@ -21,6 +21,7 @@ class AnalyticsManager(private val firebaseAnalytics: FirebaseAnalytics) {
         data?.let {
             FirebaseCrashlytics.getInstance().setUserId(it.id.toString())
             FirebaseCrashlytics.getInstance().setCustomKey("name", "${it.firstName} ${it.lastName}")
+            FirebaseCrashlytics.getInstance().setCustomKey("userId", it.id.toString())
             firebaseAnalytics.setUserId(it.id.toString())
             firebaseAnalytics.setUserProperty("name", "${it.firstName} ${it.lastName}")
             firebaseAnalytics.setUserProperty("email", it.email)
