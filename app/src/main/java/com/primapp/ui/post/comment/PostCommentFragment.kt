@@ -15,6 +15,7 @@ import com.primapp.constants.CommunityStatusTypes
 import com.primapp.databinding.FragmentPostCommentBinding
 import com.primapp.extensions.showError
 import com.primapp.model.LikeComment
+import com.primapp.model.LikeCommentReply
 import com.primapp.model.comment.CommentData
 import com.primapp.model.post.PostListResult
 import com.primapp.retrofit.base.Status
@@ -29,8 +30,11 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
+import androidx.recyclerview.widget.RecyclerView
 
 class PostCommentFragment : BaseFragment<FragmentPostCommentBinding>() {
+
+    var commentAdapterPosition: Int = -1
 
     lateinit var postData: PostListResult
 
@@ -122,11 +126,62 @@ class PostCommentFragment : BaseFragment<FragmentPostCommentBinding>() {
                 }
             }
         })
+
+        viewModel.likeReplyLiveData.observe(viewLifecycleOwner, Observer {
+            hideLoading()
+            it.getContentIfNotHandled()?.let {
+                when (it.status) {
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.SUCCESS -> {
+                        it.data?.content?.let {
+                            if (commentAdapterPosition != -1) {
+                                val parentViewHolder: RecyclerView.ViewHolder? =
+                                    binding.rvComments.findViewHolderForAdapterPosition(commentAdapterPosition)
+                                val recyclerView: RecyclerView? =
+                                    parentViewHolder?.itemView?.findViewById(R.id.rvCommentsReply)
+                                val adapter = recyclerView?.adapter as? ReplyListAdapter
+                                adapter?.markReplyAsLiked(it.replyId)
+                            }
+                        }
+                    }
+                }
+            }
+        })
+
+        viewModel.unlikeReplyLiveData.observe(viewLifecycleOwner, Observer {
+            hideLoading()
+            it.getContentIfNotHandled()?.let {
+                when (it.status) {
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.SUCCESS -> {
+                        it.data?.content?.let {
+                            //adapter.markReplyInCommentAsDisliked(it.replyId)
+                            val parentViewHolder: RecyclerView.ViewHolder? =
+                                binding.rvComments.findViewHolderForAdapterPosition(commentAdapterPosition)
+                            val recyclerView: RecyclerView? =
+                                parentViewHolder?.itemView?.findViewById(R.id.rvCommentsReply)
+                            val adapter = recyclerView?.adapter as? ReplyListAdapter
+                            adapter?.markReplyAsDisliked(it.replyId)
+                        }
+                    }
+                }
+            }
+        })
     }
 
     fun postComment() {
         //If community is not joined don't allow to post comment
-        if(!postData.community.isJoined){
+        if (!postData.community.isJoined) {
             DialogUtils.showCloseDialog(
                 requireActivity(),
                 R.string.non_joined_community_action_error_message,
@@ -214,7 +269,7 @@ class PostCommentFragment : BaseFragment<FragmentPostCommentBinding>() {
         when (any) {
             is LikeComment -> {
                 //If community is not joined don't allow to post comment
-                if(!postData.community.isJoined){
+                if (!postData.community.isJoined) {
                     DialogUtils.showCloseDialog(
                         requireActivity(),
                         R.string.non_joined_community_action_error_message,
@@ -244,6 +299,46 @@ class PostCommentFragment : BaseFragment<FragmentPostCommentBinding>() {
                 bundle.putSerializable("mainCommentData", any)
                 bundle.putSerializable("postData", postData)
                 findNavController().navigate(R.id.postCommentReplyFragment, bundle)
+            }
+
+            is LikeCommentReply -> {
+                commentAdapterPosition = any.commentAdapterPosition
+                //If community is not joined don't allow to post reply
+                if (!postData.community.isJoined) {
+                    DialogUtils.showCloseDialog(
+                        requireActivity(),
+                        R.string.non_joined_community_action_error_message,
+                        R.drawable.question_mark
+                    )
+                    return
+                }
+                //If community is inactive don't allow to post reply
+                if (postData.community.status.equals(CommunityStatusTypes.INACTIVE, true)) {
+                    DialogUtils.showCloseDialog(
+                        requireActivity(),
+                        R.string.inactive_community_action_message,
+                        R.drawable.question_mark
+                    )
+                    return
+                }
+
+                if (any.replyData.isLike) {
+                    viewModel.unlikeReply(
+                        postData.community.id,
+                        userData!!.id,
+                        postData.id,
+                        any.commentId,
+                        any.replyData.id
+                    )
+                } else {
+                    viewModel.likeReply(
+                        postData.community.id,
+                        userData!!.id,
+                        postData.id,
+                        any.commentId,
+                        any.replyData.id
+                    )
+                }
             }
         }
     }

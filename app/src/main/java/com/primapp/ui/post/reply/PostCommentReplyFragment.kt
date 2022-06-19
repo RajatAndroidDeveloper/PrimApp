@@ -60,6 +60,8 @@ class PostCommentReplyFragment : BaseFragment<FragmentPostCommentReplyBinding>()
         mainCommentData = PostCommentReplyFragmentArgs.fromBundle(requireArguments()).mainCommentData
         postData = PostCommentReplyFragmentArgs.fromBundle(requireArguments()).postData
         binding.mainCommentData = mainCommentData
+        binding.includeMainComment.rvCommentsReply.isVisible = false
+        binding.includeMainComment.tvShowPreviousReplies.isVisible = false
         binding.frag = this
     }
 

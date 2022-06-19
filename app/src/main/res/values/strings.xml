@@ -332,4 +332,5 @@
     <string name="remove_reported_user_consent">Are you sure you want to remove this user?</string>
     <string name="reason_summary">Reason: %s</string>
     <string name="nothing_to_show">Nothing to show</string>
+    <string name="show_previous_replies">Show previous replies...</string>
 </resources>

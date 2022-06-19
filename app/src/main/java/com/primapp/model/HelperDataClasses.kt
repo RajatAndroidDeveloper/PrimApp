@@ -26,6 +26,7 @@ data class BookmarkPost(val postData: PostListResult)
 data class SharePost(val postData: PostListResult, val view: View)
 data class ShowCommunityDetails(val communityData: CommunityData)
 data class ShowPostDetails(val communityId: Int, val postId: Int)
+data class LikeCommentReply(val replyData: ReplyData, val commentId: Int, val commentAdapterPosition: Int)
 
 //Mentorship request action
 data class AcceptMetorRequest(val id: Int)

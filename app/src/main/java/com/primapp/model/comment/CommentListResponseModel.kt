@@ -1,6 +1,7 @@
 package com.primapp.model.comment
 
 import com.google.gson.annotations.SerializedName
+import com.primapp.model.reply.ReplyData
 import java.io.Serializable
 
 
@@ -42,7 +43,9 @@ data class CommentData(
     @SerializedName("like_count")
     var likeCount: Long = 0L,
     @SerializedName("get_reply_count")
-    var replyCount: Long = 0L
+    var replyCount: Long = 0L,
+    @SerializedName("latest_reply")
+    val latestReply: ArrayList<ReplyData>,
 ) : Serializable
 
 data class User(
