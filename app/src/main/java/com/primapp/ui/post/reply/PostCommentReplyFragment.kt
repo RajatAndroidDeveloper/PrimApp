@@ -256,10 +256,12 @@ class PostCommentReplyFragment : BaseFragment<FragmentPostCommentReplyBinding>()
                     Log.d("anshul", "----data observer called : ${it.prepend.endOfPaginationReached}")
                     if (it.prepend.endOfPaginationReached && adapter.itemCount > 0) {
                         binding.rvCommentsReply.postDelayed({
-                            val y: Float =
-                                binding.rvCommentsReply.y + binding.rvCommentsReply.getChildAt(0).y
-                            binding.nestedScrollView.smoothScrollTo(0, y.toInt())
-                            Log.d("anshul", "--->data observer called : ${y}")
+                            //Used to scroll to bottom of the replies (where latest reply is)
+//                            val y: Float =
+//                                binding.rvCommentsReply.y + binding.rvCommentsReply.getChildAt(0).y
+//                            binding.nestedScrollView.smoothScrollTo(0, y.toInt())
+//                            Log.d("anshul", "--->data observer called : ${y}")
+                            binding.nestedScrollView.smoothScrollTo(binding.rvCommentsReply)
                         }, 300)
                     }
                 }
