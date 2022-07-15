@@ -37,6 +37,7 @@
             android:background="@drawable/shape_rounded_corner_search_box"
             android:orientation="vertical"
             android:padding="@dimen/space_small"
+            android:backgroundTint="@color/lightestGrey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivProfilePic"
             app:layout_constraintTop_toTopOf="parent">
@@ -68,6 +69,7 @@
                 style="@style/primaryBodyText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/textColorLight"
                 android:text="@{data.replyText}"
                 android:textSize="@dimen/textSmall"
                 tools:text="@string/long_about_text" />

@@ -78,7 +78,7 @@ class CommentsListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Un
             }
 
             //Show the more text if reply are more
-            binding.tvShowPreviousReplies.isVisible = data.latestReply.size > 1
+            binding.tvShowPreviousReplies.isVisible = data.replyCount > 1
 
             if (data.latestReply.isNotEmpty()) {
                 //Set recycler view for reply data

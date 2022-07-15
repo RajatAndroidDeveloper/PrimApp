@@ -7,6 +7,7 @@
         <entry key="app/src/main/res/drawable/ic_border.xml" value="0.24583333333333332" />
         <entry key="app/src/main/res/drawable/ic_file_icon.xml" value="0.24583333333333332" />
         <entry key="app/src/main/res/drawable/shape_circle_accent.xml" value="0.24583333333333332" />
+        <entry key="app/src/main/res/drawable/shape_rounded_corner_grey_small_corner.xml" value="0.24583333333333332" />
         <entry key="app/src/main/res/drawable/shape_rounded_corner_light_grey.xml" value="0.24583333333333332" />
         <entry key="app/src/main/res/drawable/shape_rounded_corner_search_box.xml" value="0.24583333333333332" />
         <entry key="app/src/main/res/layout/fragment_channel_list.xml" value="0.25" />

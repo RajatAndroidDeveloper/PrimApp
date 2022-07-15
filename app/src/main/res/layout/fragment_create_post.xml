@@ -29,7 +29,8 @@
             android:layout_height="wrap_content"
             android:drawableStart="@null"
             android:gravity="top"
-            android:hint="@string/create_post_message"
+            android:textColorHint="@color/textColorLight"
+            android:hint="@string/create_post_placeholder"
             android:imeActionLabel="Done"
             android:imeOptions="actionDone"
             android:lines="6"
@@ -55,9 +56,9 @@
                 android:id="@+id/ibCamera"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shape_rounded_corner_light_grey"
+                android:background="@drawable/shape_rounded_corner_grey_small_corner"
                 android:onClick="@{()->frag.showFileOptions()}"
-                android:padding="@dimen/space_large"
+                android:padding="@dimen/space_small"
                 android:src="@drawable/ic_baseline_photo_camera_24"
                 android:tint="@color/black" />
 
@@ -65,10 +66,11 @@
                 android:id="@+id/ibAttachment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleType="center"
                 android:layout_marginStart="@dimen/space_medium"
-                android:background="@drawable/shape_rounded_corner_light_grey"
+                android:background="@drawable/shape_rounded_corner_grey_small_corner"
                 android:onClick="@{()->frag.attachDocument()}"
-                android:padding="@dimen/space_large"
+                android:padding="@dimen/space_small"
                 android:src="@drawable/ic_attach_file_24"
                 android:tint="@color/black" />
 

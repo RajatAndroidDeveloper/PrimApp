@@ -149,9 +149,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_small"
-                app:cardElevation="0dp"
                 android:visibility="@{(data.fileType == null ) ? View.GONE : View.VISIBLE}"
-                app:cardCornerRadius="@{(data.fileType.equals(PostFileType.FILE)) ? @dimen/space_small : @dimen/space_largeX}"
+                app:cardCornerRadius="@{(data.fileType.equals(PostFileType.FILE)) ? @dimen/space_extraSmall : @dimen/space_largeX}"
+                app:cardElevation="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvCaption">
@@ -193,16 +193,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/ic_border"
-                    android:padding="@dimen/space_small"
+                    android:padding="6dp"
                     android:visibility="@{(data.fileType.equals(PostFileType.FILE) ) ? View.VISIBLE : View.GONE}">
 
                     <ImageView
                         android:id="@+id/ivFileIcon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:adjustViewBounds="true"
-                        android:background="@drawable/shape_rounded_corner_light_grey"
-                        android:padding="@dimen/space_small"
+                        android:background="@drawable/shape_rounded_corner_grey_small_corner"
+                        android:padding="@dimen/space_extraSmall"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ic_file_icon"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -215,11 +215,14 @@
                         style="@style/normalBodyText"
                         android:layout_marginStart="@dimen/space_small"
                         android:ellipsize="end"
+                        android:lines="1"
+                        android:textSize="@dimen/textSmall"
                         android:text="@{data.postContentFile}"
                         app:layout_constraintBottom_toBottomOf="@id/ivFileIcon"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/ivFileIcon"
                         app:layout_constraintTop_toTopOf="@id/ivFileIcon"
-                        tools:text="abc.pdf" />
+                        tools:text="@string/long_about_text" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>

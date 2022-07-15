@@ -369,7 +369,16 @@ object FileUtils {
 
     //Request Doc
     fun getDocumentFileIntent(): Intent {
-        val mimeTypes = arrayOf("text/plain", "application/pdf", "text/csv", "application/msword","application/vnd.ms-powerpoint","application/vnd.ms-excel")
+        val mimeTypes = arrayOf(
+            "application/msword",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",  // .doc & .docx
+            "application/vnd.ms-powerpoint",
+            "application/vnd.openxmlformats-officedocument.presentationml.presentation",  // .ppt & .pptx
+            "application/vnd.ms-excel",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",  // .xls & .xlsx
+            "text/*", // includes text/plain and text/csv
+            "application/pdf",
+        )
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.addCategory(Intent.CATEGORY_OPENABLE)
         intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)

@@ -166,7 +166,8 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="logout_message">Are you sure you want to logout?</string>
-    <string name="create_post_message">What would you like to talk about?</string>
+    <string name="create_post_message">What would you like to discuss?</string>
+    <string name="create_post_placeholder">Start a mentoring topic or share any other important thoughts...</string>
     <string name="photo_video_gif">Photo | Video | GIF</string>
     <string name="changes_saved_successfully">Your changes are saved successfully!</string>
     <string name="edit_profile">Edit Profile</string>
