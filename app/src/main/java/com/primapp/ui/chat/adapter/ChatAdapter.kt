@@ -72,7 +72,6 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
                 VIEW_TYPE_ADMIN_MESSAGE
             }
             is FileMessage -> {
-                NOT_YET_IMPLEMENTED
 
                 return if (message.type.toLowerCase(Locale.ROOT).startsWith("image") || message.type.toLowerCase(Locale.ROOT).startsWith("video")) {
                     if (message.getSender().userId == SendBird.getCurrentUser().userId) {
@@ -83,8 +82,6 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
                 } else {
                     NOT_YET_IMPLEMENTED
                 }
-                /*  val fileMessage = message as FileMessage
-                   if (message.type.toLowerCase(Locale.ROOT).startsWith("image")) { }*/
             }
             else -> {
                 -1

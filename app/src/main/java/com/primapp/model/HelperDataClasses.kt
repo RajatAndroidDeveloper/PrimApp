@@ -11,6 +11,7 @@ import com.sendbird.android.BaseMessage
 
 data class ShowImage(val url: String)
 data class ShowVideo(val url: String)
+data class DownloadFile(val url: String)
 data class LikePost(val postData: PostListResult)
 data class EditPost(val postData: PostListResult)
 data class DeletePost(val postData: PostListResult)

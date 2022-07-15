@@ -1,5 +1,6 @@
 package com.primapp.ui.communities.details
 
+import android.app.DownloadManager
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.PopupMenu
@@ -29,6 +30,7 @@ import com.primapp.ui.notification.MentorRequestRejectionFragment
 import com.primapp.ui.post.adapter.PostListPagedAdapter
 import com.primapp.ui.post.create.CreatePostFragment
 import com.primapp.utils.DialogUtils
+import com.primapp.utils.DownloadUtils
 import com.primapp.utils.OverlapItemDecorantion
 import com.primapp.utils.visible
 import com.primapp.viewmodels.CommunitiesViewModel
@@ -37,6 +39,7 @@ import kotlinx.android.synthetic.main.toolbar_menu_more.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>() {
 
@@ -49,6 +52,9 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
     val viewModel by viewModels<CommunitiesViewModel> { viewModelFactory }
 
     val userData by lazy { UserCache.getUser(requireContext()) }
+
+    @Inject
+    lateinit var downloadManager: DownloadManager
 
     override fun getLayoutRes(): Int = R.layout.fragment_community_details
 
@@ -384,6 +390,9 @@ class CommunityDetailsFragment : BaseFragment<FragmentCommunityDetailsBinding>()
                 val bundle = Bundle()
                 bundle.putString("url", item.url)
                 findNavController().navigate(R.id.videoViewDialog, bundle)
+            }
+            is DownloadFile -> {
+                DownloadUtils.download(requireContext(), downloadManager, item.url)
             }
             is LikePost -> {
                 if (item.postData.community.status.equals(CommunityStatusTypes.INACTIVE, true)) {

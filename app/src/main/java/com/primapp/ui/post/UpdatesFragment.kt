@@ -1,5 +1,6 @@
 package com.primapp.ui.post
 
+import android.app.DownloadManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -26,6 +27,7 @@ import com.primapp.ui.post.adapter.PostListPagedAdapter
 import com.primapp.ui.post.create.CreatePostFragment
 import com.primapp.utils.AnalyticsManager
 import com.primapp.utils.DialogUtils
+import com.primapp.utils.DownloadUtils
 import com.primapp.utils.getPrettyNumber
 import com.primapp.viewmodels.PostsViewModel
 import com.sendbird.android.SendBird
@@ -37,6 +39,7 @@ import kotlinx.android.synthetic.main.toolbar_dashboard_accent.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
 
@@ -47,6 +50,9 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
     val adapter by lazy { PostListPagedAdapter { item -> onItemClick(item) } }
 
     val viewModel by viewModels<PostsViewModel> { viewModelFactory }
+
+    @Inject
+    lateinit var downloadManager: DownloadManager
 
     override fun getLayoutRes(): Int = R.layout.fragment_updates
 
@@ -282,6 +288,9 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                 val bundle = Bundle()
                 bundle.putString("url", item.url)
                 findNavController().navigate(R.id.videoViewDialog, bundle)
+            }
+            is DownloadFile -> {
+                DownloadUtils.download(requireContext(), downloadManager, item.url)
             }
             is LikePost -> {
                 if (item.postData.community.status.equals(CommunityStatusTypes.INACTIVE, true)) {

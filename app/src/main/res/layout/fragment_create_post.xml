@@ -39,7 +39,42 @@
             app:layout_constraintTop_toBottomOf="@+id/clToolbar"
             app:layout_constraintWidth_percent=".9" />
 
-        <RadioGroup
+        <LinearLayout
+            android:id="@+id/llFileOptins"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/space_normal"
+            android:paddingBottom="@dimen/space_normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etPost"
+            app:layout_constraintWidth_percent=".9">
+
+            <ImageButton
+                android:id="@+id/ibCamera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_rounded_corner_light_grey"
+                android:onClick="@{()->frag.showFileOptions()}"
+                android:padding="@dimen/space_large"
+                android:src="@drawable/ic_baseline_photo_camera_24"
+                android:tint="@color/black" />
+
+            <ImageButton
+                android:id="@+id/ibAttachment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_medium"
+                android:background="@drawable/shape_rounded_corner_light_grey"
+                android:onClick="@{()->frag.attachDocument()}"
+                android:padding="@dimen/space_large"
+                android:src="@drawable/ic_attach_file_24"
+                android:tint="@color/black" />
+
+        </LinearLayout>
+
+      <!--  <RadioGroup
             android:id="@+id/rgFileType"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -80,22 +115,21 @@
                 android:layout_height="wrap_content"
                 android:text="@string/none" />
         </RadioGroup>
-
-        <Button
+-->
+     <!--   <Button
             android:id="@+id/btnSelect"
             style="@style/buttonOutlinedAccent"
             android:layout_width="wrap_content"
             android:onClick="@{()->frag.pickFileAskPermission()}"
             android:text="Select"
             android:visibility="gone"
-            app:layout_constraintStart_toStartOf="@id/rgFileType"
-            app:layout_constraintTop_toBottomOf="@id/rgFileType" />
-
+            app:layout_constraintStart_toStartOf="@id/llFileOptins"
+            app:layout_constraintTop_toBottomOf="@id/llFileOptins" />
+-->
         <TextView
             android:id="@+id/tvFileName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_small"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="IMG_00232.png"
@@ -103,8 +137,9 @@
             app:layout_constraintEnd_toStartOf="@id/ivDelete"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toEndOf="@id/btnSelect"
-            app:layout_constraintTop_toTopOf="@id/btnSelect"
+            app:layout_constraintStart_toStartOf="@id/llFileOptins"
+            app:layout_constraintTop_toBottomOf="@id/llFileOptins"
+            app:layout_constraintBottom_toTopOf="@id/tlSelectCategory"
             app:layout_constraintWidth_default="wrap" />
 
         <ImageView
@@ -128,7 +163,7 @@
             app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnSelect">
+            app:layout_constraintTop_toBottomOf="@id/ivDelete">
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/mAutoCompleteCategory"
@@ -176,6 +211,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
+            tools:visibility="visible"
             app:constraint_referenced_ids="tvFileName,ivDelete" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

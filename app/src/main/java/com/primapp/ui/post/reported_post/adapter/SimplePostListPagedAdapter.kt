@@ -62,6 +62,9 @@ class SimplePostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> 
                     PostFileType.GIF -> {
                         onItemClick(ShowImage(data.imageUrl.toString()))
                     }
+                    PostFileType.FILE -> {
+                        onItemClick(DownloadFile(data.imageUrl.toString()))
+                    }
                 }
             }
 

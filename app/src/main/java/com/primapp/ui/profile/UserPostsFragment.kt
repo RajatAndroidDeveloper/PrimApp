@@ -1,5 +1,6 @@
 package com.primapp.ui.profile
 
+import android.app.DownloadManager
 import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -24,9 +25,11 @@ import com.primapp.ui.post.adapter.PostListPagedAdapter
 import com.primapp.ui.post.create.CreatePostFragment
 import com.primapp.ui.profile.other.OtherUserProfileFragment
 import com.primapp.utils.DialogUtils
+import com.primapp.utils.DownloadUtils
 import com.primapp.viewmodels.PostsViewModel
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class UserPostsFragment() : BaseFragment<FragmentUserPostsBinding>() {
 
@@ -39,6 +42,9 @@ class UserPostsFragment() : BaseFragment<FragmentUserPostsBinding>() {
     val adapter by lazy { PostListPagedAdapter { item -> onItemClick(item) } }
 
     val viewModel by viewModels<PostsViewModel> { viewModelFactory }
+
+    @Inject
+    lateinit var downloadManager: DownloadManager
 
     override fun getLayoutRes(): Int = R.layout.fragment_user_posts
 
@@ -257,6 +263,9 @@ class UserPostsFragment() : BaseFragment<FragmentUserPostsBinding>() {
                 val bundle = Bundle()
                 bundle.putString("url", item.url)
                 findNavController().navigate(R.id.videoViewDialog, bundle)
+            }
+            is DownloadFile -> {
+                DownloadUtils.download(requireContext(), downloadManager, item.url)
             }
             is LikePost -> {
                 if (item.postData.community.status.equals(CommunityStatusTypes.INACTIVE, true)) {

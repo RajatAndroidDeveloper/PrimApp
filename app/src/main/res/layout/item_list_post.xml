@@ -149,15 +149,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_small"
+                app:cardElevation="0dp"
                 android:visibility="@{(data.fileType == null ) ? View.GONE : View.VISIBLE}"
-                app:cardCornerRadius="@dimen/space_largeX"
+                app:cardCornerRadius="@{(data.fileType.equals(PostFileType.FILE)) ? @dimen/space_small : @dimen/space_largeX}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvCaption">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clPostAttachment"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:visibility="@{(data.fileType.equals(PostFileType.FILE)) ? View.GONE : View.VISIBLE}"
+                    tools:visibility="gone">
 
                     <ImageView
                         android:id="@+id/ivPostPreview"
@@ -183,6 +187,40 @@
                         app:layout_constraintStart_toStartOf="@id/ivPostPreview"
                         app:layout_constraintTop_toTopOf="@id/ivPostPreview"
                         app:tint="@color/colorAccent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_border"
+                    android:padding="@dimen/space_small"
+                    android:visibility="@{(data.fileType.equals(PostFileType.FILE) ) ? View.VISIBLE : View.GONE}">
+
+                    <ImageView
+                        android:id="@+id/ivFileIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/shape_rounded_corner_light_grey"
+                        android:padding="@dimen/space_small"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_file_icon"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@drawable/ic_file_icon" />
+
+                    <TextView
+                        android:id="@+id/tvFileName"
+                        style="@style/normalBodyText"
+                        android:layout_marginStart="@dimen/space_small"
+                        android:ellipsize="end"
+                        android:text="@{data.postContentFile}"
+                        app:layout_constraintBottom_toBottomOf="@id/ivFileIcon"
+                        app:layout_constraintStart_toEndOf="@id/ivFileIcon"
+                        app:layout_constraintTop_toTopOf="@id/ivFileIcon"
+                        tools:text="abc.pdf" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 

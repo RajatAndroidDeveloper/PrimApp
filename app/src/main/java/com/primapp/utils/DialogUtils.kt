@@ -1,7 +1,9 @@
 package com.primapp.utils
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.Window
@@ -17,6 +19,7 @@ import kotlinx.android.synthetic.main.layout_dialog_help1.btnClose
 import kotlinx.android.synthetic.main.layout_dialog_help1.tvDialogMessage
 import kotlinx.android.synthetic.main.layout_dialog_yes_no.*
 import kotlinx.android.synthetic.main.layout_notification_filter.*
+import android.content.DialogInterface
 
 
 object DialogUtils {
@@ -148,5 +151,20 @@ object DialogUtils {
         }
 
         dialog.show()
+    }
+
+    fun showChooserDialog(
+        context: Context,
+        title: String,
+        options: Array<String>,
+        closeCallback: ((selectedOption: Int) -> Unit)? = null
+    ) {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(context)
+        builder.setTitle(title)
+        builder.setItems(options, DialogInterface.OnClickListener { dialog, which ->
+            // the user clicked on colors[which]
+            closeCallback?.invoke(which)
+        })
+        builder.show()
     }
 }

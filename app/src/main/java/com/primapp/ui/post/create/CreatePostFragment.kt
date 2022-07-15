@@ -95,20 +95,21 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                 selectedCommunityId = it.community.id
                 postFileType = it.fileType
                 when (it.fileType) {
-                    PostFileType.IMAGE -> binding.rgFileType.check(R.id.rbImage)
-                    PostFileType.GIF -> binding.rgFileType.check(R.id.rbImage)
-                    PostFileType.VIDEO -> binding.rgFileType.check(R.id.rbVideo)
-                    null -> binding.rgFileType.check(R.id.rbNone)
+                    PostFileType.IMAGE -> postFileType = PostFileType.IMAGE
+                    PostFileType.GIF -> postFileType = PostFileType.IMAGE
+                    PostFileType.VIDEO -> postFileType = PostFileType.VIDEO
+                    PostFileType.FILE -> postFileType = PostFileType.FILE
+                    null -> postFileType = null
                 }
                 if (it.fileType != null) {
-                    binding.btnSelect.isVisible = true
+                    //binding.btnSelect.isVisible = true
                     binding.groupSelectFileName.isVisible = true
                     binding.tvFileName.text = it.postContentFile
                 }
             }
         }
 
-        binding.rgFileType.setOnCheckedChangeListener(object : RadioGroup.OnCheckedChangeListener {
+        /*binding.rgFileType.setOnCheckedChangeListener(object : RadioGroup.OnCheckedChangeListener {
             override fun onCheckedChanged(p0: RadioGroup?, p1: Int) {
                 selectedFile = null
                 binding.btnSelect.isVisible = true
@@ -133,7 +134,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                 isUpdatedPostAttachment = true
             }
         })
-
+*/
         //Back button press callback
         requireActivity().onBackPressedDispatcher.addCallback(this) {
             if (type == CREATE_POST) {
@@ -149,6 +150,30 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                 findNavController().popBackStack()
             }
         }
+    }
+
+    fun showFileOptions() {
+        val fileTypeOptions = arrayOf("Image", "Video")
+        DialogUtils.showChooserDialog(requireContext(), getString(R.string.choose_media_type), fileTypeOptions) { fileTypeSelected ->
+            if (fileTypeSelected == 0) {
+                postFileType = PostFileType.IMAGE
+                pickFileAskPermission()
+            } else {
+                postFileType = PostFileType.VIDEO
+                pickFileAskPermission()
+            }
+        }
+        //For update post, so that we can remove data if filetype changes in viewmodel
+        viewModel.createPostRequestModel.value?.fileType = postFileType
+        isUpdatedPostAttachment = true
+    }
+
+    fun attachDocument() {
+        postFileType = PostFileType.FILE
+        //For update post, so that we can remove data if filetype changes in viewmodel
+        viewModel.createPostRequestModel.value?.fileType = postFileType
+        isUpdatedPostAttachment = true
+        pickFileAskPermission()
     }
 
     private fun setObserver() {
@@ -395,13 +420,18 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
 
     private fun attachFileToPost() {
         if (selectedFile != null) {
-            viewModel.generatePresignedUrl(
-                AwsHelper.getObjectName(
-                    AwsHelper.AWS_OBJECT_TYPE.POST,
-                    UserCache.getUser(requireContext())!!.id,
-                    selectedFile!!.extension
+            if (postFileType.equals(PostFileType.FILE)) {
+                // User original name in case of File attachment
+                viewModel.generatePresignedUrl(selectedFile!!.name)
+            } else {
+                viewModel.generatePresignedUrl(
+                    AwsHelper.getObjectName(
+                        AwsHelper.AWS_OBJECT_TYPE.POST,
+                        UserCache.getUser(requireContext())!!.id,
+                        selectedFile!!.extension
+                    )
                 )
-            )
+            }
         } else if (selectedFile == null && type == UPDATE_POST && !isUpdatedPostAttachment) {
             Log.d("anshul_update", "-----Not updated post attachment-----")
             sendPost()
@@ -428,6 +458,8 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
         isUpdatedPostAttachment = true
         selectedFile = null
         binding.groupSelectFileName.isVisible = false
+        //Clear file types as well, now we don't have radio chooser
+        postFileType = null
     }
 
     /*--------- File Picker Code ----------*/
@@ -450,6 +482,9 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
             }
             PostFileType.VIDEO -> {
                 startActivityForResult(FileUtils.getPickVideoIntent(context), FileUtils.VIDEO_REQUEST_CODE)
+            }
+            PostFileType.FILE -> {
+                startActivityForResult(FileUtils.getDocumentFileIntent(), FileUtils.FILE_REQUEST_CODE)
             }
         }
     }
@@ -545,7 +580,38 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                         Log.e(FileUtils.FILE_PICK_TAG, "Error getting file")
                     }
                 }
+
+                FileUtils.FILE_REQUEST_CODE -> {
+                    var tempFile: File? = null
+                    if (data?.data == null) {
+                        tempFile = FileUtils.getFile(requireContext(), FileUtils.IMAGE)
+                    } else {
+                        tempFile = FileUtils.getFileFromUri(requireContext(), data.data!!)
+                    }
+
+                    if (tempFile != null && tempFile.exists()) {
+                        val fileSize = (tempFile.length() / 1024) / 1024
+                        if (fileSize > 18) {
+                            showError(requireContext(), getString(R.string.video_file_size_error_message))
+                        } else {
+                            selectedFile = tempFile
+                            binding.groupSelectFileName.isVisible = true
+                            binding.tvFileName.text = "${selectedFile!!.name}"
+                        }
+                    } else {
+                        Log.e(FileUtils.FILE_PICK_TAG, "Error getting file")
+                    }
+                }
+
             }
+        } else {
+            Log.d(FileUtils.FILE_PICK_TAG, "File type and selected file Cleared")
+            postFileType = null
+            selectedFile = null
+            //For update post
+            viewModel.createPostRequestModel.value?.fileType = postFileType
+            //Hide visible file type, as there is no selected file now.
+            binding.groupSelectFileName.isVisible = false
         }
     }
 

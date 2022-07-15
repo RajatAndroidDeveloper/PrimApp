@@ -3,9 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/ic_baseline_photo_camera_24.xml" value="0.24583333333333332" />
+        <entry key="app/src/main/res/drawable/ic_border.xml" value="0.24583333333333332" />
+        <entry key="app/src/main/res/drawable/ic_file_icon.xml" value="0.24583333333333332" />
+        <entry key="app/src/main/res/drawable/shape_circle_accent.xml" value="0.24583333333333332" />
+        <entry key="app/src/main/res/drawable/shape_rounded_corner_light_grey.xml" value="0.24583333333333332" />
+        <entry key="app/src/main/res/drawable/shape_rounded_corner_search_box.xml" value="0.24583333333333332" />
         <entry key="app/src/main/res/layout/fragment_channel_list.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_communities.xml" value="0.11068895643363728" />
         <entry key="app/src/main/res/layout/fragment_community_details.xml" value="0.2241025641025641" />
+        <entry key="app/src/main/res/layout/fragment_create_post.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/fragment_earned_rewards.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_edit_community.xml" value="0.2212962962962963" />
         <entry key="app/src/main/res/layout/fragment_network_error.xml" value="0.2241025641025641" />
@@ -16,6 +23,7 @@
         <entry key="app/src/main/res/layout/fragment_report_by_members.xml" value="0.21354166666666666" />
         <entry key="app/src/main/res/layout/fragment_reported_posts.xml" value="0.21354166666666666" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.21388888888888888" />
+        <entry key="app/src/main/res/layout/fragment_updates.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/fragment_user_posts.xml" value="0.2241025641025641" />
         <entry key="app/src/main/res/layout/item_list_post.xml" value="0.2241025641025641" />
         <entry key="app/src/main/res/layout/item_notification_normal.xml" value="0.22037037037037038" />
@@ -25,10 +33,12 @@
         <entry key="app/src/main/res/layout/item_reported_members.xml" value="0.125" />
         <entry key="app/src/main/res/layout/item_simple_post.xml" value="0.22760416666666666" />
         <entry key="app/src/main/res/layout/item_simple_text.xml" value="0.20833333333333334" />
+        <entry key="app/src/main/res/layout/layout_create_new_post.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/layout_profile_top_card.xml" value="0.22760416666666666" />
         <entry key="app/src/main/res/layout/layout_report_post_pop_up.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/list_item_group_chat_file_image_me.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/toolbar_community_back.xml" value="0.2241025641025641" />
+        <entry key="app/src/main/res/layout/toolbar_dashboard_accent.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/toolbar_inner_back.xml" value="0.2241025641025641" />
         <entry key="app/src/main/res/layout/toolbar_menu_more.xml" value="0.22760416666666666" />
         <entry key="app/src/main/res/menu/post_details_menu.xml" value="0.22760416666666666" />

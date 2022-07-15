@@ -34,6 +34,7 @@ object FileUtils {
     const val IMAGE_REQUEST_CODE = 1
     const val VIDEO_REQUEST_CODE = 2
     const val GIF_REQUEST_CODE = 3
+    const val FILE_REQUEST_CODE = 4
     const val PICK_ANY_FILE_REQUEST_CODE = 5
     const val FILE_PICK_TAG = "filePicker"
 
@@ -366,6 +367,16 @@ object FileUtils {
         return bmpUri
     }
 
+    //Request Doc
+    fun getDocumentFileIntent(): Intent {
+        val mimeTypes = arrayOf("text/plain", "application/pdf", "text/csv", "application/msword","application/vnd.ms-powerpoint","application/vnd.ms-excel")
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
+        intent.type = "file/*"
+        return intent
+    }
+
     //Request any file
     fun requestAnyFile(context: Context): Intent {
         val chooserIntent = Intent(Intent.ACTION_CHOOSER)
@@ -468,7 +479,7 @@ object FileUtils {
             value["name"] = file.name
 
             return value
-        }catch (e:java.lang.Exception){
+        } catch (e: java.lang.Exception) {
             Log.e(FILE_PICK_TAG, "File not found.")
             return null
         }
