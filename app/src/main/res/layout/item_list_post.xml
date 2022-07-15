@@ -11,6 +11,8 @@
 
         <import type="com.primapp.constants.PostFileType" />
 
+        <import type="com.primapp.utils.FileUtils" />
+
         <variable
             name="data"
             type="com.primapp.model.post.PostListResult" />
@@ -204,10 +206,11 @@
                         android:background="@drawable/shape_rounded_corner_grey_small_corner"
                         android:padding="@dimen/space_extraSmall"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_file_icon"
+                        android:src="@{FileUtils.getIconUsingFileURl(data.imageUrl)}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
+                        android:backgroundTint="@color/lightestGrey"
                         tools:src="@drawable/ic_file_icon" />
 
                     <TextView
@@ -216,8 +219,8 @@
                         android:layout_marginStart="@dimen/space_small"
                         android:ellipsize="end"
                         android:lines="1"
-                        android:textSize="@dimen/textSmall"
                         android:text="@{data.postContentFile}"
+                        android:textSize="@dimen/textSmall"
                         app:layout_constraintBottom_toBottomOf="@id/ivFileIcon"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/ivFileIcon"

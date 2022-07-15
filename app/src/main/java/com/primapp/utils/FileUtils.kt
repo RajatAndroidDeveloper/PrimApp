@@ -370,14 +370,14 @@ object FileUtils {
     //Request Doc
     fun getDocumentFileIntent(): Intent {
         val mimeTypes = arrayOf(
-            "application/msword",
-            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",  // .doc & .docx
-            "application/vnd.ms-powerpoint",
-            "application/vnd.openxmlformats-officedocument.presentationml.presentation",  // .ppt & .pptx
-            "application/vnd.ms-excel",
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",  // .xls & .xlsx
+            MIMETypes.APPLICATION_DOC,
+            MIMETypes.APPLICATION_DOCX,  // .doc & .docx
+            MIMETypes.APPLICATION_PPT,
+            MIMETypes.APPLICATION_PPTX,  // .ppt & .pptx
+            MIMETypes.APPLICATION_XLS,
+            MIMETypes.APPLICATION_XLSX,  // .xls & .xlsx
             "text/*", // includes text/plain and text/csv
-            "application/pdf",
+            MIMETypes.APPLICATION_PDF,
         )
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.addCategory(Intent.CATEGORY_OPENABLE)
@@ -509,4 +509,42 @@ object FileUtils {
         val mime = MimeTypeMap.getSingleton()
         return mime.getExtensionFromMimeType(mimeType)
     }
+
+    @JvmStatic
+    fun getIconUsingFileURl(url: String): Int {
+        var mime: String? = null
+        val extension = MimeTypeMap.getFileExtensionFromUrl(url)
+        if (extension != null) {
+            mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
+        }
+        Log.d("anshul_mime", "Mime : ${mime}")
+        return getIconResourceBasedOnMimeType(mime)
+    }
+
+    private fun getIconResourceBasedOnMimeType(mimeType: String?): Int {
+        return when (mimeType) {
+            MIMETypes.TEXT_PLAIN -> R.drawable.ic_text
+            MIMETypes.APPLICATION_PDF -> R.drawable.ic_pdf
+            MIMETypes.APPLICATION_DOC, MIMETypes.APPLICATION_DOCX -> R.drawable.ic_word
+            MIMETypes.APPLICATION_XLS, MIMETypes.APPLICATION_XLSX -> R.drawable.ic_excel
+            MIMETypes.APPLICATION_PPT, MIMETypes.APPLICATION_PPTX -> R.drawable.ic_powerpoint
+            MIMETypes.TEXT_CSV, MIMETypes.TEXT_CSV_FULL -> R.drawable.ic_csv
+            else -> R.drawable.ic_file_icon
+        }
+    }
+}
+
+object MIMETypes {
+    const val TEXT_PLAIN = "text/plain"
+    const val TEXT_CSV = "text/csv"
+    const val TEXT_CSV_FULL = "text/comma-separated-values"
+    const val APPLICATION_PDF = "application/pdf"
+    const val APPLICATION_FLASH = "application/x-shockwave-flash"
+    const val APPLICATION_OCTET_STREAM = "application/octet-stream"
+    const val APPLICATION_DOC = "application/msword"
+    const val APPLICATION_DOCX = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    const val APPLICATION_XLS = "application/vnd.ms-excel"
+    const val APPLICATION_XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    const val APPLICATION_PPT = "application/vnd.ms-powerpoint"
+    const val APPLICATION_PPTX = "application/vnd.openxmlformats-officedocument.presentationml.presentation"
 }

@@ -618,3 +618,8 @@ fun removedMemberReasonText(textView: TextView, data: ReportedMembers?) {
         )
     }
 }
+
+@BindingAdapter("android:src")
+fun setImageViewResource(imageView: ImageView, resource: Int) {
+    imageView.setImageResource(resource)
+}
