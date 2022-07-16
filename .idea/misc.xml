@@ -28,6 +28,7 @@
         <entry key="app/src/main/res/layout/fragment_user_posts.xml" value="0.2241025641025641" />
         <entry key="app/src/main/res/layout/item_list_post.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_notification_normal.xml" value="0.22037037037037038" />
+        <entry key="app/src/main/res/layout/item_notification_post.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/item_post_comment.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/item_post_comment_reply.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/item_reported.xml" value="0.2328125" />

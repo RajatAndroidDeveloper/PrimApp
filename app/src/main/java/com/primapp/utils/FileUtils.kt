@@ -511,7 +511,7 @@ object FileUtils {
     }
 
     @JvmStatic
-    fun getIconUsingFileURl(url: String): Int {
+    fun getIconUsingFileURl(url: String?): Int {
         var mime: String? = null
         val extension = MimeTypeMap.getFileExtensionFromUrl(url)
         if (extension != null) {

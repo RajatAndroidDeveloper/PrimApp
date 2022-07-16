@@ -7,6 +7,10 @@
 
         <import type="android.view.View" />
 
+        <import type="com.primapp.utils.FileUtils" />
+
+        <import type="com.primapp.constants.PostFileType" />
+
         <variable
             name="data"
             type="com.primapp.model.notification.NotificationResult" />
@@ -98,7 +102,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/placeholder" />
+                android:src="@drawable/placeholder"
+                android:visibility="@{data.postData.fileType.equals(PostFileType.FILE) ? View.GONE : View.VISIBLE}" />
+
+            <ImageView
+                android:id="@+id/ivFileIcon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:padding="@dimen/space_normal"
+                android:scaleType="fitCenter"
+                android:src="@{FileUtils.getIconUsingFileURl(data.postData.getImageUrl)}"
+                android:visibility="@{data.postData.fileType.equals(PostFileType.FILE) ? View.VISIBLE : View.GONE}"
+                tools:src="@drawable/ic_file_icon" />
+
         </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
