@@ -11,6 +11,7 @@
         <entry key="app/src/main/res/drawable/shape_rounded_corner_light_grey.xml" value="0.24583333333333332" />
         <entry key="app/src/main/res/drawable/shape_rounded_corner_search_box.xml" value="0.24583333333333332" />
         <entry key="app/src/main/res/layout/fragment_channel_list.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_chat.xml" value="0.28650678892859244" />
         <entry key="app/src/main/res/layout/fragment_communities.xml" value="0.11068895643363728" />
         <entry key="app/src/main/res/layout/fragment_community_details.xml" value="0.2241025641025641" />
         <entry key="app/src/main/res/layout/fragment_create_post.xml" value="0.2296875" />
@@ -39,6 +40,10 @@
         <entry key="app/src/main/res/layout/layout_profile_top_card.xml" value="0.22760416666666666" />
         <entry key="app/src/main/res/layout/layout_report_post_pop_up.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/list_item_group_chat_file_image_me.xml" value="0.2296875" />
+        <entry key="app/src/main/res/layout/list_item_group_chat_file_image_other.xml" value="0.2296875" />
+        <entry key="app/src/main/res/layout/list_item_group_chat_file_me.xml" value="0.2296875" />
+        <entry key="app/src/main/res/layout/list_item_group_chat_file_other.xml" value="0.2296875" />
+        <entry key="app/src/main/res/layout/list_item_group_chat_user_me.xml" value="0.335" />
         <entry key="app/src/main/res/layout/toolbar_community_back.xml" value="0.2241025641025641" />
         <entry key="app/src/main/res/layout/toolbar_dashboard_accent.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/toolbar_inner_back.xml" value="0.2241025641025641" />

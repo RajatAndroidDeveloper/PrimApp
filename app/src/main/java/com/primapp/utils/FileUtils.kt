@@ -521,7 +521,8 @@ object FileUtils {
         return getIconResourceBasedOnMimeType(mime)
     }
 
-    private fun getIconResourceBasedOnMimeType(mimeType: String?): Int {
+    @JvmStatic
+    fun getIconResourceBasedOnMimeType(mimeType: String?): Int {
         return when (mimeType) {
             MIMETypes.TEXT_PLAIN -> R.drawable.ic_text
             MIMETypes.APPLICATION_PDF -> R.drawable.ic_pdf

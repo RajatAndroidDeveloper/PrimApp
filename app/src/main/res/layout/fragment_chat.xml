@@ -32,7 +32,8 @@
                 android:layout_gravity="bottom"
                 android:background="?attr/selectableItemBackground"
                 android:contentDescription="Upload file"
-                android:src="@drawable/ic_baseline_photo_camera_24"
+                android:src="@drawable/ic_attach_file_24"
+                android:tint="@color/colorAccent"
                 android:visibility="visible" />
 
             <EditText

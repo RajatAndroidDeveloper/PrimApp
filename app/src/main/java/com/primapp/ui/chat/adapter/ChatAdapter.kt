@@ -80,7 +80,11 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
                         VIEW_TYPE_FILE_MESSAGE_IMAGE_OTHER
                     }
                 } else {
-                    NOT_YET_IMPLEMENTED
+                    if (message.getSender().userId == SendBird.getCurrentUser().userId) {
+                        VIEW_TYPE_FILE_MESSAGE_ME
+                    }else{
+                        VIEW_TYPE_FILE_MESSAGE_OTHER
+                    }
                 }
             }
             else -> {
@@ -143,6 +147,26 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
                     )
                 )
             }
+            VIEW_TYPE_FILE_MESSAGE_ME -> {
+                return MyUserFileMessageHolder(
+                    DataBindingUtil.inflate(
+                        layoutInflater,
+                        R.layout.list_item_group_chat_file_me,
+                        parent,
+                        false
+                    )
+                )
+            }
+            VIEW_TYPE_FILE_MESSAGE_OTHER -> {
+                return OtherUserFileMessageHolder(
+                    DataBindingUtil.inflate(
+                        layoutInflater,
+                        R.layout.list_item_group_chat_file_other,
+                        parent,
+                        false
+                    )
+                )
+            }
             else -> {
                 return OthersViewHolder(
                     DataBindingUtil.inflate(
@@ -197,6 +221,12 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
             }
             VIEW_TYPE_FILE_MESSAGE_IMAGE_OTHER -> {
                 (holder as OtherUserImageMessageHolder).bind(message as FileMessage, isContinuous, isNewDay)
+            }
+            VIEW_TYPE_FILE_MESSAGE_ME -> {
+                (holder as MyUserFileMessageHolder).bind(message as FileMessage, isContinuous, isNewDay)
+            }
+            VIEW_TYPE_FILE_MESSAGE_OTHER -> {
+                (holder as OtherUserFileMessageHolder).bind(message as FileMessage, isContinuous, isNewDay)
             }
             else -> {
                 (holder as OthersViewHolder).bindView()
@@ -299,6 +329,54 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
             binding.ivPlay.isVisible = message.type.toLowerCase(Locale.ROOT).startsWith("video")
 
             binding.root.setOnClickListener {
+                onItemClick(message)
+            }
+
+            binding.root.setOnLongClickListener {
+                onItemClick(MessageLongPressCallback(message, absoluteAdapterPosition))
+                true
+            }
+        }
+    }
+
+    inner class MyUserFileMessageHolder(val binding: ListItemGroupChatFileMeBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(
+            message: FileMessage,
+            isContinuous: Boolean,
+            isNewDay: Boolean
+        ) {
+
+            binding.message = message
+            binding.isContinuous = isContinuous
+            binding.isNewDay = isNewDay
+
+            channel?.let { binding.messageStatusGroupChat.drawMessageStatus(it, message) }
+
+            binding.cardGroupChatMessage.setOnClickListener {
+                onItemClick(message)
+            }
+
+            binding.root.setOnLongClickListener {
+                onItemClick(MessageLongPressCallback(message, absoluteAdapterPosition))
+                true
+            }
+
+        }
+    }
+
+    inner class OtherUserFileMessageHolder(val binding: ListItemGroupChatFileOtherBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(
+            message: FileMessage,
+            isContinuous: Boolean,
+            isNewDay: Boolean
+        ) {
+            binding.message = message
+            binding.isContinuous = isContinuous
+            binding.isNewDay = isNewDay
+
+           binding.cardGroupChatMessage.setOnClickListener {
                 onItemClick(message)
             }
 
@@ -473,6 +551,8 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
         private const val VIEW_TYPE_ADMIN_MESSAGE = 30
         private const val VIEW_TYPE_FILE_MESSAGE_IMAGE_ME = 22
         private const val VIEW_TYPE_FILE_MESSAGE_IMAGE_OTHER = 23
+        private const val VIEW_TYPE_FILE_MESSAGE_ME = 24
+        private const val VIEW_TYPE_FILE_MESSAGE_OTHER = 25
 
         private const val NOT_YET_IMPLEMENTED = 101
     }

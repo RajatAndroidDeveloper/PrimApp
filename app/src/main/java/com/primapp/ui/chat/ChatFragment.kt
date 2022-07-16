@@ -2,6 +2,7 @@ package com.primapp.ui.chat
 
 import android.Manifest
 import android.app.Activity
+import android.app.DownloadManager
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -13,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import com.primapp.R
 import com.primapp.cache.UserCache
 import com.primapp.chat.ConnectionManager
@@ -25,6 +27,7 @@ import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.chat.adapter.ChatAdapter
 import com.primapp.utils.DialogUtils
+import com.primapp.utils.DownloadUtils
 import com.primapp.utils.FileUtils
 import com.primapp.viewmodels.CommunitiesViewModel
 import com.sendbird.android.*
@@ -36,6 +39,7 @@ import com.sendbird.android.SendBird.ChannelHandler
 import kotlinx.android.synthetic.main.toolbar_chat.*
 import java.io.File
 import java.util.*
+import javax.inject.Inject
 
 
 class ChatFragment : BaseFragment<FragmentChatBinding>() {
@@ -52,6 +56,9 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
     val userData by lazy { UserCache.getUser(requireContext()) }
 
     val viewModel by viewModels<CommunitiesViewModel> { viewModelFactory }
+
+    @Inject
+    lateinit var downloadManager: DownloadManager
 
     override fun getLayoutRes(): Int = R.layout.fragment_chat
 
@@ -366,7 +373,8 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
                     bundle.putString("url", any.url)
                     findNavController().navigate(R.id.videoViewDialog, bundle)
                 } else {
-                    showInfo(requireContext(), "File type not supported.")
+                    if (!any.url.isNullOrEmpty())
+                        DownloadUtils.download(requireContext(), downloadManager, any.url)
                 }
             }
         }
@@ -505,8 +513,8 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
         }
 
         val fileSize = (file.length() / 1024) / 1024
-        Log.d(FileUtils.FILE_PICK_TAG,"Sending File Message, Size : $fileSize")
-        
+        Log.d(FileUtils.FILE_PICK_TAG, "Sending File Message, Size : $fileSize")
+
         if (fileSize > 18) {
             showError(requireContext(), getString(R.string.video_file_size_error_message))
             return
