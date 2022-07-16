@@ -195,8 +195,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/ic_border"
+                    android:foreground="?attr/selectableItemBackground"
                     android:padding="6dp"
-                    android:visibility="@{(data.fileType.equals(PostFileType.FILE) ) ? View.VISIBLE : View.GONE}">
+                    android:visibility="@{(data.fileType.equals(PostFileType.FILE) ) ? View.VISIBLE : View.GONE}"
+                    tools:targetApi="m">
 
                     <ImageView
                         android:id="@+id/ivFileIcon"
@@ -204,13 +206,13 @@
                         android:layout_height="32dp"
                         android:adjustViewBounds="true"
                         android:background="@drawable/shape_rounded_corner_grey_small_corner"
+                        android:backgroundTint="@color/lightestGrey"
                         android:padding="@dimen/space_extraSmall"
                         android:scaleType="fitCenter"
                         android:src="@{FileUtils.getIconUsingFileURl(data.imageUrl)}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:backgroundTint="@color/lightestGrey"
                         tools:src="@drawable/ic_file_icon" />
 
                     <TextView

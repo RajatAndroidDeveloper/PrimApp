@@ -357,6 +357,11 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
                 onItemClick(message)
             }
 
+            binding.cardGroupChatMessage.setOnLongClickListener {
+                onItemClick(MessageLongPressCallback(message, absoluteAdapterPosition))
+                true
+            }
+
             binding.root.setOnLongClickListener {
                 onItemClick(MessageLongPressCallback(message, absoluteAdapterPosition))
                 true
@@ -378,6 +383,11 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
 
            binding.cardGroupChatMessage.setOnClickListener {
                 onItemClick(message)
+            }
+
+            binding.cardGroupChatMessage.setOnLongClickListener {
+                onItemClick(MessageLongPressCallback(message, absoluteAdapterPosition))
+                true
             }
 
             binding.root.setOnLongClickListener {

@@ -81,6 +81,7 @@
             android:layout_below="@id/text_group_chat_nickname"
             android:layout_marginRight="4dp"
             android:layout_toRightOf="@id/image_group_chat_profile"
+            android:foreground="?attr/selectableItemBackground"
             app:cardBackgroundColor="@color/cardview_light_background"
             app:cardCornerRadius="4dp"
             app:cardElevation="0dp"

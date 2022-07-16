@@ -1,5 +1,6 @@
 package com.primapp.ui.post.details
 
+import android.app.DownloadManager
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
@@ -24,11 +25,13 @@ import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
 import com.primapp.ui.communities.members.CommunityMembersFragment
 import com.primapp.ui.post.comment.CommentsListPagedAdapter
 import com.primapp.utils.DialogUtils
+import com.primapp.utils.DownloadUtils
 import com.primapp.viewmodels.PostsViewModel
 import kotlinx.android.synthetic.main.toolbar_inner_back.toolbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 class PostDetailsFragment : BaseFragment<FragmentPostDetailsBinding>() {
@@ -43,6 +46,9 @@ class PostDetailsFragment : BaseFragment<FragmentPostDetailsBinding>() {
     val adapter by lazy { CommentsListPagedAdapter { item -> onItemClick(item) } }
 
     val viewModel by viewModels<PostsViewModel> { viewModelFactory }
+
+    @Inject
+    lateinit var downloadManager: DownloadManager
 
     override fun getLayoutRes(): Int = R.layout.fragment_post_details
 
@@ -378,6 +384,9 @@ class PostDetailsFragment : BaseFragment<FragmentPostDetailsBinding>() {
                     val bundle = Bundle()
                     bundle.putString("url", postData.imageUrl.toString())
                     findNavController().navigate(R.id.imageViewDialog, bundle)
+                }
+                PostFileType.FILE -> {
+                    DownloadUtils.download(requireContext(), downloadManager, postData.imageUrl.toString())
                 }
             }
         }

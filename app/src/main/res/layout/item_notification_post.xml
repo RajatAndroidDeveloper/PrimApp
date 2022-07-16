@@ -88,6 +88,7 @@
             android:scaleType="centerCrop"
             android:visibility="@{data.postData.fileType != null ?  View.VISIBLE : View.GONE}"
             app:cardCornerRadius="8dp"
+            android:layout_marginEnd="@dimen/space_extraSmall"
             app:layout_constraintBottom_toBottomOf="@id/ivProfilePic"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
