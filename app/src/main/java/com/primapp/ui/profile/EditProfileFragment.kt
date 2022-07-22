@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.primapp.R
 import com.primapp.cache.UserCache
+import com.primapp.chat.ConnectionManager
 import com.primapp.constants.ReferenceEntityTypes
 import com.primapp.databinding.FragmentEditProfileBinding
 import com.primapp.extensions.loadCircularImage
@@ -25,6 +26,7 @@ import com.primapp.utils.DialogUtils
 import com.primapp.utils.FileUtils
 import com.primapp.utils.RetrofitUtils
 import com.primapp.viewmodels.EditProfileViewModel
+import com.sendbird.android.SendBird
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
 import java.io.File
 
@@ -113,8 +115,12 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
             when (it.status) {
                 Status.SUCCESS -> {
                     DialogUtils.showCloseDialog(requireActivity(), R.string.changes_saved_successfully) {
-                        it.data?.content?.let { user -> UserCache.saveUser(requireContext(), user)
-                            (activity as? DashboardActivity)?.updateCurrentUserInfo("${user.firstName} ${user.lastName}", user.userImage)
+                        it.data?.content?.let { user ->
+                            UserCache.saveUser(requireContext(), user)
+                            (activity as? DashboardActivity)?.updateCurrentUserInfo(
+                                "${user.firstName} ${user.lastName}",
+                                user.userImage
+                            )
                         }
                         findNavController().popBackStack()
                     }
@@ -186,6 +192,8 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
                         imageFile!!.extension
                     )
                 )
+                //Upload image file to Sendbird parallely
+                updateCurrentUserProfileImage()
             } else {
                 viewModel.editProfile(userData!!.id)
             }
@@ -320,4 +328,17 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
             }
         }
     }
+
+    fun updateCurrentUserProfileImage() {
+        val nickname = if (SendBird.getCurrentUser() != null) SendBird.getCurrentUser().nickname else ""
+        SendBird.updateCurrentUserInfoWithProfileImage(nickname, imageFile, SendBird.UserInfoUpdateHandler {
+            if (it != null) {
+                Log.d(ConnectionManager.TAG, "Failed to update Profile Image to sendbird")
+                return@UserInfoUpdateHandler
+            }
+            Log.d(ConnectionManager.TAG, "Updated the Profile Image")
+        })
+    }
+
+
 }

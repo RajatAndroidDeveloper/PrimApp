@@ -133,9 +133,11 @@ class DashboardActivity : BaseActivity() {
     }
 
     fun updateCurrentUserInfo(name: String, userImage: String?) {
-        SendBird.updateCurrentUserInfo(name, userImage, SendBird.UserInfoUpdateHandler {
+        val profileUrl = if (SendBird.getCurrentUser() != null) SendBird.getCurrentUser().profileUrl else ""
+        SendBird.updateCurrentUserInfo(name, profileUrl, SendBird.UserInfoUpdateHandler {
             if (it != null) {
                 Log.d(ConnectionManager.TAG, "Failed to update name to sendbird")
+                return@UserInfoUpdateHandler
             }
             Log.d(ConnectionManager.TAG, "Updated the Nickname")
         })
