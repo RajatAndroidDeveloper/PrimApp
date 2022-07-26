@@ -118,5 +118,22 @@
             android:textColor="#8e8e8e"
             android:textSize="10dp" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvReactions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/card_group_chat_message"
+            android:layout_alignStart="@id/card_group_chat_message"
+            android:layout_marginStart="@dimen/space_small"
+            android:layout_marginTop="-14dp"
+            android:background="@drawable/shape_rounded_corner_light_grey"
+            android:backgroundTint="@color/white"
+            android:padding="@dimen/space_extraSmall"
+            android:visibility="@{message.reactions.size > 0 ? View.VISIBLE : View.GONE}"
+            tools:itemCount="5"
+            tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            tools:listitem="@layout/item_message_reaction"
+            tools:spanCount="3" />
+
     </RelativeLayout>
 </layout>

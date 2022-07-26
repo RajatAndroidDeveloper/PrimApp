@@ -382,5 +382,19 @@
             android:name="postId"
             app:argType="integer" />
     </fragment>
+    <dialog
+        android:id="@+id/bottomSheetChatOptions"
+        android:name="com.primapp.utils.BottomSheetChatOptions"
+        android:label="BottomSheetChatOptions"
+        tools:layout="@layout/bottom_sheet_chat_options">
+        <argument
+            android:name="isMyMessage"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <argument
+            android:name="isFileMessage"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </dialog>
 
 </navigation>

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.primapp.R
 import com.primapp.databinding.*
@@ -14,7 +15,9 @@ import com.primapp.utils.DateTimeUtils
 import com.primapp.utils.isOnlyEmoji
 import com.sendbird.android.*
 import com.sendbird.android.BaseChannel.GetMessagesHandler
+import kotlinx.android.synthetic.main.bottom_sheet_chat_options.view.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -58,6 +61,14 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
         notifyItemRemoved(index)
     }
 
+    fun addReaction(reactionEvent: ReactionEvent) {
+        val messageId = reactionEvent.messageId
+        val message = messageList.firstOrNull { it.messageId == messageId } ?: return
+        message.applyReactionEvent(reactionEvent)
+        val index = messageList.indexOf(message)
+        notifyItemChanged(index)
+    }
+
     override fun getItemViewType(position: Int): Int {
         val message: BaseMessage = messageList[position]
         return when (message) {
@@ -73,7 +84,9 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
             }
             is FileMessage -> {
 
-                return if (message.type.toLowerCase(Locale.ROOT).startsWith("image") || message.type.toLowerCase(Locale.ROOT).startsWith("video")) {
+                return if (message.type.toLowerCase(Locale.ROOT)
+                        .startsWith("image") || message.type.toLowerCase(Locale.ROOT).startsWith("video")
+                ) {
                     if (message.getSender().userId == SendBird.getCurrentUser().userId) {
                         VIEW_TYPE_FILE_MESSAGE_IMAGE_ME
                     } else {
@@ -82,7 +95,7 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
                 } else {
                     if (message.getSender().userId == SendBird.getCurrentUser().userId) {
                         VIEW_TYPE_FILE_MESSAGE_ME
-                    }else{
+                    } else {
                         VIEW_TYPE_FILE_MESSAGE_OTHER
                     }
                 }
@@ -254,6 +267,17 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
 
             channel?.let { binding.messageStatusGroupChat.drawMessageStatus(it, message) }
 
+            //Show Reactions on Message
+            if (message.reactions.size > 0) {
+                val adapter = ChatMessageReactionAdapter()
+                val reactionsList = ArrayList(message.reactions)
+                binding.rvReactions.apply {
+                    layoutManager = LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
+                }
+                binding.rvReactions.adapter = adapter
+                adapter.addData(reactionsList)
+            }
+
             binding.root.setOnLongClickListener {
                 onItemClick(MessageLongPressCallback(message, absoluteAdapterPosition))
                 true
@@ -280,6 +304,17 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
                 binding.textGroupChatMessage.textSize = 14f
             }
 
+            //Show Reactions on Message
+            if (message.reactions.size > 0) {
+                val adapter = ChatMessageReactionAdapter()
+                val reactionsList = ArrayList(message.reactions)
+                binding.rvReactions.apply {
+                    layoutManager = LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
+                }
+                binding.rvReactions.adapter = adapter
+                adapter.addData(reactionsList)
+            }
+
             binding.root.setOnLongClickListener {
                 onItemClick(MessageLongPressCallback(message, absoluteAdapterPosition))
                 true
@@ -302,6 +337,17 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
             binding.ivPlay.isVisible = message.type.toLowerCase(Locale.ROOT).startsWith("video")
 
             channel?.let { binding.messageStatusGroupChat.drawMessageStatus(it, message) }
+
+            //Show Reactions on Message
+            if (message.reactions.size > 0) {
+                val adapter = ChatMessageReactionAdapter()
+                val reactionsList = ArrayList(message.reactions)
+                binding.rvReactions.apply {
+                    layoutManager = LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
+                }
+                binding.rvReactions.adapter = adapter
+                adapter.addData(reactionsList)
+            }
 
             binding.root.setOnClickListener {
                 onItemClick(message)
@@ -328,6 +374,17 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
 
             binding.ivPlay.isVisible = message.type.toLowerCase(Locale.ROOT).startsWith("video")
 
+            //Show Reactions on Message
+            if (message.reactions.size > 0) {
+                val adapter = ChatMessageReactionAdapter()
+                val reactionsList = ArrayList(message.reactions)
+                binding.rvReactions.apply {
+                    layoutManager = LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
+                }
+                binding.rvReactions.adapter = adapter
+                adapter.addData(reactionsList)
+            }
+
             binding.root.setOnClickListener {
                 onItemClick(message)
             }
@@ -352,6 +409,17 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
             binding.isNewDay = isNewDay
 
             channel?.let { binding.messageStatusGroupChat.drawMessageStatus(it, message) }
+
+            //Show Reactions on Message
+            if (message.reactions.size > 0) {
+                val adapter = ChatMessageReactionAdapter()
+                val reactionsList = ArrayList(message.reactions)
+                binding.rvReactions.apply {
+                    layoutManager = LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
+                }
+                binding.rvReactions.adapter = adapter
+                adapter.addData(reactionsList)
+            }
 
             binding.cardGroupChatMessage.setOnClickListener {
                 onItemClick(message)
@@ -381,7 +449,18 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
             binding.isContinuous = isContinuous
             binding.isNewDay = isNewDay
 
-           binding.cardGroupChatMessage.setOnClickListener {
+            //Show Reactions on Message
+            if (message.reactions.size > 0) {
+                val adapter = ChatMessageReactionAdapter()
+                val reactionsList = ArrayList(message.reactions)
+                binding.rvReactions.apply {
+                    layoutManager = LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
+                }
+                binding.rvReactions.adapter = adapter
+                adapter.addData(reactionsList)
+            }
+
+            binding.cardGroupChatMessage.setOnClickListener {
                 onItemClick(message)
             }
 
@@ -486,6 +565,9 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
             true,
             BaseChannel.MessageTypeFilter.ALL,
             null,
+            null,
+            false,
+            true,
             GetMessagesHandler { list, e ->
                 handler?.onResult(list, e)
                 setMessageListLoading(false)
@@ -526,6 +608,9 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
             true,
             BaseChannel.MessageTypeFilter.ALL,
             null,
+            null,
+            false,
+            true,
             GetMessagesHandler { list, e ->
                 handler?.onResult(list, e)
                 setMessageListLoading(false)

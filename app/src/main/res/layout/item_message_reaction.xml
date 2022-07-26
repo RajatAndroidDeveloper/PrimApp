@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.primapp.constants.EmoticonHelper" />
+        <variable
+            name="data"
+            type="com.sendbird.android.Reaction" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/ivEmoticon"
+            loadImageFromUrl="@{EmoticonHelper.getEmojiUrl(data.key)}"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:scaleType="center"
+            tools:background="@android:color/transparent"
+            tools:src="@drawable/ic_baseline_content_copy_24" />
+    </LinearLayout>
+</layout>

@@ -335,4 +335,6 @@
     <string name="nothing_to_show">Nothing to show</string>
     <string name="show_previous_replies">Show previous replies...</string>
     <string name="choose_media_type">Choose Media Type</string>
+    <string name="copy_message">Copy Message</string>
+    <string name="delete_message">Delete Message</string>
 </resources>

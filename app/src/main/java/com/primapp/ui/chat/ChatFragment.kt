@@ -6,10 +6,12 @@ import android.app.DownloadManager
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AlertDialog
+import android.view.View
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +21,7 @@ import com.primapp.R
 import com.primapp.cache.UserCache
 import com.primapp.chat.ConnectionManager
 import com.primapp.chat.SendBirdHelper
+import com.primapp.constants.EmoticonHelper
 import com.primapp.databinding.FragmentChatBinding
 import com.primapp.extensions.showError
 import com.primapp.extensions.showInfo
@@ -38,6 +41,7 @@ import com.sendbird.android.GroupChannel.GroupChannelRefreshHandler
 import com.sendbird.android.SendBird.ChannelHandler
 import kotlinx.android.synthetic.main.toolbar_chat.*
 import java.io.File
+import java.io.Serializable
 import java.util.*
 import javax.inject.Inject
 
@@ -255,6 +259,13 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
                         adapter.notifyDataSetChanged()
                     }
                 }
+
+                override fun onReactionUpdated(channel: BaseChannel?, reactionEvent: ReactionEvent?) {
+                    super.onReactionUpdated(channel, reactionEvent)
+                    reactionEvent?.let {
+                        adapter.addReaction(reactionEvent)
+                    }
+                }
             })
     }
 
@@ -380,34 +391,74 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
         }
     }
 
+    //To listen to events fired by BottomSheet
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val navBackStackEntry = findNavController().getBackStackEntry(R.id.chatFragment)
+
+        // Create our observer and add it to the NavBackStackEntry's lifecycle
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                when {
+                    navBackStackEntry.savedStateHandle.contains("emoticonToSend") -> {
+                        val type = navBackStackEntry.savedStateHandle.get<String>("emoticonToSend")
+                        val key = navBackStackEntry.savedStateHandle.get<String>("emojiKey")
+                        val oldKey = navBackStackEntry.savedStateHandle.get<String>("oldEmojiKey")
+                        // Do something with the result
+                        val serializedMessage = navBackStackEntry.savedStateHandle.get<Serializable>("message");
+                        serializedMessage?.let {
+                            val message = BaseMessage.buildFromSerializedData(it as? ByteArray)
+                            when (type) {
+                                EmoticonHelper.ADD_REACTION -> {
+                                    addReaction(message, key!!)
+                                }
+                                EmoticonHelper.REMOVE_REACTION -> {
+                                    removeReaction(message, key!!)
+                                }
+                                EmoticonHelper.UPDATE_REACTION -> {
+                                    updateReaction(message, key!!, oldKey!!)
+                                }
+                            }
+                        }
+                    }
+                    navBackStackEntry.savedStateHandle.contains("copyMessage") -> {
+                        val result = navBackStackEntry.savedStateHandle.get<Serializable>("copyMessage");
+                        result?.let {
+                            val message = BaseMessage.buildFromSerializedData(it as? ByteArray)
+                            copyTextToClipboard(message.message)
+                        }
+                    }
+                    navBackStackEntry.savedStateHandle.contains("deleteMessage") -> {
+                        val result = navBackStackEntry.savedStateHandle.get<Serializable>("deleteMessage");
+                        result?.let {
+                            val message = BaseMessage.buildFromSerializedData(it as? ByteArray)
+                            deleteMessage(message)
+                        }
+                    }
+                }
+
+            }
+        }
+        navBackStackEntry.lifecycle.addObserver(observer)
+
+        viewLifecycleOwner.lifecycle.addObserver(LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_DESTROY) {
+                navBackStackEntry.lifecycle.removeObserver(observer)
+            }
+        })
+    }
+
     private fun showMessageOptionsDialog(
         message: BaseMessage,
         isMyMessage: Boolean,
         isFileMessage: Boolean
     ) {
-        if (isFileMessage && !isMyMessage) return
-
-        val options = if (isMyMessage) {
-            if (isFileMessage)
-                arrayOf("Delete message")
-            else
-                arrayOf("Copy message", "Delete message")
-        } else {
-            arrayOf("Copy message")
-        }
-        val builder =
-            AlertDialog.Builder(requireActivity())
-        builder.setItems(options) { dialog, which ->
-            if (which == 0) {
-                if (isFileMessage)
-                    deleteMessage(message)
-                else
-                    copyTextToClipboard(message.message)
-            } else if (which == 1) {
-                deleteMessage(message)
-            }
-        }
-        builder.create().show()
+        val bundle = Bundle()
+        bundle.putSerializable("message", message.serialize())
+        bundle.putBoolean("isMyMessage", isMyMessage)
+        bundle.putBoolean("isFileMessage", isFileMessage)
+        findNavController().navigate(R.id.bottomSheetChatOptions, bundle)
     }
 
     private fun deleteMessage(message: BaseMessage) {
@@ -422,6 +473,36 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
                 return@DeleteMessageHandler
             }
         })
+    }
+
+    //Reactions on Message
+
+    private fun addReaction(message: BaseMessage, reaction: String) {
+        mChannel?.addReaction(message, reaction) handler@{ event, e ->
+            if (e != null) {
+                e.printStackTrace()
+                showError(requireContext(), "Failed to add reaction to the message")
+            }
+            if (event == null) return@handler
+            Log.d("anshul", "Reaction Added")
+        }
+    }
+
+    private fun removeReaction(message: BaseMessage, reaction: String) {
+        mChannel?.deleteReaction(message, reaction) handler@{ event, e ->
+            if (e != null) {
+                e.printStackTrace()
+                showError(requireContext(), "Failed to remove reaction from the message")
+            }
+            if (event == null) return@handler
+            Log.d("anshul", "Reaction Removed")
+        }
+    }
+
+    private fun updateReaction(message: BaseMessage, reactionToAdd: String, reactionToRemove: String) {
+        removeReaction(message, reactionToRemove)
+        addReaction(message, reactionToAdd)
+        Log.d("anshul", "Reaction Updated")
     }
 
     //For attachment to send files

@@ -125,5 +125,22 @@
             android:layout_above="@id/text_group_chat_time"
             android:layout_alignRight="@id/text_group_chat_time" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvReactions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/card_group_chat_message"
+            android:layout_alignEnd="@id/card_group_chat_message"
+            android:layout_marginEnd="@dimen/space_small"
+            android:layout_marginTop="-14dp"
+            android:padding="@dimen/space_extraSmall"
+            android:background="@drawable/shape_rounded_corner_light_grey"
+            android:backgroundTint="@color/white"
+            android:visibility="@{message.reactions.size > 0 ? View.VISIBLE : View.GONE}"
+            tools:itemCount="5"
+            tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            tools:listitem="@layout/item_message_reaction"
+            tools:spanCount="3" />
+
     </RelativeLayout>
 </layout>
