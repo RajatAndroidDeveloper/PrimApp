@@ -371,6 +371,15 @@ interface ApiService {
     @POST(ApiConstant.HIDE_POST)
     suspend fun hidePost(@Path("postId") postId: Int): PostActionResponseModel
 
+    @DELETE(ApiConstant.HIDE_POST)
+    suspend fun unHidePost(@Path("postId") postId: Int): PostActionResponseModel
+
+    @GET(ApiConstant.GET_HIDDEN_POSTS)
+    suspend fun getHiddenPosts(
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int
+    ): PostListResponseModel
+
     @POST(ApiConstant.REPORT_ISSUE)
     suspend fun reportIssue(@Body reportIssueRequestModel: ReportIssueRequestModel): BaseDataModel
 

@@ -328,6 +328,14 @@ class PostRepository @Inject constructor(
         }
     }
 
+    suspend fun unHidePost(postId: Int): Resource<PostActionResponseModel> {
+        return try {
+            responseHandler.handleResponse(apiService.unHidePost(postId))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
     suspend fun postDetails(communityId: Int, postId: Int): Resource<PostDetailsResponseModel> {
         return try {
             responseHandler.handleResponse(apiService.getPostDetails(communityId, postId))

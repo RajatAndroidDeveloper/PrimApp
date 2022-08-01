@@ -152,7 +152,11 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
                 if (data!!.isCreatedByMe) {
                     popup.inflate(R.menu.post_edit_menu)
                 } else {
-                    popup.inflate(R.menu.post_report_menu)
+                    if (data.isHidden) {
+                        popup.inflate(R.menu.post_unhide_menu)
+                    } else {
+                        popup.inflate(R.menu.post_report_menu)
+                    }
                 }
                 //adding click listener
                 popup.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
@@ -170,6 +174,9 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
                             }
                             R.id.reportPost -> {
                                 onItemClick(ReportPost(data))
+                            }
+                            R.id.unHidePost -> {
+                                onItemClick(UnHidePost(data))
                             }
                         }
 

@@ -6,6 +6,8 @@
         <entry key="app/src/main/res/drawable/ic_baseline_content_copy_24.xml" value="0.24583333333333332" />
         <entry key="app/src/main/res/drawable/ic_baseline_delete_24.xml" value="0.24583333333333332" />
         <entry key="app/src/main/res/drawable/ic_baseline_photo_camera_24.xml" value="0.24583333333333332" />
+        <entry key="app/src/main/res/drawable/ic_baseline_visibility_off_24.xml" value="0.24583333333333332" />
+        <entry key="app/src/main/res/drawable/ic_bookmark_collection.xml" value="0.24583333333333332" />
         <entry key="app/src/main/res/drawable/ic_border.xml" value="0.24583333333333332" />
         <entry key="app/src/main/res/drawable/ic_file_icon.xml" value="0.24583333333333332" />
         <entry key="app/src/main/res/drawable/recyclerview_divider.xml" value="0.24583333333333332" />
@@ -29,6 +31,7 @@
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_report_by_members.xml" value="0.21354166666666666" />
         <entry key="app/src/main/res/layout/fragment_reported_posts.xml" value="0.21354166666666666" />
+        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.21388888888888888" />
         <entry key="app/src/main/res/layout/fragment_updates.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/fragment_user_posts.xml" value="0.2241025641025641" />
@@ -36,10 +39,12 @@
         <entry key="app/src/main/res/layout/item_emoji_chat_options.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/item_list_parent_category.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/item_list_post.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/item_mentor_request.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/item_message_reaction.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/item_my_chat_message.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/item_notification_normal.xml" value="0.22037037037037038" />
         <entry key="app/src/main/res/layout/item_notification_post.xml" value="0.2296875" />
+        <entry key="app/src/main/res/layout/item_notification_separator.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/item_post_comment.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/item_post_comment_reply.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/item_reported.xml" value="0.2328125" />
@@ -63,6 +68,7 @@
         <entry key="app/src/main/res/menu/post_details_menu.xml" value="0.22760416666666666" />
         <entry key="app/src/main/res/menu/post_edit_menu.xml" value="0.2241025641025641" />
         <entry key="app/src/main/res/menu/post_report_menu.xml" value="0.2241025641025641" />
+        <entry key="app/src/main/res/menu/post_unhide_menu.xml" value="0.2296875" />
         <entry key="app/src/main/res/menu/reported_post_action_menu.xml" value="0.22760416666666666" />
       </map>
     </option>

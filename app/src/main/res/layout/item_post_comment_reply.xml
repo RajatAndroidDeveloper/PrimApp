@@ -21,8 +21,8 @@
 
         <ImageView
             android:id="@+id/ivProfilePic"
-            loadCircularImage="@{data.user.getImageUrl}"
             name="@{data.user.firstName +' '+ data.user.lastName}"
+            loadCircularImage="@{data.user.getImageUrl}"
             android:layout_width="30dp"
             android:layout_height="30dp"
             app:layout_constraintEnd_toStartOf="@id/llCommentPost"
@@ -35,9 +35,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_small"
             android:background="@drawable/shape_rounded_corner_search_box"
+            android:backgroundTint="@color/lightestGrey"
             android:orientation="vertical"
             android:padding="@dimen/space_small"
-            android:backgroundTint="@color/lightestGrey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivProfilePic"
             app:layout_constraintTop_toTopOf="parent">
@@ -64,14 +64,15 @@
                 android:textColor="@color/black"
                 tools:text="Gordon kelly Jordan" />
 
-            <TextView
+            <com.primapp.extensions.ExpandableTextView
                 android:id="@+id/tvComment"
                 style="@style/primaryBodyText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textColorLight"
                 android:text="@{data.replyText}"
+                android:textColor="@color/textColorLight"
                 android:textSize="@dimen/textSmall"
+                app:trimLength="100"
                 tools:text="@string/long_about_text" />
 
         </LinearLayout>
@@ -100,8 +101,8 @@
                 android:background="?attr/selectableItemBackground"
                 android:fontFamily="@font/poppins_semibold"
                 android:padding="@dimen/space_small"
-                android:textColor="@{data.like ? @color/colorAccent : @android:color/tab_indicator_text}"
                 android:text="@string/like"
+                android:textColor="@{data.like ? @color/colorAccent : @android:color/tab_indicator_text}"
                 android:textSize="@dimen/textSmall"
                 tools:text="@string/like" />
 

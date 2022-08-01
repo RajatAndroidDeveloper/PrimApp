@@ -60,6 +60,7 @@ fun getHighlightedText(@ColorInt color: Int, text: String): SpannableString {
         moreText.length,
         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
     )
+    moreText.setSpan(StyleSpan(Typeface.BOLD),0,moreText.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
     return moreText
 }
 

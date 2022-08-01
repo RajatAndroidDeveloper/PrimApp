@@ -67,6 +67,8 @@ class UserPostsFragment() : BaseFragment<FragmentUserPostsBinding>() {
         if (type == BOOKMARK_POST) {
             setToolbar(getString(R.string.bookmarks), toolbar)
             //userId = UserCache.getUserId(requireContext())
+        }else if(type == HIDDEN_POST){
+            setToolbar(getString(R.string.hiddenPosts), toolbar)
         } else {
             clToolbar.isVisible = false
         }
@@ -184,6 +186,25 @@ class UserPostsFragment() : BaseFragment<FragmentUserPostsBinding>() {
         })
 
         viewModel.hidePostLiveData.observe(viewLifecycleOwner, Observer {
+            hideLoading()
+            it.getContentIfNotHandled()?.let {
+                when(it.status){
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.SUCCESS -> {
+                        it.data?.content?.let {
+                            adapter.removePost(it.postId)
+                        }
+                    }
+                }
+            }
+        })
+
+        viewModel.unHidePostLiveData.observe(viewLifecycleOwner, Observer {
             hideLoading()
             it.getContentIfNotHandled()?.let {
                 when(it.status){
@@ -331,6 +352,9 @@ class UserPostsFragment() : BaseFragment<FragmentUserPostsBinding>() {
                     viewModel.hidePost(item.postData.id)
                 })
             }
+            is UnHidePost -> {
+                viewModel.unHidePost(item.postData.id)
+            }
             is DeletePost -> {
                 if (item.postData.community.status.equals(CommunityStatusTypes.INACTIVE, true)) {
                     DialogUtils.showCloseDialog(
@@ -383,5 +407,6 @@ class UserPostsFragment() : BaseFragment<FragmentUserPostsBinding>() {
     companion object {
         const val USER_POST = "userPosts"
         const val BOOKMARK_POST = "boookmarkPosts"
+        const val HIDDEN_POST = "hiddenPosts"
     }
 }

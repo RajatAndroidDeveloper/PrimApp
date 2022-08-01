@@ -337,4 +337,5 @@
     <string name="choose_media_type">Choose Media Type</string>
     <string name="copy_message">Copy Message</string>
     <string name="delete_message">Delete Message</string>
+    <string name="hiddenPosts">Hidden Posts</string>
 </resources>

@@ -382,7 +382,7 @@ fun makeNotificationMentorRequest(textView: TextView, notificationData: Notifica
 @BindingAdapter("notificationTitle")
 fun makeNotificationMentorRequest(textView: TextView, notificationData: NotificationResult?) {
     notificationData?.let {
-        val colorToHighlight = ContextCompat.getColor(textView.context, R.color.colorAccent)
+        val colorToHighlight = ContextCompat.getColor(textView.context, R.color.black)
         val senderFullName = getHighlightedText(
             colorToHighlight,
             "${notificationData.sender?.firstName} ${notificationData.sender?.lastName}"

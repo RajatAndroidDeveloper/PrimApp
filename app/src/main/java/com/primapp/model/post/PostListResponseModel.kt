@@ -32,6 +32,8 @@ data class PostListResult(
     val id: Int,
     @SerializedName("is_bookmark")
     var isBookmark: Boolean,
+    @SerializedName("is_hidden")
+    var isHidden: Boolean,
     @SerializedName("is_like")
     var isLike: Boolean,
     @SerializedName("post_comments")

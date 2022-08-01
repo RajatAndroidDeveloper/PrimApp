@@ -37,6 +37,27 @@
             app:layout_constraintTop_toBottomOf="@+id/clToolbar" />
 
         <TextView
+            android:id="@+id/tvHiddenPost"
+            style="@style/normalBodyText"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:drawablePadding="@dimen/space_normal"
+            android:focusable="true"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center_vertical"
+            android:onClick="@{()->frag.openHiddenPosts()}"
+            android:padding="@dimen/space_small"
+            android:paddingStart="@dimen/space_extraLarge"
+            android:paddingEnd="@dimen/space_extraLarge"
+            android:text="@string/hiddenPosts"
+            android:textSize="@dimen/textMediumX"
+            app:drawableStartCompat="@drawable/ic_baseline_visibility_off_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvBookmarks" />
+
+
+        <TextView
             android:id="@+id/tvAboutUs"
             style="@style/normalBodyText"
             android:background="?attr/selectableItemBackground"
@@ -54,7 +75,7 @@
             app:drawableStartCompat="@drawable/about_us"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvBookmarks" />
+            app:layout_constraintTop_toBottomOf="@+id/tvHiddenPost" />
 
         <TextView
             android:id="@+id/tvRewards"

@@ -203,6 +203,14 @@ class PostsViewModel @Inject constructor(
         _hidePostLiveData.postValue(Event(repo.hidePost(postId)))
     }
 
+    private var _unHidePostLiveData = MutableLiveData<Event<Resource<PostActionResponseModel>>>()
+    var unHidePostLiveData: LiveData<Event<Resource<PostActionResponseModel>>> = _unHidePostLiveData
+
+    fun unHidePost(postId: Int) = viewModelScope.launch {
+        _unHidePostLiveData.postValue(Event(Resource.loading(null)))
+        _unHidePostLiveData.postValue(Event(repo.unHidePost(postId)))
+    }
+
     private var _postDetailsLiveData = MutableLiveData<Event<Resource<PostDetailsResponseModel>>>()
     var postDetailsLiveData: LiveData<Event<Resource<PostDetailsResponseModel>>> = _postDetailsLiveData
 

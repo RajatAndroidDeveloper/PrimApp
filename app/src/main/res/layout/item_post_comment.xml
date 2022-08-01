@@ -63,13 +63,14 @@
                 android:textColor="@color/black"
                 tools:text="Gordon kelly Jordan" />
 
-            <TextView
+            <com.primapp.extensions.ExpandableTextView
                 android:id="@+id/tvComment"
                 style="@style/primaryBodyText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{data.commentText}"
                 android:textSize="@dimen/textSmall"
+                app:trimLength="100"
                 tools:text="@string/long_about_text" />
 
         </LinearLayout>

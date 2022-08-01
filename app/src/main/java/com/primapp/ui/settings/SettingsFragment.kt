@@ -59,6 +59,13 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         findNavController().navigate(R.id.userPostsFragment, bundle)
     }
 
+    fun openHiddenPosts() {
+        val bundle = Bundle()
+        bundle.putString("type", UserPostsFragment.HIDDEN_POST)
+        bundle.putInt("userId", UserCache.getUserId(requireContext()))
+        findNavController().navigate(R.id.userPostsFragment, bundle)
+    }
+
     fun openRewards() {
         val bundle = Bundle()
         bundle.putString("title", "Prim Rewards")
