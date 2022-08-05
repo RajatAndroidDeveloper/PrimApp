@@ -47,7 +47,7 @@ fun ImageView.loadImageWithRoundedCorners(context: Context, url: String?) {
     circularProgressDrawable.start()
 
     val requestOptions = RequestOptions().apply {
-        transforms(CenterCrop(), RoundedCorners(10))
+        transforms(CenterCrop(), RoundedCorners(18))
         placeholder(circularProgressDrawable)
     }
 

@@ -261,6 +261,11 @@ fun loadImageFromUrl(imgView: ImageView, url: String?) {
     imgView.loadImageWithProgress(imgView.context, url)
 }
 
+@BindingAdapter("loadImageWithRoundedCorners")
+fun loadImageWithRoundedCorners(imgView: ImageView, url: String?) {
+    imgView.loadImageWithRoundedCorners(imgView.context, url)
+}
+
 @BindingAdapter("loadPostImageFromUrl")
 fun loadPostImageFromUrl(imgView: ImageView, url: String?) {
     imgView.loadImageWithFitCenter(imgView.context, url)
@@ -574,7 +579,7 @@ fun sendBirdMessageTime(textView: TextView, time: Long?) {
 @BindingAdapter("messageDate")
 fun sendBirdMessageDate(textView: TextView, time: Long?) {
     time?.let {
-        textView.text = DateTimeUtils.formatDate(time)
+        textView.text = DateTimeUtils.formatDate(time, DateTimeUtils.STRING_DATE_FORMAT)
     }
 }
 

@@ -14,7 +14,7 @@ object DateTimeUtils {
 
     const val DEFAULT_SERVER_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
 
-    const val STRING_DATE_FORMAT = "dd MMM yyyy"
+    const val STRING_DATE_FORMAT = "dd MMM yyyy" //02 Jun 2022
 
     fun getDateFromPicker(calendar: Calendar, format: String? = SEND_DOB_FORMAT): String {
         return SimpleDateFormat(format, Locale.getDefault()).format(calendar.time)
@@ -73,7 +73,7 @@ object DateTimeUtils {
         return if (isToday(timeInMillis)) {
             formatTime(timeInMillis)
         } else {
-            formatDate(timeInMillis)
+            formatDate(timeInMillis, STRING_DATE_FORMAT)
         }
     }
 
@@ -85,9 +85,9 @@ object DateTimeUtils {
     /**
      * Formats timestamp to 'date month' format (e.g. 'February 3').
      */
-    fun formatDate(timeInMillis: Long): String? {
+    fun formatDate(timeInMillis: Long, format: String? = "MMMM dd"): String? {
         val dateFormat =
-            SimpleDateFormat("MMMM dd", Locale.getDefault())
+            SimpleDateFormat(format, Locale.getDefault())
         return dateFormat.format(timeInMillis)
     }
 
