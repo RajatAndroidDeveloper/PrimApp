@@ -23,6 +23,7 @@ import com.primapp.extensions.blink
 import com.primapp.extensions.showError
 import com.primapp.extensions.showSuccess
 import com.primapp.model.auth.UserData
+import com.primapp.model.rewards.RewardsContent
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.ViewPagerCommunityAdapter
@@ -36,7 +37,7 @@ import kotlinx.android.synthetic.main.toolbar_dashboard_accent.*
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
-    var earnedTokens: Int? = 0
+    var rewardsData: RewardsContent? = null
 
     val viewModel by viewModels<SplashViewModel> { viewModelFactory }
 
@@ -67,7 +68,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                     }
                     Status.SUCCESS -> {
                         it.data?.let {
-                            earnedTokens = it.content.totalCoin
+                            rewardsData = it.content
                             binding.rewardsData = it.content
                         }
                     }
@@ -108,7 +109,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         }
 
         val bundle = Bundle()
-        bundle.putString("tokens", earnedTokens.toString())
+        bundle.putSerializable("rewardsData", rewardsData)
         findNavController().navigate(R.id.earnedRewardsFragment, bundle)
     }
 

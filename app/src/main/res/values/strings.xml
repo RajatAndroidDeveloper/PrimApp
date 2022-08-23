@@ -338,4 +338,24 @@
     <string name="copy_message">Copy Message</string>
     <string name="delete_message">Delete Message</string>
     <string name="hiddenPosts">Hidden Posts</string>
+    <string name="your_balance">Your balance</string>
+    <string name="points_attribution">Points Attribution</string>
+    <string name="reward_community_created">For communities that you created</string>
+    <string name="reward_community_created_point">Points for each community created = %s</string>
+    <string name="reward_mentees">For mentees who you help and mentor</string>
+    <string name="reward_mentees_point">Points for each mentee helped = %s</string>
+    <string name="reward_user_joined">For users who joined your communities</string>
+    <string name="reward_user_joined_point">Points for each user who joins = %s</string>
+    <string name="point_earned">+ %s</string>
+    <string name="redeem_now">Redeem Now</string>
+    <string name="redeem_tnc">
+        <![CDATA[
+            By clicking
+            <a href="redeem_now:"> Redeem Now</a>, you will be redirected to a
+            <a href="webpage:"> webpage.</a>
+        ]]>
+    </string>
+    <string name="min_token_info">
+        *Minimum 1,000 tokens to redeem.
+    </string>
 </resources>

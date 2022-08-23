@@ -16,7 +16,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 30
         versionCode 1
-        versionName "1.1.13"
+        versionName "1.1.15"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -116,5 +116,8 @@ dependencies {
 
     //SendBird for chat
     implementation "com.sendbird.sdk:sendbird-android-sdk:$rootProject.sendBirdVersion"
+
+    //Lottie for animation
+    implementation "com.airbnb.android:lottie:$rootProject.lottieVersion"
 
 }

@@ -6,168 +6,328 @@
     <data>
 
         <variable
-            name="tokens"
-            type="String" />
+            name="rewardsData"
+            type="com.primapp.model.rewards.RewardsContent" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white">
 
-        <include layout="@layout/toolbar_inner_back" />
-
-        <TextView
-            android:id="@+id/tvAvailableTokens"
-            style="@style/normalBodyText"
-            android:layout_marginStart="@dimen/space_normal"
-            android:layout_marginTop="@dimen/space_extraLarge"
-            android:ellipsize="end"
-            android:fontFamily="@font/poppins_medium"
-            android:gravity="center"
-            android:maxLines="1"
-            android:text="@string/available_tokens"
-            android:textSize="@dimen/textLargeX"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clToolbar" />
-
-        <TextView
-            android:id="@+id/tvEarnedTokens"
-            style="@style/normalBodyText"
-            android:layout_width="wrap_content"
-            android:layout_marginStart="@dimen/space_normal"
-            android:drawablePadding="@dimen/space_small"
-            android:ellipsize="end"
-            android:fontFamily="@font/poppins_medium"
-            android:gravity="center"
-            android:maxLines="1"
-            android:text="@{tokens}"
-            android:textSize="@dimen/textExtraLarge"
-            app:drawableStartCompat="@drawable/prim_coin"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvAvailableTokens"
-            tools:text="1000" />
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/space_large"
-            android:layout_marginTop="@dimen/space_extraLarge"
-            android:background="@drawable/button_primary_blue_outlined"
-            android:orientation="vertical"
-            android:padding="@dimen/space_small"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvEarnedTokens">
+            android:background="@color/white">
+
+            <include layout="@layout/toolbar_inner_back" />
 
             <TextView
-                android:id="@+id/tvHowItWorks"
+                android:id="@+id/tvAvailableTokens"
                 style="@style/normalBodyText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_normal"
+                android:layout_marginTop="@dimen/space_medium"
                 android:ellipsize="end"
-                android:fontFamily="@font/poppins_medium"
+                android:fontFamily="@font/poppins_bold"
                 android:gravity="center"
                 android:maxLines="1"
-                android:text="@string/how_it_works"
-                android:textSize="@dimen/textMediumX"
+                android:text="@string/your_balance"
+                android:textSize="@dimen/textMedium"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/clToolbar" />
 
             <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/tvEarnedTokens"
+                style="@style/normalBodyText"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="@dimen/space_normal"
+                android:background="@drawable/shape_rounded_corner_search_box"
+                android:backgroundTint="@color/colorAccent"
+                android:drawablePadding="@dimen/space_small"
+                android:ellipsize="end"
+                android:fontFamily="@font/poppins_medium"
+                android:gravity="center"
+                android:maxLines="1"
+                android:paddingHorizontal="@dimen/space_medium"
+                android:paddingVertical="@dimen/space_extraSmall"
+                android:text="@{rewardsData.totalCoin.toString()}"
+                android:textColor="@color/white"
+                android:textSize="@dimen/textLargeX"
+                app:drawableStartCompat="@drawable/prim_coin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvAvailableTokens"
+                tools:text="1000" />
+
+            <TextView
+                android:id="@+id/tvPointAttribution"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/how_it_works_description"
-                android:textSize="@dimen/textSmall" />
+                android:layout_marginStart="@dimen/space_medium"
+                android:layout_marginTop="@dimen/space_normal"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="@string/points_attribution"
+                android:textColor="@color/black"
+                android:textSize="@dimen/textMediumX"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvEarnedTokens" />
 
             <LinearLayout
+                android:id="@+id/llCommunityYouCreated"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:layout_margin="@dimen/space_medium"
+                android:background="@drawable/shape_rounded_corner_search_box"
+                android:orientation="horizontal"
+                android:padding="@dimen/space_small"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvPointAttribution">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:adjustViewBounds="true"
+                    android:padding="@dimen/space_small"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_reward_community" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_small"
                     android:layout_weight="1"
-                    android:drawablePadding="@dimen/space_normal"
-                    android:padding="@dimen/space_extraSmall"
-                    android:text="@string/how_it_works_2"
-                    android:textColor="@color/black"
-                    app:drawableStartCompat="@drawable/community_rewards" />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:drawablePadding="@dimen/space_extraSmall"
-                    android:padding="@dimen/space_extraSmall"
-                    android:text="50"
-                    android:textColor="@color/black"
-                    app:drawableStartCompat="@drawable/prim_coin" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="@string/reward_community_created"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/textMedium" />
+
+                    <TextView
+                        pointsEarned="@{rewardsData.communityCoins}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_small"
+                        android:background="@drawable/shape_rounded_corner_search_box"
+                        android:backgroundTint="@color/colorAccent"
+                        android:fontFamily="@font/poppins_medium"
+                        android:paddingHorizontal="@dimen/space_medium"
+                        android:paddingVertical="@dimen/space_extraSmall"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/textMedium"
+                        tools:text="+ 100" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_small"
+                        android:drawableStart="@drawable/ic_info"
+                        android:drawablePadding="@dimen/space_extraSmall"
+                        android:drawableTint="@color/colorAccent"
+                        android:gravity="center_vertical"
+                        android:text="@{@string/reward_community_created_point(rewardsData.coinsForCommunity)}"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/textExtraSmall"
+                        tools:text="@string/reward_community_created_point" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/llMenteesYouHelped"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_small"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:layout_margin="@dimen/space_medium"
+                android:background="@drawable/shape_rounded_corner_search_box"
+                android:orientation="horizontal"
+                android:padding="@dimen/space_small"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/llCommunityYouCreated">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:adjustViewBounds="true"
+                    android:padding="@dimen/space_small"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_reward_mentees" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_small"
                     android:layout_weight="1"
-                    android:drawablePadding="@dimen/space_normal"
-                    android:padding="@dimen/space_extraSmall"
-                    android:text="@string/how_it_works_1"
-                    android:textColor="@color/black"
-                    app:drawableStartCompat="@drawable/registration" />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:drawablePadding="@dimen/space_extraSmall"
-                    android:padding="@dimen/space_extraSmall"
-                    android:text="3"
-                    android:textColor="@color/black"
-                    app:drawableStartCompat="@drawable/prim_coin" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="@string/reward_mentees"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/textMedium" />
+
+                    <TextView
+                        pointsEarned="@{rewardsData.menteeCoins}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_small"
+                        android:background="@drawable/shape_rounded_corner_search_box"
+                        android:backgroundTint="@color/colorAccent"
+                        android:fontFamily="@font/poppins_medium"
+                        android:paddingHorizontal="@dimen/space_medium"
+                        android:paddingVertical="@dimen/space_extraSmall"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/textMedium"
+                        tools:text="+ 100" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_small"
+                        android:drawableStart="@drawable/ic_info"
+                        android:drawablePadding="@dimen/space_extraSmall"
+                        android:drawableTint="@color/colorAccent"
+                        android:gravity="center_vertical"
+                        android:text="@{@string/reward_mentees_point(rewardsData.coinsForMentee)}"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/textExtraSmall"
+                        tools:text="@string/reward_mentees_point" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/llUserWhoJoined"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:layout_margin="@dimen/space_medium"
+                android:background="@drawable/shape_rounded_corner_search_box"
+                android:orientation="horizontal"
+                android:padding="@dimen/space_small"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/llMenteesYouHelped">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:adjustViewBounds="true"
+                    android:padding="@dimen/space_small"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_reward_joinee" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_small"
                     android:layout_weight="1"
-                    android:drawablePadding="@dimen/space_normal"
-                    android:padding="@dimen/space_extraSmall"
-                    android:text="@string/how_it_works_3"
-                    android:textColor="@color/black"
-                    app:drawableStartCompat="@drawable/user" />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:drawablePadding="@dimen/space_extraSmall"
-                    android:padding="@dimen/space_extraSmall"
-                    android:text="1"
-                    android:textColor="@color/black"
-                    app:drawableStartCompat="@drawable/prim_coin" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="@string/reward_user_joined"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/textMedium" />
+
+                    <TextView
+                        pointsEarned="@{rewardsData.communityMemberCoins}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_small"
+                        android:background="@drawable/shape_rounded_corner_search_box"
+                        android:backgroundTint="@color/colorAccent"
+                        android:fontFamily="@font/poppins_medium"
+                        android:paddingHorizontal="@dimen/space_medium"
+                        android:paddingVertical="@dimen/space_extraSmall"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/textMedium"
+                        tools:text="+ 100" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_small"
+                        android:drawableStart="@drawable/ic_info"
+                        android:drawablePadding="@dimen/space_extraSmall"
+                        android:drawableTint="@color/colorAccent"
+                        android:gravity="center_vertical"
+                        android:text="@{@string/reward_user_joined_point(rewardsData.coinsForMember)}"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/textExtraSmall"
+                        tools:text="@string/reward_user_joined_point" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
+            <Button
+                android:id="@+id/btnRedeemNow"
+                style="@style/buttonFilledPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_margin="@dimen/space_medium"
+                android:fontFamily="@font/poppins_medium"
+                android:text="@string/redeem_now"
+                android:textSize="@dimen/textSmall"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/llUserWhoJoined" />
 
-        </LinearLayout>
+            <TextView
+                android:id="@+id/tvRedeemTnC"
+                htmlText="@{@string/redeem_tnc}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/space_medium"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/textSmall"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnRedeemNow"
+                tools:text="@string/redeem_tnc" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/tvMinTokenInfo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/space_medium"
+                android:gravity="center"
+                android:text="@string/min_token_info"
+                android:textColor="@color/black"
+                android:textSize="@dimen/textExtraSmall"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvRedeemTnC"
+                tools:text="@string/min_token_info" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animationView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="false"
+                app:lottie_rawRes="@raw/rewards_confetti" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

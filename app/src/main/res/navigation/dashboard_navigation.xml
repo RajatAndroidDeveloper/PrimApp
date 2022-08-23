@@ -357,9 +357,9 @@
         android:label="EarnedRewardsFragment"
         tools:layout="@layout/fragment_earned_rewards">
         <argument
-            android:name="tokens"
-            android:defaultValue="0"
-            app:argType="string" />
+            android:name="rewardsData"
+            app:argType="com.primapp.model.rewards.RewardsContent"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/reportedPostsFragment"

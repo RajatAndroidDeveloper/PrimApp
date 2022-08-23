@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../.gradle/caches/transforms-2/files-2.1/f49e520ce68d044b7c81532f3da9eb35/jetified-Toasty-1.5.0/res/drawable-anydpi-v21/ic_info_outline_white_24dp.xml" value="0.12395833333333334" />
         <entry key="app/src/main/res/drawable/chat_shape_my_message.xml" value="0.23177083333333334" />
         <entry key="app/src/main/res/drawable/ic_baseline_content_copy_24.xml" value="0.24583333333333332" />
         <entry key="app/src/main/res/drawable/ic_baseline_delete_24.xml" value="0.24583333333333332" />
@@ -11,6 +12,7 @@
         <entry key="app/src/main/res/drawable/ic_bookmark_collection.xml" value="0.24583333333333332" />
         <entry key="app/src/main/res/drawable/ic_border.xml" value="0.24583333333333332" />
         <entry key="app/src/main/res/drawable/ic_file_icon.xml" value="0.24583333333333332" />
+        <entry key="app/src/main/res/drawable/ic_info.xml" value="0.12395833333333334" />
         <entry key="app/src/main/res/drawable/recyclerview_divider.xml" value="0.24583333333333332" />
         <entry key="app/src/main/res/drawable/shape_circle_accent.xml" value="0.24583333333333332" />
         <entry key="app/src/main/res/drawable/shape_rounded_corner_grey_small_corner.xml" value="0.24583333333333332" />
@@ -25,6 +27,7 @@
         <entry key="app/src/main/res/layout/fragment_earned_rewards.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_edit_community.xml" value="0.2212962962962963" />
         <entry key="app/src/main/res/layout/fragment_edit_profile.xml" value="0.2296875" />
+        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/fragment_network_error.xml" value="0.2241025641025641" />
         <entry key="app/src/main/res/layout/fragment_post_comment.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_post_comment_reply.xml" value="0.2296875" />
@@ -38,6 +41,7 @@
         <entry key="app/src/main/res/layout/fragment_user_posts.xml" value="0.2241025641025641" />
         <entry key="app/src/main/res/layout/item_channel_list.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/item_emoji_chat_options.xml" value="0.2296875" />
+        <entry key="app/src/main/res/layout/item_list_community.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/item_list_parent_category.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/item_list_post.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_mentor_request.xml" value="0.2296875" />

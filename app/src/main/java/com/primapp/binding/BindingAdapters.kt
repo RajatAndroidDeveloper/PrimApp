@@ -628,3 +628,13 @@ fun removedMemberReasonText(textView: TextView, data: ReportedMembers?) {
 fun setImageViewResource(imageView: ImageView, resource: Int) {
     imageView.setImageResource(resource)
 }
+
+@BindingAdapter("pointsEarned")
+fun removedMemberReasonText(textView: TextView, points: Int?) {
+    points?.let {
+        textView.text = textView.resources.getString(
+            R.string.point_earned,
+            it
+        )
+    }
+}
