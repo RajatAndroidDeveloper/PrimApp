@@ -115,7 +115,7 @@ class CommunitiesRepository @Inject constructor(
         }
     }
 
-    fun getAllJoinedCommunity(filter: String, userId: Int): LiveData<PagingData<CommunityData>> {
+    fun getAllJoinedCommunity(filter: String, userId: Int, type: String): LiveData<PagingData<CommunityData>> {
         return Pager(
             config = PagingConfig(
                 enablePlaceholders = false,
@@ -123,7 +123,7 @@ class CommunitiesRepository @Inject constructor(
                 initialLoadSize = ApiConstant.NETWORK_PAGE_SIZE
             ),
             pagingSourceFactory = {
-                UserJoinedCommunityPageDataSource(responseHandler, apiService, filter, userId)
+                UserJoinedCommunityPageDataSource(responseHandler, apiService, filter, userId, type)
             }
         ).liveData
     }

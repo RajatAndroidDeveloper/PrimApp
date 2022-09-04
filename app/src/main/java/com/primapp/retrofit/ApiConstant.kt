@@ -34,6 +34,7 @@ object ApiConstant {
     const val JOINED_COMMUNITY_LIST = "joined_community_list/{userId}"
     const val CATEGORY_JOINED_COMMUNITY_LIST = "{categoryId}/joined_community_list"
     const val COMMUNITY_MEMBERS_LIST = "{communityId}/community_member_list"
+    const val CREATED_COMMUNITY_LIST = "created_community_list/{userId}"
 
     //Profile
     const val EDIT_PROFILE = "users/{userId}"

@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../.gradle/caches/transforms-2/files-2.1/f49e520ce68d044b7c81532f3da9eb35/jetified-Toasty-1.5.0/res/drawable-anydpi-v21/ic_info_outline_white_24dp.xml" value="0.12395833333333334" />
+        <entry key="app/src/main/res/drawable/button_primary_grey_filled.xml" value="0.24583333333333332" />
         <entry key="app/src/main/res/drawable/chat_shape_my_message.xml" value="0.23177083333333334" />
         <entry key="app/src/main/res/drawable/ic_baseline_content_copy_24.xml" value="0.24583333333333332" />
         <entry key="app/src/main/res/drawable/ic_baseline_delete_24.xml" value="0.24583333333333332" />
@@ -21,6 +22,7 @@
         <entry key="app/src/main/res/layout/bottom_sheet_chat_options.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_channel_list.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_chat.xml" value="0.28650678892859244" />
+        <entry key="app/src/main/res/layout/fragment_common_web_view.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_communities.xml" value="0.11068895643363728" />
         <entry key="app/src/main/res/layout/fragment_community_details.xml" value="0.2241025641025641" />
         <entry key="app/src/main/res/layout/fragment_create_post.xml" value="0.2296875" />

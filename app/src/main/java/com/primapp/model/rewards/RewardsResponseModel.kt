@@ -26,4 +26,6 @@ data class RewardsContent(
     val communityMemberCoins: Int?,
     @SerializedName("mentee_coins")
     val menteeCoins: Int?,
+    @SerializedName("redeem_url")
+    val redeemUrl: String?,
 ) : Serializable

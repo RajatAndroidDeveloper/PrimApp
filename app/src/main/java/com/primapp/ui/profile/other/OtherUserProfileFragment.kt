@@ -117,6 +117,7 @@ class OtherUserProfileFragment : BaseFragment<FragmentOtherUserProfileBinding>()
         val userJoinedCommunity = UserJoinedCommunitiesFragment()
         userJoinedCommunity.arguments = Bundle().apply {
             putInt("userId", userId!!)
+            putString("type", UserJoinedCommunitiesFragment.CREATED)
         }
 
         val mentorMembersFragment = CommunityMembersFragment()
@@ -172,7 +173,7 @@ class OtherUserProfileFragment : BaseFragment<FragmentOtherUserProfileBinding>()
     private fun initTitle(): ArrayList<SpannableStringBuilder> {
         return arrayListOf<SpannableStringBuilder>(
             getTabHeader(user.postsCount, "Posts"),
-            getTabHeader(user.joinedCommunityCount, "Communities"),
+            getTabHeader(user.createdCommunityCount, "Communities"),
             getTabHeader(user.mentorCount, "Mentors"),
             getTabHeader(user.menteeCount, "Mentees")
         )

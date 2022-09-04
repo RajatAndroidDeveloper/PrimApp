@@ -7,4 +7,6 @@ object CommunityFilterTypes {
 
     //Local
     const val COMMUNITY_DETAILS = "communityDetailsPage"
+    //to show EDIT, JOIN, JOINED, but not Leave
+    const val COMMUNITY_PROFILE_BUTTON = "communityProfileButton"
 }

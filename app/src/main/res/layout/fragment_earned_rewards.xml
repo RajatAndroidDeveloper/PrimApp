@@ -8,6 +8,10 @@
         <variable
             name="rewardsData"
             type="com.primapp.model.rewards.RewardsContent" />
+
+        <variable
+            name="frag"
+            type="com.primapp.ui.rewards.EarnedRewardsFragment" />
     </data>
 
     <ScrollView
@@ -32,7 +36,7 @@
                 android:gravity="center"
                 android:maxLines="1"
                 android:text="@string/your_balance"
-                android:textSize="@dimen/textMedium"
+                android:textSize="@dimen/textMediumX"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -125,6 +129,7 @@
                         tools:text="+ 100" />
 
                     <TextView
+                        htmlText="@{@string/reward_community_created_point(rewardsData.coinsForCommunity)}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/space_small"
@@ -132,7 +137,6 @@
                         android:drawablePadding="@dimen/space_extraSmall"
                         android:drawableTint="@color/colorAccent"
                         android:gravity="center_vertical"
-                        android:text="@{@string/reward_community_created_point(rewardsData.coinsForCommunity)}"
                         android:textColor="@color/black"
                         android:textSize="@dimen/textExtraSmall"
                         tools:text="@string/reward_community_created_point" />
@@ -199,7 +203,7 @@
                         android:drawablePadding="@dimen/space_extraSmall"
                         android:drawableTint="@color/colorAccent"
                         android:gravity="center_vertical"
-                        android:text="@{@string/reward_mentees_point(rewardsData.coinsForMentee)}"
+                        htmlText="@{@string/reward_mentees_point(rewardsData.coinsForMentee)}"
                         android:textColor="@color/black"
                         android:textSize="@dimen/textExtraSmall"
                         tools:text="@string/reward_mentees_point" />
@@ -266,7 +270,7 @@
                         android:drawablePadding="@dimen/space_extraSmall"
                         android:drawableTint="@color/colorAccent"
                         android:gravity="center_vertical"
-                        android:text="@{@string/reward_user_joined_point(rewardsData.coinsForMember)}"
+                        htmlText="@{@string/reward_user_joined_point(rewardsData.coinsForMember)}"
                         android:textColor="@color/black"
                         android:textSize="@dimen/textExtraSmall"
                         tools:text="@string/reward_user_joined_point" />
@@ -282,6 +286,7 @@
                 android:layout_height="40dp"
                 android:layout_margin="@dimen/space_medium"
                 android:fontFamily="@font/poppins_medium"
+                android:onClick="@{() -> frag.redeemTokens()}"
                 android:text="@string/redeem_now"
                 android:textSize="@dimen/textSmall"
                 app:layout_constraintEnd_toEndOf="parent"

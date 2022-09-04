@@ -4,13 +4,18 @@ import android.animation.Animator
 import android.os.Bundle
 import android.util.Log
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import com.google.gson.Gson
 import com.primapp.R
 import com.primapp.databinding.FragmentEarnedRewardsBinding
+import com.primapp.model.rewards.RewardsContent
+import com.primapp.retrofit.ApiConstant
 import com.primapp.ui.base.BaseFragment
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
 
 class EarnedRewardsFragment : BaseFragment<FragmentEarnedRewardsBinding>() {
+
+    private var rewardsData: RewardsContent? = null
 
     override fun getLayoutRes(): Int = R.layout.fragment_earned_rewards
 
@@ -42,8 +47,18 @@ class EarnedRewardsFragment : BaseFragment<FragmentEarnedRewardsBinding>() {
     }
 
     private fun setData() {
-        val rewardsData = EarnedRewardsFragmentArgs.fromBundle(requireArguments()).rewardsData
-        Log.d("anshul_rewards->", Gson().toJson(rewardsData))
+        rewardsData = EarnedRewardsFragmentArgs.fromBundle(requireArguments()).rewardsData
+
+        binding.frag = this
         binding.rewardsData = rewardsData
+    }
+
+    fun redeemTokens() {
+        rewardsData?.redeemUrl?.let {
+            val bundle = Bundle()
+            bundle.putString("title", "Redeem Tokens")
+            bundle.putString("url", it)
+            findNavController().navigate(R.id.commonWebView, bundle)
+        }
     }
 }

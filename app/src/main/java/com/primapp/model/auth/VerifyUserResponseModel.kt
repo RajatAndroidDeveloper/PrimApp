@@ -44,6 +44,8 @@ data class UserData(
     val countryIsoCode: String?,
     @SerializedName("joined_community_count")
     var joinedCommunityCount: Int = 0,
+    @SerializedName("created_community_count")
+    var createdCommunityCount: Int = 0,
     @SerializedName("posts_count")
     var postsCount: Int = 0,
     @SerializedName("mentee_count")

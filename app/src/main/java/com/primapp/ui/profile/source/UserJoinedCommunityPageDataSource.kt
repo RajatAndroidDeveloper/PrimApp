@@ -6,6 +6,7 @@ import com.primapp.model.community.CommunityData
 import com.primapp.model.post.PostListResult
 import com.primapp.retrofit.ApiService
 import com.primapp.retrofit.base.ResponseHandler
+import com.primapp.ui.profile.UserJoinedCommunitiesFragment
 import retrofit2.HttpException
 import java.io.IOException
 import java.lang.Exception
@@ -14,7 +15,8 @@ class UserJoinedCommunityPageDataSource(
     private val responseHandler: ResponseHandler,
     private val apiService: ApiService,
     private val filter: String,
-    private val userId: Int
+    private val userId: Int,
+    private val type: String
 ) :
     PagingSource<Int, CommunityData>() {
 
@@ -29,7 +31,10 @@ class UserJoinedCommunityPageDataSource(
             * */
             val offset = page * params.loadSize
             Log.d("anshul_paging", "Page:$page LoadSize : ${params.loadSize} Offset : $offset")
-            val response = apiService.getJoinedCommunityList(userId, offset, params.loadSize, filter)
+            val response = if (type == UserJoinedCommunitiesFragment.CREATED)
+                apiService.getCreatedCommunityList(userId, offset, params.loadSize, filter)
+            else
+                apiService.getJoinedCommunityList(userId, offset, params.loadSize, filter)
             LoadResult.Page(
                 data = response.content.results,
                 prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1,

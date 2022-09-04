@@ -155,6 +155,14 @@ interface ApiService {
         @Query("type") filterType: String
     ): CommunityListResponseModel
 
+    @GET(ApiConstant.CREATED_COMMUNITY_LIST)
+    suspend fun getCreatedCommunityList(
+        @Path("userId") userId: Int,
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int,
+        @Query("type") filterType: String
+    ): CommunityListResponseModel
+
     @POST(ApiConstant.CREATE_POST)
     suspend fun createPost(
         @Path("communityId") communityId: Int,

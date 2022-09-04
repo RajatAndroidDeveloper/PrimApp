@@ -10,6 +10,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.primapp.R
 import com.primapp.cache.UserCache
+import com.primapp.constants.CommunityFilterTypes
 import com.primapp.databinding.FragmentUserJoinedCommunitiesBinding
 import com.primapp.extensions.setDivider
 import com.primapp.extensions.showError
@@ -25,6 +26,8 @@ import com.primapp.viewmodels.PostsViewModel
 import kotlinx.coroutines.launch
 
 class UserJoinedCommunitiesFragment() : BaseFragment<FragmentUserJoinedCommunitiesBinding>() {
+
+    private var type: String? = JOINED
 
     private var userId: Int? = null
 
@@ -46,11 +49,12 @@ class UserJoinedCommunitiesFragment() : BaseFragment<FragmentUserJoinedCommuniti
         binding.frag = this
         arguments?.apply {
             userId = getInt("userId")
+            type = getString("type")
         }
     }
 
     private fun setObserver() {
-        viewModel.getAllJoinedCommunityList(JoinedCommunityFilterType.ALL, userId!!)
+        viewModel.getAllJoinedCommunityList(JoinedCommunityFilterType.ALL, userId!!, type!!)
             .observe(viewLifecycleOwner, Observer {
                 it?.let {
                     lifecycleScope.launch {
@@ -80,6 +84,9 @@ class UserJoinedCommunitiesFragment() : BaseFragment<FragmentUserJoinedCommuniti
 
 
     private fun setAdapter() {
+        //To show all types of buttons
+        adapter.fragmentType = CommunityFilterTypes.COMMUNITY_PROFILE_BUTTON
+
         binding.rvJoinedCommunity.apply {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
@@ -132,7 +139,13 @@ class UserJoinedCommunitiesFragment() : BaseFragment<FragmentUserJoinedCommuniti
     private fun onItemClick(any: Any?) {
         when (any) {
             is ActionCommunityDetails -> {
-                viewModel.joinCommunity(any.communityData!!.id, UserCache.getUser(requireContext())!!.id)
+                if (any.communityData?.isCreatedByMe == true) {
+                    val bundle = Bundle()
+                    bundle.putSerializable("communityData", any.communityData)
+                    findNavController().navigate(R.id.editCommunityFragment, bundle)
+                } else {
+                    viewModel.joinCommunity(any.communityData!!.id, UserCache.getUser(requireContext())!!.id)
+                }
             }
 
             is CommunityData -> {
@@ -142,5 +155,10 @@ class UserJoinedCommunitiesFragment() : BaseFragment<FragmentUserJoinedCommuniti
                 findNavController().navigate(R.id.communityDetailsFragment, bundle)
             }
         }
+    }
+
+    companion object {
+        const val JOINED = "joinedCommunities"
+        const val CREATED = "createdCommunities"
     }
 }
