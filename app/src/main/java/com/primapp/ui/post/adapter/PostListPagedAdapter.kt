@@ -5,6 +5,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -13,6 +14,7 @@ import com.primapp.R
 import com.primapp.constants.PostFileType
 import com.primapp.databinding.ItemListPostBinding
 import com.primapp.extensions.setAllOnClickListener
+import com.primapp.extensions.showInfo
 import com.primapp.model.*
 import com.primapp.model.post.PostListResult
 import javax.inject.Inject
@@ -101,6 +103,14 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
                         onItemClick(DownloadFile(data.imageUrl.toString()))
                     }
                 }
+            }
+
+            binding.tvViewContent.setOnClickListener {
+                binding.clPostAttachmentInappropriateContent.isVisible = false
+            }
+
+            binding.tvSeeWhy.setOnClickListener {
+                showInfo(binding.tvSeeWhy.context, "Coming Soon!!")
             }
 
             binding.ivLike.setOnClickListener {

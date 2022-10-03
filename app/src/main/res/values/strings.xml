@@ -370,4 +370,8 @@
     <string name="min_token_info">
         *Minimum 1,000 tokens to redeem.
     </string>
+    <string name="sensitive_content">Sensitive Content</string>
+    <string name="sensitive_content_desc">The image or video may contain inappropriate content.</string>
+    <string name="view_content">View Content</string>
+    <string name="see_why">See Why</string>
 </resources>

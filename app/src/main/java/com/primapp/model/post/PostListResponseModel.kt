@@ -55,7 +55,11 @@ data class PostListResult(
     @SerializedName("thumbnail_file")
     var thumbnailFile: String?,
     @SerializedName("get_thumbnail_url")
-    var getThumbnailUrl: String?
+    var getThumbnailUrl: String?,
+    @SerializedName("is_inappropriate")
+    val isInappropriate: Boolean,
+    @SerializedName("inappropriate_category")
+    val inappropriateCategory: String?,
 ) : Serializable
 
 data class Community(
