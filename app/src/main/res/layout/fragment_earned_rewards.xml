@@ -65,6 +65,19 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvAvailableTokens"
                 tools:text="1000" />
 
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animationView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toTopOf="@id/tvPointAttribution"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clToolbar"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/rewards_confetti" />
+
             <TextView
                 android:id="@+id/tvPointAttribution"
                 android:layout_width="wrap_content"
@@ -196,6 +209,7 @@
                         tools:text="+ 100" />
 
                     <TextView
+                        htmlText="@{@string/reward_mentees_point(rewardsData.coinsForMentee)}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/space_small"
@@ -203,7 +217,6 @@
                         android:drawablePadding="@dimen/space_extraSmall"
                         android:drawableTint="@color/colorAccent"
                         android:gravity="center_vertical"
-                        htmlText="@{@string/reward_mentees_point(rewardsData.coinsForMentee)}"
                         android:textColor="@color/black"
                         android:textSize="@dimen/textExtraSmall"
                         tools:text="@string/reward_mentees_point" />
@@ -263,6 +276,7 @@
                         tools:text="+ 100" />
 
                     <TextView
+                        htmlText="@{@string/reward_user_joined_point(rewardsData.coinsForMember)}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/space_small"
@@ -270,7 +284,6 @@
                         android:drawablePadding="@dimen/space_extraSmall"
                         android:drawableTint="@color/colorAccent"
                         android:gravity="center_vertical"
-                        htmlText="@{@string/reward_user_joined_point(rewardsData.coinsForMember)}"
                         android:textColor="@color/black"
                         android:textSize="@dimen/textExtraSmall"
                         tools:text="@string/reward_user_joined_point" />
@@ -321,17 +334,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvRedeemTnC"
                 tools:text="@string/min_token_info" />
-
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/animationView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="false"
-                app:lottie_rawRes="@raw/rewards_confetti" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
