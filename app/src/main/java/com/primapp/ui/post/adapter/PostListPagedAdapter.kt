@@ -17,6 +17,7 @@ import com.primapp.extensions.setAllOnClickListener
 import com.primapp.extensions.showInfo
 import com.primapp.model.*
 import com.primapp.model.post.PostListResult
+import com.primapp.retrofit.ApiConstant
 import javax.inject.Inject
 
 class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) :
@@ -110,7 +111,7 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
             }
 
             binding.tvSeeWhy.setOnClickListener {
-                showInfo(binding.tvSeeWhy.context, "Coming Soon!!")
+                onItemClick(LoadWebUrl(ApiConstant.SENSITIVE_DATA_DISCLAIMER))
             }
 
             binding.ivLike.setOnClickListener {

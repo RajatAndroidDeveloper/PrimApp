@@ -19,6 +19,7 @@ import com.primapp.databinding.FragmentUpdatesBinding
 import com.primapp.extensions.showError
 import com.primapp.extensions.showInfo
 import com.primapp.model.*
+import com.primapp.retrofit.ApiConstant
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
@@ -386,6 +387,13 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                     "${item.postData.user.firstName} ${item.postData.user.lastName}",
                     item.postData.community.communityName
                 )
+            }
+
+            is LoadWebUrl -> {
+                val bundle = Bundle()
+                bundle.putString("title", getString(R.string.sensitive_content))
+                bundle.putString("url", item.url)
+                findNavController().navigate(R.id.commonWebView, bundle)
             }
         }
     }

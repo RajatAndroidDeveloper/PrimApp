@@ -8,6 +8,7 @@ object ApiConstant {
 
     const val ABOUT_US = "http://admin.prim-technology.com/about-us"
     const val PRIM_REWARDS = "http://admin.prim-technology.com/prim-rewards"
+    const val SENSITIVE_DATA_DISCLAIMER = "https://admin.prim-technology.com/legel-disclaimer"
 
     const val NETWORK_PAGE_SIZE = 15
 

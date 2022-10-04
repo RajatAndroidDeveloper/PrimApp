@@ -401,6 +401,12 @@ class UserPostsFragment() : BaseFragment<FragmentUserPostsBinding>() {
                     item.postData.community.communityName
                 )
             }
+            is LoadWebUrl -> {
+                val bundle = Bundle()
+                bundle.putString("title", getString(R.string.sensitive_content))
+                bundle.putString("url", item.url)
+                findNavController().navigate(R.id.commonWebView, bundle)
+            }
         }
     }
 
