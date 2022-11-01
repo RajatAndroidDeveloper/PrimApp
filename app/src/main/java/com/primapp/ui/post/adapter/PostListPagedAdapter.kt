@@ -89,6 +89,9 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: PostListResult?) {
             binding.data = data
+            //Reest cover image on reload
+            binding.llCoverImage.isVisible = false
+
             binding.cardPostAttachment.setOnClickListener {
                 when (data!!.fileType) {
                     PostFileType.VIDEO -> {
