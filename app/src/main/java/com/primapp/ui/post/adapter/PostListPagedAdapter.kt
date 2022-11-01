@@ -108,6 +108,12 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
 
             binding.tvViewContent.setOnClickListener {
                 binding.clPostAttachmentInappropriateContent.isVisible = false
+                binding.llCoverImage.isVisible = true
+            }
+
+            binding.llCoverImage.setOnClickListener {
+                binding.clPostAttachmentInappropriateContent.isVisible = true
+                binding.llCoverImage.isVisible = false
             }
 
             binding.tvSeeWhy.setOnClickListener {

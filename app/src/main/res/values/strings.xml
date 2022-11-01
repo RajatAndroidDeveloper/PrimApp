@@ -374,4 +374,5 @@
     <string name="sensitive_content_desc">The image or video may contain inappropriate content.</string>
     <string name="view_content">View Content</string>
     <string name="see_why">See Why</string>
+    <string name="cover_this_image">Cover this image</string>
 </resources>
