@@ -41,6 +41,21 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
+                    android:id="@+id/ivPortfolio"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:padding="@dimen/space_small"
+                    android:layout_marginEnd="@dimen/space_extraSmall"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_chat"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/ivEndIcon"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
                     android:id="@+id/ivEndIcon"
                     android:layout_width="42dp"
                     android:layout_height="42dp"

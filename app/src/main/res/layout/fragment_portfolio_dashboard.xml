@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="frag"
+            type="com.primapp.ui.portfolio.PortfolioDashboardFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/toolbar_inner_back" />
+
+        <LinearLayout
+            android:id="@+id/llMentoringPortfolio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:onClick="@{()->frag.onAddMentoringPortfolio()}"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/space_large"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clToolbar">
+
+            <TextView
+                style="@style/primaryHeadingAccent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_baseline_add_24"
+                android:drawableTint="@color/colorAccent"
+                android:text="@string/mentoring_portfolio"
+                android:textColor="@color/black"
+                android:textSize="@dimen/textMediumX" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_media_attached" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llExperiences"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_normal"
+            android:orientation="vertical"
+            android:background="?attr/selectableItemBackground"
+            android:onClick="@{()->frag.onAddExperiences()}"
+            android:paddingHorizontal="@dimen/space_large"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/llMentoringPortfolio">
+
+            <TextView
+                style="@style/primaryHeadingAccent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_baseline_add_24"
+                android:drawableTint="@color/colorAccent"
+                android:text="@string/experiences"
+                android:textColor="@color/black"
+                android:textSize="@dimen/textMediumX" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_experience_added" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llSkillsCertificate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_normal"
+            android:orientation="vertical"
+            android:background="?attr/selectableItemBackground"
+            android:onClick="@{()->frag.onAddSkills()}"
+            android:paddingHorizontal="@dimen/space_large"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/llExperiences">
+
+            <TextView
+                style="@style/primaryHeadingAccent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_baseline_add_24"
+                android:drawableTint="@color/colorAccent"
+                android:text="@string/skills_and_certifications"
+                android:textColor="@color/black"
+                android:textSize="@dimen/textMediumX" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_skills_and_cerification_added" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llBenefits"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_normal"
+            android:orientation="vertical"
+            android:background="?attr/selectableItemBackground"
+            android:onClick="@{()->frag.onAddBenefits()}"
+            android:paddingHorizontal="@dimen/space_large"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/llSkillsCertificate">
+
+            <TextView
+                style="@style/primaryHeadingAccent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_baseline_add_24"
+                android:drawableTint="@color/colorAccent"
+                android:text="@string/benefits"
+                android:textColor="@color/black"
+                android:textSize="@dimen/textMediumX" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_tags_added" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

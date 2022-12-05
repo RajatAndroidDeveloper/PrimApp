@@ -53,5 +53,7 @@ data class UserData(
     @SerializedName("mentor_count")
     var mentorCount: Int = 0,
     @SerializedName("total_notifications")
-    var notificationsCount: Int = 0
+    var notificationsCount: Int = 0,
+    @SerializedName("isPortfolioAvailable")
+    var isPortfolioAvailable: Boolean = false
 )

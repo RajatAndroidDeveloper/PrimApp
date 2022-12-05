@@ -32,6 +32,7 @@ import com.primapp.ui.profile.UserJoinedCommunitiesFragment
 import com.primapp.ui.profile.UserPostsFragment
 import com.primapp.ui.splash.SplashViewModel
 import com.primapp.utils.AnalyticsManager
+import com.primapp.utils.visible
 import kotlinx.android.synthetic.main.layout_profile_top_card.*
 import kotlinx.android.synthetic.main.toolbar_dashboard_accent.*
 
@@ -88,6 +89,11 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         initViewPager()
         ivEndIcon.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_settingsFragment)
+        }
+
+        ivPortfolio.visible(true)
+        ivPortfolio.setOnClickListener {
+            findNavController().navigate(R.id.portfolioDashboardFragment)
         }
 
         tvDigitalTokenEarned.blink()

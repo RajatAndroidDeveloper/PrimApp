@@ -375,4 +375,13 @@
     <string name="view_content">View Content</string>
     <string name="see_why">See Why</string>
     <string name="cover_this_image">Cover this image</string>
+    <string name="portfolio">Portfolio</string>
+    <string name="mentoring_portfolio">Mentoring Portfolio</string>
+    <string name="no_media_attached">No media attached</string>
+    <string name="experiences">Experiences</string>
+    <string name="no_experience_added">No experience added</string>
+    <string name="skills_and_certifications"><![CDATA[Skills & Certifications]]></string>
+    <string name="no_skills_and_cerification_added"><![CDATA[No skills & cerification added]]></string>
+    <string name="benefits">Benefits</string>
+    <string name="no_tags_added">No tags added</string>
 </resources>

@@ -396,5 +396,10 @@
             app:argType="boolean"
             android:defaultValue="false" />
     </dialog>
+    <fragment
+        android:id="@+id/portfolioDashboardFragment"
+        android:name="com.primapp.ui.portfolio.PortfolioDashboardFragment"
+        android:label="PortfolioDashboardFragment"
+        tools:layout="@layout/fragment_portfolio_dashboard"/>
 
 </navigation>
