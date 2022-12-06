@@ -29,14 +29,14 @@
             app:layout_constraintTop_toBottomOf="@+id/clToolbar">
 
             <TextView
-                style="@style/primaryHeadingAccent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableEnd="@drawable/ic_baseline_add_24"
                 android:drawableTint="@color/colorAccent"
+                android:fontFamily="@font/poppins_medium"
                 android:text="@string/mentoring_portfolio"
                 android:textColor="@color/black"
-                android:textSize="@dimen/textMediumX" />
+                android:textSize="@dimen/textMedium" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -49,23 +49,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_normal"
-            android:orientation="vertical"
             android:background="?attr/selectableItemBackground"
             android:onClick="@{()->frag.onAddExperiences()}"
+            android:orientation="vertical"
             android:paddingHorizontal="@dimen/space_large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/llMentoringPortfolio">
 
             <TextView
-                style="@style/primaryHeadingAccent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableEnd="@drawable/ic_baseline_add_24"
                 android:drawableTint="@color/colorAccent"
+                android:fontFamily="@font/poppins_medium"
                 android:text="@string/experiences"
                 android:textColor="@color/black"
-                android:textSize="@dimen/textMediumX" />
+                android:textSize="@dimen/textMedium" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -78,23 +78,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_normal"
-            android:orientation="vertical"
             android:background="?attr/selectableItemBackground"
             android:onClick="@{()->frag.onAddSkills()}"
+            android:orientation="vertical"
             android:paddingHorizontal="@dimen/space_large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/llExperiences">
 
             <TextView
-                style="@style/primaryHeadingAccent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableEnd="@drawable/ic_baseline_add_24"
                 android:drawableTint="@color/colorAccent"
+                android:fontFamily="@font/poppins_medium"
                 android:text="@string/skills_and_certifications"
                 android:textColor="@color/black"
-                android:textSize="@dimen/textMediumX" />
+                android:textSize="@dimen/textMedium" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -107,23 +107,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_normal"
-            android:orientation="vertical"
             android:background="?attr/selectableItemBackground"
             android:onClick="@{()->frag.onAddBenefits()}"
+            android:orientation="vertical"
             android:paddingHorizontal="@dimen/space_large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/llSkillsCertificate">
 
             <TextView
-                style="@style/primaryHeadingAccent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableEnd="@drawable/ic_baseline_add_24"
                 android:drawableTint="@color/colorAccent"
+                android:fontFamily="@font/poppins_medium"
                 android:text="@string/benefits"
                 android:textColor="@color/black"
-                android:textSize="@dimen/textMediumX" />
+                android:textSize="@dimen/textMedium" />
 
             <TextView
                 android:layout_width="wrap_content"

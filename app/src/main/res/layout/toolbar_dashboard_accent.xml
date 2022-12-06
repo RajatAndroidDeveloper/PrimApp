@@ -50,7 +50,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:visibility="gone"
-                    android:src="@drawable/ic_chat"
+                    android:src="@drawable/portfolio"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/ivEndIcon"
                     app:layout_constraintTop_toTopOf="parent" />

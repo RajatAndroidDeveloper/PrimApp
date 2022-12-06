@@ -32,6 +32,7 @@ import com.primapp.ui.profile.UserJoinedCommunitiesFragment
 import com.primapp.ui.profile.UserPostsFragment
 import com.primapp.ui.splash.SplashViewModel
 import com.primapp.utils.AnalyticsManager
+import com.primapp.utils.DialogUtils
 import com.primapp.utils.visible
 import kotlinx.android.synthetic.main.layout_profile_top_card.*
 import kotlinx.android.synthetic.main.toolbar_dashboard_accent.*
@@ -93,7 +94,13 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
         ivPortfolio.visible(true)
         ivPortfolio.setOnClickListener {
-            findNavController().navigate(R.id.portfolioDashboardFragment)
+            if (!user.isPortfolioAvailable) {
+                DialogUtils.showYesNoDialog(requireActivity(), R.string.create_mentoring_porfolio, {
+                    findNavController().navigate(R.id.portfolioDashboardFragment)
+                })
+            } else {
+                findNavController().navigate(R.id.portfolioDashboardFragment)
+            }
         }
 
         tvDigitalTokenEarned.blink()
