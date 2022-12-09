@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/space_small">
+
+        <View
+            android:id="@+id/ivTopDottedLine"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bg_vertical_dotted_line"
+            android:layerType="software"
+            app:layout_constraintBottom_toTopOf="@id/imageDot"
+            app:layout_constraintEnd_toEndOf="@id/imageDot"
+            app:layout_constraintStart_toStartOf="@id/imageDot"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/imageDot"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            app:layout_constraintBottom_toBottomOf="@id/tvCompanyName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvCompanyName"
+            app:srcCompat="@drawable/shape_circle_accent" />
+
+        <View
+            android:id="@+id/ivBottomDottedLine"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bg_vertical_dotted_line"
+            android:layerType="software"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/imageDot"
+            app:layout_constraintStart_toStartOf="@id/imageDot"
+            app:layout_constraintTop_toBottomOf="@id/imageDot" />
+
+        <TextView
+            android:id="@+id/tvCompanyName"
+            style="@style/normalBodyText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_large"
+            android:layout_marginTop="@dimen/space_small"
+            android:fontFamily="@font/poppins_medium"
+            android:text="CASHe - Instant Personal Loan"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageDot"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvCompnyDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_large"
+            android:fontFamily="@font/poppins_regular"
+            android:text="Current | Mumbai"
+            android:textSize="@dimen/textSmall"
+            app:layout_constraintStart_toStartOf="@id/tvCompanyName"
+            app:layout_constraintTop_toBottomOf="@id/tvCompanyName" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -120,4 +120,7 @@ dependencies {
     //Lottie for animation
     implementation "com.airbnb.android:lottie:$rootProject.lottieVersion"
 
+    //FlexBox for tags recyclerview with uneven text
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
+
 }

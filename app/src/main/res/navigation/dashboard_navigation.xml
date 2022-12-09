@@ -402,4 +402,10 @@
         android:label="PortfolioDashboardFragment"
         tools:layout="@layout/fragment_portfolio_dashboard"/>
 
+    <fragment
+        android:id="@+id/addExperienceFragment"
+        android:name="com.primapp.ui.portfolio.AddExperienceFragment"
+        android:label="AddExperienceFragment"
+        tools:layout="@layout/fragment_add_experience" />
+
 </navigation>
