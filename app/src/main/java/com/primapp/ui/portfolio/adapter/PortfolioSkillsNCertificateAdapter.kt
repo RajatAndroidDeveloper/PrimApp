@@ -1,8 +1,7 @@
-package com.primapp.ui.portfolio
+package com.primapp.ui.portfolio.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.primapp.R

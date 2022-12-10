@@ -389,23 +389,33 @@
         tools:layout="@layout/bottom_sheet_chat_options">
         <argument
             android:name="isMyMessage"
-            app:argType="boolean"
-            android:defaultValue="false" />
+            android:defaultValue="false"
+            app:argType="boolean" />
         <argument
             android:name="isFileMessage"
-            app:argType="boolean"
-            android:defaultValue="false" />
+            android:defaultValue="false"
+            app:argType="boolean" />
     </dialog>
     <fragment
         android:id="@+id/portfolioDashboardFragment"
         android:name="com.primapp.ui.portfolio.PortfolioDashboardFragment"
         android:label="PortfolioDashboardFragment"
-        tools:layout="@layout/fragment_portfolio_dashboard"/>
+        tools:layout="@layout/fragment_portfolio_dashboard">
+        <argument
+            android:name="userId"
+            app:argType="integer" />
+    </fragment>
 
     <fragment
         android:id="@+id/addExperienceFragment"
         android:name="com.primapp.ui.portfolio.AddExperienceFragment"
         android:label="AddExperienceFragment"
         tools:layout="@layout/fragment_add_experience" />
+
+    <fragment
+        android:id="@+id/addBenefitsFragment"
+        android:name="com.primapp.ui.portfolio.AddBenefitsFragment"
+        android:label="AddBenefitsFragment"
+        tools:layout="@layout/fragment_add_benefits" />
 
 </navigation>

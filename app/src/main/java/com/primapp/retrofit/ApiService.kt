@@ -13,6 +13,7 @@ import com.primapp.model.members.CommunityMembersResponseModel
 import com.primapp.model.mentor.RequestMentorDataModel
 import com.primapp.model.mentor.RequestMentorResponseModel
 import com.primapp.model.notification.NotificationResponseModel
+import com.primapp.model.portfolio.UserPortfolioResponse
 import com.primapp.model.post.*
 import com.primapp.model.profile.EditProfileRequestModel
 import com.primapp.model.reply.CommentReplyResponseModel
@@ -430,4 +431,7 @@ interface ApiService {
         @Path("postId") postId: Int,
         @Path("userId") userId: Int,
     ): PostActionResponseModel
+
+    @GET(ApiConstant.PORTFOLIO_DASHBOARD)
+    suspend fun getPortfolio(@Path("userId") userId: Int): UserPortfolioResponse
 }

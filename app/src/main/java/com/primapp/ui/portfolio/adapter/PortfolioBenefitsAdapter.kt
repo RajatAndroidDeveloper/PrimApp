@@ -1,4 +1,4 @@
-package com.primapp.ui.portfolio
+package com.primapp.ui.portfolio.adapter
 
 import android.os.Build
 import android.view.LayoutInflater
@@ -8,7 +8,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.primapp.R
 import com.primapp.databinding.ItemPortfolioBenefitsBinding
-import com.primapp.databinding.ItemPortfolioExperienceBinding
 import javax.inject.Inject
 
 class PortfolioBenefitsAdapter @Inject constructor() :
@@ -48,12 +47,12 @@ class PortfolioBenefitsAdapter @Inject constructor() :
                 // binding.llBenefitsLayout.setBac
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     binding.llBenefitsLayout.backgroundTintList =
-                        ContextCompat.getColorStateList(binding.llBenefitsLayout.context, R.color.lightGrey)
+                        ContextCompat.getColorStateList(binding.llBenefitsLayout.context, R.color.lightAccent)
                 }
             } else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     binding.llBenefitsLayout.backgroundTintList =
-                        ContextCompat.getColorStateList(binding.llBenefitsLayout.context, R.color.lightAccent)
+                        ContextCompat.getColorStateList(binding.llBenefitsLayout.context, R.color.lightGrey)
                 }
             }
 

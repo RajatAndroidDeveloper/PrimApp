@@ -5,9 +5,15 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="frag"
             type="com.primapp.ui.portfolio.PortfolioDashboardFragment" />
+
+        <variable
+            name="portfolioData"
+            type="com.primapp.model.portfolio.PortfolioContent" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -26,6 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
+                android:clickable="@{portfolioData.mentoringPortfolio.size == 0}"
                 android:onClick="@{()->frag.onAddMentoringPortfolio()}"
                 android:orientation="vertical"
                 android:paddingHorizontal="@dimen/space_large"
@@ -33,21 +40,37 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/clToolbar">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableEnd="@drawable/ic_baseline_add_24"
-                    android:drawableTint="@color/colorAccent"
-                    android:fontFamily="@font/poppins_medium"
-                    android:text="@string/mentoring_portfolio"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/textMedium" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="@string/mentoring_portfolio"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/textMedium" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:onClick="@{()->frag.onAddMentoringPortfolio()}"
+                        android:src="@drawable/ic_baseline_add_24"
+                        app:tint="@color/colorAccent" />
+
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/no_media_attached"
-                    android:visibility="gone"
+                    android:visibility="@{(portfolioData.mentoringPortfolio.size == 0) ? View.VISIBLE : View.GONE}"
                     tools:visibility="visible" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -67,6 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_normal"
                 android:background="?attr/selectableItemBackground"
+                android:clickable="@{portfolioData.experiences.size == 0}"
                 android:onClick="@{()->frag.onAddExperiences()}"
                 android:orientation="vertical"
                 android:paddingHorizontal="@dimen/space_large"
@@ -74,21 +98,37 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/llMentoringPortfolio">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableEnd="@drawable/ic_baseline_add_24"
-                    android:drawableTint="@color/colorAccent"
-                    android:fontFamily="@font/poppins_medium"
-                    android:text="@string/experiences"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/textMedium" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="@string/experiences"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/textMedium" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:onClick="@{()->frag.onAddExperiences()}"
+                        android:src="@drawable/ic_baseline_add_24"
+                        app:tint="@color/colorAccent" />
+
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/no_experience_added"
-                    android:visibility="gone"
+                    android:visibility="@{(portfolioData.experiences.size == 0) ? View.VISIBLE : View.GONE}"
                     tools:visibility="visible" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -107,6 +147,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_normal"
                 android:background="?attr/selectableItemBackground"
+                android:clickable="@{portfolioData.skills_certificate.size == 0}"
                 android:onClick="@{()->frag.onAddSkills()}"
                 android:orientation="vertical"
                 android:paddingHorizontal="@dimen/space_large"
@@ -114,21 +155,37 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/llExperiences">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableEnd="@drawable/ic_baseline_add_24"
-                    android:drawableTint="@color/colorAccent"
-                    android:fontFamily="@font/poppins_medium"
-                    android:text="@string/skills_and_certifications"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/textMedium" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="@string/skills_and_certifications"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/textMedium" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:onClick="@{()->frag.onAddSkills()}"
+                        android:src="@drawable/ic_baseline_add_24"
+                        app:tint="@color/colorAccent" />
+
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/no_skills_and_cerification_added"
-                    android:visibility="gone"
+                    android:visibility="@{(portfolioData.skills_certificate.size == 0) ? View.VISIBLE : View.GONE}"
                     tools:visibility="visible" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -148,6 +205,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_normal"
                 android:background="?attr/selectableItemBackground"
+                android:clickable="@{portfolioData.benefits.size == 0}"
                 android:onClick="@{()->frag.onAddBenefits()}"
                 android:orientation="vertical"
                 android:paddingHorizontal="@dimen/space_large"
@@ -155,21 +213,37 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/llSkillsCertificate">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableEnd="@drawable/ic_baseline_add_24"
-                    android:drawableTint="@color/colorAccent"
-                    android:fontFamily="@font/poppins_medium"
-                    android:text="@string/benefits"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/textMedium" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="@string/benefits"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/textMedium" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:onClick="@{()->frag.onAddBenefits()}"
+                        android:src="@drawable/ic_baseline_add_24"
+                        app:tint="@color/colorAccent" />
+
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/no_tags_added"
-                    android:visibility="gone"
+                    android:visibility="@{(portfolioData.benefits.size == 0) ? View.VISIBLE : View.GONE}"
                     tools:visibility="visible" />
 
                 <androidx.recyclerview.widget.RecyclerView

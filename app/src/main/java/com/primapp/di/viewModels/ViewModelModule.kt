@@ -79,5 +79,10 @@ abstract class ViewModelModule {
     abstract fun bindReportIssueViewModel(viewModel: ReportIssueViewModel): ViewModel
 
     @Binds
+    @IntoMap
+    @ViewModelKey(PortfolioViewModel::class)
+    abstract fun bindPortfolioViewModel(viewModel: PortfolioViewModel): ViewModel
+
+    @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 }

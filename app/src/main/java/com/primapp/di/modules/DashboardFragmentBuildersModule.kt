@@ -16,6 +16,7 @@ import com.primapp.ui.notification.NotificationsFragment
 import com.primapp.ui.dashboard.ProfileFragment
 import com.primapp.ui.initial.PasswordVerificationFragment
 import com.primapp.ui.notification.MentorRequestRejectionFragment
+import com.primapp.ui.portfolio.AddBenefitsFragment
 import com.primapp.ui.portfolio.AddExperienceFragment
 import com.primapp.ui.portfolio.PortfolioDashboardFragment
 import com.primapp.ui.post.UpdatesFragment
@@ -155,4 +156,7 @@ abstract class DashboardFragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeAddExperienceFragment(): AddExperienceFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeAddBenefitsFragment(): AddBenefitsFragment
 }

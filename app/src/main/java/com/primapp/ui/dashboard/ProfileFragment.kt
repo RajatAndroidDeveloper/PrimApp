@@ -94,12 +94,14 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
         ivPortfolio.visible(true)
         ivPortfolio.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt("userId", user.id)
             if (!user.isPortfolioAvailable) {
                 DialogUtils.showYesNoDialog(requireActivity(), R.string.create_mentoring_porfolio, {
-                    findNavController().navigate(R.id.portfolioDashboardFragment)
+                    findNavController().navigate(R.id.portfolioDashboardFragment, bundle)
                 })
             } else {
-                findNavController().navigate(R.id.portfolioDashboardFragment)
+                findNavController().navigate(R.id.portfolioDashboardFragment, bundle)
             }
         }
 

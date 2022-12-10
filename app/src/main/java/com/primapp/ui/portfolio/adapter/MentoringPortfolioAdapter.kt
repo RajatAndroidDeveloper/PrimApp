@@ -1,4 +1,4 @@
-package com.primapp.ui.portfolio
+package com.primapp.ui.portfolio.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
