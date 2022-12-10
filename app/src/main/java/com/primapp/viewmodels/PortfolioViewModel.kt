@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.primapp.PrimApp
+import com.primapp.model.portfolio.AddBenefitRequest
+import com.primapp.model.portfolio.AddBenefitResponse
 import com.primapp.model.portfolio.UserPortfolioResponse
 import com.primapp.repository.PortfolioRepository
 import com.primapp.retrofit.base.Event
@@ -34,6 +36,14 @@ class PortfolioViewModel @Inject constructor(
     fun getPortfolioData(userId: Int) = viewModelScope.launch {
         _userPortfolioLiveData.postValue(Event(Resource.loading(null)))
         _userPortfolioLiveData.postValue(Event(repo.getPortfolioData(userId)))
+    }
+
+    private var _addBenefitsLiveData = MutableLiveData<Event<Resource<AddBenefitResponse>>>()
+    var addBenefitLiveData: LiveData<Event<Resource<AddBenefitResponse>>> = _addBenefitsLiveData
+
+    fun addBenefit(benefitText:String) = viewModelScope.launch {
+        _addBenefitsLiveData.postValue(Event(Resource.loading(null)))
+        _addBenefitsLiveData.postValue(Event(repo.addBenefits(AddBenefitRequest(benefitText))))
     }
 
 }

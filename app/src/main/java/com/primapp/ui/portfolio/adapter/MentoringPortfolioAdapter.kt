@@ -5,15 +5,20 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.primapp.R
+import com.primapp.constants.PostFileType
 import com.primapp.databinding.ItemMentoringPortfolioBinding
 import com.primapp.extensions.loadImageWithFitCenter
+import com.primapp.model.DownloadFile
+import com.primapp.model.ShowImage
+import com.primapp.model.ShowVideo
+import com.primapp.model.portfolio.MentoringPortfolioData
 import javax.inject.Inject
 
-class MentoringPortfolioAdapter @Inject constructor() : RecyclerView.Adapter<MentoringPortfolioAdapter.MentoringPortfolioViewHolder>() {
+class MentoringPortfolioAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) : RecyclerView.Adapter<MentoringPortfolioAdapter.MentoringPortfolioViewHolder>() {
 
-    val list = ArrayList<String>()
+    val list = ArrayList<MentoringPortfolioData>()
 
-    fun addData(listData: List<String>) {
+    fun addData(listData: ArrayList<MentoringPortfolioData>) {
         list.clear()
         list.addAll(listData)
         notifyDataSetChanged()
@@ -31,19 +36,31 @@ class MentoringPortfolioAdapter @Inject constructor() : RecyclerView.Adapter<Men
         )
     }
 
-    override fun getItemCount(): Int = 3 //list.size
+    override fun getItemCount(): Int = list.size
 
     override fun onBindViewHolder(holder: MentoringPortfolioViewHolder, position: Int) {
-        holder.bind(position)
+        holder.bind(list[position])
     }
 
     inner class MentoringPortfolioViewHolder(val binding: ItemMentoringPortfolioBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(position: Int) {
-            //binding.data = data
-            if (position % 2 == 0) {
-                binding.ivPortfolioPreview.loadImageWithFitCenter(binding.root.context, "https://picsum.photos/seed/picsum/536/354")
-            }else{
-                binding.ivPortfolioPreview.loadImageWithFitCenter(binding.root.context, "https://picsum.photos/id/237/536/354")
+        fun bind(data: MentoringPortfolioData) {
+            binding.data = data
+
+            binding.cardMentoringPortFolio.setOnClickListener {
+                when (data.fileType) {
+                    PostFileType.VIDEO -> {
+                        onItemClick(ShowVideo(data.imageUrl.toString()))
+                    }
+                    PostFileType.IMAGE -> {
+                        onItemClick(ShowImage(data.imageUrl.toString()))
+                    }
+                    PostFileType.GIF -> {
+                        onItemClick(ShowImage(data.imageUrl.toString()))
+                    }
+                    PostFileType.FILE -> {
+                        onItemClick(DownloadFile(data.imageUrl.toString()))
+                    }
+                }
             }
         }
     }

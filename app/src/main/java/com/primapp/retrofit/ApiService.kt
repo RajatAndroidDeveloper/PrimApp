@@ -13,6 +13,8 @@ import com.primapp.model.members.CommunityMembersResponseModel
 import com.primapp.model.mentor.RequestMentorDataModel
 import com.primapp.model.mentor.RequestMentorResponseModel
 import com.primapp.model.notification.NotificationResponseModel
+import com.primapp.model.portfolio.AddBenefitRequest
+import com.primapp.model.portfolio.AddBenefitResponse
 import com.primapp.model.portfolio.UserPortfolioResponse
 import com.primapp.model.post.*
 import com.primapp.model.profile.EditProfileRequestModel
@@ -434,4 +436,7 @@ interface ApiService {
 
     @GET(ApiConstant.PORTFOLIO_DASHBOARD)
     suspend fun getPortfolio(@Path("userId") userId: Int): UserPortfolioResponse
+
+    @POST(ApiConstant.ADD_BENEFIT)
+    suspend fun addPortfolioBenefit(@Body addBenefitRequest: AddBenefitRequest): AddBenefitResponse
 }

@@ -385,4 +385,6 @@
     <string name="benefits">Benefits</string>
     <string name="no_tags_added">No tags added</string>
     <string name="create_mentoring_porfolio">Create Mentoring Portfolio</string>
+    <string name="add_benefit">Add Benefit</string>
+    <string name="add_benefit_here">Add Benefit here...</string>
 </resources>

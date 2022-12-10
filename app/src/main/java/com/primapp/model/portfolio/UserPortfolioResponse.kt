@@ -17,7 +17,7 @@ data class PortfolioContent(
     @SerializedName("skills_certificate")
     val skills_certificate: ArrayList<SkillsCertificateData>?,
     @SerializedName("benefits")
-    val benefits: ArrayList<String>?,
+    val benefits: ArrayList<BenefitsData>?,
 )
 
 data class ExperienceData(
@@ -55,9 +55,9 @@ data class MentoringPortfolioData(
     @SerializedName("file_type")
     val fileType: String?,
     @SerializedName("get_image_url")
-    val getImageUrl: String?,
+    val imageUrl: String?,
     @SerializedName("get_thumbnail_url")
-    val getThumbnailUrl: String?,
+    val thumbnailUrl: String?,
     @SerializedName("id")
     val id: Int?,
     @SerializedName("is_active")
@@ -81,6 +81,17 @@ data class SkillsCertificateData(
     val name: String?,
     @SerializedName("udate")
     val udate: String?,
+    @SerializedName("user")
+    val user: Int?
+)
+
+data class BenefitsData(
+    @SerializedName("id")
+    val id: Int?,
+    @SerializedName("is_active")
+    val isActive: Boolean?,
+    @SerializedName("name")
+    val name: String?,
     @SerializedName("user")
     val user: Int?
 )

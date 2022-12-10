@@ -7,14 +7,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.primapp.R
 import com.primapp.databinding.ItemPortfolioSkillsCertificateBinding
 import com.primapp.extensions.loadImageWithFitCenter
+import com.primapp.model.portfolio.SkillsCertificateData
 import javax.inject.Inject
 
 class PortfolioSkillsNCertificateAdapter @Inject constructor() :
     RecyclerView.Adapter<PortfolioSkillsNCertificateAdapter.SkillsNCertifiacteViewHolder>() {
 
-    val list = ArrayList<String>()
+    val list = ArrayList<SkillsCertificateData>()
 
-    fun addData(listData: List<String>) {
+    fun addData(listData: ArrayList<SkillsCertificateData>) {
         list.clear()
         list.addAll(listData)
         notifyDataSetChanged()
@@ -32,17 +33,16 @@ class PortfolioSkillsNCertificateAdapter @Inject constructor() :
         )
     }
 
-    override fun getItemCount(): Int = 3 //list.size
+    override fun getItemCount(): Int = list.size
 
     override fun onBindViewHolder(holder: SkillsNCertifiacteViewHolder, position: Int) {
-        holder.bind(position == 0, position == (itemCount - 1))
+        holder.bind(list[position])
     }
 
     inner class SkillsNCertifiacteViewHolder(val binding: ItemPortfolioSkillsCertificateBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(isFirstItem: Boolean, isLastItem: Boolean) {
-            //binding.data = data
-            binding.ivSkillIcon.loadImageWithFitCenter(binding.root.context, "https://mpng.subpng.com/20190328/xcl/kisspng-europython-logo-programming-language-portable-netw-join-our-team-job-opportunities-sample-solutions-5c9d90c3c63625.6121225015538300838119.jpg")
+        fun bind(data: SkillsCertificateData) {
+            binding.data = data
         }
     }
 }

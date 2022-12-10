@@ -8,14 +8,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.primapp.R
 import com.primapp.databinding.ItemPortfolioBenefitsBinding
+import com.primapp.model.portfolio.BenefitsData
 import javax.inject.Inject
 
 class PortfolioBenefitsAdapter @Inject constructor() :
     RecyclerView.Adapter<PortfolioBenefitsAdapter.BenefitsViewHolder>() {
 
-    val list = ArrayList<String>()
+    val list = ArrayList<BenefitsData>()
 
-    fun addData(listData: List<String>) {
+    fun addData(listData: ArrayList<BenefitsData>) {
         list.clear()
         list.addAll(listData)
         notifyDataSetChanged()
@@ -33,18 +34,17 @@ class PortfolioBenefitsAdapter @Inject constructor() :
         )
     }
 
-    override fun getItemCount(): Int = 12 //list.size
+    override fun getItemCount(): Int = list.size
 
     override fun onBindViewHolder(holder: BenefitsViewHolder, position: Int) {
-        holder.bind(position)
+        holder.bind(list[position], position)
     }
 
     inner class BenefitsViewHolder(val binding: ItemPortfolioBenefitsBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(position: Int) {
-            //binding.data = data
+        fun bind(data: BenefitsData, position: Int) {
+            binding.data = data
             if (position % 2 == 0) {
-                // binding.llBenefitsLayout.setBac
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     binding.llBenefitsLayout.backgroundTintList =
                         ContextCompat.getColorStateList(binding.llBenefitsLayout.context, R.color.lightAccent)
@@ -54,18 +54,6 @@ class PortfolioBenefitsAdapter @Inject constructor() :
                     binding.llBenefitsLayout.backgroundTintList =
                         ContextCompat.getColorStateList(binding.llBenefitsLayout.context, R.color.lightGrey)
                 }
-            }
-
-            if (position == 2) {
-                binding.tvSkillName.text = "Career Growth"
-            }
-
-            if (position == 3) {
-                binding.tvSkillName.text = "Free"
-            }
-
-            if (position == 4) {
-                binding.tvSkillName.text = "Higher Compensation"
             }
         }
     }

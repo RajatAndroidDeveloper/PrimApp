@@ -3,6 +3,7 @@ package com.primapp.utils
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.ClipDescription
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -20,6 +21,8 @@ import kotlinx.android.synthetic.main.layout_dialog_help1.tvDialogMessage
 import kotlinx.android.synthetic.main.layout_dialog_yes_no.*
 import kotlinx.android.synthetic.main.layout_notification_filter.*
 import android.content.DialogInterface
+import androidx.core.view.isVisible
+import kotlinx.android.synthetic.main.layout_dialog_edittext.*
 
 
 object DialogUtils {
@@ -166,5 +169,43 @@ object DialogUtils {
             closeCallback?.invoke(which)
         })
         builder.show()
+    }
+
+
+    fun showEditTextDialog(
+        activity: Activity,
+        title: String?,
+        description: String?,
+        value: String?,
+        hintText: String?,
+        saveCallback: ((filterType: String?) -> Unit)? = null,
+        closeCallback: (() -> Unit)? = null
+    ) {
+        val dialog = Dialog(activity, R.style.Theme_Dialog)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.layout_dialog_edittext)
+
+        dialog.tvDialogTitle.text = title
+        dialog.tvDialogTitle.isVisible = !title.isNullOrEmpty()
+
+        dialog.tvDialogMessage.text = description
+        dialog.tvDialogMessage.isVisible = !description.isNullOrEmpty()
+        val editText = dialog.etDialogText
+        editText.setText(value)
+        editText.hint = hintText
+
+        dialog.btnSave.setOnClickListener {
+            saveCallback?.invoke(editText.text.toString())
+            dialog.dismiss()
+        }
+
+        dialog.ivDialogCloseIcon.setOnClickListener {
+            closeCallback?.invoke()
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 }
