@@ -389,6 +389,8 @@
     <string name="add_benefit_here">Add Benefit here...</string>
     <string name="edit_benefit">Edit Benefit</string>
     <string name="remove_benefit_msg">Are you sure that you want to remove this benefit?</string>
+    <string name="add_more">Add More</string>
+    <string name="portfolio_gallery">Portfolio Gallery</string>
     <plurals name="count_years">
         <item quantity="one">%s year</item>
         <item quantity="other">%s years</item>
@@ -397,4 +399,5 @@
         <item quantity="one">%s month</item>
         <item quantity="other">%s months</item>
     </plurals>
+    <string name="remove_portfolio_msg">Are you sure that you want to remove this portfolio file?</string>
 </resources>

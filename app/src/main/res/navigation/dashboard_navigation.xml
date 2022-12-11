@@ -416,7 +416,16 @@
         android:id="@+id/addBenefitsFragment"
         android:name="com.primapp.ui.portfolio.AddBenefitsFragment"
         android:label="AddBenefitsFragment"
-        tools:layout="@layout/fragment_add_benefits" >
+        tools:layout="@layout/fragment_add_benefits">
+        <argument
+            android:name="portfolioData"
+            app:argType="com.primapp.model.portfolio.PortfolioContent" />
+    </fragment>
+    <fragment
+        android:id="@+id/addMentoringPortfolioFragment"
+        android:name="com.primapp.ui.portfolio.AddMentoringPortfolioFragment"
+        android:label="AddMentoringPortfolioFragment"
+        tools:layout="@layout/fragment_add_mentoring_portfolio">
         <argument
             android:name="portfolioData"
             app:argType="com.primapp.model.portfolio.PortfolioContent" />

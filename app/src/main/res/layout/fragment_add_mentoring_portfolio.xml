@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="isShowRemove"
+            type="Boolean" />
+
+        <variable
+            name="frag"
+            type="com.primapp.ui.portfolio.AddMentoringPortfolioFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/backgroundColor">
+
+        <include layout="@layout/toolbar_inner_back" />
+
+        <LinearLayout
+            android:id="@+id/llPortfolioGallery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="@dimen/space_small"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clToolbar">
+
+            <TextView
+                android:id="@+id/tvSkillName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/poppins_medium"
+                android:paddingVertical="2dp"
+                android:text="@string/portfolio_gallery"
+                android:textColor="@color/black"
+                tools:text="Insurance" />
+
+            <ImageView
+                android:id="@+id/ivEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:onClick="@{()-> frag.onToggleRemove()}"
+                android:padding="@dimen/space_extraSmall"
+                android:src="@{isShowRemove ? @drawable/ic_check_white_24dp : @drawable/ic_baseline_mode_edit_24}"
+                app:tint="@color/colorAccent"
+                tools:src="@drawable/ic_baseline_mode_edit_24" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMentoring"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scrollbars="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/llPortfolioGallery"
+            app:spanCount="3"
+            tools:itemCount="6"
+            tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            tools:listitem="@layout/item_add_mentoring_portfolio"
+            tools:orientation="vertical" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

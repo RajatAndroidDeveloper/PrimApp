@@ -60,13 +60,15 @@ data class MentoringPortfolioData(
     @SerializedName("get_thumbnail_url")
     val thumbnailUrl: String?,
     @SerializedName("id")
-    val id: Int?,
+    val id: Int,
     @SerializedName("is_active")
     val isActive: Boolean?,
     @SerializedName("thumbnail_file")
     val thumbnailFile: String?,
     @SerializedName("user")
-    val user: Int?
+    val user: Int?,
+    //Local to display remove button
+    var isShowRemove: Boolean = false
 ) : Serializable
 
 data class SkillsCertificateData(

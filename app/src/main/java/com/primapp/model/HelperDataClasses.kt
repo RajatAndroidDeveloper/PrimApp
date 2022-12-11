@@ -47,4 +47,4 @@ data class ReportedByMembers(val postId: Int)
 
 //Portfolio
 data class EditBenefits(val benefitData: BenefitsData)
-data class DeleteBenefits(val id: Int)
+data class DeleteItem(val id: Int)

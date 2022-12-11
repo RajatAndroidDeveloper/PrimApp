@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardAddMore"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_margin="@dimen/space_small"
+        android:background="?attr/selectableItemBackground"
+        app:cardCornerRadius="@dimen/space_extraSmall">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/lightGrey"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:text="@string/add_more"
+            android:textAlignment="center"
+            android:textColor="@color/black" />
+
+    </androidx.cardview.widget.CardView>
+</layout>

@@ -1,12 +1,14 @@
 package com.primapp.repository
 
-import com.primapp.model.portfolio.AddBenefitRequest
-import com.primapp.model.portfolio.AddBenefitResponse
-import com.primapp.model.portfolio.DeleteGenericResponse
-import com.primapp.model.portfolio.UserPortfolioResponse
+import com.primapp.model.aws.PresignedURLRequest
+import com.primapp.model.aws.PresignedURLResponseModel
+import com.primapp.model.portfolio.*
 import com.primapp.retrofit.ApiService
 import com.primapp.retrofit.base.Resource
 import com.primapp.retrofit.base.ResponseHandler
+import com.primapp.utils.RetrofitUtils
+import okhttp3.MultipartBody
+import retrofit2.Response
 import javax.inject.Inject
 
 class PortfolioRepository @Inject constructor(
@@ -45,4 +47,58 @@ class PortfolioRepository @Inject constructor(
             responseHandler.handleException(e)
         }
     }
+
+    suspend fun addMentoringPortfolio(request: MentoringPortfolioRequest): Resource<AddMentoringPortfolioResponse> {
+        return try {
+            responseHandler.handleResponse(apiService.addMentoringPortfolio(request))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    suspend fun deleteMentoringPortfolio(id: Int): Resource<DeleteGenericResponse> {
+        return try {
+            responseHandler.handleResponse(apiService.deleteMentoringPortfolio(id))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    //To Upload file/image
+
+    suspend fun generatePresignedURL(fileName: String): Resource<PresignedURLResponseModel> {
+        return try {
+            responseHandler.handleResponse(apiService.generatePresignedURL(PresignedURLRequest(fileName)))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    suspend fun uploadtoAWS(
+        url: String,
+        key: String,
+        accessKey: String,
+        amzSecurityToken: String?,
+        policy: String,
+        signature: String,
+        file: MultipartBody.Part?
+    ): Resource<Response<Unit>> {
+        return try {
+            responseHandler.handleResponse(
+                apiService.uploadToAWS(
+                    url,
+                    RetrofitUtils.getRequestBody(key),
+                    RetrofitUtils.getRequestBody(accessKey),
+                    RetrofitUtils.getRequestBody(amzSecurityToken),
+                    RetrofitUtils.getRequestBody(policy),
+                    RetrofitUtils.getRequestBody(signature),
+                    file
+                )
+            )
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    // END To Upload file/image
 }

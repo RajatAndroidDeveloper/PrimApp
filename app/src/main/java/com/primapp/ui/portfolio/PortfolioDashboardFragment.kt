@@ -127,14 +127,17 @@ class PortfolioDashboardFragment : BaseFragment<FragmentPortfolioDashboardBindin
         if (userId != UserCache.getUserId(requireContext())) {
             return
         }
-        showInfo(requireContext(), getString(R.string.not_yet_implemented))
+        val bundle = Bundle()
+        bundle.putSerializable("portfolioData", portfolioContent)
+        findNavController().navigate(R.id.addMentoringPortfolioFragment, bundle)
     }
 
     fun onAddExperiences() {
         if (userId != UserCache.getUserId(requireContext())) {
             return
         }
-        findNavController().navigate(R.id.addExperienceFragment)
+        showInfo(requireContext(), getString(R.string.not_yet_implemented))
+        //findNavController().navigate(R.id.addExperienceFragment)
     }
 
     fun onAddSkills() {

@@ -8,7 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.primapp.R
 import com.primapp.databinding.ItemPortfolioUpdateBenefitsBinding
-import com.primapp.model.DeleteBenefits
+import com.primapp.model.DeleteItem
 import com.primapp.model.EditBenefits
 import com.primapp.model.portfolio.BenefitsData
 import javax.inject.Inject
@@ -91,7 +91,7 @@ class AddBenefitsAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) :
             }
 
             binding.ivDelete.setOnClickListener {
-                onItemClick(DeleteBenefits(data.id!!))
+                onItemClick(DeleteItem(data.id!!))
             }
         }
     }

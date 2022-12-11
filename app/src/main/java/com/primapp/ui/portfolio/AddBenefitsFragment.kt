@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.primapp.R
 import com.primapp.databinding.FragmentAddBenefitsBinding
 import com.primapp.extensions.showError
-import com.primapp.model.DeleteBenefits
+import com.primapp.model.DeleteItem
 import com.primapp.model.EditBenefits
 import com.primapp.model.portfolio.PortfolioContent
 import com.primapp.retrofit.base.Status
@@ -45,7 +45,7 @@ class AddBenefitsFragment : BaseFragment<FragmentAddBenefitsBinding>() {
 
     fun setData() {
         binding.frag = this
-        portfolioContent = AddBenefitsFragmentArgs.fromBundle(requireArguments()).portfolioData!!
+        portfolioContent = AddBenefitsFragmentArgs.fromBundle(requireArguments()).portfolioData
 
         portfolioContent.benefits?.let {
             adapter.addData(it)
@@ -142,7 +142,7 @@ class AddBenefitsFragment : BaseFragment<FragmentAddBenefitsBinding>() {
                     })
             }
 
-            is DeleteBenefits -> {
+            is DeleteItem -> {
                 DialogUtils.showYesNoDialog(requireActivity(), R.string.remove_benefit_msg, {
                     viewModel.deleteBenefit(item.id)
                 })

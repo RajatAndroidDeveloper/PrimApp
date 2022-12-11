@@ -13,10 +13,7 @@ import com.primapp.model.members.CommunityMembersResponseModel
 import com.primapp.model.mentor.RequestMentorDataModel
 import com.primapp.model.mentor.RequestMentorResponseModel
 import com.primapp.model.notification.NotificationResponseModel
-import com.primapp.model.portfolio.AddBenefitRequest
-import com.primapp.model.portfolio.AddBenefitResponse
-import com.primapp.model.portfolio.DeleteGenericResponse
-import com.primapp.model.portfolio.UserPortfolioResponse
+import com.primapp.model.portfolio.*
 import com.primapp.model.post.*
 import com.primapp.model.profile.EditProfileRequestModel
 import com.primapp.model.reply.CommentReplyResponseModel
@@ -445,5 +442,14 @@ interface ApiService {
     suspend fun deleteBenefit(@Path("benefitId") benefitId: Int): DeleteGenericResponse
 
     @PATCH(ApiConstant.UPDATE_BENEFIT)
-    suspend fun updateBenefit(@Path("benefitId") benefitId: Int, @Body addBenefitRequest: AddBenefitRequest): AddBenefitResponse
+    suspend fun updateBenefit(
+        @Path("benefitId") benefitId: Int,
+        @Body addBenefitRequest: AddBenefitRequest
+    ): AddBenefitResponse
+
+    @POST(ApiConstant.ADD_MENTORING_PORTFOLIO)
+    suspend fun addMentoringPortfolio(@Body mentoringPortfolioRequest: MentoringPortfolioRequest): AddMentoringPortfolioResponse
+
+    @DELETE(ApiConstant.DELETE_MENTORING_PORTFOLIO)
+    suspend fun deleteMentoringPortfolio(@Path("portfolioId") id: Int): DeleteGenericResponse
 }
