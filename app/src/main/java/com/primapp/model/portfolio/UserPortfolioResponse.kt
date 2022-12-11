@@ -2,6 +2,7 @@ package com.primapp.model.portfolio
 
 import com.google.gson.annotations.SerializedName
 import com.primapp.retrofit.base.BaseDataModel
+import java.io.Serializable
 
 data class UserPortfolioResponse(
     @SerializedName("content")
@@ -18,7 +19,7 @@ data class PortfolioContent(
     val skills_certificate: ArrayList<SkillsCertificateData>?,
     @SerializedName("benefits")
     val benefits: ArrayList<BenefitsData>?,
-)
+) : Serializable
 
 data class ExperienceData(
     @SerializedName("cdate")
@@ -47,7 +48,7 @@ data class ExperienceData(
     val user: Int?,
     @SerializedName("years")
     val years: Any?
-)
+) : Serializable
 
 data class MentoringPortfolioData(
     @SerializedName("content_file")
@@ -66,7 +67,7 @@ data class MentoringPortfolioData(
     val thumbnailFile: String?,
     @SerializedName("user")
     val user: Int?
-)
+) : Serializable
 
 data class SkillsCertificateData(
     @SerializedName("cdate")
@@ -83,22 +84,22 @@ data class SkillsCertificateData(
     val udate: String?,
     @SerializedName("user")
     val user: Int?
-)
+) : Serializable
 
 data class BenefitsData(
     @SerializedName("id")
-    val id: Int?,
+    val id: Int,
     @SerializedName("is_active")
-    val isActive: Boolean?,
+    val isActive: Boolean,
     @SerializedName("name")
-    val name: String?,
+    val name: String,
     @SerializedName("user")
-    val user: Int?
-)
+    val user: Int
+) : Serializable
 
 data class JobType(
     @SerializedName("id")
     val id: Int?,
     @SerializedName("name")
     val name: String?
-)
+) : Serializable

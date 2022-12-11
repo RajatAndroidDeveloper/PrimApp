@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.primapp.PrimApp
 import com.primapp.model.portfolio.AddBenefitRequest
 import com.primapp.model.portfolio.AddBenefitResponse
+import com.primapp.model.portfolio.DeleteGenericResponse
 import com.primapp.model.portfolio.UserPortfolioResponse
 import com.primapp.repository.PortfolioRepository
 import com.primapp.retrofit.base.Event
@@ -41,9 +42,25 @@ class PortfolioViewModel @Inject constructor(
     private var _addBenefitsLiveData = MutableLiveData<Event<Resource<AddBenefitResponse>>>()
     var addBenefitLiveData: LiveData<Event<Resource<AddBenefitResponse>>> = _addBenefitsLiveData
 
-    fun addBenefit(benefitText:String) = viewModelScope.launch {
+    fun addBenefit(benefitText: String) = viewModelScope.launch {
         _addBenefitsLiveData.postValue(Event(Resource.loading(null)))
         _addBenefitsLiveData.postValue(Event(repo.addBenefits(AddBenefitRequest(benefitText))))
+    }
+
+    private var _updateBenefitsLiveData = MutableLiveData<Event<Resource<AddBenefitResponse>>>()
+    var updateBenefitsLiveData: LiveData<Event<Resource<AddBenefitResponse>>> = _updateBenefitsLiveData
+
+    fun updateBenefit(benefitId: Int, benefitText: String) = viewModelScope.launch {
+        _updateBenefitsLiveData.postValue(Event(Resource.loading(null)))
+        _updateBenefitsLiveData.postValue(Event(repo.updateBenefits(benefitId, AddBenefitRequest(benefitText))))
+    }
+
+    private var _deleteBenefitsLiveData = MutableLiveData<Event<Resource<DeleteGenericResponse>>>()
+    var deleteBenefitsLiveData: LiveData<Event<Resource<DeleteGenericResponse>>> = _deleteBenefitsLiveData
+
+    fun deleteBenefit(benefitId: Int) = viewModelScope.launch {
+        _deleteBenefitsLiveData.postValue(Event(Resource.loading(null)))
+        _deleteBenefitsLiveData.postValue(Event(repo.deleteBenefits(benefitId)))
     }
 
 }

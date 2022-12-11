@@ -387,4 +387,6 @@
     <string name="create_mentoring_porfolio">Create Mentoring Portfolio</string>
     <string name="add_benefit">Add Benefit</string>
     <string name="add_benefit_here">Add Benefit here...</string>
+    <string name="edit_benefit">Edit Benefit</string>
+    <string name="remove_benefit_msg">Are you sure that you want to remove this benefit?</string>
 </resources>

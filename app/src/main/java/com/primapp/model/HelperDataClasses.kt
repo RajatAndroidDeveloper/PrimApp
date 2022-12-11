@@ -4,6 +4,7 @@ import android.view.View
 import com.primapp.model.comment.CommentData
 import com.primapp.model.community.CommunityData
 import com.primapp.model.members.CommunityMembersData
+import com.primapp.model.portfolio.BenefitsData
 import com.primapp.model.post.PostListResult
 import com.primapp.model.reply.ReplyData
 import com.sendbird.android.BaseMessage
@@ -43,3 +44,7 @@ data class MessageLongPressCallback(val message: BaseMessage, val position: Int)
 //Reported Post
 data class RemoveReportedUser(val postId: Int, val userId: Int)
 data class ReportedByMembers(val postId: Int)
+
+//Portfolio
+data class EditBenefits(val benefitData: BenefitsData)
+data class DeleteBenefits(val id: Int)

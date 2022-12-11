@@ -105,6 +105,12 @@ class OtherUserProfileFragment : BaseFragment<FragmentOtherUserProfileBinding>()
         binding.progressBar.isVisible = visible
     }
 
+    fun onViewPortfolio() {
+        val bundle = Bundle()
+        bundle.putInt("userId", user.id)
+        findNavController().navigate(R.id.portfolioDashboardFragment, bundle)
+    }
+
     //----------------------- View Pager and Tabs Data ---------------------------
 
     private fun initViewPager() {

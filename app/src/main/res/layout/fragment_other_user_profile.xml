@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="frag"
             type="com.primapp.ui.profile.other.OtherUserProfileFragment" />
@@ -51,7 +53,25 @@
                     android:layout_gravity="top"
                     app:layout_collapseMode="pin"
                     app:navigationIcon="@drawable/back"
-                    app:popupTheme="@style/AppTheme.PopupOverlay" />
+                    app:popupTheme="@style/AppTheme.PopupOverlay">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/ivPortfolio"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginEnd="@dimen/space_medium"
+                            android:onClick="@{()->frag.onViewPortfolio()}"
+                            android:src="@drawable/portfolio"
+                            android:visibility="@{user.isPortfolioAvailable ? View.VISIBLE : View.GONE}"
+                            app:tint="@color/colorAccent" />
+
+                    </RelativeLayout>
+                </androidx.appcompat.widget.Toolbar>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 

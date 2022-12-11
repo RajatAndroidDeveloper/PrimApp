@@ -8,6 +8,10 @@
         <import type="android.view.View" />
 
         <variable
+            name="isLoggedInUser"
+            type="Boolean" />
+
+        <variable
             name="frag"
             type="com.primapp.ui.portfolio.PortfolioDashboardFragment" />
 
@@ -62,6 +66,7 @@
                         android:focusable="true"
                         android:onClick="@{()->frag.onAddMentoringPortfolio()}"
                         android:src="@drawable/ic_baseline_add_24"
+                        android:visibility="@{isLoggedInUser ? View.VISIBLE : View.GONE}"
                         app:tint="@color/colorAccent" />
 
                 </LinearLayout>
@@ -120,6 +125,7 @@
                         android:focusable="true"
                         android:onClick="@{()->frag.onAddExperiences()}"
                         android:src="@drawable/ic_baseline_add_24"
+                        android:visibility="@{isLoggedInUser ? View.VISIBLE : View.GONE}"
                         app:tint="@color/colorAccent" />
 
                 </LinearLayout>
@@ -177,6 +183,7 @@
                         android:focusable="true"
                         android:onClick="@{()->frag.onAddSkills()}"
                         android:src="@drawable/ic_baseline_add_24"
+                        android:visibility="@{isLoggedInUser ? View.VISIBLE : View.GONE}"
                         app:tint="@color/colorAccent" />
 
                 </LinearLayout>
@@ -235,6 +242,7 @@
                         android:focusable="true"
                         android:onClick="@{()->frag.onAddBenefits()}"
                         android:src="@drawable/ic_baseline_add_24"
+                        android:visibility="@{isLoggedInUser ? View.VISIBLE : View.GONE}"
                         app:tint="@color/colorAccent" />
 
                 </LinearLayout>

@@ -18,6 +18,19 @@
 
         <include layout="@layout/toolbar_community_back" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvBenefits"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scrollbars="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/clToolbar"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_portfolio_update_benefits"
+            tools:orientation="vertical" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

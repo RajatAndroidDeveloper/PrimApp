@@ -8,12 +8,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.primapp.R
+import com.primapp.cache.UserCache
 import com.primapp.databinding.FragmentPortfolioDashboardBinding
 import com.primapp.extensions.showError
 import com.primapp.extensions.showInfo
 import com.primapp.model.DownloadFile
 import com.primapp.model.ShowImage
 import com.primapp.model.ShowVideo
+import com.primapp.model.portfolio.PortfolioContent
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.portfolio.adapter.MentoringPortfolioAdapter
@@ -29,6 +31,8 @@ import javax.inject.Inject
 class PortfolioDashboardFragment : BaseFragment<FragmentPortfolioDashboardBinding>() {
 
     var userId: Int? = null
+
+    lateinit var portfolioContent: PortfolioContent
 
     @Inject
     lateinit var downloadManager: DownloadManager
@@ -54,11 +58,9 @@ class PortfolioDashboardFragment : BaseFragment<FragmentPortfolioDashboardBindin
     fun setData() {
         binding.frag = this
         userId = PortfolioDashboardFragmentArgs.fromBundle(requireArguments()).userId
+        binding.isLoggedInUser = (userId == UserCache.getUserId(requireContext()))
 
-        if (isLoaded) {
-            return
-        }
-        viewModel.getPortfolioData(1)
+        viewModel.getPortfolioData(userId!!)
     }
 
     private fun setObserver() {
@@ -75,6 +77,7 @@ class PortfolioDashboardFragment : BaseFragment<FragmentPortfolioDashboardBindin
                     Status.SUCCESS -> {
                         it.data?.let { response ->
                             binding.portfolioData = response.content
+                            portfolioContent = response.content
 
                             response.content.mentoringPortfolio?.let { mentrPortfolio ->
                                 adapterMentoringPortfolio.addData(mentrPortfolio)
@@ -121,19 +124,33 @@ class PortfolioDashboardFragment : BaseFragment<FragmentPortfolioDashboardBindin
     }
 
     fun onAddMentoringPortfolio() {
+        if (userId != UserCache.getUserId(requireContext())) {
+            return
+        }
         showInfo(requireContext(), getString(R.string.not_yet_implemented))
     }
 
     fun onAddExperiences() {
+        if (userId != UserCache.getUserId(requireContext())) {
+            return
+        }
         findNavController().navigate(R.id.addExperienceFragment)
     }
 
     fun onAddSkills() {
+        if (userId != UserCache.getUserId(requireContext())) {
+            return
+        }
         showInfo(requireContext(), getString(R.string.not_yet_implemented))
     }
 
     fun onAddBenefits() {
-        findNavController().navigate(R.id.addBenefitsFragment)
+        if (userId != UserCache.getUserId(requireContext())) {
+            return
+        }
+        val bundle = Bundle()
+        bundle.putSerializable("portfolioData", portfolioContent)
+        findNavController().navigate(R.id.addBenefitsFragment, bundle)
     }
 
     private fun onItemClick(item: Any?) {

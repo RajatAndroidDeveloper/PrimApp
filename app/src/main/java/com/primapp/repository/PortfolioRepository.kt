@@ -2,6 +2,7 @@ package com.primapp.repository
 
 import com.primapp.model.portfolio.AddBenefitRequest
 import com.primapp.model.portfolio.AddBenefitResponse
+import com.primapp.model.portfolio.DeleteGenericResponse
 import com.primapp.model.portfolio.UserPortfolioResponse
 import com.primapp.retrofit.ApiService
 import com.primapp.retrofit.base.Resource
@@ -24,6 +25,22 @@ class PortfolioRepository @Inject constructor(
     suspend fun addBenefits(addBenefitRequest: AddBenefitRequest): Resource<AddBenefitResponse> {
         return try {
             responseHandler.handleResponse(apiService.addPortfolioBenefit(addBenefitRequest))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    suspend fun updateBenefits(benefitId: Int, addBenefitRequest: AddBenefitRequest): Resource<AddBenefitResponse> {
+        return try {
+            responseHandler.handleResponse(apiService.updateBenefit(benefitId, addBenefitRequest))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    suspend fun deleteBenefits(benefitId: Int): Resource<DeleteGenericResponse> {
+        return try {
+            responseHandler.handleResponse(apiService.deleteBenefit(benefitId))
         } catch (e: Exception) {
             responseHandler.handleException(e)
         }

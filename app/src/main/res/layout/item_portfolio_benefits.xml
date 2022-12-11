@@ -28,7 +28,8 @@
             android:text="@{data.name}"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="@dimen/textSmall" />
+            android:textSize="@dimen/textSmall"
+            tools:text="Insurance" />
 
     </LinearLayout>
 </layout>

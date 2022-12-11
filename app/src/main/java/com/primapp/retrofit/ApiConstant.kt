@@ -97,4 +97,5 @@ object ApiConstant {
     //Portfolio
     const val PORTFOLIO_DASHBOARD = "users/portfolio/{userId}"
     const val ADD_BENEFIT = "users/benefits/"
+    const val UPDATE_BENEFIT = "users/benefits/{benefitId}/"
 }
