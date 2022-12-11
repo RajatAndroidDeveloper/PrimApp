@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="data"
             type="com.primapp.model.portfolio.ExperienceData" />
@@ -57,22 +58,23 @@
             android:layout_marginTop="@dimen/space_small"
             android:fontFamily="@font/poppins_medium"
             android:text="@{data.companyName}"
-            tools:text="CASHe - Instant Personal Loan"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageDot"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="CASHe - Instant Personal Loan" />
 
         <TextView
             android:id="@+id/tvCompnyDetails"
+            experienceText="@{data}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_large"
             android:fontFamily="@font/poppins_regular"
-            tools:text="Current | Mumbai"
-            android:text="@{data.location}"
             android:textSize="@dimen/textSmall"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/tvCompanyName"
-            app:layout_constraintTop_toBottomOf="@id/tvCompanyName" />
+            app:layout_constraintTop_toBottomOf="@id/tvCompanyName"
+            tools:text="Current | Mumbai" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

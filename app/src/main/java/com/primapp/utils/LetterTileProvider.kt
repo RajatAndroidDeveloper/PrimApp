@@ -12,6 +12,7 @@ class LetterTileProvider {
     companion object {
         const val CIRCLE = 1
         const val RECTANGLE = 0
+        const val ROUNDED_RECTANGLE = 2
         const val COLOR900 = 900
         const val COLOR400 = 400
         const val COLOR700 = 700
@@ -50,7 +51,7 @@ class LetterTileProvider {
             painter.isAntiAlias = true
             val areaRect = Rect(0, 0, size, size)
 
-            if (shape == RECTANGLE) {
+            if (shape == RECTANGLE || shape == ROUNDED_RECTANGLE) {
                 painter.color = RandomColors(colorModel).getColor()
             } else {
                 painter.color = Color.TRANSPARENT
@@ -58,10 +59,16 @@ class LetterTileProvider {
 
             val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
             val canvas = Canvas(bitmap)
-            canvas.drawRect(areaRect, painter)
+
+            if (shape == ROUNDED_RECTANGLE) {
+                //Used in Skills on Portfolio
+                canvas.drawRoundRect(RectF(areaRect), 16f, 16f, painter)
+            } else {
+                canvas.drawRect(areaRect, painter)
+            }
 
             //reset painter
-            if (shape == RECTANGLE) {
+            if (shape == RECTANGLE || shape == ROUNDED_RECTANGLE) {
                 painter.color = Color.TRANSPARENT
             } else {
                 painter.color = RandomColors(colorModel).getColor()

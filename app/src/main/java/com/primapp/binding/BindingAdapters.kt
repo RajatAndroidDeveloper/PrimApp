@@ -28,6 +28,7 @@ import com.primapp.extensions.*
 import com.primapp.model.auth.UserData
 import com.primapp.model.community.CommunityData
 import com.primapp.model.notification.NotificationResult
+import com.primapp.model.portfolio.ExperienceData
 import com.primapp.model.post.ReportedMembers
 import com.primapp.utils.DateTimeUtils
 import com.primapp.utils.getPrettyNumber
@@ -117,6 +118,11 @@ fun loadCircularImageFromUrl(imgView: ImageView, url: String?) {
 @BindingAdapter("loadCircularImage", "name")
 fun loadCircularImageFromUrlWithName(imgView: ImageView, url: String?, name: String?) {
     imgView.loadCircularImageWithName(name, url)
+}
+
+@BindingAdapter("loadImageFromUrl", "name")
+fun loadImageFromUrlWithName(imgView: ImageView, url: String?, name: String?) {
+    imgView.loadImageWithRoundedRectangularName(name, url)
 }
 
 @SuppressLint("SetTextI18n")
@@ -657,5 +663,24 @@ fun removedMemberReasonText(textView: TextView, points: Int?) {
             R.string.point_earned,
             it
         )
+    }
+}
+
+@BindingAdapter("experienceText")
+fun portfolioExperienceText(textView: TextView, data: ExperienceData?) {
+    data?.let {
+        var textToDisplay = ""
+        if (it.isCurrentCompany) {
+            textToDisplay = "Current | ${it.location}"
+        } else {
+            if (it.years != 0) {
+                textToDisplay = "${textView.resources.getQuantityString(R.plurals.count_years, it.years)} "
+            }
+            if (it.months != 0) {
+                textToDisplay = "${textView.resources.getQuantityString(R.plurals.count_months, it.months)} "
+            }
+            textToDisplay = "${textToDisplay}| ${it.location}"
+        }
+        textView.text = textToDisplay
     }
 }

@@ -27,9 +27,11 @@
 
             <ImageView
                 android:id="@+id/ivSkillIcon"
+                name="@{data.name}"
                 loadImageFromUrl="@{data.imageUrl}"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_edit"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -41,10 +43,13 @@
                 style="@style/normalBodyText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_small"
+                android:layout_marginTop="@dimen/space_extraSmall"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textSize="@dimen/textSmall"
                 android:text="@{data.name}"
                 android:textAlignment="center"
-                tools:text="Python" />
+                tools:text="Android Programming" />
 
         </LinearLayout>
 

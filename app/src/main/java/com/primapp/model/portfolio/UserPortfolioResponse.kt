@@ -29,9 +29,9 @@ data class ExperienceData(
     @SerializedName("id")
     val id: Int?,
     @SerializedName("is_active")
-    val isActive: Boolean?,
+    val isActive: Boolean,
     @SerializedName("is_current_company")
-    val isCurrentCompany: Boolean?,
+    val isCurrentCompany: Boolean,
     @SerializedName("job_type")
     val jobType: JobType?,
     @SerializedName("jobType")
@@ -39,15 +39,15 @@ data class ExperienceData(
     @SerializedName("location")
     val location: String?,
     @SerializedName("months")
-    val months: Any?,
+    val months: Int = 0,
     @SerializedName("title")
     val title: String?,
     @SerializedName("udate")
     val udate: String?,
     @SerializedName("user")
-    val user: Int?,
+    val user: Int,
     @SerializedName("years")
-    val years: Any?
+    val years: Int = 0
 ) : Serializable
 
 data class MentoringPortfolioData(

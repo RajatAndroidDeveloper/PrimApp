@@ -389,4 +389,12 @@
     <string name="add_benefit_here">Add Benefit here...</string>
     <string name="edit_benefit">Edit Benefit</string>
     <string name="remove_benefit_msg">Are you sure that you want to remove this benefit?</string>
+    <plurals name="count_years">
+        <item quantity="one">%s year</item>
+        <item quantity="other">%s years</item>
+    </plurals>
+    <plurals name="count_months">
+        <item quantity="one">%s month</item>
+        <item quantity="other">%s months</item>
+    </plurals>
 </resources>
