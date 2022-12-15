@@ -136,8 +136,7 @@ class PortfolioDashboardFragment : BaseFragment<FragmentPortfolioDashboardBindin
         if (userId != UserCache.getUserId(requireContext())) {
             return
         }
-        showInfo(requireContext(), getString(R.string.not_yet_implemented))
-        //findNavController().navigate(R.id.addExperienceFragment)
+        findNavController().navigate(R.id.addExperienceFragment)
     }
 
     fun onAddSkills() {

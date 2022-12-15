@@ -100,4 +100,5 @@ object ApiConstant {
     const val UPDATE_BENEFIT = "users/benefits/{benefitId}/"
     const val ADD_MENTORING_PORTFOLIO = "users/mentoring-portfolio/"
     const val DELETE_MENTORING_PORTFOLIO = "users/mentoring-portfolio/{portfolioId}/"
+    const val ADD_EXPERIENCE = "users/experience/"
 }

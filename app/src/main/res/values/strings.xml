@@ -91,6 +91,12 @@
     <string name="valid_issue_text">Issue message can\'t be empty</string>
     <string name="valid_select_community">Please select community</string>
     <string name="valid_select_category">Please select category</string>
+    <string name="valid_empty_job_title">Please enter Job Title</string>
+    <string name="valid_empty_job_type">Please enter Job Type</string>
+    <string name="valid_empty_company_name">Please enter Company name</string>
+    <string name="valid_empty_location">Please enter Location</string>
+    <string name="valid_empty_years">Please enter valid years of service</string>
+    <string name="valid_empty_months">Please enter valid months of service</string>
 
     <string name="privacy_policy_help_text">Please accept terms of service and privacy policy.</string>
     <string name="valid_username">Please enter a valid username</string>
@@ -400,4 +406,13 @@
         <item quantity="other">%s months</item>
     </plurals>
     <string name="remove_portfolio_msg">Are you sure that you want to remove this portfolio file?</string>
+    <string name="title">Title</string>
+    <string name="job_type">Job Type</string>
+    <string name="company_name">Company Name</string>
+    <string name="location">Location</string>
+    <string name="check_current_company">I am currently working here</string>
+    <string name="years">Years</string>
+    <string name="months">Months</string>
+    <string name="amount_of_time">Amount of time</string>
+    <string name="portfolio_experience_added">Portfolio experience added successfully!</string>
 </resources>

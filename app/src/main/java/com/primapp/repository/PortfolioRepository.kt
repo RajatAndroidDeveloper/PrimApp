@@ -1,5 +1,6 @@
 package com.primapp.repository
 
+import com.primapp.model.auth.ReferenceResponseDataModel
 import com.primapp.model.aws.PresignedURLRequest
 import com.primapp.model.aws.PresignedURLResponseModel
 import com.primapp.model.portfolio.*
@@ -59,6 +60,22 @@ class PortfolioRepository @Inject constructor(
     suspend fun deleteMentoringPortfolio(id: Int): Resource<DeleteGenericResponse> {
         return try {
             responseHandler.handleResponse(apiService.deleteMentoringPortfolio(id))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    suspend fun addPortfolioExperience(request: AddExperienceRequest): Resource<AddExperienceResponse> {
+        return try {
+            responseHandler.handleResponse(apiService.addPortfolioExperience(request))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    suspend fun getReferenceData(type: String): Resource<ReferenceResponseDataModel> {
+        return try {
+            responseHandler.handleResponse(apiService.getReferenceData(type))
         } catch (e: Exception) {
             responseHandler.handleException(e)
         }

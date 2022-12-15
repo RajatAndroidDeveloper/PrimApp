@@ -5,18 +5,190 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="frag"
             type="com.primapp.ui.portfolio.AddExperienceFragment" />
+
+        <variable
+            name="viewModel"
+            type="com.primapp.viewmodels.PortfolioViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include layout="@layout/toolbar_inner_back" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/space_large">
 
+            <include layout="@layout/toolbar_inner_back" />
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tlJobTitle"
+                style="@style/myTextInputLabel"
+                errorText="@{viewModel.errorFieldsLiveData.errorTitle}"
+                isRequired="@{true}"
+                android:layout_marginTop="@dimen/space_large"
+                android:hint="@string/title"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clToolbar">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etJobTitle"
+                    style="@style/editTextInput"
+                    android:inputType="textPersonName"
+                    android:text="@={viewModel.addExperienceRequestModel.title}" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tlJobType"
+                style="@style/myTextInputLabel_DropDown"
+                errorText="@{viewModel.errorFieldsLiveData.errorJobType}"
+                isRequired="@{true}"
+                android:hint="@string/job_type"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tlJobTitle">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/mAutoCompleteJobType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeActionLabel="Done"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tlCompanyName"
+                style="@style/myTextInputLabel"
+                errorText="@{viewModel.errorFieldsLiveData.errorCompnayName}"
+                isRequired="@{true}"
+                android:hint="@string/company_name"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tlJobType">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etCompanyName"
+                    style="@style/editTextInput"
+                    android:inputType="textPersonName"
+                    android:text="@={viewModel.addExperienceRequestModel.companyName}" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tlLocation"
+                style="@style/myTextInputLabel"
+                errorText="@{viewModel.errorFieldsLiveData.errorLocation}"
+                isRequired="@{true}"
+                android:hint="@string/location"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tlCompanyName">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etLocation"
+                    style="@style/editTextInput"
+                    android:inputType="textPersonName"
+                    android:text="@={viewModel.addExperienceRequestModel.location}" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/chkCurrentCompany"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/checkbox_style"
+                android:gravity="top"
+                android:lineSpacingExtra="@dimen/lineSpaceExtra"
+                android:padding="@dimen/space_extraSmall"
+                android:text="@string/check_current_company"
+                android:textSize="@dimen/textNormal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tlLocation"
+                app:layout_constraintWidth_percent=".9"
+                tools:targetApi="lollipop" />
+
+            <TextView
+                android:id="@+id/tvAmountOfTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_small"
+                android:fontFamily="@font/poppins_medium"
+                android:text="@string/amount_of_time"
+                android:textColor="@color/textColor"
+                android:visibility="@{viewModel.addExperienceRequestModel.isCurrentCompany ? View.GONE : View.VISIBLE}"
+                app:layout_constraintEnd_toEndOf="@id/chkCurrentCompany"
+                app:layout_constraintStart_toStartOf="@id/chkCurrentCompany"
+                app:layout_constraintTop_toBottomOf="@id/chkCurrentCompany"
+                app:layout_constraintWidth_percent=".9" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tlYears"
+                style="@style/myTextInputLabel_DropDown"
+                errorText="@{viewModel.errorFieldsLiveData.errorYears}"
+                hint="@{@string/years}"
+                isRequired="@{!viewModel.addExperienceRequestModel.isCurrentCompany}"
+                android:visibility="@{viewModel.addExperienceRequestModel.isCurrentCompany ? View.GONE : View.VISIBLE}"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvAmountOfTime"
+                tools:hint="@string/years">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/mAutoCompleteYears"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeActionLabel="Done"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tlMonths"
+                style="@style/myTextInputLabel_DropDown"
+                errorText="@{viewModel.errorFieldsLiveData.errorMonths}"
+                hint="@{@string/months}"
+                isRequired="@{!viewModel.addExperienceRequestModel.isCurrentCompany}"
+                android:visibility="@{viewModel.addExperienceRequestModel.isCurrentCompany ? View.GONE : View.VISIBLE}"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tlYears"
+                tools:hint="@string/months">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/mAutoCompleteMonths"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeActionLabel="Done"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/btnSave"
+                style="@style/buttonFilledPrimary"
+                android:layout_marginTop="@dimen/space_small"
+                android:onClick="@{()->frag.save()}"
+                android:text="@string/save"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tlMonths" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

@@ -31,4 +31,16 @@ class ErrorFields @Inject constructor() {
     var errorCommunityDescription: String? = null
 
     var errorOTP: String? = null
+
+    var errorTitle: String? = null
+
+    var errorJobType: String? =null
+
+    var errorCompnayName: String? =null
+
+    var errorLocation: String? =null
+
+    var errorYears: String? =null
+
+    var errorMonths: String? =null
 }

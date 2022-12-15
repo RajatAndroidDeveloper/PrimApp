@@ -43,6 +43,13 @@ fun markRequiredInRed(textInput: TextInputLayout, isRequired: Boolean? = false) 
     }
 }
 
+@BindingAdapter("isRequired", "hint")
+fun markRequiredWithHint(textInput: TextInputLayout, isRequired: Boolean? = false, hint: String?) {
+    if (isRequired == true) {
+        textInput.hint = "$hint *"
+    }
+}
+
 @BindingAdapter("errorText")
 fun textInputErrorFieldBinding(textInput: TextInputLayout, errorMessage: String?) {
     textInput.error = errorMessage
@@ -674,10 +681,10 @@ fun portfolioExperienceText(textView: TextView, data: ExperienceData?) {
             textToDisplay = "Current | ${it.location}"
         } else {
             if (it.years != 0) {
-                textToDisplay = "${textView.resources.getQuantityString(R.plurals.count_years, it.years)} "
+                textToDisplay = "${textView.resources.getQuantityString(R.plurals.count_years, it.years, it.years)} "
             }
             if (it.months != 0) {
-                textToDisplay = "${textView.resources.getQuantityString(R.plurals.count_months, it.months)} "
+                textToDisplay = "${textView.resources.getQuantityString(R.plurals.count_months, it.months, it.months)} "
             }
             textToDisplay = "${textToDisplay}| ${it.location}"
         }

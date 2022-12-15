@@ -452,4 +452,7 @@ interface ApiService {
 
     @DELETE(ApiConstant.DELETE_MENTORING_PORTFOLIO)
     suspend fun deleteMentoringPortfolio(@Path("portfolioId") id: Int): DeleteGenericResponse
+
+    @POST(ApiConstant.ADD_EXPERIENCE)
+    suspend fun addPortfolioExperience(@Body request: AddExperienceRequest): AddExperienceResponse
 }
