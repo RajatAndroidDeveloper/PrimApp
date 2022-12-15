@@ -66,6 +66,7 @@ class AddExperienceFragment : BaseFragment<FragmentAddExperienceBinding>() {
                     it.months
                 )
             )
+            binding.chkCurrentCompany.isChecked = it.isCurrentCompany
 
             viewModel.addExperienceRequestModel.value = data
         }
