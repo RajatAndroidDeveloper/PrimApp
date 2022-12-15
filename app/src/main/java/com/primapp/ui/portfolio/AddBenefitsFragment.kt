@@ -80,6 +80,8 @@ class AddBenefitsFragment : BaseFragment<FragmentAddBenefitsBinding>() {
                     Status.SUCCESS -> {
                         it.data?.let {
                             adapter.addBenefit(it.content)
+                            //Update list to avoid api call
+                            portfolioContent.benefits = adapter.list
                         }
                     }
                 }
@@ -99,6 +101,8 @@ class AddBenefitsFragment : BaseFragment<FragmentAddBenefitsBinding>() {
                     Status.SUCCESS -> {
                         it.data?.let {
                             adapter.updateBenefit(it.content)
+                            //Update list to avoid api call
+                            portfolioContent.benefits = adapter.list
                         }
                     }
                 }
@@ -118,6 +122,8 @@ class AddBenefitsFragment : BaseFragment<FragmentAddBenefitsBinding>() {
                     Status.SUCCESS -> {
                         it.data?.content?.let {
                             adapter.deleteBenefit(it.id)
+                            //Update list to avoid api call
+                            portfolioContent.benefits = adapter.list
                         }
                     }
                 }

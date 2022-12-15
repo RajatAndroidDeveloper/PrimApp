@@ -39,7 +39,7 @@ class PortfolioViewModel @Inject constructor(
     init {
         errorFieldsLiveData.value = errorFields
         mentoringPortfolioRequestModel.value = MentoringPortfolioRequest(null, null, null)
-        addExperienceRequestModel.value = AddExperienceRequest(null,false,null,null,null,null, null)
+        addExperienceRequestModel.value = AddExperienceRequest(null, false, null, null, null, null, null)
     }
 
     fun validateData(): Boolean {
@@ -140,7 +140,8 @@ class PortfolioViewModel @Inject constructor(
     }
 
     private var _deleteMentoringPortfolioLiveData = MutableLiveData<Event<Resource<DeleteGenericResponse>>>()
-    var deleteMentoringPortfolioLiveData: LiveData<Event<Resource<DeleteGenericResponse>>> = _deleteMentoringPortfolioLiveData
+    var deleteMentoringPortfolioLiveData: LiveData<Event<Resource<DeleteGenericResponse>>> =
+        _deleteMentoringPortfolioLiveData
 
     fun deleteMentoringPortfolio(id: Int) = viewModelScope.launch {
         _deleteMentoringPortfolioLiveData.postValue(Event(Resource.loading(null)))
@@ -148,11 +149,28 @@ class PortfolioViewModel @Inject constructor(
     }
 
     private var _addPortfolioExperienceLiveData = MutableLiveData<Event<Resource<AddExperienceResponse>>>()
-    var addPortfolioExperienceLiveData: LiveData<Event<Resource<AddExperienceResponse>>> = _addPortfolioExperienceLiveData
+    var addPortfolioExperienceLiveData: LiveData<Event<Resource<AddExperienceResponse>>> =
+        _addPortfolioExperienceLiveData
 
     fun addPortfolioExperience() = viewModelScope.launch {
         _addPortfolioExperienceLiveData.postValue(Event(Resource.loading(null)))
         _addPortfolioExperienceLiveData.postValue(Event(repo.addPortfolioExperience(addExperienceRequestModel.value!!)))
+    }
+
+    private var _deleteExperienceLiveData = MutableLiveData<Event<Resource<DeleteGenericResponse>>>()
+    var deleteExperienceLiveData: LiveData<Event<Resource<DeleteGenericResponse>>> = _deleteExperienceLiveData
+
+    fun deleteExperience(id: Int) = viewModelScope.launch {
+        _deleteExperienceLiveData.postValue(Event(Resource.loading(null)))
+        _deleteExperienceLiveData.postValue(Event(repo.deleteExperience(id)))
+    }
+
+    private var _updateExperienceLiveData = MutableLiveData<Event<Resource<AddExperienceResponse>>>()
+    var updateExperienceLiveData: LiveData<Event<Resource<AddExperienceResponse>>> = _updateExperienceLiveData
+
+    fun updateExperience(id: Int) = viewModelScope.launch {
+        _updateExperienceLiveData.postValue(Event(Resource.loading(null)))
+        _updateExperienceLiveData.postValue(Event(repo.updateExperience(id, addExperienceRequestModel.value!!)))
     }
 
     // get reference data

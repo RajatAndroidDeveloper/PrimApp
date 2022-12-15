@@ -10,6 +10,8 @@ import com.primapp.constants.ReferenceEntityTypes
 import com.primapp.databinding.FragmentAddExperienceBinding
 import com.primapp.extensions.showError
 import com.primapp.model.auth.ReferenceItems
+import com.primapp.model.portfolio.ExperienceData
+import com.primapp.model.portfolio.PortfolioContent
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.initial.AutocompleteListArrayAdapter
@@ -19,6 +21,8 @@ import kotlinx.android.synthetic.main.toolbar_inner_back.*
 
 class AddExperienceFragment : BaseFragment<FragmentAddExperienceBinding>() {
 
+    private var portfolioContent: PortfolioContent? = null
+    var experienceData: ExperienceData? = null
     val adapterJobType by lazy { AutocompleteListArrayAdapter(requireContext(), R.layout.item_simple_text) }
     val adapterYears by lazy { AutocompleteListArrayAdapter(requireContext(), R.layout.item_simple_text) }
     val adapterMonths by lazy { AutocompleteListArrayAdapter(requireContext(), R.layout.item_simple_text) }
@@ -41,6 +45,30 @@ class AddExperienceFragment : BaseFragment<FragmentAddExperienceBinding>() {
     fun setData() {
         binding.frag = this
         binding.viewModel = viewModel
+        portfolioContent = AddExperienceFragmentArgs.fromBundle(requireArguments()).portfolioData
+        experienceData = AddExperienceFragmentArgs.fromBundle(requireArguments()).experienceData
+
+        experienceData?.let {
+            val data = viewModel.addExperienceRequestModel.value
+            data?.title = it.title
+            data?.jobType = it.jobType?.id
+            data?.companyName = it.companyName
+            data?.location = it.location
+            data?.isCurrentCompany = it.isCurrentCompany
+            data?.years = it.years
+            data?.months = it.months
+            binding.mAutoCompleteJobType.setText(it.jobType?.name)
+            binding.mAutoCompleteYears.setText(resources.getQuantityString(R.plurals.count_years, it.years, it.years))
+            binding.mAutoCompleteMonths.setText(
+                resources.getQuantityString(
+                    R.plurals.count_months,
+                    it.months,
+                    it.months
+                )
+            )
+
+            viewModel.addExperienceRequestModel.value = data
+        }
     }
 
     private fun setObserver() {
@@ -69,7 +97,37 @@ class AddExperienceFragment : BaseFragment<FragmentAddExperienceBinding>() {
             it.getContentIfNotHandled()?.let {
                 when (it.status) {
                     Status.SUCCESS -> {
+                        it.data?.content?.let {
+                            //Update list to avoid api call
+                            portfolioContent?.experiences?.add(it)
+                        }
                         DialogUtils.showCloseDialog(requireActivity(), R.string.portfolio_experience_added) {
+                            findNavController().popBackStack()
+                        }
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                }
+            }
+        })
+
+        viewModel.updateExperienceLiveData.observe(viewLifecycleOwner, Observer {
+            hideLoading()
+            it.getContentIfNotHandled()?.let {
+                when (it.status) {
+                    Status.SUCCESS -> {
+                        //Update list to avoid api call
+                        it.data?.content?.let { data ->
+                            val dataInList = portfolioContent?.experiences?.find { it.id == data.id }
+                            val index = portfolioContent?.experiences?.indexOf(dataInList)
+                            if (index!=null && index != -1 && portfolioContent != null)
+                                portfolioContent?.experiences?.set(index, data)
+                        }
+                        DialogUtils.showCloseDialog(requireActivity(), R.string.portfolio_experience_updated) {
                             findNavController().popBackStack()
                         }
                     }
@@ -186,7 +244,11 @@ class AddExperienceFragment : BaseFragment<FragmentAddExperienceBinding>() {
         binding.mAutoCompleteYears.clearFocus()
         binding.mAutoCompleteMonths.clearFocus()
         if (viewModel.validateData()) {
-            viewModel.addPortfolioExperience()
+            if (experienceData != null) {
+                viewModel.updateExperience(experienceData!!.id)
+            } else {
+                viewModel.addPortfolioExperience()
+            }
         }
     }
 }

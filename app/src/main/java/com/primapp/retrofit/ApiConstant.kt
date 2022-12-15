@@ -101,4 +101,5 @@ object ApiConstant {
     const val ADD_MENTORING_PORTFOLIO = "users/mentoring-portfolio/"
     const val DELETE_MENTORING_PORTFOLIO = "users/mentoring-portfolio/{portfolioId}/"
     const val ADD_EXPERIENCE = "users/experience/"
+    const val UPDATE_EXPERIENCE = "users/experience/{experienceId}/"
 }

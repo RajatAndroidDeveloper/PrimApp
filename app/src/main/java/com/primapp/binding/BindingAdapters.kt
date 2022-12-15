@@ -684,7 +684,7 @@ fun portfolioExperienceText(textView: TextView, data: ExperienceData?) {
                 textToDisplay = "${textView.resources.getQuantityString(R.plurals.count_years, it.years, it.years)} "
             }
             if (it.months != 0) {
-                textToDisplay = "${textView.resources.getQuantityString(R.plurals.count_months, it.months, it.months)} "
+                textToDisplay += "${textView.resources.getQuantityString(R.plurals.count_months, it.months, it.months)} "
             }
             textToDisplay = "${textToDisplay}| ${it.location}"
         }

@@ -410,7 +410,19 @@
         android:id="@+id/addExperienceFragment"
         android:name="com.primapp.ui.portfolio.AddExperienceFragment"
         android:label="AddExperienceFragment"
-        tools:layout="@layout/fragment_add_experience" />
+        tools:layout="@layout/fragment_add_experience">
+        <argument
+            android:name="experienceData"
+            android:defaultValue="@null"
+            app:argType="com.primapp.model.portfolio.ExperienceData"
+            app:nullable="true" />
+        <argument
+            android:name="portfolioData"
+            app:argType="com.primapp.model.portfolio.PortfolioContent"
+            app:nullable="true"
+            android:defaultValue="@null" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/addBenefitsFragment"
@@ -426,6 +438,15 @@
         android:name="com.primapp.ui.portfolio.AddMentoringPortfolioFragment"
         android:label="AddMentoringPortfolioFragment"
         tools:layout="@layout/fragment_add_mentoring_portfolio">
+        <argument
+            android:name="portfolioData"
+            app:argType="com.primapp.model.portfolio.PortfolioContent" />
+    </fragment>
+    <fragment
+        android:id="@+id/updateExperienceFragment"
+        android:name="com.primapp.ui.portfolio.UpdateExperienceFragment"
+        android:label="UpdateExperienceFragment"
+        tools:layout="@layout/fragment_update_experience">
         <argument
             android:name="portfolioData"
             app:argType="com.primapp.model.portfolio.PortfolioContent" />

@@ -5,6 +5,7 @@ import com.primapp.model.comment.CommentData
 import com.primapp.model.community.CommunityData
 import com.primapp.model.members.CommunityMembersData
 import com.primapp.model.portfolio.BenefitsData
+import com.primapp.model.portfolio.ExperienceData
 import com.primapp.model.post.PostListResult
 import com.primapp.model.reply.ReplyData
 import com.sendbird.android.BaseMessage
@@ -48,3 +49,4 @@ data class ReportedByMembers(val postId: Int)
 //Portfolio
 data class EditBenefits(val benefitData: BenefitsData)
 data class DeleteItem(val id: Int)
+data class EditExperience(val experienceData: ExperienceData)

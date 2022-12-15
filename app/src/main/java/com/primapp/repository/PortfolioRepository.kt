@@ -81,6 +81,22 @@ class PortfolioRepository @Inject constructor(
         }
     }
 
+    suspend fun deleteExperience(id: Int): Resource<DeleteGenericResponse> {
+        return try {
+            responseHandler.handleResponse(apiService.deleteExperience(id))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    suspend fun updateExperience(id: Int, request: AddExperienceRequest): Resource<AddExperienceResponse> {
+        return try {
+            responseHandler.handleResponse(apiService.updateExperience(id, request))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
     //To Upload file/image
 
     suspend fun generatePresignedURL(fileName: String): Resource<PresignedURLResponseModel> {

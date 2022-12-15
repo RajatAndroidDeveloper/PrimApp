@@ -455,4 +455,13 @@ interface ApiService {
 
     @POST(ApiConstant.ADD_EXPERIENCE)
     suspend fun addPortfolioExperience(@Body request: AddExperienceRequest): AddExperienceResponse
+
+    @DELETE(ApiConstant.UPDATE_EXPERIENCE)
+    suspend fun deleteExperience(@Path("experienceId") experienceId: Int): DeleteGenericResponse
+
+    @PATCH(ApiConstant.UPDATE_EXPERIENCE)
+    suspend fun updateExperience(
+        @Path("experienceId") experienceId: Int,
+        @Body request: AddExperienceRequest
+    ): AddExperienceResponse
 }

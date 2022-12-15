@@ -59,7 +59,10 @@ class PortfolioDashboardFragment : BaseFragment<FragmentPortfolioDashboardBindin
         binding.frag = this
         userId = PortfolioDashboardFragmentArgs.fromBundle(requireArguments()).userId
         binding.isLoggedInUser = (userId == UserCache.getUserId(requireContext()))
-
+        if (isLoaded && this::portfolioContent.isInitialized) {
+            loadDataToAdapters()
+            return
+        }
         viewModel.getPortfolioData(userId!!)
     }
 
@@ -76,29 +79,34 @@ class PortfolioDashboardFragment : BaseFragment<FragmentPortfolioDashboardBindin
                     }
                     Status.SUCCESS -> {
                         it.data?.let { response ->
-                            binding.portfolioData = response.content
                             portfolioContent = response.content
 
-                            response.content.mentoringPortfolio?.let { mentrPortfolio ->
-                                adapterMentoringPortfolio.addData(mentrPortfolio)
-                            }
-
-                            response.content.experiences?.let { exp ->
-                                adapterPortfolioExperience.addData(exp)
-                            }
-
-                            response.content.skills_certificate?.let { skillNCer ->
-                                adapterPortfolioSkillsNCertificate.addData(skillNCer)
-                            }
-
-                            response.content.benefits?.let { benefitData ->
-                                adapterPortfolioBenefits.addData(benefitData)
-                            }
+                            loadDataToAdapters()
                         }
                     }
                 }
             }
         })
+    }
+
+    private fun loadDataToAdapters() {
+        binding.portfolioData = portfolioContent
+
+        portfolioContent.mentoringPortfolio?.let { mentrPortfolio ->
+            adapterMentoringPortfolio.addData(mentrPortfolio)
+        }
+
+        portfolioContent.experiences?.let { exp ->
+            adapterPortfolioExperience.addData(exp)
+        }
+
+        portfolioContent.skills_certificate?.let { skillNCer ->
+            adapterPortfolioSkillsNCertificate.addData(skillNCer)
+        }
+
+        portfolioContent.benefits?.let { benefitData ->
+            adapterPortfolioBenefits.addData(benefitData)
+        }
     }
 
     private fun setAdapter() {
@@ -124,7 +132,7 @@ class PortfolioDashboardFragment : BaseFragment<FragmentPortfolioDashboardBindin
     }
 
     fun onAddMentoringPortfolio() {
-        if (userId != UserCache.getUserId(requireContext())) {
+        if (userId != UserCache.getUserId(requireContext()) || !this::portfolioContent.isInitialized) {
             return
         }
         val bundle = Bundle()
@@ -133,21 +141,27 @@ class PortfolioDashboardFragment : BaseFragment<FragmentPortfolioDashboardBindin
     }
 
     fun onAddExperiences() {
-        if (userId != UserCache.getUserId(requireContext())) {
+        if (userId != UserCache.getUserId(requireContext()) || !this::portfolioContent.isInitialized) {
             return
         }
-        findNavController().navigate(R.id.addExperienceFragment)
+        if (portfolioContent.experiences.isNullOrEmpty()) {
+            findNavController().navigate(R.id.addExperienceFragment)
+        } else {
+            val bundle = Bundle()
+            bundle.putSerializable("portfolioData", portfolioContent)
+            findNavController().navigate(R.id.updateExperienceFragment, bundle)
+        }
     }
 
     fun onAddSkills() {
-        if (userId != UserCache.getUserId(requireContext())) {
+        if (userId != UserCache.getUserId(requireContext()) || !this::portfolioContent.isInitialized) {
             return
         }
         showInfo(requireContext(), getString(R.string.not_yet_implemented))
     }
 
     fun onAddBenefits() {
-        if (userId != UserCache.getUserId(requireContext())) {
+        if (userId != UserCache.getUserId(requireContext()) || !this::portfolioContent.isInitialized) {
             return
         }
         val bundle = Bundle()

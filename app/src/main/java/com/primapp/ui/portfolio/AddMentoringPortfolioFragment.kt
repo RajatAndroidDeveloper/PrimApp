@@ -94,6 +94,8 @@ class AddMentoringPortfolioFragment : BaseFragment<FragmentAddMentoringPortfolio
                     Status.SUCCESS -> {
                         it.data?.let {
                             adapter.addItem(it.content)
+                            //Update list to avoid api call
+                            portfolioContent.mentoringPortfolio = adapter.list
                         }
                     }
                 }
@@ -113,6 +115,8 @@ class AddMentoringPortfolioFragment : BaseFragment<FragmentAddMentoringPortfolio
                     Status.SUCCESS -> {
                         it.data?.content?.let {
                             adapter.removeItem(it.id)
+                            //Update list to avoid api call
+                            portfolioContent.mentoringPortfolio = adapter.list
                         }
                     }
                 }

@@ -12,13 +12,13 @@ data class UserPortfolioResponse(
 
 data class PortfolioContent(
     @SerializedName("mentoringPortfolio")
-    val mentoringPortfolio: ArrayList<MentoringPortfolioData>?,
+    var mentoringPortfolio: ArrayList<MentoringPortfolioData>?,
     @SerializedName("experiences")
-    val experiences: ArrayList<ExperienceData>?,
+    var experiences: ArrayList<ExperienceData>?,
     @SerializedName("skills_certificate")
-    val skills_certificate: ArrayList<SkillsCertificateData>?,
+    var skills_certificate: ArrayList<SkillsCertificateData>?,
     @SerializedName("benefits")
-    val benefits: ArrayList<BenefitsData>?,
+    var benefits: ArrayList<BenefitsData>?,
 ) : Serializable
 
 data class ExperienceData(
@@ -27,15 +27,13 @@ data class ExperienceData(
     @SerializedName("company_name")
     val companyName: String?,
     @SerializedName("id")
-    val id: Int?,
+    val id: Int,
     @SerializedName("is_active")
     val isActive: Boolean,
     @SerializedName("is_current_company")
     val isCurrentCompany: Boolean,
     @SerializedName("job_type")
     val jobType: JobType?,
-    @SerializedName("jobType")
-    val jobTypeId: Int?,
     @SerializedName("location")
     val location: String?,
     @SerializedName("months")

@@ -415,4 +415,7 @@
     <string name="months">Months</string>
     <string name="amount_of_time">Amount of time</string>
     <string name="portfolio_experience_added">Portfolio experience added successfully!</string>
+    <string name="remove_experience_msg">Are you sure that you want to remove this experience?</string>
+    <string name="edit_experience">Edit Experience</string>
+    <string name="portfolio_experience_updated">Portfolio experience updated successfully!</string>
 </resources>
