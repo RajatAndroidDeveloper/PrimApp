@@ -14,7 +14,6 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.primapp.R
 import com.primapp.constants.NotificationFilterTypes
-import com.primapp.constants.ReportReasonTypes
 import kotlinx.android.synthetic.main.layout_dialog_help1.*
 import kotlinx.android.synthetic.main.layout_dialog_help1.btnClose
 import kotlinx.android.synthetic.main.layout_dialog_help1.tvDialogMessage
@@ -22,6 +21,9 @@ import kotlinx.android.synthetic.main.layout_dialog_yes_no.*
 import kotlinx.android.synthetic.main.layout_notification_filter.*
 import android.content.DialogInterface
 import androidx.core.view.isVisible
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.primapp.model.portfolio.BenefitsData
+import com.primapp.ui.portfolio.adapter.PortfolioBenefitsAdapter
 import kotlinx.android.synthetic.main.layout_dialog_edittext.*
 
 
@@ -178,6 +180,7 @@ object DialogUtils {
         description: String?,
         value: String?,
         hintText: String?,
+        suggestionList: ArrayList<BenefitsData>?,
         saveCallback: ((filterType: String?) -> Unit)? = null,
         closeCallback: (() -> Unit)? = null
     ) {
@@ -195,6 +198,23 @@ object DialogUtils {
         val editText = dialog.etDialogText
         editText.setText(value)
         editText.hint = hintText
+        //List Related changes
+        dialog.tvSuggestions.isVisible = !suggestionList.isNullOrEmpty()
+        dialog.rvSuggestions.isVisible = !suggestionList.isNullOrEmpty()
+        //val list: List<BenefitsData>? = suggestionList?.filterIsInstance<BenefitsData>()
+        if (!suggestionList.isNullOrEmpty()) {
+            val adapter = PortfolioBenefitsAdapter { item ->
+                if (item is String) {
+                    saveCallback?.invoke(item)
+                    dialog.dismiss()
+                }
+            }
+            dialog.rvSuggestions.apply {
+                this.layoutManager = FlexboxLayoutManager(activity)
+            }
+            dialog.rvSuggestions.adapter = adapter
+            adapter.addData(suggestionList)
+        }
 
         dialog.btnSave.setOnClickListener {
             saveCallback?.invoke(editText.text.toString())

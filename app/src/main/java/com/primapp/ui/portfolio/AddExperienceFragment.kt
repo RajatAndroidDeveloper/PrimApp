@@ -60,11 +60,7 @@ class AddExperienceFragment : BaseFragment<FragmentAddExperienceBinding>() {
             binding.mAutoCompleteJobType.setText(it.jobType?.name)
             binding.mAutoCompleteYears.setText(resources.getQuantityString(R.plurals.count_years, it.years, it.years))
             binding.mAutoCompleteMonths.setText(
-                resources.getQuantityString(
-                    R.plurals.count_months,
-                    it.months,
-                    it.months
-                )
+                resources.getQuantityString(R.plurals.count_months, it.months, it.months)
             )
             binding.chkCurrentCompany.isChecked = it.isCurrentCompany
 
@@ -125,7 +121,7 @@ class AddExperienceFragment : BaseFragment<FragmentAddExperienceBinding>() {
                         it.data?.content?.let { data ->
                             val dataInList = portfolioContent?.experiences?.find { it.id == data.id }
                             val index = portfolioContent?.experiences?.indexOf(dataInList)
-                            if (index!=null && index != -1 && portfolioContent != null)
+                            if (index != null && index != -1 && portfolioContent != null)
                                 portfolioContent?.experiences?.set(index, data)
                         }
                         DialogUtils.showCloseDialog(requireActivity(), R.string.portfolio_experience_updated) {

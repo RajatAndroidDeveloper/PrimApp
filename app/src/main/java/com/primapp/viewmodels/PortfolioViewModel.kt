@@ -173,6 +173,14 @@ class PortfolioViewModel @Inject constructor(
         _updateExperienceLiveData.postValue(Event(repo.updateExperience(id, addExperienceRequestModel.value!!)))
     }
 
+    private var _benefitSuggestionsLiveData = MutableLiveData<Event<Resource<BenefitSuggestionResponse>>>()
+    var benefitSuggestionsLiveData: LiveData<Event<Resource<BenefitSuggestionResponse>>> = _benefitSuggestionsLiveData
+
+    fun getBenefitSuggestions() = viewModelScope.launch {
+        _benefitSuggestionsLiveData.postValue(Event(Resource.loading(null)))
+        _benefitSuggestionsLiveData.postValue(Event(repo.getBenefitSuggestions()))
+    }
+
     // get reference data
     private var _referenceLiveData = MutableLiveData<Resource<ReferenceResponseDataModel>>()
     var referenceLiveData: LiveData<Resource<ReferenceResponseDataModel>> = _referenceLiveData

@@ -464,4 +464,7 @@ interface ApiService {
         @Path("experienceId") experienceId: Int,
         @Body request: AddExperienceRequest
     ): AddExperienceResponse
+
+    @GET(ApiConstant.BENEFIT_SUGGESTIONS)
+    suspend fun getBenefitSuggestions(): BenefitSuggestionResponse
 }

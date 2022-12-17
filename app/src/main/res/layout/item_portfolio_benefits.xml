@@ -14,9 +14,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/space_extraSmall"
+        android:foreground="?attr/selectableItemBackground"
         android:background="@drawable/shape_rounded_corner_tags"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:targetApi="m">
 
         <TextView
             android:id="@+id/tvSkillName"

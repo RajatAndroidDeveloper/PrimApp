@@ -9,6 +9,7 @@ import com.primapp.databinding.FragmentAddBenefitsBinding
 import com.primapp.extensions.showError
 import com.primapp.model.DeleteItem
 import com.primapp.model.EditBenefits
+import com.primapp.model.portfolio.BenefitsData
 import com.primapp.model.portfolio.PortfolioContent
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
@@ -20,6 +21,8 @@ import kotlinx.android.synthetic.main.toolbar_community_back.*
 class AddBenefitsFragment : BaseFragment<FragmentAddBenefitsBinding>() {
 
     lateinit var portfolioContent: PortfolioContent
+
+    var benefitsSuggestions = ArrayList<BenefitsData>()
 
     private val adapter by lazy { AddBenefitsAdapter { item -> onItemClick(item) } }
 
@@ -52,18 +55,20 @@ class AddBenefitsFragment : BaseFragment<FragmentAddBenefitsBinding>() {
         }
 
         ivAdd.setOnClickListener {
-            DialogUtils.showEditTextDialog(
-                requireActivity(),
+            DialogUtils.showEditTextDialog(requireActivity(),
                 getString(R.string.benefits),
                 getString(R.string.add_benefit),
                 null,
                 getString(R.string.add_benefit_here),
+                benefitsSuggestions,
                 {
                     if (!it.isNullOrEmpty()) {
                         viewModel.addBenefit(it)
                     }
                 })
         }
+
+        viewModel.getBenefitSuggestions()
     }
 
     private fun setObserver() {
@@ -129,18 +134,38 @@ class AddBenefitsFragment : BaseFragment<FragmentAddBenefitsBinding>() {
                 }
             }
         })
+
+        viewModel.benefitSuggestionsLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.SUCCESS -> {
+                        it.data?.content?.let {
+                            benefitsSuggestions.clear()
+                            benefitsSuggestions.addAll(it)
+                        }
+                    }
+                }
+            }
+        })
     }
 
 
     private fun onItemClick(item: Any?) {
         when (item) {
             is EditBenefits -> {
-                DialogUtils.showEditTextDialog(
-                    requireActivity(),
+                DialogUtils.showEditTextDialog(requireActivity(),
                     getString(R.string.benefits),
                     getString(R.string.edit_benefit),
                     item.benefitData.name,
                     getString(R.string.add_benefit_here),
+                    benefitsSuggestions,
                     {
                         if (!it.isNullOrEmpty() && !it.equals(item.benefitData.name)) {
                             viewModel.updateBenefit(item.benefitData.id, it)

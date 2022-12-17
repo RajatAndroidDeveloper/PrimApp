@@ -40,7 +40,7 @@ class PortfolioDashboardFragment : BaseFragment<FragmentPortfolioDashboardBindin
     private val adapterMentoringPortfolio by lazy { MentoringPortfolioAdapter { item -> onItemClick(item) } }
     private val adapterPortfolioExperience by lazy { PortfolioExperienceAdapter() }
     private val adapterPortfolioSkillsNCertificate by lazy { PortfolioSkillsNCertificateAdapter() }
-    private val adapterPortfolioBenefits by lazy { PortfolioBenefitsAdapter() }
+    private val adapterPortfolioBenefits by lazy { PortfolioBenefitsAdapter { item -> onItemClick(item) } }
 
     val viewModel by viewModels<PortfolioViewModel> { viewModelFactory }
 

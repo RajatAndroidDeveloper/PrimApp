@@ -418,4 +418,5 @@
     <string name="remove_experience_msg">Are you sure that you want to remove this experience?</string>
     <string name="edit_experience">Edit Experience</string>
     <string name="portfolio_experience_updated">Portfolio experience updated successfully!</string>
+    <string name="suggestions">Suggestions</string>
 </resources>

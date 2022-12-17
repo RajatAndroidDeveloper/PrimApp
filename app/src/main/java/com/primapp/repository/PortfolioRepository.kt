@@ -97,6 +97,14 @@ class PortfolioRepository @Inject constructor(
         }
     }
 
+    suspend fun getBenefitSuggestions(): Resource<BenefitSuggestionResponse> {
+        return try {
+            responseHandler.handleResponse(apiService.getBenefitSuggestions())
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
     //To Upload file/image
 
     suspend fun generatePresignedURL(fileName: String): Resource<PresignedURLResponseModel> {

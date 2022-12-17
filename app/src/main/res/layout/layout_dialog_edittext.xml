@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -56,22 +57,62 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/space_large"
                 android:layout_marginTop="@dimen/space_extraSmall"
+                android:background="@drawable/shape_rounded_edittext_with_border"
                 android:cursorVisible="true"
                 android:drawableStart="@null"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:gravity="top"
-                android:imeActionLabel="Done"
+                android:gravity="center_vertical"
                 android:imeOptions="actionDone"
-                android:lines="1"
+                android:singleLine="true"
+                android:textCursorDrawable="@null"
+                android:padding="@dimen/space_normal"
+                android:textColor="@color/textColor"
+                android:textColorHint="@color/lightGrey"
                 android:textSize="@dimen/textNormal" />
+
+            <TextView
+                android:id="@+id/tvSuggestions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_large"
+                android:layout_marginTop="@dimen/space_normal"
+                android:fontFamily="@font/poppins_medium"
+                android:gravity="center"
+                android:text="@string/suggestions"
+                android:textAppearance="?attr/textAppearanceSearchResultTitle"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/textMedium" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvSuggestions"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:padding="@dimen/space_small"
+                    android:scrollbars="horizontal"
+                    card_view:layout_constraintBottom_toBottomOf="parent"
+                    card_view:layout_constraintEnd_toEndOf="parent"
+                    card_view:layout_constraintHeight_default="wrap"
+                    card_view:layout_constraintHeight_max="400dp"
+                    card_view:layout_constraintStart_toStartOf="parent"
+                    card_view:layout_constraintTop_toTopOf="parent"
+                    tools:itemCount="6"
+                    tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    tools:listitem="@layout/item_portfolio_benefits"
+                    tools:orientation="horizontal"
+                    tools:spanCount="2" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <Button
                 android:id="@+id/btnSave"
                 style="@style/buttonFilledPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_largeX"
                 android:background="@color/colorAccent"
                 android:foreground="?attr/selectableItemBackground"
                 android:padding="@dimen/space_large"

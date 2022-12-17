@@ -11,7 +11,7 @@ import com.primapp.databinding.ItemPortfolioBenefitsBinding
 import com.primapp.model.portfolio.BenefitsData
 import javax.inject.Inject
 
-class PortfolioBenefitsAdapter @Inject constructor() :
+class PortfolioBenefitsAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) :
     RecyclerView.Adapter<PortfolioBenefitsAdapter.BenefitsViewHolder>() {
 
     val list = ArrayList<BenefitsData>()
@@ -54,6 +54,10 @@ class PortfolioBenefitsAdapter @Inject constructor() :
                     binding.llBenefitsLayout.backgroundTintList =
                         ContextCompat.getColorStateList(binding.llBenefitsLayout.context, R.color.lightGrey)
                 }
+            }
+
+            binding.llBenefitsLayout.setOnClickListener {
+                onItemClick.invoke(data.name)
             }
         }
     }
