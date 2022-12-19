@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="@{portfolioData.mentoringPortfolio.size == 0}"
-                android:onClick="@{()->frag.onAddMentoringPortfolio()}"
+                android:onClick="@{()-> isLoggedInUser ? frag.onAddMentoringPortfolio() : null}"
                 android:orientation="vertical"
                 android:paddingHorizontal="@dimen/space_large"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -57,6 +57,18 @@
                         android:text="@string/mentoring_portfolio"
                         android:textColor="@color/black"
                         android:textSize="@dimen/textMedium" />
+
+                    <TextView
+                        android:id="@+id/tvViewAll"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:fontFamily="@font/poppins_medium"
+                        android:onClick="@{()->frag.onAddMentoringPortfolio()}"
+                        android:text="@string/view_all"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="@dimen/textMedium"
+                        android:visibility="@{isLoggedInUser ? View.GONE : View.VISIBLE}" />
 
                     <ImageView
                         android:layout_width="wrap_content"

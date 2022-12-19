@@ -36,13 +36,14 @@ class AddMentoringPortfolioFragment : BaseFragment<FragmentAddMentoringPortfolio
     var fileType: String? = null
     var isThumbnailUploaded: Boolean = false
     var isShowRemove: Boolean = false
+    var isLoggedInUser: Boolean = false
 
     @Inject
     lateinit var downloadManager: DownloadManager
 
     lateinit var portfolioContent: PortfolioContent
 
-    private val adapter by lazy { AddMentoringPortfolioAdapter { item -> onItemClick(item) } }
+    private var adapter: AddMentoringPortfolioAdapter? = null
 
     val viewModel by viewModels<PortfolioViewModel> { viewModelFactory }
 
@@ -52,7 +53,6 @@ class AddMentoringPortfolioFragment : BaseFragment<FragmentAddMentoringPortfolio
         super.onActivityCreated(savedInstanceState)
 
         setToolbar(getString(R.string.mentoring_portfolio), toolbar)
-        setAdapter()
         setData()
         setObserver()
     }
@@ -61,9 +61,12 @@ class AddMentoringPortfolioFragment : BaseFragment<FragmentAddMentoringPortfolio
         binding.frag = this
         binding.isShowRemove = isShowRemove
         portfolioContent = AddMentoringPortfolioFragmentArgs.fromBundle(requireArguments()).portfolioData
-
+        isLoggedInUser = AddMentoringPortfolioFragmentArgs.fromBundle(requireArguments()).isLoggedInUser
+        binding.isLoggedInUser = isLoggedInUser
+        adapter = AddMentoringPortfolioAdapter(isLoggedInUser) { item -> onItemClick(item) }
+        setAdapter()
         portfolioContent.mentoringPortfolio?.let {
-            adapter.addData(it)
+            adapter?.addData(it)
         }
     }
 
@@ -76,7 +79,7 @@ class AddMentoringPortfolioFragment : BaseFragment<FragmentAddMentoringPortfolio
 
     fun onToggleRemove() {
         isShowRemove = !isShowRemove
-        adapter.toggleRemoveButton()
+        adapter?.toggleRemoveButton()
         binding.isShowRemove = isShowRemove
     }
 
@@ -93,9 +96,9 @@ class AddMentoringPortfolioFragment : BaseFragment<FragmentAddMentoringPortfolio
                     }
                     Status.SUCCESS -> {
                         it.data?.let {
-                            adapter.addItem(it.content)
+                            adapter?.addItem(it.content)
                             //Update list to avoid api call
-                            portfolioContent.mentoringPortfolio = adapter.list
+                            portfolioContent.mentoringPortfolio = adapter?.list
                         }
                     }
                 }
@@ -114,9 +117,9 @@ class AddMentoringPortfolioFragment : BaseFragment<FragmentAddMentoringPortfolio
                     }
                     Status.SUCCESS -> {
                         it.data?.content?.let {
-                            adapter.removeItem(it.id)
+                            adapter?.removeItem(it.id)
                             //Update list to avoid api call
-                            portfolioContent.mentoringPortfolio = adapter.list
+                            portfolioContent.mentoringPortfolio = adapter?.list
                         }
                     }
                 }

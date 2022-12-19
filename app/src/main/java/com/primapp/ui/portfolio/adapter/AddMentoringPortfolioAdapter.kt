@@ -15,7 +15,7 @@ import com.primapp.model.ShowVideo
 import com.primapp.model.portfolio.MentoringPortfolioData
 import javax.inject.Inject
 
-class AddMentoringPortfolioAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) :
+class AddMentoringPortfolioAdapter @Inject constructor(val isLoggedInUser: Boolean, val onItemClick: (Any?) -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val list = ArrayList<MentoringPortfolioData>()
@@ -85,7 +85,13 @@ class AddMentoringPortfolioAdapter @Inject constructor(val onItemClick: (Any?) -
 
     }
 
-    override fun getItemCount(): Int = list.size + 1
+    override fun getItemCount(): Int {
+        if (isLoggedInUser) {
+            return list.size + 1
+        } else {
+            return list.size
+        }
+    }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (getItemViewType(position)) {

@@ -419,4 +419,5 @@
     <string name="edit_experience">Edit Experience</string>
     <string name="portfolio_experience_updated">Portfolio experience updated successfully!</string>
     <string name="suggestions">Suggestions</string>
+    <string name="view_all">View All</string>
 </resources>

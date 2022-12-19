@@ -132,10 +132,11 @@ class PortfolioDashboardFragment : BaseFragment<FragmentPortfolioDashboardBindin
     }
 
     fun onAddMentoringPortfolio() {
-        if (userId != UserCache.getUserId(requireContext()) || !this::portfolioContent.isInitialized) {
+        if (!this::portfolioContent.isInitialized) {
             return
         }
         val bundle = Bundle()
+        bundle.putBoolean("isLoggedInUser", userId == UserCache.getUserId(requireContext()))
         bundle.putSerializable("portfolioData", portfolioContent)
         findNavController().navigate(R.id.addMentoringPortfolioFragment, bundle)
     }

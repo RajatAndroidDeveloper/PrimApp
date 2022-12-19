@@ -441,6 +441,10 @@
         <argument
             android:name="portfolioData"
             app:argType="com.primapp.model.portfolio.PortfolioContent" />
+        <argument
+            android:name="isLoggedInUser"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
     <fragment
         android:id="@+id/updateExperienceFragment"

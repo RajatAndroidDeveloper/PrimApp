@@ -5,8 +5,14 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="isShowRemove"
+            type="Boolean" />
+
+        <variable
+            name="isLoggedInUser"
             type="Boolean" />
 
         <variable
@@ -51,6 +57,7 @@
                 android:onClick="@{()-> frag.onToggleRemove()}"
                 android:padding="@dimen/space_extraSmall"
                 android:src="@{isShowRemove ? @drawable/ic_check_white_24dp : @drawable/ic_baseline_mode_edit_24}"
+                android:visibility="@{isLoggedInUser ? View.VISIBLE : View.GONE}"
                 app:tint="@color/colorAccent"
                 tools:src="@drawable/ic_baseline_mode_edit_24" />
         </LinearLayout>
