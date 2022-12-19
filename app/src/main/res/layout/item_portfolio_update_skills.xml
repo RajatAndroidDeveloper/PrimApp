@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.primapp.model.portfolio.SkillsCertificateData" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/llSkillsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/space_small"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/space_small">
+
+        <TextView
+            android:id="@+id/tvSkillName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins_medium"
+            android:paddingVertical="2dp"
+            android:text="@{data.name}"
+            android:textColor="@color/black"
+            tools:text="Insurance" />
+
+        <ImageView
+            android:id="@+id/ivDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:padding="@dimen/space_extraSmall"
+            android:src="@drawable/ic_baseline_delete_24" />
+    </LinearLayout>
+</layout>

@@ -20,11 +20,19 @@ import kotlinx.android.synthetic.main.layout_dialog_help1.tvDialogMessage
 import kotlinx.android.synthetic.main.layout_dialog_yes_no.*
 import kotlinx.android.synthetic.main.layout_notification_filter.*
 import android.content.DialogInterface
+import android.widget.AutoCompleteTextView
 import androidx.core.view.isVisible
 import com.google.android.flexbox.FlexboxLayoutManager
+import com.primapp.model.auth.ReferenceItems
 import com.primapp.model.portfolio.BenefitsData
+import com.primapp.model.portfolio.SkillsCertificateData
+import com.primapp.ui.initial.AutocompleteListArrayAdapter
 import com.primapp.ui.portfolio.adapter.PortfolioBenefitsAdapter
 import kotlinx.android.synthetic.main.layout_dialog_edittext.*
+import kotlinx.android.synthetic.main.layout_dialog_edittext.btnSave
+import kotlinx.android.synthetic.main.layout_dialog_edittext.ivDialogCloseIcon
+import kotlinx.android.synthetic.main.layout_dialog_edittext.tvDialogTitle
+import kotlinx.android.synthetic.main.layout_dialog_search_text.*
 
 
 object DialogUtils {
@@ -219,6 +227,65 @@ object DialogUtils {
         dialog.btnSave.setOnClickListener {
             saveCallback?.invoke(editText.text.toString())
             dialog.dismiss()
+        }
+
+        dialog.ivDialogCloseIcon.setOnClickListener {
+            closeCallback?.invoke()
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+    fun showSearchTextDialog(
+        activity: Activity,
+        title: String?,
+        skillsList: ArrayList<ReferenceItems>,
+        saveCallback: ((selectedId: Int?) -> Unit)? = null,
+        closeCallback: (() -> Unit)? = null
+    ) {
+        val dialog = Dialog(activity, R.style.Theme_Dialog)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.layout_dialog_search_text)
+
+        dialog.tvDialogTitle.text = title
+        dialog.tvDialogTitle.isVisible = !title.isNullOrEmpty()
+
+        var selectedIdToSend: Int? = null
+
+        val adapterSkillsList = AutocompleteListArrayAdapter(activity, R.layout.item_simple_text)
+        adapterSkillsList.addAll(skillsList)
+
+        dialog.mAutoCompleteSkills.setAdapter(adapterSkillsList)
+        dialog.mAutoCompleteSkills.validator = object : AutoCompleteTextView.Validator {
+            override fun fixText(p0: CharSequence?): CharSequence {
+                return ""
+            }
+
+            override fun isValid(p0: CharSequence?): Boolean {
+                val isDataValid = adapterSkillsList.contains(p0.toString())
+                if (isDataValid) {
+                    selectedIdToSend = adapterSkillsList.getItemId(p0.toString())
+                    dialog.tlSearchBox.error = null
+                } else {
+                    selectedIdToSend = null
+                    dialog.tlSearchBox.error = activity.resources.getString(R.string.valid_empty_skill)
+                }
+
+                return isDataValid
+            }
+        }
+
+        dialog.btnSave.setOnClickListener {
+            dialog.mAutoCompleteSkills.clearFocus()
+            if (dialog.mAutoCompleteSkills.error == null && selectedIdToSend != null) {
+                saveCallback?.invoke(selectedIdToSend)
+                dialog.dismiss()
+            } else {
+                dialog.tlSearchBox.error = activity.resources.getString(R.string.valid_empty_skill)
+            }
         }
 
         dialog.ivDialogCloseIcon.setOnClickListener {

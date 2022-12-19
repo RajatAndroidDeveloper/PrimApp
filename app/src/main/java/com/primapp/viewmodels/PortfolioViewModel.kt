@@ -181,6 +181,30 @@ class PortfolioViewModel @Inject constructor(
         _benefitSuggestionsLiveData.postValue(Event(repo.getBenefitSuggestions()))
     }
 
+    private var _skillsListLiveData = MutableLiveData<Event<Resource<SkillsNCertificateResponse>>>()
+    var skillsListLiveData: LiveData<Event<Resource<SkillsNCertificateResponse>>> = _skillsListLiveData
+
+    fun getSkillsList() = viewModelScope.launch {
+        _skillsListLiveData.postValue(Event(Resource.loading(null)))
+        _skillsListLiveData.postValue(Event(repo.getSkillsList()))
+    }
+
+    private var _addSkillLiveData = MutableLiveData<Event<Resource<AddSkillsResponse>>>()
+    var addSkillLiveData: LiveData<Event<Resource<AddSkillsResponse>>> = _addSkillLiveData
+
+    fun addSkill(id: Int) = viewModelScope.launch {
+        _addSkillLiveData.postValue(Event(Resource.loading(null)))
+        _addSkillLiveData.postValue(Event(repo.addSkill(AddSkillsRequest(arrayListOf(id)))))
+    }
+
+    private var _deleteSkillsLiveData = MutableLiveData<Event<Resource<DeleteGenericResponse>>>()
+    var deleteSkillsLiveData: LiveData<Event<Resource<DeleteGenericResponse>>> = _deleteSkillsLiveData
+
+    fun deleteSkillFromPortfolio(id: Int) = viewModelScope.launch {
+        _deleteSkillsLiveData.postValue(Event(Resource.loading(null)))
+        _deleteSkillsLiveData.postValue(Event(repo.deleteSkillFromPortfolio(id)))
+    }
+
     // get reference data
     private var _referenceLiveData = MutableLiveData<Resource<ReferenceResponseDataModel>>()
     var referenceLiveData: LiveData<Resource<ReferenceResponseDataModel>> = _referenceLiveData

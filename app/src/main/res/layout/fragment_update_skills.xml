@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="frag"
+            type="com.primapp.ui.portfolio.UpdateSkillsFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/backgroundColor"
+        android:paddingTop="@dimen/space_systemTopInset">
+
+        <include layout="@layout/toolbar_community_back" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvSkills"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scrollbars="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/clToolbar"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_portfolio_update_skills"
+            tools:orientation="vertical" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

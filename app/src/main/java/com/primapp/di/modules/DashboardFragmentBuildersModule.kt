@@ -163,4 +163,7 @@ abstract class DashboardFragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeUpdateExperienceFragment(): UpdateExperienceFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeAddSkillsFragment(): UpdateSkillsFragment
 }

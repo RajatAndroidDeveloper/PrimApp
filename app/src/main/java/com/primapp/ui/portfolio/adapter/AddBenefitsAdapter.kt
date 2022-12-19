@@ -74,17 +74,6 @@ class AddBenefitsAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: BenefitsData, position: Int) {
             binding.data = data
-            if (position % 2 == 0) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    binding.llBenefitsLayout.backgroundTintList =
-                        ContextCompat.getColorStateList(binding.llBenefitsLayout.context, R.color.lightAccent)
-                }
-            } else {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    binding.llBenefitsLayout.backgroundTintList =
-                        ContextCompat.getColorStateList(binding.llBenefitsLayout.context, R.color.lightGrey)
-                }
-            }
 
             binding.ivEdit.setOnClickListener {
                 onItemClick(EditBenefits(data))

@@ -418,9 +418,9 @@
             app:nullable="true" />
         <argument
             android:name="portfolioData"
+            android:defaultValue="@null"
             app:argType="com.primapp.model.portfolio.PortfolioContent"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
 
     </fragment>
 
@@ -443,14 +443,23 @@
             app:argType="com.primapp.model.portfolio.PortfolioContent" />
         <argument
             android:name="isLoggedInUser"
-            app:argType="boolean"
-            android:defaultValue="false" />
+            android:defaultValue="false"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/updateExperienceFragment"
         android:name="com.primapp.ui.portfolio.UpdateExperienceFragment"
         android:label="UpdateExperienceFragment"
         tools:layout="@layout/fragment_update_experience">
+        <argument
+            android:name="portfolioData"
+            app:argType="com.primapp.model.portfolio.PortfolioContent" />
+    </fragment>
+    <fragment
+        android:id="@+id/updateSkillsFragment"
+        android:name="com.primapp.ui.portfolio.UpdateSkillsFragment"
+        android:label="AddSkillsFragment"
+        tools:layout="@layout/fragment_update_skills">
         <argument
             android:name="portfolioData"
             app:argType="com.primapp.model.portfolio.PortfolioContent" />

@@ -158,7 +158,9 @@ class PortfolioDashboardFragment : BaseFragment<FragmentPortfolioDashboardBindin
         if (userId != UserCache.getUserId(requireContext()) || !this::portfolioContent.isInitialized) {
             return
         }
-        showInfo(requireContext(), getString(R.string.not_yet_implemented))
+        val bundle = Bundle()
+        bundle.putSerializable("portfolioData", portfolioContent)
+        findNavController().navigate(R.id.updateSkillsFragment, bundle)
     }
 
     fun onAddBenefits() {

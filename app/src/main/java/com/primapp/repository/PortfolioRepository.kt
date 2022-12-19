@@ -105,6 +105,30 @@ class PortfolioRepository @Inject constructor(
         }
     }
 
+    suspend fun getSkillsList(): Resource<SkillsNCertificateResponse> {
+        return try {
+            responseHandler.handleResponse(apiService.getSkillsList())
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    suspend fun addSkill(addSkillsRequest: AddSkillsRequest): Resource<AddSkillsResponse> {
+        return try {
+            responseHandler.handleResponse(apiService.addSkill(addSkillsRequest))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    suspend fun deleteSkillFromPortfolio(id: Int): Resource<DeleteGenericResponse> {
+        return try {
+            responseHandler.handleResponse(apiService.deleteSkillFromPortfolio(id))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
     //To Upload file/image
 
     suspend fun generatePresignedURL(fileName: String): Resource<PresignedURLResponseModel> {

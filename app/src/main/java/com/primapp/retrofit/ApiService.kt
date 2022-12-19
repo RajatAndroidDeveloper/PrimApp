@@ -467,4 +467,13 @@ interface ApiService {
 
     @GET(ApiConstant.BENEFIT_SUGGESTIONS)
     suspend fun getBenefitSuggestions(): BenefitSuggestionResponse
+
+    @GET(ApiConstant.SKILLS_LIST)
+    suspend fun getSkillsList(): SkillsNCertificateResponse
+
+    @POST(ApiConstant.ADD_SKILLS)
+    suspend fun addSkill(@Body request: AddSkillsRequest): AddSkillsResponse
+
+    @DELETE(ApiConstant.DELETE_SKILL)
+    suspend fun deleteSkillFromPortfolio(@Path("skillId") id: Int): DeleteGenericResponse
 }
