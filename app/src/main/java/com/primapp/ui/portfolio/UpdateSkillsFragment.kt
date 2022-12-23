@@ -102,9 +102,11 @@ class UpdateSkillsFragment : BaseFragment<FragmentUpdateSkillsBinding>() {
                     }
                     Status.SUCCESS -> {
                         it.data?.let {
-                            adapter.addItem(it.content)
-                            //Update list to avoid api call
-                            portfolioContent.skills_certificate = adapter.list
+                            it.content?.let { newList ->
+                                adapter.addItems(newList)
+                                //Update list to avoid api call
+                                portfolioContent.skills_certificate = adapter.list
+                            }
                         }
                     }
                 }

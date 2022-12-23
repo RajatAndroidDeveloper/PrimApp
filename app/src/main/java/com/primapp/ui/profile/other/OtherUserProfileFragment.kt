@@ -108,6 +108,7 @@ class OtherUserProfileFragment : BaseFragment<FragmentOtherUserProfileBinding>()
     fun onViewPortfolio() {
         val bundle = Bundle()
         bundle.putInt("userId", user.id)
+        bundle.putString("title", "${user.firstName} ${user.lastName}")
         findNavController().navigate(R.id.portfolioDashboardFragment, bundle)
     }
 

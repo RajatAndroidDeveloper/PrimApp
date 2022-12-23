@@ -421,6 +421,7 @@
     <string name="suggestions">Suggestions</string>
     <string name="view_all">View All</string>
     <string name="add_expertise">Add Expertise</string>
-    <string name="valid_empty_skill">Please enter valid Skill</string>
+    <string name="valid_empty_skill_textbox">Please enter valid Skill</string>
     <string name="remove_skills_msg">Are you sure that you want to remove this skill?</string>
+    <string name="valid_empty_skill">Please select at least 1 Skill</string>
 </resources>

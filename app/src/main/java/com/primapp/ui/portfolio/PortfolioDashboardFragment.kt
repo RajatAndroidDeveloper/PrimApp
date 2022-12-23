@@ -25,6 +25,7 @@ import com.primapp.ui.portfolio.adapter.PortfolioSkillsNCertificateAdapter
 import com.primapp.utils.DownloadUtils
 import com.primapp.viewmodels.PortfolioViewModel
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
+import kotlinx.android.synthetic.main.toolbar_inner_back.view.*
 import javax.inject.Inject
 
 
@@ -49,7 +50,7 @@ class PortfolioDashboardFragment : BaseFragment<FragmentPortfolioDashboardBindin
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        setToolbar(getString(R.string.portfolio), toolbar)
+        setToolbar("", toolbar)
         setData()
         setAdapter()
         setObserver()
@@ -58,6 +59,7 @@ class PortfolioDashboardFragment : BaseFragment<FragmentPortfolioDashboardBindin
     fun setData() {
         binding.frag = this
         userId = PortfolioDashboardFragmentArgs.fromBundle(requireArguments()).userId
+        toolbar.tvTitle.text = PortfolioDashboardFragmentArgs.fromBundle(requireArguments()).title
         binding.isLoggedInUser = (userId == UserCache.getUserId(requireContext()))
         if (isLoaded && this::portfolioContent.isInitialized) {
             loadDataToAdapters()

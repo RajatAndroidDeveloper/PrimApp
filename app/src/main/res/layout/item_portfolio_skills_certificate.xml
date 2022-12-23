@@ -12,7 +12,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_height="92dp"
         android:layout_margin="@dimen/space_small"
         android:background="?attr/selectableItemBackground"
         app:cardCornerRadius="@dimen/space_small">

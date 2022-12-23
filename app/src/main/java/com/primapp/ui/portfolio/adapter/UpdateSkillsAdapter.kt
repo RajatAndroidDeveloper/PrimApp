@@ -27,6 +27,12 @@ class UpdateSkillsAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) :
         notifyItemInserted(lastIndex)
     }
 
+    fun addItems(list: ArrayList<SkillsCertificateData>) {
+        val lastIndex = this.list.size
+        this.list.addAll(list)
+        notifyItemRangeChanged(lastIndex, list.size)
+    }
+
     fun deleteItem(itemId: Int?) {
         itemId?.let { id ->
             val dataInList = list.find { it.id == id }

@@ -33,9 +33,9 @@
             android:id="@+id/imageDot"
             android:layout_width="10dp"
             android:layout_height="10dp"
-            app:layout_constraintBottom_toBottomOf="@id/tvCompanyName"
+            app:layout_constraintBottom_toBottomOf="@id/tvTitle"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvCompanyName"
+            app:layout_constraintTop_toTopOf="@id/tvTitle"
             app:srcCompat="@drawable/shape_circle_accent" />
 
         <View
@@ -50,17 +50,31 @@
             app:layout_constraintTop_toBottomOf="@id/imageDot" />
 
         <TextView
-            android:id="@+id/tvCompanyName"
+            android:id="@+id/tvTitle"
             style="@style/normalBodyText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_large"
             android:layout_marginTop="@dimen/space_small"
             android:fontFamily="@font/poppins_medium"
-            android:text="@{data.companyName}"
+            android:text="@{data.title}"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageDot"
             app:layout_constraintTop_toTopOf="parent"
+            tools:text="Senior Software Engineer" />
+
+        <TextView
+            android:id="@+id/tvCompanyName"
+            style="@style/normalBodyText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_large"
+            android:text="@{data.companyName}"
+            android:textSize="@dimen/textSmall"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageDot"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle"
             tools:text="CASHe - Instant Personal Loan" />
 
         <TextView
@@ -70,7 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_large"
             android:fontFamily="@font/poppins_regular"
-            android:textSize="@dimen/textSmall"
+            android:textSize="@dimen/textExtraSmall"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/tvCompanyName"
             app:layout_constraintTop_toBottomOf="@id/tvCompanyName"

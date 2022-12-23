@@ -64,6 +64,10 @@ class AutocompleteListArrayAdapter(
         return itemList.find { it.itemText.equals(value, true) } != null
     }
 
+    fun getItem(value: String): ReferenceItems? {
+        return itemList.find { it.itemText.equals(value, true) }
+    }
+
     fun getItemId(value: String): Int? {
         val item = itemList.find { it.itemText.equals(value, true) }
         return item!!.itemId

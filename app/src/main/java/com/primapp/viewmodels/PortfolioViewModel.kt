@@ -192,9 +192,9 @@ class PortfolioViewModel @Inject constructor(
     private var _addSkillLiveData = MutableLiveData<Event<Resource<AddSkillsResponse>>>()
     var addSkillLiveData: LiveData<Event<Resource<AddSkillsResponse>>> = _addSkillLiveData
 
-    fun addSkill(id: Int) = viewModelScope.launch {
+    fun addSkill(ids: List<Int>) = viewModelScope.launch {
         _addSkillLiveData.postValue(Event(Resource.loading(null)))
-        _addSkillLiveData.postValue(Event(repo.addSkill(AddSkillsRequest(arrayListOf(id)))))
+        _addSkillLiveData.postValue(Event(repo.addSkill(AddSkillsRequest(ids))))
     }
 
     private var _deleteSkillsLiveData = MutableLiveData<Event<Resource<DeleteGenericResponse>>>()

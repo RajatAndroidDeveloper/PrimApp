@@ -45,7 +45,8 @@ class LetterTileProvider {
             uiContext = context
 
             texSize = calTextSize(size)
-            val label = getNameInitials(name)
+            val nameInitials = getNameInitials(name);
+            val label = nameInitials.substring(0,Math.min(2, nameInitials.length))
             val textPaint = textPainter()
             val painter = painter()
             painter.isAntiAlias = true
@@ -96,7 +97,7 @@ class LetterTileProvider {
             return alteredName
                 .split(' ')
                 .mapNotNull { it.firstOrNull()?.toString() }
-                .reduce { acc, s -> acc + s }
+                .reduce { acc, s -> acc + s }.uppercase()
 
             //return name.first().toString().toUpperCase(Locale.ROOT)
         }

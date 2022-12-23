@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.primapp.model.auth.ReferenceItems" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/llAddRemoveLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/space_extraSmall"
+        android:background="@drawable/shape_rounded_corner_grey_small_corner"
+        android:foreground="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/space_small"
+        android:paddingVertical="2dp"
+        tools:targetApi="m">
+
+        <TextView
+            android:id="@+id/tvItemName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
+            android:text="@{data.itemText}"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/textSmall"
+            tools:text="Insurance" />
+
+        <ImageView
+            android:id="@+id/ivRemove"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="@dimen/space_extraSmall"
+            android:foreground="?attr/selectableItemBackground"
+            android:padding="@dimen/space_extraSmall"
+            android:src="@drawable/delete"
+            app:tint="@color/black" />
+    </LinearLayout>
+</layout>

@@ -404,6 +404,9 @@
         <argument
             android:name="userId"
             app:argType="integer" />
+        <argument
+            android:name="title"
+            app:argType="string" />
     </fragment>
 
     <fragment

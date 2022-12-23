@@ -14,5 +14,5 @@ data class AddSkillsRequest(
 
 data class AddSkillsResponse(
     @SerializedName("content")
-    val content: SkillsCertificateData
+    val content: ArrayList<SkillsCertificateData>?
 )
