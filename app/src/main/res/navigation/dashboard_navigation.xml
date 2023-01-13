@@ -467,5 +467,14 @@
             android:name="portfolioData"
             app:argType="com.primapp.model.portfolio.PortfolioContent" />
     </fragment>
+    <fragment
+        android:id="@+id/usersCommunityListFragment"
+        android:name="com.primapp.ui.portfolio.UsersCommunityListFragment"
+        android:label="UsersCommunityListFragment"
+        tools:layout="@layout/fragment_users_community_list">
+        <argument
+            android:name="userId"
+            app:argType="integer" />
+    </fragment>
 
 </navigation>

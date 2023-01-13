@@ -424,4 +424,6 @@
     <string name="valid_empty_skill_textbox">Please enter valid Skill</string>
     <string name="remove_skills_msg">Are you sure that you want to remove this skill?</string>
     <string name="valid_empty_skill">Please select at least 1 Skill</string>
+    <string name="start_date">Start Date</string>
+    <string name="end_date">End Date</string>
 </resources>

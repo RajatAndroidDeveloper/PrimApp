@@ -18,6 +18,7 @@ import com.primapp.model.community.*
 import com.primapp.model.members.CommunityMembersData
 import com.primapp.model.mentor.RequestMentorDataModel
 import com.primapp.model.mentor.RequestMentorResponseModel
+import com.primapp.model.portfolio.UserCommonCommunitiesResponse
 import com.primapp.model.post.PostActionResponseModel
 import com.primapp.model.post.PostListResult
 import com.primapp.repository.CommunitiesRepository
@@ -341,5 +342,15 @@ class CommunitiesViewModel @Inject constructor(
     fun hidePost(postId: Int) = viewModelScope.launch {
         _hidePostLiveData.postValue(Event(Resource.loading(null)))
         _hidePostLiveData.postValue(Event(repo.hidePost(postId)))
+    }
+
+    //------Common Communities----
+
+    private var _commonCommunitesLiveData = MutableLiveData<Event<Resource<UserCommonCommunitiesResponse>>>()
+    var commonCommunitesLiveData: LiveData<Event<Resource<UserCommonCommunitiesResponse>>> = _commonCommunitesLiveData
+
+    fun getUserCommonCommunities(userId: Int) = viewModelScope.launch {
+        _commonCommunitesLiveData.postValue(Event(Resource.loading(null)))
+        _commonCommunitesLiveData.postValue(Event(repo.getUserCommonCommunities(userId)))
     }
 }

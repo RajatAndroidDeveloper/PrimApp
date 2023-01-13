@@ -31,7 +31,7 @@ data class SharePost(val postData: PostListResult, val view: View)
 data class ShowCommunityDetails(val communityData: CommunityData)
 data class ShowPostDetails(val communityId: Int, val postId: Int)
 data class LikeCommentReply(val replyData: ReplyData, val commentId: Int, val commentAdapterPosition: Int)
-data class LoadWebUrl(val url:String)
+data class LoadWebUrl(val url: String)
 
 
 //Mentorship request action
@@ -50,3 +50,4 @@ data class ReportedByMembers(val postId: Int)
 data class EditBenefits(val benefitData: BenefitsData)
 data class DeleteItem(val id: Int)
 data class EditExperience(val experienceData: ExperienceData)
+data class RequestMentorWithCommunityId(val communityId: Int)

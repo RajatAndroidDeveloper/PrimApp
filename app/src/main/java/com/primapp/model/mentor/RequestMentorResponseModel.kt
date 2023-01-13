@@ -1,6 +1,9 @@
 package com.primapp.model.mentor
+
 import com.google.gson.annotations.SerializedName
 import com.primapp.model.auth.UserData
+import com.primapp.model.community.CommunityData
+import com.primapp.model.members.Community
 
 
 data class RequestMentorResponseModel(
@@ -18,5 +21,7 @@ data class Content(
     @SerializedName("mentor")
     val mentor: UserData,
     @SerializedName("status")
-    val status: String
+    val status: String,
+    @SerializedName("community")
+    val community: CommunityData,
 )

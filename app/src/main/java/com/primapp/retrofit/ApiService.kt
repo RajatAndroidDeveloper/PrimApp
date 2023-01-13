@@ -26,7 +26,6 @@ import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 
-
 interface ApiService {
 
     @GET(ApiConstant.REFERENCE_DATA)
@@ -476,4 +475,7 @@ interface ApiService {
 
     @DELETE(ApiConstant.DELETE_SKILL)
     suspend fun deleteSkillFromPortfolio(@Path("skillId") id: Int): DeleteGenericResponse
+
+    @GET(ApiConstant.COMMON_COMMUNITIES)
+    suspend fun getUserCommonCommunites(@Path("userId") userId: Int): UserCommonCommunitiesResponse
 }

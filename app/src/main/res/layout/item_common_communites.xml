@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="data"
+            type="com.primapp.model.portfolio.CommonCommunites" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/space_normal">
+
+        <ImageView
+            android:id="@+id/ivProfilePic"
+            name="@{data.communityName}"
+            loadCircularImage="@{data.communityImageFile}"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintBottom_toBottomOf="@id/llMemberDetails"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/llMemberDetails"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintWidth_max="60dp" />
+
+        <LinearLayout
+            android:id="@+id/llMemberDetails"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_small"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toStartOf="@id/btnInviteMembers"
+            app:layout_constraintStart_toEndOf="@id/ivProfilePic"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                style="@style/normalBodyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_rounded_corner_light_grey"
+                android:paddingStart="@dimen/textExtraSmall"
+                android:paddingEnd="@dimen/textExtraSmall"
+                android:text="@{data.isMentor() ? @string/mentor : @string/mentee}"
+                android:textSize="@dimen/textExtraSmall"
+                android:visibility="@{(data.isMentor() || data.isMentee()) ? View.VISIBLE : View.GONE}"
+                tools:text="@string/mentor"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tvCommunityName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/poppins_medium"
+                android:maxLines="2"
+                android:text="@{data.communityName}"
+                android:textColor="@color/black"
+                tools:text="Gordon kelly Jordan" />
+
+            <TextView
+                android:id="@+id/tvCommunityDesc"
+                style="@style/primaryBodyText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="@{data.communityDescription}"
+                android:textSize="@dimen/textSmall"
+                tools:text="@string/long_about_text" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnInviteMembers"
+            style="@style/buttonFilledPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:text="@string/invite_mentor"
+            android:textAllCaps="false"
+            android:textSize="@dimen/textSmall"
+            app:layout_constraintBottom_toBottomOf="@id/llMemberDetails"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/llMemberDetails" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

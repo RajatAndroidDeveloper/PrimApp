@@ -15,6 +15,7 @@ import com.primapp.model.community.*
 import com.primapp.model.members.CommunityMembersData
 import com.primapp.model.mentor.RequestMentorDataModel
 import com.primapp.model.mentor.RequestMentorResponseModel
+import com.primapp.model.portfolio.UserCommonCommunitiesResponse
 import com.primapp.model.post.PostActionResponseModel
 import com.primapp.model.post.PostListResult
 import com.primapp.retrofit.ApiConstant
@@ -330,6 +331,16 @@ class CommunitiesRepository @Inject constructor(
     suspend fun getUserData(userId: Int): Resource<VerifyUserResponseModel> {
         return try {
             responseHandler.handleResponse(apiService.getUserProfile(userId))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    //------Common Communities----
+
+    suspend fun getUserCommonCommunities(userId: Int): Resource<UserCommonCommunitiesResponse> {
+        return try {
+            responseHandler.handleResponse(apiService.getUserCommonCommunites(userId))
         } catch (e: Exception) {
             responseHandler.handleException(e)
         }

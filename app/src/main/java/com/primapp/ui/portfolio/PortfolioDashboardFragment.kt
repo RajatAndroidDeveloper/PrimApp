@@ -2,6 +2,7 @@ package com.primapp.ui.portfolio
 
 import android.app.DownloadManager
 import android.os.Bundle
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -24,15 +25,15 @@ import com.primapp.ui.portfolio.adapter.PortfolioExperienceAdapter
 import com.primapp.ui.portfolio.adapter.PortfolioSkillsNCertificateAdapter
 import com.primapp.utils.DownloadUtils
 import com.primapp.viewmodels.PortfolioViewModel
-import kotlinx.android.synthetic.main.toolbar_inner_back.*
-import kotlinx.android.synthetic.main.toolbar_inner_back.view.*
+import kotlinx.android.synthetic.main.toolbar_portfolio_request.*
+import kotlinx.android.synthetic.main.toolbar_portfolio_request.view.*
 import javax.inject.Inject
 
 
 class PortfolioDashboardFragment : BaseFragment<FragmentPortfolioDashboardBinding>() {
 
     var userId: Int? = null
-
+    var isLoggedInUser = false
     lateinit var portfolioContent: PortfolioContent
 
     @Inject
@@ -52,6 +53,7 @@ class PortfolioDashboardFragment : BaseFragment<FragmentPortfolioDashboardBindin
 
         setToolbar("", toolbar)
         setData()
+        setClicks()
         setAdapter()
         setObserver()
     }
@@ -60,12 +62,22 @@ class PortfolioDashboardFragment : BaseFragment<FragmentPortfolioDashboardBindin
         binding.frag = this
         userId = PortfolioDashboardFragmentArgs.fromBundle(requireArguments()).userId
         toolbar.tvTitle.text = PortfolioDashboardFragmentArgs.fromBundle(requireArguments()).title
-        binding.isLoggedInUser = (userId == UserCache.getUserId(requireContext()))
+        isLoggedInUser = userId == UserCache.getUserId(requireContext())
+        binding.isLoggedInUser = isLoggedInUser
         if (isLoaded && this::portfolioContent.isInitialized) {
             loadDataToAdapters()
             return
         }
         viewModel.getPortfolioData(userId!!)
+    }
+
+    private fun setClicks() {
+        btnInviteMembers.isVisible = !isLoggedInUser
+        btnInviteMembers.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt("userId", userId!!)
+            findNavController().navigate(R.id.usersCommunityListFragment, bundle)
+        }
     }
 
     private fun setObserver() {
@@ -138,7 +150,7 @@ class PortfolioDashboardFragment : BaseFragment<FragmentPortfolioDashboardBindin
             return
         }
         val bundle = Bundle()
-        bundle.putBoolean("isLoggedInUser", userId == UserCache.getUserId(requireContext()))
+        bundle.putBoolean("isLoggedInUser", isLoggedInUser)
         bundle.putSerializable("portfolioData", portfolioContent)
         findNavController().navigate(R.id.addMentoringPortfolioFragment, bundle)
     }
