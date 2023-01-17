@@ -159,11 +159,11 @@ class PortfolioDashboardFragment : BaseFragment<FragmentPortfolioDashboardBindin
         if (userId != UserCache.getUserId(requireContext()) || !this::portfolioContent.isInitialized) {
             return
         }
+        val bundle = Bundle()
+        bundle.putSerializable("portfolioData", portfolioContent)
         if (portfolioContent.experiences.isNullOrEmpty()) {
-            findNavController().navigate(R.id.addExperienceFragment)
+            findNavController().navigate(R.id.addExperienceFragment, bundle)
         } else {
-            val bundle = Bundle()
-            bundle.putSerializable("portfolioData", portfolioContent)
             findNavController().navigate(R.id.updateExperienceFragment, bundle)
         }
     }
