@@ -43,4 +43,8 @@ class ErrorFields @Inject constructor() {
     var errorYears: String? =null
 
     var errorMonths: String? =null
+
+    var errorStartDate: String? =null
+
+    var errorEndDate: String? =null
 }

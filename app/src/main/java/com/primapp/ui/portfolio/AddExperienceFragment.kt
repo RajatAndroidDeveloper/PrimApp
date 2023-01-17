@@ -1,5 +1,6 @@
 package com.primapp.ui.portfolio
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.widget.AutoCompleteTextView
 import androidx.fragment.app.viewModels
@@ -15,9 +16,11 @@ import com.primapp.model.portfolio.PortfolioContent
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.initial.AutocompleteListArrayAdapter
+import com.primapp.utils.DateTimeUtils
 import com.primapp.utils.DialogUtils
 import com.primapp.viewmodels.PortfolioViewModel
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
+import java.util.*
 
 class AddExperienceFragment : BaseFragment<FragmentAddExperienceBinding>() {
 
@@ -55,13 +58,17 @@ class AddExperienceFragment : BaseFragment<FragmentAddExperienceBinding>() {
             data?.companyName = it.companyName
             data?.location = it.location
             data?.isCurrentCompany = it.isCurrentCompany
-            data?.years = it.years
-            data?.months = it.months
+//            data?.years = it.years
+//            data?.months = it.months
+            data?.startDate = it.startDate
+            data?.endDate = it.endDate
+
             binding.mAutoCompleteJobType.setText(it.jobType?.name)
-            binding.mAutoCompleteYears.setText(resources.getQuantityString(R.plurals.count_years, it.years, it.years))
-            binding.mAutoCompleteMonths.setText(
-                resources.getQuantityString(R.plurals.count_months, it.months, it.months)
-            )
+
+//            binding.mAutoCompleteYears.setText(resources.getQuantityString(R.plurals.count_years, it.years, it.years))
+//            binding.mAutoCompleteMonths.setText(
+//                resources.getQuantityString(R.plurals.count_months, it.months, it.months)
+//            )
             binding.chkCurrentCompany.isChecked = it.isCurrentCompany
 
             viewModel.addExperienceRequestModel.value = data
@@ -183,7 +190,7 @@ class AddExperienceFragment : BaseFragment<FragmentAddExperienceBinding>() {
                 }
             }
 
-            binding.mAutoCompleteYears.setAdapter(adapterYears)
+            /*binding.mAutoCompleteYears.setAdapter(adapterYears)
 
             binding.mAutoCompleteYears.validator = object : AutoCompleteTextView.Validator {
                 override fun fixText(p0: CharSequence?): CharSequence {
@@ -223,7 +230,7 @@ class AddExperienceFragment : BaseFragment<FragmentAddExperienceBinding>() {
 
                     return isDataValid
                 }
-            }
+            }*/
 
         }
     }
@@ -238,8 +245,8 @@ class AddExperienceFragment : BaseFragment<FragmentAddExperienceBinding>() {
 
     fun save() {
         binding.mAutoCompleteJobType.clearFocus()
-        binding.mAutoCompleteYears.clearFocus()
-        binding.mAutoCompleteMonths.clearFocus()
+        //binding.mAutoCompleteYears.clearFocus()
+        //binding.mAutoCompleteMonths.clearFocus()
         if (viewModel.validateData()) {
             if (experienceData != null) {
                 viewModel.updateExperience(experienceData!!.id)
@@ -248,4 +255,67 @@ class AddExperienceFragment : BaseFragment<FragmentAddExperienceBinding>() {
             }
         }
     }
+
+    //Date Pickers
+
+    fun openStartDatePicker() {
+        val cal = Calendar.getInstance()
+
+        val picker = DatePickerDialog(
+            requireContext(),
+            startDateSetListener,
+            cal.get(Calendar.YEAR),
+            cal.get(Calendar.MONTH),
+            cal.get(Calendar.DAY_OF_MONTH)
+        )
+        picker.datePicker.maxDate = cal.timeInMillis
+
+        picker.show()
+    }
+
+    private val startDateSetListener =
+        DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+
+            val cal = Calendar.getInstance()
+            cal[Calendar.YEAR] = year
+            cal[Calendar.MONTH] = month
+            cal[Calendar.DAY_OF_MONTH] = dayOfMonth
+
+            val model = viewModel.addExperienceRequestModel.value
+            model?.startDate = cal.timeInMillis
+            model?.endDate = null
+            viewModel.addExperienceRequestModel.value = model
+        }
+
+    fun openEndDatePicker() {
+        val cal = Calendar.getInstance()
+
+        val picker = DatePickerDialog(
+            requireContext(),
+            endDateSetListener,
+            cal.get(Calendar.YEAR),
+            cal.get(Calendar.MONTH),
+            cal.get(Calendar.DAY_OF_MONTH)
+        )
+
+        viewModel.addExperienceRequestModel.value?.startDate?.let {
+            picker.datePicker.minDate = it
+        }
+        picker.datePicker.maxDate = cal.timeInMillis
+
+        picker.show()
+    }
+
+    private val endDateSetListener =
+        DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+
+            val cal = Calendar.getInstance()
+            cal[Calendar.YEAR] = year
+            cal[Calendar.MONTH] = month
+            cal[Calendar.DAY_OF_MONTH] = dayOfMonth
+
+            val model = viewModel.addExperienceRequestModel.value
+            model?.endDate = cal.timeInMillis
+            viewModel.addExperienceRequestModel.value = model
+        }
 }

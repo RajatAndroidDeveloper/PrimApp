@@ -18,7 +18,11 @@ data class AddExperienceRequest(
     @SerializedName("title")
     var title: String?,
     @SerializedName("years")
-    var years: Int?
+    var years: Int?,
+    @SerializedName("start_date")
+    var startDate: Long?,
+    @SerializedName("end_date")
+    var endDate: Long?,
 ) : Serializable {
     fun isValidFormData(): ValidationResults {
         if (title.isNullOrEmpty())
@@ -34,11 +38,17 @@ data class AddExperienceRequest(
             return ValidationResults.EMPTY_LOCATION
 
         if (isCurrentCompany == false) {
-            if (years == null)
-                return ValidationResults.EMPTY_YEARS
+//            if (years == null)
+//                return ValidationResults.EMPTY_YEARS
+//
+//            if (months == null)
+//                return ValidationResults.EMPTY_MONTHS
 
-            if (months == null)
-                return ValidationResults.EMPTY_MONTHS
+            if(startDate == null)
+                return ValidationResults.EMPTY_START_DATE
+
+            if(endDate == null)
+                return ValidationResults.EMPTY_END_DATE
         }
 
         return ValidationResults.SUCCESS

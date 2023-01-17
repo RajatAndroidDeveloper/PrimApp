@@ -39,7 +39,7 @@ class PortfolioViewModel @Inject constructor(
     init {
         errorFieldsLiveData.value = errorFields
         mentoringPortfolioRequestModel.value = MentoringPortfolioRequest(null, null, null)
-        addExperienceRequestModel.value = AddExperienceRequest(null, false, null, null, null, null, null)
+        addExperienceRequestModel.value = AddExperienceRequest(null, false, null, null, null, null, null, null, null)
     }
 
     fun validateData(): Boolean {
@@ -87,6 +87,16 @@ class PortfolioViewModel @Inject constructor(
             ValidationResults.EMPTY_MONTHS -> {
                 errorFieldsLiveData.value?.errorMonths =
                     context.getString(R.string.valid_empty_months)
+            }
+
+            ValidationResults.EMPTY_START_DATE -> {
+                errorFieldsLiveData.value?.errorStartDate =
+                    context.getString(R.string.valid_empty_start_date)
+            }
+
+            ValidationResults.EMPTY_END_DATE -> {
+                errorFieldsLiveData.value?.errorEndDate =
+                    context.getString(R.string.valid_empty_end_date)
             }
 
             ValidationResults.SUCCESS -> {

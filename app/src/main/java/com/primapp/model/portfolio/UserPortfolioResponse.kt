@@ -45,7 +45,11 @@ data class ExperienceData(
     @SerializedName("user")
     val user: Int,
     @SerializedName("years")
-    val years: Int = 0
+    val years: Int = 0,
+    @SerializedName("start_date")
+    val startDate: Long = 0,
+    @SerializedName("end_date")
+    val endDate: Long = 0,
 ) : Serializable
 
 data class MentoringPortfolioData(

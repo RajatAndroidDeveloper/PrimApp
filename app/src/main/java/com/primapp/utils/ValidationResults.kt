@@ -31,5 +31,7 @@ enum class ValidationResults {
     EMPTY_LOCATION,
     EMPTY_YEARS,
     EMPTY_MONTHS,
+    EMPTY_START_DATE,
+    EMPTY_END_DATE,
     SUCCESS,
 }

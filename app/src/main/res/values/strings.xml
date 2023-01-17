@@ -97,6 +97,8 @@
     <string name="valid_empty_location">Please enter Location</string>
     <string name="valid_empty_years">Please enter valid years of service</string>
     <string name="valid_empty_months">Please enter valid months of service</string>
+    <string name="valid_empty_start_date">Please enter valid start date of service</string>
+    <string name="valid_empty_end_date">Please enter valid end date of service</string>
 
     <string name="privacy_policy_help_text">Please accept terms of service and privacy policy.</string>
     <string name="valid_username">Please enter a valid username</string>

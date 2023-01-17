@@ -7,6 +7,8 @@
 
         <import type="android.view.View" />
 
+        <import type="com.primapp.utils.DateTimeUtils" />
+
         <variable
             name="frag"
             type="com.primapp.ui.portfolio.AddExperienceFragment" />
@@ -133,7 +135,7 @@
                 app:layout_constraintTop_toBottomOf="@id/chkCurrentCompany"
                 app:layout_constraintWidth_percent=".9" />
 
-            <com.google.android.material.textfield.TextInputLayout
+            <!--<com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tlYears"
                 style="@style/myTextInputLabel_DropDown"
                 errorText="@{viewModel.errorFieldsLiveData.errorYears}"
@@ -177,6 +179,48 @@
                     android:imeOptions="actionDone"
                     android:singleLine="true" />
 
+            </com.google.android.material.textfield.TextInputLayout>-->
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tlStartDate"
+                style="@style/myTextInputLabel"
+                errorText="@{viewModel.errorFieldsLiveData.errorStartDate}"
+                hint="@{@string/start_date}"
+                isRequired="@{!viewModel.addExperienceRequestModel.isCurrentCompany}"
+                android:visibility="@{viewModel.addExperienceRequestModel.isCurrentCompany ? View.GONE : View.VISIBLE}"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvAmountOfTime"
+                tools:hint="@string/start_date">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etStartDate"
+                    style="@style/editTextInput"
+                    android:focusable="false"
+                    android:onClick="@{()->frag.openStartDatePicker()}"
+                    android:text="@{DateTimeUtils.INSTANCE.getDateFromMillis(viewModel.addExperienceRequestModel.startDate, DateTimeUtils.SEND_DOB_FORMAT)}" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tlEndDate"
+                style="@style/myTextInputLabel"
+                errorText="@{viewModel.errorFieldsLiveData.errorEndDate}"
+                hint="@{@string/end_date}"
+                isRequired="@{!viewModel.addExperienceRequestModel.isCurrentCompany}"
+                android:visibility="@{viewModel.addExperienceRequestModel.isCurrentCompany ? View.GONE : View.VISIBLE}"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tlStartDate"
+                tools:hint="@string/end_date">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etEndDate"
+                    style="@style/editTextInput"
+                    android:focusable="false"
+                    android:onClick="@{()->frag.openEndDatePicker()}"
+                    android:text="@{DateTimeUtils.INSTANCE.getDateFromMillis(viewModel.addExperienceRequestModel.endDate, DateTimeUtils.SEND_DOB_FORMAT)}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
@@ -187,7 +231,7 @@
                 android:text="@string/save"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tlMonths" />
+                app:layout_constraintTop_toBottomOf="@id/tlEndDate" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
