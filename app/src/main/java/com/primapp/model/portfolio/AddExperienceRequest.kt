@@ -37,6 +37,9 @@ data class AddExperienceRequest(
         if (location.isNullOrEmpty())
             return ValidationResults.EMPTY_LOCATION
 
+        if(startDate == null || startDate == 0L)
+            return ValidationResults.EMPTY_START_DATE
+
         if (isCurrentCompany == false) {
 //            if (years == null)
 //                return ValidationResults.EMPTY_YEARS
@@ -44,10 +47,7 @@ data class AddExperienceRequest(
 //            if (months == null)
 //                return ValidationResults.EMPTY_MONTHS
 
-            if(startDate == null)
-                return ValidationResults.EMPTY_START_DATE
-
-            if(endDate == null)
+            if(endDate == null || endDate == 0L)
                 return ValidationResults.EMPTY_END_DATE
         }
 
