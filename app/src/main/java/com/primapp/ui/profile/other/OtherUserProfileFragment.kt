@@ -30,6 +30,7 @@ import com.primapp.ui.profile.UserJoinedCommunitiesFragment
 import com.primapp.ui.profile.UserPostsFragment
 import com.primapp.viewmodels.CommunitiesViewModel
 import kotlinx.android.synthetic.main.fragment_other_user_profile.*
+import kotlinx.android.synthetic.main.layout_others_profile_top_card.*
 
 class OtherUserProfileFragment : BaseFragment<FragmentOtherUserProfileBinding>() {
 
@@ -54,7 +55,7 @@ class OtherUserProfileFragment : BaseFragment<FragmentOtherUserProfileBinding>()
     private fun setData() {
         binding.frag = this
         userId = OtherUserProfileFragmentArgs.fromBundle(requireArguments()).userId
-
+        btnInviteMembers.isVisible = userId != UserCache.getUserId(requireContext())
         if (isLoaded) {
             return
         }
