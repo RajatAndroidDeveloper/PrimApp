@@ -80,6 +80,7 @@
             android:id="@+id/btnInviteMembers"
             style="@style/buttonFilledPrimary"
             android:layout_width="wrap_content"
+            inviteMentorButtonStyle="@{data.mentor_status}"
             android:layout_height="28dp"
             android:text="@string/invite_mentor"
             android:textAllCaps="false"
