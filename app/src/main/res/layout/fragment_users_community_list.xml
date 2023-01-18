@@ -16,7 +16,7 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <include layout="@layout/toolbar_inner_back" />
+        <include layout="@layout/toolbar_portfolio_request" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvUsersCommunity"

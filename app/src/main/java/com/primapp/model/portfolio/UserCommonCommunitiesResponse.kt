@@ -26,6 +26,6 @@ data class CommonCommunites(
     val isMentee: Boolean?,
     @SerializedName("is_mentor")
     val isMentor: Boolean?,
-    @SerializedName("is_mentor_status")
+    @SerializedName("status")
     var mentor_status: Int?,
 )

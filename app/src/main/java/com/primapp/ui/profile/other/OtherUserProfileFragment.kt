@@ -112,6 +112,12 @@ class OtherUserProfileFragment : BaseFragment<FragmentOtherUserProfileBinding>()
         findNavController().navigate(R.id.portfolioDashboardFragment, bundle)
     }
 
+    fun onRequestMentorship() {
+        val bundle = Bundle()
+        bundle.putInt("userId", userId!!)
+        findNavController().navigate(R.id.usersCommunityListFragment, bundle)
+    }
+
     //----------------------- View Pager and Tabs Data ---------------------------
 
     private fun initViewPager() {

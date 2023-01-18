@@ -1,6 +1,7 @@
 package com.primapp.ui.portfolio
 
 import android.os.Bundle
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,7 +15,7 @@ import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.portfolio.adapter.CommonCommunitiesListAdapter
 import com.primapp.viewmodels.CommunitiesViewModel
-import kotlinx.android.synthetic.main.toolbar_inner_back.*
+import kotlinx.android.synthetic.main.toolbar_portfolio_request.*
 
 class UsersCommunityListFragment : BaseFragment<FragmentUsersCommunityListBinding>() {
 
@@ -29,7 +30,7 @@ class UsersCommunityListFragment : BaseFragment<FragmentUsersCommunityListBindin
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        setToolbar(getString(R.string.communities), toolbar)
+        setToolbar(getString(R.string.common_communities), toolbar)
         setData()
         setAdapter()
         setObserver()
@@ -37,6 +38,7 @@ class UsersCommunityListFragment : BaseFragment<FragmentUsersCommunityListBindin
 
     private fun setData() {
         binding.frag = this
+        btnInviteMembers.isVisible = false
         userId = UsersCommunityListFragmentArgs.fromBundle(requireArguments()).userId
 
         viewModel.getUserCommonCommunities(userId!!)
