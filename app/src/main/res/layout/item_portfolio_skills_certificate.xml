@@ -11,7 +11,7 @@
     </data>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="80dp"
+        android:layout_width="92dp"
         android:layout_height="92dp"
         android:layout_margin="@dimen/space_small"
         android:background="?attr/selectableItemBackground"
@@ -46,7 +46,7 @@
                 android:layout_marginTop="@dimen/space_extraSmall"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:textSize="@dimen/textSmall"
+                android:textSize="11dp"
                 android:text="@{data.name}"
                 android:textAlignment="center"
                 tools:text="Android Programming" />

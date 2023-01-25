@@ -428,5 +428,5 @@
     <string name="valid_empty_skill">Please select at least 1 Skill</string>
     <string name="start_date">Start Date</string>
     <string name="end_date">End Date</string>
-    <string name="common_communities">Communities in common</string>
+    <string name="common_communities">Communities in Common</string>
 </resources>
