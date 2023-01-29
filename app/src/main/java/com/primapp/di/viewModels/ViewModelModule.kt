@@ -84,5 +84,10 @@ abstract class ViewModelModule {
     abstract fun bindPortfolioViewModel(viewModel: PortfolioViewModel): ViewModel
 
     @Binds
+    @IntoMap
+    @ViewModelKey(TodoTasksViewModel::class)
+    abstract fun bindTodoTasksViewModel(viewModel: TodoTasksViewModel): ViewModel
+
+    @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 }

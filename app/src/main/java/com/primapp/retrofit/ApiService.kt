@@ -20,6 +20,7 @@ import com.primapp.model.reply.CommentReplyResponseModel
 import com.primapp.model.reply.CreateReplyRequestModel
 import com.primapp.model.rewards.RewardsResponseModel
 import com.primapp.model.settings.ReportIssueRequestModel
+import com.primapp.model.todo.TodoListResponse
 import com.primapp.retrofit.base.BaseDataModel
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -478,4 +479,7 @@ interface ApiService {
 
     @GET(ApiConstant.COMMON_COMMUNITIES)
     suspend fun getUserCommonCommunites(@Path("userId") userId: Int): UserCommonCommunitiesResponse
+
+    @GET(ApiConstant.GET_TODO_LIST)
+    suspend fun getTodoTasks(): TodoListResponse
 }

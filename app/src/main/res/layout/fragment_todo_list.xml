@@ -17,7 +17,7 @@
 
         <include layout="@layout/toolbar_dashboard_accent" />
 
-        <!-- <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
              android:id="@+id/swipeRefresh"
              android:layout_width="match_parent"
              android:layout_height="0dp"
@@ -35,17 +35,6 @@
                  tools:listitem="@layout/item_mentor_request" />
 
          </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-         <ProgressBar
-             android:id="@+id/pbTodoList"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_centerInParent="true"
-             android:visibility="gone"
-             app:layout_constraintBottom_toBottomOf="parent"
-             app:layout_constraintEnd_toEndOf="parent"
-             app:layout_constraintStart_toStartOf="parent"
-             app:layout_constraintTop_toTopOf="parent" />-->
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/llEmptyList"

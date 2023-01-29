@@ -107,4 +107,7 @@ object ApiConstant {
     const val ADD_SKILLS = "users/skills/"
     const val DELETE_SKILL = "users/skills/{skillId}/"
     const val COMMON_COMMUNITIES = "users/{userId}/common_communities"
+
+    //To-do list
+    const val GET_TODO_LIST = "user-tasks/"
 }
