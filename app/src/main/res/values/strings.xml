@@ -429,4 +429,7 @@
     <string name="start_date">Start Date</string>
     <string name="end_date">End Date</string>
     <string name="common_communities">Communities in Common</string>
+    <string name="todo_list">To Do List</string>
+    <string name="todo_list_started">Let\'s get started with your To Do List.</string>
+    <string name="add_new_task">Add a New Task</string>
 </resources>

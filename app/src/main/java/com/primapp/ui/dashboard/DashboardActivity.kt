@@ -36,6 +36,7 @@ class DashboardActivity : BaseActivity() {
         "UpdatesFragment",
         "NotificationsFragment",
         "CommunitiesFragment",
+        "TodoListFragment",
         "ProfileFragment"
     )
 

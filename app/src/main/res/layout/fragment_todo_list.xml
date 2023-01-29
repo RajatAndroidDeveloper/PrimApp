@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="frag"
+            type="com.primapp.ui.todo.TodoListFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <include layout="@layout/toolbar_dashboard_accent" />
+
+        <!-- <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+             android:id="@+id/swipeRefresh"
+             android:layout_width="match_parent"
+             android:layout_height="0dp"
+             app:layout_constraintBottom_toBottomOf="parent"
+             app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintStart_toStartOf="parent"
+             app:layout_constraintTop_toBottomOf="@+id/clToolbar"
+             app:onRefreshListener="@{()->frag.refreshData()}">
+
+             <androidx.recyclerview.widget.RecyclerView
+                 android:id="@+id/rvTodoList"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 tools:itemCount="3"
+                 tools:listitem="@layout/item_mentor_request" />
+
+         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+         <ProgressBar
+             android:id="@+id/pbTodoList"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_centerInParent="true"
+             android:visibility="gone"
+             app:layout_constraintBottom_toBottomOf="parent"
+             app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintStart_toStartOf="parent"
+             app:layout_constraintTop_toTopOf="parent" />-->
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/llEmptyList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clToolbar">
+
+            <ImageView
+                android:id="@+id/ivEmptyTodo"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/ic_empty_todo"
+                app:layout_constraintBottom_toTopOf="@+id/tvEmptyTodo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/tvEmptyTodo"
+                style="@style/normalBodyText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/textLargeX"
+                android:text="@string/todo_list_started"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toTopOf="@+id/btnAddNewTask"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivEmptyTodo"
+                app:layout_constraintWidth_percent=".9" />
+
+
+            <Button
+                android:id="@+id/btnAddNewTask"
+                style="@style/buttonFilledPrimary"
+                android:onClick="@{()->frag.addNewTask()}"
+                android:layout_marginTop="@dimen/space_small"
+                android:layout_marginBottom="@dimen/space_large"
+                android:text="@string/add_new_task"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
