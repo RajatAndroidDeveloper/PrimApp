@@ -197,7 +197,7 @@
                     style="@style/editTextInput"
                     android:focusable="false"
                     android:onClick="@{()->frag.openStartDatePicker()}"
-                    android:text="@{DateTimeUtils.INSTANCE.getDateFromMillis(viewModel.addExperienceRequestModel.startDate, DateTimeUtils.SEND_DOB_FORMAT)}" />
+                    android:text="@{DateTimeUtils.INSTANCE.getDateFromMillis(viewModel.addExperienceRequestModel.startDate, DateTimeUtils.EXPERIENCE_DOB_FORMAT)}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -218,7 +218,7 @@
                     style="@style/editTextInput"
                     android:focusable="false"
                     android:onClick="@{()->frag.openEndDatePicker()}"
-                    android:text="@{DateTimeUtils.INSTANCE.getDateFromMillis(viewModel.addExperienceRequestModel.endDate, DateTimeUtils.SEND_DOB_FORMAT)}" />
+                    android:text="@{DateTimeUtils.INSTANCE.getDateFromMillis(viewModel.addExperienceRequestModel.endDate, DateTimeUtils.EXPERIENCE_DOB_FORMAT)}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button

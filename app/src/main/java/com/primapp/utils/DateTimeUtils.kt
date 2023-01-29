@@ -1,6 +1,7 @@
 package com.primapp.utils
 
 import android.text.format.DateUtils
+import com.primapp.model.portfolio.ExperienceData
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -11,6 +12,7 @@ object DateTimeUtils {
     const val DOB_FORMAT = "MMM dd, yyyy"
     const val LAST_SEEN_DATE_FORMAT = "dd MMMM yyyy hh:mm a"
     const val TIME_FORMAT = "hh:mm a"
+    const val EXPERIENCE_DOB_FORMAT = "MM/dd/yyyy"
 
     const val DEFAULT_SERVER_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
 
