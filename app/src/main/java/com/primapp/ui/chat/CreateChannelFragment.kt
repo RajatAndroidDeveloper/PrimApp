@@ -119,9 +119,9 @@ class CreateChannelFragment : BaseFragment<FragmentCreateChannelBinding>() {
         showLoading()
         val listQuery = SendBird.createApplicationUserListQuery()
         listQuery.setUserIdsFilter(arrayListOf(userId))
-        listQuery.next { mutableList: MutableList<User>, e: SendBirdException? ->
+        listQuery.next { mutableList: MutableList<User>?, e: SendBirdException? ->
             hideLoading()
-            if (e != null || mutableList.size<=0) {
+            if (e != null || mutableList == null || mutableList.size<=0) {
                 showError(requireContext(),"User doesn't exist on Sendbird.")
                 return@next
             }
