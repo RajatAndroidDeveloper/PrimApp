@@ -11,8 +11,10 @@ import com.primapp.PrimApp
 import com.primapp.R
 import com.primapp.model.todo.CreateTodoTaskRequest
 import com.primapp.model.todo.CreateTodoTaskResponse
+import com.primapp.model.todo.MultipleTodoActionRequest
 import com.primapp.model.todo.TodoListResponse
 import com.primapp.repository.TodoTasksRepository
+import com.primapp.retrofit.base.BaseDataModel
 import com.primapp.retrofit.base.Event
 import com.primapp.retrofit.base.Resource
 import com.primapp.utils.ErrorFields
@@ -88,5 +90,21 @@ class TodoTasksViewModel @Inject constructor(
     fun createTodoTasks() = viewModelScope.launch {
         _createToDoTasksLiveData.postValue(Event(Resource.loading(null)))
         _createToDoTasksLiveData.postValue(Event(repo.createTodoTasks(createTodoTaskRequestModel.value!!)))
+    }
+
+    private var _markTodoCompletedLiveData = MutableLiveData<Event<Resource<BaseDataModel>>>()
+    var markTodoCompletedLiveData: LiveData<Event<Resource<BaseDataModel>>> = _markTodoCompletedLiveData
+
+    fun markTodoCompleted(list: List<Int>) = viewModelScope.launch {
+        _markTodoCompletedLiveData.postValue(Event(Resource.loading(null)))
+        _markTodoCompletedLiveData.postValue(Event(repo.markTodoCompleted(MultipleTodoActionRequest(list))))
+    }
+
+    private var _deleteTodoLiveData = MutableLiveData<Event<Resource<BaseDataModel>>>()
+    var deleteTodoLiveData: LiveData<Event<Resource<BaseDataModel>>> = _deleteTodoLiveData
+
+    fun deleteTodos(list: List<Int>) = viewModelScope.launch {
+        _deleteTodoLiveData.postValue(Event(Resource.loading(null)))
+        _deleteTodoLiveData.postValue(Event(repo.deleteTodos(MultipleTodoActionRequest(list))))
     }
 }

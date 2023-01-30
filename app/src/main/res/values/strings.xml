@@ -439,4 +439,7 @@
     <string name="description">Description</string>
     <string name="priority">Priority</string>
     <string name="todo_task_added">To Do task added successfully</string>
+    <string name="remove_todo_msg">Are you sure that you want to remove following To Do tasks?</string>
+    <string name="no_todo_selected">Please select any To Do task to remove from the list.</string>
+    <string name="completed">Completed</string>
 </resources>

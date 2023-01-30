@@ -33,3 +33,8 @@ data class CreateTodoTaskResponse(
     @SerializedName("content")
     val content: TodoTaskItem?
 )
+
+data class MultipleTodoActionRequest(
+    @SerializedName("tasks_id")
+    val tasksId: List<Int>
+)

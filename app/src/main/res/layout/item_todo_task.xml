@@ -21,9 +21,18 @@
         android:orientation="horizontal"
         android:paddingHorizontal="@dimen/space_extraSmall">
 
+        <CheckBox
+            android:id="@+id/checkboxTodo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:checked="@={data.selected}"
+            tools:visibility="visible" />
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_extraSmall"
             android:layout_weight="1"
             android:orientation="vertical">
 

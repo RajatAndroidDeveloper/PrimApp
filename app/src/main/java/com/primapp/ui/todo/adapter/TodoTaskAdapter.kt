@@ -4,6 +4,7 @@ import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.primapp.R
@@ -16,13 +17,23 @@ import javax.inject.Inject
 class TodoTaskAdapter @Inject constructor() :
     RecyclerView.Adapter<TodoTaskAdapter.TaskViewHolder>() {
 
+    var isCheckBoxVisible: Boolean = false
     val list = ArrayList<TodoTaskItem>()
 
     fun addData(listData: ArrayList<TodoTaskItem>?) {
         list.clear()
+        isCheckBoxVisible = false
         listData?.let {
             list.addAll(it)
         }
+        notifyDataSetChanged()
+    }
+
+    fun toggleCheckbox() {
+        if(!isCheckBoxVisible){
+            list.map { item -> item.isSelected = false }
+        }
+        isCheckBoxVisible = !isCheckBoxVisible
         notifyDataSetChanged()
     }
 
@@ -53,6 +64,8 @@ class TodoTaskAdapter @Inject constructor() :
                 ContextCompat.getColor(binding.root.context, TodoTasksPriorityType.getPriorityColor(data.priority)),
                 PorterDuff.Mode.MULTIPLY
             )
+
+            binding.checkboxTodo.isVisible = isCheckBoxVisible
         }
     }
 }

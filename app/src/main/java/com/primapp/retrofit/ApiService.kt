@@ -22,6 +22,7 @@ import com.primapp.model.rewards.RewardsResponseModel
 import com.primapp.model.settings.ReportIssueRequestModel
 import com.primapp.model.todo.CreateTodoTaskRequest
 import com.primapp.model.todo.CreateTodoTaskResponse
+import com.primapp.model.todo.MultipleTodoActionRequest
 import com.primapp.model.todo.TodoListResponse
 import com.primapp.retrofit.base.BaseDataModel
 import okhttp3.MultipartBody
@@ -487,4 +488,10 @@ interface ApiService {
 
     @POST(ApiConstant.GET_TODO_LIST)
     suspend fun createTodoTasks(@Body request: CreateTodoTaskRequest): CreateTodoTaskResponse
+
+    @HTTP(method = "DELETE", path = ApiConstant.DELETE_MULTIPLE_TODOS, hasBody = true)
+    suspend fun deleteTodos(@Body request: MultipleTodoActionRequest): BaseDataModel
+
+    @PATCH(ApiConstant.MARK_MULTIPLE_TODOS_COMPLETED)
+    suspend fun markTodoCompleted(@Body request: MultipleTodoActionRequest): BaseDataModel
 }

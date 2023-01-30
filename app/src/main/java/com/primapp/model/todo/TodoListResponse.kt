@@ -21,7 +21,7 @@ data class TodoTaskItem(
     @SerializedName("description")
     val description: Any?,
     @SerializedName("id")
-    val id: Int?,
+    val id: Int,
     @SerializedName("is_deleted")
     val isDeleted: Boolean?,
     @SerializedName("priority")
@@ -33,5 +33,7 @@ data class TodoTaskItem(
     @SerializedName("udate")
     val udate: String?,
     @SerializedName("user_id")
-    val userId: Int?
+    val userId: Int?,
+    //Local for selection
+    var isSelected: Boolean = false
 )

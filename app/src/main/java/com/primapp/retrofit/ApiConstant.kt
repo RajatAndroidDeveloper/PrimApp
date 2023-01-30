@@ -110,4 +110,6 @@ object ApiConstant {
 
     //To-do list
     const val GET_TODO_LIST = "user-tasks/"
+    const val MARK_MULTIPLE_TODOS_COMPLETED = "user-tasks/mark-as-completed"
+    const val DELETE_MULTIPLE_TODOS = "user-tasks/mark-as-deleted"
 }

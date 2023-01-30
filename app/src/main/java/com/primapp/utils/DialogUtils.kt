@@ -30,6 +30,10 @@ import kotlinx.android.synthetic.main.layout_dialog_help1.btnClose
 import kotlinx.android.synthetic.main.layout_dialog_help1.tvDialogMessage
 import kotlinx.android.synthetic.main.layout_dialog_search_text.*
 import kotlinx.android.synthetic.main.layout_dialog_yes_no.*
+import kotlinx.android.synthetic.main.layout_dialog_yes_no.btnNo
+import kotlinx.android.synthetic.main.layout_dialog_yes_no.btnYes
+import kotlinx.android.synthetic.main.layout_dialog_yes_no.tvDialogYesNoMessage
+import kotlinx.android.synthetic.main.layout_dialog_yes_no_desc.*
 import kotlinx.android.synthetic.main.layout_notification_filter.*
 
 
@@ -91,6 +95,33 @@ object DialogUtils {
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.layout_dialog_yes_no)
         dialog.tvDialogYesNoMessage.text = activity.getString(messageId)
+
+        dialog.btnYes.setOnClickListener {
+            yesClickCallback?.invoke()
+            dialog.dismiss()
+        }
+
+        dialog.btnNo.setOnClickListener {
+            noClickCallback?.invoke()
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
+
+    fun showYesNoDialog(
+        activity: Activity,
+        @StringRes messageId: Int,
+        description: String,
+        yesClickCallback: (() -> Unit)? = null,
+        noClickCallback: (() -> Unit)? = null
+    ) {
+        val dialog = Dialog(activity, R.style.Theme_Dialog)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.layout_dialog_yes_no_desc)
+        dialog.tvDialogYesNoMessage.text = activity.getString(messageId)
+        dialog.tvDialogYesNoDescription.text = description
 
         dialog.btnYes.setOnClickListener {
             yesClickCallback?.invoke()
