@@ -10,9 +10,9 @@ data class TodoListResponse(
 
 data class Content(
     @SerializedName("completed_tasks")
-    val completedTasks: List<TodoTaskItem>?,
+    val completedTasks: ArrayList<TodoTaskItem>?,
     @SerializedName("inprogress_tasks")
-    val inprogressTasks: List<TodoTaskItem>?
+    val inprogressTasks: ArrayList<TodoTaskItem>?
 )
 
 data class TodoTaskItem(

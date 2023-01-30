@@ -1,5 +1,7 @@
 package com.primapp.repository
 
+import com.primapp.model.todo.CreateTodoTaskRequest
+import com.primapp.model.todo.CreateTodoTaskResponse
 import com.primapp.model.todo.TodoListResponse
 import com.primapp.retrofit.ApiService
 import com.primapp.retrofit.base.Resource
@@ -14,6 +16,14 @@ class TodoTasksRepository @Inject constructor(
     suspend fun getListOfTodoTasks(): Resource<TodoListResponse> {
         return try {
             responseHandler.handleResponse(apiService.getTodoTasks())
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    suspend fun createTodoTasks(request: CreateTodoTaskRequest): Resource<CreateTodoTaskResponse> {
+        return try {
+            responseHandler.handleResponse(apiService.createTodoTasks(request))
         } catch (e: Exception) {
             responseHandler.handleException(e)
         }

@@ -34,17 +34,21 @@ class ErrorFields @Inject constructor() {
 
     var errorTitle: String? = null
 
-    var errorJobType: String? =null
+    var errorJobType: String? = null
 
-    var errorCompnayName: String? =null
+    var errorCompnayName: String? = null
 
-    var errorLocation: String? =null
+    var errorLocation: String? = null
 
-    var errorYears: String? =null
+    var errorYears: String? = null
 
-    var errorMonths: String? =null
+    var errorMonths: String? = null
 
-    var errorStartDate: String? =null
+    var errorStartDate: String? = null
 
-    var errorEndDate: String? =null
+    var errorEndDate: String? = null
+
+    var errorDescription: String? = null
+
+    var errorPriority: String? = null
 }

@@ -19,4 +19,9 @@
 
     <color name="black">#000</color>
     <color name="red">#ff0000</color>
+
+    <!-- for To-do priorities -->
+    <color name="priority_high">#ff5f5a</color>
+    <color name="priority_normal">#fedc96</color>
+    <color name="priority_low">#92e29d</color>
 </resources>

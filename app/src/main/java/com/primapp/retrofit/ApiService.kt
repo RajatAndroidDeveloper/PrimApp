@@ -20,6 +20,8 @@ import com.primapp.model.reply.CommentReplyResponseModel
 import com.primapp.model.reply.CreateReplyRequestModel
 import com.primapp.model.rewards.RewardsResponseModel
 import com.primapp.model.settings.ReportIssueRequestModel
+import com.primapp.model.todo.CreateTodoTaskRequest
+import com.primapp.model.todo.CreateTodoTaskResponse
 import com.primapp.model.todo.TodoListResponse
 import com.primapp.retrofit.base.BaseDataModel
 import okhttp3.MultipartBody
@@ -482,4 +484,7 @@ interface ApiService {
 
     @GET(ApiConstant.GET_TODO_LIST)
     suspend fun getTodoTasks(): TodoListResponse
+
+    @POST(ApiConstant.GET_TODO_LIST)
+    suspend fun createTodoTasks(@Body request: CreateTodoTaskRequest): CreateTodoTaskResponse
 }

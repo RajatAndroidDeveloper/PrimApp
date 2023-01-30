@@ -481,5 +481,10 @@
         android:name="com.primapp.ui.todo.TodoListFragment"
         android:label="TodoListFragment"
         tools:layout="@layout/fragment_todo_list"/>
+    <fragment
+        android:id="@+id/addTodoTaskFragment"
+        android:name="com.primapp.ui.todo.AddTodoTaskFragment"
+        android:label="AddTodoTaskFragment"
+        tools:layout="@layout/fragment_add_todo_task"/>
 
 </navigation>

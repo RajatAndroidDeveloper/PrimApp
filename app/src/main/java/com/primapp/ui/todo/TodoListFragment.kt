@@ -4,15 +4,21 @@ import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.primapp.R
 import com.primapp.databinding.FragmentTodoListBinding
+import com.primapp.extensions.setDivider
 import com.primapp.extensions.showError
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
+import com.primapp.ui.todo.adapter.TodoTaskAdapter
 import com.primapp.viewmodels.TodoTasksViewModel
 import kotlinx.android.synthetic.main.toolbar_dashboard_accent.*
 
 class TodoListFragment : BaseFragment<FragmentTodoListBinding>() {
+
+    private val adapterInProgressTask by lazy { TodoTaskAdapter() }
 
     val viewModel by viewModels<TodoTasksViewModel> { viewModelFactory }
 
@@ -23,6 +29,7 @@ class TodoListFragment : BaseFragment<FragmentTodoListBinding>() {
 
         setToolbar(getString(R.string.todo_list), toolbar)
         setData()
+        setAdapter()
         setObserver()
     }
 
@@ -34,6 +41,14 @@ class TodoListFragment : BaseFragment<FragmentTodoListBinding>() {
         }
 
         refreshData()
+    }
+
+    private fun setAdapter() {
+        binding.rvTodoList.apply {
+            this.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            setDivider(R.drawable.recyclerview_divider)
+        }
+        binding.rvTodoList.adapter = adapterInProgressTask
     }
 
     private fun setObserver() {
@@ -51,7 +66,8 @@ class TodoListFragment : BaseFragment<FragmentTodoListBinding>() {
                         it.data?.content?.let {
                             binding.llEmptyList.isVisible =
                                 it.completedTasks.isNullOrEmpty() && it.inprogressTasks.isNullOrEmpty()
-
+                            binding.llActions.isVisible = !it.inprogressTasks.isNullOrEmpty()
+                            adapterInProgressTask.addData(it.inprogressTasks)
                         }
                     }
                 }
@@ -60,11 +76,23 @@ class TodoListFragment : BaseFragment<FragmentTodoListBinding>() {
     }
 
     fun addNewTask() {
-
+        findNavController().navigate(R.id.addTodoTaskFragment)
     }
 
     fun refreshData() {
         viewModel.getListOfTodoTasks()
+    }
+
+    fun onEdit() {
+        binding.ivEdit.isVisible = false
+        binding.ivDone.isVisible = true
+        binding.ivDelete.isVisible = true
+    }
+
+    fun onDone() {
+        binding.ivEdit.isVisible = true
+        binding.ivDone.isVisible = false
+        binding.ivDelete.isVisible = false
     }
 
 }

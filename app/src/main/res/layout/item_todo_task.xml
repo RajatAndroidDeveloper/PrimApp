@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.primapp.utils.DateTimeUtils" />
+
+        <variable
+            name="data"
+            type="com.primapp.model.todo.TodoTaskItem" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/llExperienceLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/space_small"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/space_extraSmall">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                style="@style/normalBodyText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/poppins_medium"
+                android:maxLines="1"
+                android:text="@{data.taskName}"
+                android:textStyle="bold"
+                tools:text="@string/large_text" />
+
+            <TextView
+                android:id="@+id/tvCompanyName"
+                style="@style/normalBodyText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:text="@{DateTimeUtils.INSTANCE.convertServerTimeStamp(data.cdate, DateTimeUtils.LAST_SEEN_DATE_FORMAT)}"
+                android:textSize="@dimen/textSmall"
+                tools:text="Jan 30, 2023 | 4:35PM" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ivPriorityDot"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginStart="@dimen/space_small"
+            app:srcCompat="@drawable/shape_circle_white"
+            app:tint="@color/priority_high" />
+
+        <TextView
+            android:id="@+id/tvPriorityName"
+            style="@style/normalBodyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_small"
+            android:fontFamily="@font/poppins_regular"
+            android:inputType="textCapWords"
+            android:text="@{data.priority}"
+            android:textSize="@dimen/textSmall"
+            android:textStyle="bold"
+            tools:text="high" />
+    </LinearLayout>
+</layout>
