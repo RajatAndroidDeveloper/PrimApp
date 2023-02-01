@@ -44,6 +44,13 @@ class AddTodoTaskFragment : BaseFragment<FragmentAddTodoTaskBinding>() {
         binding.frag = this
         binding.viewModel = viewModel
         todoTaskData = AddTodoTaskFragmentArgs.fromBundle(requireArguments()).todoTaskItem
+        if (todoTaskData == null) {
+            //set Normal as default priority
+            val data = viewModel.createTodoTaskRequestModel.value
+            data?.priority = TodoTasksPriorityType.NORMAL
+            binding.mAutoCompletePriority.setText(TodoTasksPriorityType.NORMAL)
+            viewModel.createTodoTaskRequestModel.value = data
+        }
         todoTaskData?.let {
             val data = viewModel.createTodoTaskRequestModel.value
             data?.taskName = it.taskName
