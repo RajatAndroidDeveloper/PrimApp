@@ -11,6 +11,7 @@ import com.primapp.databinding.FragmentTodoListBinding
 import com.primapp.extensions.setDivider
 import com.primapp.extensions.showError
 import com.primapp.extensions.showInfo
+import com.primapp.model.ViewTodoTask
 import com.primapp.model.todo.TodoTaskItem
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
@@ -21,8 +22,8 @@ import kotlinx.android.synthetic.main.toolbar_dashboard_accent.*
 
 class TodoListFragment : BaseFragment<FragmentTodoListBinding>() {
 
-    private val adapterInProgressTask by lazy { TodoTaskAdapter() }
-    private val adapterCompletedTask by lazy { TodoTaskAdapter() }
+    private val adapterInProgressTask by lazy { TodoTaskAdapter { item -> onItemClick(item) } }
+    private val adapterCompletedTask by lazy { TodoTaskAdapter { item -> onItemClick(item) } }
 
     val viewModel by viewModels<TodoTasksViewModel> { viewModelFactory }
 
@@ -191,6 +192,16 @@ class TodoListFragment : BaseFragment<FragmentTodoListBinding>() {
             binding.tvCompleted.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_up_24, 0)
         }
         binding.rvTodoListCompleted.isVisible = !binding.rvTodoListCompleted.isVisible
+    }
+
+    fun onItemClick(item: Any?) {
+        when (item) {
+            is ViewTodoTask -> {
+                val bundle = Bundle()
+                bundle.putSerializable("todoTaskItem", item.todoTaskItem)
+                findNavController().navigate(R.id.viewTodoTaskFragment, bundle)
+            }
+        }
     }
 
 }

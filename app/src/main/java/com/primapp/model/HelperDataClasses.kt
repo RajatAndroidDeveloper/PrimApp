@@ -8,6 +8,7 @@ import com.primapp.model.portfolio.BenefitsData
 import com.primapp.model.portfolio.ExperienceData
 import com.primapp.model.post.PostListResult
 import com.primapp.model.reply.ReplyData
+import com.primapp.model.todo.TodoTaskItem
 import com.sendbird.android.BaseMessage
 
 
@@ -51,3 +52,6 @@ data class EditBenefits(val benefitData: BenefitsData)
 data class DeleteItem(val id: Int)
 data class EditExperience(val experienceData: ExperienceData)
 data class RequestMentorWithCommunityId(val communityId: Int)
+
+//To-do
+data class ViewTodoTask(val todoTaskItem: TodoTaskItem)

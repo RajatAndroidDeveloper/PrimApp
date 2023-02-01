@@ -10,11 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.primapp.R
 import com.primapp.constants.TodoTasksPriorityType
 import com.primapp.databinding.ItemTodoTaskBinding
+import com.primapp.model.ViewTodoTask
 import com.primapp.model.todo.TodoTaskItem
-import kotlinx.android.synthetic.main.item_todo_priority_list.view.*
+import com.primapp.utils.toSentenceCase
 import javax.inject.Inject
 
-class TodoTaskAdapter @Inject constructor() :
+class TodoTaskAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) :
     RecyclerView.Adapter<TodoTaskAdapter.TaskViewHolder>() {
 
     var isCheckBoxVisible: Boolean = false
@@ -30,7 +31,7 @@ class TodoTaskAdapter @Inject constructor() :
     }
 
     fun toggleCheckbox() {
-        if(!isCheckBoxVisible){
+        if (!isCheckBoxVisible) {
             list.map { item -> item.isSelected = false }
         }
         isCheckBoxVisible = !isCheckBoxVisible
@@ -59,13 +60,17 @@ class TodoTaskAdapter @Inject constructor() :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: TodoTaskItem) {
             binding.data = data
-
+            binding.tvPriorityName.text = data.priority.toSentenceCase()
             binding.ivPriorityDot.setColorFilter(
                 ContextCompat.getColor(binding.root.context, TodoTasksPriorityType.getPriorityColor(data.priority)),
                 PorterDuff.Mode.MULTIPLY
             )
 
             binding.checkboxTodo.isVisible = isCheckBoxVisible
+
+            binding.root.setOnClickListener {
+                onItemClick(ViewTodoTask(data))
+            }
         }
     }
 }

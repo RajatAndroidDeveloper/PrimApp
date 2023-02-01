@@ -42,3 +42,5 @@ fun ContentResolver.getFileName(fileUri: Uri): String {
     }
     return name
 }
+
+fun String.toSentenceCase(): String = split(" ").map { it.lowercase().replaceFirstChar(Char::titlecase) }.joinToString(" ")

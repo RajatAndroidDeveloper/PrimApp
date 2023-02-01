@@ -48,7 +48,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_large">
+                android:layout_marginTop="@dimen/space_small">
 
                 <Button
                     android:id="@+id/btnYes"

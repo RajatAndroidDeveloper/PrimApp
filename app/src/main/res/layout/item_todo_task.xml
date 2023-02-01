@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:fontFamily="@font/poppins_medium"
+                android:fontFamily="@font/poppins_regular"
                 android:maxLines="1"
                 android:text="@{data.taskName}"
                 android:textStyle="bold"
@@ -54,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_regular"
-                android:text="@{DateTimeUtils.INSTANCE.convertServerTimeStamp(data.cdate, DateTimeUtils.LAST_SEEN_DATE_FORMAT)}"
+                android:text="@{DateTimeUtils.INSTANCE.convertServerTimeStamp(data.cdate, DateTimeUtils.STRING_DATE_FORMAT_TIME)}"
                 android:textSize="@dimen/textSmall"
                 tools:text="Jan 30, 2023 | 4:35PM" />
         </LinearLayout>
@@ -74,8 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_small"
             android:fontFamily="@font/poppins_regular"
-            android:inputType="textCapWords"
-            android:text="@{data.priority}"
+            android:inputType="textCapSentences"
             android:textSize="@dimen/textSmall"
             android:textStyle="bold"
             tools:text="high" />

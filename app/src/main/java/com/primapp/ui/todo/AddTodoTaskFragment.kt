@@ -10,6 +10,7 @@ import com.primapp.R
 import com.primapp.constants.TodoTasksPriorityType
 import com.primapp.databinding.FragmentAddTodoTaskBinding
 import com.primapp.extensions.showError
+import com.primapp.model.todo.TodoTaskItem
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.initial.AutocompleteListArrayAdapter
@@ -19,6 +20,8 @@ import com.primapp.viewmodels.TodoTasksViewModel
 import kotlinx.android.synthetic.main.toolbar_dashboard_accent.*
 
 class AddTodoTaskFragment : BaseFragment<FragmentAddTodoTaskBinding>() {
+
+    var todoTaskData: TodoTaskItem? = null
 
     val adapterPriority by lazy {
         AutoCompleteTodoPriorityListArrayAdapter(requireContext(), R.layout.item_todo_priority_list)
@@ -40,6 +43,15 @@ class AddTodoTaskFragment : BaseFragment<FragmentAddTodoTaskBinding>() {
     private fun setData() {
         binding.frag = this
         binding.viewModel = viewModel
+        todoTaskData = AddTodoTaskFragmentArgs.fromBundle(requireArguments()).todoTaskItem
+        todoTaskData?.let {
+            val data = viewModel.createTodoTaskRequestModel.value
+            data?.taskName = it.taskName
+            data?.description = it.description
+            data?.priority = it.priority
+            binding.mAutoCompletePriority.setText(data?.priority)
+            viewModel.createTodoTaskRequestModel.value = data
+        }
     }
 
     private fun setAdapter() {
@@ -90,12 +102,41 @@ class AddTodoTaskFragment : BaseFragment<FragmentAddTodoTaskBinding>() {
                 }
             }
         })
+
+        viewModel.updateTodoLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.SUCCESS -> {
+                        it.data?.content?.let {
+                            //to update data without refreshing on edit screen
+                            todoTaskData?.taskName = it.taskName
+                            todoTaskData?.description = it.description
+                            todoTaskData?.priority = it.priority
+                            todoTaskData?.status = it.status
+                            DialogUtils.showCloseDialog(requireActivity(), R.string.todo_task_updated) {
+                                findNavController().popBackStack()
+                            }
+                        }
+                    }
+                }
+            }
+        })
     }
 
     fun addNewTask() {
         binding.mAutoCompletePriority.clearFocus()
         if (viewModel.validateData()) {
-            viewModel.createTodoTasks()
+            if (todoTaskData == null)
+                viewModel.createTodoTasks()
+            else
+                viewModel.updateTodo(todoTaskData!!.id)
         }
     }
 }

@@ -34,6 +34,7 @@ import com.primapp.ui.settings.help.ReportProblemFragment
 import com.primapp.ui.settings.security.SecurityFragment
 import com.primapp.ui.todo.AddTodoTaskFragment
 import com.primapp.ui.todo.TodoListFragment
+import com.primapp.ui.todo.ViewTodoTaskFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -177,4 +178,7 @@ abstract class DashboardFragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeAddTodoTaskFragment(): AddTodoTaskFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeViewTodoTaskFragment(): ViewTodoTaskFragment
 }

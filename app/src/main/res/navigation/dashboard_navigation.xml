@@ -480,11 +480,28 @@
         android:id="@+id/todoListFragment"
         android:name="com.primapp.ui.todo.TodoListFragment"
         android:label="TodoListFragment"
-        tools:layout="@layout/fragment_todo_list"/>
+        tools:layout="@layout/fragment_todo_list" />
     <fragment
         android:id="@+id/addTodoTaskFragment"
         android:name="com.primapp.ui.todo.AddTodoTaskFragment"
         android:label="AddTodoTaskFragment"
-        tools:layout="@layout/fragment_add_todo_task"/>
+        tools:layout="@layout/fragment_add_todo_task" >
+        <argument
+            android:name="todoTaskItem"
+            app:argType="com.primapp.model.todo.TodoTaskItem"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewTodoTaskFragment"
+        android:name="com.primapp.ui.todo.ViewTodoTaskFragment"
+        android:label="ViewTodoTaskFragment"
+        tools:layout="@layout/fragment_view_todo_task" >
+        <argument
+            android:name="todoTaskItem"
+            app:argType="com.primapp.model.todo.TodoTaskItem"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
 
 </navigation>

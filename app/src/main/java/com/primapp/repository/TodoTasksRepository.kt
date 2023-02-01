@@ -46,4 +46,12 @@ class TodoTasksRepository @Inject constructor(
             responseHandler.handleException(e)
         }
     }
+
+    suspend fun updateTodoTask(taskId: Int, request: CreateTodoTaskRequest): Resource<CreateTodoTaskResponse> {
+        return try {
+            responseHandler.handleResponse(apiService.updateTodoTask(taskId, request))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
 }

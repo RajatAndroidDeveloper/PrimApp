@@ -107,4 +107,12 @@ class TodoTasksViewModel @Inject constructor(
         _deleteTodoLiveData.postValue(Event(Resource.loading(null)))
         _deleteTodoLiveData.postValue(Event(repo.deleteTodos(MultipleTodoActionRequest(list))))
     }
+
+    private var _updateTodoLiveData = MutableLiveData<Event<Resource<CreateTodoTaskResponse>>>()
+    var updateTodoLiveData: LiveData<Event<Resource<CreateTodoTaskResponse>>> = _updateTodoLiveData
+
+    fun updateTodo(taskId: Int) = viewModelScope.launch {
+        _updateTodoLiveData.postValue(Event(Resource.loading(null)))
+        _updateTodoLiveData.postValue(Event(repo.updateTodoTask(taskId, createTodoTaskRequestModel.value!!)))
+    }
 }

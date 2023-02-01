@@ -2,6 +2,7 @@ package com.primapp.model.todo
 
 import com.google.gson.annotations.SerializedName
 import com.primapp.retrofit.base.BaseDataModel
+import java.io.Serializable
 
 data class TodoListResponse(
     @SerializedName("content")
@@ -19,21 +20,21 @@ data class TodoTaskItem(
     @SerializedName("cdate")
     val cdate: String?,
     @SerializedName("description")
-    val description: Any?,
+    var description: String?,
     @SerializedName("id")
     val id: Int,
     @SerializedName("is_deleted")
     val isDeleted: Boolean?,
     @SerializedName("priority")
-    val priority: String?,
+    var priority: String,
     @SerializedName("status")
-    val status: String?,
+    var status: String?,
     @SerializedName("task_name")
-    val taskName: String?,
+    var taskName: String?,
     @SerializedName("udate")
     val udate: String?,
     @SerializedName("user_id")
     val userId: Int?,
     //Local for selection
     var isSelected: Boolean = false
-)
+): Serializable

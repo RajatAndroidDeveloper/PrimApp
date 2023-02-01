@@ -494,4 +494,10 @@ interface ApiService {
 
     @PATCH(ApiConstant.MARK_MULTIPLE_TODOS_COMPLETED)
     suspend fun markTodoCompleted(@Body request: MultipleTodoActionRequest): BaseDataModel
+
+    @PATCH(ApiConstant.UPDATE_TODO_TASK)
+    suspend fun updateTodoTask(
+        @Path("todoTaskId") todoTaskId: Int,
+        @Body request: CreateTodoTaskRequest
+    ): CreateTodoTaskResponse
 }
