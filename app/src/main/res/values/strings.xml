@@ -434,6 +434,8 @@
     <string name="common_communities">Communities in Common</string>
     <string name="todo_list">To Do List</string>
     <string name="todo_list_started">Let\'s get started with your To Do List.</string>
+    <string name="great_job">Great Job!</string>
+    <string name="todo_list_completed">You completed all of your To Do\'s time to relax and take a break.</string>
     <string name="add_new_task">Add a New Task</string>
     <string name="add_task">Add Task</string>
     <string name="description">Description</string>
@@ -444,4 +446,5 @@
     <string name="no_todo_selected">Please select any To Do task to remove from the list.</string>
     <string name="completed">Completed</string>
     <string name="view_task">View Task</string>
+    <string name="see_recently_completed_task">See Recently Completed Tasks</string>
 </resources>

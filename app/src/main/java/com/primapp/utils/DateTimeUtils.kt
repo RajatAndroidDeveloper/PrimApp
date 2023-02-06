@@ -17,7 +17,7 @@ object DateTimeUtils {
     const val DEFAULT_SERVER_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
 
     const val STRING_DATE_FORMAT = "dd MMM yyyy" //02 Jun 2022
-    const val STRING_DATE_FORMAT_TIME = "dd MMM yyyy | hh:mm a" //02 Jun 2022
+    const val STRING_DATE_FORMAT_TIME = "MMM dd, yyyy | hh:mm a" //02 Jun 2022
 
     fun getDateFromPicker(calendar: Calendar, format: String? = SEND_DOB_FORMAT): String {
         return SimpleDateFormat(format, Locale.getDefault()).format(calendar.time)

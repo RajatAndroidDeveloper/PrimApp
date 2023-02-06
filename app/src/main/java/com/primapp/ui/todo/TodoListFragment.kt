@@ -75,8 +75,19 @@ class TodoListFragment : BaseFragment<FragmentTodoListBinding>() {
                     }
                     Status.SUCCESS -> {
                         it.data?.content?.let {
-                            binding.llEmptyList.isVisible =
-                                it.completedTasks.isNullOrEmpty() && it.inprogressTasks.isNullOrEmpty()
+                            binding.llEmptyList.isVisible = it.inprogressTasks.isNullOrEmpty()
+                            if (it.inprogressTasks.isNullOrEmpty() && it.completedTasks.isNullOrEmpty()) {
+                                binding.ivEmptyTodo.setImageResource(R.drawable.ic_empty_todo)
+                                binding.tvEmptyTodo.text = getString(R.string.todo_list_started)
+                                binding.tvGreatJob.isVisible = false
+                                binding.btnSeeCompletedTask.isVisible = false
+                            } else {
+                                binding.ivEmptyTodo.setImageResource(R.drawable.ic_todo_completed)
+                                binding.tvEmptyTodo.text = getString(R.string.todo_list_completed)
+                                binding.tvGreatJob.isVisible = true
+                                binding.btnSeeCompletedTask.isVisible = true
+                            }
+
                             binding.llActions.isVisible = !it.inprogressTasks.isNullOrEmpty()
                             adapterInProgressTask.addData(it.inprogressTasks)
                             adapterCompletedTask.addData(it.completedTasks)
@@ -192,6 +203,10 @@ class TodoListFragment : BaseFragment<FragmentTodoListBinding>() {
             binding.tvCompleted.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_up_24, 0)
         }
         binding.rvTodoListCompleted.isVisible = !binding.rvTodoListCompleted.isVisible
+    }
+
+    fun viewCompletedTasks() {
+        binding.llEmptyList.isVisible = false
     }
 
     fun onItemClick(item: Any?) {
