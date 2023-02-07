@@ -50,6 +50,7 @@
             android:name=".ui.MainActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/splashTheme"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
