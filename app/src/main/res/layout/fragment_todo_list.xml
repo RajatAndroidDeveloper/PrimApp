@@ -134,6 +134,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@color/white"
+            android:clickable="true"
+            android:focusableInTouchMode="true"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -143,8 +145,8 @@
 
             <ImageView
                 android:id="@+id/ivEmptyTodo"
-                android:layout_width="170dp"
-                android:layout_height="150dp"
+                android:layout_width="0dp"
+                android:layout_height="170dp"
                 android:src="@drawable/ic_empty_todo"
                 app:layout_constraintBottom_toTopOf="@+id/tvGreatJob"
                 app:layout_constraintEnd_toEndOf="parent"

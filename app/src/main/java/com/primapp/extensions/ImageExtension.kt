@@ -112,3 +112,11 @@ fun ImageView.loadCircularImageWithBorder(url: String?) {
         .error(R.drawable.placeholder_circle)
         .into(this)
 }
+
+fun ImageView.loanLoacalGIF(url:Int, placeholder: Int = R.drawable.placeholder) {
+    Glide.with(this.context)
+        .load(url)
+        .placeholder(placeholder)
+        .error(placeholder)
+        .into(this);
+}

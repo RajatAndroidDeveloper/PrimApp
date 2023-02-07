@@ -1,6 +1,7 @@
 package com.primapp.ui.todo
 
 import android.os.Bundle
+import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -8,11 +9,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.primapp.R
 import com.primapp.databinding.FragmentTodoListBinding
+import com.primapp.extensions.loanLoacalGIF
 import com.primapp.extensions.setDivider
 import com.primapp.extensions.showError
-import com.primapp.extensions.showInfo
 import com.primapp.model.ViewTodoTask
-import com.primapp.model.todo.TodoTaskItem
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.todo.adapter.TodoTaskAdapter
@@ -77,12 +77,15 @@ class TodoListFragment : BaseFragment<FragmentTodoListBinding>() {
                         it.data?.content?.let {
                             binding.llEmptyList.isVisible = it.inprogressTasks.isNullOrEmpty()
                             if (it.inprogressTasks.isNullOrEmpty() && it.completedTasks.isNullOrEmpty()) {
-                                binding.ivEmptyTodo.setImageResource(R.drawable.ic_empty_todo)
+                               // binding.ivEmptyTodo.setImageResource(R.drawable.ic_empty_todo)
+                                binding.ivEmptyTodo.loanLoacalGIF(R.raw.shibslides)
+                                binding.ivEmptyTodo.scaleType = ImageView.ScaleType.FIT_XY
                                 binding.tvEmptyTodo.text = getString(R.string.todo_list_started)
                                 binding.tvGreatJob.isVisible = false
                                 binding.btnSeeCompletedTask.isVisible = false
                             } else {
-                                binding.ivEmptyTodo.setImageResource(R.drawable.ic_todo_completed)
+                                //binding.ivEmptyTodo.setImageResource(R.drawable.ic_todo_completed)
+                                binding.ivEmptyTodo.loanLoacalGIF(R.raw.shibsleeps)
                                 binding.tvEmptyTodo.text = getString(R.string.todo_list_completed)
                                 binding.tvGreatJob.isVisible = true
                                 binding.btnSeeCompletedTask.isVisible = true
