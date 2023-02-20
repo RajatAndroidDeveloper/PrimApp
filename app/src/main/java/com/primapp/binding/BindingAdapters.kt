@@ -30,6 +30,7 @@ import com.primapp.model.community.CommunityData
 import com.primapp.model.notification.NotificationResult
 import com.primapp.model.portfolio.ExperienceData
 import com.primapp.model.post.ReportedMembers
+import com.primapp.model.todo.TodoTaskItem
 import com.primapp.utils.DateTimeUtils
 import com.primapp.utils.getPrettyNumber
 import com.sendbird.android.*
@@ -684,10 +685,57 @@ fun portfolioExperienceText(textView: TextView, data: ExperienceData?) {
                 textToDisplay = "${textView.resources.getQuantityString(R.plurals.count_years, it.years, it.years)} "
             }
             if (it.months != 0) {
-                textToDisplay += "${textView.resources.getQuantityString(R.plurals.count_months, it.months, it.months)} "
+                textToDisplay += "${
+                    textView.resources.getQuantityString(
+                        R.plurals.count_months,
+                        it.months,
+                        it.months
+                    )
+                } "
             }
             textToDisplay = "${textToDisplay}| ${it.location}"
         }
         textView.text = textToDisplay
+    }
+}
+
+@SuppressLint("SetTextI18n")
+@BindingAdapter("dueOn")
+fun dueOn(textView: TextView, date: Long?) {
+    date?.let {
+        textView.text = textView.resources.getString(
+            R.string.due_on,
+            DateTimeUtils.getDateFromMillis(it, DateTimeUtils.CREATED_AT_DATE_FORMAT)
+        )
+    }
+}
+
+@SuppressLint("SetTextI18n")
+@BindingAdapter("createdOn")
+fun createdOn(textView: TextView, date: String?) {
+    date?.let {
+        textView.text = textView.resources.getString(
+            R.string.created_on,
+            DateTimeUtils.convertServerTimeStamp(it, DateTimeUtils.CREATED_AT_DATE_FORMAT)
+        )
+    }
+}
+
+@SuppressLint("SetTextI18n")
+@BindingAdapter("todoDueDate")
+fun todoDueDate(textView: TextView, taskItem: TodoTaskItem?) {
+    taskItem?.let {
+        if (taskItem.dueDate == null || taskItem.dueDate == 0L) {
+            textView.text = textView.resources.getString(
+                R.string.created_on,
+                DateTimeUtils.convertServerTimeStamp(it.cdate, DateTimeUtils.CREATED_AT_DATE_FORMAT)
+            )
+        } else {
+            textView.text = textView.resources.getString(
+                R.string.due_on,
+                DateTimeUtils.getDateFromMillis(it.dueDate, DateTimeUtils.CREATED_AT_DATE_FORMAT)
+            )
+        }
+
     }
 }

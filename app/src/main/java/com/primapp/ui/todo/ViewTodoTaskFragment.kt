@@ -1,9 +1,12 @@
 package com.primapp.ui.todo
 
+import android.graphics.PorterDuff
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.primapp.R
+import com.primapp.constants.TodoTasksPriorityType
 import com.primapp.databinding.FragmentViewTodoTaskBinding
 import com.primapp.model.todo.TodoTaskItem
 import com.primapp.ui.base.BaseFragment
@@ -31,6 +34,11 @@ class ViewTodoTaskFragment : BaseFragment<FragmentViewTodoTaskBinding>() {
             return
         }
         todoTaskItem = ViewTodoTaskFragmentArgs.fromBundle(requireArguments()).todoTaskItem
+
+        binding.ivPriorityDot.setColorFilter(
+            ContextCompat.getColor(requireContext(), TodoTasksPriorityType.getPriorityColor(todoTaskItem!!.priority)),
+            PorterDuff.Mode.MULTIPLY
+        )
         refreshData()
     }
 

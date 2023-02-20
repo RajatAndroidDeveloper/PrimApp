@@ -1,5 +1,7 @@
 package com.primapp.ui.todo
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.os.Bundle
 import android.widget.AutoCompleteTextView
 import androidx.core.view.isVisible
@@ -18,6 +20,7 @@ import com.primapp.ui.todo.adapter.AutoCompleteTodoPriorityListArrayAdapter
 import com.primapp.utils.DialogUtils
 import com.primapp.viewmodels.TodoTasksViewModel
 import kotlinx.android.synthetic.main.toolbar_dashboard_accent.*
+import java.util.*
 
 class AddTodoTaskFragment : BaseFragment<FragmentAddTodoTaskBinding>() {
 
@@ -56,6 +59,7 @@ class AddTodoTaskFragment : BaseFragment<FragmentAddTodoTaskBinding>() {
             data?.taskName = it.taskName
             data?.description = it.description
             data?.priority = it.priority
+            data?.dueDate = it.dueDate
             binding.mAutoCompletePriority.setText(data?.priority)
             viewModel.createTodoTaskRequestModel.value = data
         }
@@ -145,5 +149,40 @@ class AddTodoTaskFragment : BaseFragment<FragmentAddTodoTaskBinding>() {
             else
                 viewModel.updateTodo(todoTaskData!!.id)
         }
+    }
+
+    //Date Pickers
+
+    fun pickDueDateTime() {
+        val currentDateTime = Calendar.getInstance()
+        val startYear = currentDateTime.get(Calendar.YEAR)
+        val startMonth = currentDateTime.get(Calendar.MONTH)
+        val startDay = currentDateTime.get(Calendar.DAY_OF_MONTH)
+        val startHour = currentDateTime.get(Calendar.HOUR_OF_DAY)
+        val startMinute = currentDateTime.get(Calendar.MINUTE)
+
+        val datePickerDialog = DatePickerDialog(requireContext(), { _, year, month, day ->
+            val timePickerDialog = TimePickerDialog(requireContext(), { _, hour, minute ->
+                val pickedDateTime = Calendar.getInstance()
+                pickedDateTime.set(year, month, day, hour, minute)
+                //do something with picked date n time
+                if (pickedDateTime.timeInMillis < currentDateTime.timeInMillis) {
+                    //throw error
+                    showError(requireContext(),getString(R.string.valid_due_time))
+                    /*
+                    val model = viewModel.createTodoTaskRequestModel.value
+                    model?.dueDate = null
+                    viewModel.createTodoTaskRequestModel.value = model
+                     */
+                } else {
+                    val model = viewModel.createTodoTaskRequestModel.value
+                    model?.dueDate = pickedDateTime.timeInMillis
+                    viewModel.createTodoTaskRequestModel.value = model
+                }
+            }, startHour, startMinute, false).show()
+        }, startYear, startMonth, startDay)
+        //set min date
+        datePickerDialog.datePicker.minDate = currentDateTime.timeInMillis
+        datePickerDialog.show()
     }
 }

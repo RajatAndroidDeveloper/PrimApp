@@ -25,8 +25,8 @@
             android:id="@+id/checkboxTodo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:checked="@={data.selected}"
+            android:visibility="gone"
             tools:visibility="visible" />
 
         <LinearLayout
@@ -51,10 +51,10 @@
             <TextView
                 android:id="@+id/tvCompanyName"
                 style="@style/normalBodyText"
+                todoDueDate="@{data}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_regular"
-                android:text="@{DateTimeUtils.INSTANCE.convertServerTimeStamp(data.cdate, DateTimeUtils.STRING_DATE_FORMAT_TIME)}"
                 android:textSize="@dimen/textSmall"
                 tools:text="Jan 30, 2023 | 4:35PM" />
         </LinearLayout>

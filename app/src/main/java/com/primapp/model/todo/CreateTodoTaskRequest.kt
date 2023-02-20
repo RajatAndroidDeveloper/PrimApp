@@ -12,14 +12,19 @@ data class CreateTodoTaskRequest(
     @SerializedName("priority")
     var priority: String?,
     @SerializedName("status")
-    var status: String?
+    var status: String?,
+    @SerializedName("due_date")
+    var dueDate: Long? = 0L,
 ) : Serializable {
     fun isValidFormData(): ValidationResults {
         if (taskName.isNullOrEmpty())
             return ValidationResults.EMPTY_TITLE
 
-        if (description.isNullOrEmpty())
-            return ValidationResults.EMPTY_DESCRIPTION
+//        if (description.isNullOrEmpty())
+//            return ValidationResults.EMPTY_DESCRIPTION
+
+        if (dueDate == null)
+            return ValidationResults.INVALID_DUE_DATE
 
         if (priority.isNullOrEmpty())
             return ValidationResults.EMPTY_PRIORITY

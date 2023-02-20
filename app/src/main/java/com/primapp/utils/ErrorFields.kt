@@ -51,4 +51,6 @@ class ErrorFields @Inject constructor() {
     var errorDescription: String? = null
 
     var errorPriority: String? = null
+
+    var errorDueDate: String? = null
 }

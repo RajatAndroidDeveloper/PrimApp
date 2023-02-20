@@ -7,6 +7,8 @@
 
         <import type="android.view.View" />
 
+        <import type="com.primapp.utils.DateTimeUtils" />
+
         <variable
             name="frag"
             type="com.primapp.ui.todo.AddTodoTaskFragment" />
@@ -50,7 +52,7 @@
                 android:id="@+id/tlTaskDescription"
                 style="@style/myTextInputLabel"
                 errorText="@{viewModel.errorFieldsLiveData.errorDescription}"
-                isRequired="@{true}"
+                isRequired="@{false}"
                 android:hint="@string/description"
                 app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -68,6 +70,27 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tlDueDate"
+                style="@style/myTextInputLabel"
+                errorText="@{viewModel.errorFieldsLiveData.errorDueDate}"
+                hint="@{@string/due_date}"
+                isRequired="@{false}"
+                android:hint="@string/due_date"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tlTaskDescription"
+                tools:hint="@string/due_date">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDueDate"
+                    style="@style/editTextInput"
+                    android:focusable="false"
+                    android:onClick="@{()->frag.pickDueDateTime()}"
+                    android:text="@{DateTimeUtils.INSTANCE.getDateFromMillis(viewModel.createTodoTaskRequestModel.dueDate, DateTimeUtils.CREATE_TODO_DATE_FORMAT)}" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tlPriority"
                 style="@style/myTextInputLabel_DropDown"
                 errorText="@{viewModel.errorFieldsLiveData.errorPriority}"
@@ -76,7 +99,7 @@
                 app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tlTaskDescription">
+                app:layout_constraintTop_toBottomOf="@id/tlDueDate">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/mAutoCompletePriority"

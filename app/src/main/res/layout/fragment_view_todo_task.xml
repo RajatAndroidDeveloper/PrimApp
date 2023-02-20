@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <import type="com.primapp.utils.DateTimeUtils" />
 
         <variable
@@ -66,14 +68,25 @@
                             tools:text="@string/todo_list" />
 
                         <TextView
-                            android:id="@+id/tvCompanyName"
+                            android:id="@+id/tvCreatedOn"
                             style="@style/normalBodyText"
+                            createdOn="@{data.cdate}"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_regular"
-                            android:text="@{DateTimeUtils.INSTANCE.convertServerTimeStamp(data.cdate, DateTimeUtils.STRING_DATE_FORMAT_TIME)}"
                             android:textSize="@dimen/textSmall"
-                            tools:text="Jan 30, 2023 | 4:35PM" />
+                            tools:text="Created on Jan 30, 2023 at 4:35PM" />
+
+                        <TextView
+                            android:id="@+id/tvDueOn"
+                            style="@style/normalBodyText"
+                            dueOn="@{data.dueDate}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_regular"
+                            android:textSize="@dimen/textSmall"
+                            android:visibility="@{(data.dueDate == null || data.dueDate == 0) ? View.GONE : View.VISIBLE }"
+                            tools:text="Due on Jan 30, 2023 at 4:35PM" />
                     </LinearLayout>
 
 

@@ -35,6 +35,8 @@ data class TodoTaskItem(
     val udate: String?,
     @SerializedName("user_id")
     val userId: Int?,
+    @SerializedName("due_date")
+    val dueDate: Long?,
     //Local for selection
     var isSelected: Boolean = false
 ): Serializable

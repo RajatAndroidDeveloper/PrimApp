@@ -44,6 +44,7 @@ class TodoTasksViewModel @Inject constructor(
         error?.errorTitle = null
         error?.errorDescription = null
         error?.errorPriority = null
+        error?.errorDueDate = null
         errorFieldsLiveData.value = error
 
         Log.i("anshul", "validating")
@@ -61,6 +62,11 @@ class TodoTasksViewModel @Inject constructor(
             ValidationResults.EMPTY_DESCRIPTION -> {
                 errorFieldsLiveData.value?.errorDescription =
                     context.getString(R.string.valid_empty_description)
+            }
+
+            ValidationResults.INVALID_DUE_DATE -> {
+                errorFieldsLiveData.value?.errorDueDate =
+                    context.getString(R.string.valid_due_date)
             }
 
             ValidationResults.EMPTY_PRIORITY -> {

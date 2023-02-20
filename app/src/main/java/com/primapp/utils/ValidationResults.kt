@@ -36,5 +36,6 @@ enum class ValidationResults {
     EMPTY_TITLE,
     EMPTY_DESCRIPTION,
     EMPTY_PRIORITY,
+    INVALID_DUE_DATE,
     SUCCESS,
 }

@@ -102,6 +102,8 @@
     <string name="valid_empty_title">Please enter a valid title</string>
     <string name="valid_empty_description">Please enter a valid description</string>
     <string name="valid_empty_priority">Please enter a valid priority</string>
+    <string name="valid_due_date">Please enter a valid due date</string>
+    <string name="valid_due_time">Please select time above current date &amp; time</string>
 
     <string name="privacy_policy_help_text">Please accept terms of service and privacy policy.</string>
     <string name="valid_username">Please enter a valid username</string>
@@ -447,4 +449,7 @@
     <string name="completed">Completed</string>
     <string name="view_task">View Task</string>
     <string name="see_recently_completed_task">See Recently Completed Tasks</string>
+    <string name="due_date">Due Date</string>
+    <string name="created_on">Created on %s</string>
+    <string name="due_on">Due on %s</string>
 </resources>
