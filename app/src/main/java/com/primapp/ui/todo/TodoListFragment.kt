@@ -78,14 +78,14 @@ class TodoListFragment : BaseFragment<FragmentTodoListBinding>() {
                             binding.llEmptyList.isVisible = it.inprogressTasks.isNullOrEmpty()
                             if (it.inprogressTasks.isNullOrEmpty() && it.completedTasks.isNullOrEmpty()) {
                                // binding.ivEmptyTodo.setImageResource(R.drawable.ic_empty_todo)
-                                binding.ivEmptyTodo.loanLoacalGIF(R.raw.shibslides)
+                                binding.ivEmptyTodo.loanLoacalGIF(R.raw.shibaslides)
                                 binding.ivEmptyTodo.scaleType = ImageView.ScaleType.FIT_XY
                                 binding.tvEmptyTodo.text = getString(R.string.todo_list_started)
                                 binding.tvGreatJob.isVisible = false
                                 binding.btnSeeCompletedTask.isVisible = false
                             } else {
                                 //binding.ivEmptyTodo.setImageResource(R.drawable.ic_todo_completed)
-                                binding.ivEmptyTodo.loanLoacalGIF(R.raw.shibsleeps)
+                                binding.ivEmptyTodo.loanLoacalGIF(R.raw.shibasleeps)
                                 binding.tvEmptyTodo.text = getString(R.string.todo_list_completed)
                                 binding.tvGreatJob.isVisible = true
                                 binding.btnSeeCompletedTask.isVisible = true
