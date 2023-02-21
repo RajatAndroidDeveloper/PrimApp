@@ -386,7 +386,7 @@
     <string name="sensitive_content">Sensitive Content</string>
     <string name="sensitive_content_desc">The image or video may contain inappropriate content.</string>
     <string name="view_content">View Content</string>
-    <string name="see_why">See Warning</string>
+    <string name="see_why">See Warning!</string>
     <string name="cover_this_image">Cover this image</string>
     <string name="portfolio">Portfolio</string>
     <string name="mentoring_portfolio">Mentoring Portfolio</string>
