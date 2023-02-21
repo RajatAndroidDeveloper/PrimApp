@@ -197,6 +197,7 @@
                 android:layout_marginBottom="@dimen/space_large"
                 android:onClick="@{()->frag.addNewTask()}"
                 android:text="@string/add_new_task"
+                android:textAllCaps="false"
                 app:layout_constraintBottom_toTopOf="@id/btnSeeCompletedTask"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -207,6 +208,7 @@
                 android:layout_marginBottom="@dimen/space_large"
                 android:onClick="@{()->frag.viewCompletedTasks()}"
                 android:text="@string/see_recently_completed_task"
+                android:textAllCaps="false"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
