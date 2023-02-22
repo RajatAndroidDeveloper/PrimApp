@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_medium"
                 android:text="@{data.user.firstName +' '+data.user.lastName}"
-                android:textColor="@color/black"
+                android:textColor="@color/textColor"
                 tools:text="Gordon kelly Jordan" />
 
             <com.primapp.extensions.ExpandableTextView

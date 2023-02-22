@@ -222,7 +222,7 @@ fun joinButtonStyle(button: Button, isJoined: Boolean, isCreatedByMe: Boolean, t
     if (type == CommunityFilterTypes.CREATED_COMMUNITY) {
         if (adminStatus.equals("Pending", true)) {
             button.background = ContextCompat.getDrawable(button.context, R.drawable.button_primary_grey_filled)
-            button.setTextColor(ContextCompat.getColor(button.context, R.color.black))
+            button.setTextColor(ContextCompat.getColor(button.context, R.color.textColor))
             button.typeface = ResourcesCompat.getFont(button.context, R.font.poppins_regular)
             button.text = button.context.getString(R.string.edit)
             button.isEnabled = false
@@ -239,7 +239,7 @@ fun joinButtonStyle(button: Button, isJoined: Boolean, isCreatedByMe: Boolean, t
                 button.text = button.context.getString(R.string.edit)
                 if (adminStatus.equals("Pending", true)) {
                     button.background = ContextCompat.getDrawable(button.context, R.drawable.button_primary_grey_filled)
-                    button.setTextColor(ContextCompat.getColor(button.context, R.color.black))
+                    button.setTextColor(ContextCompat.getColor(button.context, R.color.textColor))
                     button.typeface = ResourcesCompat.getFont(button.context, R.font.poppins_regular)
                     button.isEnabled = false
                     return
@@ -269,7 +269,7 @@ fun joinButtonStyle(button: Button, isJoined: Boolean, isCreatedByMe: Boolean, t
                 }
             }
             button.background = ContextCompat.getDrawable(button.context, R.drawable.button_primary_grey_filled)
-            button.setTextColor(ContextCompat.getColor(button.context, R.color.black))
+            button.setTextColor(ContextCompat.getColor(button.context, R.color.textColor))
             button.typeface = ResourcesCompat.getFont(button.context, R.font.poppins_regular)
             button.isEnabled = false
         } else {
@@ -280,7 +280,7 @@ fun joinButtonStyle(button: Button, isJoined: Boolean, isCreatedByMe: Boolean, t
     } else {
         if (isJoined) {
             button.background = ContextCompat.getDrawable(button.context, R.drawable.button_primary_grey_filled)
-            button.setTextColor(ContextCompat.getColor(button.context, R.color.black))
+            button.setTextColor(ContextCompat.getColor(button.context, R.color.textColor))
             button.typeface = ResourcesCompat.getFont(button.context, R.font.poppins_regular)
             button.isEnabled = false
         } else {
@@ -351,13 +351,13 @@ fun likeCount(textView: TextView, count: Long?) {
 fun inviteMentorButtonStyle(button: Button, status: Int) {
     if (status == MentorshipStatusTypes.ACCEPTED) {
         button.background = ContextCompat.getDrawable(button.context, R.drawable.button_primary_grey_filled)
-        button.setTextColor(ContextCompat.getColor(button.context, R.color.black))
+        button.setTextColor(ContextCompat.getColor(button.context, R.color.textColor))
         button.typeface = ResourcesCompat.getFont(button.context, R.font.poppins_regular)
         button.isEnabled = true
         button.text = button.context.getString(R.string.end_mentorship)
     } else if (status == MentorshipStatusTypes.PENDING) {
         button.background = ContextCompat.getDrawable(button.context, R.drawable.button_primary_grey_filled)
-        button.setTextColor(ContextCompat.getColor(button.context, R.color.black))
+        button.setTextColor(ContextCompat.getColor(button.context, R.color.textColor))
         button.typeface = ResourcesCompat.getFont(button.context, R.font.poppins_regular)
         button.isEnabled = false
         button.text = button.context.getString(R.string.requested)
@@ -422,7 +422,7 @@ fun makeNotificationMentorRequest(textView: TextView, notificationData: Notifica
 @BindingAdapter("notificationTitle")
 fun makeNotificationMentorRequest(textView: TextView, notificationData: NotificationResult?) {
     notificationData?.let {
-        val colorToHighlight = ContextCompat.getColor(textView.context, R.color.black)
+        val colorToHighlight = ContextCompat.getColor(textView.context, R.color.textColor)
         val senderFullName = getHighlightedText(
             colorToHighlight,
             "${notificationData.sender?.firstName} ${notificationData.sender?.lastName}"

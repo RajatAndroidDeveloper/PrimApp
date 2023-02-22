@@ -6,6 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/backgroundColor"
         tools:context=".ui.base.NetworkErrorFragment">
 
         <ImageView
@@ -30,7 +31,7 @@
             android:layout_marginTop="@dimen/space_small"
             android:gravity="center"
             android:text="@string/network_error"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/textColor"
             android:textSize="@dimen/textExtraLarge"
             app:layout_constraintBottom_toTopOf="@id/tvNetworkErrorDescription"
             app:layout_constraintEnd_toEndOf="@id/ivNetworkError"

@@ -62,7 +62,7 @@
                 android:fontFamily="@font/poppins_medium"
                 android:maxLines="2"
                 android:text="@{data.user.firstName +' '+data.user.lastName}"
-                android:textColor="@color/black"
+                android:textColor="@color/textColor"
                 tools:text="Gordon kelly Jordan" />
 
             <TextView

@@ -5,25 +5,25 @@
     <color name="colorAccent">#0085FF</color>
     <color name="colorAccentLight">#479CE9</color>
 
-    <color name="lightAccent">#E8F4FF</color>
-    <color name="backgroundColor">@color/white</color>
-    <color name="backgroundColorReverse">@color/black</color>
+    <color name="lightAccent">#1c252e</color>
+    <color name="backgroundColor">@color/black</color>
+    <color name="backgroundColorReverse">@color/white</color>
     <!-- for automatic dark to light ?android:attr/colorBackground -->
-    <color name="textColor">@color/black</color>
-    <color name="textColorLight">#828282</color>
-    <color name="textColorReverse">@color/white</color>
+    <color name="textColor">@color/white</color>
+    <color name="textColorLight">#E2E2E2</color>
+    <color name="textColorReverse">@color/black</color>
 
     <color name="white">#fff</color>
     <color name="grey">#a0a0a0</color>
 
     <color name="lightGrey">#bdbdbd</color>
-    <color name="lightGreyForTab">#bdbdbd</color>
-    <color name="lightestGrey">#0D000000</color>
+    <color name="lightGreyForTab">#313131</color>
+    <color name="lightestGrey">#40ffffff</color>
 
     <color name="black">#000</color>
     <color name="red">#ff0000</color>
 
-    <color name="grey_shade_post">#f2f2f2</color>
+    <color name="grey_shade_post">#242424</color>
 
     <!-- for To-do priorities -->
     <color name="priority_high">#ff5f5a</color>

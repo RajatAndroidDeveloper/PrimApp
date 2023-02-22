@@ -60,7 +60,7 @@
                 android:fontFamily="@font/poppins_medium"
                 android:maxLines="2"
                 android:text="@{data.communityName}"
-                android:textColor="@color/black"
+                android:textColor="@color/textColor"
                 tools:text="Gordon kelly Jordan" />
 
             <TextView

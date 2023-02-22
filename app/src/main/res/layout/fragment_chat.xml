@@ -14,7 +14,7 @@
         android:id="@+id/layout_group_chat_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/backgroundColor">
 
         <LinearLayout
             android:id="@+id/llChatBox"
@@ -71,7 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_above="@id/llChatBox"
-            android:background="#DfDfDf" />
+            android:background="@color/lightGreyForTab" />
 
         <LinearLayout
             android:layout_width="match_parent"

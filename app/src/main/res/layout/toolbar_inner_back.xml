@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:paddingTop="@dimen/space_systemTopInset"
+        android:background="@color/backgroundColor"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar

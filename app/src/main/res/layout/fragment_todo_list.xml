@@ -13,7 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/backgroundColor">
 
         <include layout="@layout/toolbar_dashboard_accent" />
 
@@ -133,7 +133,7 @@
             android:id="@+id/llEmptyList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@color/white"
+            android:background="@color/backgroundColor"
             android:clickable="true"
             android:focusableInTouchMode="true"
             android:visibility="gone"

@@ -18,7 +18,7 @@
         android:id="@+id/htab_maincontent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="@color/backgroundColor"
         android:paddingTop="@dimen/space_systemTopInset">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -31,6 +31,7 @@
                 android:id="@+id/htab_collapse_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/backgroundColor"
                 app:contentScrim="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 app:titleEnabled="false">
@@ -51,6 +52,7 @@
                     android:layout_height="?attr/actionBarSize"
                     android:layout_gravity="top"
                     app:layout_collapseMode="pin"
+                    android:background="@color/backgroundColor"
                     app:navigationIcon="@drawable/back"
                     app:popupTheme="@style/AppTheme.PopupOverlay" />
 
@@ -61,6 +63,7 @@
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/backgroundColor"
                 android:indeterminate="true" />
 
         </com.google.android.material.appbar.AppBarLayout>
@@ -98,8 +101,8 @@
                 android:hint="@string/write_your_comment_here"
                 android:maxLines="4"
                 android:padding="@dimen/space_normal"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black"
+                android:textColor="@color/textColor"
+                android:textColorHint="@color/textColor"
                 android:textSize="@dimen/textNormal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/ivSend"

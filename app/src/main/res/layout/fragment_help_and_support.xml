@@ -12,7 +12,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:background="@color/backgroundColor">
 
         <include layout="@layout/toolbar_inner_back" />
 
@@ -23,7 +24,7 @@
             android:layout_marginTop="@dimen/space_small"
             android:fontFamily="@font/poppins_bold"
             android:text="@string/help"
-            android:textColor="@color/black"
+            android:textColor="@color/textColor"
             android:textSize="@dimen/textMedium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -60,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_medium"
                     android:text="@string/report_a_problem"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/textColor" />
 
                 <TextView
                     android:layout_width="match_parent"

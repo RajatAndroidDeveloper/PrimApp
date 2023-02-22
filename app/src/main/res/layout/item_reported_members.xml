@@ -40,7 +40,7 @@
             android:layout_marginStart="@dimen/space_small"
             android:layout_marginTop="@dimen/space_small"
             android:fontFamily="@font/poppins_regular"
-            android:textColor="@color/black"
+            android:textColor="@color/textColor"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivProfilePic"

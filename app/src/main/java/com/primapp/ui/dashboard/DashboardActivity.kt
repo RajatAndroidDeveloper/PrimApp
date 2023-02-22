@@ -155,6 +155,7 @@ class DashboardActivity : BaseActivity() {
             if (it.notificationsCount > 0) {
                 val badge: BadgeDrawable = navBar.getOrCreateBadge(R.id.notificationsFragment)
                 badge.backgroundColor = ContextCompat.getColor(this, R.color.red)
+                badge.badgeTextColor = ContextCompat.getColor(this,R.color.white)
                 badge.verticalOffset = 6
                 badge.number = it.notificationsCount
 

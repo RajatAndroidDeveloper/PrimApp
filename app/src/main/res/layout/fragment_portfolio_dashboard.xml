@@ -55,7 +55,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/poppins_medium"
                         android:text="@string/mentoring_portfolio"
-                        android:textColor="@color/black"
+                        android:textColor="@color/textColor"
                         android:textSize="@dimen/textMedium" />
 
                     <TextView
@@ -126,7 +126,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/poppins_medium"
                         android:text="@string/experiences"
-                        android:textColor="@color/black"
+                        android:textColor="@color/textColor"
                         android:textSize="@dimen/textMedium" />
 
                     <ImageView
@@ -184,7 +184,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/poppins_medium"
                         android:text="@string/skills_and_certifications"
-                        android:textColor="@color/black"
+                        android:textColor="@color/textColor"
                         android:textSize="@dimen/textMedium" />
 
                     <ImageView
@@ -243,7 +243,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/poppins_medium"
                         android:text="@string/benefits"
-                        android:textColor="@color/black"
+                        android:textColor="@color/textColor"
                         android:textSize="@dimen/textMedium" />
 
                     <ImageView

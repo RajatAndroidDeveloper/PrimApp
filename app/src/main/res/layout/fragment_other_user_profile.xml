@@ -19,12 +19,14 @@
         android:id="@+id/htab_maincontent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/backgroundColor"
         android:paddingTop="@dimen/space_systemTopInset">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/backgroundColor"
             android:theme="@style/AppTheme.AppBarOverlay">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -32,6 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:contentScrim="?attr/colorPrimary"
+                android:background="@color/backgroundColor"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 app:titleEnabled="false">
 
@@ -51,6 +54,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     android:layout_gravity="top"
+                    android:background="@color/backgroundColor"
                     app:layout_collapseMode="pin"
                     app:navigationIcon="@drawable/back"
                     app:popupTheme="@style/AppTheme.PopupOverlay">
@@ -80,6 +84,7 @@
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/backgroundColor"
                 android:indeterminate="true" />
 
             <com.google.android.material.tabs.TabLayout
@@ -88,9 +93,10 @@
                 android:layout_height="wrap_content"
                 app:tabBackground="@drawable/profile_tab_background"
                 app:tabIndicator="@null"
+                android:background="@color/backgroundColor"
                 app:tabSelectedTextColor="@color/white"
                 app:tabTextAppearance="@style/MyProfileTabTextAppearance"
-                app:tabTextColor="@color/black" />
+                app:tabTextColor="@color/textColor" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.viewpager2.widget.ViewPager2

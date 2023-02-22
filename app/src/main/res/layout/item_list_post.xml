@@ -22,6 +22,7 @@
         android:id="@+id/llItemPost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/backgroundColor"
         android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -283,7 +284,7 @@
                         android:id="@+id/llCoverImage"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white"
+                        android:background="@color/backgroundColor"
                         android:clickable="true"
                         android:alpha="0.8"
                         android:focusable="true"
@@ -311,7 +312,7 @@
                             android:gravity="center"
                             android:padding="@dimen/space_small"
                             android:text="@string/cover_this_image"
-                            android:textColor="@color/black"
+                            android:textColor="@color/textColor"
                             android:textSize="@dimen/textSmall" />
 
                     </LinearLayout>
@@ -406,7 +407,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:background="#F2F2F2"
+                android:background="@color/grey_shade_post"
                 android:clickable="true"
                 android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
@@ -418,6 +419,7 @@
                     android:layout_marginRight="15dp"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
+                    android:tint="@color/textColorLight"
                     android:src="@{data.like ? @drawable/like_color_new : @drawable/like_new}"
                     tools:src="@drawable/like_new" />
 
@@ -436,7 +438,7 @@
                 android:layout_height="50dp"
                 android:layout_marginStart="2dp"
                 android:layout_weight="1"
-                android:background="#F2F2F2"
+                android:background="@color/grey_shade_post"
                 android:clickable="true"
                 android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
@@ -448,6 +450,7 @@
                     android:layout_marginRight="15dp"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
+                    android:tint="@color/textColorLight"
                     android:src="@drawable/comment_new" />
 
                 <TextView
@@ -465,7 +468,7 @@
                 android:layout_height="50dp"
                 android:layout_marginStart="2dp"
                 android:layout_weight="1"
-                android:background="#F2F2F2"
+                android:background="@color/grey_shade_post"
                 android:clickable="true"
                 android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
@@ -477,6 +480,7 @@
                     android:layout_marginRight="15dp"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
+                    android:tint="@color/textColorLight"
                     android:src="@drawable/share_new" />
 
                 <TextView

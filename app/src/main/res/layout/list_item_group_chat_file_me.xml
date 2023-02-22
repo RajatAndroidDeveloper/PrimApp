@@ -58,7 +58,7 @@
             android:layout_below="@id/text_group_chat_date"
             android:layout_alignParentRight="true"
             android:foreground="?attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/cardview_light_background"
+            app:cardBackgroundColor="@color/backgroundColor"
             app:cardCornerRadius="4dp"
             app:cardElevation="0dp"
             app:cardPreventCornerOverlap="false"

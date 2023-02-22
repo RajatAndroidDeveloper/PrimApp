@@ -82,7 +82,7 @@
             android:layout_marginRight="4dp"
             android:layout_toRightOf="@id/image_group_chat_profile"
             android:foreground="?attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/cardview_light_background"
+            app:cardBackgroundColor="@color/backgroundColor"
             app:cardCornerRadius="4dp"
             app:cardElevation="0dp"
             app:cardPreventCornerOverlap="false"

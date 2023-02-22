@@ -18,18 +18,19 @@
         android:id="@+id/clProfileCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/backgroundColor"
         android:paddingStart="@dimen/space_large"
         android:paddingEnd="@dimen/space_large"
         app:layout_constraintTop_toBottomOf="@id/clToolbar">
 
         <ImageView
             android:id="@+id/ivProfilePic"
+            name="@{user.firstName +' '+ user.lastName}"
             loadCircularImage="@{user.userImage}"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:padding="@dimen/space_extraSmall"
-            name="@{user.firstName +' '+ user.lastName}"
             android:onClick="@{()->frag.showImage()}"
+            android:padding="@dimen/space_extraSmall"
             app:layout_constraintBottom_toBottomOf="@id/btnInviteMembers"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintStart_toStartOf="parent"
@@ -79,11 +80,11 @@
             android:layout_width="wrap_content"
             android:layout_height="28dp"
             android:layout_marginTop="@dimen/space_extraSmall"
+            android:onClick="@{()->frag.onRequestMentorship()}"
             android:text="@string/invite_mentor"
             android:textAllCaps="false"
-            android:onClick="@{()->frag.onRequestMentorship()}"
-            android:visibility="visible"
             android:textSize="@dimen/textSmall"
+            android:visibility="visible"
             app:layout_constraintStart_toStartOf="@id/tvName"
             app:layout_constraintTop_toBottomOf="@id/tvGenderDobCountry" />
 
@@ -101,8 +102,8 @@
             android:id="@+id/tvAboutDescription"
             style="@style/primaryBodyText"
             android:layout_marginTop="@dimen/space_small"
-            android:text="@{user.profileSummary}"
             android:justificationMode="inter_word"
+            android:text="@{user.profileSummary}"
             android:textColor="@android:color/tab_indicator_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
@@ -110,8 +111,8 @@
             app:layout_constraintTop_toBottomOf="@id/tvAbout"
             app:layout_constraintWidth_percent="1"
             app:trimLength="100"
-            tools:text="@string/long_about_text"
-            tools:targetApi="o" />
+            tools:targetApi="o"
+            tools:text="@string/long_about_text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

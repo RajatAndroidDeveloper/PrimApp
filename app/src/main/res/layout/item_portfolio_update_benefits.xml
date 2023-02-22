@@ -27,7 +27,7 @@
             android:fontFamily="@font/poppins_medium"
             android:paddingVertical="2dp"
             android:text="@{data.name}"
-            android:textColor="@color/black"
+            android:textColor="@color/textColor"
             tools:text="Insurance" />
 
         <ImageView
