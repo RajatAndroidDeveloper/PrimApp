@@ -51,6 +51,7 @@
                         android:background="?attr/selectableItemBackground"
                         android:onClick="@{()->frag.onEdit()}"
                         android:padding="@dimen/space_extraSmall"
+                        android:visibility="gone"
                         android:src="@drawable/ic_baseline_mode_edit_24"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />

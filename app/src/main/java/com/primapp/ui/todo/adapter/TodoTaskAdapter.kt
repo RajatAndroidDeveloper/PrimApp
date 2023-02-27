@@ -66,7 +66,11 @@ class TodoTaskAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) :
                 PorterDuff.Mode.MULTIPLY
             )
 
-            binding.checkboxTodo.isVisible = isCheckBoxVisible
+            //binding.checkboxTodo.isVisible = isCheckBoxVisible
+
+            binding.checkboxTodo.setOnClickListener {
+                onItemClick(data)
+            }
 
             binding.root.setOnClickListener {
                 onItemClick(ViewTodoTask(data))

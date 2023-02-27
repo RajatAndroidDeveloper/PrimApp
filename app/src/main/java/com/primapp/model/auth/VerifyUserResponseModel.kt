@@ -55,5 +55,7 @@ data class UserData(
     @SerializedName("total_notifications")
     var notificationsCount: Int = 0,
     @SerializedName("isPortfolioAvailable")
-    var isPortfolioAvailable: Boolean = false
+    var isPortfolioAvailable: Boolean = false,
+    @SerializedName("todo_notifications_count")
+    var todoNotificationsCount: Int = 0,
 )

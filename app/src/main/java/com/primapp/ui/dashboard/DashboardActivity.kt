@@ -162,6 +162,16 @@ class DashboardActivity : BaseActivity() {
             } else {
                 navBar.removeBadge(R.id.notificationsFragment)
             }
+
+            if (it.todoNotificationsCount > 0) {
+                val badge: BadgeDrawable = navBar.getOrCreateBadge(R.id.todoListFragment)
+                badge.backgroundColor = ContextCompat.getColor(this, R.color.red)
+                badge.badgeTextColor = ContextCompat.getColor(this,R.color.white)
+                badge.verticalOffset = 6
+                badge.number = it.todoNotificationsCount
+            } else {
+                navBar.removeBadge(R.id.todoListFragment)
+            }
         }
     }
 

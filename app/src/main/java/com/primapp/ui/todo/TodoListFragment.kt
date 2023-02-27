@@ -13,6 +13,7 @@ import com.primapp.extensions.loanLoacalGIF
 import com.primapp.extensions.setDivider
 import com.primapp.extensions.showError
 import com.primapp.model.ViewTodoTask
+import com.primapp.model.todo.TodoTaskItem
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.todo.adapter.TodoTaskAdapter
@@ -77,7 +78,7 @@ class TodoListFragment : BaseFragment<FragmentTodoListBinding>() {
                         it.data?.content?.let {
                             binding.llEmptyList.isVisible = it.inprogressTasks.isNullOrEmpty()
                             if (it.inprogressTasks.isNullOrEmpty() && it.completedTasks.isNullOrEmpty()) {
-                               // binding.ivEmptyTodo.setImageResource(R.drawable.ic_empty_todo)
+                                // binding.ivEmptyTodo.setImageResource(R.drawable.ic_empty_todo)
                                 binding.ivEmptyTodo.loanLoacalGIF(R.raw.shibaslides)
                                 binding.ivEmptyTodo.scaleType = ImageView.ScaleType.FIT_XY
                                 binding.tvEmptyTodo.text = getString(R.string.todo_list_started)
@@ -194,7 +195,7 @@ class TodoListFragment : BaseFragment<FragmentTodoListBinding>() {
     }
 
     private fun showEditButton() {
-        binding.ivEdit.isVisible = true
+        //binding.ivEdit.isVisible = true
         binding.ivDone.isVisible = false
         binding.ivDelete.isVisible = false
     }
@@ -218,6 +219,16 @@ class TodoListFragment : BaseFragment<FragmentTodoListBinding>() {
                 val bundle = Bundle()
                 bundle.putSerializable("todoTaskItem", item.todoTaskItem)
                 findNavController().navigate(R.id.viewTodoTaskFragment, bundle)
+            }
+
+            is TodoTaskItem -> {
+                //check change listener
+                val itemSelected: List<TodoTaskItem> = adapterInProgressTask.list.filter { it.isSelected }
+                if (itemSelected.isEmpty()) {
+                    showEditButton()
+                } else {
+                    showEditOptions()
+                }
             }
         }
     }

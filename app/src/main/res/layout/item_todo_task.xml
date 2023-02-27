@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
 
         <import type="com.primapp.utils.DateTimeUtils" />
 
@@ -26,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="@={data.selected}"
-            android:visibility="gone"
+            android:visibility="@{data.status.equalsIgnoreCase(`COMPLETED`) ? View.GONE : View.VISIBLE}"
             tools:visibility="visible" />
 
         <LinearLayout
