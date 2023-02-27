@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import com.primapp.R
 import com.primapp.constants.TodoTasksPriorityType
 import com.primapp.model.auth.ReferenceItems
+import com.primapp.utils.toSentenceCase
 import kotlinx.android.synthetic.main.item_todo_priority_list.view.*
 
 @SuppressLint("DefaultLocale")
@@ -42,7 +43,7 @@ class AutoCompleteTodoPriorityListArrayAdapter(
         }
 
         val countryItem: ReferenceItems = getItem(position)
-        view!!.tvTitle.text = countryItem.itemText
+        view!!.tvTitle.text = countryItem.itemText.toSentenceCase()
 
         when (countryItem.itemText) {
             TodoTasksPriorityType.HIGH -> {

@@ -10,7 +10,7 @@
 
     <style name="splashTheme" parent="AppTheme">
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
         <item name="android:windowTranslucentNavigation">false</item>
     </style>
 

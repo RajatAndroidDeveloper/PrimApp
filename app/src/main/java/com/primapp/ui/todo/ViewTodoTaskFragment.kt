@@ -3,7 +3,7 @@ package com.primapp.ui.todo
 import android.graphics.PorterDuff
 import android.os.Bundle
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.primapp.R
 import com.primapp.constants.TodoTasksPriorityType
@@ -11,8 +11,7 @@ import com.primapp.databinding.FragmentViewTodoTaskBinding
 import com.primapp.model.todo.TodoTaskItem
 import com.primapp.ui.base.BaseFragment
 import com.primapp.utils.toSentenceCase
-import com.primapp.viewmodels.TodoTasksViewModel
-import kotlinx.android.synthetic.main.toolbar_dashboard_accent.*
+import kotlinx.android.synthetic.main.toolbar_community_back.*
 
 class ViewTodoTaskFragment : BaseFragment<FragmentViewTodoTaskBinding>() {
 
@@ -29,7 +28,8 @@ class ViewTodoTaskFragment : BaseFragment<FragmentViewTodoTaskBinding>() {
 
     private fun setData() {
         binding.frag = this
-        if (isLoaded || todoTaskItem != null) {
+        setEditOptions()
+        if (isLoaded && todoTaskItem != null) {
             refreshData()
             return
         }
@@ -42,10 +42,24 @@ class ViewTodoTaskFragment : BaseFragment<FragmentViewTodoTaskBinding>() {
         refreshData()
     }
 
+    private fun setEditOptions(){
+        ivAdd.isVisible = false
+        ivCreateNewMessage.isVisible = true
+
+        ivCreateNewMessage.setOnClickListener {
+            editTask()
+        }
+    }
+
     fun refreshData() {
         todoTaskItem?.let {
             binding.data = it
             binding.tvPriorityName.text = it.priority.toSentenceCase()
+            if (it.status.equals("COMPLETED", true)) {
+                ivCreateNewMessage.setImageResource(R.drawable.ic_baseline_autorenew_24)
+            } else {
+                ivCreateNewMessage.setImageResource(R.drawable.edit)
+            }
         }
     }
 

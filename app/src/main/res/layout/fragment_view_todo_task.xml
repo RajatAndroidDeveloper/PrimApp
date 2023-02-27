@@ -29,16 +29,14 @@
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/space_large">
 
-            <include layout="@layout/toolbar_inner_back" />
+            <include layout="@layout/toolbar_community_back" />
 
             <LinearLayout
                 android:id="@+id/llViewTask"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_largeX"
-                android:background="@drawable/shape_rounded_corner_search_box"
                 android:orientation="vertical"
-                android:padding="@dimen/space_small"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/clToolbar"
@@ -52,7 +50,6 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/space_extraSmall"
                         android:layout_weight="1"
                         android:orientation="vertical">
 
@@ -62,32 +59,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
+                            android:textSize="@dimen/textMedium"
                             android:fontFamily="@font/poppins_regular"
                             android:maxLines="2"
                             android:text="@{data.taskName}"
                             android:textStyle="bold"
                             tools:text="@string/todo_list" />
-
-                        <TextView
-                            android:id="@+id/tvCreatedOn"
-                            style="@style/normalBodyText"
-                            createdOn="@{data.cdate}"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_regular"
-                            android:textSize="@dimen/textSmall"
-                            tools:text="Created on Jan 30, 2023 at 4:35PM" />
-
-                        <TextView
-                            android:id="@+id/tvDueOn"
-                            style="@style/normalBodyText"
-                            dueOn="@{data.dueDate}"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_regular"
-                            android:textSize="@dimen/textSmall"
-                            android:visibility="@{(data.dueDate == null || data.dueDate == 0) ? View.GONE : View.VISIBLE }"
-                            tools:text="Due on Jan 30, 2023 at 4:35PM" />
                     </LinearLayout>
 
 
@@ -116,20 +93,32 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_medium"
+                    android:layout_marginTop="@dimen/space_normal"
                     android:text="@{data.description}"
                     tools:text="@string/inactive_community_action_message" />
-            </LinearLayout>
 
-            <Button
-                android:id="@+id/btnSave"
-                style="@style/buttonFilledPrimary"
-                android:layout_marginTop="@dimen/space_large"
-                android:onClick="@{()->frag.editTask()}"
-                android:text="@string/edit"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/llViewTask" />
+                <TextView
+                    android:id="@+id/tvCreatedOn"
+                    style="@style/normalBodyText"
+                    createdOn="@{data.cdate}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:textSize="@dimen/textSmall"
+                    android:layout_marginTop="@dimen/space_large"
+                    tools:text="Created on Jan 30, 2023 at 4:35PM" />
+
+                <TextView
+                    android:id="@+id/tvDueOn"
+                    style="@style/normalBodyText"
+                    dueOn="@{data.dueDate}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:textSize="@dimen/textSmall"
+                    android:visibility="@{(data.dueDate == null || data.dueDate == 0) ? View.GONE : View.VISIBLE }"
+                    tools:text="Due on Jan 30, 2023 at 4:35PM" />
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

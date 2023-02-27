@@ -18,6 +18,7 @@ import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.initial.AutocompleteListArrayAdapter
 import com.primapp.ui.todo.adapter.AutoCompleteTodoPriorityListArrayAdapter
 import com.primapp.utils.DialogUtils
+import com.primapp.utils.toSentenceCase
 import com.primapp.viewmodels.TodoTasksViewModel
 import kotlinx.android.synthetic.main.toolbar_dashboard_accent.*
 import java.util.*
@@ -51,7 +52,7 @@ class AddTodoTaskFragment : BaseFragment<FragmentAddTodoTaskBinding>() {
             //set Normal as default priority
             val data = viewModel.createTodoTaskRequestModel.value
             data?.priority = TodoTasksPriorityType.NORMAL
-            binding.mAutoCompletePriority.setText(TodoTasksPriorityType.NORMAL)
+            binding.mAutoCompletePriority.setText(TodoTasksPriorityType.NORMAL.toSentenceCase())
             viewModel.createTodoTaskRequestModel.value = data
         }
         todoTaskData?.let {
@@ -59,7 +60,9 @@ class AddTodoTaskFragment : BaseFragment<FragmentAddTodoTaskBinding>() {
             data?.taskName = it.taskName
             data?.description = it.description
             data?.priority = it.priority
-            data?.dueDate = it.dueDate
+            if (!it.status.equals("COMPLETED", true)) {
+                data?.dueDate = it.dueDate
+            }
             binding.mAutoCompletePriority.setText(data?.priority)
             viewModel.createTodoTaskRequestModel.value = data
         }
@@ -168,7 +171,7 @@ class AddTodoTaskFragment : BaseFragment<FragmentAddTodoTaskBinding>() {
                 //do something with picked date n time
                 if (pickedDateTime.timeInMillis < currentDateTime.timeInMillis) {
                     //throw error
-                    showError(requireContext(),getString(R.string.valid_due_time))
+                    showError(requireContext(), getString(R.string.valid_due_time))
                     /*
                     val model = viewModel.createTodoTaskRequestModel.value
                     model?.dueDate = null
