@@ -35,10 +35,6 @@ class ViewTodoTaskFragment : BaseFragment<FragmentViewTodoTaskBinding>() {
         }
         todoTaskItem = ViewTodoTaskFragmentArgs.fromBundle(requireArguments()).todoTaskItem
 
-        binding.ivPriorityDot.setColorFilter(
-            ContextCompat.getColor(requireContext(), TodoTasksPriorityType.getPriorityColor(todoTaskItem!!.priority)),
-            PorterDuff.Mode.MULTIPLY
-        )
         refreshData()
     }
 
@@ -55,6 +51,10 @@ class ViewTodoTaskFragment : BaseFragment<FragmentViewTodoTaskBinding>() {
         todoTaskItem?.let {
             binding.data = it
             binding.tvPriorityName.text = it.priority.toSentenceCase()
+            binding.ivPriorityDot.setColorFilter(
+                ContextCompat.getColor(requireContext(), TodoTasksPriorityType.getPriorityColor(it.priority)),
+                PorterDuff.Mode.MULTIPLY
+            )
             if (it.status.equals("COMPLETED", true)) {
                 ivCreateNewMessage.setImageResource(R.drawable.ic_baseline_autorenew_24)
             } else {

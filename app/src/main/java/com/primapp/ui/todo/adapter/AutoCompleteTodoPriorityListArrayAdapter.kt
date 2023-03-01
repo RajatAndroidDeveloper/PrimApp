@@ -43,9 +43,9 @@ class AutoCompleteTodoPriorityListArrayAdapter(
         }
 
         val countryItem: ReferenceItems = getItem(position)
-        view!!.tvTitle.text = countryItem.itemText.toSentenceCase()
+        view!!.tvTitle.text = countryItem.itemText
 
-        when (countryItem.itemText) {
+        when (countryItem.itemValue) {
             TodoTasksPriorityType.HIGH -> {
                 view.imageDot.setColorFilter(
                     ContextCompat.getColor(context, R.color.priority_high),

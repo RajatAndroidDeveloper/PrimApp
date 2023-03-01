@@ -63,7 +63,7 @@ class AddTodoTaskFragment : BaseFragment<FragmentAddTodoTaskBinding>() {
             if (!it.status.equals("COMPLETED", true)) {
                 data?.dueDate = it.dueDate
             }
-            binding.mAutoCompletePriority.setText(data?.priority)
+            binding.mAutoCompletePriority.setText(data?.priority?.toSentenceCase())
             viewModel.createTodoTaskRequestModel.value = data
         }
     }
