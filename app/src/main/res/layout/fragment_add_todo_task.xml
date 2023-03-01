@@ -88,7 +88,7 @@
                     style="@style/editTextInput"
                     android:focusable="false"
                     android:onClick="@{()->frag.pickDueDateTime()}"
-                    android:text="@{DateTimeUtils.INSTANCE.getDateFromMillis(viewModel.createTodoTaskRequestModel.dueDate, DateTimeUtils.CREATE_TODO_DATE_FORMAT)}" />
+                    android:text="@{DateTimeUtils.INSTANCE.getDateFromMillis(viewModel.createTodoTaskRequestModel.dueDate, DateTimeUtils.CREATED_AT_DATE_FORMAT)}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout

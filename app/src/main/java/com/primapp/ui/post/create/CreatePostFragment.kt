@@ -458,6 +458,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
         isUpdatedPostAttachment = true
         selectedFile = null
         binding.groupSelectFileName.isVisible = false
+        binding.tvVideoAnalyzed.isVisible = false
         //Clear file types as well, now we don't have radio chooser
         postFileType = null
     }
@@ -549,6 +550,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
 
                     if (selectedFile != null) {
                         binding.groupSelectFileName.isVisible = true
+                        binding.tvVideoAnalyzed.isVisible = false
                         binding.tvFileName.text = "${selectedFile!!.name}"
                         Log.d(FileUtils.FILE_PICK_TAG, "File Path : ${selectedFile!!.absolutePath}")
                     } else {
@@ -574,6 +576,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                         } else {
                             selectedFile = tempFile
                             binding.groupSelectFileName.isVisible = true
+                            binding.tvVideoAnalyzed.isVisible = true
                             binding.tvFileName.text = "${selectedFile!!.name}"
                         }
                     } else {
@@ -596,6 +599,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                         } else {
                             selectedFile = tempFile
                             binding.groupSelectFileName.isVisible = true
+                            binding.tvVideoAnalyzed.isVisible = false
                             binding.tvFileName.text = "${selectedFile!!.name}"
                         }
                     } else {
@@ -610,6 +614,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
             selectedFile = null
             //For update post
             viewModel.createPostRequestModel.value?.fileType = postFileType
+            binding.tvVideoAnalyzed.isVisible = false
             //Hide visible file type, as there is no selected file now.
             binding.groupSelectFileName.isVisible = false
         }

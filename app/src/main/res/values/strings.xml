@@ -452,4 +452,5 @@
     <string name="due_date">Due Date</string>
     <string name="created_on">Created on %s</string>
     <string name="due_on">Due on %s</string>
+    <string name="content_analyzed_video_msg">Note: The video you uploaded will need to be analyzed. It may take up to 2 minutes to complete.</string>
 </resources>

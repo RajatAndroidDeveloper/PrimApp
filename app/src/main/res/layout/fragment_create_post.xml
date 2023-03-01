@@ -29,12 +29,12 @@
             android:layout_height="wrap_content"
             android:drawableStart="@null"
             android:gravity="top"
-            android:textColorHint="@color/textColorLight"
             android:hint="@string/create_post_placeholder"
             android:imeActionLabel="Done"
             android:imeOptions="actionDone"
             android:lines="6"
             android:text="@={viewModel.createPostRequestModel.postText}"
+            android:textColorHint="@color/textColorLight"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/clToolbar"
@@ -66,68 +66,68 @@
                 android:id="@+id/ibAttachment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scaleType="center"
                 android:layout_marginStart="@dimen/space_medium"
                 android:background="@drawable/shape_rounded_corner_grey_small_corner"
                 android:onClick="@{()->frag.attachDocument()}"
                 android:padding="@dimen/space_small"
+                android:scaleType="center"
                 android:src="@drawable/ic_attach_file_24"
                 android:tint="@color/black" />
 
         </LinearLayout>
 
-      <!--  <RadioGroup
-            android:id="@+id/rgFileType"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:checkedButton="@+id/rbNone"
-            android:orientation="horizontal"
-            android:paddingTop="@dimen/space_normal"
-            android:paddingBottom="@dimen/space_normal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etPost"
-            app:layout_constraintWidth_percent=".9">
+        <!--  <RadioGroup
+              android:id="@+id/rgFileType"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:checkedButton="@+id/rbNone"
+              android:orientation="horizontal"
+              android:paddingTop="@dimen/space_normal"
+              android:paddingBottom="@dimen/space_normal"
+              app:layout_constraintEnd_toEndOf="parent"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintTop_toBottomOf="@id/etPost"
+              app:layout_constraintWidth_percent=".9">
 
-            <RadioButton
-                android:id="@+id/rbImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingEnd="10dp"
-                android:text="@string/image_gif" />
+              <RadioButton
+                  android:id="@+id/rbImage"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:paddingEnd="10dp"
+                  android:text="@string/image_gif" />
 
-            <RadioButton
-                android:id="@+id/rbVideo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingEnd="10dp"
-                android:text="@string/video" />
+              <RadioButton
+                  android:id="@+id/rbVideo"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:paddingEnd="10dp"
+                  android:text="@string/video" />
 
-            <RadioButton
-                android:id="@+id/rbGif"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingEnd="10dp"
-                android:text="@string/gif"
-                android:visibility="gone" />
+              <RadioButton
+                  android:id="@+id/rbGif"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:paddingEnd="10dp"
+                  android:text="@string/gif"
+                  android:visibility="gone" />
 
-            <RadioButton
-                android:id="@+id/rbNone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/none" />
-        </RadioGroup>
--->
-     <!--   <Button
-            android:id="@+id/btnSelect"
-            style="@style/buttonOutlinedAccent"
-            android:layout_width="wrap_content"
-            android:onClick="@{()->frag.pickFileAskPermission()}"
-            android:text="Select"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="@id/llFileOptins"
-            app:layout_constraintTop_toBottomOf="@id/llFileOptins" />
--->
+              <RadioButton
+                  android:id="@+id/rbNone"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="@string/none" />
+          </RadioGroup>
+  -->
+        <!--   <Button
+               android:id="@+id/btnSelect"
+               style="@style/buttonOutlinedAccent"
+               android:layout_width="wrap_content"
+               android:onClick="@{()->frag.pickFileAskPermission()}"
+               android:text="Select"
+               android:visibility="gone"
+               app:layout_constraintStart_toStartOf="@id/llFileOptins"
+               app:layout_constraintTop_toBottomOf="@id/llFileOptins" />
+   -->
         <TextView
             android:id="@+id/tvFileName"
             android:layout_width="0dp"
@@ -136,12 +136,12 @@
             android:maxLines="1"
             android:text="IMG_00232.png"
             app:layout_constraintBottom_toBottomOf="@id/btnSelect"
+            app:layout_constraintBottom_toTopOf="@id/tlSelectCategory"
             app:layout_constraintEnd_toStartOf="@id/ivDelete"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="@id/llFileOptins"
             app:layout_constraintTop_toBottomOf="@id/llFileOptins"
-            app:layout_constraintBottom_toTopOf="@id/tlSelectCategory"
             app:layout_constraintWidth_default="wrap" />
 
         <ImageView
@@ -198,6 +198,21 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:id="@+id/tvVideoAnalyzed"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/space_small"
+            android:text="@string/content_analyzed_video_msg"
+            android:textColor="@color/red"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/btnSubmit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tlSelectCommunity"
+            app:layout_constraintWidth_percent=".9"
+            tools:visibility="visible" />
+
         <Button
             android:id="@+id/btnSubmit"
             style="@style/buttonFilledPrimary"
@@ -206,15 +221,15 @@
             android:text="@string/submit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tlSelectCommunity" />
+            app:layout_constraintTop_toBottomOf="@id/tvVideoAnalyzed" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/groupSelectFileName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            tools:visibility="visible"
-            app:constraint_referenced_ids="tvFileName,ivDelete" />
+            app:constraint_referenced_ids="tvFileName,ivDelete"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
