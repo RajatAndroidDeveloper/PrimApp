@@ -9,17 +9,22 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.primapp.R
+import com.primapp.cache.UserCache
 import com.primapp.constants.TodoTasksPriorityType
 import com.primapp.databinding.FragmentAddTodoTaskBinding
 import com.primapp.extensions.showError
 import com.primapp.model.todo.TodoTaskItem
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
+import com.primapp.ui.dashboard.DashboardActivity
 import com.primapp.ui.initial.AutocompleteListArrayAdapter
+import com.primapp.ui.profile.other.OtherUserProfileFragmentArgs
 import com.primapp.ui.todo.adapter.AutoCompleteTodoPriorityListArrayAdapter
 import com.primapp.utils.DialogUtils
 import com.primapp.utils.toSentenceCase
+import com.primapp.viewmodels.CommunitiesViewModel
 import com.primapp.viewmodels.TodoTasksViewModel
+import kotlinx.android.synthetic.main.layout_others_profile_top_card.*
 import kotlinx.android.synthetic.main.toolbar_dashboard_accent.*
 import java.util.*
 

@@ -43,7 +43,6 @@
         tools:targetApi="m">
         <activity
             android:name=".ui.dashboard.DashboardActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/splashTheme"
             android:windowSoftInputMode="adjustPan" />
         <activity

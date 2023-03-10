@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.primapp.R
+import com.primapp.cache.UserCache
 import com.primapp.databinding.FragmentTodoListBinding
 import com.primapp.extensions.loanLoacalGIF
 import com.primapp.extensions.setDivider
@@ -16,8 +17,10 @@ import com.primapp.model.ViewTodoTask
 import com.primapp.model.todo.TodoTaskItem
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
+import com.primapp.ui.dashboard.DashboardActivity
 import com.primapp.ui.todo.adapter.TodoTaskAdapter
 import com.primapp.utils.DialogUtils
+import com.primapp.viewmodels.CommunitiesViewModel
 import com.primapp.viewmodels.TodoTasksViewModel
 import kotlinx.android.synthetic.main.toolbar_dashboard_accent.*
 
@@ -26,6 +29,7 @@ class TodoListFragment : BaseFragment<FragmentTodoListBinding>() {
     private val adapterInProgressTask by lazy { TodoTaskAdapter { item -> onItemClick(item) } }
     private val adapterCompletedTask by lazy { TodoTaskAdapter { item -> onItemClick(item) } }
 
+    val mViewModel by viewModels<CommunitiesViewModel> { viewModelFactory }
     val viewModel by viewModels<TodoTasksViewModel> { viewModelFactory }
 
     override fun getLayoutRes(): Int = R.layout.fragment_todo_list
@@ -95,6 +99,7 @@ class TodoListFragment : BaseFragment<FragmentTodoListBinding>() {
                             binding.llActions.isVisible = !it.inprogressTasks.isNullOrEmpty()
                             adapterInProgressTask.addData(it.inprogressTasks)
                             adapterCompletedTask.addData(it.completedTasks)
+                            mViewModel.getUserData(UserCache.getUserId(requireContext()))
                         }
                     }
                 }
@@ -137,6 +142,29 @@ class TodoListFragment : BaseFragment<FragmentTodoListBinding>() {
                             showEditButton()
                             adapterInProgressTask.toggleCheckbox()
                             refreshData()
+                        }
+                    }
+                }
+            }
+        })
+
+        mViewModel.userLiveData.observe(viewLifecycleOwner, Observer {
+            it.peekContent().let { it ->
+                when (it.status) {
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.SUCCESS -> {
+                        hideLoading()
+                        it.data?.content?.let {
+                            if (UserCache.getUserId(requireContext()) == it.id) {
+                                //Update user data if viewing own profile
+                                UserCache.saveUser(requireContext(), it)
+                                (activity as? DashboardActivity)?.refreshNotificationBadge()
+                            }
                         }
                     }
                 }
