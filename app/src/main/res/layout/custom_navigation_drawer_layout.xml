@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/ivClose"
+        android:layout_width="@dimen/textMedium"
+        android:layout_height="@dimen/textMedium"
+        android:layout_marginTop="@dimen/textExtraLargeXX"
+        android:layout_marginRight="@dimen/textLargeX"
+        android:src="@drawable/icon_close"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@id/tvAppVersion"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivClose">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/ivProfileImage"
+                android:layout_width="@dimen/profile_width"
+                android:layout_height="@dimen/profile_width"
+                android:layout_marginStart="@dimen/textLarge"
+                android:layout_marginTop="@dimen/textExtraLargeXXX"
+                android:src="@drawable/dummy_profile"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvUserName"
+                style="@style/primaryBodyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_normal"
+                android:fontFamily="@font/poppins_medium"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/textMedium"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/ivProfileImage"
+                app:layout_constraintTop_toBottomOf="@id/ivProfileImage" />
+
+            <TextView
+                android:id="@+id/tvUserId"
+                style="@style/primaryBodyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_medium"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/grey"
+                android:textSize="@dimen/textSmall"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/ivProfileImage"
+                app:layout_constraintTop_toBottomOf="@id/tvUserName" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/space_medium"
+                android:background="@color/lightGrey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvUserId" />
+
+            <TextView
+                android:id="@+id/tvMonetization"
+                style="@style/primaryBodyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_normal"
+                android:fontFamily="@font/poppins_medium"
+                android:gravity="center"
+                android:text="@string/monetization"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/textNormal"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/ivProfileImage"
+                app:layout_constraintTop_toBottomOf="@id/view" />
+
+            <LinearLayout
+                android:id="@+id/llDashboard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_normal"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/space_extraSmall"
+                android:paddingBottom="@dimen/space_extraSmall"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/ivProfileImage"
+                app:layout_constraintTop_toBottomOf="@id/tvMonetization">
+
+                <ImageView
+                    android:layout_width="@dimen/textMediumX"
+                    android:layout_height="@dimen/textMediumX"
+                    android:src="@drawable/ic_dashboard" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/textNormal"
+                    android:paddingLeft="@dimen/space_small"
+                    android:text="@string/dashboard"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/textNormal" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llPaymentMethod"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_extraSmall"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/space_extraSmall"
+                android:paddingBottom="@dimen/space_extraSmall"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/ivProfileImage"
+                app:layout_constraintTop_toBottomOf="@id/llDashboard">
+
+                <ImageView
+                    android:layout_width="@dimen/textMediumX"
+                    android:layout_height="@dimen/textMediumX"
+                    android:src="@drawable/ic_payment" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/textNormal"
+                    android:paddingLeft="@dimen/space_small"
+                    android:text="@string/payment_methods"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/textNormal" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llProjectContracts"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_extraSmall"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/space_extraSmall"
+                android:paddingBottom="@dimen/space_extraSmall"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/ivProfileImage"
+                app:layout_constraintTop_toBottomOf="@id/llPaymentMethod">
+
+                <ImageView
+                    android:layout_width="@dimen/textMediumX"
+                    android:layout_height="@dimen/textMediumX"
+                    android:src="@drawable/ic_projects" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/textNormal"
+                    android:paddingLeft="@dimen/space_small"
+                    android:text="@string/projects_and_contracts"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/textNormal" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llTerms"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_extraSmall"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/space_extraSmall"
+                android:paddingBottom="@dimen/space_extraSmall"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/ivProfileImage"
+                app:layout_constraintTop_toBottomOf="@id/llProjectContracts">
+
+                <ImageView
+                    android:layout_width="@dimen/textMediumX"
+                    android:layout_height="@dimen/textMediumX"
+                    android:src="@drawable/ic_terms" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/textNormal"
+                    android:paddingLeft="@dimen/space_small"
+                    android:text="@string/terms_of_services"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/textNormal" />
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/tvSettings"
+                style="@style/primaryBodyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_normal"
+                android:fontFamily="@font/poppins_medium"
+                android:gravity="center"
+                android:text="@string/settings"
+                android:textAllCaps="true"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/textNormal"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/ivProfileImage"
+                app:layout_constraintTop_toBottomOf="@id/llTerms" />
+
+            <LinearLayout
+                android:id="@+id/llBookmarks"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_normal"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/space_extraSmall"
+                android:paddingBottom="@dimen/space_extraSmall"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/ivProfileImage"
+                app:layout_constraintTop_toBottomOf="@id/tvSettings">
+
+                <ImageView
+                    android:layout_width="@dimen/textMediumX"
+                    android:layout_height="@dimen/textMediumX"
+                    android:src="@drawable/icon_awesome_bookmark" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/textNormal"
+                    android:paddingLeft="@dimen/space_small"
+                    android:text="@string/bookmarks"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/textMedium" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llHiddenPosts"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_extraSmall"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/space_extraSmall"
+                android:paddingBottom="@dimen/space_extraSmall"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/ivProfileImage"
+                app:layout_constraintTop_toBottomOf="@id/llBookmarks">
+
+                <ImageView
+                    android:layout_width="@dimen/textMediumX"
+                    android:layout_height="@dimen/textMediumX"
+                    android:src="@drawable/ic_eye" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/textNormal"
+                    android:paddingLeft="@dimen/space_small"
+                    android:text="@string/hiddenPosts"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/textMedium" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llAboutUs"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_extraSmall"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/space_extraSmall"
+                android:paddingBottom="@dimen/space_extraSmall"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/ivProfileImage"
+                app:layout_constraintTop_toBottomOf="@id/llHiddenPosts">
+
+                <ImageView
+                    android:layout_width="@dimen/textMediumX"
+                    android:layout_height="@dimen/textMediumX"
+                    android:src="@drawable/icon_awesome_info_circle" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/textNormal"
+                    android:paddingLeft="@dimen/space_small"
+                    android:text="@string/about_us"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/textMedium" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llRewards"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_extraSmall"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/space_extraSmall"
+                android:paddingBottom="@dimen/space_extraSmall"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/ivProfileImage"
+                app:layout_constraintTop_toBottomOf="@id/llAboutUs">
+
+                <ImageView
+                    android:layout_width="@dimen/textMediumX"
+                    android:layout_height="@dimen/textMediumX"
+                    android:src="@drawable/trophy" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/textNormal"
+                    android:paddingLeft="@dimen/space_small"
+                    android:text="@string/prim_rewards"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/textMedium" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llSupport"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_extraSmall"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/space_extraSmall"
+                android:paddingBottom="@dimen/space_extraSmall"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/ivProfileImage"
+                app:layout_constraintTop_toBottomOf="@id/llRewards">
+
+                <ImageView
+                    android:layout_width="@dimen/textMediumX"
+                    android:layout_height="@dimen/textMediumX"
+                    android:src="@drawable/icon_ionic_md_help_circle" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/textNormal"
+                    android:paddingLeft="@dimen/space_small"
+                    android:text="@string/help_and_support"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/textMedium" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llSecurity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_extraSmall"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/space_extraSmall"
+                android:paddingBottom="@dimen/space_extraSmall"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/ivProfileImage"
+                app:layout_constraintTop_toBottomOf="@id/llSupport">
+
+                <ImageView
+                    android:layout_width="@dimen/textMediumX"
+                    android:layout_height="@dimen/textMediumX"
+                    android:src="@drawable/icon_material_security" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/textNormal"
+                    android:paddingLeft="@dimen/space_small"
+                    android:text="@string/security"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/textMedium" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llLogout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_extraSmall"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/space_extraSmall"
+                android:paddingBottom="@dimen/space_extraSmall"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/ivProfileImage"
+                app:layout_constraintTop_toBottomOf="@id/llSecurity">
+
+                <ImageView
+                    android:layout_width="@dimen/textMediumX"
+                    android:layout_height="@dimen/textMediumX"
+                    android:src="@drawable/icon_open_account_logout" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/textNormal"
+                    android:paddingLeft="@dimen/space_small"
+                    android:text="@string/logout"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/textMedium" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/tvAppVersion"
+        style="@style/primaryBodyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/space_normal"
+        android:text=""
+        android:textSize="@dimen/textSmall"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,7 @@ package com.primapp.di.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.primapp.ui.communities.edit.EditCommunityViewModel
+import com.primapp.model.dashboard.DashboardViewModel
 import com.primapp.ui.post.create.CreatePostViewModel
 import com.primapp.ui.splash.SplashViewModel
 import com.primapp.viewmodels.*
@@ -90,4 +91,9 @@ abstract class ViewModelModule {
 
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(DashboardViewModel::class)
+    abstract fun bindDashboardViewModel(viewModel: DashboardViewModel): ViewModel
 }

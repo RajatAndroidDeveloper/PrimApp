@@ -3,7 +3,10 @@ package com.primapp.ui.post
 import android.app.DownloadManager
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.View
+import androidx.core.content.ContextCompat
+import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -24,17 +27,16 @@ import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
 import com.primapp.ui.communities.members.CommunityMembersFragment
+import com.primapp.ui.dashboard.DashboardActivity
 import com.primapp.ui.post.adapter.PostListPagedAdapter
 import com.primapp.ui.post.create.CreatePostFragment
-import com.primapp.utils.AnalyticsManager
-import com.primapp.utils.DialogUtils
-import com.primapp.utils.DownloadUtils
-import com.primapp.utils.getPrettyNumber
+import com.primapp.utils.*
 import com.primapp.viewmodels.PostsViewModel
 import com.sendbird.android.SendBird
 import com.sendbird.android.SendBird.UserEventHandler
 import com.sendbird.android.SendBirdException
 import com.sendbird.android.User
+import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.fragment_updates.*
 import kotlinx.android.synthetic.main.toolbar_dashboard_accent.*
 import kotlinx.coroutines.CoroutineScope
@@ -73,10 +75,14 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
         binding.groupNoPostView.isVisible = userData!!.joinedCommunityCount == 0
         binding.groupNoCommunityView.isVisible = userData!!.joinedCommunityCount > 0
 
+        ivMenu.visible(true)
         //Toolbar
         checkUnreadMessages()
         ivEndIcon.setOnClickListener {
             findNavController().navigate(R.id.channelListFragment)
+        }
+        ivMenu.setOnClickListener {
+            (requireActivity() as DashboardActivity).drawerLayout.openDrawer(GravityCompat.START)
         }
     }
 

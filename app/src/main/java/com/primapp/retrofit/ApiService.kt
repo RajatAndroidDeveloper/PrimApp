@@ -370,6 +370,16 @@ interface ApiService {
         @Query("limit") limit: Int
     ): CommunityMembersResponseModel
 
+    @GET(ApiConstant.GET_MENTOR_MENTEE_LIST)
+    suspend fun getMentorMenteeList(
+        @Path("userId") userId: Int,
+        @Query("users_type") type: String,
+        @Query("status") status: Int,
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int,
+        @Query("search") query: String
+    ): CommunityMembersResponseModel
+
     @POST(ApiConstant.REPORT_POST)
     suspend fun reportPost(
         @Path("communityId") communityId: Int,

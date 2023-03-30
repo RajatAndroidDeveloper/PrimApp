@@ -294,7 +294,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                         if (postFileType == PostFileType.VIDEO && !isThumbnailUploaded) {
                             isThumbnailUploaded = true
                             viewModel.generatePresignedUrl(
-                                AwsHelper.getObjectName(
+                                requireActivity().getString(R.string.create_community_post_folder)+""+AwsHelper.getObjectName(
                                     AwsHelper.AWS_OBJECT_TYPE.THUMBNAIL,
                                     UserCache.getUser(requireContext())!!.id,
                                     "jpg"
@@ -425,7 +425,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                 viewModel.generatePresignedUrl(selectedFile!!.name)
             } else {
                 viewModel.generatePresignedUrl(
-                    AwsHelper.getObjectName(
+                    requireActivity().getString(R.string.create_community_post_folder)+""+AwsHelper.getObjectName(
                         AwsHelper.AWS_OBJECT_TYPE.POST,
                         UserCache.getUser(requireContext())!!.id,
                         selectedFile!!.extension

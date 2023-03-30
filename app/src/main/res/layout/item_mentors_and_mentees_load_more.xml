@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:id="@+id/loadMore"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageMore"
+            android:layout_width="@dimen/textExtraLargeXXX"
+            android:layout_height="@dimen/textExtraLargeXXX"
+            android:layout_marginTop="@dimen/space_normal"
+            android:background="@drawable/shape_circle_light_color_accent"
+            android:src="@drawable/ic_arrow_down_24"
+            app:tint="@color/black"
+            android:padding="@dimen/space_small"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textMore"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_small"
+            android:maxLines="2"
+            android:gravity="center"
+            android:text="@string/load_more"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/textSmall"
+            app:layout_constraintEnd_toEndOf="@id/imageMore"
+            app:layout_constraintStart_toStartOf="@id/imageMore"
+            app:layout_constraintTop_toBottomOf="@id/imageMore" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

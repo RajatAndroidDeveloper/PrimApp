@@ -453,4 +453,64 @@
     <string name="created_on">Created on %s</string>
     <string name="due_on">Due on %s</string>
     <string name="content_analyzed_video_msg">Note: The video you uploaded will need to be analyzed. It may take up to 2 minutes to complete.</string>
+    <string name="monetization">MONETIZATION</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="payment_methods">Payment Methods</string>
+    <string name="projects_and_contracts"><![CDATA[Projects & Contracts]]></string>
+    <string name="terms_of_services">Terms of Service</string>
+    <string name="settings_caps">SETTINGS</string>
+    <string name="mentoring_portfolio_object_name">mentoring-portfolio/</string>
+    <string name="create_community_image_folder">community_images/</string>
+    <string name="create_community_post_folder">community_posts/</string>
+    <string name="profile_image_folder">profile_images/</string>
+    <string name="search_by_name_community">Search by name or username</string>
+    <string name="your_mentors">Your Mentors</string>
+    <string name="mentorship">Mentorship</string>
+    <string name="contracts">Contracts</string>
+    <string name="insights">Insights</string>
+    <string name="total_spent">Total Spent</string>
+    <string name="total_earning">Total Earnings</string>
+    <string name="request_money_from_mentees">Request money from</string>
+    <string name="pay_money_to_mentors">Pay money to</string>
+    <string name="mentors">Mentors</string>
+    <string name="mentees">Mentees</string>
+    <string name="current_projects">Current Projects</string>
+    <string name="create_contacts">Create Contact</string>
+    <string name="load_more">More</string>
+    <string name="contract_name">Contract Name</string>
+    <string name="contract_date">Contract Date</string>
+    <string name="price">Price</string>
+    <string name="create_contracts">Create Contract</string>
+    <string name="privacy_policy_text"><u>Privacy Policy</u></string>
+    <string name="mentorships">Mentorships</string>
+    <string name="mentees_served">Mentees Served:</string>
+    <string name="ratings">Ratings</string>
+    <string name="view_projects">View Projects</string>
+    <string name="view_contracts">View Contracts</string>
+    <string name="my_mentors">My Mentors:</string>
+    <string name="amount_due">Amount Due</string>
+    <string name="dummy_text_description">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. "</string>
+    <string name="manage_projects">Manage Projects</string>
+    <string name="see_all_projects">See All Projects</string>
+    <string name="ongoing_projects">Ongoing Projects</string>
+    <string name="completed_projects">Completed Projects</string>
+    <string name="all_projects">All Projects</string>
+    <string name="your_mentees">Your Mentees</string>
+    <string name="enter_contract_name">Enter Contract Name</string>
+    <string name="scope_of_work">Scope of work</string>
+    <string name="enter_scope_of_work">Enter scope of work</string>
+    <string name="contract_start_date">Contract start date (YYYY/MM/DD)</string>
+    <string name="contract_end_date">Contract end date (YYYY/MM/DD)</string>
+    <string name="enter_price">Enter Price</string>
+
+
+    <string-array name="categories">
+        <item>Mentor</item>
+        <item>Mentee</item>
+    </string-array>
+
+    <string-array name="status">
+        <item>Ongoing Projects</item>
+        <item>Completed Projects</item>
+    </string-array>
 </resources>

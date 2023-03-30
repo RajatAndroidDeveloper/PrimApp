@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="frag"
+            type="com.primapp.ui.contract.CreateContractFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/backgroundColor">
+
+        <include layout="@layout/toolbar_inner_back" />
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/clToolbar"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tlContractName"
+                    style="@style/myTextInputLabel"
+                    isRequired="@{true}"
+                    android:hint="@string/contract_name"
+                    app:errorEnabled="true"
+                    app:layout_constraintWidth_percent=".9"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etContractName"
+                        style="@style/editTextInput"
+                        android:inputType="textPersonName" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tlScopeOfWork"
+                    style="@style/myTextInputLabel"
+                    isRequired="@{true}"
+                    android:hint="@string/scope_of_work"
+                    app:errorEnabled="true"
+                    app:layout_constraintWidth_percent=".9"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tlContractName">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etScopeOfWork"
+                        style="@style/editTextInput"
+                        android:gravity="top"
+                        android:inputType="textPersonName|textMultiLine"
+                        android:lines="4"
+                        android:scrollbars="vertical" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tlStartDate"
+                    style="@style/myTextInputLabel"
+                    android:hint="@string/contract_start_date"
+                    app:errorEnabled="true"
+                    app:layout_constraintWidth_percent=".9"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tlScopeOfWork">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etStartDate"
+                        style="@style/editTextInput"
+                        android:focusable="false"
+                        android:onClick="@{()->frag.openDatePicker(frag.START_DATE)}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tlEndDate"
+                    style="@style/myTextInputLabel"
+                    android:hint="@string/contract_end_date"
+                    app:errorEnabled="true"
+                    app:layout_constraintWidth_percent=".9"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tlStartDate">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etEndDate"
+                        style="@style/editTextInput"
+                        android:focusable="false"
+                        android:onClick="@{()->frag.openDatePicker(frag.END_DATE)}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tlPrice"
+                    style="@style/myTextInputLabel"
+                    android:hint="@string/enter_price"
+                    app:errorEnabled="true"
+                    app:layout_constraintWidth_percent=".9"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tlEndDate">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etPrice"
+                        android:inputType="numberDecimal"
+                        style="@style/editTextInput"
+                        android:focusable="true" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/btnCreateContract"
+                    style="@style/buttonFilledPrimary"
+                    android:layout_marginTop="@dimen/space_normal"
+                    android:text="@string/create_contracts"
+                    android:textAllCaps="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tlPrice" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

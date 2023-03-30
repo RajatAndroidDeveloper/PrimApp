@@ -8,6 +8,7 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
+import android.util.Log
 import android.widget.LinearLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -82,9 +83,11 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     }
 
     private fun setData() {
+
         analyticsManager.trackScreenView(AnalyticsManager.SCREEN_PROFILE)
         user = UserCache.getUser(requireContext())!!
         ivEndIcon.setImageResource(R.drawable.setting)
+        ivEndIcon.visible(false)
         binding.user = user
         binding.frag = this
         initViewPager()

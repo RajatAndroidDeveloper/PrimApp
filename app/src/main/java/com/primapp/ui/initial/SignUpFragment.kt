@@ -155,7 +155,6 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
                     } else {
                         data?.gender = null
                     }
-
                     viewModel.signUpRequestDataModel.value = data
 
                     return isDataValid

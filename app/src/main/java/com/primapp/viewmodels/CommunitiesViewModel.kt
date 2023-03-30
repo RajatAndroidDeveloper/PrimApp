@@ -16,6 +16,7 @@ import com.primapp.model.chat.ChatUser
 import com.primapp.model.chat.MentorMenteeRelationResponse
 import com.primapp.model.community.*
 import com.primapp.model.members.CommunityMembersData
+import com.primapp.model.members.CommunityMembersResponseModel
 import com.primapp.model.mentor.RequestMentorDataModel
 import com.primapp.model.mentor.RequestMentorResponseModel
 import com.primapp.model.portfolio.UserCommonCommunitiesResponse
@@ -307,6 +308,20 @@ class CommunitiesViewModel @Inject constructor(
             repo.getMentorMenteeMemberList(userId, type, status).cachedIn(viewModelScope)
         mentorMenteeMemberListLiveData = newResultLiveData
         return newResultLiveData
+    }
+
+    fun getMentorMenteeMemberSearchList(userId: Int, type: String, status: Int, offset: Int, query: String)= viewModelScope.launch {
+        _mentorsMenteesLiveData.postValue(Event(Resource.loading(null)))
+        _mentorsMenteesLiveData.postValue(Event(repo.getMentorMenteeMemberSearchList(userId, type, status, offset, query)))
+    }
+
+    //New Code for mentors and mentees api without paging
+    private var _mentorsMenteesLiveData = MutableLiveData<Event<Resource<CommunityMembersResponseModel>>>()
+    var mentorsMenteesLiveData: LiveData<Event<Resource<CommunityMembersResponseModel>>> = _mentorsMenteesLiveData
+
+    fun getMentorsMenteesData(userId: Int, userType: String, status: Int, offset: Int, ) = viewModelScope.launch {
+        _mentorsMenteesLiveData.postValue(Event(Resource.loading(null)))
+        _mentorsMenteesLiveData.postValue(Event(repo.getMentorsMenteesData(userId, userType, status, offset)))
     }
 
     private var mentorMenteeMemberListForChatLiveData: LiveData<PagingData<ChatUser>>? = null

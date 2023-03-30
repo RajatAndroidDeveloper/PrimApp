@@ -18,6 +18,8 @@
     <dimen name="textLargeX">22sp</dimen>
     <dimen name="textExtraLarge">24sp</dimen>
     <dimen name="textExtraLargeX">30sp</dimen>
+    <dimen name="textExtraLargeXX">40sp</dimen>
+    <dimen name="textExtraLargeXXX">60sp</dimen>
 
     <dimen name="lineSpaceExtra">1.2dp</dimen>
 
@@ -31,4 +33,5 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="app_bar_height">240dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="profile_width">70dp</dimen>
 </resources>

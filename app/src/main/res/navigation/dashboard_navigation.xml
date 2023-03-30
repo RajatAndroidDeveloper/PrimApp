@@ -5,6 +5,20 @@
     android:id="@+id/dashboard_navigation"
     app:startDestination="@id/updatesFragment">
 
+    <fragment
+        android:id="@+id/commonWebViewDirect"
+        android:name="com.primapp.ui.base.CommonWebView"
+        android:label="CommonWebView"
+        tools:layout="@layout/fragment_common_web_view">
+        <argument
+            android:name="title"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="url"
+            app:argType="string" />
+    </fragment>
+
     <dialog
         android:id="@+id/popUpHelpMessage"
         android:name="com.primapp.utils.PopUpHelpMessage"
@@ -98,6 +112,18 @@
         android:name="com.primapp.ui.settings.AboutUsFragment"
         android:label="AboutUsFragment"
         tools:layout="@layout/fragment_about_us" />
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.primapp.ui.dashboard.DashboardFragment"
+        android:label="DashboardFragment"
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_dashboardFragment_to_createContractFragment2"
+            app:destination="@id/createContractFragment2" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_currentProjectsFragment"
+            app:destination="@id/currentProjectsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/createCommunityFragment"
         android:name="com.primapp.ui.communities.create.CreateCommunityFragment"
@@ -503,5 +529,24 @@
             app:nullable="true"
             android:defaultValue="@null" />
     </fragment>
+    <fragment
+        android:id="@+id/createContractFragment2"
+        android:name="com.primapp.ui.contract.CreateContractFragment"
+        android:label="CreateContractFragment"
+        tools:layout="@layout/fragment_create_contract"/>
+    <fragment
+        android:id="@+id/currentProjectsFragment"
+        android:name="com.primapp.ui.contract.CurrentProjectsFragment"
+        android:label="CurrentProjectsFragment"
+        tools:layout="@layout/fragment_current_projects">
+        <action
+            android:id="@+id/action_currentProjectsFragment_to_allProjectsFragment"
+            app:destination="@id/allProjectsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/allProjectsFragment"
+        android:name="com.primapp.ui.contract.AllProjectsFragment"
+        android:label="AllProjectsFragment"
+        tools:layout="@layout/fragment_all_projects"/>
 
 </navigation>

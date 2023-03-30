@@ -13,6 +13,7 @@ import com.primapp.model.chat.ChatUser
 import com.primapp.model.chat.MentorMenteeRelationResponse
 import com.primapp.model.community.*
 import com.primapp.model.members.CommunityMembersData
+import com.primapp.model.members.CommunityMembersResponseModel
 import com.primapp.model.mentor.RequestMentorDataModel
 import com.primapp.model.mentor.RequestMentorResponseModel
 import com.primapp.model.portfolio.UserCommonCommunitiesResponse
@@ -28,13 +29,12 @@ import com.primapp.ui.communities.data.CommunitiesPageDataSource
 import com.primapp.ui.communities.data.ParentCategoriesPageDataSource
 import com.primapp.ui.communities.details.source.CommunitiesPostListDataSource
 import com.primapp.ui.communities.members.CommunityMembersDataSource
+import com.primapp.ui.dashboard.MentorMenteeMemberListSearchDataSource
 import com.primapp.ui.post.likes.LikesMemberListDataSource
 import com.primapp.ui.profile.source.MentorMenteeMemberListDataSource
 import com.primapp.ui.profile.source.UserJoinedCommunityPageDataSource
-import com.primapp.ui.profile.source.UserPostListPageDataSource
 import com.primapp.utils.RetrofitUtils
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -304,6 +304,23 @@ class CommunitiesRepository @Inject constructor(
                 MentorMenteeMemberListDataSource(responseHandler, apiService, userId, type, status)
             }
         ).liveData
+    }
+
+   suspend fun getMentorMenteeMemberSearchList(userId: Int, type: String, status: Int, offset: Int, query:String): Resource<CommunityMembersResponseModel> {
+        return try {
+            responseHandler.handleResponse(apiService.getMentorMenteeList(userId, type, status, offset,200, query))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    //New way to hit api for mentors and mentees list
+    suspend fun getMentorsMenteesData(userId: Int, userType: String, status: Int, offset: Int): Resource<CommunityMembersResponseModel> {
+        return try {
+            responseHandler.handleResponse(apiService.getMentorMenteeList(userId, userType, status, offset,200))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
     }
 
     fun getMentorMenteeUserForChat(userId: Int, search: String?): LiveData<PagingData<ChatUser>> {

@@ -71,7 +71,6 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
             //Show image file
             binding.ivProfilePic.loadCircularImage(requireContext(), userImage)
         }
-
     }
 
     private fun setObserver() {
@@ -186,7 +185,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
         if (viewModel.validateData()) {
             if (imageFile != null) {
                 viewModel.generatePresignedUrl(
-                    AwsHelper.getObjectName(
+                    requireActivity().getString(R.string.profile_image_folder)+""+AwsHelper.getObjectName(
                         AwsHelper.AWS_OBJECT_TYPE.USER,
                         userData!!.id,
                         imageFile!!.extension

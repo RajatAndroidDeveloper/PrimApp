@@ -12,6 +12,10 @@ import com.primapp.ui.communities.create.CreateCommunityFragment
 import com.primapp.ui.communities.details.CommunityDetailsFragment
 import com.primapp.ui.communities.edit.EditCommunityFragment
 import com.primapp.ui.communities.members.CommunityMembersFragment
+import com.primapp.ui.contract.AllProjectsFragment
+import com.primapp.ui.contract.CreateContractFragment
+import com.primapp.ui.contract.CurrentProjectsFragment
+import com.primapp.ui.dashboard.DashboardFragment
 import com.primapp.ui.notification.NotificationsFragment
 import com.primapp.ui.dashboard.ProfileFragment
 import com.primapp.ui.initial.PasswordVerificationFragment
@@ -181,4 +185,16 @@ abstract class DashboardFragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeViewTodoTaskFragment(): ViewTodoTaskFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeDashboardFragment(): DashboardFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeCreateContractFragment(): CreateContractFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeCurrentProjectsFragment(): CurrentProjectsFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeAllProjectsFragment(): AllProjectsFragment
 }

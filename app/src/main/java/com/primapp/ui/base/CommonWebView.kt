@@ -25,6 +25,7 @@ class CommonWebView : BaseFragment<FragmentCommonWebViewBinding>() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        Log.e("Asasasasas","asasasasas")
         initWebView()
         setData()
     }

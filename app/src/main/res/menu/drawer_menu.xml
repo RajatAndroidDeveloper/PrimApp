@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/monetization">
+        <menu>
+            <item
+                android:id="@+id/nav_dashboard"
+                android:iconTint="@color/colorAccent"
+                android:icon="@drawable/ic_home"
+                android:title="@string/dashboard" />
+            <item
+                android:id="@+id/nav_paymentmethods"
+                android:icon="@drawable/ic_home"
+                android:iconTint="@color/colorAccent"
+                android:title="@string/payment_methods" />
+            <item
+                android:id="@+id/nav_projects"
+                android:icon="@drawable/ic_home"
+                android:iconTint="@color/colorAccent"
+                android:title="@string/projects_and_contracts" />
+            <item
+                android:id="@+id/nav_terms"
+                android:iconTint="@color/colorAccent"
+                android:icon="@drawable/ic_home"
+                android:title="@string/terms_of_services" />
+        </menu>
+    </item>
+
+    <item android:title="@string/settings_caps">
+        <menu>
+            <item
+                android:id="@+id/nav_bookmarks"
+                android:icon="@drawable/bookmark_selected"
+                android:title="@string/bookmarks" />
+            <item
+                android:id="@+id/nav_hiddenPosts"
+                android:icon="@drawable/eye"
+                android:iconTint="@color/colorAccent"
+                android:title="@string/payment_methods" />
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@drawable/about_us"
+                android:title="@string/about_us" />
+            <item
+                android:id="@+id/nav_primRewards"
+                android:icon="@drawable/rewards"
+                android:title="@string/prim_rewards" />
+            <item
+                android:id="@+id/nav_help"
+                android:icon="@drawable/support"
+                android:title="@string/help_and_support" />
+            <item
+                android:id="@+id/nav_security"
+                android:icon="@drawable/privacy"
+                android:title="@string/security" />
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/logout"
+                android:title="@string/logout" />
+        </menu>
+    </item>
+</menu>

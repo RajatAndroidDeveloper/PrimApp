@@ -19,6 +19,7 @@
     <color name="lightGrey">#bdbdbd</color>
     <color name="lightGreyForTab">#bdbdbd</color>
     <color name="lightestGrey">#0D000000</color>
+    <color name="lightestGreyHint">#a9b2ba</color>
 
     <color name="black">#000</color>
     <color name="red">#ff0000</color>

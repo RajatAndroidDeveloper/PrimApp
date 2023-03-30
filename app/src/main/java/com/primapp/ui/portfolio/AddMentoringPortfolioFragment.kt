@@ -178,7 +178,7 @@ class AddMentoringPortfolioFragment : BaseFragment<FragmentAddMentoringPortfolio
                     Status.SUCCESS -> {
                         if (fileType == PostFileType.VIDEO && !isThumbnailUploaded) {
                             isThumbnailUploaded = true
-                            viewModel.generatePresignedUrl(
+                            requireActivity().getString(R.string.mentoring_portfolio_object_name)+"${UserCache.getUser(requireContext())!!.id}/"+ viewModel.generatePresignedUrl(
                                 AwsHelper.getObjectName(
                                     AwsHelper.AWS_OBJECT_TYPE.THUMBNAIL,
                                     UserCache.getUser(requireContext())!!.id,
@@ -203,10 +203,10 @@ class AddMentoringPortfolioFragment : BaseFragment<FragmentAddMentoringPortfolio
         if (selectedFile != null) {
             if (fileType.equals(PostFileType.FILE)) {
                 // Use original name in case of File attachment
-                viewModel.generatePresignedUrl(selectedFile!!.name)
+                viewModel.generatePresignedUrl(requireActivity().getString(R.string.mentoring_portfolio_object_name)+"${UserCache.getUser(requireContext())!!.id}/"+selectedFile!!.name)
             } else {
                 viewModel.generatePresignedUrl(
-                    AwsHelper.getObjectName(
+                    requireActivity().getString(R.string.mentoring_portfolio_object_name)+"${UserCache.getUser(requireContext())!!.id}/"+AwsHelper.getObjectName(
                         AwsHelper.AWS_OBJECT_TYPE.PORTFOLIO,
                         UserCache.getUser(requireContext())!!.id,
                         selectedFile!!.extension
