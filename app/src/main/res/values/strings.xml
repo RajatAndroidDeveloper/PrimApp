@@ -3,7 +3,7 @@
     <string name="app_name_captial">PRIM</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="prim_slogan">A Global Virtual Mentoring (VM) Platform</string> <!--Virtual Mentoring Communities | A Community-Based\nVirtual Mentoring Platform-->
+    <string name="prim_slogan">A Global Content Creation and Mentoring Platform</string> <!--Virtual Mentoring Communities | A Community-Based\nVirtual Mentoring Platform-->
     <string name="welcome">Welcome!</string>
 
     <string name="i_m_a_new_user">I\'m a new user,</string>
@@ -469,7 +469,7 @@
     <string name="contracts">Contracts</string>
     <string name="insights">Insights</string>
     <string name="total_spent">Total Spent</string>
-    <string name="total_earning">Total Earnings</string>
+    <string name="total_earning">Total Earning</string>
     <string name="request_money_from_mentees">Request money from</string>
     <string name="pay_money_to_mentors">Pay money to</string>
     <string name="mentors">Mentors</string>

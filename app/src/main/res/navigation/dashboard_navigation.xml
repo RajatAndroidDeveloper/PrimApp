@@ -123,6 +123,9 @@
         <action
             android:id="@+id/action_dashboardFragment_to_currentProjectsFragment"
             app:destination="@id/currentProjectsFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_totalEarningAndSpendingFragment"
+            app:destination="@id/totalEarningAndSpendingFragment" />
     </fragment>
     <fragment
         android:id="@+id/createCommunityFragment"
@@ -533,7 +536,8 @@
         android:id="@+id/createContractFragment2"
         android:name="com.primapp.ui.contract.CreateContractFragment"
         android:label="CreateContractFragment"
-        tools:layout="@layout/fragment_create_contract"/>
+        tools:layout="@layout/fragment_create_contract">
+    </fragment>
     <fragment
         android:id="@+id/currentProjectsFragment"
         android:name="com.primapp.ui.contract.CurrentProjectsFragment"
@@ -548,5 +552,14 @@
         android:name="com.primapp.ui.contract.AllProjectsFragment"
         android:label="AllProjectsFragment"
         tools:layout="@layout/fragment_all_projects"/>
+    <fragment
+        android:id="@+id/totalEarningAndSpendingFragment"
+        android:name="com.primapp.ui.earning.TotalEarningAndSpendingFragment"
+        android:label="TotalEarningAndSpendingFragment"
+        tools:layout="@layout/fragment_total_earning_and_spending">
+        <argument
+            android:name="type"
+            app:argType="string" />
+    </fragment>
 
 </navigation>

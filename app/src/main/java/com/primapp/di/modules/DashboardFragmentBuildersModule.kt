@@ -18,6 +18,7 @@ import com.primapp.ui.contract.CurrentProjectsFragment
 import com.primapp.ui.dashboard.DashboardFragment
 import com.primapp.ui.notification.NotificationsFragment
 import com.primapp.ui.dashboard.ProfileFragment
+import com.primapp.ui.earning.TotalEarningAndSpendingFragment
 import com.primapp.ui.initial.PasswordVerificationFragment
 import com.primapp.ui.notification.MentorRequestRejectionFragment
 import com.primapp.ui.portfolio.*
@@ -197,4 +198,7 @@ abstract class DashboardFragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeAllProjectsFragment(): AllProjectsFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeTotalEarningAndSpendingFragment(): TotalEarningAndSpendingFragment
 }

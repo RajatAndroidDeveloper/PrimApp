@@ -37,6 +37,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageView
+                android:layout_width="@dimen/space_normal"
+                android:layout_height="@dimen/space_normal"
+                android:src="@drawable/ic_online"
+                app:layout_constraintEnd_toEndOf="@id/ivProfileImage"
+                app:layout_constraintBottom_toBottomOf="@id/ivProfileImage"
+                android:layout_marginRight="@dimen/space_small"
+                android:layout_marginBottom="@dimen/space_extraSmall"/>
+
             <TextView
                 android:id="@+id/tvUserName"
                 style="@style/primaryBodyText"

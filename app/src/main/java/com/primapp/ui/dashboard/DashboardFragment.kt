@@ -7,6 +7,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -21,6 +22,7 @@ import com.primapp.extensions.showError
 import com.primapp.model.members.CommunityMembersData
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
+import com.primapp.ui.earning.TotalEarningAndSpendingFragment
 import com.primapp.viewmodels.CommunitiesViewModel
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
@@ -160,7 +162,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), MentorsMente
                     lifecycleScope.launch {
                         viewModel.getMentorMenteeMemberSearchList(
                             UserCache.getUserId(requireContext()),
-                            MentorMenteeUserType.MENTEE,
+                            MentorMenteeUserType.MENTOR,
                             MentorshipStatusTypes.ACCEPTED,
                             0,
                             query)
@@ -170,7 +172,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), MentorsMente
                     lifecycleScope.launch {
                         viewModel.getMentorMenteeMemberSearchList(
                             UserCache.getUserId(requireContext()),
-                            MentorMenteeUserType.MENTOR,
+                            MentorMenteeUserType.MENTEE,
                             MentorshipStatusTypes.ACCEPTED,
                             0,
                             query
@@ -223,13 +225,22 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), MentorsMente
         getMentorsAndMentees(selectedCategory)
     }
 
+    override fun onNothingSelected(p0: AdapterView<*>?) {
+        TODO("Not yet implemented")
+    }
+
     fun btnCurrentProjectAction(){
         if(selectedCategory == "Mentor"){
             findNavController().navigate(R.id.action_dashboardFragment_to_currentProjectsFragment)
         }
     }
 
-    override fun onNothingSelected(p0: AdapterView<*>?) {
-        TODO("Not yet implemented")
+    fun btnTotalEarningAction(type:String){
+        var bundle = Bundle().putString("type",type)
+        findNavController().navigate(R.id.action_dashboardFragment_to_totalEarningAndSpendingFragment).apply { bundle }
+    }
+    companion object{
+        const val TOTAL_EARNING = "Earning"
+        const val TOTAL_SPENDING = "Spending"
     }
 }
