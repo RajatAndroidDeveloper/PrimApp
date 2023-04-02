@@ -23,6 +23,8 @@ import com.primapp.model.members.CommunityMembersData
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.earning.TotalEarningAndSpendingFragment
+import com.primapp.ui.initial.PasswordVerificationFragment
+import com.primapp.ui.initial.VerifyOTPFragmentDirections
 import com.primapp.viewmodels.CommunitiesViewModel
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
@@ -234,13 +236,11 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), MentorsMente
             findNavController().navigate(R.id.action_dashboardFragment_to_currentProjectsFragment)
         }
     }
+    fun btnTotalEarningAction(){
+        val action = if(binding.textTotalSpent.text == getString(R.string.total_spent))
+        DashboardFragmentDirections.actionDashboardFragmentToTotalEarningAndSpendingFragment("Spending")
+        else DashboardFragmentDirections.actionDashboardFragmentToTotalEarningAndSpendingFragment("Earning")
 
-    fun btnTotalEarningAction(type:String){
-        var bundle = Bundle().putString("type",type)
-        findNavController().navigate(R.id.action_dashboardFragment_to_totalEarningAndSpendingFragment).apply { bundle }
-    }
-    companion object{
-        const val TOTAL_EARNING = "Earning"
-        const val TOTAL_SPENDING = "Spending"
+        findNavController().navigate(action)
     }
 }

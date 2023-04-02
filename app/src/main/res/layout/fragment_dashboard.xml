@@ -167,7 +167,7 @@
                 android:layout_marginTop="@dimen/space_large"
                 android:layout_marginEnd="@dimen/space_small"
                 android:elevation="@dimen/space_normal"
-                android:onClick="@{()->frag.btnTotalEarningAction(frag.TOTAL_SPENDING)}"
+                android:onClick="@{()->frag.btnTotalEarningAction()}"
                 android:orientation="vertical"
                 app:cardCornerRadius="@dimen/space_normal"
                 app:cardElevation="@dimen/space_normal"
@@ -219,7 +219,6 @@
                 android:orientation="vertical"
                 app:cardCornerRadius="@dimen/space_normal"
                 app:cardElevation="@dimen/space_normal"
-                android:onClick="@{()->frag.btnTotalEarningAction(frag.TOTAL_EARNING)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/cardTotalSpent"
                 app:layout_constraintTop_toBottomOf="@id/textServed">

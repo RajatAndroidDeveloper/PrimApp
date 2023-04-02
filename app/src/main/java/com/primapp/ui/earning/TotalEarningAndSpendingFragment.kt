@@ -19,7 +19,7 @@ class TotalEarningAndSpendingFragment : BaseFragment<FragmentTotalEarningAndSpen
         super.onActivityCreated(savedInstanceState)
 
         binding.frag = this
-        if(requireArguments().getString("type")?:"" == "Earning"){
+        if(TotalEarningAndSpendingFragmentArgs.fromBundle(requireArguments()).type == "Earning"){
             setToolbar(getString(R.string.total_earning), toolbar)
         }else{
             setToolbar(getString(R.string.total_spent), toolbar)
@@ -35,7 +35,7 @@ class TotalEarningAndSpendingFragment : BaseFragment<FragmentTotalEarningAndSpen
             setDivider(R.drawable.recyclerview_divider)
         }
 
-        adapter = TotalEarningSpendingAdapter(requireContext(), requireArguments().getString("type")?:"",earningSpendingList)
+        adapter = TotalEarningSpendingAdapter(requireContext(), TotalEarningAndSpendingFragmentArgs.fromBundle(requireArguments()).type, earningSpendingList)
         binding.rvTotalEarningSpending.adapter = adapter
     }
 
