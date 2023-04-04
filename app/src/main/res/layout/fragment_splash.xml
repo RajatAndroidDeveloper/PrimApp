@@ -34,15 +34,16 @@
             app:layout_constraintTop_toTopOf="@id/guideline" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_large"
             android:fontFamily="@font/poppins_semibold"
             android:gravity="center"
+            android:textSize="@dimen/textMedium"
             android:text="@string/prim_slogan"
             android:textColor="@color/colorAccent"
-            app:layout_constraintEnd_toEndOf="@id/ivLogo"
-            app:layout_constraintStart_toStartOf="@id/ivLogo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivLogo" />
 
         <ImageView
