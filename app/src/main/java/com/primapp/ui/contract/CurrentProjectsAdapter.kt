@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.primapp.databinding.ItemCurrentProjectsLayoutBinding
 
-class CurrentProjectsAdapter(private var adapterType: String, private var projectList: ArrayList<ProjectData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CurrentProjectsAdapter(private var adapterType: String, private var projectList: ArrayList<ProjectData>, private val onItemClick: OnItemClickEvent) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding = ItemCurrentProjectsLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -16,6 +16,10 @@ class CurrentProjectsAdapter(private var adapterType: String, private var projec
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
        var viewHolder = holder as CurrentProjectsViewHolder
         viewHolder.bind(projectList[position])
+
+        viewHolder.itemView.setOnClickListener {
+            onItemClick.onItemClick()
+        }
     }
 
     override fun getItemCount(): Int {
@@ -34,4 +38,8 @@ class CurrentProjectsAdapter(private var adapterType: String, private var projec
             }
         }
     }
+}
+
+interface OnItemClickEvent{
+    fun onItemClick()
 }

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="pop"
+            type="com.primapp.ui.contract.PopUpAmendContract" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/llMainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_normal"
+            android:elevation="@dimen/space_large"
+            card_view:cardCornerRadius="@dimen/space_large"
+            card_view:cardElevation="@dimen/space_large"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvDialogTitle"
+                    style="@style/normalBodyText"
+                    android:layout_width="wrap_content"
+                    android:layout_marginStart="@dimen/space_extraLarge"
+                    android:layout_marginTop="@dimen/space_extraLarge"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="@string/price_amend"
+                    android:textSize="@dimen/textLarge"
+                    card_view:layout_constraintStart_toStartOf="parent"
+                    card_view:layout_constraintTop_toTopOf="parent"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="@dimen/space_large"
+                    android:layout_height="@dimen/space_large"
+                    android:src="@drawable/icon_close"
+                    android:onClick="@{()->pop.closeDialog()}"
+                    android:layout_marginEnd="@dimen/space_extraLarge"
+                    card_view:layout_constraintEnd_toEndOf="parent"
+                    card_view:layout_constraintTop_toTopOf="@id/tvDialogTitle"
+                    card_view:layout_constraintBottom_toBottomOf="@id/tvDialogTitle"
+                    android:id="@+id/ivCloseDialog"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tlContractPrice"
+                    style="@style/myTextInputLabel"
+                    isRequired="@{true}"
+                    android:hint="@string/price"
+                    card_view:errorEnabled="true"
+                    android:layout_marginTop="@dimen/space_large"
+                    card_view:layout_constraintStart_toStartOf="@id/tvDialogTitle"
+                    card_view:layout_constraintEnd_toEndOf="@id/ivCloseDialog"
+                    card_view:layout_constraintTop_toBottomOf="@id/tvDialogTitle">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etContractName"
+                        style="@style/editTextInput"
+                        android:inputType="numberDecimal"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/btnCreateContract"
+                    style="@style/buttonFilledPrimary"
+                    android:layout_marginTop="@dimen/space_extraSmall"
+                    android:text="@string/request_amend"
+                    android:textAllCaps="false"
+                    android:layout_marginBottom="@dimen/space_extraLarge"
+                    card_view:layout_constraintBottom_toBottomOf="parent"
+                    card_view:layout_constraintEnd_toEndOf="@id/ivCloseDialog"
+                    card_view:layout_constraintStart_toStartOf="@id/tvDialogTitle"
+                    card_view:layout_constraintTop_toBottomOf="@id/tlContractPrice"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

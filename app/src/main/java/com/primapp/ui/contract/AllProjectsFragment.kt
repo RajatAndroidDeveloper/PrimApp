@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.primapp.R
 import com.primapp.databinding.FragmentAllProjectsBinding
@@ -11,7 +12,8 @@ import com.primapp.extensions.setDivider
 import com.primapp.ui.base.BaseFragment
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
 
-class AllProjectsFragment : BaseFragment<FragmentAllProjectsBinding>(), AdapterView.OnItemSelectedListener {
+class AllProjectsFragment : BaseFragment<FragmentAllProjectsBinding>(), AdapterView.OnItemSelectedListener,
+    OnItemClickEvent {
 
     lateinit var adapter: CurrentProjectsAdapter
     override fun getLayoutRes() = R.layout.fragment_all_projects
@@ -64,7 +66,11 @@ class AllProjectsFragment : BaseFragment<FragmentAllProjectsBinding>(), AdapterV
             setDivider(R.drawable.recyclerview_divider)
         }
 
-        adapter = CurrentProjectsAdapter("Ongoing",projectsList)
+        adapter = CurrentProjectsAdapter("Ongoing", projectsList, this)
         binding.rvAllProjects.adapter = adapter
+    }
+
+    override fun onItemClick() {
+        findNavController()?.navigate(R.id.action_allProjectsFragment_to_projectDetailsFragment)
     }
 }

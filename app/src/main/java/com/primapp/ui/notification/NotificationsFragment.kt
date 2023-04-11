@@ -2,6 +2,7 @@ package com.primapp.ui.notification
 
 import android.os.Bundle
 import androidx.core.view.isVisible
+import androidx.core.view.setPadding
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -52,6 +53,7 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
     private fun setData() {
         analyticsManager.trackScreenView(AnalyticsManager.SCREEN_NOTIFICATION)
         ivEndIcon.setImageResource(R.drawable.filter)
+        ivEndIcon.setPadding(15)
         binding.frag = this
 
         ivEndIcon.setOnClickListener {

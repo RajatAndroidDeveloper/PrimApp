@@ -8,7 +8,7 @@
 
     <string name="i_m_a_new_user">I\'m a new user,</string>
     <string name="sign_me_up">Sign me up!</string>
-    <string name="already_a_user_please">Already a user ? Please</string>
+    <string name="already_a_user_please">Already a user? Please</string>
     <string name="login_period">Login.</string>
     <string name="close">Close</string>
     <string name="username_help_text">User name must start with a letter and follow with any combination of letters, numbers, periods and underscore with minimum length of 6 characters.</string>
@@ -98,7 +98,9 @@
     <string name="valid_empty_years">Please enter valid years of service</string>
     <string name="valid_empty_months">Please enter valid months of service</string>
     <string name="valid_empty_start_date">Please enter valid start date of service</string>
+    <string name="valid_empty_start_date_project">Please enter valid start date of project</string>
     <string name="valid_empty_end_date">Please enter valid end date of service</string>
+    <string name="valid_empty_end_date_project">Please enter valid end date of project</string>
     <string name="valid_empty_title">Please enter a valid title</string>
     <string name="valid_empty_description">Please enter a valid description</string>
     <string name="valid_empty_priority">Please enter a valid priority</string>
@@ -502,7 +504,15 @@
     <string name="contract_start_date">Contract start date (YYYY/MM/DD)</string>
     <string name="contract_end_date">Contract end date (YYYY/MM/DD)</string>
     <string name="enter_price">Enter Price</string>
-
+    <string name="valid_empty_contract_name">Please enter Contract Name</string>
+    <string name="valid_empty_scope_of_project">Please enter Scope of Project</string>
+    <string name="valid_empty_price">Please enter Contract Price</string>
+    <string name="history">History</string>
+    <string name="amend"><u>Amend</u></string>
+    <string name="price_amend">Price Amend</string>
+    <string name="request_amend">Request Amend</string>
+    <string name="project_scope_dummy_text">we are looking for someone that\n 1. have Apple TV\n 2. have ipad\n 3. have Macbook\n 4. have iPhone\n need you to be test Airplay and few buttons on a...</string>
+    <string name="contract_created_successfully">"Your Contract has been created successfully. "</string>
 
     <string-array name="categories">
         <item>Mentor</item>

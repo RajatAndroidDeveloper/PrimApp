@@ -9,11 +9,11 @@
         android:background="@color/backgroundColor"
         tools:context=".ui.base.NetworkErrorFragment">
 
-        <ImageView
+        <pl.droidsonroids.gif.GifImageView
             android:id="@+id/ivNetworkError"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:src="@drawable/ic_network_error"
+            android:src="@drawable/network_error_image"
             app:layout_constraintBottom_toTopOf="@id/tvNetworkErrorTitle"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"

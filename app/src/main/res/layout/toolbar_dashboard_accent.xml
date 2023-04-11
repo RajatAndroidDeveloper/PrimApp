@@ -70,14 +70,13 @@
 
                 <ImageView
                     android:id="@+id/ivEndIcon"
-                    android:layout_width="42dp"
-                    android:layout_height="42dp"
-                    android:padding="@dimen/space_small"
-                    android:layout_marginEnd="@dimen/space_large"
+                    android:layout_width="@dimen/textExtraLargeXX"
+                    android:layout_height="@dimen/textExtraLargeXX"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:focusable="true"
-                    android:src="@drawable/ic_chat"
+                    android:layout_marginRight="@dimen/space_small"
+                    android:src="@drawable/messaging"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

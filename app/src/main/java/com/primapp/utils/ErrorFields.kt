@@ -53,4 +53,14 @@ class ErrorFields @Inject constructor() {
     var errorPriority: String? = null
 
     var errorDueDate: String? = null
+
+    var errorContractName: String? = null
+
+    var errorScopeOfProject: String? = null
+
+    var errorContractStartDate: String? = null
+
+    var errorContractEndDate: String? = null
+
+    var errorContractPrice: String? = null
 }

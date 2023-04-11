@@ -3,6 +3,7 @@ package com.primapp.ui.todo
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.core.view.isVisible
+import androidx.core.view.setPadding
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -46,6 +47,7 @@ class TodoListFragment : BaseFragment<FragmentTodoListBinding>() {
     private fun setData() {
         binding.frag = this
         ivEndIcon.setImageResource(R.drawable.ic_add_circle_filled_24)
+        ivEndIcon.setPadding(12)
         ivEndIcon.setOnClickListener {
             addNewTask()
         }

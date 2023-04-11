@@ -7,9 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.primapp.databinding.ItemMentorsAndMenteesBinding
 import com.primapp.databinding.ItemMentorsAndMenteesLoadMoreBinding
 import com.primapp.model.members.CommunityMembersData
+import com.primapp.model.mentormentee.ResultsItem
 
 
-class MentorsMenteesAdaptor(private var mentorsMenteesList: ArrayList<CommunityMembersData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MentorsMenteesAdaptor(private var mentorsMenteesList: ArrayList<ResultsItem>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     interface Callbacks {
         fun onClickLoadMore()
     }
@@ -38,7 +39,7 @@ class MentorsMenteesAdaptor(private var mentorsMenteesList: ArrayList<CommunityM
             loadMoreViewHolder.itemView.setOnClickListener(View.OnClickListener { mCallbacks?.onClickLoadMore() })
         } else {
             val elementsViewHolder: MentorsMenteesViewHolder = holder as MentorsMenteesViewHolder
-            val elements: CommunityMembersData = mentorsMenteesList!![position]
+            val elements: ResultsItem = mentorsMenteesList!![position]
             elementsViewHolder.bind(elements)
         }
     }
@@ -76,7 +77,7 @@ class MentorsMenteesAdaptor(private var mentorsMenteesList: ArrayList<CommunityM
     }
 
     inner class MentorsMenteesViewHolder(val binding: ItemMentorsAndMenteesBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(data: CommunityMembersData) {
+        fun bind(data: ResultsItem) {
             binding.data = data
         }
     }

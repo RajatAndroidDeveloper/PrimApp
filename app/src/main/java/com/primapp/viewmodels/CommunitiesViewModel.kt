@@ -19,6 +19,7 @@ import com.primapp.model.members.CommunityMembersData
 import com.primapp.model.members.CommunityMembersResponseModel
 import com.primapp.model.mentor.RequestMentorDataModel
 import com.primapp.model.mentor.RequestMentorResponseModel
+import com.primapp.model.mentormentee.MentorMenteeResponse
 import com.primapp.model.portfolio.UserCommonCommunitiesResponse
 import com.primapp.model.post.PostActionResponseModel
 import com.primapp.model.post.PostListResult
@@ -310,18 +311,17 @@ class CommunitiesViewModel @Inject constructor(
         return newResultLiveData
     }
 
-    fun getMentorMenteeMemberSearchList(userId: Int, type: String, status: Int, offset: Int, query: String)= viewModelScope.launch {
-        _mentorsMenteesLiveData.postValue(Event(Resource.loading(null)))
-        _mentorsMenteesLiveData.postValue(Event(repo.getMentorMenteeMemberSearchList(userId, type, status, offset, query)))
-    }
-
     //New Code for mentors and mentees api without paging
-    private var _mentorsMenteesLiveData = MutableLiveData<Event<Resource<CommunityMembersResponseModel>>>()
-    var mentorsMenteesLiveData: LiveData<Event<Resource<CommunityMembersResponseModel>>> = _mentorsMenteesLiveData
+    private var _mentorsMenteesLiveDataNew = MutableLiveData<Event<Resource<MentorMenteeResponse>>>()
+    var mentorsMenteesLiveDataNew: LiveData<Event<Resource<MentorMenteeResponse>>> = _mentorsMenteesLiveDataNew
 
-    fun getMentorsMenteesData(userId: Int, userType: String, status: Int, offset: Int, ) = viewModelScope.launch {
-        _mentorsMenteesLiveData.postValue(Event(Resource.loading(null)))
-        _mentorsMenteesLiveData.postValue(Event(repo.getMentorsMenteesData(userId, userType, status, offset)))
+    fun getMentorsMenteesDataNew(userId: Int, userType: String, status: Int, offset: Int, ) = viewModelScope.launch {
+        _mentorsMenteesLiveDataNew.postValue(Event(Resource.loading(null)))
+        _mentorsMenteesLiveDataNew.postValue(Event(repo.getMentorsMenteesDataNew(userId, userType, status, offset)))
+    }
+    fun getMentorMenteeMemberSearchListNew(userId: Int, type: String, status: Int, offset: Int, query: String)= viewModelScope.launch {
+        _mentorsMenteesLiveDataNew.postValue(Event(Resource.loading(null)))
+        _mentorsMenteesLiveDataNew.postValue(Event(repo.getMentorMenteeMemberSearchListNew(userId, type, status, offset, query)))
     }
 
     private var mentorMenteeMemberListForChatLiveData: LiveData<PagingData<ChatUser>>? = null

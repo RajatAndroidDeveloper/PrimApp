@@ -20,6 +20,7 @@ import com.primapp.constants.MentorshipStatusTypes
 import com.primapp.databinding.FragmentDashboardBinding
 import com.primapp.extensions.showError
 import com.primapp.model.members.CommunityMembersData
+import com.primapp.model.mentormentee.ResultsItem
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.earning.TotalEarningAndSpendingFragment
@@ -31,11 +32,12 @@ import kotlinx.android.synthetic.main.toolbar_inner_back.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), MentorsMenteesAdaptor.Callbacks, AdapterView.OnItemSelectedListener {
+class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), MentorsMenteesAdaptor.Callbacks,
+    AdapterView.OnItemSelectedListener {
 
     val viewModel by viewModels<CommunitiesViewModel> { viewModelFactory }
     private var searchJob: Job? = null
-    private var adapter: MentorsMenteesAdaptor ?= null
+    private var adapter: MentorsMenteesAdaptor? = null
     private var selectedCategory: String = ""
 
     override fun getLayoutRes(): Int = R.layout.fragment_dashboard
@@ -46,12 +48,13 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), MentorsMente
         binding.frag = this
         setToolbar(getString(R.string.dashboard), toolbar)
         initTextListeners()
-        setUpSpinnerData()
+        //setUpSpinnerData()
         setObserver()
+        getMentorsAndMentees()
     }
 
     private fun setObserver() {
-        viewModel.mentorsMenteesLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.mentorsMenteesLiveDataNew.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
                 hideLoading()
                 when (it.status) {
@@ -65,9 +68,9 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), MentorsMente
                         it.data?.let { response ->
                             mainMentorsMenteeList.clear()
                             dummyMentorsMenteeList.clear()
-                            if(adapter != null) adapter?.notifyDataSetChanged()
-                            if(it.data.content.results.isNotEmpty()) {
-                                mainMentorsMenteeList = it.data.content.results as ArrayList<CommunityMembersData>
+                            if (adapter != null) adapter?.notifyDataSetChanged()
+                            if (!it.data.content?.results.isNullOrEmpty()) {
+                                mainMentorsMenteeList = it.data.content?.results as ArrayList<ResultsItem>
                                 loadAdapters(mainMentorsMenteeList)
                             }
                         }
@@ -77,61 +80,47 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), MentorsMente
         })
     }
 
-    private var mainMentorsMenteeList: ArrayList<CommunityMembersData> = ArrayList<CommunityMembersData>()
-    private var dummyMentorsMenteeList: ArrayList<CommunityMembersData> = ArrayList<CommunityMembersData>()
-    private fun loadAdapters(mentorsMenteesData: List<CommunityMembersData>) {
-        if(mentorsMenteesData.size>6){
+    private var mainMentorsMenteeList: ArrayList<ResultsItem> = ArrayList<ResultsItem>()
+    private var dummyMentorsMenteeList: ArrayList<ResultsItem> = ArrayList<ResultsItem>()
+    private fun loadAdapters(mentorsMenteesData: List<ResultsItem>) {
+        if (mentorsMenteesData.size > 6) {
             for (i in 0..6) {
                 dummyMentorsMenteeList.add(mainMentorsMenteeList[i])
             }
-        }else{
+        } else {
             dummyMentorsMenteeList = mainMentorsMenteeList
         }
         var layoutManager = GridLayoutManager(requireContext(), 4)
         rvMentorsMentees.layoutManager = layoutManager
         adapter = MentorsMenteesAdaptor(dummyMentorsMenteeList)
-        if(mentorsMenteesData.size>6) {
+        if (mentorsMenteesData.size > 6) {
             adapter?.setCallback(this)
             adapter?.setWithFooter(true)
         }
         rvMentorsMentees.adapter = adapter
     }
 
-    private fun getColoredText(text: String): String{
+    private fun getColoredText(text: String): String {
         return "<font color='#0085FF'>$text </font>"
     }
 
     private lateinit var categoriesArray: Array<String>
     private fun setUpSpinnerData() {
-        categoriesArray= requireActivity().resources.getStringArray(R.array.categories)
+        categoriesArray = requireActivity().resources.getStringArray(R.array.categories)
         val adapter = ArrayAdapter(requireActivity(), R.layout.custom_spinner_item_layout, categoriesArray)
         binding.categorySpinner.adapter = adapter
         binding.categorySpinner.onItemSelectedListener = this
     }
 
-    private fun getMentorsAndMentees(type: String) {
+    private fun getMentorsAndMentees() {
         searchJob?.cancel()
-        searchJob = when (selectedCategory) {
-            "Mentee" -> {
-                lifecycleScope.launch {
-                    viewModel.getMentorsMenteesData(
-                        UserCache.getUserId(requireContext()),
-                        MentorMenteeUserType.MENTOR,
-                        MentorshipStatusTypes.ACCEPTED,
-                        0
-                    )
-                }
-            }
-            else -> {
-                lifecycleScope.launch {
-                    viewModel.getMentorsMenteesData(
-                        UserCache.getUserId(requireContext()),
-                        MentorMenteeUserType.MENTEE,
-                        MentorshipStatusTypes.ACCEPTED,
-                        0
-                    )
-                }
-            }
+        searchJob = lifecycleScope.launch {
+            viewModel.getMentorsMenteesDataNew(
+                UserCache.getUserId(requireContext()),
+                MentorMenteeUserType.MENTOR,
+                MentorshipStatusTypes.ACCEPTED,
+                0
+            )
         }
     }
 
@@ -150,40 +139,26 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), MentorsMente
         binding.etSearch.text.trim().let {
             if (!it.isNullOrEmpty()) {
                 searchMembers(it.toString())
-            }else{
-                getMentorsAndMentees(selectedCategory)
+            } else {
+                getMentorsAndMentees()
             }
         }
     }
 
     private fun searchMembers(query: String) {
         searchJob?.cancel()
-        if(!query.isNullOrEmpty()) {
-            searchJob = when (selectedCategory) {
-                "Mentee" -> {
-                    lifecycleScope.launch {
-                        viewModel.getMentorMenteeMemberSearchList(
-                            UserCache.getUserId(requireContext()),
-                            MentorMenteeUserType.MENTOR,
-                            MentorshipStatusTypes.ACCEPTED,
-                            0,
-                            query)
-                    }
-                }
-                else -> {
-                    lifecycleScope.launch {
-                        viewModel.getMentorMenteeMemberSearchList(
-                            UserCache.getUserId(requireContext()),
-                            MentorMenteeUserType.MENTEE,
-                            MentorshipStatusTypes.ACCEPTED,
-                            0,
-                            query
-                        )
-                    }
-                }
+        if (!query.isNullOrEmpty()) {
+            searchJob = lifecycleScope.launch {
+                viewModel.getMentorMenteeMemberSearchListNew(
+                    UserCache.getUserId(requireContext()),
+                    MentorMenteeUserType.MENTOR,
+                    MentorshipStatusTypes.ACCEPTED,
+                    0,
+                    query
+                )
             }
-        } else{
-            getMentorsAndMentees(selectedCategory)
+        } else {
+            getMentorsAndMentees()
         }
     }
 
@@ -191,7 +166,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), MentorsMente
 
     }
 
-    fun openCreateContractFragment(){
+    fun openCreateContractFragment() {
         findNavController().navigate(R.id.action_dashboardFragment_to_createContractFragment2)
     }
 
@@ -212,8 +187,12 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), MentorsMente
             binding.textTotalEarnings.text = requireContext().resources.getString(R.string.ratings)
             binding.tvMemberTitle.text = requireContext().resources.getString(R.string.your_mentees)
             binding.textTotalEarnVal.text = "4.5/5"
-            binding.textServed.text = requireContext().resources.getString(R.string.mentees_served)+" 40"
-            binding.descriptionText.text = (Html.fromHtml(requireContext().resources.getString(R.string.request_money_from_mentees) + " " + getColoredText(requireContext().resources.getString(R.string.mentees))))
+            binding.textServed.text = requireContext().resources.getString(R.string.mentees_served) + " 40"
+            binding.descriptionText.text = (Html.fromHtml(
+                requireContext().resources.getString(R.string.request_money_from_mentees) + " " + getColoredText(
+                    requireContext().resources.getString(R.string.mentees)
+                )
+            ))
         } else {
             binding.btnCurrentProjects.text = requireContext().resources.getString(R.string.view_projects)
             binding.btnCreateContact.text = requireContext().resources.getString(R.string.view_contracts)
@@ -221,24 +200,27 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), MentorsMente
             binding.textTotalEarnings.text = requireContext().resources.getString(R.string.amount_due)
             binding.tvMemberTitle.text = requireContext().resources.getString(R.string.your_mentors)
             binding.textTotalEarnVal.text = "$1200.00"
-            binding.textServed.text = requireContext().resources.getString(R.string.my_mentors)+" 4"
-            binding.descriptionText.text = (Html.fromHtml(requireContext().resources.getString(R.string.pay_money_to_mentors) + " " + getColoredText(requireContext().resources.getString(R.string.mentors))))
+            binding.textServed.text = requireContext().resources.getString(R.string.my_mentors) + " 4"
+            binding.descriptionText.text = (Html.fromHtml(
+                requireContext().resources.getString(R.string.pay_money_to_mentors) + " " + getColoredText(
+                    requireContext().resources.getString(R.string.mentors)
+                )
+            ))
         }
-        getMentorsAndMentees(selectedCategory)
+        getMentorsAndMentees()
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {
         TODO("Not yet implemented")
     }
 
-    fun btnCurrentProjectAction(){
-        if(selectedCategory == "Mentor"){
-            findNavController().navigate(R.id.action_dashboardFragment_to_currentProjectsFragment)
-        }
+    fun btnCurrentProjectAction() {
+        findNavController().navigate(R.id.action_dashboardFragment_to_currentProjectsFragment)
     }
-    fun btnTotalEarningAction(){
-        val action = if(binding.textTotalSpent.text == getString(R.string.total_spent))
-        DashboardFragmentDirections.actionDashboardFragmentToTotalEarningAndSpendingFragment("Spending")
+
+    fun btnTotalEarningAction() {
+        val action = if (binding.textTotalSpent.text == getString(R.string.total_spent))
+            DashboardFragmentDirections.actionDashboardFragmentToTotalEarningAndSpendingFragment("Spending")
         else DashboardFragmentDirections.actionDashboardFragmentToTotalEarningAndSpendingFragment("Earning")
 
         findNavController().navigate(action)

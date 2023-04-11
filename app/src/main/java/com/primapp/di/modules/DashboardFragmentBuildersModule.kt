@@ -1,5 +1,6 @@
 package com.primapp.di.modules
 
+import com.primapp.databinding.PopupAmendContractLayoutBinding
 import com.primapp.ui.base.CommonWebView
 import com.primapp.ui.base.ImageViewDialog
 import com.primapp.ui.base.PopUpReportPost
@@ -12,9 +13,7 @@ import com.primapp.ui.communities.create.CreateCommunityFragment
 import com.primapp.ui.communities.details.CommunityDetailsFragment
 import com.primapp.ui.communities.edit.EditCommunityFragment
 import com.primapp.ui.communities.members.CommunityMembersFragment
-import com.primapp.ui.contract.AllProjectsFragment
-import com.primapp.ui.contract.CreateContractFragment
-import com.primapp.ui.contract.CurrentProjectsFragment
+import com.primapp.ui.contract.*
 import com.primapp.ui.dashboard.DashboardFragment
 import com.primapp.ui.notification.NotificationsFragment
 import com.primapp.ui.dashboard.ProfileFragment
@@ -201,4 +200,10 @@ abstract class DashboardFragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeTotalEarningAndSpendingFragment(): TotalEarningAndSpendingFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeProjectDetailsFragment(): ProjectDetailsFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributePopUpAmendContract(): PopUpAmendContract
 }

@@ -38,4 +38,7 @@ enum class ValidationResults {
     EMPTY_PRIORITY,
     INVALID_DUE_DATE,
     SUCCESS,
+    EMPTY_CONTRACT_NAME,
+    EMPTY_SCOPE_PROJECT,
+    EMPTY_CONTRACT_PRICE
 }

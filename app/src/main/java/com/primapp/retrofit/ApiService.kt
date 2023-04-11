@@ -9,9 +9,11 @@ import com.primapp.model.chat.UserMenteeMentorUserReponseModel
 import com.primapp.model.comment.CommentListResponseModel
 import com.primapp.model.comment.CreateCommentRequestModel
 import com.primapp.model.community.*
+import com.primapp.model.contract.CreateContractRequestModel
 import com.primapp.model.members.CommunityMembersResponseModel
 import com.primapp.model.mentor.RequestMentorDataModel
 import com.primapp.model.mentor.RequestMentorResponseModel
+import com.primapp.model.mentormentee.MentorMenteeResponse
 import com.primapp.model.notification.NotificationResponseModel
 import com.primapp.model.portfolio.*
 import com.primapp.model.post.*
@@ -370,15 +372,29 @@ interface ApiService {
         @Query("limit") limit: Int
     ): CommunityMembersResponseModel
 
-    @GET(ApiConstant.GET_MENTOR_MENTEE_LIST)
-    suspend fun getMentorMenteeList(
+    @GET(ApiConstant.GET_MENTOR_MENTEE_UNIQUE_LIST)
+    suspend fun getMentorMenteeListData(
+        @Path("userId") userId: Int,
+        @Query("users_type") type: String,
+        @Query("status") status: Int,
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int
+    ): MentorMenteeResponse
+
+    @GET(ApiConstant.GET_MENTOR_MENTEE_UNIQUE_LIST)
+    suspend fun getMentorMenteeListData(
         @Path("userId") userId: Int,
         @Query("users_type") type: String,
         @Query("status") status: Int,
         @Query("offset") offset: Int,
         @Query("limit") limit: Int,
         @Query("search") query: String
-    ): CommunityMembersResponseModel
+    ): MentorMenteeResponse
+
+    @POST(ApiConstant.CREATE_CONTRACT)
+    suspend fun createContract(
+        @Body createContractRequestModel: CreateContractRequestModel
+    ): BaseDataModel
 
     @POST(ApiConstant.REPORT_POST)
     suspend fun reportPost(
@@ -510,4 +526,7 @@ interface ApiService {
         @Path("todoTaskId") todoTaskId: Int,
         @Body request: CreateTodoTaskRequest
     ): CreateTodoTaskResponse
+
+    @POST(ApiConstant.CREATE_CONTRACT)
+    suspend fun createContract(@Body createPostRequestModel: CreatePostRequestModel): BaseDataModel
 }

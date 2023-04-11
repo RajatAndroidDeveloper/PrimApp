@@ -96,4 +96,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(DashboardViewModel::class)
     abstract fun bindDashboardViewModel(viewModel: DashboardViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ContractsViewModel::class)
+    abstract fun bindContractsViewModel(viewModel: ContractsViewModel): ViewModel
 }

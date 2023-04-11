@@ -13,9 +13,9 @@ import com.primapp.model.chat.ChatUser
 import com.primapp.model.chat.MentorMenteeRelationResponse
 import com.primapp.model.community.*
 import com.primapp.model.members.CommunityMembersData
-import com.primapp.model.members.CommunityMembersResponseModel
 import com.primapp.model.mentor.RequestMentorDataModel
 import com.primapp.model.mentor.RequestMentorResponseModel
+import com.primapp.model.mentormentee.MentorMenteeResponse
 import com.primapp.model.portfolio.UserCommonCommunitiesResponse
 import com.primapp.model.post.PostActionResponseModel
 import com.primapp.model.post.PostListResult
@@ -29,7 +29,6 @@ import com.primapp.ui.communities.data.CommunitiesPageDataSource
 import com.primapp.ui.communities.data.ParentCategoriesPageDataSource
 import com.primapp.ui.communities.details.source.CommunitiesPostListDataSource
 import com.primapp.ui.communities.members.CommunityMembersDataSource
-import com.primapp.ui.dashboard.MentorMenteeMemberListSearchDataSource
 import com.primapp.ui.post.likes.LikesMemberListDataSource
 import com.primapp.ui.profile.source.MentorMenteeMemberListDataSource
 import com.primapp.ui.profile.source.UserJoinedCommunityPageDataSource
@@ -306,23 +305,22 @@ class CommunitiesRepository @Inject constructor(
         ).liveData
     }
 
-   suspend fun getMentorMenteeMemberSearchList(userId: Int, type: String, status: Int, offset: Int, query:String): Resource<CommunityMembersResponseModel> {
+    suspend fun getMentorMenteeMemberSearchListNew(userId: Int, type: String, status: Int, offset: Int, query:String): Resource<MentorMenteeResponse> {
         return try {
-            responseHandler.handleResponse(apiService.getMentorMenteeList(userId, type, status, offset,200, query))
+            responseHandler.handleResponse(apiService.getMentorMenteeListData(userId, type, status, offset,200, query))
         } catch (e: Exception) {
             responseHandler.handleException(e)
         }
     }
 
     //New way to hit api for mentors and mentees list
-    suspend fun getMentorsMenteesData(userId: Int, userType: String, status: Int, offset: Int): Resource<CommunityMembersResponseModel> {
+    suspend fun getMentorsMenteesDataNew(userId: Int, userType: String, status: Int, offset: Int): Resource<MentorMenteeResponse> {
         return try {
-            responseHandler.handleResponse(apiService.getMentorMenteeList(userId, userType, status, offset,200))
+            responseHandler.handleResponse(apiService.getMentorMenteeListData(userId, userType, status, offset,200))
         } catch (e: Exception) {
             responseHandler.handleException(e)
         }
     }
-
     fun getMentorMenteeUserForChat(userId: Int, search: String?): LiveData<PagingData<ChatUser>> {
         return Pager(
             config = PagingConfig(

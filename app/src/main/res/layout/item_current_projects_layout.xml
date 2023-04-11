@@ -1,39 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/space_large">
+        android:paddingStart="@dimen/space_large"
+        android:paddingEnd="@dimen/space_large"
+        android:paddingTop="@dimen/space_large">
 
         <TextView
             android:id="@+id/tvProjectTitle"
             style="@style/normalBodyText"
             android:layout_marginStart="@dimen/space_medium"
             android:layout_marginEnd="@dimen/space_medium"
-            android:textStyle="bold"
             android:ellipsize="end"
             android:fontFamily="@font/poppins_medium"
             android:maxLines="2"
+            android:text="Sports are back!"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/tvProjectDescription"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="Sports are back!" />
+            app:layout_constraintVertical_bias="0.5" />
 
         <TextView
             android:id="@+id/tvProjectDescription"
             style="@style/normalBodyText"
             android:ellipsize="end"
             android:maxLines="4"
+            android:text="@string/dummy_text_description"
             android:textColor="@color/textColorLight"
             android:textSize="@dimen/textSmall"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
             app:layout_constraintEnd_toEndOf="@id/tvProjectTitle"
             app:layout_constraintStart_toStartOf="@id/tvProjectTitle"
-            app:layout_constraintTop_toBottomOf="@id/tvProjectTitle"
-            android:text="@string/dummy_text_description" />
+            app:layout_constraintTop_toBottomOf="@+id/tvProjectTitle"
+            app:layout_constraintVertical_bias="0.5" />
 
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_normal"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/lightestGrey"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvProjectDescription"
+            app:layout_constraintVertical_bias="0.5">
+
+            <ImageView
+                android:layout_width="@dimen/textExtraLargeXX"
+                android:layout_height="@dimen/textExtraLargeXX"
+                android:src="@drawable/dummy_profile"
+                android:id="@+id/ivUserImage"
+                android:padding="@dimen/space_extraSmall"
+                android:layout_marginLeft="@dimen/space_normal"/>
+
+            <TextView
+                android:id="@+id/textUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_extraSmall"
+                android:gravity="center_vertical"
+                android:layout_gravity="center_vertical"
+                android:text="Alex Merchant"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/textSmall"
+                app:layout_constraintEnd_toEndOf="@id/imageProfile"
+                app:layout_constraintStart_toStartOf="@id/imageProfile"
+                app:layout_constraintTop_toBottomOf="@id/imageProfile" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
