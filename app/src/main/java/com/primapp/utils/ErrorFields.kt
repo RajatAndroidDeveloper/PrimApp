@@ -63,4 +63,6 @@ class ErrorFields @Inject constructor() {
     var errorContractEndDate: String? = null
 
     var errorContractPrice: String? = null
+
+    var errorContractStatus: String? = null
 }

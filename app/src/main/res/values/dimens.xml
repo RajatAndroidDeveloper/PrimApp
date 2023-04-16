@@ -2,6 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <dimen name="dp_0">0dp</dimen>
     <dimen name="space_extraSmall">4dp</dimen>
+    <dimen name="space_extraSmallX">2dp</dimen>
     <dimen name="space_small">8dp</dimen>
     <dimen name="space_normal">10dp</dimen>
     <dimen name="space_medium">12dp</dimen>

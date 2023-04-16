@@ -2,77 +2,98 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <import type="android.text.TextUtils" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="data"
+            type="com.primapp.model.contract.ResultsItem" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/space_large"
-        android:paddingEnd="@dimen/space_large"
-        android:paddingTop="@dimen/space_large">
+        android:paddingTop="@dimen/space_normal"
+        android:paddingEnd="@dimen/space_large">
 
         <TextView
             android:id="@+id/tvProjectTitle"
             style="@style/normalBodyText"
             android:layout_marginStart="@dimen/space_medium"
+            android:layout_marginTop="@dimen/space_normal"
             android:layout_marginEnd="@dimen/space_medium"
             android:ellipsize="end"
             android:fontFamily="@font/poppins_medium"
             android:maxLines="2"
-            android:text="Sports are back!"
+            android:text="@{data.name}"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/tvProjectDescription"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5" />
+            app:layout_constraintTop_toBottomOf="@id/linearLayout" />
 
         <TextView
             android:id="@+id/tvProjectDescription"
             style="@style/normalBodyText"
             android:ellipsize="end"
             android:maxLines="4"
-            android:text="@string/dummy_text_description"
+            android:text="@{data.scopeOfWork}"
             android:textColor="@color/textColorLight"
             android:textSize="@dimen/textSmall"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
             app:layout_constraintEnd_toEndOf="@id/tvProjectTitle"
             app:layout_constraintStart_toStartOf="@id/tvProjectTitle"
-            app:layout_constraintTop_toBottomOf="@+id/tvProjectTitle"
-            app:layout_constraintVertical_bias="0.5" />
+            app:layout_constraintTop_toBottomOf="@+id/tvProjectTitle" />
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_normal"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:background="@color/lightestGrey"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvProjectDescription"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.5">
 
             <ImageView
+                android:id="@+id/ivUserImage"
+                loadCircularImage="@{data.createdBy.getImageUrl}"
                 android:layout_width="@dimen/textExtraLargeXX"
                 android:layout_height="@dimen/textExtraLargeXX"
-                android:src="@drawable/dummy_profile"
-                android:id="@+id/ivUserImage"
-                android:padding="@dimen/space_extraSmall"
-                android:layout_marginLeft="@dimen/space_normal"/>
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/space_normal"
+                android:layout_marginTop="@dimen/space_extraSmallX"
+                android:layout_marginBottom="@dimen/space_extraSmallX"
+                android:padding="@dimen/space_extraSmall" />
 
             <TextView
                 android:id="@+id/textUserName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/space_extraSmall"
-                android:gravity="center_vertical"
+                android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
-                android:text="Alex Merchant"
+                android:layout_marginLeft="@dimen/space_extraSmall"
+                android:layout_toRightOf="@id/ivUserImage"
+                android:gravity="center_vertical"
+                android:text="@{data.createdBy.firstName+' '+data.createdBy.lastName}"
                 android:textColor="@color/textColor"
-                android:textSize="@dimen/textSmall"
-                app:layout_constraintEnd_toEndOf="@id/imageProfile"
-                app:layout_constraintStart_toStartOf="@id/imageProfile"
-                app:layout_constraintTop_toBottomOf="@id/imageProfile" />
-        </LinearLayout>
+                android:textSize="@dimen/textSmall" />
+
+            <Button
+                android:id="@+id/tvContractStatus"
+                style="@style/buttonFilledPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/textExtraLargeX"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/space_normal"
+                android:gravity="center"
+                contractStatusTitle="@{data}"
+                android:textAllCaps="false"
+                android:textSize="@dimen/textExtraSmall" />
+        </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -487,7 +487,7 @@
     <string name="mentorships">Mentorships</string>
     <string name="mentees_served">Mentees Served:</string>
     <string name="ratings">Ratings</string>
-    <string name="view_projects">View Projects</string>
+    <string name="view_projects">Created Contracts</string>
     <string name="view_contracts">View Contracts</string>
     <string name="my_mentors">Mentors Served:</string>
     <string name="amount_due">Amount Due</string>
@@ -513,6 +513,15 @@
     <string name="request_amend">Request Amend</string>
     <string name="project_scope_dummy_text">we are looking for someone that\n 1. have Apple TV\n 2. have ipad\n 3. have Macbook\n 4. have iPhone\n need you to be test Airplay and few buttons on a...</string>
     <string name="contract_created_successfully">"Your Contract has been created successfully. "</string>
+    <string name="please_try_again_later">Please try again later.</string>
+    <string name="contract_accepted_successfully">You have accpeted the contract successfully.</string>
+    <string name="contract_amend_request_sent_successfully">Your contract amending request has been sent successfully.</string>
+    <string name="amend_requests">Amend Requests</string>
+    <string name="end_contract"><u>End Contract</u></string>
+    <string name="start_contract">Start Contract</string>
+    <string name="accepted_by">Accepted By</string>
+    <string name="decline">Decline</string>
+    <string name="pay_now">Pay Now</string>
 
     <string-array name="categories">
         <item>Mentor</item>
@@ -520,7 +529,8 @@
     </string-array>
 
     <string-array name="status">
-        <item>Ongoing Projects</item>
-        <item>Completed Projects</item>
+        <item>All Contracts</item>
+        <item>Ongoing Contracts</item>
+        <item>Completed</item>
     </string-array>
 </resources>

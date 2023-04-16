@@ -7,6 +7,7 @@ object NotificationTypes {
     const val COMMUNITY_NOTIFICATION = "community_notification"
     const val POST_RELATED_NOTIFICATION = "post_notification"
     const val ADMIN_ACTION_NOTIFICATION = "admin_action"
+    const val CONTRACT_NOTIFICATION = "contract_notification"
 }
 
 object NotificationViewTypes {

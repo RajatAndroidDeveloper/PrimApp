@@ -9,7 +9,7 @@ import com.primapp.model.chat.UserMenteeMentorUserReponseModel
 import com.primapp.model.comment.CommentListResponseModel
 import com.primapp.model.comment.CreateCommentRequestModel
 import com.primapp.model.community.*
-import com.primapp.model.contract.CreateContractRequestModel
+import com.primapp.model.contract.*
 import com.primapp.model.members.CommunityMembersResponseModel
 import com.primapp.model.mentor.RequestMentorDataModel
 import com.primapp.model.mentor.RequestMentorResponseModel
@@ -394,6 +394,34 @@ interface ApiService {
     @POST(ApiConstant.CREATE_CONTRACT)
     suspend fun createContract(
         @Body createContractRequestModel: CreateContractRequestModel
+    ): BaseDataModel
+
+    @GET(ApiConstant.GET_ALL_CONTRACT)
+    suspend fun getAllContracts(
+        @Query("contract_type") contractType: String,
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int
+    ): AllContractsResponseModel
+
+    @GET(ApiConstant.GET_CONTRACT_DETAILS)
+    suspend fun getContractDetails(
+        @Path("contractId") contractId: Int
+    ): ContractDetailResponseModel
+
+    @POST(ApiConstant.AMEND_CONTRACT)
+    suspend fun amendContract(
+        @Body amendContractRequestModel: AmendContractRequestModel
+    ): BaseDataModel
+
+    @POST(ApiConstant.ACCEPT_CONTRACT)
+    suspend fun acceptContract(
+        @Body acceptContractRequestModel: AcceptContractRequestModel
+    ): BaseDataModel
+
+    @PATCH(ApiConstant.ACCEPT_AMEND_REQUEST)
+    suspend fun acceptAmendRequest(
+        @Path("contractId") contractId: Int,
+        @Body acceptAmendRequestModel: AcceptAmendRequestModel
     ): BaseDataModel
 
     @POST(ApiConstant.REPORT_POST)

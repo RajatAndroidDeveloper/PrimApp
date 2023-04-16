@@ -13,7 +13,7 @@ import com.primapp.ui.dashboard.MentorsMenteesAdaptor
 import kotlinx.android.synthetic.main.fragment_current_projects.*
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
 
-class CurrentProjectsFragment : BaseFragment<FragmentCurrentProjectsBinding>(), OnItemClickEvent {
+class CurrentProjectsFragment : BaseFragment<FragmentCurrentProjectsBinding>() {
 
     override fun getLayoutRes() = R.layout.fragment_current_projects
     lateinit var adapter: CurrentProjectsAdapter
@@ -52,18 +52,9 @@ class CurrentProjectsFragment : BaseFragment<FragmentCurrentProjectsBinding>(), 
             setHasFixedSize(true)
             setDivider(R.drawable.recyclerview_divider)
         }
-
-        adapter = CurrentProjectsAdapter("Ongoing", projectList, this)
-        binding.rvCurrentProjects.adapter = adapter
-        adapter = CurrentProjectsAdapter("Completed", projectList, this)
-        binding.rvCompletedProjects.adapter = adapter
     }
 
     fun openAllProjectsFragment(){
         findNavController().navigate(R.id.action_currentProjectsFragment_to_allProjectsFragment)
-    }
-
-    override fun onItemClick() {
-        findNavController().navigate(R.id.action_currentProjectsFragment_to_projectDetailsFragment)
     }
 }

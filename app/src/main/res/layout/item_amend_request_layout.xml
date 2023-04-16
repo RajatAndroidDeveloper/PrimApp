@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.text.TextUtils" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="data"
+            type="com.primapp.model.contract.AmendRequestItem" />
+
+        <variable
+            name="user"
+            type="com.primapp.model.auth.UserData"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/space_normal">
+
+        <ImageView
+            android:layout_width="@dimen/textExtraLargeXX"
+            android:layout_height="@dimen/textExtraLargeXX"
+            loadCircularImage="@{data.requestBy.getImageUrl}"
+            android:id="@+id/ivUserImage"
+            android:layout_marginTop="@dimen/space_extraSmallX"
+            android:layout_marginBottom="@dimen/space_extraSmallX"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/space_extraSmall"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tvProjectTitle"
+            style="@style/normalBodyText"
+            android:layout_marginStart="@dimen/space_medium"
+            android:layout_marginEnd="@dimen/space_medium"
+            android:ellipsize="end"
+            amendRequestTitle="@{data}"
+            userData="@{user}"
+            android:textColor="@color/textColor"
+            tools:text="You have requested to amend price to $50.00"
+            android:fontFamily="@font/poppins_medium"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivUserImage"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/tvProjectTitle"
+            app:layout_constraintTop_toBottomOf="@id/tvProjectTitle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="@dimen/space_small"
+            android:orientation="horizontal"
+            android:id="@+id/llButtons">
+
+            <Button
+                android:id="@+id/tvAcceptAmendRequets"
+                style="@style/buttonFilledPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/textExtraLarge"
+                android:gravity="center"
+                android:visibility="@{data.createdById.equals(user.id) &amp;&amp; data.status.equals(`PENDING`)? View.VISIBLE : View.GONE}"
+                android:layout_marginTop="@dimen/space_extraSmall"
+                android:paddingStart="@dimen/space_extraSmallX"
+                android:paddingEnd="@dimen/space_extraSmallX"
+                android:textSize="@dimen/textExtraSmall"
+                android:layout_marginRight="@dimen/space_normal"
+                android:text="@string/accept"
+                android:textAllCaps="false"/>
+
+            <Button
+                android:id="@+id/tvDeclineAmendRequest"
+                style="@style/buttonFilledRed"
+                android:layout_width="wrap_content"
+                android:visibility="@{data.createdById.equals(user.id) &amp;&amp; data.status.equals(`PENDING`)? View.VISIBLE : View.GONE}"
+                android:layout_height="@dimen/textExtraLarge"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/space_extraSmall"
+                android:paddingStart="@dimen/space_extraSmallX"
+                android:paddingEnd="@dimen/space_extraSmallX"
+                android:textSize="@dimen/textExtraSmall"
+                android:layout_marginRight="@dimen/space_normal"
+                android:text="@string/decline"
+                android:textAllCaps="false"/>
+
+            <Button
+                android:id="@+id/tvPayNow"
+                style="@style/buttonFilledPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/textExtraLarge"
+                android:visibility="@{data.requestBy.id.equals(user.id) &amp;&amp; data.status.equals(`ACCEPTED`) &amp;&amp; data.payementStatus.equals(`PENDING`)? View.VISIBLE : View.GONE}"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/space_extraSmall"
+                android:paddingStart="@dimen/space_extraSmallX"
+                android:paddingEnd="@dimen/space_extraSmallX"
+                android:textSize="@dimen/textExtraSmall"
+                android:layout_marginRight="@dimen/space_normal"
+                android:text="@string/pay_now"
+                android:textAllCaps="false"/>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

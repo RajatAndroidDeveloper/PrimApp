@@ -10,7 +10,6 @@ import com.primapp.databinding.FragmentCreateContractBinding
 import com.primapp.extensions.showError
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
-import com.primapp.ui.notification.MentorRequestRejectionFragment
 import com.primapp.utils.DateTimeUtils
 import com.primapp.utils.DialogUtils
 import com.primapp.viewmodels.ContractsViewModel
@@ -53,7 +52,6 @@ class CreateContractFragment : BaseFragment<FragmentCreateContractBinding>() {
         } else {
             picker.datePicker.minDate = cal.timeInMillis
         }
-
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             picker.datePicker.touchables[1].performClick()
@@ -115,7 +113,8 @@ class CreateContractFragment : BaseFragment<FragmentCreateContractBinding>() {
 
     fun createContract() {
         val model = viewModel.createContractRequestModel.value
-        model?.price = if (binding.etPrice.text.toString().isEmpty()) 0.0 else binding.etPrice.text?.trim().toString().toDouble()
+        var amount = if (binding.etPrice.text.toString().isEmpty()) 0.0 else binding.etPrice.text?.trim().toString().toDouble()
+        model?.price =  String.format("%.2f", amount).toDouble()
         viewModel.validateData()
     }
 

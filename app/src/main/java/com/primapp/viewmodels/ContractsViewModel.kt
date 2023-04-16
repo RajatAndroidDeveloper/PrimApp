@@ -6,10 +6,12 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.google.gson.Gson
 import com.primapp.PrimApp
 import com.primapp.R
-import com.primapp.model.contract.CreateContractRequestModel
+import com.primapp.model.contract.*
 import com.primapp.repository.ContractRepository
 import com.primapp.retrofit.base.BaseDataModel
 import com.primapp.retrofit.base.Event
@@ -19,10 +21,11 @@ import com.primapp.utils.ValidationResults
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ContractsViewModel  @Inject constructor(
+class ContractsViewModel @Inject constructor(
     private val repo: ContractRepository,
     app: Application,
-    errorFields: ErrorFields) : AndroidViewModel(app) {
+    errorFields: ErrorFields
+) : AndroidViewModel(app) {
 
     private val context by lazy { getApplication<PrimApp>().applicationContext }
 
@@ -30,10 +33,18 @@ class ContractsViewModel  @Inject constructor(
 
     val createContractRequestModel = MutableLiveData<CreateContractRequestModel>()
 
+    val amendContractRequestModel = MutableLiveData<AmendContractRequestModel>()
+
+    val acceptContractRequestModel = MutableLiveData<AcceptContractRequestModel>()
+
+    val acceptAmendRequestModel = MutableLiveData<AcceptAmendRequestModel>()
+
     init {
         errorFieldsLiveData.value = errorFields
-        createContractRequestModel.value =
-            CreateContractRequestModel("", 0.0, "", "", "")
+        createContractRequestModel.value = CreateContractRequestModel("", 0.0, "", "", "")
+        amendContractRequestModel.value = AmendContractRequestModel(0.0, 0)
+        acceptContractRequestModel.value = AcceptContractRequestModel(0, 0.0, "")
+        acceptAmendRequestModel.value = AcceptAmendRequestModel("")
     }
 
     fun validateData(): Boolean {
@@ -87,12 +98,92 @@ class ContractsViewModel  @Inject constructor(
         return false
     }
 
+    fun validateContractAmendData(): Boolean {
+        val error = errorFieldsLiveData.value
+        error?.errorContractPrice = null
+
+        errorFieldsLiveData.value = error
+        val result = amendContractRequestModel.value?.isValidFormData()
+        when (result) {
+            ValidationResults.EMPTY_CONTRACT_PRICE -> {
+                errorFieldsLiveData.value?.errorContractPrice =
+                    context.getString(R.string.valid_empty_price)
+            }
+            ValidationResults.SUCCESS -> {
+                Log.i("anshul", "Success Data : ${Gson().toJson(acceptContractRequestModel.value)}")
+                amendContract(amendContractRequestModel.value!!)
+                return true
+            }
+        }
+        return false
+    }
+
+    fun validContractAcceptData(): Boolean {
+        val result = acceptContractRequestModel.value?.isValidFormData()
+        when (result) {
+            ValidationResults.EMPTY_CONTRACT_STATUS -> {
+
+            }
+            ValidationResults.SUCCESS -> {
+                Log.i("anshul", "Success Data : ${Gson().toJson(acceptContractRequestModel.value)}")
+                acceptContract(acceptContractRequestModel.value!!)
+                return true
+            }
+        }
+        return false
+    }
+
+    fun acceptDeclineAmendRequest(contractId: Int) {
+        acceptAmendRequest(contractId, acceptAmendRequestModel.value!!)
+    }
+
     private var _createContractLiveData = MutableLiveData<Event<Resource<BaseDataModel>>>()
     var createContractLiveData: LiveData<Event<Resource<BaseDataModel>>> = _createContractLiveData
 
     fun createContract() = viewModelScope.launch {
         _createContractLiveData.postValue(Event(Resource.loading(null)))
         _createContractLiveData.postValue(Event(repo.createContract(createContractRequestModel.value!!)))
+    }
+
+    // get Post List
+    private var allContractLiveData: LiveData<PagingData<ResultsItem>>? = null
+    fun getAllContracts(contractType: String): LiveData<PagingData<ResultsItem>> {
+        val newResultLiveData: LiveData<PagingData<ResultsItem>> =
+            repo.getAllContracts(contractType).cachedIn(viewModelScope)
+        allContractLiveData = newResultLiveData
+        return newResultLiveData
+    }
+
+    private var _contractDetailLiveData = MutableLiveData<Event<Resource<ContractDetailResponseModel>>>()
+    var contractDetailLiveData: LiveData<Event<Resource<ContractDetailResponseModel>>> = _contractDetailLiveData
+
+    fun getContractDetails(contractId: Int) = viewModelScope.launch {
+        _contractDetailLiveData.postValue(Event(Resource.loading(null)))
+        _contractDetailLiveData.postValue(Event(repo.getContractDetails(contractId)))
+    }
+
+    private var _amendContractLiveData = MutableLiveData<Event<Resource<BaseDataModel>>>()
+    var amendContractLiveData: LiveData<Event<Resource<BaseDataModel>>> = _amendContractLiveData
+
+    fun amendContract(amendContractRequestModel: AmendContractRequestModel) = viewModelScope.launch {
+        _amendContractLiveData.postValue(Event(Resource.loading(null)))
+        _amendContractLiveData.postValue(Event(repo.amendContract(amendContractRequestModel)))
+    }
+
+    private var _acceptContractLiveData = MutableLiveData<Event<Resource<BaseDataModel>>>()
+    var acceptContractLiveData: LiveData<Event<Resource<BaseDataModel>>> = _acceptContractLiveData
+
+    fun acceptContract(acceptContractRequestModel: AcceptContractRequestModel) = viewModelScope.launch {
+        _acceptContractLiveData.postValue(Event(Resource.loading(null)))
+        _acceptContractLiveData.postValue(Event(repo.acceptContract(acceptContractRequestModel)))
+    }
+
+    private var _acceptAmendContractLiveData = MutableLiveData<Event<Resource<BaseDataModel>>>()
+    var acceptAmendContractLiveData: LiveData<Event<Resource<BaseDataModel>>> = _acceptAmendContractLiveData
+
+    fun acceptAmendRequest(contractId: Int, acceptAmendRequestModel: AcceptAmendRequestModel) = viewModelScope.launch {
+        _acceptAmendContractLiveData.postValue(Event(Resource.loading(null)))
+        _acceptAmendContractLiveData.postValue(Event(repo.acceptAmendRequest(contractId, acceptAmendRequestModel)))
     }
 
 }

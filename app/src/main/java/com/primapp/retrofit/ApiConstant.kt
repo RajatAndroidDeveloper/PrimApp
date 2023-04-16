@@ -77,6 +77,11 @@ object ApiConstant {
 
     //Create Contract
     const val CREATE_CONTRACT = "contracts/create-contract"
+    const val GET_ALL_CONTRACT = "contracts/view-all-projects"
+    const val GET_CONTRACT_DETAILS = "contracts/contract-detail/{contractId}"
+    const val AMEND_CONTRACT = "contracts/amend-contract"
+    const val ACCEPT_CONTRACT = "contracts/accept-contract"
+    const val ACCEPT_AMEND_REQUEST = "contracts/accept-amend-request/{contractId}"
 
     //Notification
     const val GET_NOTIFICATIONS = "user_notifications"
@@ -117,4 +122,7 @@ object ApiConstant {
     const val UPDATE_TODO_TASK = "user-tasks/{todoTaskId}/"
     const val MARK_MULTIPLE_TODOS_COMPLETED = "user-tasks/mark-as-completed"
     const val DELETE_MULTIPLE_TODOS = "user-tasks/mark-as-deleted"
+
+    //Contract Status
+    const val CONTRACT_ACCEPTED = "ACCEPTED"
 }

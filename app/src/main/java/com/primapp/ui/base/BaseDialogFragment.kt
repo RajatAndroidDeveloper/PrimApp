@@ -11,9 +11,7 @@ import android.view.Window
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
-import com.primapp.R
 import dagger.android.support.DaggerDialogFragment
 import javax.inject.Inject
 

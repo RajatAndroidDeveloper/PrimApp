@@ -203,7 +203,4 @@ abstract class DashboardFragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeProjectDetailsFragment(): ProjectDetailsFragment
-
-    @ContributesAndroidInjector
-    abstract fun contributePopUpAmendContract(): PopUpAmendContract
 }

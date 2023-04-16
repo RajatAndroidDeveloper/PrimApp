@@ -27,6 +27,9 @@ import com.primapp.constants.*
 import com.primapp.extensions.*
 import com.primapp.model.auth.UserData
 import com.primapp.model.community.CommunityData
+import com.primapp.model.contract.AcceptedByItem
+import com.primapp.model.contract.AmendRequestItem
+import com.primapp.model.contract.ResultsItem
 import com.primapp.model.notification.NotificationResult
 import com.primapp.model.portfolio.ExperienceData
 import com.primapp.model.post.ReportedMembers
@@ -427,7 +430,8 @@ fun makeNotificationMentorRequest(textView: TextView, notificationData: Notifica
             colorToHighlight,
             "${notificationData.sender?.firstName} ${notificationData.sender?.lastName}"
         )
-        val communityName = getHighlightedText(colorToHighlight, it.community.communityName)
+        val communityName =
+            if (it.community != null) getHighlightedText(colorToHighlight, it.community.communityName) else ""
         val textToSend = SpannableStringBuilder("")
         when (it.notificationType) {
             NotificationTypes.MENTORSHIP_REQUEST -> {
@@ -495,6 +499,10 @@ fun makeNotificationMentorRequest(textView: TextView, notificationData: Notifica
                 } else if (it.title.equals(NotificationSubTypes.COMMUNITY_REMOVE_REQUEST, true)) {
                     textToSend.append(senderFullName)
                         .append(" removed you from community ")
+                        .append(communityName)
+                } else if (it.title.equals(NotificationSubTypes.NEW_COMMUNITY_CREATED, true)) {
+                    textToSend.append(senderFullName)
+                        .append(" created new community ")
                         .append(communityName)
                 }
             }
@@ -566,6 +574,10 @@ fun makeNotificationMentorRequest(textView: TextView, notificationData: Notifica
                         .append("Reason : ")
                         .normal(it.message ?: "No reason specified")
                 }
+            }
+            NotificationTypes.CONTRACT_NOTIFICATION -> {
+                textToSend.append(senderFullName).append(" has ")
+                    .append(it.message?.toLowerCase())
             }
         }
         textToSend.append(".")
@@ -737,5 +749,68 @@ fun todoDueDate(textView: TextView, taskItem: TodoTaskItem?) {
             )
         }
 
+    }
+}
+
+@SuppressLint("SetTextI18n")
+@BindingAdapter("contractCreatedStartEndDate")
+fun contractCreatedStartEndDate(textView: TextView, data: ResultsItem?) {
+    data?.let {
+        textView.text = "Created Date - ${DateTimeUtils.convertServerTimeStamp(data.cdate)}\nStart Date - ${
+            DateTimeUtils.getDateFromMillis(data.startDate)
+        }\nEnd Date - ${DateTimeUtils.getDateFromMillis(data.endDate)}"
+    }
+}
+
+@SuppressLint("SetTextI18n")
+@BindingAdapter("amendRequestTitle", "userData")
+fun amendRequestTitle(textView: TextView, data: AmendRequestItem?, userData: UserData) {
+    val textToSend = SpannableStringBuilder("")
+    data?.let {
+        val colorToHighlight = ContextCompat.getColor(textView.context, R.color.textColor)
+        val fullName =
+            getHighlightedText(colorToHighlight, "${data.requestBy?.firstName + " " + data.requestBy?.lastName}")
+        val amount = getHighlightedText(colorToHighlight, "$${data.amount}")
+        if (data.createdById!! == userData.id) {
+            when (data.status) {
+                "DECLINED" -> textToSend.append("You have declined the request from ").append(fullName)
+                    .append(" to amend price to ").append(amount)
+                "ACCEPTED" -> textToSend.append("You have accepted the request from ").append(fullName)
+                    .append(" to amend price to ").append(amount)
+                else -> textToSend.append(fullName).append(" has requested to amend price to ").append(amount)
+            }
+        } else {
+            when (data.status) {
+                "DECLINED" -> textToSend.append("Your request to amend price to ").append(amount)
+                    .append(" has declined.")
+                "ACCEPTED" -> textToSend.append("Your request to amend price to ").append(amount)
+                    .append(" has approved.")
+                else -> textToSend.append("You have requested to amend price to ").append(amount)
+            }
+        }
+        textView.text = textToSend
+    }
+}
+
+@SuppressLint("SetTextI18n")
+@BindingAdapter("contractAcceptedTitle")
+fun contractAcceptedTitle(textView: TextView, data: AcceptedByItem?) {
+    val textToSend = SpannableStringBuilder("")
+    data?.let {
+        val colorToHighlight = ContextCompat.getColor(textView.context, R.color.textColor)
+        val fullName = getHighlightedText(colorToHighlight, "${data.user?.firstName + " " + data.user?.lastName}")
+        textView.text = textToSend.append(fullName).append(" has accepted the contract.")
+    }
+}
+
+@SuppressLint("SetTextI18n")
+@BindingAdapter("contractStatusTitle")
+fun contractStatusTitle(textView: TextView, data: ResultsItem?) {
+    data?.let {
+        when (data.contractStatus) {
+            "IN_PROGRESS" -> textView.text = "In Progress"
+            "COMPLETED" -> textView.text = "Completed"
+            else -> textView.text = "Not Started"
+        }
     }
 }

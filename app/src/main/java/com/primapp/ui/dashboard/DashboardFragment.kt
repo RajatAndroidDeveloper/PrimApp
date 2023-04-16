@@ -19,13 +19,9 @@ import com.primapp.constants.MentorMenteeUserType
 import com.primapp.constants.MentorshipStatusTypes
 import com.primapp.databinding.FragmentDashboardBinding
 import com.primapp.extensions.showError
-import com.primapp.model.members.CommunityMembersData
 import com.primapp.model.mentormentee.ResultsItem
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
-import com.primapp.ui.earning.TotalEarningAndSpendingFragment
-import com.primapp.ui.initial.PasswordVerificationFragment
-import com.primapp.ui.initial.VerifyOTPFragmentDirections
 import com.primapp.viewmodels.CommunitiesViewModel
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import kotlinx.android.synthetic.main.toolbar_inner_back.*

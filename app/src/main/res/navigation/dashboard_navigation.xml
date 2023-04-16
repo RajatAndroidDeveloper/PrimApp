@@ -573,14 +573,9 @@
         android:name="com.primapp.ui.contract.ProjectDetailsFragment"
         android:label="ProjectDetailsFragment"
         tools:layout="@layout/fragment_project_details">
-        <action
-            android:id="@+id/action_projectDetailsFragment_to_popUpAmendContract"
-            app:destination="@id/popUpAmendContract" />
+        <argument
+            android:name="contract_id"
+            app:argType="integer" />
     </fragment>
-    <dialog
-        android:id="@+id/popUpAmendContract"
-        android:name="com.primapp.ui.contract.PopUpAmendContract"
-        android:label="PopUpAmendContract"
-        tools:layout="@layout/popup_amend_contract_layout"/>
 
 </navigation>

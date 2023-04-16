@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:card_view="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
-            name="pop"
-            type="com.primapp.ui.contract.PopUpAmendContract" />
+            name="frag"
+            type="com.primapp.ui.contract.ProjectDetailsFragment" />
+
+        <variable
+            name="viewModel"
+            type="com.primapp.viewmodels.ContractsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/llMainLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         android:background="@android:color/transparent">
 
         <androidx.cardview.widget.CardView
@@ -48,7 +52,7 @@
                     android:layout_width="@dimen/space_large"
                     android:layout_height="@dimen/space_large"
                     android:src="@drawable/icon_close"
-                    android:onClick="@{()->pop.closeDialog()}"
+                    android:onClick="@{()->frag.closeDialog()}"
                     android:layout_marginEnd="@dimen/space_extraLarge"
                     card_view:layout_constraintEnd_toEndOf="parent"
                     card_view:layout_constraintTop_toTopOf="@id/tvDialogTitle"
@@ -59,6 +63,7 @@
                     android:id="@+id/tlContractPrice"
                     style="@style/myTextInputLabel"
                     isRequired="@{true}"
+                    errorText="@{viewModel.errorFieldsLiveData.errorContractPrice}"
                     android:hint="@string/price"
                     card_view:errorEnabled="true"
                     android:layout_marginTop="@dimen/space_large"
@@ -67,7 +72,7 @@
                     card_view:layout_constraintTop_toBottomOf="@id/tvDialogTitle">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etContractName"
+                        android:id="@+id/etPrice"
                         style="@style/editTextInput"
                         android:inputType="numberDecimal"/>
                 </com.google.android.material.textfield.TextInputLayout>
@@ -78,6 +83,7 @@
                     android:layout_marginTop="@dimen/space_extraSmall"
                     android:text="@string/request_amend"
                     android:textAllCaps="false"
+                    android:onClick="@{()->frag.amendContract()}"
                     android:layout_marginBottom="@dimen/space_extraLarge"
                     card_view:layout_constraintBottom_toBottomOf="parent"
                     card_view:layout_constraintEnd_toEndOf="@id/ivCloseDialog"

@@ -4,25 +4,38 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.primapp.R
 import com.primapp.databinding.FragmentAllProjectsBinding
 import com.primapp.extensions.setDivider
+import com.primapp.extensions.showError
+import com.primapp.model.contract.ResultsItem
+import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
+import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
+import com.primapp.ui.post.adapter.PostListPagedAdapter
+import com.primapp.viewmodels.ContractsViewModel
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
+import kotlinx.coroutines.launch
 
-class AllProjectsFragment : BaseFragment<FragmentAllProjectsBinding>(), AdapterView.OnItemSelectedListener,
-    OnItemClickEvent {
+class AllProjectsFragment : BaseFragment<FragmentAllProjectsBinding>(), AdapterView.OnItemSelectedListener{
 
-    lateinit var adapter: CurrentProjectsAdapter
+    val viewModel by viewModels<ContractsViewModel> { viewModelFactory }
+    val adapter by lazy { CurrentProjectsAdapter { item -> onItemClick(item) } }
     override fun getLayoutRes() = R.layout.fragment_all_projects
-    private var selectedStatus: String = ""
+    private var contractType: String = ""
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         binding.frag = this
+        binding.viewModel = viewModel
         setToolbar(getString(R.string.all_projects), toolbar)
         setUpStatusSpinner()
         setAdapter()
@@ -37,40 +50,67 @@ class AllProjectsFragment : BaseFragment<FragmentAllProjectsBinding>(), AdapterV
     }
 
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-        selectedStatus = statusArray[p2]
+        contractType = statusArray[p2]
+        when(contractType) {
+            "All Contracts"-> attachObservers("all_projects")
+            "Ongoing Contracts"-> attachObservers("ongoing")
+            "Completed"-> attachObservers("completed")
+        }
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {
         TODO("Not yet implemented")
     }
 
-    private fun createProjectList(): ArrayList<ProjectData> {
-        var projectsList: ArrayList<ProjectData> = ArrayList<ProjectData>()
-        projectsList.add(ProjectData("Apple TV tester - need you to have Apple TV + iPAD + Macbook + iPhone to test Airplay", "we are looking for someone that\n" +
-                    "1. have Apple TV\n" +
-                    "2. have ipad\n" +
-                    "3. have Macbook\n" +
-                    "4. have iPhone\n" +
-                    "need you to be test Airplay and few buttons on a..."))
-        projectsList.add(ProjectData("Display the attached large PDF in iPhone (ios) and other OS in HTML5 Application","The attached file opens on Web and iOS but not on iPhone (Safari browser). We need some one who can fix this issue"))
-        projectsList.add(ProjectData("Getting app upload","hello we have 4 apps to upload to playstore. We need your console where you can add my apps.my budget is 13\$ for 4 apps publish.\n" +
-                "All the apps are ready in zip files and we will provide you all the publishing details."))
-        return projectsList
-    }
-
     private fun setAdapter() {
-        var projectsList: ArrayList<ProjectData> = createProjectList()
         binding.rvAllProjects.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            setHasFixedSize(true)
             setDivider(R.drawable.recyclerview_divider)
         }
 
-        adapter = CurrentProjectsAdapter("Ongoing", projectsList, this)
-        binding.rvAllProjects.adapter = adapter
+        binding.rvAllProjects.adapter = adapter.withLoadStateHeaderAndFooter(
+            header = CommunityPagedLoadStateAdapter { adapter.retry() },
+            footer = CommunityPagedLoadStateAdapter { adapter.retry() }
+        )
+
+        adapter.addLoadStateListener { loadState ->
+            if (loadState.refresh !is LoadState.Loading) {
+                binding.swipeRefresh.isRefreshing = false
+
+                val error = when {
+                    loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
+                    loadState.append is LoadState.Error -> loadState.append as LoadState.Error
+                    loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
+
+                    else -> null
+                }
+                error?.let {
+                    if (adapter.snapshot().isEmpty()) {
+                        showError(requireContext(), it.error.localizedMessage)
+                    }
+                }
+            } else {
+                binding.swipeRefresh.isRefreshing = true
+            }
+        }
     }
 
-    override fun onItemClick() {
-        findNavController()?.navigate(R.id.action_allProjectsFragment_to_projectDetailsFragment)
+    private fun attachObservers(contractType: String) {
+        viewModel.getAllContracts(contractType).observe(viewLifecycleOwner, Observer {
+            it?.let {
+                lifecycleScope.launch {
+                    adapter.submitData(it)
+                }
+            }
+        })
+    }
+
+    fun refreshData() {
+        adapter.refresh()
+    }
+
+    private fun onItemClick(contractId: Int) {
+        val action = AllProjectsFragmentDirections.actionAllProjectsFragmentToProjectDetailsFragment(contractId)
+        findNavController()?.navigate(action)
     }
 }

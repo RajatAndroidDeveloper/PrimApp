@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="android.text.TextUtils" />
 
         <import type="android.view.View" />
@@ -12,254 +13,377 @@
             name="frag"
             type="com.primapp.ui.contract.ProjectDetailsFragment" />
 
+        <variable
+            name="data"
+            type="com.primapp.model.contract.ResultsItem" />
+
+        <variable
+            name="user"
+            type="com.primapp.model.auth.UserData" />
+
     </data>
 
-
-    <androidx.core.widget.NestedScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:background="@color/backgroundColor">
+        android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <include layout="@layout/toolbar_menu_more" />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/llButtons"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/clToolbar"
+            app:onRefreshListener="@{()->frag.refreshData()}">
 
-            <include layout="@layout/toolbar_menu_more" />
-
-            <TextView
-                android:id="@+id/tvProjectTitle"
-                style="@style/normalBodyText"
-                android:layout_marginStart="@dimen/space_large"
-                android:layout_marginEnd="@dimen/space_large"
-                android:ellipsize="end"
-                android:fontFamily="@font/poppins_medium"
-                android:text="Apple TV tester - need you to have Apple TV + iPAD + Macbook + iPhone to test Airplay"
-                android:textSize="@dimen/textLarge"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clToolbar"
-                app:layout_constraintVertical_bias="0.5" />
-
-            <View
-                android:id="@+id/viewSeprator"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/space_small"
-                android:background="@color/lightGrey"
-                app:layout_constraintEnd_toEndOf="@id/tvProjectTitle"
-                app:layout_constraintStart_toStartOf="@id/tvProjectTitle"
-                app:layout_constraintTop_toBottomOf="@id/tvProjectTitle" />
-
-            <TextView
-                android:id="@+id/tvAbout"
-                style="@style/normalBodyText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_medium"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="@string/about"
-                app:layout_constraintEnd_toEndOf="@id/tvProjectTitle"
-                app:layout_constraintStart_toStartOf="@id/tvProjectTitle"
-                app:layout_constraintTop_toBottomOf="@id/viewSeprator" />
-
-            <com.primapp.extensions.ExpandableTextView
-                android:id="@+id/tvAboutDescription"
-                style="@style/normalBodyText"
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:layout_marginStart="@dimen/space_large"
-                android:layout_marginEnd="@dimen/space_large"
-                android:text="@string/project_scope_dummy_text"
-                app:layout_constraintEnd_toEndOf="@id/ivEdit"
-                app:layout_constraintStart_toStartOf="@id/tvAbout"
-                app:layout_constraintTop_toBottomOf="@id/tvAbout"
-                app:trimLength="60" />
+                android:layout_height="match_parent"
+                android:background="@color/backgroundColor"
+                android:fillViewport="true">
 
-            <LinearLayout
-                android:id="@+id/llHistory"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_normal"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="@id/tvProjectTitle"
-                app:layout_constraintStart_toStartOf="@id/tvProjectTitle"
-                app:layout_constraintTop_toBottomOf="@id/tvAboutDescription">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/history" />
-
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/tvProjectHistory"
+                        android:id="@+id/tvProjectTitle"
                         style="@style/normalBodyText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/space_small"
+                        android:layout_marginStart="@dimen/space_large"
+                        android:layout_marginEnd="@dimen/space_large"
                         android:ellipsize="end"
+                        android:layout_marginTop="@dimen/space_small"
                         android:fontFamily="@font/poppins_medium"
-                        android:maxLines="1"
-                        android:text="@string/history" />
+                        android:text="@{data.name}"
+                        android:textSize="@dimen/textLarge"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.5"
+                        tools:text="Apple TV tester - need you to have Apple TV + iPAD + Macbook + iPhone to test Airplay" />
+
+                    <View
+                        android:id="@+id/viewSeprator"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/space_small"
+                        android:background="@color/lightGrey"
+                        app:layout_constraintEnd_toEndOf="@id/tvProjectTitle"
+                        app:layout_constraintStart_toStartOf="@id/tvProjectTitle"
+                        app:layout_constraintTop_toBottomOf="@id/tvProjectTitle" />
 
                     <TextView
-                        android:id="@+id/tvProjectHistoryDescription"
-                        style="@style/primaryBodyText"
+                        android:id="@+id/tvAbout"
+                        style="@style/normalBodyText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_medium"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@string/about"
+                        app:layout_constraintEnd_toEndOf="@id/tvProjectTitle"
+                        app:layout_constraintStart_toStartOf="@id/tvProjectTitle"
+                        app:layout_constraintTop_toBottomOf="@id/viewSeprator" />
+
+                    <com.primapp.extensions.ExpandableTextView
+                        android:id="@+id/tvAboutDescription"
+                        style="@style/normalBodyText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/space_small"
-                        android:text="Created Date - April 10, 2023\nContract Start - April 23, 2023\nContract End - May 23, 2023" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/llPrice"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_normal"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="@id/tvProjectTitle"
-                app:layout_constraintStart_toStartOf="@id/tvProjectTitle"
-                app:layout_constraintTop_toBottomOf="@id/llHistory">
-
-                <ImageView
-                    android:layout_width="@dimen/textLargeX"
-                    android:layout_height="@dimen/textLarge"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_coin"
-                    android:tint="@color/colorAccent" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tvProjectPriceTitle"
-                        style="@style/normalBodyText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/space_small"
+                        android:layout_marginStart="@dimen/space_large"
+                        android:layout_marginEnd="@dimen/space_large"
                         android:ellipsize="end"
-                        android:fontFamily="@font/poppins_medium"
-                        android:maxLines="1"
-                        android:text="@string/price" />
+                        android:text="@{data.scopeOfWork}"
+                        app:layout_constraintEnd_toEndOf="@id/ivEdit"
+                        app:layout_constraintStart_toStartOf="@id/tvAbout"
+                        app:layout_constraintTop_toBottomOf="@id/tvAbout"
+                        app:trimLength="60"
+                        tools:text="@string/project_scope_dummy_text" />
 
-                    <TextView
-                        android:id="@+id/tvProjectPrice"
-                        style="@style/primaryBodyText"
+                    <LinearLayout
+                        android:id="@+id/llHistory"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_normal"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="@id/tvProjectTitle"
+                        app:layout_constraintStart_toStartOf="@id/tvProjectTitle"
+                        app:layout_constraintTop_toBottomOf="@id/tvAboutDescription">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/history" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvProjectHistory"
+                                style="@style/normalBodyText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/space_small"
+                                android:ellipsize="end"
+                                android:fontFamily="@font/poppins_medium"
+                                android:maxLines="1"
+                                android:text="@string/history" />
+
+                            <TextView
+                                android:id="@+id/tvProjectHistoryDescription"
+                                style="@style/primaryBodyText"
+                                contractCreatedStartEndDate="@{data}"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/space_small"
+                                tools:text="Created Date - April 10, 2023\nContract Start - April 23, 2023\nContract End - May 23, 2023" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llPrice"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_normal"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="@id/tvProjectTitle"
+                        app:layout_constraintStart_toStartOf="@id/tvProjectTitle"
+                        app:layout_constraintTop_toBottomOf="@id/llHistory">
+
+                        <ImageView
+                            android:layout_width="@dimen/textLargeX"
+                            android:layout_height="@dimen/textLarge"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_coin"
+                            android:tint="@color/colorAccent" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvProjectPriceTitle"
+                                style="@style/normalBodyText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/space_small"
+                                android:ellipsize="end"
+                                android:fontFamily="@font/poppins_medium"
+                                android:maxLines="1"
+                                android:text="@string/price" />
+
+                            <TextView
+                                android:id="@+id/tvProjectPrice"
+                                style="@style/primaryBodyText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/space_small"
+                                android:text="@{`Price - $`+data.price}"
+                                tools:text="Price - $1000.00" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llCreator"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/space_small"
-                        android:text="Price - $1000.00" />
-                </LinearLayout>
-            </LinearLayout>
+                        android:layout_marginTop="@dimen/space_normal"
+                        android:background="@color/lightAccent"
+                        android:orientation="vertical"
+                        android:paddingTop="@dimen/space_small"
+                        android:paddingBottom="@dimen/space_small"
+                        app:layout_constraintEnd_toEndOf="@id/tvProjectTitle"
+                        app:layout_constraintStart_toStartOf="@id/tvProjectTitle"
+                        app:layout_constraintTop_toBottomOf="@id/llPrice">
 
-            <LinearLayout
-                android:id="@+id/llCreator"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_normal"
-                android:background="@color/lightAccent"
-                android:orientation="vertical"
-                android:paddingTop="@dimen/space_small"
-                android:paddingBottom="@dimen/space_small"
-                app:layout_constraintEnd_toEndOf="@id/tvProjectTitle"
-                app:layout_constraintStart_toStartOf="@id/tvProjectTitle"
-                app:layout_constraintTop_toBottomOf="@id/llPrice">
+                        <TextView
+                            android:id="@+id/tvCreatedBy"
+                            style="@style/normalBodyText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/space_large"
+                            android:layout_marginRight="@dimen/space_large"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/poppins_medium"
+                            android:maxLines="1"
+                            android:text="Created by Mentor"
+                            android:textSize="@dimen/textMedium"
+                            android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tvCreatedBy"
-                    style="@style/normalBodyText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/space_large"
-                    android:layout_marginRight="@dimen/space_large"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/poppins_medium"
-                    android:maxLines="1"
-                    android:text="Created by Mentor"
-                    android:textSize="@dimen/textMedium"
-                    android:textStyle="bold" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/space_large"
+                            android:layout_marginEnd="@dimen/space_large"
+                            android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/space_large"
-                    android:layout_marginEnd="@dimen/space_large"
-                    android:orientation="horizontal">
+                            <ImageView
+                                android:id="@+id/ivCreatorProfile"
+                                loadCircularImage="@{data.createdBy.getImageUrl}"
+                                android:layout_width="@dimen/textExtraLargeXX"
+                                android:layout_height="@dimen/textExtraLargeXX"
+                                android:src="@drawable/dummy_profile" />
 
-                    <ImageView
-                        android:id="@+id/ivCreatorProfile"
-                        android:layout_width="@dimen/textExtraLargeXX"
-                        android:layout_height="@dimen/textExtraLargeXX"
-                        android:src="@drawable/dummy_profile" />
+                            <TextView
+                                android:id="@+id/tvCreatorName"
+                                style="@style/primaryBodyText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="@dimen/space_extraSmall"
+                                android:text="@{data.createdBy.firstName+' '+data.createdBy.lastName}"
+                                android:textColor="@color/textColor"
+                                android:textSize="@dimen/textNormal"
+                                tools:text="Alex Merchant" />
+                        </LinearLayout>
+                    </LinearLayout>
 
                     <TextView
-                        android:id="@+id/tvCreatorName"
-                        style="@style/primaryBodyText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="@dimen/space_extraSmall"
-                        android:text="Alex Merchant"
+                        android:id="@+id/tvAmendRrequest"
+                        style="@style/normalBodyText"
+                        android:layout_marginTop="@dimen/space_normal"
+                        android:paddingStart="@dimen/space_large"
+                        android:ellipsize="end"
+                        android:background="@color/lightestGrey"
+                        android:paddingTop="@dimen/space_extraSmall"
+                        android:paddingBottom="@dimen/space_extraSmall"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="@string/amend_requests"
                         android:textColor="@color/textColor"
-                        android:textSize="@dimen/textNormal" />
+                        android:textSize="@dimen/textMedium"
+                        android:textStyle="bold"
+                        android:visibility="@{data.amendRequest.size == 0 ? View.GONE : View.VISIBLE}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/llCreator"
+                        tools:text="@string/amend_requests" />
 
-                    <ImageView
-                        android:id="@+id/ivCreatorFlag"
-                        android:layout_width="@dimen/textExtraLarge"
-                        android:layout_height="@dimen/textExtraLarge" />
-                </LinearLayout>
-            </LinearLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvAmendRequest"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/space_large"
+                        android:layout_marginStart="@dimen/space_large"
+                        android:visibility="@{data.amendRequest.size == 0 ? View.GONE : View.VISIBLE}"
+                        app:layout_constraintEnd_toEndOf="@id/tvAmendRrequest"
+                        app:layout_constraintStart_toStartOf="@id/tvAmendRrequest"
+                        app:layout_constraintTop_toBottomOf="@id/tvAmendRrequest" />
 
-            <LinearLayout
-                android:id="@+id/llButtons"
+                    <TextView
+                        android:id="@+id/tvAcceptedBy"
+                        style="@style/normalBodyText"
+                        android:paddingTop="@dimen/space_extraSmall"
+                        android:paddingBottom="@dimen/space_extraSmall"
+                        android:paddingStart="@dimen/space_large"
+                        android:background="@color/lightestGrey"
+                        android:layout_marginTop="@dimen/space_normal"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="@string/accepted_by"
+                        android:textColor="@color/textColor"
+                        android:textSize="@dimen/textMedium"
+                        android:textStyle="bold"
+                        android:visibility="@{data.acceptedBy.size == 0 ? View.GONE : View.VISIBLE}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/rvAmendRequest"
+                        tools:text="@string/accepted_by" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/clAcceptedBy"
+                        android:layout_marginStart="@dimen/space_large"
+                        android:layout_marginEnd="@dimen/space_large"
+                        android:visibility="@{data.acceptedBy.size == 0 ? View.GONE : View.VISIBLE}"
+                        android:paddingTop="@dimen/space_normal"
+                        android:layout_marginBottom="@dimen/space_normal"
+                        app:layout_constraintEnd_toEndOf="@id/tvAcceptedBy"
+                        app:layout_constraintStart_toStartOf="@id/tvAcceptedBy"
+                        app:layout_constraintTop_toBottomOf="@id/tvAcceptedBy">
+
+                        <ImageView
+                            android:id="@+id/ivAcceptedUserImage"
+                            android:layout_width="@dimen/textExtraLargeXX"
+                            loadCircularImage="@{data.acceptedBy[0].User.getImageUrl}"
+                            android:layout_height="@dimen/textExtraLargeXX"
+                            android:layout_centerVertical="true"
+                            android:layout_marginTop="@dimen/space_extraSmallX"
+                            android:layout_marginBottom="@dimen/space_extraSmallX"
+                            android:padding="@dimen/space_extraSmall"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tvAcceptedMessage"
+                            style="@style/normalBodyText"
+                            contractAcceptedTitle="@{data.acceptedBy[0]}"
+                            android:layout_marginStart="@dimen/space_medium"
+                            android:layout_marginEnd="@dimen/space_medium"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/poppins_medium"
+                            android:textColor="@color/textColor"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/ivAcceptedUserImage"
+                            app:layout_constraintBottom_toBottomOf="@id/ivAcceptedUserImage"
+                            app:layout_constraintTop_toTopOf="@id/ivAcceptedUserImage"
+                            tools:text="You have requested to amend price to $50.00" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.core.widget.NestedScrollView>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <LinearLayout
+            android:id="@+id/llButtons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_normal"
+            android:background="@color/lightAccent"
+            android:orientation="horizontal"
+            android:visibility="@{(data.acceptedBy.size != 0 &amp;&amp; data.acceptedBy.get(0).status.equals(`ACCEPTED`)) ? View.GONE : View.VISIBLE}"
+            android:paddingTop="@dimen/space_small"
+            android:paddingBottom="@dimen/space_small"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/tvProjectTitle"
+            app:layout_constraintStart_toStartOf="@id/tvProjectTitle">
+
+            <TextView
+                android:id="@+id/tvAmend"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_normal"
-                android:background="@color/lightAccent"
-                android:orientation="horizontal"
-                android:paddingTop="@dimen/space_small"
-                android:paddingBottom="@dimen/space_small"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/tvProjectTitle"
-                app:layout_constraintStart_toStartOf="@id/tvProjectTitle">
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/space_large"
+                android:layout_weight="1"
+                android:fontFamily="@font/poppins_bold"
+                android:gravity="center"
+                android:onClick="@{()->frag.navigateToAmendDialog((data.createdBy.id.equals(user.id))? @string/end_contract : @string/amend)}"
+                android:text="@{(data.createdBy.id.equals(user.id))? @string/end_contract : @string/amend}"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/textNormal" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/amend"
-                    android:layout_weight="1"
-                    android:textColor="@color/colorAccent"
-                    android:fontFamily="@font/poppins_bold"
-                    android:layout_marginLeft="@dimen/space_large"
-                    android:textSize="@dimen/textNormal"
-                    android:onClick="@{()->frag.navigateToAmendDialog()}"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center"
-                    android:id="@+id/tvAmend"/>
+            <Button
+                android:id="@+id/btnAccept"
+                style="@style/buttonFilledPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/space_large"
+                android:layout_weight="1"
+                android:onClick="@{()->frag.acceptContract((data.createdBy.id.equals(user.id))? @string/start_contract : @string/accept)}"
+                android:text="@{(data.createdBy.id.equals(user.id))? @string/start_contract : @string/accept}"
+                android:textAllCaps="false" />
+        </LinearLayout>
 
-                <Button
-                    android:id="@+id/btnAccept"
-                    android:layout_weight="1"
-                    style="@style/buttonFilledPrimary"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="@dimen/space_large"
-                    android:text="@string/accept"
-                    android:textAllCaps="false"/>
-            </LinearLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+        <include layout="@layout/popup_amend_contract_layout"
+            android:id="@+id/llAmendReqyestLayout"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

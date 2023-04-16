@@ -1,45 +1,53 @@
 package com.primapp.ui.contract
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.primapp.R
 import com.primapp.databinding.ItemCurrentProjectsLayoutBinding
+import com.primapp.model.contract.ResultsItem
+import javax.inject.Inject
 
-class CurrentProjectsAdapter(private var adapterType: String, private var projectList: ArrayList<ProjectData>, private val onItemClick: OnItemClickEvent) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CurrentProjectsAdapter@Inject constructor(val onItemClick: (Int) -> Unit) :
+    PagingDataAdapter<ResultsItem, CurrentProjectsAdapter.PostsViewHolder>(PostListDiffCallback()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val binding = ItemCurrentProjectsLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return CurrentProjectsViewHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostsViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        return PostsViewHolder(
+            DataBindingUtil.inflate(
+                layoutInflater,
+                R.layout.item_current_projects_layout,
+                parent,
+                false
+            )
+        )
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-       var viewHolder = holder as CurrentProjectsViewHolder
-        viewHolder.bind(projectList[position])
+    override fun onBindViewHolder(holder: PostsViewHolder, position: Int) {
+        holder.bind(getItem(position))
 
-        viewHolder.itemView.setOnClickListener {
-            onItemClick.onItemClick()
+        holder.itemView.setOnClickListener {
+            onItemClick(getItem(position)?.id?:0)
         }
     }
 
-    override fun getItemCount(): Int {
-        return projectList.size
-    }
-
-    inner class CurrentProjectsViewHolder(val binding: ItemCurrentProjectsLayoutBinding) :
+    inner class PostsViewHolder(val binding: ItemCurrentProjectsLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(projectData: ProjectData) {
-            binding.tvProjectTitle.text = projectData.projectTitle
-            binding.tvProjectDescription.text = projectData.projectDescription
-            if(adapterType == "Ongoing") {
-                binding.tvProjectDescription.visibility = View.VISIBLE
-            } else {
-                binding.tvProjectDescription.visibility = View.GONE
-            }
+        fun bind(data: ResultsItem?) {
+            binding.data = data
         }
     }
-}
 
-interface OnItemClickEvent{
-    fun onItemClick()
+    private class PostListDiffCallback : DiffUtil.ItemCallback<ResultsItem>() {
+        override fun areItemsTheSame(oldItem: ResultsItem, newItem: ResultsItem): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: ResultsItem, newItem: ResultsItem): Boolean {
+            return oldItem == newItem
+        }
+    }
 }
