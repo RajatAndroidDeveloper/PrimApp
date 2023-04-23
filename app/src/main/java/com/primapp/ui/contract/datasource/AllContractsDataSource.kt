@@ -1,4 +1,4 @@
-package com.primapp.ui.contract
+package com.primapp.ui.contract.datasource
 
 import android.util.Log
 import androidx.paging.PagingSource

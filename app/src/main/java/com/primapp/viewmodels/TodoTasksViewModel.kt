@@ -45,7 +45,7 @@ class TodoTasksViewModel @Inject constructor(
         error?.errorDescription = null
         error?.errorPriority = null
         error?.errorDueDate = null
-        errorFieldsLiveData.value = error
+        errorFieldsLiveData.value = error!!
 
         Log.i("anshul", "validating")
 

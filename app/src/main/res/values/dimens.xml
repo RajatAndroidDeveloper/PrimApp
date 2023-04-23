@@ -20,11 +20,12 @@
     <dimen name="textExtraLarge">24sp</dimen>
     <dimen name="textExtraLargeX">30sp</dimen>
     <dimen name="textExtraLargeXX">40sp</dimen>
+    <dimen name="textExtraMediumLargeXX">50sp</dimen>
     <dimen name="textExtraLargeXXX">60sp</dimen>
 
     <dimen name="lineSpaceExtra">1.2dp</dimen>
 
-    <dimen name="space_systemTopInset">24dp</dimen>
+    <dimen name="space_systemTopInset">28dp</dimen>
     <dimen name="lineSpaceExtra2">2sp</dimen>
     <dimen name="lineSpaceExtra4">4sp</dimen>
 
@@ -32,7 +33,9 @@
     <dimen name="design_bottom_navigation_active_text_size" tools:override="true">12sp</dimen>
 
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="edit_box_height">140dp</dimen>
     <dimen name="app_bar_height">240dp</dimen>
+    <dimen name="small_app_bar_height">100dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="profile_width">70dp</dimen>
 </resources>

@@ -232,5 +232,6 @@
         android:id="@+id/networkErrorFragment"
         android:name="com.primapp.ui.base.NetworkErrorFragment"
         android:label="NetworkErrorFragment"
-        tools:layout="@layout/fragment_network_error" />
+        tools:layout="@layout/fragment_network_error">
+    </fragment>
 </navigation>

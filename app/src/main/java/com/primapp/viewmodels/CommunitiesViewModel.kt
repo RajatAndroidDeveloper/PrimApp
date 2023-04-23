@@ -56,7 +56,7 @@ class CommunitiesViewModel @Inject constructor(
         val error = errorFieldsLiveData.value
         error?.errorCommunityName = null
         error?.errorCommunityDescription = null
-        errorFieldsLiveData.value = error
+        errorFieldsLiveData.value = error!!
 
         val result = createCommunityRequestDataModel.value?.isValidFormData()
 

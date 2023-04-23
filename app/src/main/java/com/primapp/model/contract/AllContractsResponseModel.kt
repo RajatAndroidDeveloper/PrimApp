@@ -16,6 +16,9 @@ data class AmendRequestItem(
 	@field:SerializedName("amount")
 	val amount: String? = null,
 
+	@field:SerializedName("reason")
+	val reason: String? = null,
+
 	@field:SerializedName("cdate")
 	val cdate: String? = null,
 
@@ -141,6 +144,9 @@ data class ResultsItem(
 
 	@field:SerializedName("cdate")
 	val cdate: String? = null,
+
+	@field:SerializedName("contract_user_action")
+	val contractUserAction: String? = null,
 
 	@field:SerializedName("scope_of_work")
 	val scopeOfWork: String? = null,

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.text.TextUtils" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="acceptedBy"
+            type="com.primapp.model.contract.AcceptedByItem" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/space_normal">
+
+        <ImageView
+            android:layout_width="@dimen/textExtraLargeXX"
+            android:layout_height="@dimen/textExtraLargeXX"
+            loadCircularImage="@{acceptedBy.User.getImageUrl}"
+            android:id="@+id/ivUserImage"
+            android:layout_marginTop="@dimen/space_extraSmallX"
+            android:layout_marginBottom="@dimen/space_extraSmallX"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/space_extraSmall"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tvProjectTitle"
+            style="@style/normalBodyText"
+            android:layout_marginStart="@dimen/space_medium"
+            android:layout_marginEnd="@dimen/space_medium"
+            android:ellipsize="end"
+            contractAcceptedTitle="@{acceptedBy}"
+            android:textColor="@color/textColor"
+            tools:text="You have requested to amend price to $50.00"
+            android:fontFamily="@font/poppins_medium"
+            app:layout_constraintTop_toTopOf="@id/ivUserImage"
+            app:layout_constraintBottom_toBottomOf="@id/ivUserImage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivUserImage"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

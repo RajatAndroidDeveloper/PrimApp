@@ -14,6 +14,7 @@ import com.primapp.model.members.CommunityMembersResponseModel
 import com.primapp.model.mentor.RequestMentorDataModel
 import com.primapp.model.mentor.RequestMentorResponseModel
 import com.primapp.model.mentormentee.MentorMenteeResponse
+import com.primapp.model.mycontracts.MyContractsReponseModel
 import com.primapp.model.notification.NotificationResponseModel
 import com.primapp.model.portfolio.*
 import com.primapp.model.post.*
@@ -403,10 +404,26 @@ interface ApiService {
         @Query("limit") limit: Int
     ): AllContractsResponseModel
 
+    @GET(ApiConstant.MY_OWN_CONTRACTS)
+    suspend fun getMyOwnContracts(
+        @Query("contract_type") contract_type: String,
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int
+    ): MyContractsReponseModel
+
+    @GET(ApiConstant.MY_OWN_CONTRACTS)
+    suspend fun getMyOwnContractsWithoutFilter(): MyContractsReponseModel
+
     @GET(ApiConstant.GET_CONTRACT_DETAILS)
     suspend fun getContractDetails(
         @Path("contractId") contractId: Int
     ): ContractDetailResponseModel
+
+    @PATCH(ApiConstant.GET_CONTRACT_DETAILS)
+    suspend fun updateContract(
+        @Path("contractId") contractId: Int,
+        @Body updateContractRequestModel: UpdateContractRequestModel
+    ): BaseDataModel
 
     @POST(ApiConstant.AMEND_CONTRACT)
     suspend fun amendContract(

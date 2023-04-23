@@ -26,6 +26,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
+                android:id="@+id/toolbarData"
                 android:layout_height="wrap_content">
 
                 <TextView
@@ -51,6 +52,21 @@
                     android:src="@drawable/ic_more_vert_dots"
                     android:tooltipText="@string/more_options"
                     android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/tvTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvTitle" />
+
+                <ImageView
+                    android:id="@+id/ivEditData"
+                    android:layout_width="@dimen/textLargeX"
+                    android:layout_height="@dimen/textLargeX"
+                    android:layout_marginEnd="@dimen/space_normal"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/more_options"
+                    android:src="@drawable/edit"
+                    android:tooltipText="@string/more_options"
+                    android:visibility="gone"
+                    android:tint="@color/colorAccent"
                     app:layout_constraintBottom_toBottomOf="@id/tvTitle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/tvTitle" />

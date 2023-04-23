@@ -50,7 +50,7 @@ class PortfolioViewModel @Inject constructor(
         error?.errorLocation = null
         error?.errorYears = null
         error?.errorMonths = null
-        errorFieldsLiveData.value = error
+        errorFieldsLiveData.value = error!!
 
         Log.i("anshul", "validating")
 

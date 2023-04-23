@@ -32,7 +32,6 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/textExtraLarge"
                 android:visibility="visible" />
-
         </androidx.appcompat.widget.Toolbar>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

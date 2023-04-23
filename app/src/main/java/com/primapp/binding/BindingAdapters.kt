@@ -15,6 +15,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.text.HtmlCompat
@@ -37,6 +38,8 @@ import com.primapp.model.todo.TodoTaskItem
 import com.primapp.utils.DateTimeUtils
 import com.primapp.utils.getPrettyNumber
 import com.sendbird.android.*
+import java.text.DecimalFormat
+import java.util.*
 import kotlin.math.min
 
 
@@ -763,6 +766,15 @@ fun contractCreatedStartEndDate(textView: TextView, data: ResultsItem?) {
 }
 
 @SuppressLint("SetTextI18n")
+@BindingAdapter("contractPriceValue")
+fun contractPriceValue(textView: TextView, price: String?) {
+    price?.let {
+        val amount: String = DecimalFormat.getCurrencyInstance(Locale.US).format(price.toDouble())
+        textView.text = "$amount"
+    }
+}
+
+@SuppressLint("SetTextI18n")
 @BindingAdapter("amendRequestTitle", "userData")
 fun amendRequestTitle(textView: TextView, data: AmendRequestItem?, userData: UserData) {
     val textToSend = SpannableStringBuilder("")
@@ -770,7 +782,7 @@ fun amendRequestTitle(textView: TextView, data: AmendRequestItem?, userData: Use
         val colorToHighlight = ContextCompat.getColor(textView.context, R.color.textColor)
         val fullName =
             getHighlightedText(colorToHighlight, "${data.requestBy?.firstName + " " + data.requestBy?.lastName}")
-        val amount = getHighlightedText(colorToHighlight, "$${data.amount}")
+        val amount = getHighlightedText(colorToHighlight, "${DecimalFormat.getCurrencyInstance(Locale.US).format((data.amount?:"0.0").toDouble())}")
         if (data.createdById!! == userData.id) {
             when (data.status) {
                 "DECLINED" -> textToSend.append("You have declined the request from ").append(fullName)
@@ -805,12 +817,24 @@ fun contractAcceptedTitle(textView: TextView, data: AcceptedByItem?) {
 
 @SuppressLint("SetTextI18n")
 @BindingAdapter("contractStatusTitle")
-fun contractStatusTitle(textView: TextView, data: ResultsItem?) {
-    data?.let {
-        when (data.contractStatus) {
+fun contractStatusTitle(textView: TextView, data: String?) {
+    data.let {
+        when (it) {
             "IN_PROGRESS" -> textView.text = "In Progress"
             "COMPLETED" -> textView.text = "Completed"
             else -> textView.text = "Not Started"
+        }
+    }
+}
+@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+@SuppressLint("SetTextI18n")
+@BindingAdapter("backgroundTint")
+fun backgroundTint(textView: TextView, status: String?) {
+    status?.let {
+        when (it) {
+            "IN_PROGRESS" -> textView.backgroundTintList = ContextCompat.getColorStateList(textView.context, R.color.green)
+            "COMPLETED" -> textView.backgroundTintList = ContextCompat.getColorStateList(textView.context, R.color.colorAccent)
+            else -> textView.backgroundTintList = ContextCompat.getColorStateList(textView.context, R.color.lightestGreyHint)
         }
     }
 }

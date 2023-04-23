@@ -11,6 +11,10 @@
         <variable
             name="viewModel"
             type="com.primapp.viewmodels.ContractsViewModel" />
+
+        <variable
+            name="from"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -48,7 +52,7 @@
                         android:id="@+id/etContractName"
                         style="@style/editTextInput"
                         android:inputType="textPersonName"
-                        android:text="@={viewModel.createContractRequestModel.name}" />
+                        android:text="@{(from.equals(`contract_details`) ? viewModel.updateContractRequestModel.name : viewModel.createContractRequestModel.name)}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -70,7 +74,7 @@
                         android:inputType="textPersonName|textMultiLine"
                         android:lines="4"
                         android:scrollbars="vertical"
-                        android:text="@={viewModel.createContractRequestModel.scopeOfProject}" />
+                        android:text="@{(from.equals(`contract_details`) ? viewModel.updateContractRequestModel.scopeOfWork : viewModel.createContractRequestModel.scopeOfProject)}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout

@@ -64,7 +64,11 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
 
         setData()
         setAdapter()
-        setObserver()
+        if (checkIsNetworkConnected(requireContext())) {
+            setObserver()
+        } else {
+            findNavController().navigate(R.id.networkErrorFragment)
+        }
     }
 
     private fun setData() {
@@ -275,7 +279,10 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
     }
 
     fun refreshData() {
-        adapter.refresh()
+        if (checkIsNetworkConnected(requireContext()))
+            adapter.refresh()
+        else
+            findNavController().navigate(R.id.networkErrorFragment)
     }
 
     fun createPost() {

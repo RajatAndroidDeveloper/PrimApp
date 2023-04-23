@@ -1,5 +1,6 @@
 package com.primapp.ui.dashboard
 
+import android.net.NetworkInfo
 import android.os.Bundle
 import android.text.Html
 import android.util.Log
@@ -13,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.airbnb.lottie.utils.Utils
 import com.primapp.R
 import com.primapp.cache.UserCache
 import com.primapp.constants.MentorMenteeUserType
@@ -22,19 +24,18 @@ import com.primapp.extensions.showError
 import com.primapp.model.mentormentee.ResultsItem
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
+import com.primapp.ui.contract.AllProjectsFragmentDirections
+import com.primapp.utils.checkIsNetworkConnected
 import com.primapp.viewmodels.CommunitiesViewModel
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), MentorsMenteesAdaptor.Callbacks,
-    AdapterView.OnItemSelectedListener {
-
+class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), MentorsMenteesAdaptor.Callbacks {
     val viewModel by viewModels<CommunitiesViewModel> { viewModelFactory }
     private var searchJob: Job? = null
     private var adapter: MentorsMenteesAdaptor? = null
-    private var selectedCategory: String = ""
 
     override fun getLayoutRes(): Int = R.layout.fragment_dashboard
 
@@ -44,7 +45,6 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), MentorsMente
         binding.frag = this
         setToolbar(getString(R.string.dashboard), toolbar)
         initTextListeners()
-        //setUpSpinnerData()
         setObserver()
         getMentorsAndMentees()
     }
@@ -96,24 +96,12 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), MentorsMente
         rvMentorsMentees.adapter = adapter
     }
 
-    private fun getColoredText(text: String): String {
-        return "<font color='#0085FF'>$text </font>"
-    }
-
-    private lateinit var categoriesArray: Array<String>
-    private fun setUpSpinnerData() {
-        categoriesArray = requireActivity().resources.getStringArray(R.array.categories)
-        val adapter = ArrayAdapter(requireActivity(), R.layout.custom_spinner_item_layout, categoriesArray)
-        binding.categorySpinner.adapter = adapter
-        binding.categorySpinner.onItemSelectedListener = this
-    }
-
     private fun getMentorsAndMentees() {
         searchJob?.cancel()
         searchJob = lifecycleScope.launch {
             viewModel.getMentorsMenteesDataNew(
                 UserCache.getUserId(requireContext()),
-                MentorMenteeUserType.MENTOR,
+                MentorMenteeUserType.MENTEE,
                 MentorshipStatusTypes.ACCEPTED,
                 0
             )
@@ -147,7 +135,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), MentorsMente
             searchJob = lifecycleScope.launch {
                 viewModel.getMentorMenteeMemberSearchListNew(
                     UserCache.getUserId(requireContext()),
-                    MentorMenteeUserType.MENTOR,
+                    MentorMenteeUserType.MENTEE,
                     MentorshipStatusTypes.ACCEPTED,
                     0,
                     query
@@ -163,7 +151,8 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), MentorsMente
     }
 
     fun openCreateContractFragment() {
-        findNavController().navigate(R.id.action_dashboardFragment_to_createContractFragment2)
+        var action = DashboardFragmentDirections.actionDashboardFragmentToCreateContractFragment2("dashboard","")
+        findNavController().navigate(action)
     }
 
     override fun onClickLoadMore() {
@@ -172,42 +161,6 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), MentorsMente
             dummyMentorsMenteeList.add(mainMentorsMenteeList[i])
         }
         adapter?.notifyDataSetChanged() // more elements will be added
-    }
-
-    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-        selectedCategory = categoriesArray[p2]
-        if (selectedCategory == "Mentor") {
-            binding.btnCurrentProjects.text = requireContext().resources.getString(R.string.current_projects)
-            binding.btnCreateContact.text = requireContext().resources.getString(R.string.create_contracts)
-            binding.textTotalSpent.text = requireContext().resources.getString(R.string.total_earning)
-            binding.textTotalEarnings.text = requireContext().resources.getString(R.string.ratings)
-            binding.tvMemberTitle.text = requireContext().resources.getString(R.string.your_mentees)
-            binding.textTotalEarnVal.text = "4.5/5"
-            binding.textServed.text = requireContext().resources.getString(R.string.mentees_served) + " 40"
-            binding.descriptionText.text = (Html.fromHtml(
-                requireContext().resources.getString(R.string.request_money_from_mentees) + " " + getColoredText(
-                    requireContext().resources.getString(R.string.mentees)
-                )
-            ))
-        } else {
-            binding.btnCurrentProjects.text = requireContext().resources.getString(R.string.view_projects)
-            binding.btnCreateContact.text = requireContext().resources.getString(R.string.view_contracts)
-            binding.textTotalSpent.text = requireContext().resources.getString(R.string.total_spent)
-            binding.textTotalEarnings.text = requireContext().resources.getString(R.string.amount_due)
-            binding.tvMemberTitle.text = requireContext().resources.getString(R.string.your_mentors)
-            binding.textTotalEarnVal.text = "$1200.00"
-            binding.textServed.text = requireContext().resources.getString(R.string.my_mentors) + " 4"
-            binding.descriptionText.text = (Html.fromHtml(
-                requireContext().resources.getString(R.string.pay_money_to_mentors) + " " + getColoredText(
-                    requireContext().resources.getString(R.string.mentors)
-                )
-            ))
-        }
-        getMentorsAndMentees()
-    }
-
-    override fun onNothingSelected(p0: AdapterView<*>?) {
-        TODO("Not yet implemented")
     }
 
     fun btnCurrentProjectAction() {

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.text.TextUtils" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="frag"
+            type="com.primapp.ui.contract.AmendRequestFragment" />
+
+        <variable
+            name="viewModel"
+            type="com.primapp.viewmodels.ContractsViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/backgroundColor">
+
+        <include layout="@layout/toolbar_menu_more" />
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clToolbar">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <View
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="1dp"
+                    android:background="@color/lightestGrey"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent=".9"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="@dimen/space_normal"
+                    android:id="@+id/view"/>
+
+                <RadioGroup
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="@id/view"
+                    app:layout_constraintEnd_toEndOf="@id/view"
+                    android:id="@+id/rgAmendReason"
+                    android:divider="?android:attr/dividerHorizontal"
+                    android:showDividers="middle"
+                    app:layout_constraintTop_toBottomOf="@id/view">
+
+                    <RadioButton
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/textExtraLargeXX"
+                        android:text="@string/cost_is_too_high"
+                        android:textSize="@dimen/textMedium"
+                        android:paddingLeft="@dimen/space_small"
+                        android:id="@+id/rbCostIsHigh"
+                        android:checked="true"
+                        android:layout_marginBottom="@dimen/space_small"
+                        android:layout_marginTop="@dimen/space_small"
+                        android:textColor="@color/textColor"
+                        android:buttonTint="@color/colorAccent"/>
+
+                    <RadioButton
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/textExtraLargeXX"
+                        android:text="@string/out_of_scope"
+                        android:layout_marginBottom="@dimen/space_small"
+                        android:layout_marginTop="@dimen/space_small"
+                        android:textSize="@dimen/textMedium"
+                        android:paddingLeft="@dimen/space_small"
+                        android:id="@+id/rbOutOfScope"
+                        android:textColor="@color/textColor"
+                        android:buttonTint="@color/colorAccent"/>
+
+                    <RadioButton
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/textExtraLargeXX"
+                        android:text="@string/contract_wording_changes"
+                        android:layout_marginBottom="@dimen/space_small"
+                        android:layout_marginTop="@dimen/space_small"
+                        android:textSize="@dimen/textMedium"
+                        android:paddingLeft="@dimen/space_small"
+                        android:id="@+id/rbWordingChanges"
+                        android:textColor="@color/textColor"
+                        android:buttonTint="@color/colorAccent"/>
+
+                    <RadioButton
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/textExtraLargeXX"
+                        android:text="@string/something_else"
+                        android:layout_marginBottom="@dimen/space_small"
+                        android:layout_marginTop="@dimen/space_small"
+                        android:textSize="@dimen/textMedium"
+                        android:paddingLeft="@dimen/space_small"
+                        android:id="@+id/rbSomethingElse"
+                        android:textColor="@color/textColor"
+                        android:buttonTint="@color/colorAccent"/>
+                </RadioGroup>
+
+                <View
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="1dp"
+                    android:background="@color/lightestGrey"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rgAmendReason"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintWidth_percent=".9"
+                    android:id="@+id/view1"/>
+
+                <EditText
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="@dimen/edit_box_height"
+                    app:layout_constraintTop_toBottomOf="@id/view1"
+                    app:layout_constraintStart_toStartOf="@id/view1"
+                    app:layout_constraintEnd_toEndOf="@id/view1"
+                    android:visibility="gone"
+                    android:layout_marginTop="@dimen/space_large"
+                    android:background="@drawable/shape_rounded_corner_search_box"
+                    android:id="@+id/etSomethingElseReason"
+                    android:hint="@string/please_enter_other_contract_amendment_reason"
+                    android:padding="@dimen/space_medium"
+                    android:gravity="start"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/textMedium"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tlContractPrice"
+                    style="@style/myTextInputLabel"
+                    isRequired="@{true}"
+                    errorText="@{viewModel.errorFieldsLiveData.errorContractPrice}"
+                    android:hint="@string/price"
+                    app:errorEnabled="true"
+                    android:layout_marginTop="@dimen/space_large"
+                    app:layout_constraintStart_toStartOf="@id/rgAmendReason"
+                    app:layout_constraintEnd_toEndOf="@id/rgAmendReason"
+                    app:layout_constraintTop_toBottomOf="@id/etSomethingElseReason">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etPrice"
+                        style="@style/editTextInput"
+                        android:inputType="numberDecimal"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/btnCreateContract"
+                    style="@style/buttonFilledPrimary"
+                    android:layout_marginTop="@dimen/space_extraSmall"
+                    android:text="@string/request_amend"
+                    android:layout_height="@dimen/textExtraMediumLargeXX"
+                    android:textAllCaps="false"
+                    android:textSize="@dimen/textMedium"
+                    android:onClick="@{()->frag.amendContract()}"
+                    app:layout_constraintEnd_toEndOf="@id/rgAmendReason"
+                    app:layout_constraintStart_toStartOf="@id/rgAmendReason"
+                    app:layout_constraintTop_toBottomOf="@id/tlContractPrice"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

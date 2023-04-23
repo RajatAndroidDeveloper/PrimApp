@@ -1,10 +1,7 @@
 package com.primapp.di.modules
 
 import com.primapp.databinding.PopupAmendContractLayoutBinding
-import com.primapp.ui.base.CommonWebView
-import com.primapp.ui.base.ImageViewDialog
-import com.primapp.ui.base.PopUpReportPost
-import com.primapp.ui.base.VideoViewDialog
+import com.primapp.ui.base.*
 import com.primapp.ui.chat.ChannelListFragment
 import com.primapp.ui.chat.ChatFragment
 import com.primapp.ui.chat.CreateChannelFragment
@@ -203,4 +200,10 @@ abstract class DashboardFragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeProjectDetailsFragment(): ProjectDetailsFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeAmendRequestFragment(): AmendRequestFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeNetworkErrorFragment(): NetworkErrorFragment
 }

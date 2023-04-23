@@ -41,7 +41,7 @@ class ForgotDataViewModel @Inject constructor(
     fun validate(): Boolean {
         val error = errorFieldsLiveData.value
         error?.errorEmail = null
-        errorFieldsLiveData.value = error
+        errorFieldsLiveData.value = error!!
 
         Log.i("anshul", "validating")
 

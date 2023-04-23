@@ -16,6 +16,7 @@ import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
 import com.primapp.ui.communities.adapter.ParentCategoryListAdapter
 import com.primapp.utils.AnalyticsManager
+import com.primapp.utils.checkIsNetworkConnected
 import com.primapp.viewmodels.CommunitiesViewModel
 import kotlinx.coroutines.launch
 
@@ -34,7 +35,11 @@ class CommunitiesFragment : BaseFragment<FragmentCommunitiesBinding>() {
 
         setData()
         setAdapter()
-        setObserver()
+        if (checkIsNetworkConnected(requireContext())) {
+            setObserver()
+        } else {
+            findNavController().navigate(R.id.networkErrorFragment)
+        }
     }
 
     private fun setAdapter() {
@@ -105,7 +110,10 @@ class CommunitiesFragment : BaseFragment<FragmentCommunitiesBinding>() {
     }
 
     fun refreshData() {
-        adapter.refresh()
+        if (checkIsNetworkConnected(requireContext()))
+            adapter.refresh()
+        else
+            findNavController().navigate(R.id.networkErrorFragment)
     }
 
 }

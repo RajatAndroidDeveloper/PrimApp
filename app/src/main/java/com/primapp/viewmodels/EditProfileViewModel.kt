@@ -46,7 +46,7 @@ class EditProfileViewModel @Inject constructor(
         error?.errorLastName = null
         error?.errorGender = null
         error?.errorCountry = null
-        errorFieldsLiveData.value = error
+        errorFieldsLiveData.value = error!!
 
         Log.i("anshul", "validating")
 

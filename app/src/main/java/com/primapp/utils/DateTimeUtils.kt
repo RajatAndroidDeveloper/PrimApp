@@ -25,6 +25,13 @@ object DateTimeUtils {
         return SimpleDateFormat(format, Locale.getDefault()).format(calendar.time)
     }
 
+    fun getDateFromMillisValue(millis: Long?, format: String? = SEND_DOB_FORMAT): String {
+        return if (millis == null || millis == 0L) "" else SimpleDateFormat(
+            format,
+            Locale.getDefault()
+        ).format(Date(millis))
+    }
+
     fun getDateFromMillis(millis: Long?, format: String? = DOB_FORMAT): String {
         return if (millis == null || millis == 0L) "" else SimpleDateFormat(
             format,

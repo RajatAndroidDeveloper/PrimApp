@@ -52,7 +52,7 @@ class SignUpViewModel @Inject constructor(
         error?.errorPassword = null
         error?.errorConfirmPassword = null
         error?.errorPrivacyPolicy = null
-        errorFieldsLiveData.value = error
+        errorFieldsLiveData.value = error!!
 
         Log.i("anshul", "validating")
 

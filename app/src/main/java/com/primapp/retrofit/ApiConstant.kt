@@ -80,6 +80,7 @@ object ApiConstant {
     const val GET_ALL_CONTRACT = "contracts/view-all-projects"
     const val GET_CONTRACT_DETAILS = "contracts/contract-detail/{contractId}"
     const val AMEND_CONTRACT = "contracts/amend-contract"
+    const val MY_OWN_CONTRACTS = "contracts/view-own-contracts"
     const val ACCEPT_CONTRACT = "contracts/accept-contract"
     const val ACCEPT_AMEND_REQUEST = "contracts/accept-amend-request/{contractId}"
 

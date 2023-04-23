@@ -29,6 +29,7 @@
             android:ellipsize="end"
             android:fontFamily="@font/poppins_medium"
             android:maxLines="2"
+            android:textSize="@dimen/textMedium"
             android:text="@{data.name}"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -40,9 +41,9 @@
             style="@style/normalBodyText"
             android:ellipsize="end"
             android:maxLines="4"
+            android:textSize="@dimen/textNormal"
             android:text="@{data.scopeOfWork}"
             android:textColor="@color/textColorLight"
-            android:textSize="@dimen/textSmall"
             app:layout_constraintEnd_toEndOf="@id/tvProjectTitle"
             app:layout_constraintStart_toStartOf="@id/tvProjectTitle"
             app:layout_constraintTop_toBottomOf="@+id/tvProjectTitle" />
@@ -76,24 +77,31 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/space_extraSmall"
+                android:textSize="@dimen/textMedium"
                 android:layout_toRightOf="@id/ivUserImage"
                 android:gravity="center_vertical"
                 android:text="@{data.createdBy.firstName+' '+data.createdBy.lastName}"
-                android:textColor="@color/textColor"
-                android:textSize="@dimen/textSmall" />
+                android:textColor="@color/textColor" />
 
-            <Button
+            <TextView
                 android:id="@+id/tvContractStatus"
-                style="@style/buttonFilledPrimary"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/textExtraLargeX"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/space_extraSmallX"
+                android:paddingBottom="@dimen/space_extraSmallX"
+                android:paddingStart="@dimen/space_normal"
+                android:paddingEnd="@dimen/space_normal"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/space_normal"
+                android:text="@string/ongoing_projects"
+                android:background="@drawable/shape_rounded_corner_grey_small_corner"
+                backgroundTint="@{data.contractStatus}"
                 android:gravity="center"
-                contractStatusTitle="@{data}"
+                android:textColor="@color/white"
+                contractStatusTitle="@{data.contractStatus}"
                 android:textAllCaps="false"
-                android:textSize="@dimen/textExtraSmall" />
+                android:textSize="@dimen/textSmall" />
         </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

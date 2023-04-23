@@ -1,6 +1,7 @@
 package com.primapp.ui.splash
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -11,6 +12,8 @@ import com.primapp.extensions.showError
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.utils.AnalyticsManager
+import com.primapp.utils.NetworkConnectionHelper
+import com.primapp.utils.checkIsNetworkConnected
 import kotlinx.coroutines.*
 
 class SplashFragment : BaseFragment<FragmentSplashBinding>() {
@@ -29,7 +32,10 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
         setObserver()
 
         if (UserCache.isLoggedIn(requireContext())) {
-            viewModel.getUserData(UserCache.getUser(requireContext())!!.id)
+            if (checkIsNetworkConnected(requireContext()))
+                viewModel.getUserData(UserCache.getUser(requireContext())!!.id)
+            else
+                findNavController().navigate(R.id.networkErrorFragment)
         } else {
             activityScope.launch {
                 delay(2000)

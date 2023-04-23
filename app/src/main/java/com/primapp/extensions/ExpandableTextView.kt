@@ -45,7 +45,6 @@ class ExpandableTextView @JvmOverloads constructor(
                 readmore.length,
                 Spanned.SPAN_INCLUSIVE_INCLUSIVE
             )
-
             SpannableStringBuilder(originalText, 0, trimLength + 1).append(ELLIPSIS).append(readmore)
         } else {
             originalText

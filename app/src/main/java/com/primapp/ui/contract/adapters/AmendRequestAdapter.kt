@@ -1,4 +1,4 @@
-package com.primapp.ui.contract
+package com.primapp.ui.contract.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -20,7 +20,7 @@ class AmendRequestAdapter(private val amendRequestList : ArrayList<AmendRequestI
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val viewHolder: AmendRequestViewHolder  = holder as AmendRequestViewHolder
+        val viewHolder: AmendRequestViewHolder = holder as AmendRequestViewHolder
         viewHolder.bindData(amendRequestList[position])
 
         viewHolder.itemView.tvDeclineAmendRequest.setOnClickListener {
@@ -40,6 +40,7 @@ class AmendRequestAdapter(private val amendRequestList : ArrayList<AmendRequestI
         fun bindData(data: AmendRequestItem){
             binding.data = data
             binding.user = UserCache.getUser(context)
+            binding.tvAmendReason.text = "Reason: ${data.reason?:""}"
         }
     }
 }

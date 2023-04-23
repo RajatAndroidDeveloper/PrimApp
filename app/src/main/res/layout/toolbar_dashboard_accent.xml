@@ -30,8 +30,8 @@
                 android:layout_marginBottom="@dimen/space_medium">
 
                 <ImageView
-                    android:layout_width="@dimen/textLarge"
-                    android:layout_height="@dimen/textLarge"
+                    android:layout_width="@dimen/textExtraLargeX"
+                    android:layout_height="@dimen/textExtraLargeX"
                     android:src="@drawable/ic_menu"
                     android:visibility="gone"
                     app:tint="@color/white"

@@ -36,6 +36,8 @@ data class NotificationResult(
     val receiver: UserData?,
     @SerializedName("sender")
     val sender: UserData?,
+    @SerializedName("contract_details")
+    val contractDetails: ContractDetails? = null,
     @SerializedName("title")
     var title: String,
     @SerializedName("cdate")
@@ -61,6 +63,57 @@ data class PostData(
     val postText: String?,
     @SerializedName("reply_text")
     val replyText: String?
+)
+
+
+data class CreatedBy(
+    @SerializedName("last_name")
+    val lastName: String? = null,
+
+    @SerializedName("id")
+    val id: Int? = null,
+
+    @SerializedName("first_name")
+    val firstName: String? = null,
+
+    @SerializedName("username")
+    val username: String? = null,
+
+    @SerializedName("get_image_url")
+    val getImageUrl: String? = null
+)
+
+data class ContractDetails(
+
+    @SerializedName("end_date")
+    val endDate: Long? = null,
+
+    @SerializedName("cdate")
+    val cdate: String? = null,
+
+    @SerializedName("scope_of_work")
+    val scopeOfWork: String? = null,
+
+    @SerializedName("price")
+    val price: String? = null,
+
+    @SerializedName("contract_status")
+    val contractStatus: String? = null,
+
+    @SerializedName("name")
+    val name: String? = null,
+
+    @SerializedName("id")
+    val id: Int? = null,
+
+    @SerializedName("udate")
+    val udate: String? = null,
+
+    @SerializedName("created_by")
+    val createdBy: CreatedBy? = null,
+
+    @SerializedName("start_date")
+    val startDate: Long? = null
 )
 
 sealed class NotificationUIModel {

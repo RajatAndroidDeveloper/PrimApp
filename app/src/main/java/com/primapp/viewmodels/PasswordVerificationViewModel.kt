@@ -45,7 +45,7 @@ class PasswordVerificationViewModel @Inject constructor(
         error?.errorPassword = null
         error?.errorConfirmPassword = null
         error?.errorOldPassword = null
-        errorFieldsLiveData.value = error
+        errorFieldsLiveData.value = error!!
 
         Log.i("anshul", "validating")
 

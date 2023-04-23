@@ -487,17 +487,17 @@
     <string name="mentorships">Mentorships</string>
     <string name="mentees_served">Mentees Served:</string>
     <string name="ratings">Ratings</string>
-    <string name="view_projects">Created Contracts</string>
+    <string name="view_projects">My Contracts</string>
     <string name="view_contracts">View Contracts</string>
     <string name="my_mentors">Mentors Served:</string>
     <string name="amount_due">Amount Due</string>
     <string name="dummy_text_description">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. "</string>
     <string name="manage_projects">Manage Projects</string>
-    <string name="see_all_projects">See All Projects</string>
+    <string name="see_all_projects"><u>See All Projects</u></string>
     <string name="ongoing_projects">Ongoing Projects</string>
     <string name="completed_projects">Completed Projects</string>
     <string name="all_projects">All Projects</string>
-    <string name="your_mentees">Your Mentees</string>
+    <string name="your_mentees">Your Mentee</string>
     <string name="enter_contract_name">Enter Contract Name</string>
     <string name="scope_of_work">Scope of work</string>
     <string name="enter_scope_of_work">Enter scope of work</string>
@@ -508,7 +508,7 @@
     <string name="valid_empty_scope_of_project">Please enter Scope of Project</string>
     <string name="valid_empty_price">Please enter Contract Price</string>
     <string name="history">History</string>
-    <string name="amend"><u>Amend</u></string>
+    <string name="amend">Amend</string>
     <string name="price_amend">Price Amend</string>
     <string name="request_amend">Request Amend</string>
     <string name="project_scope_dummy_text">we are looking for someone that\n 1. have Apple TV\n 2. have ipad\n 3. have Macbook\n 4. have iPhone\n need you to be test Airplay and few buttons on a...</string>
@@ -517,11 +517,23 @@
     <string name="contract_accepted_successfully">You have accpeted the contract successfully.</string>
     <string name="contract_amend_request_sent_successfully">Your contract amending request has been sent successfully.</string>
     <string name="amend_requests">Amend Requests</string>
-    <string name="end_contract"><u>End Contract</u></string>
+    <string name="end_contract">End Contract</string>
     <string name="start_contract">Start Contract</string>
     <string name="accepted_by">Accepted By</string>
     <string name="decline">Decline</string>
     <string name="pay_now">Pay Now</string>
+    <string name="contract_details">Contract Details</string>
+    <string name="no_data_available">Unfortunately we don\'t have any\nrelated data to show you have.</string>
+    <string name="created_contracts">My Created Contracts</string>
+    <string name="retry"><u>Retry</u></string>
+    <string name="cost_is_too_high">Cost is too high</string>
+    <string name="out_of_scope">Out of scope or mentoring purview</string>
+    <string name="contract_wording_changes">Contract wording changes</string>
+    <string name="something_else">Something else</string>
+    <string name="please_enter_other_contract_amendment_reason">Please enter other contract amendment reason</string>
+    <string name="select_amend_reason">Select amend reason</string>
+    <string name="contract_updated_successfully">Your contract has been updated scussessfully.</string>
+    <string name="see_details"><u>See Details</u></string>
 
     <string-array name="categories">
         <item>Mentor</item>
@@ -530,6 +542,11 @@
 
     <string-array name="status">
         <item>All Contracts</item>
+        <item>Ongoing Contracts</item>
+        <item>Completed</item>
+    </string-array>
+
+    <string-array name="my_contract_status">
         <item>Ongoing Contracts</item>
         <item>Completed</item>
     </string-array>

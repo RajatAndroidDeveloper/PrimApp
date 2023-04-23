@@ -23,6 +23,7 @@ import com.primapp.ui.dashboard.DashboardActivity
 import com.primapp.ui.notification.adapter.NotificationsPagedAdapter
 import com.primapp.utils.AnalyticsManager
 import com.primapp.utils.DialogUtils
+import com.primapp.utils.checkIsNetworkConnected
 import com.primapp.viewmodels.NotificationViewModel
 import kotlinx.android.synthetic.main.toolbar_dashboard_accent.*
 import kotlinx.coroutines.Job
@@ -62,9 +63,12 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
                 getNotification(notificationFilterType)
             }
         }
-
-        //get notification for first time
-        getNotification(notificationFilterType)
+        if (checkIsNetworkConnected(requireContext())) {
+            //get notification for first time
+            getNotification(notificationFilterType)
+        } else {
+            findNavController().navigate(R.id.networkErrorFragment)
+        }
     }
 
     private fun getNotification(filter: String?) {
@@ -151,11 +155,18 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
                     binding.rvNotifications.isVisible = false
                 }
             }
+
+            binding.tvNoData.isVisible =
+                loadState.source.refresh is LoadState.NotLoading && loadState.append.endOfPaginationReached && adapter.itemCount < 1
+
         }
     }
 
     fun refreshData() {
-        adapter.refresh()
+        if (checkIsNetworkConnected(requireContext()))
+            adapter.refresh()
+        else
+            findNavController().navigate(R.id.networkErrorFragment)
     }
 
     private fun onItemClick(any: Any?) {
@@ -190,6 +201,12 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
                 bundle.putInt("communityId", any.communityId)
                 bundle.putSerializable("postId", any.postId)
                 findNavController().navigate(R.id.postDetailsFragment, bundle)
+            }
+
+            is ShowContractDetails -> {
+                val bundle = Bundle()
+                bundle.putInt("contract_id", any.contractId)
+                findNavController().navigate(R.id.projectDetailsFragment, bundle)
             }
         }
     }

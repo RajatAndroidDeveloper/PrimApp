@@ -1,6 +1,9 @@
 package com.primapp.utils
 
 import android.content.ContentResolver
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.net.Uri
 import android.provider.OpenableColumns
 import android.util.Log
@@ -43,4 +46,12 @@ fun ContentResolver.getFileName(fileUri: Uri): String {
     return name
 }
 
-fun String.toSentenceCase(): String = split(" ").map { it.lowercase().replaceFirstChar(Char::titlecase) }.joinToString(" ")
+fun String.toSentenceCase(): String =
+    split(" ").map { it.lowercase().replaceFirstChar(Char::titlecase) }.joinToString(" ")
+
+fun checkIsNetworkConnected(context: Context): Boolean {
+    val connectivityManager: ConnectivityManager =
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val activeNetworkConnection: NetworkInfo? = connectivityManager.activeNetworkInfo
+    return activeNetworkConnection?.isConnected ?: false
+}

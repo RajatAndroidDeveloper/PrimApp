@@ -37,7 +37,7 @@ class LoginViewModel @Inject constructor(
         val error = errorFieldsLiveData.value
         error?.errorUsername = null
         error?.errorPassword = null
-        errorFieldsLiveData.value = error
+        errorFieldsLiveData.value = error!!
 
         Log.i("anshul", "validating")
 

@@ -6,12 +6,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.badge.BadgeDrawable
@@ -29,6 +29,7 @@ import com.primapp.ui.base.BaseActivity
 import com.primapp.ui.profile.UserPostsFragment
 import com.primapp.utils.AnalyticsManager
 import com.primapp.utils.DialogUtils
+import com.primapp.utils.NetworkConnectionHelper
 import com.sendbird.android.SendBird
 import com.sendbird.android.SendBirdException
 import com.sendbird.android.SendBirdPushHelper
@@ -256,7 +257,10 @@ class DashboardActivity : BaseActivity() {
 
         llProjectContracts.setOnClickListener {
             drawerLayout.closeDrawer(GravityCompat.START)
-            navController.navigate(R.id.allProjectsFragment)
+            var bundle = Bundle()
+            bundle.putString("from","dashboard")
+            bundle.putString("contractType","")
+            navController.navigate(R.id.allProjectsFragment, bundle)
         }
 
         llLogout.setOnClickListener {
@@ -266,7 +270,9 @@ class DashboardActivity : BaseActivity() {
 
         llDashboard.setOnClickListener {
             drawerLayout.closeDrawer(GravityCompat.START)
-            navController.navigate(R.id.dashboardFragment)
+            var bundle = Bundle()
+            bundle.putString("from","dashboard_activity")
+            navController.navigate(R.id.dashboardFragment, bundle)
         }
 
         llSupport.setOnClickListener {

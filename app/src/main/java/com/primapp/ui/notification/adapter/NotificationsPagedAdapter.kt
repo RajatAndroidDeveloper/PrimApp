@@ -188,6 +188,11 @@ class NotificationsPagedAdapter @Inject constructor(val onItemClick: (Any?) -> U
                     onItemClick(ShowCommunityDetails(it))
                 }
             }
+
+            if (data?.contractDetails != null)
+                binding.clNotificationNormal.setOnClickListener {
+                    onItemClick(ShowContractDetails(data?.contractDetails?.id?:0))
+                }
         }
     }
 

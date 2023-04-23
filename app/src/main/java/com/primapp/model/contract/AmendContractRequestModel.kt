@@ -10,7 +10,10 @@ data class AmendContractRequestModel(
 	var amount: Double? = 0.0,
 
 	@field:SerializedName("contract")
-	var contract: Int? = null
+	var contract: Int? = null,
+
+	@field:SerializedName("reason")
+	var reason: String? = null
 ): Serializable {
 	fun isValidFormData(): ValidationResults {
 		if (amount == 0.0)

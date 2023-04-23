@@ -21,11 +21,16 @@
             name="user"
             type="com.primapp.model.auth.UserData" />
 
+        <variable
+            name="constants"
+            type="com.primapp.constants.ContractActionTypes" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/backgroundColor"
         android:orientation="vertical">
 
         <include layout="@layout/toolbar_menu_more" />
@@ -54,18 +59,38 @@
                         android:id="@+id/tvProjectTitle"
                         style="@style/normalBodyText"
                         android:layout_marginStart="@dimen/space_large"
+                        android:layout_marginTop="@dimen/space_small"
                         android:layout_marginEnd="@dimen/space_large"
                         android:ellipsize="end"
-                        android:layout_marginTop="@dimen/space_small"
                         android:fontFamily="@font/poppins_medium"
                         android:text="@{data.name}"
                         android:textSize="@dimen/textLarge"
                         android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/tvContractStatus"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.5"
                         tools:text="Apple TV tester - need you to have Apple TV + iPAD + Macbook + iPhone to test Airplay" />
+
+                    <TextView
+                        android:id="@+id/tvContractStatus"
+                        android:layout_width="wrap_content"
+                        android:background="@drawable/shape_rounded_corner_grey_small_corner"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:paddingTop="@dimen/space_extraSmallX"
+                        android:paddingBottom="@dimen/space_extraSmallX"
+                        android:paddingStart="@dimen/space_normal"
+                        android:paddingEnd="@dimen/space_normal"
+                        android:layout_marginRight="@dimen/space_normal"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        backgroundTint="@{data.contractStatus}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tvProjectTitle"
+                        contractStatusTitle="@{data.contractStatus}"
+                        android:textAllCaps="false"
+                        android:textSize="@dimen/textSmall" />
 
                     <View
                         android:id="@+id/viewSeprator"
@@ -73,7 +98,7 @@
                         android:layout_height="1dp"
                         android:layout_marginTop="@dimen/space_small"
                         android:background="@color/lightGrey"
-                        app:layout_constraintEnd_toEndOf="@id/tvProjectTitle"
+                        app:layout_constraintEnd_toEndOf="@id/tvContractStatus"
                         app:layout_constraintStart_toStartOf="@id/tvProjectTitle"
                         app:layout_constraintTop_toBottomOf="@id/tvProjectTitle" />
 
@@ -85,8 +110,10 @@
                         android:layout_marginTop="@dimen/space_medium"
                         android:ellipsize="end"
                         android:maxLines="1"
+                        android:fontFamily="@font/poppins_medium"
                         android:text="@string/about"
-                        app:layout_constraintEnd_toEndOf="@id/tvProjectTitle"
+                        android:textSize="@dimen/textMedium"
+                        app:layout_constraintEnd_toEndOf="@id/tvContractStatus"
                         app:layout_constraintStart_toStartOf="@id/tvProjectTitle"
                         app:layout_constraintTop_toBottomOf="@id/viewSeprator" />
 
@@ -111,7 +138,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/space_normal"
                         android:orientation="horizontal"
-                        app:layout_constraintEnd_toEndOf="@id/tvProjectTitle"
+                        app:layout_constraintEnd_toEndOf="@id/tvContractStatus"
                         app:layout_constraintStart_toStartOf="@id/tvProjectTitle"
                         app:layout_constraintTop_toBottomOf="@id/tvAboutDescription">
 
@@ -133,9 +160,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/space_small"
                                 android:ellipsize="end"
+                                android:textSize="@dimen/textMedium"
                                 android:fontFamily="@font/poppins_medium"
                                 android:maxLines="1"
-                                android:text="@string/history" />
+                                android:text="@string/contract_details" />
 
                             <TextView
                                 android:id="@+id/tvProjectHistoryDescription"
@@ -154,7 +182,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/space_normal"
                         android:orientation="horizontal"
-                        app:layout_constraintEnd_toEndOf="@id/tvProjectTitle"
+                        app:layout_constraintEnd_toEndOf="@id/tvContractStatus"
                         app:layout_constraintStart_toStartOf="@id/tvProjectTitle"
                         app:layout_constraintTop_toBottomOf="@id/llHistory">
 
@@ -177,6 +205,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/space_small"
                                 android:ellipsize="end"
+                                android:textSize="@dimen/textMedium"
                                 android:fontFamily="@font/poppins_medium"
                                 android:maxLines="1"
                                 android:text="@string/price" />
@@ -187,7 +216,10 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/space_small"
-                                android:text="@{`Price - $`+data.price}"
+                                contractPriceValue="@{data.price}"
+                                android:textSize="@dimen/textLarge"
+                                android:textStyle="bold"
+                                android:textColor="@color/textColor"
                                 tools:text="Price - $1000.00" />
                         </LinearLayout>
                     </LinearLayout>
@@ -201,7 +233,7 @@
                         android:orientation="vertical"
                         android:paddingTop="@dimen/space_small"
                         android:paddingBottom="@dimen/space_small"
-                        app:layout_constraintEnd_toEndOf="@id/tvProjectTitle"
+                        app:layout_constraintEnd_toEndOf="@id/tvContractStatus"
                         app:layout_constraintStart_toStartOf="@id/tvProjectTitle"
                         app:layout_constraintTop_toBottomOf="@id/llPrice">
 
@@ -239,10 +271,11 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
+                                android:paddingLeft="@dimen/space_normal"
                                 android:layout_marginStart="@dimen/space_extraSmall"
                                 android:text="@{data.createdBy.firstName+' '+data.createdBy.lastName}"
                                 android:textColor="@color/textColor"
-                                android:textSize="@dimen/textNormal"
+                                android:textSize="@dimen/textMedium"
                                 tools:text="Alex Merchant" />
                         </LinearLayout>
                     </LinearLayout>
@@ -251,12 +284,12 @@
                         android:id="@+id/tvAmendRrequest"
                         style="@style/normalBodyText"
                         android:layout_marginTop="@dimen/space_normal"
-                        android:paddingStart="@dimen/space_large"
-                        android:ellipsize="end"
                         android:background="@color/lightestGrey"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/poppins_medium"
+                        android:paddingStart="@dimen/space_large"
                         android:paddingTop="@dimen/space_extraSmall"
                         android:paddingBottom="@dimen/space_extraSmall"
-                        android:fontFamily="@font/poppins_medium"
                         android:text="@string/amend_requests"
                         android:textColor="@color/textColor"
                         android:textSize="@dimen/textMedium"
@@ -271,8 +304,8 @@
                         android:id="@+id/rvAmendRequest"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/space_large"
                         android:layout_marginStart="@dimen/space_large"
+                        android:layout_marginEnd="@dimen/space_large"
                         android:visibility="@{data.amendRequest.size == 0 ? View.GONE : View.VISIBLE}"
                         app:layout_constraintEnd_toEndOf="@id/tvAmendRrequest"
                         app:layout_constraintStart_toStartOf="@id/tvAmendRrequest"
@@ -281,13 +314,13 @@
                     <TextView
                         android:id="@+id/tvAcceptedBy"
                         style="@style/normalBodyText"
-                        android:paddingTop="@dimen/space_extraSmall"
-                        android:paddingBottom="@dimen/space_extraSmall"
-                        android:paddingStart="@dimen/space_large"
-                        android:background="@color/lightestGrey"
                         android:layout_marginTop="@dimen/space_normal"
+                        android:background="@color/lightestGrey"
                         android:ellipsize="end"
                         android:fontFamily="@font/poppins_medium"
+                        android:paddingStart="@dimen/space_large"
+                        android:paddingTop="@dimen/space_extraSmall"
+                        android:paddingBottom="@dimen/space_extraSmall"
                         android:text="@string/accepted_by"
                         android:textColor="@color/textColor"
                         android:textSize="@dimen/textMedium"
@@ -298,23 +331,34 @@
                         app:layout_constraintTop_toBottomOf="@+id/rvAmendRequest"
                         tools:text="@string/accepted_by" />
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvAcceptedRequest"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:id="@+id/clAcceptedBy"
                         android:layout_marginStart="@dimen/space_large"
                         android:layout_marginEnd="@dimen/space_large"
                         android:visibility="@{data.acceptedBy.size == 0 ? View.GONE : View.VISIBLE}"
-                        android:paddingTop="@dimen/space_normal"
+                        app:layout_constraintEnd_toEndOf="@id/tvAcceptedBy"
+                        app:layout_constraintStart_toStartOf="@id/tvAcceptedBy"
+                        app:layout_constraintTop_toBottomOf="@id/tvAcceptedBy" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/clAcceptedBy"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_large"
+                        android:layout_marginEnd="@dimen/space_large"
                         android:layout_marginBottom="@dimen/space_normal"
+                        android:paddingTop="@dimen/space_normal"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="@id/tvAcceptedBy"
                         app:layout_constraintStart_toStartOf="@id/tvAcceptedBy"
                         app:layout_constraintTop_toBottomOf="@id/tvAcceptedBy">
 
                         <ImageView
                             android:id="@+id/ivAcceptedUserImage"
-                            android:layout_width="@dimen/textExtraLargeXX"
                             loadCircularImage="@{data.acceptedBy[0].User.getImageUrl}"
+                            android:layout_width="@dimen/textExtraLargeXX"
                             android:layout_height="@dimen/textExtraLargeXX"
                             android:layout_centerVertical="true"
                             android:layout_marginTop="@dimen/space_extraSmallX"
@@ -332,9 +376,9 @@
                             android:ellipsize="end"
                             android:fontFamily="@font/poppins_medium"
                             android:textColor="@color/textColor"
+                            app:layout_constraintBottom_toBottomOf="@id/ivAcceptedUserImage"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@id/ivAcceptedUserImage"
-                            app:layout_constraintBottom_toBottomOf="@id/ivAcceptedUserImage"
                             app:layout_constraintTop_toTopOf="@id/ivAcceptedUserImage"
                             tools:text="You have requested to amend price to $50.00" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -347,43 +391,108 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_normal"
-            android:background="@color/lightAccent"
+            android:visibility="@{data.createdBy.id.equals(user.id) ? View.VISIBLE : View.GONE}"
             android:orientation="horizontal"
-            android:visibility="@{(data.acceptedBy.size != 0 &amp;&amp; data.acceptedBy.get(0).status.equals(`ACCEPTED`)) ? View.GONE : View.VISIBLE}"
-            android:paddingTop="@dimen/space_small"
-            android:paddingBottom="@dimen/space_small"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/tvProjectTitle"
+            app:layout_constraintEnd_toEndOf="@id/tvContractStatus"
             app:layout_constraintStart_toStartOf="@id/tvProjectTitle">
 
             <TextView
                 android:id="@+id/tvAmend"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/textExtraMediumLargeXX"
+                android:textSize="@dimen/textMedium"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/space_large"
                 android:layout_weight="1"
-                android:fontFamily="@font/poppins_bold"
+                android:layout_marginTop="@dimen/space_normal"
+                android:layout_marginBottom="@dimen/space_normal"
+                android:layout_marginRight="@dimen/space_small"
+                android:fontFamily="@font/poppins_medium"
+                android:background="@drawable/shape_rounded_corner_light_grey"
+                android:backgroundTint="@color/colorAccent"
                 android:gravity="center"
-                android:onClick="@{()->frag.navigateToAmendDialog((data.createdBy.id.equals(user.id))? @string/end_contract : @string/amend)}"
-                android:text="@{(data.createdBy.id.equals(user.id))? @string/end_contract : @string/amend}"
-                android:textColor="@color/colorAccent"
-                android:textSize="@dimen/textNormal" />
+                android:onClick="@{()->frag.navigateToAmendDialog(`End Contract`)}"
+                android:text="@string/end_contract"
+                android:textColor="@color/white"
+                android:visibility="@{data.contractStatus.equals(`IN_PROGRESS`) ? View.VISIBLE : View.GONE}" />
 
-            <Button
+            <TextView
                 android:id="@+id/btnAccept"
-                style="@style/buttonFilledPrimary"
+                android:background="@drawable/shape_rounded_corner_light_grey"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/textExtraMediumLargeXX"
+                android:textSize="@dimen/textMedium"
+                android:layout_marginTop="@dimen/space_normal"
+                android:layout_marginBottom="@dimen/space_normal"
                 android:layout_marginRight="@dimen/space_large"
+                android:layout_marginLeft="@dimen/space_small"
                 android:layout_weight="1"
-                android:onClick="@{()->frag.acceptContract((data.createdBy.id.equals(user.id))? @string/start_contract : @string/accept)}"
-                android:text="@{(data.createdBy.id.equals(user.id))? @string/start_contract : @string/accept}"
-                android:textAllCaps="false" />
+                android:onClick="@{()->frag.acceptContract(`Start Contract`)}"
+                android:text="@string/start_contract"
+                android:textAllCaps="false"
+                android:fontFamily="@font/poppins_medium"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:backgroundTint="@color/colorAccent"
+                android:textColor="@color/white"
+                android:visibility="@{data.contractStatus.equals(`NOT_STARTED`) ? View.VISIBLE : View.GONE}" />
         </LinearLayout>
 
-        <include layout="@layout/popup_amend_contract_layout"
-            android:id="@+id/llAmendReqyestLayout"/>
+        <LinearLayout
+            android:id="@+id/llAcceptAmendButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_normal"
+            android:orientation="horizontal"
+            android:visibility="@{!data.createdBy.id.equals(user.id) &amp;&amp; data.contractUserAction == null || data.contractUserAction.equals(constants.NOT_RESPONDED) || data.contractUserAction.equals(constants.REQUEST_DECLINED) ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/tvContractStatus"
+            app:layout_constraintStart_toStartOf="@id/tvProjectTitle">
+
+            <TextView
+                android:id="@+id/tvAmendContract"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/textExtraMediumLargeXX"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/space_large"
+                android:layout_weight="1"
+                android:background="@drawable/shape_rounded_corner_search_box_with_stroke"
+                android:layout_marginTop="@dimen/space_normal"
+                android:layout_marginBottom="@dimen/space_normal"
+                android:fontFamily="@font/poppins_bold"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:onClick="@{()->frag.navigateToAmendDialog(`Amend`)}"
+                android:text="@string/amend"
+                android:textColor="@color/colorAccent"
+                android:layout_marginRight="@dimen/space_small"
+                android:textSize="@dimen/textNormal" />
+
+            <TextView
+                android:id="@+id/btnAcceptContract"
+                android:background="@drawable/shape_rounded_corner_light_grey"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/textExtraMediumLargeXX"
+                android:layout_marginTop="@dimen/space_normal"
+                android:layout_marginLeft="@dimen/space_small"
+                android:layout_marginBottom="@dimen/space_normal"
+                android:layout_marginRight="@dimen/space_large"
+                android:layout_weight="1"
+                android:onClick="@{()->frag.acceptContract(`Accept`)}"
+                android:text="@string/accept"
+                android:textAllCaps="false"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:backgroundTint="@color/colorAccent"
+                android:textColor="@color/white"/>
+        </LinearLayout>
+
+        <include
+            android:id="@+id/llAmendReqyestLayout"
+            layout="@layout/popup_amend_contract_layout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

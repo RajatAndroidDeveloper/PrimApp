@@ -42,7 +42,7 @@ class VerifyOTPViewModel @Inject constructor(
     fun validateOTPData(): Boolean {
         val error = errorFieldsLiveData.value
         error?.errorOTP = null
-        errorFieldsLiveData.value = error
+        errorFieldsLiveData.value = error!!
 
         Log.i("anshul", "validating")
 
@@ -107,6 +107,4 @@ class VerifyOTPViewModel @Inject constructor(
                 Event(repo.resendOTP(email))
             )
         }
-
-
 }

@@ -2,20 +2,26 @@ package com.primapp.ui.contract
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
 import com.primapp.R
 import com.primapp.cache.UserCache
 import com.primapp.databinding.FragmentProjectDetailsBinding
 import com.primapp.extensions.setDivider
 import com.primapp.extensions.showError
+import com.primapp.model.contract.AcceptedByItem
 import com.primapp.model.contract.AmendRequestItem
+import com.primapp.model.contract.User
 import com.primapp.retrofit.ApiConstant
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
+import com.primapp.ui.contract.adapters.AcceptRequestAdapter
+import com.primapp.ui.contract.adapters.AmendRequestAdapter
+import com.primapp.ui.contract.adapters.OnButtonClickCallback
 import com.primapp.utils.DialogUtils
+import com.primapp.utils.visible
 import com.primapp.viewmodels.ContractsViewModel
 import kotlinx.android.synthetic.main.toolbar_menu_more.*
 
@@ -30,11 +36,15 @@ class ProjectDetailsFragment : BaseFragment<FragmentProjectDetailsBinding>(), On
         setToolbar("", toolbar)
         binding.frag = this
         binding.user = UserCache.getUser(requireContext())
-        binding.tvAboutDescription.text = getString(R.string.project_scope_dummy_text)
         binding.tvAboutDescription.setTrimLength(60)
 
         attachObservers()
         viewModel.getContractDetails(ProjectDetailsFragmentArgs.fromBundle(requireArguments()).contractId)
+
+        ivEditData.setOnClickListener {
+            var action = ProjectDetailsFragmentDirections.actionProjectDetailsFragmentToCreateContractFragment2("contract_details",Gson().toJson(binding.data))
+            findNavController().navigate(action)
+        }
     }
 
     private fun attachObservers() {
@@ -45,8 +55,12 @@ class ProjectDetailsFragment : BaseFragment<FragmentProjectDetailsBinding>(), On
                 when (it.status) {
                     Status.SUCCESS -> {
                         binding.data = it.data?.content
+                        if(it.data?.content?.createdBy?.id == UserCache.getUserId(requireContext()) && it.data?.content?.contractStatus == "NOT_STARTED") ivEditData.visible(true)
                         if (!it.data?.content?.amendRequest.isNullOrEmpty()) {
                             setUpAmendRequestAdapter(it.data?.content?.amendRequest as ArrayList<AmendRequestItem>)
+                        }
+                        if (!it.data?.content?.acceptedBy.isNullOrEmpty()) {
+                            setUpAcceptRequestAdapter(it.data?.content?.acceptedBy as ArrayList<AcceptedByItem>)
                         }
                     }
                     Status.ERROR -> {
@@ -105,6 +119,7 @@ class ProjectDetailsFragment : BaseFragment<FragmentProjectDetailsBinding>(), On
                 }
             }
         })
+
         viewModel.amendContractLiveData.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             it.getContentIfNotHandled()?.let {
                 hideLoading()
@@ -129,6 +144,33 @@ class ProjectDetailsFragment : BaseFragment<FragmentProjectDetailsBinding>(), On
                 }
             }
         })
+
+        viewModel.updateContractDetailLiveData.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.SUCCESS -> {
+                        refreshData()
+                    }
+                    Status.ERROR -> {
+                        it.message?.apply {
+                            showError(requireContext(), this)
+                        }
+                    }
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                }
+            }
+        })
+    }
+
+    private fun setUpAcceptRequestAdapter(acceptedByItems: java.util.ArrayList<AcceptedByItem>) {
+        var layoutManager = LinearLayoutManager(requireContext())
+        binding.rvAcceptedRequest.layoutManager = layoutManager
+        binding.rvAcceptedRequest.setDivider(R.drawable.recyclerview_divider)
+        var acceptedRequestAdaper = AcceptRequestAdapter(acceptedByItems, requireContext(), this)
+        binding.rvAcceptedRequest.adapter = acceptedRequestAdaper
     }
 
     private fun setUpAmendRequestAdapter(amendRequestItems: java.util.ArrayList<AmendRequestItem>) {
@@ -149,7 +191,9 @@ class ProjectDetailsFragment : BaseFragment<FragmentProjectDetailsBinding>(), On
                 viewModel.validContractAcceptData()
             }
             "Start Contract" -> {
-
+                var model = viewModel.updateContractRequestModel.value
+                model?.contractStatus = "IN_PROGRESS"
+                viewModel.callUpdateContractApi(ProjectDetailsFragmentArgs.fromBundle(requireArguments()).contractId)
             }
         }
     }
@@ -157,12 +201,13 @@ class ProjectDetailsFragment : BaseFragment<FragmentProjectDetailsBinding>(), On
     fun navigateToAmendDialog(buttonType: String) {
         when (buttonType) {
             "Amend" -> {
-                binding.llAmendReqyestLayout.llMainLayout.visibility = View.VISIBLE
-                binding.llAmendReqyestLayout.viewModel = viewModel
-                binding.llAmendReqyestLayout.frag = this
+               var action =  ProjectDetailsFragmentDirections.actionProjectDetailsFragmentToAmendRequestFragment(ProjectDetailsFragmentArgs.fromBundle(requireArguments()).contractId)
+                findNavController().navigate(action)
             }
             "End Contract" -> {
-
+                var model = viewModel.updateContractRequestModel.value
+                model?.contractStatus = "COMPLETED"
+                viewModel.callUpdateContractApi(ProjectDetailsFragmentArgs.fromBundle(requireArguments()).contractId)
             }
         }
     }
@@ -170,8 +215,10 @@ class ProjectDetailsFragment : BaseFragment<FragmentProjectDetailsBinding>(), On
     fun amendContract() {
         val model = viewModel.amendContractRequestModel.value
         model?.contract = ProjectDetailsFragmentArgs.fromBundle(requireArguments()).contractId
-        var amount = if (binding.llAmendReqyestLayout.etPrice.text.toString().isEmpty()) 0.0 else binding.llAmendReqyestLayout.etPrice.text?.trim().toString().toDouble()
-        model?.amount =  String.format("%.2f", amount).toDouble()
+        var amount = if (binding.llAmendReqyestLayout.etPrice.text.toString()
+                .isEmpty()
+        ) 0.0 else binding.llAmendReqyestLayout.etPrice.text?.trim().toString().toDouble()
+        model?.amount = String.format("%.2f", amount).toDouble()
         viewModel.validateContractAmendData()
     }
 
@@ -179,18 +226,18 @@ class ProjectDetailsFragment : BaseFragment<FragmentProjectDetailsBinding>(), On
         binding.llAmendReqyestLayout.llMainLayout.visibility = View.GONE
     }
 
-    fun refreshData(){
+    fun refreshData() {
         viewModel.getContractDetails(ProjectDetailsFragmentArgs.fromBundle(requireArguments()).contractId)
     }
 
     override fun onButtonCLickCallback(data: AmendRequestItem, type: String) {
-        if(type == "PAY_NOW") {
+        if (type == "PAY_NOW") {
             val model = viewModel.acceptContractRequestModel.value
             model?.status = ApiConstant.CONTRACT_ACCEPTED
-            model?.acceptedPrice = (data.amount?:"0.0").toDouble()
+            model?.acceptedPrice = (data.amount ?: "0.0").toDouble()
             model?.contract = binding.data?.id
             viewModel.validContractAcceptData()
-        }else {
+        } else {
             val model = viewModel.acceptAmendRequestModel.value
             model?.status = type
             viewModel.acceptDeclineAmendRequest(data.id ?: 0)

@@ -1,4 +1,4 @@
-package com.primapp.ui.contract
+package com.primapp.ui.contract.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -13,7 +13,6 @@ import javax.inject.Inject
 
 class CurrentProjectsAdapter@Inject constructor(val onItemClick: (Int) -> Unit) :
     PagingDataAdapter<ResultsItem, CurrentProjectsAdapter.PostsViewHolder>(PostListDiffCallback()) {
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostsViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         return PostsViewHolder(
