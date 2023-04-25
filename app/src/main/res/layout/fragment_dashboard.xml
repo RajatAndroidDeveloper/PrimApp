@@ -165,7 +165,7 @@
                 app:layout_constraintTop_toBottomOf="@id/textInsights" />
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardTotalSpent"
+                android:id="@+id/cardTotalEarning"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_large"
@@ -175,7 +175,7 @@
                 android:orientation="vertical"
                 app:cardCornerRadius="@dimen/space_normal"
                 app:cardElevation="@dimen/space_normal"
-                app:layout_constraintEnd_toStartOf="@id/cardTotalEarnings"
+                app:layout_constraintEnd_toStartOf="@id/cardTotalRatings"
                 app:layout_constraintStart_toStartOf="@id/textInsights"
                 app:layout_constraintTop_toBottomOf="@id/textServed">
 
@@ -187,19 +187,19 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textTotalSpent"
+                        android:id="@+id/textTotalEarning"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/space_large"
                         android:layout_marginEnd="@dimen/space_large"
-                        android:text="@string/total_spent"
+                        android:text="@string/total_earning"
                         android:textAppearance="?attr/textAppearanceSearchResultTitle"
                         android:textColor="@color/textColor"
                         android:textSize="@dimen/textMedium"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/textTotalSpentValue"
+                        android:id="@+id/textTotalEarningValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/space_large"
@@ -213,7 +213,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardTotalEarnings"
+                android:id="@+id/cardTotalRatings"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_small"
@@ -224,7 +224,7 @@
                 app:cardCornerRadius="@dimen/space_normal"
                 app:cardElevation="@dimen/space_normal"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/cardTotalSpent"
+                app:layout_constraintStart_toEndOf="@id/cardTotalEarning"
                 app:layout_constraintTop_toBottomOf="@id/textServed">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -235,24 +235,24 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textTotalEarnings"
+                        android:id="@+id/textTotalRatings"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/space_large"
                         android:layout_marginEnd="@dimen/space_large"
-                        android:text="@string/total_earning"
+                        android:text="@string/ratings"
                         android:textAppearance="?attr/textAppearanceSearchResultTitle"
                         android:textColor="@color/textColor"
                         android:textSize="@dimen/textMedium"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/textTotalEarnVal"
+                        android:id="@+id/textTotalRatingsVal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/space_large"
                         android:layout_marginEnd="@dimen/space_large"
-                        android:text="$10,000.00"
+                        android:text="4.3/5"
                         android:textAppearance="?attr/textAppearanceSearchResultTitle"
                         android:textColor="@color/textColor"
                         android:textSize="@dimen/textNormal" />

@@ -494,8 +494,8 @@
     <string name="dummy_text_description">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. "</string>
     <string name="manage_projects">Manage Projects</string>
     <string name="see_all_projects"><u>See All Projects</u></string>
-    <string name="ongoing_projects">Ongoing Projects</string>
-    <string name="completed_projects">Completed Projects</string>
+    <string name="ongoing_projects">Ongoing Contracts</string>
+    <string name="completed_projects">Completed Contracts</string>
     <string name="all_projects">All Projects</string>
     <string name="your_mentees">Your Mentee</string>
     <string name="enter_contract_name">Enter Contract Name</string>
@@ -543,11 +543,11 @@
     <string-array name="status">
         <item>All Contracts</item>
         <item>Ongoing Contracts</item>
-        <item>Completed</item>
+        <item>Completed Contracts</item>
     </string-array>
 
     <string-array name="my_contract_status">
         <item>Ongoing Contracts</item>
-        <item>Completed</item>
+        <item>Completed Contracts</item>
     </string-array>
 </resources>

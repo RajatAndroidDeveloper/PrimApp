@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -78,7 +79,7 @@
             android:id="@+id/tvProjectTitle"
             style="@style/normalBodyText"
             android:layout_marginStart="@dimen/space_medium"
-            android:layout_marginTop="@dimen/space_normal"
+            android:layout_marginTop="@dimen/space_extraSmall"
             android:layout_width="0dp"
             android:layout_marginEnd="@dimen/space_medium"
             android:ellipsize="end"
@@ -86,6 +87,7 @@
             android:maxLines="2"
             android:text="@{contractType.equals(`ongoing`) ? ongoingContract.name : completedContract.name}"
             android:textSize="@dimen/textMedium"
+            tools:text="New project for iOS"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tvContractStatus"
@@ -100,6 +102,8 @@
             android:text="@{contractType.equals(`ongoing`) ? ongoingContract.scopeOfWork : completedContract.scopeOfWork}"
             android:textColor="@color/textColorLight"
             android:textSize="@dimen/textNormal"
+            android:layout_marginTop="@dimen/space_small"
+            tools:text="New project"
             android:visibility="@{hideData.equals(`no`) ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/tvContractStatus"

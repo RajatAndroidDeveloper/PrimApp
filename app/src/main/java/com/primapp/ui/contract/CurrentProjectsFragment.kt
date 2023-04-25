@@ -59,18 +59,26 @@ class CurrentProjectsFragment : BaseFragment<FragmentCurrentProjectsBinding>(), 
     }
 
     private fun setUpDataAdapters(ongoingContractsItems: ArrayList<OngoingContractsItem>, completedContractsItems: ArrayList<CompletedContractsItem>) {
-        if(ongoingContractsItems.size == 0) binding.tvOngoingProjects.isVisible = false
-        if(completedContractsItems.size == 0) binding.tvCompletedProjects.isVisible = false
+        if(ongoingContractsItems.size == 0) {
+            binding.tvOngoingProjects.isVisible = false
+            binding.tvSeeAllOngoingProject.isVisible = false
+            binding.viewOngoing.isVisible = false
+        }
+        if(completedContractsItems.size == 0){
+            binding.tvCompletedProjects.isVisible = false
+            binding.tvSeeAllCompletedProject.isVisible = false
+            binding.viewCompleted.isVisible = false
+        }
 
         var layoutManager = LinearLayoutManager(requireContext())
         binding.rvCurrentProjects.layoutManager = layoutManager
-        binding.rvCurrentProjects.setDivider(R.drawable.recyclerview_divider)
+        binding.rvCurrentProjects.setDivider(R.drawable.recyclerview_divider_full_screen)
         var ongoingAdapter = MyContractWithoutFilterAdapter(requireActivity(), ongoingContractsItems, completedContractsItems, "ongoing", this)
         binding.rvCurrentProjects.adapter = ongoingAdapter
 
         var layoutManager1 = LinearLayoutManager(requireContext())
         binding.rvCompletedProjects.layoutManager = layoutManager1
-        binding.rvCompletedProjects.setDivider(R.drawable.recyclerview_divider)
+        binding.rvCompletedProjects.setDivider(R.drawable.recyclerview_divider_full_screen)
         var completedAdapter = MyContractWithoutFilterAdapter(requireActivity(), ongoingContractsItems, completedContractsItems, "completed", this)
         binding.rvCompletedProjects.adapter = completedAdapter
     }

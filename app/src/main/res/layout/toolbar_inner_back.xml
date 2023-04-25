@@ -23,6 +23,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@drawable/back"
+            android:paddingStart="@dimen/space_normal"
             tools:targetApi="lollipop">
 
             <TextView
@@ -30,7 +31,7 @@
                 style="@style/primaryHeadingAccent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/textExtraLarge"
+                android:text="@string/dashboard"
                 android:visibility="visible" />
         </androidx.appcompat.widget.Toolbar>
 

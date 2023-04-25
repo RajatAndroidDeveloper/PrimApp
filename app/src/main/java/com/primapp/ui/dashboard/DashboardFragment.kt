@@ -1,20 +1,12 @@
 package com.primapp.ui.dashboard
 
-import android.net.NetworkInfo
 import android.os.Bundle
-import android.text.Html
-import android.util.Log
-import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.airbnb.lottie.utils.Utils
 import com.primapp.R
 import com.primapp.cache.UserCache
 import com.primapp.constants.MentorMenteeUserType
@@ -24,8 +16,6 @@ import com.primapp.extensions.showError
 import com.primapp.model.mentormentee.ResultsItem
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
-import com.primapp.ui.contract.AllProjectsFragmentDirections
-import com.primapp.utils.checkIsNetworkConnected
 import com.primapp.viewmodels.CommunitiesViewModel
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
@@ -168,7 +158,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), MentorsMente
     }
 
     fun btnTotalEarningAction() {
-        val action = if (binding.textTotalSpent.text == getString(R.string.total_spent))
+        val action = if (binding.textTotalEarning.text == getString(R.string.total_spent))
             DashboardFragmentDirections.actionDashboardFragmentToTotalEarningAndSpendingFragment("Spending")
         else DashboardFragmentDirections.actionDashboardFragmentToTotalEarningAndSpendingFragment("Earning")
 

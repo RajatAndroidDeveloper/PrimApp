@@ -70,7 +70,7 @@ class AllProjectsFragment : BaseFragment<FragmentAllProjectsBinding>(), AdapterV
                     attachObservers("ongoing")
                 }
             }
-            "Completed" -> if (AllProjectsFragmentArgs.fromBundle(requireArguments()).from == "MyContracts") callMyOwnContractsApi(
+            "Completed Contracts" -> if (AllProjectsFragmentArgs.fromBundle(requireArguments()).from == "MyContracts") callMyOwnContractsApi(
                 "completed"
             ) else attachObservers("completed")
         }
@@ -111,8 +111,7 @@ class AllProjectsFragment : BaseFragment<FragmentAllProjectsBinding>(), AdapterV
                 binding.swipeRefresh.isRefreshing = true
             }
 
-            binding.tvNoData.isVisible =
-                loadState.source.refresh is LoadState.NotLoading && loadState.append.endOfPaginationReached && adapter.itemCount < 1
+            binding.tvNoData.isVisible = loadState.source.refresh is LoadState.NotLoading && loadState.append.endOfPaginationReached && adapter.itemCount < 1
         }
     }
 

@@ -25,6 +25,7 @@
         <ImageView
             android:layout_width="@dimen/textExtraLargeXX"
             android:layout_height="@dimen/textExtraLargeXX"
+            name="@{data.requestBy.firstName +' '+data.requestBy.lastName}"
             loadCircularImage="@{data.requestBy.getImageUrl}"
             android:id="@+id/ivUserImage"
             android:layout_marginTop="@dimen/space_extraSmallX"
@@ -55,11 +56,25 @@
             android:layout_marginStart="@dimen/space_medium"
             android:layout_marginEnd="@dimen/space_medium"
             android:ellipsize="end"
-            android:text="Reason: "
+            amendingReasonTitle="@{data}"
             android:textColor="@color/textColor"
-            tools:text="You have requested to amend price to $50.00"
+            tools:text="Price is too high."
             android:fontFamily="@font/poppins_medium"
             app:layout_constraintTop_toBottomOf="@id/tvProjectTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivUserImage"/>
+
+        <TextView
+            android:id="@+id/tvTimeData"
+            style="@style/normalBodyText"
+            android:layout_marginStart="@dimen/space_medium"
+            android:layout_marginEnd="@dimen/space_medium"
+            android:ellipsize="end"
+            timeAgoFromTimeStamp="@{data.udate}"
+            android:textColor="@color/textColor"
+            tools:text="Just now"
+            android:fontFamily="@font/poppins_medium"
+            app:layout_constraintTop_toBottomOf="@id/tvAmendReason"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivUserImage"/>
 
@@ -67,7 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="@id/tvProjectTitle"
-            app:layout_constraintTop_toBottomOf="@id/tvAmendReason"
+            app:layout_constraintTop_toBottomOf="@id/tvTimeData"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="@dimen/space_small"
             android:orientation="horizontal"

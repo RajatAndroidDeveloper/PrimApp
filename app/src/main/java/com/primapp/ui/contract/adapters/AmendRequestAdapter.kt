@@ -3,9 +3,12 @@ package com.primapp.ui.contract.adapters
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.primapp.R
 import com.primapp.cache.UserCache
 import com.primapp.databinding.ItemAmendRequestLayoutBinding
+import com.primapp.extensions.getHighlightedText
 import com.primapp.model.contract.AmendRequestItem
 import kotlinx.android.synthetic.main.item_amend_request_layout.view.*
 
@@ -40,7 +43,8 @@ class AmendRequestAdapter(private val amendRequestList : ArrayList<AmendRequestI
         fun bindData(data: AmendRequestItem){
             binding.data = data
             binding.user = UserCache.getUser(context)
-            binding.tvAmendReason.text = "Reason: ${data.reason?:""}"
+            val colorToHighlight = ContextCompat.getColor(context, R.color.textColor)
+            binding.tvAmendReason.text = "Reason: ${getHighlightedText(colorToHighlight,data.reason?:"")}"
         }
     }
 }

@@ -247,7 +247,7 @@
                             android:ellipsize="end"
                             android:fontFamily="@font/poppins_medium"
                             android:maxLines="1"
-                            android:text="Created by Mentor"
+                            android:text="Created by"
                             android:textSize="@dimen/textMedium"
                             android:textStyle="bold" />
 
@@ -260,6 +260,7 @@
 
                             <ImageView
                                 android:id="@+id/ivCreatorProfile"
+                                name="@{data.createdBy.firstName +' '+data.createdBy.lastName}"
                                 loadCircularImage="@{data.createdBy.getImageUrl}"
                                 android:layout_width="@dimen/textExtraLargeXX"
                                 android:layout_height="@dimen/textExtraLargeXX"
@@ -357,6 +358,7 @@
 
                         <ImageView
                             android:id="@+id/ivAcceptedUserImage"
+                            name="@{data.acceptedBy[0].User.firstName +' '+data.acceptedBy[0].User.lastName}"
                             loadCircularImage="@{data.acceptedBy[0].User.getImageUrl}"
                             android:layout_width="@dimen/textExtraLargeXX"
                             android:layout_height="@dimen/textExtraLargeXX"

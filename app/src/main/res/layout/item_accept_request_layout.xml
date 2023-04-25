@@ -21,6 +21,7 @@
         <ImageView
             android:layout_width="@dimen/textExtraLargeXX"
             android:layout_height="@dimen/textExtraLargeXX"
+            name="@{acceptedBy.User.firstName +' '+acceptedBy.User.lastName}"
             loadCircularImage="@{acceptedBy.User.getImageUrl}"
             android:id="@+id/ivUserImage"
             android:layout_marginTop="@dimen/space_extraSmallX"
@@ -46,5 +47,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivUserImage"/>
 
+        <TextView
+            android:id="@+id/tvTimeData"
+            style="@style/normalBodyText"
+            android:layout_marginStart="@dimen/space_medium"
+            android:layout_marginEnd="@dimen/space_medium"
+            android:ellipsize="end"
+            timeAgoFromTimeStamp="@{acceptedBy.udate}"
+            android:textColor="@color/textColor"
+            tools:text="Just now"
+            android:fontFamily="@font/poppins_medium"
+            app:layout_constraintTop_toBottomOf="@id/tvProjectTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivUserImage"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

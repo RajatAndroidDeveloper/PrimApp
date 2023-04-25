@@ -805,6 +805,17 @@ fun amendRequestTitle(textView: TextView, data: AmendRequestItem?, userData: Use
 }
 
 @SuppressLint("SetTextI18n")
+@BindingAdapter("amendingReasonTitle")
+fun amendingReasonTitle(textView: TextView, data: AmendRequestItem?) {
+    val textToSend = SpannableStringBuilder("Reason: ")
+    data?.let {
+        val colorToHighlight = ContextCompat.getColor(textView.context, R.color.textColor)
+        val reason = getHighlightedText(colorToHighlight, "${data.reason}")
+        textView.text = textToSend.append(reason)
+    }
+}
+
+@SuppressLint("SetTextI18n")
 @BindingAdapter("contractAcceptedTitle")
 fun contractAcceptedTitle(textView: TextView, data: AcceptedByItem?) {
     val textToSend = SpannableStringBuilder("")

@@ -154,7 +154,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="layout_constraintWidth_percent">.9</item>
         <item name="fontFamily">@font/poppins_semibold</item>
-        <item name="android:textSize">@dimen/textExtraLargeX</item>
+        <item name="android:textSize">@dimen/textLargeX</item>
         <item name="android:textColor">@color/colorAccent</item>
     </style>
 
