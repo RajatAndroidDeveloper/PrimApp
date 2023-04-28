@@ -12,6 +12,7 @@ import com.primapp.model.category.*
 import com.primapp.model.chat.ChatUser
 import com.primapp.model.chat.MentorMenteeRelationResponse
 import com.primapp.model.community.*
+import com.primapp.model.dashboard.DashboardDetailsResponseModel
 import com.primapp.model.members.CommunityMembersData
 import com.primapp.model.mentor.RequestMentorDataModel
 import com.primapp.model.mentor.RequestMentorResponseModel
@@ -356,6 +357,14 @@ class CommunitiesRepository @Inject constructor(
     suspend fun getUserCommonCommunities(userId: Int): Resource<UserCommonCommunitiesResponse> {
         return try {
             responseHandler.handleResponse(apiService.getUserCommonCommunites(userId))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    suspend fun getDashboardDetails(): Resource<DashboardDetailsResponseModel> {
+        return try {
+            responseHandler.handleResponse(apiService.getDashboardDetails())
         } catch (e: Exception) {
             responseHandler.handleException(e)
         }

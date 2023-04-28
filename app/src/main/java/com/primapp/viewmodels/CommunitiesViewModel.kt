@@ -15,6 +15,7 @@ import com.primapp.model.category.*
 import com.primapp.model.chat.ChatUser
 import com.primapp.model.chat.MentorMenteeRelationResponse
 import com.primapp.model.community.*
+import com.primapp.model.dashboard.DashboardDetailsResponseModel
 import com.primapp.model.members.CommunityMembersData
 import com.primapp.model.members.CommunityMembersResponseModel
 import com.primapp.model.mentor.RequestMentorDataModel
@@ -367,5 +368,15 @@ class CommunitiesViewModel @Inject constructor(
     fun getUserCommonCommunities(userId: Int) = viewModelScope.launch {
         _commonCommunitesLiveData.postValue(Event(Resource.loading(null)))
         _commonCommunitesLiveData.postValue(Event(repo.getUserCommonCommunities(userId)))
+    }
+
+    //------Dashboard Details----
+
+    private var _dashboardDetailsLiveData = MutableLiveData<Event<Resource<DashboardDetailsResponseModel>>>()
+    var dashboardDetailsLiveData: LiveData<Event<Resource<DashboardDetailsResponseModel>>> = _dashboardDetailsLiveData
+
+    fun getDashboardDetails() = viewModelScope.launch {
+        _dashboardDetailsLiveData.postValue(Event(Resource.loading(null)))
+        _dashboardDetailsLiveData.postValue(Event(repo.getDashboardDetails()))
     }
 }

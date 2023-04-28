@@ -534,6 +534,7 @@
     <string name="select_amend_reason">Select amend reason</string>
     <string name="contract_updated_successfully">Your contract has been updated scussessfully.</string>
     <string name="see_details"><u>See Details</u></string>
+    <string name="please_select_amend_reason">Please select reason for amending your contract.</string>
 
     <string-array name="categories">
         <item>Mentor</item>

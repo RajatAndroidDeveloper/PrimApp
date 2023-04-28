@@ -122,7 +122,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/textNormal"
                     android:paddingLeft="@dimen/space_small"
                     android:text="@string/dashboard"
                     android:textColor="@color/textColor"
@@ -150,7 +149,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/textNormal"
                     android:paddingLeft="@dimen/space_small"
                     android:text="@string/payment_methods"
                     android:textColor="@color/textColor"
@@ -178,7 +176,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/textNormal"
                     android:paddingLeft="@dimen/space_small"
                     android:text="@string/projects_and_contracts"
                     android:textColor="@color/textColor"
@@ -206,7 +203,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/textNormal"
                     android:paddingLeft="@dimen/space_small"
                     android:text="@string/terms_of_services"
                     android:textColor="@color/textColor"
@@ -251,7 +247,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/textNormal"
                     android:paddingLeft="@dimen/space_small"
                     android:text="@string/bookmarks"
                     android:textColor="@color/textColor"
@@ -279,7 +274,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/textNormal"
                     android:paddingLeft="@dimen/space_small"
                     android:text="@string/hiddenPosts"
                     android:textColor="@color/textColor"
@@ -307,7 +301,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/textNormal"
                     android:paddingLeft="@dimen/space_small"
                     android:text="@string/about_us"
                     android:textColor="@color/textColor"
@@ -335,7 +328,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/textNormal"
                     android:paddingLeft="@dimen/space_small"
                     android:text="@string/prim_rewards"
                     android:textColor="@color/textColor"
@@ -363,7 +355,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/textNormal"
                     android:paddingLeft="@dimen/space_small"
                     android:text="@string/help_and_support"
                     android:textColor="@color/textColor"
@@ -391,7 +382,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/textNormal"
                     android:paddingLeft="@dimen/space_small"
                     android:text="@string/security"
                     android:textColor="@color/textColor"
@@ -419,7 +409,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/textNormal"
                     android:paddingLeft="@dimen/space_small"
                     android:text="@string/logout"
                     android:textColor="@color/textColor"

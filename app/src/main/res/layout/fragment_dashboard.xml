@@ -8,6 +8,10 @@
         <variable
             name="frag"
             type="com.primapp.ui.dashboard.DashboardFragment" />
+
+        <variable
+            name="dashboardData"
+            type="com.primapp.model.dashboard.DashboardDetailsResponseModel"/>
     </data>
 
     <ScrollView
@@ -157,7 +161,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_large"
-                android:text="Mentees Served: 40"
+                android:text="@{`Mentees Served: `+dashboardData.content.totalMenteeServed}"
                 android:textColor="@color/textColor"
                 android:textSize="@dimen/textSmall"
                 android:textStyle="bold"
@@ -204,7 +208,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/space_large"
                         android:layout_marginEnd="@dimen/space_large"
-                        android:text="$10,000.00"
+                        contractPriceValue="@{dashboardData.content.totalEarning.toString()}"
                         android:textAppearance="?attr/textAppearanceSearchResultTitle"
                         android:textColor="@color/textColor"
                         android:textSize="@dimen/textNormal" />
@@ -252,7 +256,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/space_large"
                         android:layout_marginEnd="@dimen/space_large"
-                        android:text="4.3/5"
+                        android:text="@{dashboardData.content.rating.toString()}"
                         android:textAppearance="?attr/textAppearanceSearchResultTitle"
                         android:textColor="@color/textColor"
                         android:textSize="@dimen/textNormal" />

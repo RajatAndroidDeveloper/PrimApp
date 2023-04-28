@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.toolbar_menu_more.*
 
 class AmendRequestFragment : BaseFragment<FragmentAmendRequestBinding>() {
     val viewModel by viewModels<ContractsViewModel> { viewModelFactory }
+    private var selectedReason: String = ""
 
     override fun getLayoutRes() = R.layout.fragment_amend_request
 
@@ -34,22 +35,21 @@ class AmendRequestFragment : BaseFragment<FragmentAmendRequestBinding>() {
 
     private fun setUpRadioGroupListener() {
         binding.rgAmendReason.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
-            val model = viewModel.amendContractRequestModel.value
             when (checkedId) {
                 R.id.rbCostIsHigh -> {
-                    model?.reason = getString(R.string.cost_is_too_high)
+                    selectedReason = getString(R.string.cost_is_too_high)
                     binding.etSomethingElseReason.isVisible = false
                 }
                 R.id.rbOutOfScope -> {
-                    model?.reason = getString(R.string.out_of_scope)
+                    selectedReason = getString(R.string.out_of_scope)
                     binding.etSomethingElseReason.isVisible = false
                 }
                 R.id.rbWordingChanges -> {
-                    model?.reason = getString(R.string.contract_wording_changes)
+                    selectedReason = getString(R.string.contract_wording_changes)
                     binding.etSomethingElseReason.isVisible = false
                 }
                 else -> {
-                    model?.reason = getString(R.string.something_else)
+                    selectedReason = getString(R.string.something_else)
                     binding.etSomethingElseReason.isVisible = true
                 }
             }
@@ -93,12 +93,19 @@ class AmendRequestFragment : BaseFragment<FragmentAmendRequestBinding>() {
     fun amendContract() {
         val model = viewModel.amendContractRequestModel.value
         model?.contract = ProjectDetailsFragmentArgs.fromBundle(requireArguments()).contractId
+        model?.reason = selectedReason
+
+        if(model?.reason.isNullOrEmpty()) {
+            showError(requireContext(),getString(R.string.please_select_amend_reason))
+            return
+        }
 
         if(model?.reason.equals(getString(R.string.something_else)) && binding.etSomethingElseReason.text.trim().isEmpty()){
             showError(requireContext(),getString(R.string.please_enter_other_contract_amendment_reason))
             return
-        } else {
-            model?.reason = binding.etSomethingElseReason.text.toString().trim()
+        }
+        if(binding.etSomethingElseReason.text.trim().isNotBlank()){
+            model?.reason = binding.etSomethingElseReason.text.trim().toString()
         }
 
         var enteredAmount = binding.etPrice.text.toString().trim().replace("$","")

@@ -166,7 +166,7 @@ class ContractsViewModel @Inject constructor(
                     context.getString(R.string.valid_empty_price)
             }
             ValidationResults.SUCCESS -> {
-                Log.i("anshul", "Success Data : ${Gson().toJson(acceptContractRequestModel.value)}")
+                Log.i("anshul", "Success Data : ${Gson().toJson(amendContractRequestModel.value)}")
                 amendContract(amendContractRequestModel.value!!)
                 return true
             }

@@ -161,7 +161,7 @@ class CreateContractFragment : BaseFragment<FragmentCreateContractBinding>() {
                             requireActivity(),
                             R.string.contract_updated_successfully, R.drawable.correct
                         ) {
-                            findNavController().navigate(R.id.action_createContractFragment2_to_currentProjectsFragment)
+                            findNavController().popBackStack()
                         }
                     }
                     Status.ERROR -> {

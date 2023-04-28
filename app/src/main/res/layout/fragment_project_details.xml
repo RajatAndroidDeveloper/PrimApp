@@ -392,10 +392,10 @@
             android:id="@+id/llButtons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_normal"
             android:visibility="@{data.createdBy.id.equals(user.id) ? View.VISIBLE : View.GONE}"
+            android:layout_marginTop="@dimen/space_normal"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/llAcceptAmendButton"
             app:layout_constraintEnd_toEndOf="@id/tvContractStatus"
             app:layout_constraintStart_toStartOf="@id/tvProjectTitle">
 

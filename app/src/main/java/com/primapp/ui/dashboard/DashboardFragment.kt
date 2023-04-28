@@ -37,6 +37,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), MentorsMente
         initTextListeners()
         setObserver()
         getMentorsAndMentees()
+        viewModel.getDashboardDetails()
     }
 
     private fun setObserver() {
@@ -59,6 +60,25 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), MentorsMente
                                 mainMentorsMenteeList = it.data.content?.results as ArrayList<ResultsItem>
                                 loadAdapters(mainMentorsMenteeList)
                             }
+                        }
+                    }
+                }
+            }
+        })
+
+        viewModel.dashboardDetailsLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.SUCCESS -> {
+                        it.data?.let { response ->
+                            binding.dashboardData = response
                         }
                     }
                 }

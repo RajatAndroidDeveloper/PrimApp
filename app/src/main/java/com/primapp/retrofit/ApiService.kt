@@ -10,6 +10,7 @@ import com.primapp.model.comment.CommentListResponseModel
 import com.primapp.model.comment.CreateCommentRequestModel
 import com.primapp.model.community.*
 import com.primapp.model.contract.*
+import com.primapp.model.dashboard.DashboardDetailsResponseModel
 import com.primapp.model.members.CommunityMembersResponseModel
 import com.primapp.model.mentor.RequestMentorDataModel
 import com.primapp.model.mentor.RequestMentorResponseModel
@@ -553,6 +554,9 @@ interface ApiService {
 
     @GET(ApiConstant.COMMON_COMMUNITIES)
     suspend fun getUserCommonCommunites(@Path("userId") userId: Int): UserCommonCommunitiesResponse
+
+    @GET(ApiConstant.DASHBOARD_DETAILS)
+    suspend fun getDashboardDetails(): DashboardDetailsResponseModel
 
     @GET(ApiConstant.GET_TODO_LIST)
     suspend fun getTodoTasks(): TodoListResponse

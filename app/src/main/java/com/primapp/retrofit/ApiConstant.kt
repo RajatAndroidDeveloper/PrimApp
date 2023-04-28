@@ -74,6 +74,7 @@ object ApiConstant {
     const val REQUEST_MENTOR = "communities/{communityId}/users/{userId}/mentors"
     const val GET_MENTOR_MENTEE_LIST = "user/{userId}/mentor_mentee_list"
     const val GET_MENTOR_MENTEE_UNIQUE_LIST = "mentee-mentor-user-list/{userId}"
+    const val DASHBOARD_DETAILS = "contracts/contact-dashboard"
 
     //Create Contract
     const val CREATE_CONTRACT = "contracts/create-contract"
