@@ -6,6 +6,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
 import com.primapp.model.contract.*
+import com.primapp.model.earning.EarningResponseModel
 import com.primapp.model.mycontracts.CompletedContractsItem
 import com.primapp.model.mycontracts.MyContractsReponseModel
 import com.primapp.model.mycontracts.OngoingContractsItem
@@ -110,6 +111,14 @@ class ContractRepository @Inject constructor(
     suspend fun acceptAmendRequest(contractId: Int, acceptAmendRequestModel: AcceptAmendRequestModel): Resource<BaseDataModel> {
         return try {
             responseHandler.handleResponse(apiService.acceptAmendRequest(contractId, acceptAmendRequestModel))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    suspend fun getTotalEarnings(): Resource<EarningResponseModel> {
+        return try {
+            responseHandler.handleResponse(apiService.getTotalEarnings())
         } catch (e: Exception) {
             responseHandler.handleException(e)
         }

@@ -39,6 +39,13 @@ object DateTimeUtils {
         ).format(Date(millis))
     }
 
+    fun getDateAndTimeFromMillis(millis: Long?, format: String? = STRING_DATE_FORMAT_TIME): String {
+        return if (millis == null || millis == 0L) "" else SimpleDateFormat(
+            format,
+            Locale.getDefault()
+        ).format(Date(millis))
+    }
+
     fun convertServerTimeStamp(timestamp: String?, format: String? = DOB_FORMAT): String? {
         if (timestamp.isNullOrEmpty()) return null
         val timestampFormat = SimpleDateFormat(DEFAULT_SERVER_TIME_FORMAT, Locale.getDefault())

@@ -201,7 +201,7 @@ class ProjectDetailsFragment : BaseFragment<FragmentProjectDetailsBinding>(), On
     fun navigateToAmendDialog(buttonType: String) {
         when (buttonType) {
             "Amend" -> {
-               var action =  ProjectDetailsFragmentDirections.actionProjectDetailsFragmentToAmendRequestFragment(ProjectDetailsFragmentArgs.fromBundle(requireArguments()).contractId)
+               var action =  ProjectDetailsFragmentDirections.actionProjectDetailsFragmentToAmendRequestFragment(ProjectDetailsFragmentArgs.fromBundle(requireArguments()).contractId,"Amend")
                 findNavController().navigate(action)
             }
             "End Contract" -> {
@@ -238,9 +238,11 @@ class ProjectDetailsFragment : BaseFragment<FragmentProjectDetailsBinding>(), On
             model?.contract = binding.data?.id
             viewModel.validContractAcceptData()
         } else {
-            val model = viewModel.acceptAmendRequestModel.value
-            model?.status = type
-            viewModel.acceptDeclineAmendRequest(data.id ?: 0)
+            var action =  ProjectDetailsFragmentDirections.actionProjectDetailsFragmentToAmendRequestFragment(data.id?:0,type)
+            findNavController().navigate(action)
+//            val model = viewModel.acceptAmendRequestModel.value
+//            model?.status = type
+//            viewModel.acceptDeclineAmendRequest(data.id ?: 0)
         }
     }
 }

@@ -2,37 +2,84 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <import type="android.text.TextUtils" />
+
+        <import type="android.view.View" />
+
+        <import type="com.primapp.utils.DateTimeUtils" />
+
+        <variable
+            name="data"
+            type="com.primapp.model.earning.ContentItem" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/space_large">
 
+        <ImageView
+            android:id="@+id/ivUserImage"
+            name="@{data.contract.createdBy.firstName +' '+data.contract.createdBy.lastName}"
+            loadCircularImage="@{data.contract.createdBy.getImageUrl}"
+            android:layout_width="@dimen/textExtraLargeXX"
+            android:layout_height="@dimen/textExtraLargeXX"
+            android:layout_marginLeft="@dimen/space_normal"
+            android:layout_marginTop="@dimen/space_extraSmallX"
+            android:layout_marginBottom="@dimen/space_extraSmallX"
+            android:padding="@dimen/space_extraSmall"
+            android:src="@drawable/dummy_profile"
+            app:layout_constraintEnd_toStartOf="@id/textUserName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textUserName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_small"
+            android:layout_marginRight="@dimen/space_normal"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:text="@{data.contract.createdBy.firstName+' '+data.contract.createdBy.lastName}"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/textMediumX"
+            app:layout_constraintBottom_toBottomOf="@id/ivUserImage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivUserImage"
+            app:layout_constraintTop_toTopOf="@id/ivUserImage" />
+
         <TextView
             android:id="@+id/tvTitle"
             style="@style/normalBodyText"
-            android:layout_marginStart="@dimen/space_medium"
             android:layout_marginEnd="@dimen/space_medium"
-            android:textStyle="bold"
             android:ellipsize="end"
             android:fontFamily="@font/poppins_medium"
             android:maxLines="1"
+            android:textSize="@dimen/textNormal"
+            android:text="@{data.contract.name}"
+            android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@id/tvAmount"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="Sports are back!" />
+            app:layout_constraintStart_toStartOf="@id/textUserName"
+            app:layout_constraintTop_toBottomOf="@id/ivUserImage" />
 
         <TextView
             android:id="@+id/tvAmount"
             style="@style/normalBodyText"
+            contractEarningAmount="@{data.contract.price}"
             android:layout_marginStart="@dimen/space_medium"
             android:layout_marginEnd="@dimen/space_medium"
-            android:textStyle="bold"
             android:ellipsize="end"
+            android:textSize="@dimen/textNormal"
+            android:textColor="@color/green"
             android:fontFamily="@font/poppins_medium"
             android:maxLines="1"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/tvTitle"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="$100.0" />
+            app:layout_constraintTop_toTopOf="@id/tvTitle" />
 
         <TextView
             android:id="@+id/tvDate"
@@ -40,12 +87,11 @@
             android:ellipsize="end"
             android:maxLines="4"
             android:textColor="@color/textColorLight"
-            android:textSize="@dimen/textSmall"
+            android:textSize="@dimen/textNormal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/tvTitle"
             app:layout_constraintStart_toStartOf="@id/tvTitle"
-            app:layout_constraintTop_toBottomOf="@id/tvTitle"
-            android:text="Jan 10, 2023" />
+            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

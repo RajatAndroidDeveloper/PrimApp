@@ -27,8 +27,13 @@ class AmendRequestFragment : BaseFragment<FragmentAmendRequestBinding>() {
 
         binding.frag = this
         binding.viewModel = viewModel
-        setToolbar(getString(R.string.select_amend_reason), toolbar)
         setUpRadioGroupListener()
+        binding.amendRequestStatus = AmendRequestFragmentArgs.fromBundle(requireArguments()).status
+        if(AmendRequestFragmentArgs.fromBundle(requireArguments()).status == "DECLINED" || AmendRequestFragmentArgs.fromBundle(requireArguments()).status == "ACCEPTED"){
+            setToolbar(getString(R.string.select_a_reason), toolbar)
+        }else{
+            setToolbar(getString(R.string.select_amend_reason), toolbar)
+        }
         attachObservers()
         editTextFocusListener()
     }
@@ -80,6 +85,25 @@ class AmendRequestFragment : BaseFragment<FragmentAmendRequestBinding>() {
                 }
             }
         })
+
+        viewModel.acceptAmendContractLiveData.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.SUCCESS -> {
+                        findNavController().popBackStack()
+                    }
+                    Status.ERROR -> {
+                        it.message?.apply {
+                            showError(requireContext(), this)
+                        }
+                    }
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                }
+            }
+        })
     }
 
     fun editTextFocusListener(){
@@ -91,26 +115,35 @@ class AmendRequestFragment : BaseFragment<FragmentAmendRequestBinding>() {
     }
 
     fun amendContract() {
-        val model = viewModel.amendContractRequestModel.value
-        model?.contract = ProjectDetailsFragmentArgs.fromBundle(requireArguments()).contractId
-        model?.reason = selectedReason
+        if(AmendRequestFragmentArgs.fromBundle(requireArguments()).status == "DECLINED" || AmendRequestFragmentArgs.fromBundle(requireArguments()).status == "ACCEPTED"){
+            val model = viewModel.acceptAmendRequestModel.value
+            model?.actionReason = selectedReason
+            model?.status = AmendRequestFragmentArgs.fromBundle(requireArguments()).status
+            viewModel.acceptDeclineAmendRequest(AmendRequestFragmentArgs.fromBundle(requireArguments()).contractId)
+        }else {
+            val model = viewModel.amendContractRequestModel.value
+            model?.contract = ProjectDetailsFragmentArgs.fromBundle(requireArguments()).contractId
+            model?.reason = selectedReason
 
-        if(model?.reason.isNullOrEmpty()) {
-            showError(requireContext(),getString(R.string.please_select_amend_reason))
-            return
-        }
+            if (model?.reason.isNullOrEmpty()) {
+                showError(requireContext(), getString(R.string.please_select_amend_reason))
+                return
+            }
 
-        if(model?.reason.equals(getString(R.string.something_else)) && binding.etSomethingElseReason.text.trim().isEmpty()){
-            showError(requireContext(),getString(R.string.please_enter_other_contract_amendment_reason))
-            return
-        }
-        if(binding.etSomethingElseReason.text.trim().isNotBlank()){
-            model?.reason = binding.etSomethingElseReason.text.trim().toString()
-        }
+            if (model?.reason.equals(getString(R.string.something_else)) && binding.etSomethingElseReason.text.trim()
+                    .isEmpty()
+            ) {
+                showError(requireContext(), getString(R.string.please_enter_other_contract_amendment_reason))
+                return
+            }
+            if (binding.etSomethingElseReason.text.trim().isNotBlank()) {
+                model?.reason = binding.etSomethingElseReason.text.trim().toString()
+            }
 
-        var enteredAmount = binding.etPrice.text.toString().trim().replace("$","")
-        var amount = if (enteredAmount.isEmpty()) 0.0 else enteredAmount.toDouble()
-        model?.amount = String.format("%.2f", amount).toDouble()
-        viewModel.validateContractAmendData()
+            var enteredAmount = binding.etPrice.text.toString().trim().replace("$", "")
+            var amount = if (enteredAmount.isEmpty()) 0.0 else enteredAmount.toDouble()
+            model?.amount = String.format("%.2f", amount).toDouble()
+            viewModel.validateContractAmendData()
+        }
     }
 }

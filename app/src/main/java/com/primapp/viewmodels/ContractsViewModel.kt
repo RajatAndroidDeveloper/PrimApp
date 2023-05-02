@@ -12,6 +12,7 @@ import com.google.gson.Gson
 import com.primapp.PrimApp
 import com.primapp.R
 import com.primapp.model.contract.*
+import com.primapp.model.earning.EarningResponseModel
 import com.primapp.model.mycontracts.CompletedContractsItem
 import com.primapp.model.mycontracts.MyContractsReponseModel
 import com.primapp.model.mycontracts.OngoingContractsItem
@@ -49,7 +50,7 @@ class ContractsViewModel @Inject constructor(
         createContractRequestModel.value = CreateContractRequestModel("", 0.0, "", "", "")
         amendContractRequestModel.value = AmendContractRequestModel(0.0, 0,"")
         acceptContractRequestModel.value = AcceptContractRequestModel(0, 0.0, "")
-        acceptAmendRequestModel.value = AcceptAmendRequestModel("")
+        acceptAmendRequestModel.value = AcceptAmendRequestModel("","")
         updateContractRequestModel.value = UpdateContractRequestModel("","",0.0,"","","")
     }
 
@@ -273,6 +274,14 @@ class ContractsViewModel @Inject constructor(
     fun acceptAmendRequest(contractId: Int, acceptAmendRequestModel: AcceptAmendRequestModel) = viewModelScope.launch {
         _acceptAmendContractLiveData.postValue(Event(Resource.loading(null)))
         _acceptAmendContractLiveData.postValue(Event(repo.acceptAmendRequest(contractId, acceptAmendRequestModel)))
+    }
+
+    private var _totalEarningLiveData = MutableLiveData<Event<Resource<EarningResponseModel>>>()
+    var totalEarningLiveData: LiveData<Event<Resource<EarningResponseModel>>> = _totalEarningLiveData
+
+    fun getTotalEarnings() = viewModelScope.launch {
+        _totalEarningLiveData.postValue(Event(Resource.loading(null)))
+        _totalEarningLiveData.postValue(Event(repo.getTotalEarnings()))
     }
 
 }

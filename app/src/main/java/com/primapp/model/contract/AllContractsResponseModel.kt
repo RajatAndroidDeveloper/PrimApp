@@ -19,6 +19,9 @@ data class AmendRequestItem(
     @field:SerializedName("reason")
     val reason: String? = null,
 
+    @field:SerializedName("action_reason")
+    val actionReason: String? = null,
+
     @field:SerializedName("cdate")
     val cdate: String? = null,
 
@@ -75,6 +78,12 @@ data class AcceptedByItem(
 
     @field:SerializedName("status")
     val status: String? = null,
+
+    @field:SerializedName("reason")
+    val reason: String? = null,
+
+    @field:SerializedName("amend_reply_reason")
+    val actionReason: String? = null,
 
     @field:SerializedName("udate")
     val udate: String? = null,

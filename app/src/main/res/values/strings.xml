@@ -137,7 +137,7 @@
     <string name="settings">Settings</string>
     <string name="security">Security</string>
     <string name="help_and_support">Help and Support</string>
-    <string name="about_us">About us</string>
+    <string name="about_us">About Us</string>
     <string name="about_prim_app">
         <![CDATA[
        <p align="justify">
@@ -386,7 +386,7 @@
         *Minimum 1,000 tokens to redeem.
     </string>
     <string name="sensitive_content">Sensitive Content</string>
-    <string name="sensitive_content_desc">The image or video may contain inappropriate content.</string>
+    <string name="sensitive_content_desc">Our algorithm has detected inappropriate or unsuitable content. Viewer discretion is advised</string>
     <string name="view_content">View Content</string>
     <string name="see_why">See Warning!</string>
     <string name="cover_this_image">Cover this image</string>

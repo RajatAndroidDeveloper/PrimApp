@@ -245,6 +245,11 @@ class DashboardActivity : BaseActivity() {
             drawerLayout.closeDrawer(GravityCompat.START)
         }
 
+        llTerms.setOnClickListener {
+            drawerLayout.closeDrawer(GravityCompat.START)
+            openTermsOfConditions()
+        }
+
         llAboutUs.setOnClickListener {
             drawerLayout.closeDrawer(GravityCompat.START)
             openAboutUs()
@@ -299,6 +304,12 @@ class DashboardActivity : BaseActivity() {
         val bundle = Bundle()
         bundle.putString("title", getString(R.string.about_us))
         bundle.putString("url", ApiConstant.ABOUT_US)
+        navController.navigate(R.id.commonWebView, bundle)
+    }
+    fun openTermsOfConditions() {
+        val bundle = Bundle()
+        bundle.putString("title", getString(R.string.terms_of_services))
+        bundle.putString("url", ApiConstant.TERMS_OF_SERVICES)
         navController.navigate(R.id.commonWebView, bundle)
     }
 

@@ -28,7 +28,6 @@
             android:layout_marginBottom="@dimen/space_extraSmallX"
             android:layout_centerVertical="true"
             android:padding="@dimen/space_extraSmall"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -48,6 +47,20 @@
             app:layout_constraintStart_toEndOf="@id/ivUserImage"/>
 
         <TextView
+            android:id="@+id/tvAmendReason"
+            style="@style/normalBodyText"
+            android:layout_marginStart="@dimen/space_medium"
+            android:layout_marginEnd="@dimen/space_medium"
+            android:ellipsize="end"
+            acceptingReasonTitle="@{acceptedBy}"
+            android:textColor="@color/textColor"
+            tools:text="Price is too high."
+            android:fontFamily="@font/poppins_medium"
+            app:layout_constraintTop_toBottomOf="@id/tvProjectTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivUserImage"/>
+
+        <TextView
             android:id="@+id/tvTimeData"
             style="@style/normalBodyText"
             android:layout_marginStart="@dimen/space_medium"
@@ -57,7 +70,7 @@
             android:textColor="@color/textColor"
             tools:text="Just now"
             android:fontFamily="@font/poppins_medium"
-            app:layout_constraintTop_toBottomOf="@id/tvProjectTitle"
+            app:layout_constraintTop_toBottomOf="@id/tvAmendReason"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivUserImage"/>
     </androidx.constraintlayout.widget.ConstraintLayout>

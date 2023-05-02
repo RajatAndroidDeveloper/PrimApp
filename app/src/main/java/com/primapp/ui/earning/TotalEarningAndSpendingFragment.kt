@@ -1,17 +1,22 @@
 package com.primapp.ui.earning
 
 import android.os.Bundle
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.primapp.R
 import com.primapp.databinding.FragmentTotalEarningAndSpendingBinding
 import com.primapp.extensions.setDivider
+import com.primapp.extensions.showError
+import com.primapp.model.earning.ContentItem
+import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
+import com.primapp.viewmodels.ContractsViewModel
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
 
 class TotalEarningAndSpendingFragment : BaseFragment<FragmentTotalEarningAndSpendingBinding>() {
-
+    val viewModel by viewModels<ContractsViewModel> { viewModelFactory }
     lateinit var adapter: TotalEarningSpendingAdapter
-    private var earningSpendingList: ArrayList<EarningSpendingData> = ArrayList<EarningSpendingData>()
+    private var earningSpendingList: ArrayList<ContentItem> = ArrayList<ContentItem>()
 
     override fun getLayoutRes() = R.layout.fragment_total_earning_and_spending
 
@@ -24,30 +29,45 @@ class TotalEarningAndSpendingFragment : BaseFragment<FragmentTotalEarningAndSpen
         }else{
             setToolbar(getString(R.string.total_spent), toolbar)
         }
-        setAdapter()
+        setAdapter(earningSpendingList)
+        attachObservers()
+        viewModel.getTotalEarnings()
     }
 
-    private fun setAdapter() {
-        earningSpendingList = createEarningSendingList()
+    private fun attachObservers() {
+        viewModel.totalEarningLiveData.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                binding.swipeRefresh.isRefreshing = false
+                when (it.status) {
+                    Status.SUCCESS -> {
+                        if(it.data?.content.isNullOrEmpty()){
+
+                        }else{
+                            setAdapter(it.data?.content as ArrayList<ContentItem>)
+                        }
+                    }
+                    Status.ERROR -> {
+                        it.message?.apply {
+                            showError(requireContext(), this)
+                        }
+                    }
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                }
+            }
+        })
+    }
+
+    private fun setAdapter(earningSpendingList: ArrayList<ContentItem>) {
         binding.rvTotalEarningSpending.apply {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
             setDivider(R.drawable.recyclerview_divider)
         }
 
-        adapter = TotalEarningSpendingAdapter(requireContext(), TotalEarningAndSpendingFragmentArgs.fromBundle(requireArguments()).type, earningSpendingList)
+        adapter = TotalEarningSpendingAdapter(earningSpendingList)
         binding.rvTotalEarningSpending.adapter = adapter
     }
-
-    private fun createEarningSendingList(): java.util.ArrayList<EarningSpendingData> {
-        var earningList = ArrayList<EarningSpendingData>()
-        earningList.add(EarningSpendingData("Apple TV tester - need you to have Apple TV + iPAD + Macbook + iPhone to test Airplay","100.0","Jan 10, 2023"))
-        earningList.add(EarningSpendingData("Getting app upload","200.0","Feb 14, 2023"))
-        earningList.add(EarningSpendingData("Apple TV tester - need you to have Apple TV","200.0","Feb 20, 2023"))
-        earningList.add(EarningSpendingData("Getting app deleted","200.0","Feb 23, 2023"))
-        earningList.add(EarningSpendingData("iPAD + Macbook + iPhone to test Airplay","250.0","March 11, 2023"))
-        earningList.add(EarningSpendingData("Macbook + iPhone to test Airplay","20.0","March 24, 2023"))
-        return earningList
-    }
-
 }

@@ -775,6 +775,15 @@ fun contractPriceValue(textView: TextView, price: String?) {
 }
 
 @SuppressLint("SetTextI18n")
+@BindingAdapter("contractEarningAmount")
+fun contractEarningAmount(textView: TextView, price: String?) {
+    price?.let {
+        val amount: String = DecimalFormat.getCurrencyInstance(Locale.US).format(price.toDouble())
+        textView.text = "+$amount"
+    }
+}
+
+@SuppressLint("SetTextI18n")
 @BindingAdapter("amendRequestTitle", "userData")
 fun amendRequestTitle(textView: TextView, data: AmendRequestItem?, userData: UserData) {
     val textToSend = SpannableStringBuilder("")
@@ -805,12 +814,33 @@ fun amendRequestTitle(textView: TextView, data: AmendRequestItem?, userData: Use
 }
 
 @SuppressLint("SetTextI18n")
-@BindingAdapter("amendingReasonTitle")
-fun amendingReasonTitle(textView: TextView, data: AmendRequestItem?) {
+@BindingAdapter("amendingReasonTitle", "userData")
+fun amendingReasonTitle(textView: TextView, data: AmendRequestItem?, userData: UserData) {
     val textToSend = SpannableStringBuilder("Reason: ")
     data?.let {
         val colorToHighlight = ContextCompat.getColor(textView.context, R.color.textColor)
-        val reason = getHighlightedText(colorToHighlight, "${data.reason}")
+        val reason = getHighlightedText(colorToHighlight, "${data.reason?:""}")
+        textView.text = textToSend.append(reason)
+    }
+}
+@SuppressLint("SetTextI18n")
+@BindingAdapter("acceptingReasonTitle")
+fun acceptingReasonTitle(textView: TextView, data: AcceptedByItem?) {
+    val textToSend = SpannableStringBuilder("Reason: ")
+    data?.let {
+        val colorToHighlight = ContextCompat.getColor(textView.context, R.color.textColor)
+        val reason = getHighlightedText(colorToHighlight, "${it.reason?:""}")
+        textView.text = textToSend.append(reason)
+    }
+}
+
+@SuppressLint("SetTextI18n")
+@BindingAdapter("amendingReplyTitle", "userData")
+fun amendingReplyTitle(textView: TextView, data: AmendRequestItem?, userData: UserData) {
+    val textToSend = SpannableStringBuilder("Reply: ")
+    data?.let {
+        val colorToHighlight = ContextCompat.getColor(textView.context, R.color.textColor)
+        val reason = getHighlightedText(colorToHighlight, "${data.actionReason?:""}")
         textView.text = textToSend.append(reason)
     }
 }

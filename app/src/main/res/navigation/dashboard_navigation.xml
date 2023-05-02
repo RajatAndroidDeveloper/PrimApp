@@ -616,6 +616,9 @@
         <argument
             android:name="contract_id"
             app:argType="integer" />
+        <argument
+            android:name="status"
+            app:argType="string"/>
     </fragment>
     <fragment
         android:id="@+id/networkErrorFragment"

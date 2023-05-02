@@ -16,6 +16,10 @@
         <variable
             name="viewModel"
             type="com.primapp.viewmodels.ContractsViewModel" />
+
+        <variable
+            name="amendRequestStatus"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -140,6 +144,7 @@
                     isRequired="@{true}"
                     errorText="@{viewModel.errorFieldsLiveData.errorContractPrice}"
                     android:hint="@string/price"
+                    android:visibility="@{amendRequestStatus.equals(`ACCEPTED`) || amendRequestStatus.equals(`DECLINED`) ? View.GONE : View.VISIBLE}"
                     app:errorEnabled="true"
                     android:layout_marginTop="@dimen/space_large"
                     app:layout_constraintStart_toStartOf="@id/rgAmendReason"

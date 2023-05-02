@@ -3,12 +3,12 @@ package com.primapp.ui.earning
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.primapp.R
 import com.primapp.databinding.ItemEarningSpendingLayoutBinding
+import com.primapp.model.earning.ContentItem
+import com.primapp.utils.DateTimeUtils
 
-class TotalEarningSpendingAdapter (private var context: Context, private var type: String, private var projectList: ArrayList<EarningSpendingData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class TotalEarningSpendingAdapter (private var projectList: ArrayList<ContentItem>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding = ItemEarningSpendingLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -26,17 +26,9 @@ class TotalEarningSpendingAdapter (private var context: Context, private var typ
 
     inner class CurrentProjectsViewHolder(val binding: ItemEarningSpendingLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(projectData: EarningSpendingData) {
-            binding.tvTitle.text = projectData.title
-            binding.tvDate.text = projectData.date
-            if(type == "Earning") {
-                binding.tvAmount.text = "+$${projectData.amount}"
-                binding.tvAmount.setTextColor(ContextCompat.getColor(context, R.color.green))
-            }
-            else {
-                binding.tvAmount.text = "-$${projectData.amount}"
-                binding.tvAmount.setTextColor(ContextCompat.getColor(context, R.color.red))
-            }
+        fun bind(projectData: ContentItem) {
+            binding.data = projectData
+            binding.tvDate.text = DateTimeUtils.getDateAndTimeFromMillis(projectData.contract?.endDate, DateTimeUtils.STRING_DATE_FORMAT_TIME)
         }
     }
 }

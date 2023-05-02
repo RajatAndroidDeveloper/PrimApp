@@ -11,6 +11,7 @@ import com.primapp.model.comment.CreateCommentRequestModel
 import com.primapp.model.community.*
 import com.primapp.model.contract.*
 import com.primapp.model.dashboard.DashboardDetailsResponseModel
+import com.primapp.model.earning.EarningResponseModel
 import com.primapp.model.members.CommunityMembersResponseModel
 import com.primapp.model.mentor.RequestMentorDataModel
 import com.primapp.model.mentor.RequestMentorResponseModel
@@ -441,6 +442,9 @@ interface ApiService {
         @Path("contractId") contractId: Int,
         @Body acceptAmendRequestModel: AcceptAmendRequestModel
     ): BaseDataModel
+
+    @GET(ApiConstant.GET_TOTAL_EARNINGS)
+    suspend fun getTotalEarnings(): EarningResponseModel
 
     @POST(ApiConstant.REPORT_POST)
     suspend fun reportPost(
