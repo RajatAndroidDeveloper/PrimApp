@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="frag"
+            type="com.primapp.ui.contract.RatingDialogFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_small"
+            android:elevation="@dimen/space_small"
+            app:cardBackgroundColor="@color/backgroundColor"
+            app:cardCornerRadius="@dimen/space_medium"
+            app:cardElevation="@dimen/space_small"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvTitle"
+                    style="@style/normalBodyText"
+                    android:layout_marginTop="@dimen/space_large"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="@string/rating"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/textLarge"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@id/tlComment"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/icClose"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/space_small"
+                    android:src="@drawable/ic_close"
+                    android:onClick="@{()-> frag.closeDialog()}"
+                    app:layout_constraintBottom_toBottomOf="@id/tvTitle"
+                    app:layout_constraintEnd_toEndOf="@id/tlComment"
+                    app:layout_constraintTop_toTopOf="@id/tvTitle" />
+
+                <per.wsj.library.AndRatingBar
+                    android:id="@+id/ratingBar"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/textExtraMediumLargeXX"
+                    android:layout_marginTop="@dimen/space_medium"
+                    app:bgDrawable="@drawable/grey_star"
+                    android:progressTint="@color/golden"
+                    app:layout_constraintBottom_toTopOf="@id/tlComment"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvTitle"
+                    app:layout_constraintWidth_percent=".9"
+                    app:starDrawable="@drawable/yellow_star" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tlComment"
+                    style="@style/myTextInputLabel"
+                    android:layout_marginTop="@dimen/space_small"
+                    android:hint="@string/enter_comment"
+                    android:imeActionLabel="@string/done"
+                    android:imeOptions="actionDone"
+                    app:errorEnabled="true"
+                    app:layout_constraintBottom_toTopOf="@id/btnSubmit"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ratingBar"
+                    app:layout_constraintWidth_percent=".9">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etRatingMessage"
+                        style="@style/editTextInput"
+                        android:gravity="top"
+                        android:inputType="textPersonName|textMultiLine"
+                        android:lines="4"
+                        android:scrollbars="vertical" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/btnSubmit"
+                    style="@style/buttonFilledPrimary"
+                    android:layout_marginTop="@dimen/space_largeX"
+                    android:layout_marginBottom="@dimen/space_large"
+                    android:text="@string/submit_rating"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:onClick="@{()-> frag.submitRating()}"
+                    android:textSize="@dimen/textMedium"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintWidth_percent=".90" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

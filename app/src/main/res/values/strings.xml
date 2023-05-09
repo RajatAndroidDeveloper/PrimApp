@@ -386,7 +386,7 @@
         *Minimum 1,000 tokens to redeem.
     </string>
     <string name="sensitive_content">Sensitive Content</string>
-    <string name="sensitive_content_desc">Our algorithm has detected inappropriate or unsuitable content. Viewer discretion is advised</string>
+    <string name="sensitive_content_desc">Our algorithm has detected inappropriate or unsuitable content. Viewer discretion is advised.</string>
     <string name="view_content">View Content</string>
     <string name="see_why">See Warning!</string>
     <string name="cover_this_image">Cover this image</string>
@@ -485,7 +485,7 @@
     <string name="create_contracts">Create Contract</string>
     <string name="privacy_policy_text"><u>Privacy Policy</u></string>
     <string name="mentorships">Mentorships</string>
-    <string name="mentees_served">Mentees Served:</string>
+    <string name="mentees_served">Mentees Advised:</string>
     <string name="ratings">Ratings</string>
     <string name="view_projects">My Contracts</string>
     <string name="view_contracts">View Contracts</string>
@@ -517,7 +517,7 @@
     <string name="contract_accepted_successfully">You have accpeted the contract successfully.</string>
     <string name="contract_amend_request_sent_successfully">Your contract amending request has been sent successfully.</string>
     <string name="amend_requests">Amend Requests</string>
-    <string name="end_contract">End Contract</string>
+    <string name="end_contract">Complete Contract</string>
     <string name="start_contract">Start Contract</string>
     <string name="accepted_by">Accepted By</string>
     <string name="decline">Decline</string>
@@ -535,6 +535,15 @@
     <string name="contract_updated_successfully">Your contract has been updated scussessfully.</string>
     <string name="see_details"><u>See Details</u></string>
     <string name="please_select_amend_reason">Please select reason for amending your contract.</string>
+    <string name="contract_description">Contract Description</string>
+    <string name="key_dates">Key Dates</string>
+    <string name="rating">Give Rating</string>
+    <string name="submit_rating">Submit Rating</string>
+    <string name="enter_comment">Write a comment..</string>
+    <string name="done">Done</string>
+    <string name="please_select_rating">Please select any rating</string>
+    <string name="please_enter_rating_message">Please enter rating message</string>
+    <string name="you_have_submitted_rating_successfully">You have submitted ratings successfully.</string>
 
     <string-array name="categories">
         <item>Mentor</item>

@@ -145,7 +145,7 @@ class ProjectDetailsFragment : BaseFragment<FragmentProjectDetailsBinding>(), On
             }
         })
 
-        viewModel.updateContractDetailLiveData.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+        viewModel.updateContractStatusLiveData.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             it.getContentIfNotHandled()?.let {
                 hideLoading()
                 when (it.status) {
@@ -191,7 +191,7 @@ class ProjectDetailsFragment : BaseFragment<FragmentProjectDetailsBinding>(), On
                 viewModel.validContractAcceptData()
             }
             "Start Contract" -> {
-                var model = viewModel.updateContractRequestModel.value
+                var model = viewModel.updateContractStatusRequestModel.value
                 model?.contractStatus = "IN_PROGRESS"
                 viewModel.callUpdateContractApi(ProjectDetailsFragmentArgs.fromBundle(requireArguments()).contractId)
             }
@@ -204,8 +204,8 @@ class ProjectDetailsFragment : BaseFragment<FragmentProjectDetailsBinding>(), On
                var action =  ProjectDetailsFragmentDirections.actionProjectDetailsFragmentToAmendRequestFragment(ProjectDetailsFragmentArgs.fromBundle(requireArguments()).contractId,"Amend")
                 findNavController().navigate(action)
             }
-            "End Contract" -> {
-                var model = viewModel.updateContractRequestModel.value
+            "Complete Contract" -> {
+                var model = viewModel.updateContractStatusRequestModel.value
                 model?.contractStatus = "COMPLETED"
                 viewModel.callUpdateContractApi(ProjectDetailsFragmentArgs.fromBundle(requireArguments()).contractId)
             }
@@ -244,5 +244,10 @@ class ProjectDetailsFragment : BaseFragment<FragmentProjectDetailsBinding>(), On
 //            model?.status = type
 //            viewModel.acceptDeclineAmendRequest(data.id ?: 0)
         }
+    }
+
+    fun navigateToRatingFragment(){
+        var action =  ProjectDetailsFragmentDirections.actionProjectDetailsFragmentToRatingDialogFragment(ProjectDetailsFragmentArgs.fromBundle(requireArguments()).contractId)
+        findNavController().navigate(action)
     }
 }

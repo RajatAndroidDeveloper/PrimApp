@@ -206,4 +206,10 @@ abstract class DashboardFragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeNetworkErrorFragment(): NetworkErrorFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeRatingDialogFragment(): RatingDialogFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeRatingFragment(): RatingFragment
 }

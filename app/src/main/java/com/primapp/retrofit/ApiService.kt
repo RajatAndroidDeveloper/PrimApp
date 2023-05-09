@@ -21,6 +21,8 @@ import com.primapp.model.notification.NotificationResponseModel
 import com.primapp.model.portfolio.*
 import com.primapp.model.post.*
 import com.primapp.model.profile.EditProfileRequestModel
+import com.primapp.model.rating.AllRatingsResponse
+import com.primapp.model.rating.SubmitRatingRequestModel
 import com.primapp.model.reply.CommentReplyResponseModel
 import com.primapp.model.reply.CreateReplyRequestModel
 import com.primapp.model.rewards.RewardsResponseModel
@@ -427,6 +429,12 @@ interface ApiService {
         @Body updateContractRequestModel: UpdateContractRequestModel
     ): BaseDataModel
 
+    @PATCH(ApiConstant.GET_CONTRACT_DETAILS)
+    suspend fun updateContractStatus(
+        @Path("contractId") contractId: Int,
+        @Body updateContractRequestModel: UpdateContractStatusRequestModel
+    ): BaseDataModel
+
     @POST(ApiConstant.AMEND_CONTRACT)
     suspend fun amendContract(
         @Body amendContractRequestModel: AmendContractRequestModel
@@ -442,6 +450,15 @@ interface ApiService {
         @Path("contractId") contractId: Int,
         @Body acceptAmendRequestModel: AcceptAmendRequestModel
     ): BaseDataModel
+
+    @PATCH(ApiConstant.SUBMIT_CONTRACT_RATINGS)
+    suspend fun submitContractRating(
+        @Path("contractId") contractId: Int,
+        @Body submitRatingRequestModel: SubmitRatingRequestModel
+    ): BaseDataModel
+
+    @GET(ApiConstant.SUBMIT_CONTRACT_RATINGS)
+    suspend fun getContractRating(): AllRatingsResponse
 
     @GET(ApiConstant.GET_TOTAL_EARNINGS)
     suspend fun getTotalEarnings(): EarningResponseModel

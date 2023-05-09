@@ -16,6 +16,8 @@ import com.primapp.model.earning.EarningResponseModel
 import com.primapp.model.mycontracts.CompletedContractsItem
 import com.primapp.model.mycontracts.MyContractsReponseModel
 import com.primapp.model.mycontracts.OngoingContractsItem
+import com.primapp.model.rating.AllRatingsResponse
+import com.primapp.model.rating.SubmitRatingRequestModel
 import com.primapp.repository.ContractRepository
 import com.primapp.retrofit.base.BaseDataModel
 import com.primapp.retrofit.base.Event
@@ -45,6 +47,10 @@ class ContractsViewModel @Inject constructor(
 
     val updateContractRequestModel = MutableLiveData<UpdateContractRequestModel>()
 
+    val updateContractStatusRequestModel = MutableLiveData<UpdateContractStatusRequestModel>()
+
+    val submitContractRatingRequestModel = MutableLiveData<SubmitRatingRequestModel>()
+
     init {
         errorFieldsLiveData.value = errorFields
         createContractRequestModel.value = CreateContractRequestModel("", 0.0, "", "", "")
@@ -52,6 +58,8 @@ class ContractsViewModel @Inject constructor(
         acceptContractRequestModel.value = AcceptContractRequestModel(0, 0.0, "")
         acceptAmendRequestModel.value = AcceptAmendRequestModel("","")
         updateContractRequestModel.value = UpdateContractRequestModel("","",0.0,"","","")
+        updateContractStatusRequestModel.value = UpdateContractStatusRequestModel("")
+        submitContractRatingRequestModel.value = SubmitRatingRequestModel(0.0,"")
     }
 
     fun validateData(): Boolean {
@@ -152,7 +160,7 @@ class ContractsViewModel @Inject constructor(
         return false
     }
     fun callUpdateContractApi(contractId: Int){
-        updateContract(contractId, updateContractRequestModel.value!!)
+        updateContractStatus(contractId, updateContractStatusRequestModel.value!!)
     }
 
     fun validateContractAmendData(): Boolean {
@@ -252,6 +260,14 @@ class ContractsViewModel @Inject constructor(
         _updateContractDetailLiveData.postValue(Event(repo.updateContract(contractId,updateContractRequestModel)))
     }
 
+    private var _updateContractStatusLiveData = MutableLiveData<Event<Resource<BaseDataModel>>>()
+    var updateContractStatusLiveData: LiveData<Event<Resource<BaseDataModel>>> = _updateContractStatusLiveData
+
+    fun updateContractStatus(contractId: Int, updateContractStatusRequestModel: UpdateContractStatusRequestModel) = viewModelScope.launch {
+        _updateContractStatusLiveData.postValue(Event(Resource.loading(null)))
+        _updateContractStatusLiveData.postValue(Event(repo.updateContractStatus(contractId,updateContractStatusRequestModel)))
+    }
+
     private var _amendContractLiveData = MutableLiveData<Event<Resource<BaseDataModel>>>()
     var amendContractLiveData: LiveData<Event<Resource<BaseDataModel>>> = _amendContractLiveData
 
@@ -282,6 +298,22 @@ class ContractsViewModel @Inject constructor(
     fun getTotalEarnings() = viewModelScope.launch {
         _totalEarningLiveData.postValue(Event(Resource.loading(null)))
         _totalEarningLiveData.postValue(Event(repo.getTotalEarnings()))
+    }
+
+    private var _submitRatingLiveData = MutableLiveData<Event<Resource<BaseDataModel>>>()
+    var submitRatingLiveData: LiveData<Event<Resource<BaseDataModel>>> = _submitRatingLiveData
+
+    fun submitContractRating(contractId: Int, submitRatingRequestModel: SubmitRatingRequestModel) = viewModelScope.launch {
+        _submitRatingLiveData.postValue(Event(Resource.loading(null)))
+        _submitRatingLiveData.postValue(Event(repo.submitContractRating(contractId, submitRatingRequestModel)))
+    }
+
+    private var _getRatingLiveData = MutableLiveData<Event<Resource<AllRatingsResponse>>>()
+    var getRatingLiveData: LiveData<Event<Resource<AllRatingsResponse>>> = _getRatingLiveData
+
+    fun getContractRating() = viewModelScope.launch {
+        _getRatingLiveData.postValue(Event(Resource.loading(null)))
+        _getRatingLiveData.postValue(Event(repo.getContractRating()))
     }
 
 }

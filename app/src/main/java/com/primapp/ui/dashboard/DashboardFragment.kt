@@ -184,4 +184,8 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), MentorsMente
 
         findNavController().navigate(action)
     }
+
+    fun navigateToRatingFragment(){
+        findNavController().navigate(R.id.action_dashboardFragment_to_ratingFragment)
+    }
 }

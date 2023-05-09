@@ -26,6 +26,7 @@
     <color name="green">#2ace1e</color>
 
     <color name="grey_shade_post">#f2f2f2</color>
+    <color name="golden">#FACA3B</color>
 
     <!-- for To-do priorities -->
     <color name="priority_high">#ff5f5a</color>

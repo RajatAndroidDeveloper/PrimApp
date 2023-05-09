@@ -10,6 +10,8 @@ import com.primapp.model.earning.EarningResponseModel
 import com.primapp.model.mycontracts.CompletedContractsItem
 import com.primapp.model.mycontracts.MyContractsReponseModel
 import com.primapp.model.mycontracts.OngoingContractsItem
+import com.primapp.model.rating.AllRatingsResponse
+import com.primapp.model.rating.SubmitRatingRequestModel
 import com.primapp.retrofit.ApiConstant
 import com.primapp.retrofit.ApiService
 import com.primapp.retrofit.base.BaseDataModel
@@ -92,6 +94,14 @@ class ContractRepository @Inject constructor(
         }
     }
 
+    suspend fun updateContractStatus(contractId: Int, updateContractRequestModel: UpdateContractStatusRequestModel): Resource<BaseDataModel> {
+        return try {
+            responseHandler.handleResponse(apiService.updateContractStatus(contractId,updateContractRequestModel))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
     suspend fun amendContract(amendContractRequestModel: AmendContractRequestModel): Resource<BaseDataModel> {
         return try {
             responseHandler.handleResponse(apiService.amendContract(amendContractRequestModel))
@@ -111,6 +121,22 @@ class ContractRepository @Inject constructor(
     suspend fun acceptAmendRequest(contractId: Int, acceptAmendRequestModel: AcceptAmendRequestModel): Resource<BaseDataModel> {
         return try {
             responseHandler.handleResponse(apiService.acceptAmendRequest(contractId, acceptAmendRequestModel))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    suspend fun submitContractRating(contractId: Int, submitRatingRequestModel: SubmitRatingRequestModel): Resource<BaseDataModel> {
+        return try {
+            responseHandler.handleResponse(apiService.submitContractRating(contractId, submitRatingRequestModel))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    suspend fun getContractRating(): Resource<AllRatingsResponse> {
+        return try {
+            responseHandler.handleResponse(apiService.getContractRating())
         } catch (e: Exception) {
             responseHandler.handleException(e)
         }

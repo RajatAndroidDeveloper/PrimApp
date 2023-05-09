@@ -129,6 +129,9 @@
         <action
             android:id="@+id/action_dashboardFragment_to_allProjectsFragment"
             app:destination="@id/allProjectsFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_ratingFragment"
+            app:destination="@id/ratingFragment" />
     </fragment>
     <fragment
         android:id="@+id/createCommunityFragment"
@@ -602,6 +605,9 @@
         <action
             android:id="@+id/action_projectDetailsFragment_to_createContractFragment2"
             app:destination="@id/createContractFragment2" />
+        <action
+            android:id="@+id/action_projectDetailsFragment_to_ratingDialogFragment"
+            app:destination="@id/ratingDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/networkErrorFragment2"
@@ -625,4 +631,18 @@
         android:name="com.primapp.ui.base.NetworkErrorFragment"
         android:label="NetworkErrorFragment"
         tools:layout="@layout/fragment_network_error" />
+    <dialog
+        android:id="@+id/ratingDialogFragment"
+        android:name="com.primapp.ui.contract.RatingDialogFragment"
+        android:label="RatingDialogFragment"
+        tools:layout="@layout/fragment_rating_dialog">
+        <argument
+            android:name="contractId"
+            app:argType="integer"/>
+    </dialog>
+    <fragment
+        android:id="@+id/ratingFragment"
+        android:name="com.primapp.ui.contract.RatingFragment"
+        android:label="RatingFragment"
+        tools:layout="@layout/fragment_ratings_layout"/>
 </navigation>

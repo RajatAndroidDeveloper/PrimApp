@@ -11,13 +11,13 @@ data class DashboardDetailsResponseModel(
 data class Content(
 
 	@field:SerializedName("total_spend")
-	val totalSpend: Int? = null,
+	val totalSpend: Double? = null,
 
 	@field:SerializedName("total_earning")
 	val totalEarning: Double? = null,
 
 	@field:SerializedName("rating")
-	val rating: Int? = null,
+	val rating: Double? = null,
 
 	@field:SerializedName("total_mentee_served")
 	val totalMenteeServed: Int? = null
