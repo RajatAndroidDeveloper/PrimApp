@@ -86,7 +86,8 @@ object ApiConstant {
     const val ACCEPT_CONTRACT = "contracts/accept-contract"
     const val ACCEPT_AMEND_REQUEST = "contracts/accept-amend-request/{contractId}"
     const val GET_TOTAL_EARNINGS = "contract/money-earned"
-    const val SUBMIT_CONTRACT_RATINGS = "contract/rate-contract"
+    const val SUBMIT_CONTRACT_RATINGS = "contract/rate-contract/{contractId}"
+    const val GET_CONTRACT_RATINGS = "contract/rate-contract"
 
     //Notification
     const val GET_NOTIFICATIONS = "user_notifications"

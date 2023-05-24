@@ -8,5 +8,8 @@ data class SubmitRatingRequestModel(
     var rating: Double? = null,
 
 	@field:SerializedName("rating_reason")
-	var ratingReason: String? = null
+	var ratingReason: String? = null,
+
+	@field:SerializedName("rated_on")
+	val ratedOn: Any? = null,
 )

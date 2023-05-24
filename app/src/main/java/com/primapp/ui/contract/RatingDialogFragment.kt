@@ -36,7 +36,7 @@ class RatingDialogFragment : BaseDialogFragment<FragmentRatingDialogBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.frag = this
+//        binding.frag = this
         attachObservers()
 
         binding.ratingBar.setOnRatingChangeListener { _, rating, fromUser ->
@@ -51,18 +51,27 @@ class RatingDialogFragment : BaseDialogFragment<FragmentRatingDialogBinding>() {
     }
 
     fun submitRating(){
-        if(selectedRating == 0.0){
-            showError(requireContext(), getString(R.string.please_select_rating))
-            return
+        DialogUtils.showCloseDialog(
+            requireActivity(),
+            R.string.you_have_submitted_rating_successfully, R.drawable.correct
+        ) {
+            if(dialog?.isShowing == true){
+                dialog?.dismiss()
+            }
         }
-        if(binding.etRatingMessage.text.toString().trim().isNullOrBlank()){
-            showError(requireContext(), getString(R.string.please_enter_rating_message))
-            return
-        }
-        var model = viewModel.submitContractRatingRequestModel.value
-        model?.rating = selectedRating
-        model?.ratingReason = binding.etRatingMessage.text.toString().trim()
-        viewModel.submitContractRating(RatingDialogFragmentArgs.fromBundle(requireArguments()).contractId, model!!)
+
+//        if(selectedRating == 0.0){
+//            showError(requireContext(), getString(R.string.please_select_rating))
+//            return
+//        }
+//        if(binding.etRatingMessage.text.toString().trim().isNullOrBlank()){
+//            showError(requireContext(), getString(R.string.please_enter_rating_message))
+//            return
+//        }
+//        var model = viewModel.submitContractRatingRequestModel.value
+//        model?.rating = selectedRating
+//        model?.ratingReason = binding.etRatingMessage.text.toString().trim()
+//        viewModel.submitContractRating(RatingDialogFragmentArgs.fromBundle(requireArguments()).contractId, model!!)
     }
 
     private fun attachObservers() {

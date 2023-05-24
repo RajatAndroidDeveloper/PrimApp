@@ -10,6 +10,15 @@
         <variable
             name="data"
             type="com.primapp.model.rating.ContentItem" />
+
+        <variable
+            name="type"
+            type="String" />
+
+        <variable
+            name="ratingData"
+            type="com.primapp.model.contract.RatingItem" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,10 +28,10 @@
 
         <ImageView
             android:id="@+id/ivUserImage"
+            name="@{type.equals(`ProjectDetails`) ? ratingData.ratedBy.firstName +' '+ratingData.ratedBy.lastName: data.ratedBy.firstName +' '+data.ratedBy.lastName}"
+            loadCircularImage="@{type.equals(`ProjectDetails`) ? ratingData.ratedBy.getImageUrl : data.ratedBy.getImageUrl}"
             android:layout_width="@dimen/textExtraLargeXX"
             android:layout_height="@dimen/textExtraLargeXX"
-            name="@{data.ratedBy.firstName +' '+data.ratedBy.lastName}"
-            loadCircularImage="@{data.ratedBy.getImageUrl}"
             android:layout_marginLeft="@dimen/space_normal"
             android:layout_marginTop="@dimen/space_extraSmallX"
             android:layout_marginBottom="@dimen/space_extraSmallX"
@@ -40,14 +49,51 @@
             android:layout_marginRight="@dimen/space_normal"
             android:gravity="center_vertical"
             android:singleLine="true"
-            android:text="@{`Rated By: `+data.ratedBy.firstName +' '+data.ratedBy.lastName}"
-            tools:text="John Doe"
+            android:text="@{type.equals(`ProjectDetails`) ? ratingData.ratedBy.firstName +' '+ratingData.ratedBy.lastName: data.ratedBy.firstName +' '+data.ratedBy.lastName}"
             android:textColor="@color/textColor"
             android:textSize="@dimen/textMediumX"
             app:layout_constraintBottom_toBottomOf="@id/ivUserImage"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/llRating"
             app:layout_constraintStart_toEndOf="@id/ivUserImage"
-            app:layout_constraintTop_toTopOf="@id/ivUserImage" />
+            app:layout_constraintTop_toTopOf="@id/ivUserImage"
+            tools:text="John Doe" />
+
+        <LinearLayout
+            android:id="@+id/llRating"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/space_small"
+            android:background="@color/colorAccent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/textUserName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/textUserName">
+
+            <ImageView
+                android:id="@+id/imgStar"
+                android:layout_width="@dimen/textMedium"
+                android:layout_height="@dimen/textMedium"
+                android:layout_marginLeft="@dimen/space_small"
+                android:src="@drawable/yellow_star" />
+
+            <TextView
+                android:id="@+id/tvRatingMessage"
+                style="@style/primaryBodyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/space_extraSmall"
+                android:layout_marginRight="@dimen/space_extraSmall"
+                android:fontFamily="@font/poppins_bold"
+                android:padding="@dimen/space_extraSmall"
+                android:paddingRight="@dimen/space_extraSmall"
+                android:text="@{type.equals(`ProjectDetails`) ? ratingData.rating.toString()+`/5.0` : data.rating.toString()+`/5.0`}"
+                android:textColor="@color/white"
+                android:textSize="@dimen/textNormal"
+                android:textStyle="bold"
+                tools:text="4.5/5.0" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvTitle"
@@ -57,20 +103,21 @@
             android:fontFamily="@font/poppins_medium"
             android:maxLines="1"
             android:textSize="@dimen/textNormal"
-            android:text="@{data.contract.name}"
-            tools:text="Review Android and iOS code base for the best quality"
             android:textStyle="bold"
+            android:visibility="@{type.equals(`ProjectDetails`) ? View.GONE : View.VISIBLE}"
+            android:text="@{data.contract.name}"
             app:layout_constraintEnd_toStartOf="@id/ratingBar"
             app:layout_constraintStart_toStartOf="@id/textUserName"
-            app:layout_constraintTop_toBottomOf="@id/ivUserImage" />
+            app:layout_constraintTop_toBottomOf="@id/ivUserImage"
+            tools:text="Review Android and iOS code base for the best quality" />
 
         <per.wsj.library.AndRatingBar
             android:id="@+id/ratingBar"
-            android:layout_width="100dp"
+            android:layout_width="10dp"
             android:layout_height="20dp"
-            android:rating="@{data.rating.floatValue()}"
-            app:bgDrawable="@drawable/grey_star"
             android:progressTint="@color/golden"
+            android:visibility="invisible"
+            app:bgDrawable="@drawable/grey_star"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvTitle"
             app:layout_constraintWidth_percent=".9"
@@ -83,12 +130,12 @@
             android:ellipsize="end"
             android:fontFamily="@font/poppins_medium"
             android:maxLines="2"
+            android:text="@{type.equals(`ProjectDetails`) ? ratingData.ratingReason : data.ratingReason}"
             android:textSize="@dimen/textNormal"
-            android:text="@{data.ratingReason}"
-            tools:text="Feedback: Work was amazing would love to work again together."
             app:layout_constraintEnd_toStartOf="@id/ratingBar"
             app:layout_constraintStart_toStartOf="@id/textUserName"
-            app:layout_constraintTop_toBottomOf="@id/ratingBar" />
+            app:layout_constraintTop_toBottomOf="@id/tvTitle"
+            tools:text="Feedback: Work was amazing would love to work again together." />
 
         <TextView
             android:id="@+id/tvDate"
@@ -97,13 +144,11 @@
             android:maxLines="4"
             android:textColor="@color/textColorLight"
             android:textSize="@dimen/textNormal"
-            android:visibility="gone"
-            tools:text="April 12, 2023 | 1:09 PM"
+            timeAgoFromTimeStamp="@{type.equals(`ProjectDetails`) ? ratingData.ratedOn : data.ratedOn}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/tvTitle"
             app:layout_constraintStart_toStartOf="@id/tvTitle"
-            app:layout_constraintTop_toBottomOf="@id/tvFeedback" />
-
+            app:layout_constraintTop_toBottomOf="@id/tvFeedback"
+            tools:text="April 12, 2023 | 1:09 PM" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

@@ -1,31 +1,42 @@
 package com.primapp.ui.dashboard
 
 import android.os.Bundle
+import android.util.Log
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.primapp.R
 import com.primapp.cache.UserCache
 import com.primapp.constants.MentorMenteeUserType
 import com.primapp.constants.MentorshipStatusTypes
 import com.primapp.databinding.FragmentDashboardBinding
 import com.primapp.extensions.showError
+import com.primapp.model.contract.RatingItem
 import com.primapp.model.mentormentee.ResultsItem
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
+import com.primapp.ui.contract.RatingFragmentArgs
 import com.primapp.viewmodels.CommunitiesViewModel
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.WebSocket
+
 
 class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), MentorsMenteesAdaptor.Callbacks {
     val viewModel by viewModels<CommunitiesViewModel> { viewModelFactory }
     private var searchJob: Job? = null
     private var adapter: MentorsMenteesAdaptor? = null
+    private lateinit var webSocketListener: WebSocketListener
+    private val okHttpClient = OkHttpClient()
+    private var webSocket: WebSocket? = null
 
     override fun getLayoutRes(): Int = R.layout.fragment_dashboard
 
@@ -33,11 +44,27 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), MentorsMente
         super.onActivityCreated(savedInstanceState)
 
         binding.frag = this
+        webSocketListener = WebSocketListener(viewModel)
         setToolbar(getString(R.string.dashboard), toolbar)
         initTextListeners()
         setObserver()
         getMentorsAndMentees()
         viewModel.getDashboardDetails()
+
+        webSocket = okHttpClient.newWebSocket(createRequest(), webSocketListener)
+
+        viewModel.socketStatus.observe(viewLifecycleOwner) {
+            Log.e("Connected12", it.toString())
+        }
+
+        viewModel.messages.observe(viewLifecycleOwner) {
+            mainMentorsMenteeList.clear()
+            dummyMentorsMenteeList.clear()
+            mainMentorsMenteeList = Gson().fromJson<ArrayList<ResultsItem>>(it.second, object :
+                TypeToken<ArrayList<ResultsItem>>() {}.type)
+            loadAdapters(mainMentorsMenteeList)
+            Log.e("Connected12", "---" + mainMentorsMenteeList.size + "------   " + it.second)
+        }
     }
 
     private fun setObserver() {
@@ -161,7 +188,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), MentorsMente
     }
 
     fun openCreateContractFragment() {
-        var action = DashboardFragmentDirections.actionDashboardFragmentToCreateContractFragment2("dashboard","")
+        var action = DashboardFragmentDirections.actionDashboardFragmentToCreateContractFragment2("dashboard", "")
         findNavController().navigate(action)
     }
 
@@ -185,7 +212,16 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), MentorsMente
         findNavController().navigate(action)
     }
 
-    fun navigateToRatingFragment(){
-        findNavController().navigate(R.id.action_dashboardFragment_to_ratingFragment)
+    fun navigateToRatingFragment() {
+        var action = DashboardFragmentDirections.actionDashboardFragmentToRatingFragment("Dashboard", 0, "")
+        findNavController().navigate(action)
+    }
+
+    private fun createRequest(): Request {
+        val websocketURL = "wss://api.prim-technology.com/ws/online-status/?token=${UserCache.getAccessToken(requireContext())}"
+
+        return Request.Builder()
+            .url(websocketURL)
+            .build()
     }
 }

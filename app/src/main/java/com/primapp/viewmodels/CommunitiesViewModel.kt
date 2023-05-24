@@ -30,6 +30,7 @@ import com.primapp.retrofit.base.Event
 import com.primapp.retrofit.base.Resource
 import com.primapp.utils.ErrorFields
 import com.primapp.utils.ValidationResults
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -378,5 +379,21 @@ class CommunitiesViewModel @Inject constructor(
     fun getDashboardDetails() = viewModelScope.launch {
         _dashboardDetailsLiveData.postValue(Event(Resource.loading(null)))
         _dashboardDetailsLiveData.postValue(Event(repo.getDashboardDetails()))
+    }
+
+    private val _socketStatus = MutableLiveData(false)
+    val socketStatus: LiveData<Boolean> = _socketStatus
+
+    private val _messages = MutableLiveData<Pair<Boolean, String>>()
+    val messages: LiveData<Pair<Boolean, String>> = _messages
+
+    fun addMessage(message: Pair<Boolean, String>) = viewModelScope.launch(Dispatchers.Main) {
+        if (_socketStatus.value == true) {
+            _messages.value = message
+        }
+    }
+
+    fun setStatus(status: Boolean) = viewModelScope.launch(Dispatchers.Main) {
+        _socketStatus.value = status
     }
 }

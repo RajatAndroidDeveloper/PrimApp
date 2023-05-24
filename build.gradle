@@ -12,7 +12,7 @@ buildscript {
     ext.paging_version = '3.0.0-alpha10'
     ext.firebaseVersion = '26.5.0'
     ext.exoPlayer = '2.12.3'
-    ext.sendBirdVersion = '3.0.164'
+    ext.sendBirdVersion = '3.1.25'
     ext.lottieVersion = '5.2.0'
 
 

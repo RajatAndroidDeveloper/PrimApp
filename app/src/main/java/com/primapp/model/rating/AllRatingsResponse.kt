@@ -95,5 +95,8 @@ data class ContentItem(
 	val rating: Double? = null,
 
 	@field:SerializedName("rating_reason")
-	val ratingReason: String? = null
+	val ratingReason: String? = null,
+
+	@field:SerializedName("rated_on")
+	val ratedOn: Any? = null,
 )

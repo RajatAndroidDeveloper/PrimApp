@@ -144,6 +144,8 @@ data class Content(
 )
 
 data class ResultsItem(
+    @field:SerializedName("rating")
+    val rating: List<RatingItem?>? = null,
 
     @field:SerializedName("end_date")
     val endDate: Long? = null,
@@ -186,6 +188,41 @@ data class ResultsItem(
 
     @field:SerializedName("start_date")
     val startDate: Long? = null
+)
+
+data class RatedBy(
+
+    @field:SerializedName("last_name")
+    val lastName: String? = null,
+
+    @field:SerializedName("id")
+    val id: Int? = null,
+
+    @field:SerializedName("user_online_status")
+    val userOnlineStatus: String? = null,
+
+    @field:SerializedName("first_name")
+    val firstName: String? = null,
+
+    @field:SerializedName("username")
+    val username: String? = null,
+
+    @field:SerializedName("get_image_url")
+    val getImageUrl: String? = null
+)
+data class RatingItem(
+
+    @field:SerializedName("rated_by")
+    val ratedBy: RatedBy? = null,
+
+    @field:SerializedName("rating")
+    val rating: Double? = null,
+
+    @field:SerializedName("rating_reason")
+    val ratingReason: String? = null,
+
+    @field:SerializedName("rated_on")
+    val ratedOn: String? = null,
 )
 
 data class CreatedBy(

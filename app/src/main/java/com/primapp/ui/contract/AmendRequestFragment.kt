@@ -22,6 +22,7 @@ class AmendRequestFragment : BaseFragment<FragmentAmendRequestBinding>() {
 
     override fun getLayoutRes() = R.layout.fragment_amend_request
 
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 

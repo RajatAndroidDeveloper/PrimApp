@@ -196,10 +196,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/space_large"
                         android:layout_marginEnd="@dimen/space_large"
+                        android:fontFamily="@font/poppins_bold"
                         android:text="@string/total_earning"
                         android:textAppearance="?attr/textAppearanceSearchResultTitle"
                         android:textColor="@color/textColor"
-                        android:textSize="@dimen/textMedium"
+                        android:textSize="@dimen/textMediumX"
                         android:textStyle="bold" />
 
                     <TextView
@@ -207,12 +208,22 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/space_large"
+                        android:fontFamily="@font/poppins_bold"
                         android:layout_marginEnd="@dimen/space_large"
                         contractPriceValue="@{dashboardData.content.totalEarning.toString()}"
                         android:textAppearance="?attr/textAppearanceSearchResultTitle"
                         android:textColor="@color/textColor"
-                        android:textSize="@dimen/textNormal" />
+                        android:textSize="@dimen/textMedium" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_large"
+                        android:layout_marginEnd="@dimen/space_large"
+                        android:visibility="invisible"
+                        android:textAppearance="?attr/textAppearanceSearchResultTitle"
+                        android:textColor="@color/textColor"
+                        android:textSize="@dimen/textNormal" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.cardview.widget.CardView>
 
@@ -232,7 +243,7 @@
                 app:layout_constraintStart_toEndOf="@id/cardTotalEarning"
                 app:layout_constraintTop_toBottomOf="@id/textServed">
 
-                <androidx.appcompat.widget.LinearLayoutCompat
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/textExtraLarge"
@@ -248,7 +259,8 @@
                         android:text="@string/ratings"
                         android:textAppearance="?attr/textAppearanceSearchResultTitle"
                         android:textColor="@color/textColor"
-                        android:textSize="@dimen/textMedium"
+                        android:textSize="@dimen/textMediumX"
+                        android:fontFamily="@font/poppins_bold"
                         android:textStyle="bold" />
 
                     <TextView
@@ -257,12 +269,24 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/space_large"
                         android:layout_marginEnd="@dimen/space_large"
-                        android:text="@{dashboardData.content.rating.toString()+`/5`}"
+                        android:fontFamily="@font/poppins_bold"
+                        android:text="@{dashboardData.content.rating.toString()+`/5.0`}"
+                        android:textAppearance="?attr/textAppearanceSearchResultTitle"
+                        android:textColor="@color/textColor"
+                        android:textSize="@dimen/textMedium" />
+
+                    <TextView
+                        android:id="@+id/tvTotalRating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_large"
+                        android:layout_marginEnd="@dimen/space_large"
+                        android:text="@{`Total Ratings: `+dashboardData.content.ratingCount.toString()}"
                         android:textAppearance="?attr/textAppearanceSearchResultTitle"
                         android:textColor="@color/textColor"
                         android:textSize="@dimen/textNormal" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                </LinearLayout>
             </androidx.cardview.widget.CardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

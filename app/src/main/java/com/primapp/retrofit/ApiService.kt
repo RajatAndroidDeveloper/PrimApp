@@ -457,7 +457,7 @@ interface ApiService {
         @Body submitRatingRequestModel: SubmitRatingRequestModel
     ): BaseDataModel
 
-    @GET(ApiConstant.SUBMIT_CONTRACT_RATINGS)
+    @GET(ApiConstant.GET_CONTRACT_RATINGS)
     suspend fun getContractRating(): AllRatingsResponse
 
     @GET(ApiConstant.GET_TOTAL_EARNINGS)

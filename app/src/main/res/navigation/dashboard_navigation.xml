@@ -608,6 +608,9 @@
         <action
             android:id="@+id/action_projectDetailsFragment_to_ratingDialogFragment"
             app:destination="@id/ratingDialogFragment" />
+        <action
+            android:id="@+id/action_projectDetailsFragment_to_ratingFragment"
+            app:destination="@id/ratingFragment" />
     </fragment>
     <fragment
         android:id="@+id/networkErrorFragment2"
@@ -644,5 +647,15 @@
         android:id="@+id/ratingFragment"
         android:name="com.primapp.ui.contract.RatingFragment"
         android:label="RatingFragment"
-        tools:layout="@layout/fragment_ratings_layout"/>
+        tools:layout="@layout/fragment_ratings_layout">
+        <argument
+            android:name="from"
+            app:argType="string"/>
+        <argument
+            android:name="contractId"
+            app:argType="integer"/>
+        <argument
+            android:name="ratingData"
+            app:argType="string"/>
+    </fragment>
 </navigation>

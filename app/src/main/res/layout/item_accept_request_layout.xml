@@ -8,6 +8,8 @@
 
         <import type="android.view.View" />
 
+        <import type="com.primapp.utils.DateTimeUtils" />
+
         <variable
             name="acceptedBy"
             type="com.primapp.model.contract.AcceptedByItem" />

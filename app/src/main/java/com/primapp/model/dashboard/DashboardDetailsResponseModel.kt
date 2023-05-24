@@ -19,6 +19,9 @@ data class Content(
 	@field:SerializedName("rating")
 	val rating: Double? = null,
 
+	@field:SerializedName("rating_count")
+	val ratingCount: Int? = null,
+
 	@field:SerializedName("total_mentee_served")
 	val totalMenteeServed: Int? = null
 )

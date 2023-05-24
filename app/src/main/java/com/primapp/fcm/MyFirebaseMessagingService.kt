@@ -188,7 +188,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val intent = Intent(context, DashboardActivity::class.java)
         intent.putExtra("channelUrl", channelUrl)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_MUTABLE)
+//        return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
     companion object {

@@ -11,6 +11,7 @@ import android.text.TextUtils
 import android.text.method.LinkMovementMethod
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -782,6 +783,16 @@ fun contractEarningAmount(textView: TextView, price: String?) {
         textView.text = "+$amount"
     }
 }
+
+@SuppressLint("SetTextI18n")
+@BindingAdapter("ratingValueTitle")
+fun ratingValueTitle(textView: TextView, result: ResultsItem ) {
+    result.let {
+
+    }
+}
+
+
 
 @SuppressLint("SetTextI18n")
 @BindingAdapter("amendRequestTitle", "userData")

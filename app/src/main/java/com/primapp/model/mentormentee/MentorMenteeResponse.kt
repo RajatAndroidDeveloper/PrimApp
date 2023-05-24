@@ -22,7 +22,10 @@ data class ResultsItem(
 	val username: String? = null,
 
 	@field:SerializedName("get_image_url")
-	val getImageUrl: String? = null
+	val getImageUrl: String? = null,
+
+	@field:SerializedName("user_online_status")
+	val userOnlineStatus: String? = null
 )
 
 data class Content(

@@ -6,6 +6,8 @@
     <data>
         <import type="android.text.TextUtils" />
 
+        <import type="com.primapp.utils.DateTimeUtils" />
+
         <import type="android.view.View" />
 
         <variable

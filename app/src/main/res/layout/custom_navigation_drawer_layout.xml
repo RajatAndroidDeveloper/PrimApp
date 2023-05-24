@@ -39,12 +39,13 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:layout_width="@dimen/space_normal"
-                android:layout_height="@dimen/space_normal"
+                android:layout_width="@dimen/textMediumX"
+                android:layout_height="@dimen/textMediumX"
                 android:src="@drawable/ic_online"
                 app:layout_constraintEnd_toEndOf="@id/ivProfileImage"
                 app:layout_constraintBottom_toBottomOf="@id/ivProfileImage"
-                android:layout_marginRight="@dimen/space_small"
+                android:layout_marginRight="@dimen/space_extraSmall"
+                android:layout_marginLeft="@dimen/space_small"
                 android:layout_marginBottom="@dimen/space_extraSmall"/>
 
             <TextView

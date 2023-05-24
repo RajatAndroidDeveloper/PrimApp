@@ -5,10 +5,13 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.primapp.R
 import com.primapp.databinding.FragmentRatingsLayoutBinding
 import com.primapp.extensions.setDivider
 import com.primapp.extensions.showError
+import com.primapp.model.contract.RatingItem
 import com.primapp.model.rating.ContentItem
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
@@ -24,12 +27,23 @@ class RatingFragment : BaseFragment<FragmentRatingsLayoutBinding>() {
         super.onActivityCreated(savedInstanceState)
 
         setToolbar(getString(R.string.ratings), toolbar)
-        setAdapter(ratingsList)
-        viewModel.getContractRating()
+
+        if(RatingFragmentArgs.fromBundle(requireArguments()).from == "ProjectDetails"){
+            ratingList = Gson().fromJson<ArrayList<RatingItem>>(RatingFragmentArgs.fromBundle(requireArguments()).ratingData, object :
+                TypeToken<ArrayList<RatingItem>>(){}.type)
+            if(ratingList.isNullOrEmpty()){
+                binding.tvNoData.isVisible = true
+            }
+            setAdapter(ratingsList, ratingList, "ProjectDetails")
+        }else {
+            setAdapter(ratingsList, null, "Dashboard")
+            viewModel.getContractRating()
+        }
         attachObserver()
     }
 
     private var ratingsList: ArrayList<ContentItem> = ArrayList<ContentItem>()
+    private var ratingList: ArrayList<RatingItem> = ArrayList<RatingItem>()
     private fun attachObserver() {
         viewModel.getRatingLiveData.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
@@ -47,7 +61,7 @@ class RatingFragment : BaseFragment<FragmentRatingsLayoutBinding>() {
                         }else{
                             binding.tvNoData.isVisible = false
                             ratingsList = it.data?.content as ArrayList<ContentItem>
-                            setAdapter(ratingsList)
+                            setAdapter(ratingsList,null,"Dashboard")
                         }
                     }
                 }
@@ -59,11 +73,11 @@ class RatingFragment : BaseFragment<FragmentRatingsLayoutBinding>() {
         viewModel.getContractRating()
     }
 
-    private fun setAdapter(ratingsList: ArrayList<ContentItem>) {
+    private fun setAdapter(ratingsList: ArrayList<ContentItem>, ratingList: ArrayList<RatingItem>?, type:String) {
         var layoutManager = LinearLayoutManager(requireContext())
         binding.rvAllRatings.layoutManager = layoutManager
         binding.rvAllRatings.setDivider(R.drawable.recyclerview_divider)
-        var ratingsAdapter = RatingsAdapter(ratingsList)
+        var ratingsAdapter = RatingsAdapter(ratingsList, ratingList, type)
         binding.rvAllRatings.adapter = ratingsAdapter
     }
 }

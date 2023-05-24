@@ -28,6 +28,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:layout_width="@dimen/textMediumX"
+            android:layout_height="@dimen/textMediumX"
+            android:src="@{data.userOnlineStatus.equals(`ONLINE`) ? @drawable/ic_online : @drawable/ic_offline}"
+            app:layout_constraintEnd_toEndOf="@id/imageProfile"
+            app:layout_constraintBottom_toBottomOf="@id/imageProfile"
+            android:id="@+id/icUserStatus"/>
+
         <TextView
             android:id="@+id/textUserName"
             android:layout_width="0dp"

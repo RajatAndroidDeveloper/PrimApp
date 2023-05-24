@@ -537,13 +537,14 @@
     <string name="please_select_amend_reason">Please select reason for amending your contract.</string>
     <string name="contract_description">Contract Description</string>
     <string name="key_dates">Key Dates</string>
-    <string name="rating">Give Rating</string>
+    <string name="rating">Rate Contract?</string>
     <string name="submit_rating">Submit Rating</string>
     <string name="enter_comment">Write a comment..</string>
     <string name="done">Done</string>
     <string name="please_select_rating">Please select any rating</string>
     <string name="please_enter_rating_message">Please enter rating message</string>
     <string name="you_have_submitted_rating_successfully">You have submitted ratings successfully.</string>
+    <string name="see_ratings">See Ratings</string>
 
     <string-array name="categories">
         <item>Mentor</item>

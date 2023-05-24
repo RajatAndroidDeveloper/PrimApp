@@ -37,6 +37,8 @@ class ContractsViewModel @Inject constructor(
 
     val errorFieldsLiveData = MutableLiveData<ErrorFields>()
 
+    val ratingSubmitted = MutableLiveData<Boolean>()
+
     val createContractRequestModel = MutableLiveData<CreateContractRequestModel>()
 
     val amendContractRequestModel = MutableLiveData<AmendContractRequestModel>()
@@ -246,6 +248,9 @@ class ContractsViewModel @Inject constructor(
 
     private var _contractDetailLiveData = MutableLiveData<Event<Resource<ContractDetailResponseModel>>>()
     var contractDetailLiveData: LiveData<Event<Resource<ContractDetailResponseModel>>> = _contractDetailLiveData
+
+    var _ratingData = MutableLiveData<Boolean>()
+    var ratingData: LiveData<Boolean> = _ratingData
 
     fun getContractDetails(contractId: Int) = viewModelScope.launch {
         _contractDetailLiveData.postValue(Event(Resource.loading(null)))

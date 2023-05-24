@@ -25,6 +25,9 @@ data class ContentItem(
 	@field:SerializedName("rating_reason")
 	val ratingReason: Any? = null,
 
+	@field:SerializedName("rated_on")
+	val ratedOn: Any? = null,
+
 	@field:SerializedName("id")
 	val id: Int? = null,
 

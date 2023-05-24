@@ -7,9 +7,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -30,11 +32,15 @@ import com.primapp.ui.profile.UserPostsFragment
 import com.primapp.utils.AnalyticsManager
 import com.primapp.utils.DialogUtils
 import com.primapp.utils.NetworkConnectionHelper
+import com.primapp.viewmodels.CommunitiesViewModel
 import com.sendbird.android.SendBird
 import com.sendbird.android.SendBirdException
 import com.sendbird.android.SendBirdPushHelper
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.custom_navigation_drawer_layout.*
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.WebSocket
 import javax.inject.Inject
 
 
@@ -70,6 +76,12 @@ class DashboardActivity : BaseActivity() {
         } else {
             //Do not connect to sendbird if opening from notification
             registerUserOnSendbird()
+        }
+
+        webSocketListener = WebSocketListener(viewModel)
+        webSocket = okHttpClient.newWebSocket(createRequest(), webSocketListener)
+        viewModel.socketStatus.observe(this) {
+            Log.e("Connected12", it.toString())
         }
     }
 
@@ -221,9 +233,22 @@ class DashboardActivity : BaseActivity() {
         }
     }
 
+    private val okHttpClient = OkHttpClient()
+    private var webSocket: WebSocket? = null
+    private lateinit var webSocketListener: WebSocketListener
+    val viewModel by viewModels<CommunitiesViewModel> { viewModelFactory }
+
     override fun onPause() {
         super.onPause()
+        Log.e("asasasasasas232323","pause_data")
         navController.removeOnDestinationChangedListener(navListener)
+        disconnectSocket()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.e("asasasasasas232323","destroy_data")
+        disconnectSocket()
     }
 
     override fun onResume() {
@@ -231,6 +256,8 @@ class DashboardActivity : BaseActivity() {
         navController.addOnDestinationChangedListener(navListener)
         refreshNotificationBadge()
         clearAllNotifications()
+        webSocketListener = WebSocketListener(viewModel)
+        webSocket = okHttpClient.newWebSocket(createRequest(), webSocketListener)
     }
 
     private fun setNavigationHeaderData(name:String, userImage: String?){
@@ -373,5 +400,20 @@ class DashboardActivity : BaseActivity() {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         })
+    }
+
+    private fun createRequest(): Request {
+        val websocketURL = "wss://api.prim-technology.com/ws/online-status/?token=${UserCache.getAccessToken(this)}"
+
+        return Request.Builder()
+            .url(websocketURL)
+            .build()
+    }
+
+    private fun disconnectSocket(){
+        viewModel.socketStatus.observe(this) {
+            Log.e("Connected12", it.toString())
+            if(it) okHttpClient.dispatcher.executorService.shutdown()
+        }
     }
 }

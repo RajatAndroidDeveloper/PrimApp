@@ -74,23 +74,23 @@
 
                     <TextView
                         android:id="@+id/tvContractStatus"
+                        backgroundTint="@{data.contractStatus}"
+                        contractStatusTitle="@{data.contractStatus}"
                         android:layout_width="wrap_content"
-                        android:background="@drawable/shape_rounded_corner_grey_small_corner"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:paddingTop="@dimen/space_extraSmallX"
-                        android:paddingBottom="@dimen/space_extraSmallX"
-                        android:paddingStart="@dimen/space_normal"
-                        android:paddingEnd="@dimen/space_normal"
                         android:layout_marginRight="@dimen/space_normal"
+                        android:background="@drawable/shape_rounded_corner_grey_small_corner"
                         android:gravity="center"
-                        android:textColor="@color/white"
-                        backgroundTint="@{data.contractStatus}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/tvProjectTitle"
-                        contractStatusTitle="@{data.contractStatus}"
+                        android:paddingStart="@dimen/space_normal"
+                        android:paddingTop="@dimen/space_extraSmallX"
+                        android:paddingEnd="@dimen/space_normal"
+                        android:paddingBottom="@dimen/space_extraSmallX"
                         android:textAllCaps="false"
-                        android:textSize="@dimen/textSmall" />
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/textSmall"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tvProjectTitle" />
 
                     <View
                         android:id="@+id/viewSeprator"
@@ -109,8 +109,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/space_medium"
                         android:ellipsize="end"
-                        android:maxLines="1"
                         android:fontFamily="@font/poppins_medium"
+                        android:maxLines="1"
                         android:text="@string/contract_description"
                         android:textSize="@dimen/textMedium"
                         app:layout_constraintEnd_toEndOf="@id/tvContractStatus"
@@ -160,10 +160,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/space_small"
                                 android:ellipsize="end"
-                                android:textSize="@dimen/textMedium"
                                 android:fontFamily="@font/poppins_medium"
                                 android:maxLines="1"
-                                android:text="@string/key_dates" />
+                                android:text="@string/key_dates"
+                                android:textSize="@dimen/textMedium" />
 
                             <TextView
                                 android:id="@+id/tvProjectHistoryDescription"
@@ -205,21 +205,21 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/space_small"
                                 android:ellipsize="end"
-                                android:textSize="@dimen/textMedium"
                                 android:fontFamily="@font/poppins_medium"
                                 android:maxLines="1"
-                                android:text="@string/price" />
+                                android:text="@string/price"
+                                android:textSize="@dimen/textMedium" />
 
                             <TextView
                                 android:id="@+id/tvProjectPrice"
                                 style="@style/primaryBodyText"
+                                contractPriceValue="@{data.price}"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/space_small"
-                                contractPriceValue="@{data.price}"
+                                android:textColor="@color/textColor"
                                 android:textSize="@dimen/textLarge"
                                 android:textStyle="bold"
-                                android:textColor="@color/textColor"
                                 tools:text="Price - $1000.00" />
                         </LinearLayout>
                     </LinearLayout>
@@ -272,8 +272,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:paddingLeft="@dimen/space_normal"
                                 android:layout_marginStart="@dimen/space_extraSmall"
+                                android:paddingLeft="@dimen/space_normal"
                                 android:text="@{data.createdBy.firstName+' '+data.createdBy.lastName}"
                                 android:textColor="@color/textColor"
                                 android:textSize="@dimen/textMedium"
@@ -392,9 +392,9 @@
             android:id="@+id/llButtons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="@{data.createdBy.id.equals(user.id) ? View.VISIBLE : View.GONE}"
             android:layout_marginTop="@dimen/space_normal"
             android:orientation="horizontal"
+            android:visibility="@{data.createdBy.id.equals(user.id) ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toTopOf="@id/llAcceptAmendButton"
             app:layout_constraintEnd_toEndOf="@id/tvContractStatus"
             app:layout_constraintStart_toStartOf="@id/tvProjectTitle">
@@ -403,42 +403,42 @@
                 android:id="@+id/tvAmend"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/textExtraMediumLargeXX"
-                android:textSize="@dimen/textMedium"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/space_large"
-                android:layout_weight="1"
                 android:layout_marginTop="@dimen/space_normal"
-                android:layout_marginBottom="@dimen/space_normal"
                 android:layout_marginRight="@dimen/space_small"
-                android:fontFamily="@font/poppins_medium"
+                android:layout_marginBottom="@dimen/space_normal"
+                android:layout_weight="1"
                 android:background="@drawable/shape_rounded_corner_light_grey"
                 android:backgroundTint="@color/colorAccent"
+                android:fontFamily="@font/poppins_medium"
                 android:gravity="center"
                 android:onClick="@{()->frag.navigateToAmendDialog(`Complete Contract`)}"
                 android:text="@string/end_contract"
                 android:textColor="@color/white"
+                android:textSize="@dimen/textMedium"
                 android:visibility="@{data.contractStatus.equals(`IN_PROGRESS`) ? View.VISIBLE : View.GONE}" />
 
             <TextView
                 android:id="@+id/btnAccept"
-                android:background="@drawable/shape_rounded_corner_light_grey"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/textExtraMediumLargeXX"
-                android:textSize="@dimen/textMedium"
-                android:layout_marginTop="@dimen/space_normal"
-                android:layout_marginBottom="@dimen/space_normal"
-                android:layout_marginRight="@dimen/space_large"
+                android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/space_small"
+                android:layout_marginTop="@dimen/space_normal"
+                android:layout_marginRight="@dimen/space_large"
+                android:layout_marginBottom="@dimen/space_normal"
                 android:layout_weight="1"
+                android:background="@drawable/shape_rounded_corner_light_grey"
+                android:backgroundTint="@color/colorAccent"
+                android:fontFamily="@font/poppins_medium"
+                android:gravity="center"
                 android:onClick="@{()->frag.acceptContract(`Start Contract`)}"
                 android:text="@string/start_contract"
                 android:textAllCaps="false"
-                android:fontFamily="@font/poppins_medium"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:backgroundTint="@color/colorAccent"
                 android:textColor="@color/white"
+                android:textSize="@dimen/textMedium"
+                android:textStyle="bold"
                 android:visibility="@{data.contractStatus.equals(`NOT_STARTED`) ? View.VISIBLE : View.GONE}" />
         </LinearLayout>
 
@@ -459,58 +459,143 @@
                 android:layout_height="@dimen/textExtraMediumLargeXX"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/space_large"
+                android:layout_marginTop="@dimen/space_normal"
+                android:layout_marginRight="@dimen/space_small"
+                android:layout_marginBottom="@dimen/space_normal"
                 android:layout_weight="1"
                 android:background="@drawable/shape_rounded_corner_search_box_with_stroke"
-                android:layout_marginTop="@dimen/space_normal"
-                android:layout_marginBottom="@dimen/space_normal"
                 android:fontFamily="@font/poppins_bold"
-                android:textStyle="bold"
                 android:gravity="center"
                 android:onClick="@{()->frag.navigateToAmendDialog(`Amend`)}"
                 android:text="@string/amend"
                 android:textColor="@color/colorAccent"
-                android:layout_marginRight="@dimen/space_small"
-                android:textSize="@dimen/textNormal" />
+                android:textSize="@dimen/textNormal"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/btnAcceptContract"
-                android:background="@drawable/shape_rounded_corner_light_grey"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/textExtraMediumLargeXX"
-                android:layout_marginTop="@dimen/space_normal"
+                android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/space_small"
-                android:layout_marginBottom="@dimen/space_normal"
+                android:layout_marginTop="@dimen/space_normal"
                 android:layout_marginRight="@dimen/space_large"
+                android:layout_marginBottom="@dimen/space_normal"
                 android:layout_weight="1"
+                android:background="@drawable/shape_rounded_corner_light_grey"
+                android:backgroundTint="@color/colorAccent"
+                android:gravity="center"
                 android:onClick="@{()->frag.acceptContract(`Accept`)}"
                 android:text="@string/accept"
                 android:textAllCaps="false"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:backgroundTint="@color/colorAccent"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <Button
             android:id="@+id/btnRateProject"
             style="@style/buttonFilledPrimary"
             android:layout_marginTop="@dimen/space_largeX"
+            android:layout_marginBottom="@dimen/space_small"
+            android:onClick="@{()->frag.navigateToRatingFragment()}"
             android:text="@string/rating"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="@dimen/textMedium"
-            android:onClick="@{()->frag.navigateToRatingFragment()}"
-            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/btnSeeRating"
             app:layout_constraintEnd_toEndOf="parent"
-            android:visibility="@{!data.createdBy.id.equals(user.id) &amp;&amp; data.contractStatus.equals(`COMPLETED`) ? View.VISIBLE : View.GONE}"
-            app:layout_constraintWidth_percent=".92"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent=".92" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clRating"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_normal"
+            android:padding="@dimen/space_small"
+            android:background="@color/lightAccent"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="@dimen/space_small"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent=".94">
+
+            <LinearLayout
+                android:id="@+id/llRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_small"
+                android:background="@color/colorAccent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/imgStar"
+                    android:layout_width="@dimen/textLarge"
+                    android:layout_height="@dimen/textLarge"
+                    android:layout_marginLeft="@dimen/space_small"
+                    android:src="@drawable/yellow_star" />
+
+                <TextView
+                    android:id="@+id/tvRatingMessage"
+                    style="@style/primaryBodyText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/poppins_bold"
+                    android:padding="@dimen/space_extraSmall"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textMedium"
+                    android:textStyle="bold"
+                    tools:text="4.5/5.0" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvRatingMessageVal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/space_normal"
+                android:layout_marginRight="@dimen/space_normal"
+                android:fontFamily="@font/poppins_regular"
+                android:maxLines="2"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/textMedium"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/llRating"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Contains amazing information and would love to work again" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/btnSeeRating"
+            style="@style/buttonFilledPrimary"
+            android:layout_marginTop="@dimen/space_largeX"
+            android:layout_marginBottom="@dimen/space_small"
+            android:onClick="@{()->frag.navigateToSeeRatingFragment(data)}"
+            android:text="@string/see_ratings"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textMedium"
+            android:visibility="@{data.createdBy.id == user.id &amp;&amp; data.contractStatus.equals(`COMPLETED`) ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toTopOf="@id/clRating"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent=".92" />
 
         <include
             android:id="@+id/llAmendReqyestLayout"
             layout="@layout/popup_amend_contract_layout" />
+
+        <include
+            android:id="@+id/llRatingData"
+            layout="@layout/fragment_rating_dialog" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

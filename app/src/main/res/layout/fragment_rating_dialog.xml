@@ -8,21 +8,24 @@
 
         <variable
             name="frag"
-            type="com.primapp.ui.contract.RatingDialogFragment" />
+            type="com.primapp.ui.contract.ProjectDetailsFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:id="@+id/ratingLayout"
+        android:visibility="gone"
+        android:background="#40000000"
+        android:layout_height="match_parent">
 
         <androidx.cardview.widget.CardView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/space_small"
-            android:elevation="@dimen/space_small"
+            android:elevation="@dimen/space_large"
             app:cardBackgroundColor="@color/backgroundColor"
             app:cardCornerRadius="@dimen/space_medium"
-            app:cardElevation="@dimen/space_small"
+            app:cardElevation="@dimen/space_large"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -50,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/space_small"
                     android:src="@drawable/ic_close"
-                    android:onClick="@{()-> frag.closeDialog()}"
+                    android:onClick="@{()-> frag.closeRatingDialog()}"
                     app:layout_constraintBottom_toBottomOf="@id/tvTitle"
                     app:layout_constraintEnd_toEndOf="@id/tlComment"
                     app:layout_constraintTop_toTopOf="@id/tvTitle" />
