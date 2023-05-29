@@ -31,7 +31,7 @@
         <ImageView
             android:layout_width="@dimen/textMediumX"
             android:layout_height="@dimen/textMediumX"
-            android:src="@{data.userOnlineStatus.equals(`ONLINE`) ? @drawable/ic_online : @drawable/ic_offline}"
+            android:src="@{data.userOnlineStatus.equals(`ONLINE`) ? @drawable/ic_online_circle : @drawable/ic_offline_circle}"
             app:layout_constraintEnd_toEndOf="@id/imageProfile"
             app:layout_constraintBottom_toBottomOf="@id/imageProfile"
             android:id="@+id/icUserStatus"/>

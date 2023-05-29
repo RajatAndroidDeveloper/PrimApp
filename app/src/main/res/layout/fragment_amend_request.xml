@@ -43,132 +43,153 @@
                 android:layout_height="match_parent">
 
                 <View
+                    android:id="@+id/view"
                     android:layout_width="@dimen/dp_0"
                     android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/space_normal"
                     android:background="@color/lightestGrey"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintWidth_percent=".9"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginTop="@dimen/space_normal"
-                    android:id="@+id/view"/>
+                    app:layout_constraintWidth_percent=".9" />
 
                 <RadioGroup
+                    android:id="@+id/rgAmendReason"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="@id/view"
-                    app:layout_constraintEnd_toEndOf="@id/view"
-                    android:id="@+id/rgAmendReason"
                     android:divider="?android:attr/dividerHorizontal"
                     android:showDividers="middle"
+                    app:layout_constraintEnd_toEndOf="@id/view"
+                    app:layout_constraintStart_toStartOf="@id/view"
                     app:layout_constraintTop_toBottomOf="@id/view">
 
                     <RadioButton
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/textExtraLargeXX"
-                        android:text="@string/cost_is_too_high"
-                        android:textSize="@dimen/textMedium"
-                        android:paddingLeft="@dimen/space_small"
                         android:id="@+id/rbCostIsHigh"
-                        android:layout_marginBottom="@dimen/space_small"
-                        android:layout_marginTop="@dimen/space_small"
-                        android:textColor="@color/textColor"
-                        android:buttonTint="@color/colorAccent"/>
-
-                    <RadioButton
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/textExtraLargeXX"
-                        android:text="@string/out_of_scope"
-                        android:layout_marginBottom="@dimen/space_small"
                         android:layout_marginTop="@dimen/space_small"
-                        android:textSize="@dimen/textMedium"
+                        android:layout_marginBottom="@dimen/space_small"
+                        android:buttonTint="@color/colorAccent"
                         android:paddingLeft="@dimen/space_small"
+                        android:text="@string/cost_is_too_high"
+                        android:textColor="@color/textColor"
+                        android:textSize="@dimen/textMedium" />
+
+                    <RadioButton
                         android:id="@+id/rbOutOfScope"
-                        android:textColor="@color/textColor"
-                        android:buttonTint="@color/colorAccent"/>
-
-                    <RadioButton
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/textExtraLargeXX"
-                        android:text="@string/contract_wording_changes"
-                        android:layout_marginBottom="@dimen/space_small"
                         android:layout_marginTop="@dimen/space_small"
-                        android:textSize="@dimen/textMedium"
+                        android:layout_marginBottom="@dimen/space_small"
+                        android:buttonTint="@color/colorAccent"
                         android:paddingLeft="@dimen/space_small"
+                        android:text="@string/out_of_scope"
+                        android:textColor="@color/textColor"
+                        android:textSize="@dimen/textMedium" />
+
+                    <RadioButton
                         android:id="@+id/rbWordingChanges"
-                        android:textColor="@color/textColor"
-                        android:buttonTint="@color/colorAccent"/>
-
-                    <RadioButton
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/textExtraLargeXX"
-                        android:text="@string/something_else"
-                        android:layout_marginBottom="@dimen/space_small"
                         android:layout_marginTop="@dimen/space_small"
-                        android:textSize="@dimen/textMedium"
+                        android:layout_marginBottom="@dimen/space_small"
+                        android:buttonTint="@color/colorAccent"
                         android:paddingLeft="@dimen/space_small"
-                        android:id="@+id/rbSomethingElse"
+                        android:text="@string/contract_wording_changes"
                         android:textColor="@color/textColor"
-                        android:buttonTint="@color/colorAccent"/>
+                        android:textSize="@dimen/textMedium" />
+
+                    <RadioButton
+                        android:id="@+id/rbSomethingElse"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/textExtraLargeXX"
+                        android:layout_marginTop="@dimen/space_small"
+                        android:layout_marginBottom="@dimen/space_small"
+                        android:buttonTint="@color/colorAccent"
+                        android:paddingLeft="@dimen/space_small"
+                        android:text="@string/something_else"
+                        android:textColor="@color/textColor"
+                        android:textSize="@dimen/textMedium" />
                 </RadioGroup>
 
                 <View
+                    android:id="@+id/view1"
                     android:layout_width="@dimen/dp_0"
                     android:layout_height="1dp"
                     android:background="@color/lightestGrey"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/rgAmendReason"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintWidth_percent=".9"
-                    android:id="@+id/view1"/>
+                    app:layout_constraintWidth_percent=".9" />
 
-                <EditText
+                <LinearLayout
+                    android:id="@+id/llReason"
                     android:layout_width="@dimen/dp_0"
-                    android:layout_height="@dimen/edit_box_height"
-                    app:layout_constraintTop_toBottomOf="@id/view1"
-                    app:layout_constraintStart_toStartOf="@id/view1"
-                    app:layout_constraintEnd_toEndOf="@id/view1"
-                    android:visibility="gone"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_large"
                     android:background="@drawable/shape_rounded_corner_search_box"
-                    android:id="@+id/etSomethingElseReason"
-                    android:hint="@string/please_enter_other_contract_amendment_reason"
-                    android:padding="@dimen/space_medium"
-                    android:gravity="start"
-                    android:textColor="@color/textColor"
-                    android:textSize="@dimen/textMedium"/>
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="@id/view1"
+                    app:layout_constraintStart_toStartOf="@id/view1"
+                    app:layout_constraintTop_toBottomOf="@id/view1">
+
+                    <EditText
+                        android:id="@+id/etSomethingElseReason"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_box_height"
+                        android:gravity="start"
+                        android:hint="@string/please_enter_other_contract_amendment_reason"
+                        android:maxLength="200"
+                        android:padding="@dimen/space_medium"
+                        android:background="@null"
+                        android:textColor="@color/textColor"
+                        android:textSize="@dimen/textMedium"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tvTotalLength"
+                        android:textColor="@color/textColor"
+                        android:gravity="end"
+                        android:layout_gravity="end"
+                        android:text="0/200"
+                        android:layout_marginRight="@dimen/space_normal"/>
+
+                </LinearLayout>
+
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tlContractPrice"
                     style="@style/myTextInputLabel"
-                    isRequired="@{true}"
                     errorText="@{viewModel.errorFieldsLiveData.errorContractPrice}"
+                    isRequired="@{true}"
+                    android:layout_marginTop="@dimen/space_large"
                     android:hint="@string/price"
                     android:visibility="@{amendRequestStatus.equals(`ACCEPTED`) || amendRequestStatus.equals(`DECLINED`) ? View.GONE : View.VISIBLE}"
                     app:errorEnabled="true"
-                    android:layout_marginTop="@dimen/space_large"
-                    app:layout_constraintStart_toStartOf="@id/rgAmendReason"
                     app:layout_constraintEnd_toEndOf="@id/rgAmendReason"
-                    app:layout_constraintTop_toBottomOf="@id/etSomethingElseReason">
+                    app:layout_constraintStart_toStartOf="@id/rgAmendReason"
+                    app:layout_constraintTop_toBottomOf="@id/llReason">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etPrice"
                         style="@style/editTextInput"
-                        android:inputType="numberDecimal"/>
+                        android:inputType="numberDecimal" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Button
                     android:id="@+id/btnCreateContract"
                     style="@style/buttonFilledPrimary"
-                    android:layout_marginTop="@dimen/space_extraSmall"
-                    android:text="@string/request_amend"
                     android:layout_height="@dimen/textExtraMediumLargeXX"
+                    android:layout_marginTop="@dimen/space_extraSmall"
+                    android:onClick="@{()->frag.amendContract()}"
+                    android:text="@string/request_amend"
                     android:textAllCaps="false"
                     android:textSize="@dimen/textMedium"
-                    android:onClick="@{()->frag.amendContract()}"
                     app:layout_constraintEnd_toEndOf="@id/rgAmendReason"
                     app:layout_constraintStart_toStartOf="@id/rgAmendReason"
-                    app:layout_constraintTop_toBottomOf="@id/tlContractPrice"/>
+                    app:layout_constraintTop_toBottomOf="@id/tlContractPrice" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

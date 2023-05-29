@@ -172,7 +172,7 @@
                         android:id="@+id/ivPostPreview"
                         loadPostImageFromUrl="@{data.getThumbnailUrl == null ? data.imageUrl : data.getThumbnailUrl}"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="310dp"
                         android:background="?attr/selectableItemBackground"
                         android:scaleType="centerCrop"
                         android:src="@drawable/placeholder"

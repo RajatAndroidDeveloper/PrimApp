@@ -21,7 +21,7 @@ class PrimApp() : DaggerApplication(), LifecycleObserver {
 
     override fun onCreate() {
         super.onCreate()
-        SendBird.init(BuildConfig.SENDBIRD_APP_ID, applicationContext)
+        SendBird.init(BuildConfig.SENDBIRD_APP_ID, applicationContext, )
         ProcessLifecycleOwner.get().lifecycle.addObserver(this);
     }
 

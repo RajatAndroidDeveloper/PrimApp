@@ -1,9 +1,12 @@
 package com.primapp.ui.contract
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.RadioGroup
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.primapp.R
@@ -37,6 +40,18 @@ class AmendRequestFragment : BaseFragment<FragmentAmendRequestBinding>() {
         }
         attachObservers()
         editTextFocusListener()
+
+        binding.etSomethingElseReason.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                binding.tvTotalLength.text = "${s?.length}/200"
+            }
+        })
     }
 
     private fun setUpRadioGroupListener() {
@@ -44,19 +59,19 @@ class AmendRequestFragment : BaseFragment<FragmentAmendRequestBinding>() {
             when (checkedId) {
                 R.id.rbCostIsHigh -> {
                     selectedReason = getString(R.string.cost_is_too_high)
-                    binding.etSomethingElseReason.isVisible = false
+                    binding.llReason.isVisible = false
                 }
                 R.id.rbOutOfScope -> {
                     selectedReason = getString(R.string.out_of_scope)
-                    binding.etSomethingElseReason.isVisible = false
+                    binding.llReason.isVisible = false
                 }
                 R.id.rbWordingChanges -> {
                     selectedReason = getString(R.string.contract_wording_changes)
-                    binding.etSomethingElseReason.isVisible = false
+                    binding.llReason.isVisible = false
                 }
                 else -> {
                     selectedReason = getString(R.string.something_else)
-                    binding.etSomethingElseReason.isVisible = true
+                    binding.llReason.isVisible = true
                 }
             }
         })

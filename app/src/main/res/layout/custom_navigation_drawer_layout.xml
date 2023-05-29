@@ -41,12 +41,11 @@
             <ImageView
                 android:layout_width="@dimen/textMediumX"
                 android:layout_height="@dimen/textMediumX"
-                android:src="@drawable/ic_online"
+                android:src="@drawable/ic_online_circle"
                 app:layout_constraintEnd_toEndOf="@id/ivProfileImage"
                 app:layout_constraintBottom_toBottomOf="@id/ivProfileImage"
                 android:layout_marginRight="@dimen/space_extraSmall"
-                android:layout_marginLeft="@dimen/space_small"
-                android:layout_marginBottom="@dimen/space_extraSmall"/>
+                android:layout_marginLeft="@dimen/space_small"/>
 
             <TextView
                 android:id="@+id/tvUserName"
