@@ -545,6 +545,7 @@
     <string name="please_enter_rating_message">Please enter rating message</string>
     <string name="you_have_submitted_rating_successfully">You have submitted ratings successfully.</string>
     <string name="see_ratings">See Ratings</string>
+    <string name="are_you_sure_you_want_to_send_file">Are you sure you want to send a file or attachment?</string>
 
     <string-array name="categories">
         <item>Mentor</item>

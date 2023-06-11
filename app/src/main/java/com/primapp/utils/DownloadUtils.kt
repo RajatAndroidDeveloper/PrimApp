@@ -8,8 +8,10 @@ import android.os.Environment
 import android.util.Log
 import android.webkit.MimeTypeMap
 import android.webkit.URLUtil
+import androidx.core.content.ContextCompat.startActivity
 import com.primapp.R
 import com.primapp.extensions.showNormalToast
+import java.io.File
 
 
 object DownloadUtils {
@@ -43,4 +45,9 @@ object DownloadUtils {
         return intent
     }
 
+    fun openFile(fileName: String?, context: Context) {
+        val install = Intent(Intent.ACTION_VIEW)
+        install.setDataAndType(Uri.fromFile(File(fileName)), "MIME-TYPE")
+        context.startActivity(install)
+    }
 }

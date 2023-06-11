@@ -143,7 +143,7 @@ class AddMentoringPortfolioFragment : BaseFragment<FragmentAddMentoringPortfolio
                             if (isThumbnailUploaded) {
                                 viewModel.mentoringPortfolioRequestModel.value?.thumbnailFile = it.fields.key
                                 val bitmap = FileUtils.getBitmapThumbnailForVideo(requireContext(), selectedFile!!)
-                                part = RetrofitUtils.bitmapToMultipartBody(bitmap, it.fields.key, "file")
+                                part = RetrofitUtils.bitmapToMultipartBody(bitmap, it.fields.key?:"", "file")
                             } else {
                                 viewModel.mentoringPortfolioRequestModel.value?.contentFile = it.fields.key
                                 part = RetrofitUtils.fileToRequestBody(selectedFile!!, "file")
@@ -152,11 +152,15 @@ class AddMentoringPortfolioFragment : BaseFragment<FragmentAddMentoringPortfolio
                             viewModel.mentoringPortfolioRequestModel.value?.fileType = fileType
                             viewModel.uploadAWS(
                                 it.url,
-                                it.fields.key,
-                                it.fields.aWSAccessKeyId,
+                                it.fields.key?:"",
+                                it.fields.aWSAccessKeyId?:"",
                                 it.fields.xAmzSecurityToken,
-                                it.fields.policy,
-                                it.fields.signature,
+                                it.fields.policy?:"",
+                                it.fields.signature?:"",
+                                it.fields.xAmzAlgorithm?:"",
+                                it.fields.xAmzCredential?:"",
+                                it.fields.xAmzDate?:"",
+                                it.fields.xAmzSignature?:"",
                                 part
                             )
                         }

@@ -10,7 +10,14 @@ import com.primapp.R
 import com.primapp.databinding.*
 import com.primapp.utils.DateTimeUtils
 import com.sendbird.android.*
-import com.sendbird.android.BaseChannel.GetMessagesHandler
+import com.sendbird.android.channel.GroupChannel
+import com.sendbird.android.handler.CompletionHandler
+import com.sendbird.android.message.AdminMessage
+import com.sendbird.android.message.BaseMessage
+import com.sendbird.android.message.FileMessage
+import com.sendbird.android.message.UserMessage
+import com.sendbird.android.params.MessageListParams
+import com.sendbird.android.user.User
 
 class ChatAdapter2 constructor(val onItemClick: (Any) -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -53,7 +60,7 @@ class ChatAdapter2 constructor(val onItemClick: (Any) -> Unit) :
         val message: BaseMessage = messageList[position]
         return when (message) {
             is UserMessage -> {
-                if (message.sender.userId == SendBird.getCurrentUser().userId) {
+                if (message.sender?.userId == SendbirdChat.currentUser?.userId) {
                     VIEW_TYPE_USER_MESSAGE_ME
                 } else {
                     VIEW_TYPE_USER_MESSAGE_OTHER
@@ -247,7 +254,7 @@ class ChatAdapter2 constructor(val onItemClick: (Any) -> Unit) :
     }
 
     fun markAllMessagesAsRead() {
-        channel?.markAsRead()
+        channel?.markAsRead { e1 -> e1?.printStackTrace() }
         // notifyDataSetChanged()
     }
 
@@ -255,36 +262,54 @@ class ChatAdapter2 constructor(val onItemClick: (Any) -> Unit) :
      * Replaces current message list with new list.
      * Should be used only on initial load or refresh.
      */
-    fun loadLatestMessages(limit: Int, handler: GetMessagesHandler?) {
+    fun loadLatestMessages(limit: Int, function: () -> Unit) {
 
         if (isMessageListLoading() || channel == null) {
             return
         }
         setMessageListLoading(true)
-        channel?.getPreviousMessagesByTimestamp(
-            Long.MAX_VALUE,
-            true,
-            limit,
-            false,
-            BaseChannel.MessageTypeFilter.ALL,
-            null,
-            GetMessagesHandler { list, e ->
-                handler?.onResult(list, e)
-                setMessageListLoading(false)
-                if (e != null) {
-                    e.printStackTrace()
-                    return@GetMessagesHandler
-                }
-                if (list.size <= 0) {
-                    return@GetMessagesHandler
-                }
-//                for (message in mMessageList) {
-//                    if (isTempMessage(message) || isFailedMessage(message)) {
-//                        list.add(0, message)
-//                    }
-//                }
-                addData(list)
-            })
+        val params = MessageListParams().apply {
+            nextResultSize = limit
+            reverse = false
+        }
+        channel!!.getMessagesByTimestamp(Long.MAX_VALUE, params) { messages, e ->
+            setMessageListLoading(false)
+            if (e != null) {
+                e.printStackTrace()
+                return@getMessagesByTimestamp
+            }
+            if (messages?.size?:0 <= 0) {
+                return@getMessagesByTimestamp
+            }
+            addData(messages!!)
+        }
+        /* channel?.getMessagesByTimestamp(
+             Long.MAX_VALUE,
+             true,
+             limit,
+             true,
+             MessageTypeFilter.ALL,
+             null,
+             null,
+             false,
+             true,
+             GetMessagesHandler { list, e ->
+                 handler?.onResult(list, e)
+                 setMessageListLoading(false)
+                 if (e != null) {
+                     e.printStackTrace()
+                     return@GetMessagesHandler
+                 }
+                 if (list.size <= 0) {
+                     return@GetMessagesHandler
+                 }
+ //                for (message in mMessageList) {
+ //                    if (isTempMessage(message) || isFailedMessage(message)) {
+ //                        list.add(0, message)
+ //                    }
+ //                }
+                 addData(list)
+             })*/
     }
 
     /**
@@ -292,37 +317,38 @@ class ChatAdapter2 constructor(val onItemClick: (Any) -> Unit) :
      * @param limit
      * @param handler
      */
-    fun loadPreviousMessages(limit: Int, handler: GetMessagesHandler?) {
+    fun loadPreviousMessages(limit: Int) {
         if (isMessageListLoading() || channel == null) {
             return
         }
         var oldestMessageCreatedAt = Long.MAX_VALUE
         if (messageList.size > 0) {
-            oldestMessageCreatedAt = messageList.get(messageList.size - 1).getCreatedAt()
+            oldestMessageCreatedAt = messageList.get(messageList.size - 1).createdAt
         }
         setMessageListLoading(true)
-        channel?.getPreviousMessagesByTimestamp(
-            oldestMessageCreatedAt,
-            false,
-            limit,
-            false,
-            BaseChannel.MessageTypeFilter.ALL,
-            null,
-            GetMessagesHandler { list, e ->
-                handler?.onResult(list, e)
+        val params = MessageListParams().apply {
+            nextResultSize = limit
+            reverse = false
+        }
+        channel!!.getMessagesByTimestamp(oldestMessageCreatedAt, params) { messages, e ->
+            if (e != null) {
+                e.printStackTrace()
+                return@getMessagesByTimestamp
+            }
+            if (messages.isNullOrEmpty()) {
+                return@getMessagesByTimestamp
+            }
+            if (!messages.isNullOrEmpty()) {
+                addMessages(messages)
+                if (messages.size >= params.nextResultSize) {
+                    loadPreviousMessages(limit)
+                } else {
+                    setMessageListLoading(true)
+                }
+            } else {
                 setMessageListLoading(false)
-                if (e != null) {
-                    e.printStackTrace()
-                    return@GetMessagesHandler
-                }
-                /* for (message in list) {
-                     mMessageList.add(message)
-                 }*/
-                if (list.size <= 0) {
-                    return@GetMessagesHandler
-                }
-                addMessages(list)
-            })
+            }
+        }
     }
 
     private class ChatMessageDiffCallback : DiffUtil.ItemCallback<BaseMessage>() {

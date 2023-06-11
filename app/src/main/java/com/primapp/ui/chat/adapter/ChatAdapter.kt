@@ -1,8 +1,10 @@
 package com.primapp.ui.chat.adapter
 
+import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
@@ -12,9 +14,16 @@ import com.primapp.R
 import com.primapp.databinding.*
 import com.primapp.model.MessageLongPressCallback
 import com.primapp.utils.DateTimeUtils
+import com.primapp.utils.equalDate
+import com.primapp.utils.equalTime
 import com.primapp.utils.isOnlyEmoji
 import com.sendbird.android.*
-import com.sendbird.android.BaseChannel.GetMessagesHandler
+import com.sendbird.android.channel.GroupChannel
+import com.sendbird.android.channel.MessageTypeFilter
+import com.sendbird.android.message.*
+import com.sendbird.android.params.MessageListParams
+import com.sendbird.android.params.common.MessagePayloadFilter
+import com.sendbird.android.user.User
 import kotlinx.android.synthetic.main.bottom_sheet_chat_options.view.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -25,7 +34,7 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
     private var mIsMessageListLoading = false
     var channel: GroupChannel? = null
 
-    private val messageList: ArrayList<BaseMessage> = arrayListOf()
+    val messageList: ArrayList<BaseMessage> = arrayListOf()
 
     fun addData(listData: List<BaseMessage>) {
         messageList.clear()
@@ -34,8 +43,8 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
     }
 
     fun addFirst(message: BaseMessage) {
-        messageList.add(0, message)
-        notifyItemInserted(0)
+        messageList.add(message)
+        notifyItemRangeInserted(messageList.size, messageList.size)
     }
 
     fun addMessages(messages: List<BaseMessage>) {
@@ -54,11 +63,24 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
     }
 
     fun deleteMessage(msgId: Long) {
-        val messageInList = messageList.find { it.messageId == msgId }
-        val index = messageList.indexOf(messageInList)
-        if (index != -1)
-            messageList.removeAt(index)
-        notifyItemRemoved(index)
+        val messageIdIndexMap =
+            messageList.mapIndexed { index, message ->
+                message.messageId to index
+            }.toMap()
+        val resultMessageList = mutableListOf<BaseMessage>().apply { addAll(messageList) }
+        val index = messageIdIndexMap[msgId]
+        if (index != null) {
+            resultMessageList.remove(messageList[index])
+        }
+        messageList.clear()
+        messageList.addAll(resultMessageList)
+        notifyDataSetChanged()
+
+//        val messageInList = messageList.find { it.messageId == msgId }
+//        val index = messageList.indexOf(messageInList)
+//        if (index != -1)
+//            messageList.removeAt(index)
+//        notifyItemRemoved(index)
     }
 
     fun addReaction(reactionEvent: ReactionEvent) {
@@ -73,7 +95,7 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
         val message: BaseMessage = messageList[position]
         return when (message) {
             is UserMessage -> {
-                if (message.sender.userId == SendBird.getCurrentUser().userId) {
+                if (message.sender?.userId == SendbirdChat.currentUser?.userId) {
                     VIEW_TYPE_USER_MESSAGE_ME
                 } else {
                     VIEW_TYPE_USER_MESSAGE_OTHER
@@ -87,13 +109,13 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
                 return if (message.type.toLowerCase(Locale.ROOT)
                         .startsWith("image") || message.type.toLowerCase(Locale.ROOT).startsWith("video")
                 ) {
-                    if (message.getSender().userId == SendBird.getCurrentUser().userId) {
+                    if (message.sender?.userId == SendbirdChat.currentUser?.userId) {
                         VIEW_TYPE_FILE_MESSAGE_IMAGE_ME
                     } else {
                         VIEW_TYPE_FILE_MESSAGE_IMAGE_OTHER
                     }
                 } else {
-                    if (message.getSender().userId == SendBird.getCurrentUser().userId) {
+                    if (message.sender?.userId == SendbirdChat.currentUser?.userId) {
                         VIEW_TYPE_FILE_MESSAGE_ME
                     } else {
                         VIEW_TYPE_FILE_MESSAGE_OTHER
@@ -197,18 +219,21 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
         return messageList.size
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val message: BaseMessage = messageList[position]
+
         var isContinuous: Boolean = false
         var isNewDay: Boolean = false
 
         // If there is at least one item preceding the current one, check the previous message.
         if (position < messageList.size - 1) {
-            val prevMessage: BaseMessage = messageList.get(position + 1)
+            val prevMessage: BaseMessage = messageList[position + 1]
 
             // If the date of the previous message is different, display the date before the message,
             // and also set isContinuous to false to show information such as the sender's nickname
             // and profile image.
+
             if (!DateTimeUtils.hasSameDate(message.createdAt, prevMessage.createdAt)) {
                 isNewDay = true
                 isContinuous = false
@@ -217,6 +242,10 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
             }
         } else if (position == messageList.size - 1) {
             isNewDay = true
+        }
+
+        if (position > 0) {
+            isNewDay = !messageList[position].createdAt.equalDate(messageList[position - 1].createdAt)
         }
 
         return when (holder.itemViewType) {
@@ -268,7 +297,7 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
             channel?.let { binding.messageStatusGroupChat.drawMessageStatus(it, message) }
 
             //Show Reactions on Message
-            if (message.reactions.size > 0) {
+            if (message.reactions.isNotEmpty()) {
                 val adapter = ChatMessageReactionAdapter()
                 val reactionsList = ArrayList(message.reactions)
                 binding.rvReactions.apply {
@@ -305,7 +334,7 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
             }
 
             //Show Reactions on Message
-            if (message.reactions.size > 0) {
+            if (message.reactions.isNotEmpty()) {
                 val adapter = ChatMessageReactionAdapter()
                 val reactionsList = ArrayList(message.reactions)
                 binding.rvReactions.apply {
@@ -530,21 +559,21 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
     }
 
     fun isFailedMessage(message: BaseMessage): Boolean {
-        return message.sendingStatus == BaseMessage.SendingStatus.FAILED
+        return message.sendingStatus == SendingStatus.FAILED
     }
 
     @Synchronized
-    private fun isMessageListLoading(): Boolean {
+    fun isMessageListLoading(): Boolean {
         return mIsMessageListLoading
     }
 
     @Synchronized
-    private fun setMessageListLoading(tf: Boolean) {
+    fun setMessageListLoading(tf: Boolean) {
         mIsMessageListLoading = tf
     }
 
     fun markAllMessagesAsRead() {
-        channel?.markAsRead()
+        channel?.markAsRead { e1 -> e1?.printStackTrace() }
         // notifyDataSetChanged()
     }
 
@@ -552,39 +581,33 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
      * Replaces current message list with new list.
      * Should be used only on initial load or refresh.
      */
-    fun loadLatestMessages(limit: Int, handler: GetMessagesHandler?) {
 
+    fun loadLatestMessages(limit: Int, function: () -> Unit) {
         if (isMessageListLoading() || channel == null) {
             return
         }
         setMessageListLoading(true)
-        channel?.getPreviousMessagesByTimestamp(
-            Long.MAX_VALUE,
-            true,
-            limit,
-            true,
-            BaseChannel.MessageTypeFilter.ALL,
-            null,
-            null,
-            false,
-            true,
-            GetMessagesHandler { list, e ->
-                handler?.onResult(list, e)
-                setMessageListLoading(false)
-                if (e != null) {
-                    e.printStackTrace()
-                    return@GetMessagesHandler
-                }
-                if (list.size <= 0) {
-                    return@GetMessagesHandler
-                }
-//                for (message in mMessageList) {
-//                    if (isTempMessage(message) || isFailedMessage(message)) {
-//                        list.add(0, message)
-//                    }
-//                }
-                addData(list)
-            })
+        val params = MessageListParams().apply {
+            nextResultSize = 30
+            reverse = false
+            messageTypeFilter = MessageTypeFilter.ALL
+            messagePayloadFilter = MessagePayloadFilter().apply {
+                includeReactions = true
+            }
+        }
+//       1684947163
+        channel!!.getMessagesByTimestamp(0, params) { messages, e ->
+            setMessageListLoading(false)
+            if (e != null) {
+                e.printStackTrace()
+                return@getMessagesByTimestamp
+            }
+            if (messages?.size ?: 0 <= 0) {
+                return@getMessagesByTimestamp
+            }
+            Log.e("asasasasasas", messages?.last()?.message + "sdsds" + messages?.first()?.message)
+            addData(messages!!)
+        }
     }
 
     /**
@@ -592,6 +615,46 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
      * @param limit
      * @param handler
      */
+
+    fun loadPreviousMessages(limit: Int) {
+        if (isMessageListLoading() || channel == null) {
+            return
+        }
+        var oldestMessageCreatedAt = Long.MAX_VALUE
+        if (messageList.size > 0) {
+            messageList.reverse()
+            oldestMessageCreatedAt = messageList[messageList.size - 1].createdAt
+        }
+        setMessageListLoading(true)
+        val params = MessageListParams().apply {
+            nextResultSize = limit
+            reverse = false
+            messagePayloadFilter = MessagePayloadFilter().apply {
+                includeReactions = true
+            }
+        }
+        channel!!.getMessagesByTimestamp(oldestMessageCreatedAt, params) { messages, e ->
+            if (e != null) {
+                e.printStackTrace()
+                return@getMessagesByTimestamp
+            }
+            if (messages.isNullOrEmpty()) {
+                return@getMessagesByTimestamp
+            }
+            if (!messages.isNullOrEmpty()) {
+                addMessages(messages)
+                if (messages.size >= params.nextResultSize) {
+                    loadPreviousMessages(limit)
+                } else {
+                    setMessageListLoading(true)
+                }
+            } else {
+                setMessageListLoading(false)
+            }
+        }
+    }
+
+/*
     fun loadPreviousMessages(limit: Int, handler: GetMessagesHandler?) {
         if (isMessageListLoading() || channel == null) {
             return
@@ -618,15 +681,18 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
                     e.printStackTrace()
                     return@GetMessagesHandler
                 }
-                /* for (message in list) {
+                */
+/* for (message in list) {
                      mMessageList.add(message)
-                 }*/
+                 }*//*
+
                 if (list.size <= 0) {
                     return@GetMessagesHandler
                 }
                 addMessages(list)
             })
     }
+*/
 
     private class ChatMessageDiffCallback : DiffUtil.ItemCallback<BaseMessage>() {
         override fun areItemsTheSame(oldItem: BaseMessage, newItem: BaseMessage): Boolean {
@@ -635,6 +701,24 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
 
         override fun areContentsTheSame(oldItem: BaseMessage, newItem: BaseMessage): Boolean {
             return oldItem == newItem
+        }
+    }
+
+    fun addPreviousMessages(messages: List<BaseMessage>?) {
+        if (!messages.isNullOrEmpty()) {
+            messageList.addAll(0, messages)
+        }
+    }
+
+    fun addNextMessages(messages: List<BaseMessage>?) {
+        if (!messages.isNullOrEmpty()) {
+            messages.forEach {
+                ListUtils.findAddMessageIndex(messageList, it).apply {
+                    if (this > -1) {
+                        messageList.add(this, it)
+                    }
+                }
+            }
         }
     }
 

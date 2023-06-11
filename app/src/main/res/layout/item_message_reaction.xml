@@ -7,7 +7,7 @@
         <import type="com.primapp.constants.EmoticonHelper" />
         <variable
             name="data"
-            type="com.sendbird.android.Reaction" />
+            type="com.sendbird.android.message.Reaction" />
     </data>
 
     <LinearLayout

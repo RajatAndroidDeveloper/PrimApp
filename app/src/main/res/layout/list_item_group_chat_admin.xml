@@ -9,7 +9,7 @@
 
         <variable
             name="message"
-            type="com.sendbird.android.AdminMessage" />
+            type="com.sendbird.android.message.AdminMessage" />
 
         <variable
             name="isContinuous"

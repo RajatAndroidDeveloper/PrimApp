@@ -11,7 +11,7 @@
 
         <variable
             name="channel"
-            type="com.sendbird.android.GroupChannel" />
+            type="com.sendbird.android.channel.GroupChannel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,7 +23,7 @@
         <ImageView
             android:id="@+id/ivProfilePic"
             name="@{SendBirdHelper.INSTANCE.getGroupChannelTitle(channel)}"
-            loadCircularImage="@{SendBirdHelper.INSTANCE.getGroupChannelProfileImage(channel)}"
+            loadImageFromUrlWithName="@{SendBirdHelper.INSTANCE.getGroupChannelProfileImage(channel)}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="@id/llChannelDetails"

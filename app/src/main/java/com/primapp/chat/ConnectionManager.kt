@@ -1,15 +1,17 @@
 package com.primapp.chat
 
-import com.sendbird.android.SendBird
-import com.sendbird.android.SendBird.ConnectHandler
-import com.sendbird.android.SendBird.DisconnectHandler
+import com.sendbird.android.ConnectionState
+import com.sendbird.android.SendbirdChat
+import com.sendbird.android.handler.ConnectHandler
+import com.sendbird.android.handler.ConnectionHandler
+import com.sendbird.android.handler.DisconnectHandler
 
 object ConnectionManager {
 
     const val TAG = "SendBirdChatLogs"
 
     fun login(userId: String, handler: ConnectHandler?) {
-        SendBird.connect(
+        SendbirdChat.connect(
             userId
         ) { user, e ->
             handler?.onConnected(user, e)
@@ -17,32 +19,40 @@ object ConnectionManager {
     }
 
     fun logout(handler: DisconnectHandler?) {
-        SendBird.disconnect { handler?.onDisconnected() }
+        SendbirdChat.disconnect { handler?.onDisconnected() }
     }
 
     fun addConnectionManagementHandler(userId: String?, handlerId: String?, handler: ConnectionManagementHandler?) {
-        SendBird.addConnectionHandler(handlerId, object : SendBird.ConnectionHandler {
+        SendbirdChat.addConnectionHandler(handlerId!!, object : ConnectionHandler {
             override fun onReconnectStarted() {}
             override fun onReconnectSucceeded() {
                 handler?.onConnected(true)
             }
 
+            override fun onConnected(userId: String) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onDisconnected(userId: String) {
+                TODO("Not yet implemented")
+            }
+
             override fun onReconnectFailed() {}
         })
-        if (SendBird.getConnectionState() == SendBird.ConnectionState.OPEN) {
+        if (SendbirdChat.connectionState == ConnectionState.OPEN) {
             handler?.onConnected(false)
-        } else if (SendBird.getConnectionState() == SendBird.ConnectionState.CLOSED) { // push notification or system kill
-            SendBird.connect(userId, ConnectHandler { user, e ->
+        } else if (SendbirdChat.connectionState == ConnectionState.CLOSED) { // push notification or system kill
+            SendbirdChat.connect(userId!!) { user, e ->
                 if (e != null) {
-                    return@ConnectHandler
+                    return@connect
                 }
                 handler?.onConnected(false)
-            })
+            }
         }
     }
 
     fun removeConnectionManagementHandler(handlerId: String?) {
-        SendBird.removeConnectionHandler(handlerId)
+        handlerId?.let { SendbirdChat.removeConnectionHandler(it) }
     }
 
     interface ConnectionManagementHandler {

@@ -146,6 +146,10 @@ class PortfolioRepository @Inject constructor(
         amzSecurityToken: String?,
         policy: String,
         signature: String,
+        xAmzAlgorithm: String,
+        xAmzCredential: String,
+        xAmzDate: String,
+        xAmzSignature: String,
         file: MultipartBody.Part?
     ): Resource<Response<Unit>> {
         return try {
@@ -157,6 +161,10 @@ class PortfolioRepository @Inject constructor(
                     RetrofitUtils.getRequestBody(amzSecurityToken),
                     RetrofitUtils.getRequestBody(policy),
                     RetrofitUtils.getRequestBody(signature),
+                    RetrofitUtils.getRequestBody(xAmzAlgorithm),
+                    RetrofitUtils.getRequestBody(xAmzCredential),
+                    RetrofitUtils.getRequestBody(xAmzDate),
+                    RetrofitUtils.getRequestBody(xAmzSignature),
                     file
                 )
             )

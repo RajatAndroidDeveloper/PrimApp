@@ -245,6 +245,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
         viewModel.generatePresignedURLLiveData.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
                 hideLoading()
+                Log.e("asasasasasas",Gson().toJson(it).toString())
                 when (it.status) {
                     Status.ERROR -> {
                         showError(requireContext(), it.message.toString())
@@ -258,7 +259,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                             if (isThumbnailUploaded) {
                                 viewModel.createPostRequestModel.value?.thumbnailFile = it.fields.key
                                 val bitmap = FileUtils.getBitmapThumbnailForVideo(requireContext(), selectedFile!!)
-                                part = RetrofitUtils.bitmapToMultipartBody(bitmap, it.fields.key, "file")
+                                part = RetrofitUtils.bitmapToMultipartBody(bitmap, it.fields.key?:"", "file")
                             } else {
                                 viewModel.createPostRequestModel.value?.postContentFile = it.fields.key
                                 part = RetrofitUtils.fileToRequestBody(selectedFile!!, "file")
@@ -267,11 +268,15 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                             viewModel.createPostRequestModel.value?.fileType = postFileType
                             viewModel.uploadAWS(
                                 it.url,
-                                it.fields.key,
-                                it.fields.aWSAccessKeyId,
+                                it.fields.key?:"",
+                                it.fields.aWSAccessKeyId?:"",
                                 it.fields.xAmzSecurityToken,
-                                it.fields.policy,
-                                it.fields.signature,
+                                it.fields.policy?:"",
+                                it.fields.signature?:"",
+                                it.fields.xAmzAlgorithm?:"",
+                                it.fields.xAmzCredential?:"",
+                                it.fields.xAmzDate?:"",
+                                it.fields.xAmzSignature?:"",
                                 part
                             )
                         }

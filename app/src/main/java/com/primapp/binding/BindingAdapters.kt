@@ -39,6 +39,10 @@ import com.primapp.model.todo.TodoTaskItem
 import com.primapp.utils.DateTimeUtils
 import com.primapp.utils.getPrettyNumber
 import com.sendbird.android.*
+import com.sendbird.android.message.AdminMessage
+import com.sendbird.android.message.BaseMessage
+import com.sendbird.android.message.FileMessage
+import com.sendbird.android.message.UserMessage
 import java.text.DecimalFormat
 import java.util.*
 import kotlin.math.min
@@ -131,11 +135,11 @@ fun loadCircularImageFromUrl(imgView: ImageView, url: String?) {
 }
 
 @BindingAdapter("loadCircularImage", "name")
-fun loadCircularImageFromUrlWithName(imgView: ImageView, url: String?, name: String?) {
+fun loadCircularImageFromUrlWithName(imgView: ImageView, url: String, name: String?) {
     imgView.loadCircularImageWithName(name, url)
 }
 
-@BindingAdapter("loadImageFromUrl", "name")
+@BindingAdapter("loadImageFromUrlWithName", "name")
 fun loadImageFromUrlWithName(imgView: ImageView, url: String?, name: String?) {
     imgView.loadImageWithRoundedRectangularName(name, url)
 }
@@ -602,7 +606,7 @@ fun sendBirdMessage(textView: TextView, lastMessage: BaseMessage?) {
                 if (fileType.size > 1) {
                     textView.text = "${fileType[0].capitalize()} file"
                 } else {
-                    textView.text = "${fileMessage.sender.nickname} has sent a file"
+                    textView.text = "${fileMessage.sender?.nickname} has sent a file"
                 }
             }
         }
@@ -616,7 +620,7 @@ fun sendBirdMessage(textView: TextView, lastMessage: BaseMessage?) {
 @BindingAdapter("messageDateTime")
 fun sendBirdMessageDateTime(textView: TextView, lastMessage: BaseMessage?) {
     lastMessage?.let {
-        textView.text = DateTimeUtils.formatDateTime(it.getCreatedAt())
+        textView.text = DateTimeUtils.formatDateTime(it.createdAt)
     }
 }
 

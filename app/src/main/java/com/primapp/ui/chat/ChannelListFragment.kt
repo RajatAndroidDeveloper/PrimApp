@@ -17,6 +17,14 @@ import com.primapp.extensions.setDivider
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.chat.adapter.ChannelListAdapter
 import com.sendbird.android.*
+import com.sendbird.android.channel.BaseChannel
+import com.sendbird.android.channel.GroupChannel
+import com.sendbird.android.channel.query.GroupChannelListQuery
+import com.sendbird.android.channel.query.GroupChannelListQueryOrder
+import com.sendbird.android.channel.query.MyMemberStateFilter
+import com.sendbird.android.handler.GroupChannelHandler
+import com.sendbird.android.message.BaseMessage
+import com.sendbird.android.params.GroupChannelListQueryParams
 import kotlinx.android.synthetic.main.toolbar_community_back.*
 
 class ChannelListFragment : BaseFragment<FragmentChannelListBinding>() {
@@ -57,12 +65,8 @@ class ChannelListFragment : BaseFragment<FragmentChannelListBinding>() {
                 }
             })
 
-        SendBird.addChannelHandler(CHANNEL_HANDLER, object : SendBird.ChannelHandler() {
-            override fun onMessageReceived(p0: BaseChannel?, p1: BaseMessage?) {
-                adapter.updateChannel(p0 as? GroupChannel)
-            }
-
-            override fun onMessageDeleted(channel: BaseChannel?, msgId: Long) {
+        SendbirdChat.addChannelHandler(CHANNEL_HANDLER, object : GroupChannelHandler() {
+            override fun onMessageReceived(channel: BaseChannel, message: BaseMessage) {
                 adapter.updateChannel(channel as? GroupChannel)
             }
         })
@@ -71,17 +75,26 @@ class ChannelListFragment : BaseFragment<FragmentChannelListBinding>() {
     override fun onPause() {
         super.onPause()
         ConnectionManager.removeConnectionManagementHandler(CONNECTION_HANDLER_ID)
-        SendBird.removeChannelHandler(CHANNEL_HANDLER)
+        SendbirdChat.removeChannelHandler(CHANNEL_HANDLER)
     }
 
     fun refresh() {
         showLoader(true)
-        groupChannelListQuery = GroupChannel.createMyGroupChannelListQuery()
-        groupChannelListQuery.limit = CHANNEL_LIST_LIMIT
-        groupChannelListQuery.isIncludeEmpty = false
-        if (binding.etSearch.text.trim().isNotEmpty()) {
-            groupChannelListQuery.nicknameContainsFilter = binding.etSearch.text.trim().toString()
+        var param = if (binding.etSearch.text.trim().isNotEmpty()) {
+            GroupChannelListQueryParams(
+                order = GroupChannelListQueryOrder.LATEST_LAST_MESSAGE,
+                myMemberStateFilter = MyMemberStateFilter.ALL,
+                channelNameContainsFilter = binding.etSearch.text.trim().toString(),
+                limit = CHANNEL_LIST_LIMIT
+            )
+        } else{
+            GroupChannelListQueryParams(
+                order = GroupChannelListQueryOrder.LATEST_LAST_MESSAGE,
+                myMemberStateFilter = MyMemberStateFilter.ALL,
+                limit = CHANNEL_LIST_LIMIT
+            )
         }
+        groupChannelListQuery = GroupChannel.createMyGroupChannelListQuery(param)
 
         groupChannelListQuery.next { list, e ->
             showLoader(false)
@@ -90,8 +103,8 @@ class ChannelListFragment : BaseFragment<FragmentChannelListBinding>() {
                 e.printStackTrace()
                 return@next
             }
-            Log.d(ConnectionManager.TAG, "Group channels fetched : ${list.size}")
-            adapter.setChannels(list)
+            Log.d(ConnectionManager.TAG, "Group channels fetched : ${list?.size}")
+            adapter.setChannels(list as MutableList<GroupChannel>)
             binding.swipeRefresh.isRefreshing = false
         }
     }

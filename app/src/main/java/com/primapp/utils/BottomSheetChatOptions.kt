@@ -15,8 +15,8 @@ import com.primapp.R
 import com.primapp.constants.EmoticonHelper
 import com.primapp.model.chat.EmojiModel
 import com.primapp.ui.chat.adapter.EmojiOptionsAdapter
-import com.sendbird.android.BaseMessage
-import com.sendbird.android.SendBird
+import com.sendbird.android.SendbirdChat
+import com.sendbird.android.message.BaseMessage
 import kotlinx.android.synthetic.main.bottom_sheet_chat_options.view.*
 import java.io.Serializable
 
@@ -56,7 +56,7 @@ class BottomSheetChatOptions : BottomSheetDialogFragment() {
         val emojiList = EmoticonHelper.getEmojis()
         message?.reactions?.forEach {
             val emojiItem = emojiList.find { item -> item.key == it.key }
-            emojiItem?.isSelected = it.userIds.contains(SendBird.getCurrentUser().userId)
+            emojiItem?.isSelected = it.userIds.contains(SendbirdChat.currentUser?.userId)
         }
         return emojiList
     }

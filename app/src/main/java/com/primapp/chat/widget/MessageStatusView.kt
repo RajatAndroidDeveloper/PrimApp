@@ -9,9 +9,9 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.ProgressBar
 import com.primapp.R
-import com.sendbird.android.BaseMessage
-import com.sendbird.android.BaseMessage.SendingStatus
-import com.sendbird.android.GroupChannel
+import com.sendbird.android.channel.GroupChannel
+import com.sendbird.android.message.BaseMessage
+import com.sendbird.android.message.SendingStatus
 
 class MessageStatusView : FrameLayout {
     private var messageStatus: ImageView? = null
@@ -45,8 +45,11 @@ class MessageStatusView : FrameLayout {
         when (status) {
             SendingStatus.CANCELED, SendingStatus.FAILED -> drawError()
             SendingStatus.SUCCEEDED -> {
-                val unreadMemberCount = channel.getReadReceipt(message)
-                val unDeliveredMemberCount = channel.getDeliveryReceipt(message)
+                val unreadMemberCount = channel.getUnreadMemberCount(message)
+//                val unreadMemberCount = channel.getReadReceipt(message)
+                val unDeliveredMemberCount = channel.getUndeliveredMemberCount(message)
+
+//                val unDeliveredMemberCount = channel.getDeliveryReceipt(message)
                 if (unreadMemberCount == 0) {
                     drawRead()
                 } else if (unDeliveredMemberCount == 0) {

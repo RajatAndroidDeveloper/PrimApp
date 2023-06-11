@@ -80,11 +80,15 @@ class ReportProblemFragment() : BaseFragment<FragmentReportProblemBinding>() {
                             viewModel.reportIssueRequestModel.value?.issueImageFile = it.fields.key
                             viewModel.uploadAWS(
                                 it.url,
-                                it.fields.key,
-                                it.fields.aWSAccessKeyId,
+                                it.fields.key?:"",
+                                it.fields.aWSAccessKeyId?:"",
                                 it.fields.xAmzSecurityToken,
-                                it.fields.policy,
-                                it.fields.signature,
+                                it.fields.policy?:"",
+                                it.fields.signature?:"",
+                                it.fields.xAmzAlgorithm?:"",
+                                it.fields.xAmzCredential?:"",
+                                it.fields.xAmzDate?:"",
+                                it.fields.xAmzSignature?:"",
                                 RetrofitUtils.fileToRequestBody(File(imageFile!!.absolutePath), "file")
                             )
                         }

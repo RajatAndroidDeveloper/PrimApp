@@ -1,0 +1,16 @@
+Index: app/src/main/java/com/primapp/ui/chat/ChatFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/primapp/ui/chat/ChatFragment.kt b/app/src/main/java/com/primapp/ui/chat/ChatFragment.kt
+--- a/app/src/main/java/com/primapp/ui/chat/ChatFragment.kt	(revision 979f18d44868d4bb0ff5911ba4f1baefa88f1916)
++++ b/app/src/main/java/com/primapp/ui/chat/ChatFragment.kt	(date 1685639510860)
+@@ -130,6 +130,7 @@
+         binding.rvChat.adapter = adapter
+ 
+         //addSectionDecorator()
++        //data
+ 
+         binding.rvChat.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {

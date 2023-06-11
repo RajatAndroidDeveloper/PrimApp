@@ -7,8 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.primapp.R
 import com.primapp.databinding.ItemMessageReactionBinding
-import com.sendbird.android.Reaction
-import javax.inject.Inject
+import com.sendbird.android.message.Reaction
 
 class ChatMessageReactionAdapter : RecyclerView.Adapter<ChatMessageReactionAdapter.ReactionViewHolder>() {
 

@@ -9,7 +9,7 @@ import com.primapp.model.portfolio.ExperienceData
 import com.primapp.model.post.PostListResult
 import com.primapp.model.reply.ReplyData
 import com.primapp.model.todo.TodoTaskItem
-import com.sendbird.android.BaseMessage
+import com.sendbird.android.message.BaseMessage
 
 
 data class ShowImage(val url: String)

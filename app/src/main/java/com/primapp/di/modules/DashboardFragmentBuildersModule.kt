@@ -1,10 +1,10 @@
 package com.primapp.di.modules
 
-import com.primapp.databinding.PopupAmendContractLayoutBinding
 import com.primapp.ui.base.*
 import com.primapp.ui.chat.ChannelListFragment
 import com.primapp.ui.chat.ChatFragment
 import com.primapp.ui.chat.CreateChannelFragment
+import com.primapp.ui.chat.PDFViewerDialog
 import com.primapp.ui.communities.*
 import com.primapp.ui.communities.create.CreateCommunityFragment
 import com.primapp.ui.communities.details.CommunityDetailsFragment
@@ -113,6 +113,9 @@ abstract class DashboardFragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeImageViewDialogFragment(): ImageViewDialog
+
+    @ContributesAndroidInjector
+    abstract fun contributePDFViewerDialogFragment(): PDFViewerDialog
 
     @ContributesAndroidInjector
     abstract fun contributeVideoViewDialogFragment(): VideoViewDialog

@@ -89,7 +89,9 @@ data class User(
     @SerializedName("is_mentee")
     val isMentee: Boolean,
     @SerializedName("is_mentor")
-    val isMentor: Boolean
+    val isMentor: Boolean,
+    @SerializedName("user_online_status")
+    var userOnlineStatus: String? = null
 ) : Serializable
 
 data class Category(

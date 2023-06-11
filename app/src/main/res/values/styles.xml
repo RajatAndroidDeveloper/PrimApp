@@ -234,5 +234,8 @@
         <item name="cornerSizeBottomLeft">0dp</item>
     </style>
 
-
+    <style name="DialogAnimation">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="background">@android:color/transparent</item>
+    </style>
 </resources>

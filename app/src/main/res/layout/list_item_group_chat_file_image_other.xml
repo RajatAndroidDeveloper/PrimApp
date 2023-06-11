@@ -10,7 +10,7 @@
 
         <variable
             name="message"
-            type="com.sendbird.android.FileMessage" />
+            type="com.sendbird.android.message.FileMessage" />
 
         <variable
             name="isContinuous"

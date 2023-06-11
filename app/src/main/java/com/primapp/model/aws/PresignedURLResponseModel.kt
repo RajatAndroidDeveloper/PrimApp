@@ -18,13 +18,21 @@ data class Content(
 
 data class Fields(
     @SerializedName("AWSAccessKeyId")
-    val aWSAccessKeyId: String,
+    val aWSAccessKeyId: String? = null,
     @SerializedName("key")
-    val key: String,
+    val key: String? = null,
     @SerializedName("policy")
-    val policy: String,
+    val policy: String? = null,
     @SerializedName("signature")
-    val signature: String,
+    val signature: String? = null,
     @SerializedName("x-amz-security-token")
-    val xAmzSecurityToken: String?
+    val xAmzSecurityToken: String?? = null,
+    @field:SerializedName("x-amz-date")
+    val xAmzDate: String? = null,
+    @SerializedName("x-amz-signature")
+    val xAmzSignature: String? = null,
+    @SerializedName("x-amz-algorithm")
+    val xAmzAlgorithm: String? = null,
+    @SerializedName("x-amz-credential")
+    val xAmzCredential: String? = null,
 )

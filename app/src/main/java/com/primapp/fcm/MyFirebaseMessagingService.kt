@@ -19,8 +19,8 @@ import com.primapp.R
 import com.primapp.cache.UserCache
 import com.primapp.model.notification.SendbirdNotiificationData
 import com.primapp.ui.dashboard.DashboardActivity
-import com.sendbird.android.SendBird
-import com.sendbird.android.SendBird.PushTokenRegistrationStatus
+import com.sendbird.android.SendbirdChat
+import com.sendbird.android.push.PushTokenRegistrationStatus
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -43,7 +43,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 val messageTitle = messageSender.get("name") as String
                 val messageBody = sendbird.get("message") as String
 
-                SendBird.markAsDelivered(remoteMessage.data)
+                SendbirdChat.markAsDelivered(remoteMessage.data)
 
                 //Save to User cache
                 UserCache.saveNotificationData(this, sendBirdNotificationData)
@@ -62,7 +62,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         Log.i(TAG, "New FCM Token : ${token}")
 
         // Register a registration token to Sendbird server.
-        SendBird.registerPushTokenForCurrentUser(token) { ptrs, e ->
+        SendbirdChat.registerPushToken(token) { ptrs, e ->
             if (e != null) {
                 Log.e(TAG, "Failed to register to SendBird")
             }

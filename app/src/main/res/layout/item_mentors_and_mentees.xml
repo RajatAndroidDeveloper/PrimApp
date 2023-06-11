@@ -29,8 +29,8 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:layout_width="@dimen/textMediumX"
-            android:layout_height="@dimen/textMediumX"
+            android:layout_width="@dimen/textMedium"
+            android:layout_height="@dimen/textMedium"
             android:src="@{data.userOnlineStatus.equals(`ONLINE`) ? @drawable/ic_online_circle : @drawable/ic_offline_circle}"
             app:layout_constraintEnd_toEndOf="@id/imageProfile"
             app:layout_constraintBottom_toBottomOf="@id/imageProfile"

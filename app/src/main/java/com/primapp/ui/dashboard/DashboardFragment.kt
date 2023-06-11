@@ -53,17 +53,17 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), MentorsMente
 
         webSocket = okHttpClient.newWebSocket(createRequest(), webSocketListener)
 
-        viewModel.socketStatus.observe(viewLifecycleOwner) {
-            Log.e("Connected12", it.toString())
-        }
-
-        viewModel.messages.observe(viewLifecycleOwner) {
-            mainMentorsMenteeList.clear()
-            dummyMentorsMenteeList.clear()
-            mainMentorsMenteeList = Gson().fromJson<ArrayList<ResultsItem>>(it.second, object :
-                TypeToken<ArrayList<ResultsItem>>() {}.type)
-            loadAdapters(mainMentorsMenteeList)
-            Log.e("Connected12", "---" + mainMentorsMenteeList.size + "------   " + it.second)
+        try {
+            viewModel.messages.observe(viewLifecycleOwner) {
+                mainMentorsMenteeList.clear()
+                dummyMentorsMenteeList.clear()
+                mainMentorsMenteeList = Gson().fromJson<ArrayList<ResultsItem>>(it.second, object :
+                    TypeToken<ArrayList<ResultsItem>>() {}.type)
+                loadAdapters(mainMentorsMenteeList)
+                Log.e("Connected12", "---" + mainMentorsMenteeList.size + "------   " + it.second)
+            }
+        }catch (e: java.lang.Exception){
+            e.printStackTrace()
         }
     }
 

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:id="@+id/rlMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        tools:ignore="Overdraw">
+
+        <ImageView
+            android:id="@+id/ivClose"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/space_normal"
+            android:layout_marginEnd="@dimen/space_normal"
+            android:src="@drawable/ic_close" />
+
+        <com.github.barteksc.pdfviewer.PDFView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/ivClose"
+            android:layout_marginTop="@dimen/space_small"
+            android:layout_marginBottom="@dimen/textExtraLargeXXX"
+            tools:ignore="ContentDescription"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:id="@+id/llSend"
+            android:layout_height="@dimen/textExtraLargeXXX"
+            android:layout_alignParentEnd="true"
+            android:gravity="end"
+            android:layout_alignParentBottom="true">
+
+            <ImageView
+                android:layout_width="@dimen/textExtraLargeX"
+                android:layout_height="@dimen/textExtraLargeX"
+                android:id="@+id/ivSend"
+                android:src="@drawable/ic_baseline_send_24"
+                android:tint="@color/colorAccent"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginRight="@dimen/space_large"/>
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

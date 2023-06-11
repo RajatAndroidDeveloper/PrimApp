@@ -130,7 +130,7 @@ object DateTimeUtils {
      * @return  Whether {@param millisFirst} and {@param millisSecond} are off the same day.
      */
     fun hasSameDate(millisFirst: Long, millisSecond: Long): Boolean {
-        val dateFormat = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("yyyyMMdd", Locale.US)
         return dateFormat.format(millisFirst) == dateFormat.format(millisSecond)
     }
 }

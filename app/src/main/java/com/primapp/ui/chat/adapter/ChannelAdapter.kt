@@ -6,8 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.primapp.R
 import com.primapp.databinding.ItemChannelListBinding
-import com.sendbird.android.BaseMessage
-import com.sendbird.android.GroupChannel
+import com.sendbird.android.channel.GroupChannel
 import javax.inject.Inject
 
 class ChannelListAdapter @Inject constructor(val onItemClick: (Any) -> Unit) : RecyclerView.Adapter<ChannelListAdapter.ChannelHolder>() {
@@ -23,9 +22,9 @@ class ChannelListAdapter @Inject constructor(val onItemClick: (Any) -> Unit) : R
         notifyDataSetChanged()
     }
 
-    fun addChannels(channels: MutableList<GroupChannel>) {
+    fun addChannels(channels: List<GroupChannel>?) {
         val lastIndex = this.channels.size
-        this.channels.addAll(channels)
+        this.channels.addAll(channels!!)
         notifyItemRangeInserted(lastIndex - 1, channels.size - 1)
     }
 

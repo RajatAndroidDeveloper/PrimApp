@@ -26,7 +26,8 @@ import com.primapp.utils.DialogUtils
 import com.primapp.utils.FileUtils
 import com.primapp.utils.RetrofitUtils
 import com.primapp.viewmodels.EditProfileViewModel
-import com.sendbird.android.SendBird
+import com.sendbird.android.SendbirdChat
+import com.sendbird.android.params.UserUpdateParams
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
 import java.io.File
 
@@ -148,11 +149,15 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
                             viewModel.editProfileRequestModel.value?.userImageFile = it.fields.key
                             viewModel.uploadAWS(
                                 it.url,
-                                it.fields.key,
-                                it.fields.aWSAccessKeyId,
+                                it.fields.key?:"",
+                                it.fields.aWSAccessKeyId?:"",
                                 it.fields.xAmzSecurityToken,
-                                it.fields.policy,
-                                it.fields.signature,
+                                it.fields.policy?:"",
+                                it.fields.signature?:"",
+                                it.fields.xAmzAlgorithm?:"",
+                                it.fields.xAmzCredential?:"",
+                                it.fields.xAmzDate?:"",
+                                it.fields.xAmzSignature?:"",
                                 RetrofitUtils.fileToRequestBody(File(imageFile!!.absolutePath), "file")
                             )
                         }
@@ -329,15 +334,19 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
     }
 
     fun updateCurrentUserProfileImage() {
-        val nickname = if (SendBird.getCurrentUser() != null) SendBird.getCurrentUser().nickname else ""
-        SendBird.updateCurrentUserInfoWithProfileImage(nickname, imageFile, SendBird.UserInfoUpdateHandler {
+        val nickname = if (SendbirdChat.currentUser != null) SendbirdChat.currentUser?.nickname else ""
+
+        val params = UserUpdateParams().apply {
+            nickname
+            imageFile
+        }
+
+        SendbirdChat.updateCurrentUserInfo(params) {
             if (it != null) {
                 Log.d(ConnectionManager.TAG, "Failed to update Profile Image to sendbird")
-                return@UserInfoUpdateHandler
+                return@updateCurrentUserInfo
             }
             Log.d(ConnectionManager.TAG, "Updated the Profile Image")
-        })
+        }
     }
-
-
 }

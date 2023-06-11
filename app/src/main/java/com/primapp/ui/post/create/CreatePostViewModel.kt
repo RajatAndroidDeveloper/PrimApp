@@ -76,11 +76,15 @@ class CreatePostViewModel @Inject constructor(
         amzSecurityToken: String?,
         policy: String,
         signature: String,
+        xAmzAlgorithm: String,
+        xAmzCredential: String,
+        xAmzDate: String,
+        xAmzSignature: String,
         file: MultipartBody.Part?
     ) = viewModelScope.launch {
         _uploadAWSLiveData.postValue(Event(Resource.loading(null)))
         _uploadAWSLiveData.postValue(
-            Event(repo.uploadtoAWS(url, key, accessKey, amzSecurityToken, policy, signature, file))
+            Event(repo.uploadtoAWS(url, key, accessKey, amzSecurityToken, policy, signature, xAmzAlgorithm, xAmzCredential, xAmzDate, xAmzSignature, file))
         )
     }
 

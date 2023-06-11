@@ -2,11 +2,14 @@ package com.primapp.ui.chat
 
 import android.Manifest
 import android.app.Activity
+import android.app.Dialog
 import android.app.DownloadManager
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.Window
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
@@ -16,7 +19,6 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
 import com.primapp.R
 import com.primapp.cache.UserCache
 import com.primapp.chat.ConnectionManager
@@ -28,17 +30,22 @@ import com.primapp.extensions.showInfo
 import com.primapp.model.MessageLongPressCallback
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
+import com.primapp.ui.base.ImageViewDialogArgs
 import com.primapp.ui.chat.adapter.ChatAdapter
+import com.primapp.ui.chat.adapter.ChatRecyclerDataObserver
 import com.primapp.utils.DialogUtils
 import com.primapp.utils.DownloadUtils
 import com.primapp.utils.FileUtils
 import com.primapp.viewmodels.CommunitiesViewModel
 import com.sendbird.android.*
-import com.sendbird.android.BaseChannel.*
-import com.sendbird.android.FileMessage.ThumbnailSize
-import com.sendbird.android.GroupChannel.GroupChannelGetHandler
-import com.sendbird.android.GroupChannel.GroupChannelRefreshHandler
-import com.sendbird.android.SendBird.ChannelHandler
+import com.sendbird.android.channel.*
+import com.sendbird.android.handler.*
+import com.sendbird.android.message.*
+import com.sendbird.android.params.FileMessageCreateParams
+import com.sendbird.android.params.MessageListParams
+import com.sendbird.android.params.common.MessagePayloadFilter
+import com.sendbird.android.user.User
+import kotlinx.android.synthetic.main.layout_pdf_view.*
 import kotlinx.android.synthetic.main.toolbar_chat.*
 import java.io.File
 import java.io.Serializable
@@ -48,9 +55,7 @@ import javax.inject.Inject
 
 class ChatFragment : BaseFragment<FragmentChatBinding>() {
 
-
     private var mChannel: GroupChannel? = null
-
     lateinit var currentChannelUrl: String
     private var isLoadingFirstTime: Boolean = false
     private var mIsTyping: Boolean = false
@@ -65,6 +70,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
     lateinit var downloadManager: DownloadManager
 
     override fun getLayoutRes(): Int = R.layout.fragment_chat
+    private lateinit var recyclerObserver: ChatRecyclerDataObserver
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -100,7 +106,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
         })
     }
 
-    private fun checkRelation() {
+    private fun checkRelation(function: () -> Unit) {
         if (mChannel == null) {
             return
         }
@@ -121,55 +127,36 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
     }
 
     private fun setAdapter() {
-        val mLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, true)
+        val mLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         mLayoutManager.stackFromEnd = true
         binding.rvChat.apply {
             layoutManager = mLayoutManager
         }
 
         binding.rvChat.adapter = adapter
-
-        //addSectionDecorator()
-
-        binding.rvChat.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        recyclerObserver = ChatRecyclerDataObserver(binding.rvChat, adapter)
+        adapter.registerAdapterDataObserver(recyclerObserver)
+        binding.rvChat.addOnScrollListener(object :
+            RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                if (mLayoutManager.findLastVisibleItemPosition() == adapter.getItemCount() - 1) {
-                    adapter.loadPreviousMessages(
-                        CHANNEL_LIST_LIMIT,
-                        null
-                    )
+                super.onScrollStateChanged(recyclerView, newState)
+                if (!recyclerView.canScrollVertically(-1)) {
+                    if (hasPrevious && !adapter.isMessageListLoading() && adapter.messageList.isNotEmpty()) {
+                        loadMessagesPreviousMessagesData(adapter.messageList.first().createdAt)
+                    }
                 }
-                /* if (!recyclerView.canScrollVertically(-1)) {
-                     adapter.loadPreviousMessages(
-                         CHANNEL_LIST_LIMIT,
-                         null
-                     )
-                 }*/
             }
         })
 
-//        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-//            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-//                Log.i("anshul_item", "start : $positionStart item count : $itemCount Total size: ${adapter.itemCount}")
-//                // TO scroll chat on opening screen and adding new item only
-//                if (itemCount > 0 && isLoadingFirstTime || positionStart == (adapter.itemCount - 1)) {
-//                    //rvChats?.scrollToPosition(positionStart + itemCount - 1)
-//                    binding.rvChat.scrollToPosition(adapter.itemCount - 1)
-//                    isLoadingFirstTime = false
+//        binding.rvChat.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+//            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+//                if (mLayoutManager.findLastVisibleItemPosition() == adapter.getItemCount() - 1) {
+//                    adapter.loadPreviousMessages(
+//                        CHANNEL_LIST_LIMIT
+//                    )
 //                }
-//
 //            }
-//
 //        })
-//
-//        //To position chat when soft keyboard is open
-//        binding.rvChat.addOnLayoutChangeListener { _, _, top, _: Int, bottom, _, _, _, oldBottom ->
-//            if (bottom < oldBottom) {
-//                binding.rvChat.postDelayed({
-//                    binding.rvChat.scrollToPosition(adapter.itemCount - 1)
-//                }, 100)
-//            }
-//        }
     }
 
     private fun setData() {
@@ -211,15 +198,15 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
                 }
             })
 
-        SendBird.addChannelHandler(
+        SendbirdChat.addChannelHandler(
             CHANNEL_HANDLER_ID,
-            object : ChannelHandler() {
+            object : GroupChannelHandler() {
                 override fun onMessageReceived(baseChannel: BaseChannel, baseMessage: BaseMessage) {
                     if (baseChannel.url == currentChannelUrl) {
                         adapter.markAllMessagesAsRead()
-                        // Add new message to view
                         adapter.addFirst(baseMessage)
-                        binding.rvChat.scrollToPosition(0)
+                        adapter.notifyItemChanged(adapter.messageList.size)
+                        recyclerObserver.scrollToBottom(true)
                         tvOnlineStatus.isVisible = false
                     }
                 }
@@ -238,12 +225,12 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
                     }
                 }
 
-                override fun onReadReceiptUpdated(channel: GroupChannel) {
-                    if (channel.url == currentChannelUrl) {
-                        adapter.notifyDataSetChanged()
-                        tvOnlineStatus.isVisible = false
-                    }
-                }
+//                override fun onReadReceiptUpdated(channel: GroupChannel) {
+//                    if (channel.url == currentChannelUrl) {
+//                        adapter.notifyDataSetChanged()
+//                        tvOnlineStatus.isVisible = false
+//                    }
+//                }
 
                 override fun onTypingStatusUpdated(channel: GroupChannel) {
                     if (channel.url == currentChannelUrl) {
@@ -254,18 +241,18 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
                     }
                 }
 
-                override fun onDeliveryReceiptUpdated(channel: GroupChannel) {
-                    if (channel.url == currentChannelUrl) {
-                        adapter.notifyDataSetChanged()
-                    }
-                }
+//                override fun onDeliveryReceiptUpdated(channel: GroupChannel) {
+//                    if (channel.url == currentChannelUrl) {
+//                        adapter.notifyDataSetChanged()
+//                    }
+//                }
 
-                override fun onReactionUpdated(channel: BaseChannel?, reactionEvent: ReactionEvent?) {
-                    super.onReactionUpdated(channel, reactionEvent)
-                    reactionEvent?.let {
-                        adapter.addReaction(reactionEvent)
-                    }
-                }
+//                override fun onReactionUpdated(channel: BaseChannel?, reactionEvent: ReactionEvent?) {
+//                    super.onReactionUpdated(channel, reactionEvent)
+//                    reactionEvent?.let {
+//                        adapter.addReaction(reactionEvent)
+//                    }
+//                }
             })
     }
 
@@ -275,35 +262,43 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
 
     override fun onPause() {
         ConnectionManager.removeConnectionManagementHandler(CONNECTION_HANDLER_ID)
-        SendBird.removeChannelHandler(CHANNEL_HANDLER_ID)
+        SendbirdChat.removeChannelHandler(CHANNEL_HANDLER_ID)
         super.onPause()
     }
 
-    private fun refresh() {
+    fun refresh() {
         if (mChannel == null) {
-            GroupChannel.getChannel(currentChannelUrl, GroupChannelGetHandler { groupChannel, e ->
+            GroupChannel.getChannel(currentChannelUrl) getChannelLabel@{ groupChannel, e ->
                 if (e != null) {
                     Log.e(ConnectionManager.TAG, "Failed to get the channel")
                     e.printStackTrace()
-                    return@GroupChannelGetHandler
+                    return@getChannelLabel
                 }
                 adapter.channel = groupChannel
                 mChannel = groupChannel
                 updateActionBarTitle()
                 isLoadingFirstTime = true
-                adapter.loadLatestMessages(CHANNEL_LIST_LIMIT, GetMessagesHandler { list, e ->
-                    adapter.markAllMessagesAsRead()
-                    binding.rvChat.scrollToPosition(0)
-                })
 
-                checkRelation()
-            })
+                loadMessagesPreviousMessagesData(Long.MAX_VALUE)
+
+//                adapter.loadLatestMessages(CHANNEL_LIST_LIMIT, ) {
+//                    mChannel?.markAsRead { e1 -> e1?.printStackTrace() }
+//                     recyclerObserver.scrollToBottom(true)
+//                }
+
+//                checkRelation {
+//                    mChannel?.markAsRead { e1 -> e1?.printStackTrace() }
+//                     recyclerObserver.scrollToBottom(true)
+//                }
+
+                setReactionHandler()
+            }
         } else {
-            mChannel!!.refresh(GroupChannelRefreshHandler { e ->
+            mChannel!!.refresh(CompletionHandler { e ->
                 if (e != null) {
                     Log.e(ConnectionManager.TAG, "Failed to refresh the channel")
                     e.printStackTrace()
-                    return@GroupChannelRefreshHandler
+                    return@CompletionHandler
                 }
                 updateActionBarTitle()
             })
@@ -333,21 +328,21 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
         }
 
         val tempUserMessage: UserMessage =
-            mChannel!!.sendUserMessage(userInput, SendUserMessageHandler { userMessage, e ->
+            mChannel!!.sendUserMessage(userInput, UserMessageHandler { userMessage, e ->
                 if (e != null) {
                     // Error!
                     Log.e(ConnectionManager.TAG, e.toString())
-                    adapter.updateMessage(userMessage)
-                    return@SendUserMessageHandler
+                    userMessage?.let { adapter.updateMessage(it) }
+                    return@UserMessageHandler
                 }
                 Log.d(ConnectionManager.TAG, "Message Sent : $userInput")
                 // Update a sent message to RecyclerView
-                adapter.updateMessage(userMessage)
+                userMessage?.let { adapter.updateMessage(it) }
             })
 
         // Display a user message to RecyclerView
         adapter.addFirst(tempUserMessage)
-        binding.rvChat.scrollToPosition(0)
+        //recyclerObserver.scrollToBottom(true)
     }
 
     private fun setTypingStatus(typing: Boolean) {
@@ -368,7 +363,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
             is MessageLongPressCallback -> {
                 showMessageOptionsDialog(
                     any.message,
-                    any.message.sender.userId == SendBird.getCurrentUser().userId,
+                    any.message.sender?.userId == SendbirdChat.currentUser?.userId,
                     any.message is FileMessage
                 )
             }
@@ -384,8 +379,9 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
                     bundle.putString("url", any.url)
                     findNavController().navigate(R.id.videoViewDialog, bundle)
                 } else {
-                    if (!any.url.isNullOrEmpty())
+                    if (!any.url.isNullOrEmpty()) {
                         DownloadUtils.download(requireContext(), downloadManager, any.url)
+                    }
                 }
             }
         }
@@ -411,13 +407,16 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
                             val message = BaseMessage.buildFromSerializedData(it as? ByteArray)
                             when (type) {
                                 EmoticonHelper.ADD_REACTION -> {
-                                    addReaction(message, key!!)
+                                    message?.let { it1 -> addReaction(it1, key!!) }
                                 }
                                 EmoticonHelper.REMOVE_REACTION -> {
-                                    removeReaction(message, key!!)
+                                    message?.let { it1 -> removeReaction(it1, key!!) }
                                 }
                                 EmoticonHelper.UPDATE_REACTION -> {
-                                    updateReaction(message, key!!, oldKey!!)
+                                    message?.let { it1 -> updateReaction(it1, key!!, oldKey!!) }
+                                }
+                                else -> {
+                                    Log.e("No message", "No data")
                                 }
                             }
                         }
@@ -426,14 +425,14 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
                         val result = navBackStackEntry.savedStateHandle.get<Serializable>("copyMessage");
                         result?.let {
                             val message = BaseMessage.buildFromSerializedData(it as? ByteArray)
-                            copyTextToClipboard(message.message)
+                            copyTextToClipboard(message!!.message)
                         }
                     }
                     navBackStackEntry.savedStateHandle.contains("deleteMessage") -> {
                         val result = navBackStackEntry.savedStateHandle.get<Serializable>("deleteMessage");
                         result?.let {
                             val message = BaseMessage.buildFromSerializedData(it as? ByteArray)
-                            deleteMessage(message)
+                            deleteMessage(message!!)
                         }
                     }
                 }
@@ -466,11 +465,11 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
             return
         }
 
-        mChannel!!.deleteMessage(message, DeleteMessageHandler { e ->
+        mChannel!!.deleteMessage(message, CompletionHandler { e ->
             if (e != null) {
                 // Error!
                 showError(requireContext(), "Failed to delete the message")
-                return@DeleteMessageHandler
+                return@CompletionHandler
             }
         })
     }
@@ -484,7 +483,8 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
                 showError(requireContext(), "Failed to add reaction to the message")
             }
             if (event == null) return@handler
-            Log.d("anshul", "Reaction Added")
+            message.applyReactionEvent(event)
+            adapter.notifyDataSetChanged()
         }
     }
 
@@ -522,7 +522,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
         startActivityForResult(FileUtils.requestAnyFile(requireContext()), FileUtils.PICK_ANY_FILE_REQUEST_CODE)
         // Set this as false to maintain connection
         // even when an external Activity is started.
-        SendBird.setAutoBackgroundDetection(false)
+        SendbirdChat.autoBackgroundDetection = false
     }
 
     override fun onRequestPermissionsResult(
@@ -560,40 +560,45 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
         super.onActivityResult(requestCode, resultCode, data)
 
         // Set this as true to restore background connection management.
-        SendBird.setAutoBackgroundDetection(true)
+        SendbirdChat.autoBackgroundDetection = true
         if (requestCode == FileUtils.PICK_ANY_FILE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             // If user has successfully chosen the image, show a dialog to confirm upload.
 //            if (data == null) {
 //                Log.d("Sendbird_File_Upload", "data is null!")
 //                return
 //            }
+
             if (data?.data == null) {
                 val file = FileUtils.getFile(requireContext(), FileUtils.IMAGE)
                 sendFileWithThumbnail(file)
             } else {
                 val file = FileUtils.getFileFromUri(requireContext(), data.data!!)
-                sendFileWithThumbnail(file)
+                Log.e("AsasasasasA",file?.extension!!)
+                if (file?.extension == "pdf") {
+                    showPdfDialog(data.data!!.toString(), file)
+                } else {
+                    sendFileWithThumbnail(file)
+                }
             }
-
         }
     }
 
-    private fun sendFileWithThumbnail(file: File?) {
-        if (file == null || mChannel == null) return
+    private fun sendFileWithThumbnail(fileVal: File?) {
+        if (fileVal == null || mChannel == null) return
 
         // Specify two dimensions of thumbnails to generate
         val thumbnailSizes: MutableList<ThumbnailSize> = ArrayList()
         thumbnailSizes.add(ThumbnailSize(240, 240))
         thumbnailSizes.add(ThumbnailSize(320, 320))
 
-        val info: Hashtable<String, Any?>? = FileUtils.getFileInfo(requireContext(), file)
+        val info: Hashtable<String, Any?>? = FileUtils.getFileInfo(requireContext(), fileVal)
 
         if (info == null || info.isEmpty) {
             showError(requireContext(), "Invalid file selected, can't access information.")
             return
         }
 
-        val fileSize = (file.length() / 1024) / 1024
+        var fileSize = (fileVal.length() / 1024) / 1024
         Log.d(FileUtils.FILE_PICK_TAG, "Sending File Message, Size : $fileSize")
 
         if (fileSize > 18) {
@@ -611,34 +616,34 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
         val size = info["size"] as Int
 
         if (mime?.toLowerCase(Locale.ROOT)?.startsWith("image") == true) {
-            FileUtils.compressImage(file.absolutePath)
+            FileUtils.compressImage(fileVal.absolutePath)
         }
 
-        val tempFileMessage: FileMessage = mChannel!!.sendFileMessage(
-            file,
-            name,
-            mime,
-            size,
-            "",
-            null,
-            thumbnailSizes
+        val params = FileMessageCreateParams().apply {
+            file = fileVal
+            fileName = fileVal.name
+            fileSize = size.toLong()
+            this.thumbnailSizes = thumbnailSizes
+            mimeType = mime
+        }
+        val tempFileMessage: FileMessage? = mChannel!!.sendFileMessage(
+            params
         ) { fileMessage, e ->
 
             if (e != null) {
                 // Error!
                 Log.e(ConnectionManager.TAG, e.toString())
-                adapter.updateMessage(fileMessage)
+                fileMessage?.let { adapter.updateMessage(it) }
                 return@sendFileMessage
             }
             Log.d(ConnectionManager.TAG, "File Message Sent")
             // Update a sent message to RecyclerView
-            adapter.updateMessage(fileMessage)
+            fileMessage?.let { adapter.updateMessage(it) }
         }
 
-        adapter.addFirst(tempFileMessage)
-        binding.rvChat.scrollToPosition(0)
+        tempFileMessage?.let { adapter.addFirst(it) }
+        recyclerObserver.scrollToBottom(true)
     }
-
 
     /*    //To show date as sticky
         private var sectionItemDecoration: RecyclerDateSectionItemDecoration? = null
@@ -680,9 +685,116 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
 
         }
     */
+
+    private fun setReactionHandler() {
+        SendbirdChat.addChannelHandler(ReactionHandlerKey, object : GroupChannelHandler() {
+            override fun onMessageReceived(channel: BaseChannel, message: BaseMessage) {
+                Log.e("asasasas121212", "asasasas")
+            }
+
+            override fun onReactionUpdated(channel: BaseChannel, reactionEvent: ReactionEvent) {
+                val messageId = reactionEvent.messageId
+                val message = adapter.messageList.firstOrNull { it.messageId == messageId } ?: return
+                message.applyReactionEvent(reactionEvent)
+                adapter.notifyDataSetChanged()
+            }
+        })
+    }
+
+    private var hasPrevious: Boolean = true
+    private fun loadMessagesPreviousMessagesData(
+        timeStamp: Long,
+    ) {
+        val channel = mChannel ?: return
+        adapter.setMessageListLoading(true)
+        val params = MessageListParams().apply {
+            previousResultSize = 20
+            nextResultSize = 0
+            reverse = false
+            messageTypeFilter = MessageTypeFilter.ALL
+            messagePayloadFilter = MessagePayloadFilter().apply {
+                includeReactions = true
+            }
+        }
+        channel.getMessagesByTimestamp(timeStamp, params) { messages, e ->
+            if (e != null) {
+                e.printStackTrace()
+                return@getMessagesByTimestamp
+            }
+            if (messages != null) {
+                if (messages.isNotEmpty()) {
+                    hasPrevious = messages.size >= params.previousResultSize
+                    adapter.addPreviousMessages(messages)
+                    adapter.notifyDataSetChanged()
+                    adapter.markAllMessagesAsRead()
+                } else {
+                    hasPrevious = false
+                }
+            }
+            adapter.setMessageListLoading(false)
+        }
+    }
+
+    private fun loadToLatestMessages(timeStamp: Long) {
+        val channel = mChannel ?: return
+        adapter.setMessageListLoading(true)
+        val params = MessageListParams().apply {
+            nextResultSize = 30
+            reverse = false
+            messageTypeFilter = MessageTypeFilter.ALL
+            messagePayloadFilter = MessagePayloadFilter().apply {
+                includeReactions = true
+            }
+        }
+        channel.getMessagesByTimestamp(timeStamp, params) { messages, e ->
+            if (e != null) {
+                e.printStackTrace()
+                return@getMessagesByTimestamp
+            }
+            if (!messages.isNullOrEmpty()) {
+                adapter.addNextMessages(messages)
+                if (messages.size >= params.nextResultSize) {
+                    loadToLatestMessages(messages.last().createdAt)
+                } else {
+                    adapter.setMessageListLoading(false)
+                }
+            } else {
+                adapter.setMessageListLoading(false)
+            }
+        }
+    }
+
     companion object {
         const val CONNECTION_HANDLER_ID = "CONNECTION_HANDLER_GROUP_CHAT";
         const val CHANNEL_HANDLER_ID = "CHANNEL_HANDLER_GROUP_CHANNEL_CHAT"
+        private const val CHAT_READ_HANDLER = "chat_read_handler"
+        private const val ReactionHandlerKey = "ReactionHandler"
         const val CHANNEL_LIST_LIMIT = 30
+    }
+
+    private var pdfDialog: Dialog? = null
+    private fun showPdfDialog(url: String, file: File) {
+        pdfDialog = Dialog(requireActivity(), R.style.DialogAnimation)
+        pdfDialog!!.window!!.requestFeature(Window.FEATURE_NO_TITLE)
+        pdfDialog!!.setContentView(R.layout.layout_pdf_view)
+        pdfDialog!!.setCancelable(true)
+
+        pdfDialog!!.imageView.fromUri(Uri.parse(url))
+            .enableAnnotationRendering(true)
+            .spacing(10)
+            .load()
+
+        pdfDialog?.ivClose?.setOnClickListener {
+            pdfDialog?.dismiss()
+        }
+
+        pdfDialog?.ivSend?.setOnClickListener {
+            pdfDialog?.dismiss()
+            sendFileWithThumbnail(file)
+        }
+
+        if (!pdfDialog!!.isShowing) {
+            pdfDialog!!.show()
+        }
     }
 }

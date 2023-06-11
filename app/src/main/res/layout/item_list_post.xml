@@ -46,6 +46,15 @@
                 app:layout_constraintTop_toTopOf="@id/tvName"
                 app:layout_constraintWidth_min="58dp" />
 
+            <ImageView
+                android:layout_width="@dimen/textMedium"
+                android:layout_height="@dimen/textMedium"
+                android:visibility="@{data.user.userOnlineStatus == null ? View.GONE : View.VISIBLE}"
+                android:src="@{data.user.userOnlineStatus.equals(`ONLINE`) ? @drawable/ic_online_circle : @drawable/ic_offline_circle}"
+                app:layout_constraintEnd_toEndOf="@id/ivProfilePic"
+                app:layout_constraintBottom_toBottomOf="@id/ivProfilePic"
+                android:layout_marginLeft="@dimen/space_small"/>
+
             <TextView
                 android:id="@+id/tvMentorMentee"
                 style="@style/normalBodyText"

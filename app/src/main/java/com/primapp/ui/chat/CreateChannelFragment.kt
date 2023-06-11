@@ -1,5 +1,6 @@
 package com.primapp.ui.chat
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
@@ -18,13 +19,17 @@ import com.primapp.chat.ConnectionManager
 import com.primapp.databinding.FragmentCreateChannelBinding
 import com.primapp.extensions.setDivider
 import com.primapp.extensions.showError
-import com.primapp.extensions.showSuccess
 import com.primapp.model.chat.ChatUser
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.chat.adapter.MentorMenteeChatAdapter
 import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
 import com.primapp.viewmodels.CommunitiesViewModel
 import com.sendbird.android.*
+import com.sendbird.android.channel.GroupChannel
+import com.sendbird.android.exception.SendbirdException
+import com.sendbird.android.params.ApplicationUserListQueryParams
+import com.sendbird.android.params.GroupChannelCreateParams
+import com.sendbird.android.user.User
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -97,15 +102,20 @@ class CreateChannelFragment : BaseFragment<FragmentCreateChannelBinding>() {
 
     private fun createChanel(userId: String) {
         showLoading()
-        GroupChannel.createChannelWithUserIds(listOf(userId), true) { groupChannel, e ->
-            hideLoading()
+        val params = GroupChannelCreateParams()
+            .apply {
+                userId.toList()
+                this.operators = SendbirdChat.currentUser?.let { listOf(it) } ?: emptyList()
+            }
+        GroupChannel.createChannel(params) createChannelLabel@{ groupChannel, e ->
             if (e != null) {
                 Log.e(
                     ConnectionManager.TAG,
                     "Failed to create channel with this user. Reason : ${e.message} -|- Cause : ${e.cause}"
                 )
                 showError(requireContext(), "Failed to create channel with this user.")
-            } else {
+            }
+            if (groupChannel != null) {
                 Log.d(ConnectionManager.TAG, "Channel created success Url: ${groupChannel.url}")
                 //showSuccess(requireContext(), "Channel created")
                 val bundle = Bundle()
@@ -117,11 +127,9 @@ class CreateChannelFragment : BaseFragment<FragmentCreateChannelBinding>() {
 
     private fun checkUserExistAndCreateChannel(userId: String) {
         showLoading()
-        val listQuery = SendBird.createApplicationUserListQuery()
-        listQuery.setUserIdsFilter(arrayListOf(userId))
-        listQuery.next { mutableList: MutableList<User>?, e: SendBirdException? ->
-            hideLoading()
-            if (e != null || mutableList == null || mutableList.size<=0) {
+        val listQuery = SendbirdChat.createApplicationUserListQuery(ApplicationUserListQueryParams(userIdsFilter = arrayListOf(userId)))
+        listQuery.next { users, e ->
+            if (e != null || users == null) {
                 showError(requireContext(),"User doesn't exist on Sendbird.")
                 return@next
             }

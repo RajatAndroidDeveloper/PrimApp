@@ -31,11 +31,14 @@ import com.primapp.ui.base.BaseActivity
 import com.primapp.ui.profile.UserPostsFragment
 import com.primapp.utils.AnalyticsManager
 import com.primapp.utils.DialogUtils
-import com.primapp.utils.NetworkConnectionHelper
 import com.primapp.viewmodels.CommunitiesViewModel
-import com.sendbird.android.SendBird
-import com.sendbird.android.SendBirdException
-import com.sendbird.android.SendBirdPushHelper
+import com.sendbird.android.SendbirdChat
+import com.sendbird.android.exception.SendbirdException
+import com.sendbird.android.handler.ConnectHandler
+import com.sendbird.android.handler.DisconnectHandler
+import com.sendbird.android.handler.PushRequestCompleteHandler
+import com.sendbird.android.params.UserUpdateParams
+import com.sendbird.android.push.SendbirdPushHelper
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.custom_navigation_drawer_layout.*
 import okhttp3.OkHttpClient
@@ -115,7 +118,7 @@ class DashboardActivity : BaseActivity() {
         Log.d(ConnectionManager.TAG, "Connecting user to Sendbird : ${userData?.id}")
         ConnectionManager.login(
             userData!!.id.toString(),
-            SendBird.ConnectHandler { user, sendBirdException ->
+            ConnectHandler { user, sendBirdException ->
                 if (sendBirdException != null) {
                     Log.d(
                         ConnectionManager.TAG,
@@ -145,7 +148,7 @@ class DashboardActivity : BaseActivity() {
 
             // Get new Instance ID token
             task.result?.let {
-                SendBird.registerPushTokenForCurrentUser(
+                SendbirdChat.registerPushToken(
                     it
                 ) { status, e ->
                     if (e != null) {
@@ -165,14 +168,20 @@ class DashboardActivity : BaseActivity() {
     }
 
     fun updateCurrentUserInfo(name: String, userImage: String?) {
-        val profileUrl = if (SendBird.getCurrentUser() != null) SendBird.getCurrentUser().profileUrl else ""
-        SendBird.updateCurrentUserInfo(name, profileUrl, SendBird.UserInfoUpdateHandler {
+        val profileUrl = if (SendbirdChat.currentUser != null) SendbirdChat.currentUser!!.profileUrl else ""
+
+        val params = UserUpdateParams().apply {
+            name
+            profileUrl
+        }
+
+        SendbirdChat.updateCurrentUserInfo(params) {
             if (it != null) {
                 Log.d(ConnectionManager.TAG, "Failed to update name to sendbird")
-                return@UserInfoUpdateHandler
+                return@updateCurrentUserInfo
             }
             Log.d(ConnectionManager.TAG, "Updated the Nickname")
-        })
+        }
         setNavigationHeaderData(name, userImage)
     }
 
@@ -372,15 +381,15 @@ class DashboardActivity : BaseActivity() {
     fun logout() {
         DialogUtils.showYesNoDialog(this, R.string.logout_message, {
             showLoading()
-            SendBirdPushHelper.unregisterPushHandler(object : SendBirdPushHelper.OnPushRequestCompleteListener {
+            SendbirdPushHelper.unregisterPushHandler(object : PushRequestCompleteHandler {
                 override fun onComplete(p0: Boolean, p1: String?) {
                     hideLoading()
                     logoutFromSendBird()
                 }
 
-                override fun onError(p0: SendBirdException?) {
+                override fun onError(e: SendbirdException) {
                     hideLoading()
-                    Log.d(ConnectionManager.TAG, "Failed to unregister push helper ${p0?.code}")
+                    Log.d(ConnectionManager.TAG, "Failed to unregister push helper ${e?.code}")
                     logoutFromSendBird()
                 }
             })
@@ -391,7 +400,7 @@ class DashboardActivity : BaseActivity() {
 
     fun logoutFromSendBird() {
         showLoading()
-        ConnectionManager.logout(SendBird.DisconnectHandler {
+        ConnectionManager.logout(DisconnectHandler {
             hideLoading()
             val analyticsData = Bundle()
             analyticsData.putInt("user_id", UserCache.getUserId(this))

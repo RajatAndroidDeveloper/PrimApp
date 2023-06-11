@@ -13,10 +13,10 @@ android {
 
     defaultConfig {
         applicationId "com.primapp"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 31
         versionCode 2
-        versionName "1.4.9"
+        versionName "1.5.2"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -117,7 +117,8 @@ dependencies {
     implementation "com.google.android.exoplayer:exoplayer:$rootProject.exoPlayer"
 
     //SendBird for chat
-    implementation "com.sendbird.sdk:sendbird-android-sdk:$rootProject.sendBirdVersion"
+//    implementation "com.sendbird.sdk:sendbird-android-sdk:$rootProject.sendBirdVersion"
+    implementation "com.sendbird.sdk:sendbird-chat:$rootProject.sendBirdVersion"
 
     //Lottie for animation
     implementation "com.airbnb.android:lottie:$rootProject.lottieVersion"
@@ -128,4 +129,5 @@ dependencies {
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.22'
 
     implementation 'com.github.wdsqjq:AndRatingBar:1.0.6'
+    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
 }

@@ -5,10 +5,15 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.Uri
+import android.os.Build
 import android.provider.OpenableColumns
 import android.util.Log
 import android.view.View
+import androidx.annotation.RequiresApi
 import okio.utf8Size
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.regex.Pattern
 import kotlin.math.ln
 import kotlin.math.pow
@@ -54,4 +59,23 @@ fun checkIsNetworkConnected(context: Context): Boolean {
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     val activeNetworkConnection: NetworkInfo? = connectivityManager.activeNetworkInfo
     return activeNetworkConnection?.isConnected ?: false
+}
+
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun Long.equalTime(compareMillisecond: Long): Boolean {
+    val date = Instant.ofEpochMilli(this).atZone(ZoneId.systemDefault()).toLocalDateTime()
+    val date2 = Instant.ofEpochMilli(compareMillisecond).atZone(ZoneId.systemDefault()).toLocalDateTime()
+    val formatter = DateTimeFormatter.ofPattern("HHmm")
+
+    return date.format(formatter) == date2.format(formatter)
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun Long.equalDate(compareMillisecond: Long): Boolean {
+    val date = Instant.ofEpochMilli(this).atZone(ZoneId.systemDefault()).toLocalDateTime()
+    val date2 = Instant.ofEpochMilli(compareMillisecond).atZone(ZoneId.systemDefault()).toLocalDateTime()
+    val formatter = DateTimeFormatter.ofPattern("YYYYMMdd")
+
+    return date.format(formatter) == date2.format(formatter)
 }

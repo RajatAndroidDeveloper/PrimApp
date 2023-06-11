@@ -13,8 +13,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.primapp.R
 import com.primapp.cache.UserCache
 import com.primapp.constants.CommunityStatusTypes
@@ -22,26 +25,34 @@ import com.primapp.databinding.FragmentUpdatesBinding
 import com.primapp.extensions.showError
 import com.primapp.extensions.showInfo
 import com.primapp.model.*
+import com.primapp.model.mentormentee.ResultsItem
+import com.primapp.model.post.PostListResult
 import com.primapp.retrofit.ApiConstant
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
 import com.primapp.ui.communities.members.CommunityMembersFragment
 import com.primapp.ui.dashboard.DashboardActivity
+import com.primapp.ui.dashboard.WebSocketListener
 import com.primapp.ui.post.adapter.PostListPagedAdapter
 import com.primapp.ui.post.create.CreatePostFragment
 import com.primapp.utils.*
+import com.primapp.viewmodels.CommunitiesViewModel
 import com.primapp.viewmodels.PostsViewModel
-import com.sendbird.android.SendBird
-import com.sendbird.android.SendBird.UserEventHandler
-import com.sendbird.android.SendBirdException
-import com.sendbird.android.User
+import com.sendbird.android.SendbirdChat
+import com.sendbird.android.exception.SendbirdException
+import com.sendbird.android.handler.UserEventHandler
+import com.sendbird.android.user.User
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.fragment_updates.*
 import kotlinx.android.synthetic.main.toolbar_dashboard_accent.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.WebSocket
 import javax.inject.Inject
 
 class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
@@ -54,8 +65,14 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
 
     val viewModel by viewModels<PostsViewModel> { viewModelFactory }
 
+    val mViewModel by viewModels<CommunitiesViewModel> { viewModelFactory }
+    private lateinit var webSocketListener: WebSocketListener
+    private val okHttpClient = OkHttpClient()
+    private var webSocket: WebSocket? = null
+
     @Inject
     lateinit var downloadManager: DownloadManager
+    val activityScope = CoroutineScope(Dispatchers.Main)
 
     override fun getLayoutRes(): Int = R.layout.fragment_updates
 
@@ -64,10 +81,46 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
 
         setData()
         setAdapter()
+        webSocketListener = WebSocketListener(mViewModel)
+
         if (checkIsNetworkConnected(requireContext())) {
             setObserver()
         } else {
             findNavController().navigate(R.id.networkErrorFragment)
+        }
+        activityScope.launch {
+            delay(1500)
+            findOnlineOfflineStatus()
+        }
+    }
+
+    private fun findOnlineOfflineStatus(){
+        webSocket = okHttpClient.newWebSocket(createRequest(), webSocketListener)
+
+        mViewModel.messages.observe(requireActivity()) {
+            var mainMentorsMenteeList = ArrayList<ResultsItem>()
+            mainMentorsMenteeList.clear()
+            mainMentorsMenteeList = Gson().fromJson<ArrayList<ResultsItem>>(it.second, object :
+                TypeToken<ArrayList<ResultsItem>>() {}.type)
+            mergeListAndAdapterData(mainMentorsMenteeList)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+    }
+    private fun mergeListAndAdapterData(mainMentorsMenteeList: java.util.ArrayList<ResultsItem>) {
+        var data = adapter.snapshot().items
+        for(i in mainMentorsMenteeList.indices){
+            for(j in 0 until (data.size)){
+                if (mainMentorsMenteeList[i].id == data[j].user.id) {
+                    data[j].user.userOnlineStatus = mainMentorsMenteeList[i].userOnlineStatus
+                }
+            }
+        }
+        lifecycleScope.launch {
+            adapter.submitData(PagingData.from(data))
         }
     }
 
@@ -412,7 +465,7 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
     }
 
     private fun checkUnreadMessages() {
-        SendBird.getTotalUnreadMessageCount { totalUnreadMessageCount: Int, e: SendBirdException? ->
+        SendbirdChat.getTotalUnreadMessageCount { totalUnreadMessageCount: Int, e: SendbirdException? ->
             if (e != null) {
                 return@getTotalUnreadMessageCount
             }
@@ -422,8 +475,9 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
 
     override fun onResume() {
         super.onResume()
-        SendBird.addUserEventHandler(UNIQUE_HANDLER_ID, object : UserEventHandler() {
-            override fun onFriendsDiscovered(users: List<User?>?) {}
+        SendbirdChat.addUserEventHandler(UNIQUE_HANDLER_ID, object : UserEventHandler() {
+            override fun onFriendsDiscovered(users: List<User>) {}
+
             override fun onTotalUnreadMessageCountChanged(
                 totalCount: Int,
                 totalCountByCustomType: Map<String, Int>
@@ -443,6 +497,14 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
 
     override fun onPause() {
         super.onPause()
-        SendBird.removeUserEventHandler(UNIQUE_HANDLER_ID);
+        SendbirdChat.removeUserEventHandler(UNIQUE_HANDLER_ID);
+    }
+
+    private fun createRequest(): Request {
+        val websocketURL = "wss://api.prim-technology.com/ws/online-status/?token=${UserCache.getAccessToken(requireContext())}"
+
+        return Request.Builder()
+            .url(websocketURL)
+            .build()
     }
 }
