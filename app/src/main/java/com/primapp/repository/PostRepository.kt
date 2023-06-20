@@ -84,13 +84,10 @@ class PostRepository @Inject constructor(
                 apiService.uploadToAWS(
                     url,
                     RetrofitUtils.getRequestBody(key),
-                    RetrofitUtils.getRequestBody(accessKey),
-                    RetrofitUtils.getRequestBody(amzSecurityToken),
-                    RetrofitUtils.getRequestBody(policy),
-                    RetrofitUtils.getRequestBody(signature),
                     RetrofitUtils.getRequestBody(xAmzAlgorithm),
                     RetrofitUtils.getRequestBody(xAmzCredential),
                     RetrofitUtils.getRequestBody(xAmzDate),
+                    RetrofitUtils.getRequestBody(policy),
                     RetrofitUtils.getRequestBody(xAmzSignature),
                     file
                 )

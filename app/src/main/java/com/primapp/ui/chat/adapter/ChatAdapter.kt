@@ -75,12 +75,6 @@ class ChatAdapter constructor(val onItemClick: (Any) -> Unit) :
         messageList.clear()
         messageList.addAll(resultMessageList)
         notifyDataSetChanged()
-
-//        val messageInList = messageList.find { it.messageId == msgId }
-//        val index = messageList.indexOf(messageInList)
-//        if (index != -1)
-//            messageList.removeAt(index)
-//        notifyItemRemoved(index)
     }
 
     fun addReaction(reactionEvent: ReactionEvent) {

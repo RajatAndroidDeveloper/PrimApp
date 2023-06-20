@@ -146,13 +146,10 @@ interface ApiService {
     suspend fun uploadToAWS(
         @Url url: String,
         @Part("key") key: RequestBody?,
-        @Part("AWSAccessKeyId") awsAccessKey: RequestBody?,
-        @Part("x-amz-security-token") amzSecurityToken: RequestBody?,
-        @Part("policy") policy: RequestBody?,
-        @Part("signature") signature: RequestBody?,
         @Part("x-amz-algorithm") algorithm: RequestBody?,
         @Part("x-amz-credential") credential: RequestBody?,
         @Part("x-amz-date") date: RequestBody?,
+        @Part("policy") policy: RequestBody?,
         @Part("x-amz-signature") amzSignature: RequestBody?,
         @Part file: MultipartBody.Part?
     ): Response<Unit>

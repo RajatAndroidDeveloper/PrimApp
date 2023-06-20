@@ -4,12 +4,16 @@ import android.Manifest
 import android.app.Activity
 import android.app.Dialog
 import android.app.DownloadManager
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.Window
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
@@ -19,7 +23,6 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.primapp.R
 import com.primapp.cache.UserCache
 import com.primapp.chat.ConnectionManager
 import com.primapp.chat.SendBirdHelper
@@ -30,7 +33,6 @@ import com.primapp.extensions.showInfo
 import com.primapp.model.MessageLongPressCallback
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
-import com.primapp.ui.base.ImageViewDialogArgs
 import com.primapp.ui.chat.adapter.ChatAdapter
 import com.primapp.ui.chat.adapter.ChatRecyclerDataObserver
 import com.primapp.utils.DialogUtils
@@ -69,7 +71,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
     @Inject
     lateinit var downloadManager: DownloadManager
 
-    override fun getLayoutRes(): Int = R.layout.fragment_chat
+    override fun getLayoutRes(): Int = com.primapp.R.layout.fragment_chat
     private lateinit var recyclerObserver: ChatRecyclerDataObserver
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -97,7 +99,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
                         it.data?.content?.let {
                             binding.llChatBox.isVisible = !it.isEmpty()
                             if (it.isEmpty()) {
-                                showInfo(requireContext(), getString(R.string.no_relation_message))
+                                showInfo(requireContext(), getString(com.primapp.R.string.no_relation_message))
                             }
                         }
                     }
@@ -166,7 +168,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
         binding.btnSend.isEnabled = false
 
         tvClearChat.setOnClickListener {
-            DialogUtils.showYesNoDialog(requireActivity(), R.string.delete_chat_history, {
+            DialogUtils.showYesNoDialog(requireActivity(), com.primapp.R.string.delete_chat_history, {
                 resetMyChannelHistory()
             })
         }
@@ -308,7 +310,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
     private fun updateActionBarTitle() {
         tvTitle?.text = SendBirdHelper.getGroupChannelTitle(mChannel!!)
         if (SendBirdHelper.getMembersOnlineStatus(mChannel!!)) {
-            tvOnlineStatus?.text = getString(R.string.online)
+            tvOnlineStatus?.text = getString(com.primapp.R.string.online)
         } else {
             tvOnlineStatus?.text = SendBirdHelper.getMembersLastSeen(mChannel!!)
         }
@@ -373,11 +375,11 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
                 if (type.startsWith("image")) {
                     val bundle = Bundle()
                     bundle.putString("url", any.url)
-                    findNavController().navigate(R.id.imageViewDialog, bundle)
+                    findNavController().navigate(com.primapp.R.id.imageViewDialog, bundle)
                 } else if (type.startsWith("video")) {
                     val bundle = Bundle()
                     bundle.putString("url", any.url)
-                    findNavController().navigate(R.id.videoViewDialog, bundle)
+                    findNavController().navigate(com.primapp.R.id.videoViewDialog, bundle)
                 } else {
                     if (!any.url.isNullOrEmpty()) {
                         DownloadUtils.download(requireContext(), downloadManager, any.url)
@@ -391,7 +393,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val navBackStackEntry = findNavController().getBackStackEntry(R.id.chatFragment)
+        val navBackStackEntry = findNavController().getBackStackEntry(com.primapp.R.id.chatFragment)
 
         // Create our observer and add it to the NavBackStackEntry's lifecycle
         val observer = LifecycleEventObserver { _, event ->
@@ -457,7 +459,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
         bundle.putSerializable("message", message.serialize())
         bundle.putBoolean("isMyMessage", isMyMessage)
         bundle.putBoolean("isFileMessage", isFileMessage)
-        findNavController().navigate(R.id.bottomSheetChatOptions, bundle)
+        findNavController().navigate(com.primapp.R.id.bottomSheetChatOptions, bundle)
     }
 
     private fun deleteMessage(message: BaseMessage) {
@@ -542,13 +544,13 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
                         /*
                         *   Permissions are denied permanently, redirect to permissions page
                         * */
-                        showError(requireContext(), getString(R.string.error_camera_permission))
+                        showError(requireContext(), getString(com.primapp.R.string.error_camera_permission))
                         redirectUserToAppSettings()
                     } else {
                         DialogUtils.showCloseDialog(
                             requireActivity(),
-                            R.string.error_camera_permission,
-                            R.drawable.question_mark
+                            com.primapp.R.string.error_camera_permission,
+                            com.primapp.R.drawable.question_mark
                         )
                     }
                 }
@@ -573,11 +575,17 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
                 sendFileWithThumbnail(file)
             } else {
                 val file = FileUtils.getFileFromUri(requireContext(), data.data!!)
-                Log.e("AsasasasasA",file?.extension!!)
                 if (file?.extension == "pdf") {
                     showPdfDialog(data.data!!.toString(), file)
                 } else {
-                    sendFileWithThumbnail(file)
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = data.data!!
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    try {
+                        requireContext().startActivity(intent)
+                    } catch (e: ActivityNotFoundException) {
+                        Toast.makeText(context, "No Application available to view XLS", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
@@ -602,7 +610,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
         Log.d(FileUtils.FILE_PICK_TAG, "Sending File Message, Size : $fileSize")
 
         if (fileSize > 18) {
-            showError(requireContext(), getString(R.string.video_file_size_error_message))
+            showError(requireContext(), getString(com.primapp.R.string.video_file_size_error_message))
             return
         }
 
@@ -650,7 +658,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
 
         private fun addSectionDecorator() {
             sectionItemDecoration = RecyclerDateSectionItemDecoration(
-                resources.getDimensionPixelSize(R.dimen.space_extraLarge),
+                resources.getDimensionPixelSize(com.primapp.R.dimen.space_extraLarge),
                 true,
                 getSectionCallback()
             )
@@ -774,9 +782,9 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
 
     private var pdfDialog: Dialog? = null
     private fun showPdfDialog(url: String, file: File) {
-        pdfDialog = Dialog(requireActivity(), R.style.DialogAnimation)
+        pdfDialog = Dialog(requireActivity(), com.primapp.R.style.DialogAnimation)
         pdfDialog!!.window!!.requestFeature(Window.FEATURE_NO_TITLE)
-        pdfDialog!!.setContentView(R.layout.layout_pdf_view)
+        pdfDialog!!.setContentView(com.primapp.R.layout.layout_pdf_view)
         pdfDialog!!.setCancelable(true)
 
         pdfDialog!!.imageView.fromUri(Uri.parse(url))
@@ -795,6 +803,19 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
 
         if (!pdfDialog!!.isShowing) {
             pdfDialog!!.show()
+        }
+    }
+
+    class AppWebViewClients() : WebViewClient() {
+        override fun shouldOverrideUrlLoading(view: WebView, url: String?): Boolean {
+            // TODO Auto-generated method stub
+            view.loadUrl(url!!)
+            return true
+        }
+
+        override fun onPageFinished(view: WebView?, url: String?) {
+            // TODO Auto-generated method stub
+            super.onPageFinished(view, url)
         }
     }
 }
