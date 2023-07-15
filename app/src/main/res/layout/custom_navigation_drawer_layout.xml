@@ -92,6 +92,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_normal"
+                android:visibility="gone"
                 android:fontFamily="@font/poppins_bold"
                 android:gravity="center"
                 android:text="@string/monetization"
@@ -102,10 +103,67 @@
                 app:layout_constraintTop_toBottomOf="@id/view" />
 
             <LinearLayout
+                android:id="@+id/llMessanger"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_normal"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/space_extraSmall"
+                android:paddingBottom="@dimen/space_extraSmall"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/ivProfileImage"
+                app:layout_constraintTop_toBottomOf="@id/tvMonetization">
+
+                <ImageView
+                    android:layout_width="@dimen/textMediumX"
+                    android:layout_height="@dimen/textMediumX"
+                    app:tint="@color/colorAccent"
+                    android:src="@drawable/ic_chat" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/space_small"
+                    android:text="@string/messanger"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/textMedium" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llPortFolio"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_extraSmall"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/space_extraSmall"
+                android:paddingBottom="@dimen/space_extraSmall"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/ivProfileImage"
+                app:layout_constraintTop_toBottomOf="@id/llMessanger">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/portfolio"
+                    app:tint="@color/colorAccent"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/space_small"
+                    android:text="@string/portfolio"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/textMedium" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/llDashboard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_normal"
+                android:visibility="gone"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingTop="@dimen/space_extraSmall"
@@ -134,6 +192,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_extraSmall"
                 android:gravity="center_vertical"
+                android:visibility="gone"
                 android:orientation="horizontal"
                 android:paddingTop="@dimen/space_extraSmall"
                 android:paddingBottom="@dimen/space_extraSmall"
@@ -164,9 +223,10 @@
                 android:orientation="horizontal"
                 android:paddingTop="@dimen/space_extraSmall"
                 android:paddingBottom="@dimen/space_extraSmall"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/ivProfileImage"
-                app:layout_constraintTop_toBottomOf="@id/llPaymentMethod">
+                app:layout_constraintTop_toBottomOf="@id/llPortFolio">
 
                 <ImageView
                     android:layout_width="@dimen/textMediumX"
@@ -193,7 +253,7 @@
                 android:paddingBottom="@dimen/space_extraSmall"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/ivProfileImage"
-                app:layout_constraintTop_toBottomOf="@id/llProjectContracts">
+                app:layout_constraintTop_toBottomOf="@id/llPortFolio">
 
                 <ImageView
                     android:layout_width="@dimen/textMediumX"
@@ -206,7 +266,7 @@
                     android:paddingLeft="@dimen/space_small"
                     android:text="@string/terms_of_services"
                     android:textColor="@color/textColor"
-                    android:textSize="@dimen/textNormal" />
+                    android:textSize="@dimen/textMedium" />
             </LinearLayout>
 
 
@@ -219,6 +279,7 @@
                 android:fontFamily="@font/poppins_bold"
                 android:gravity="center"
                 android:text="@string/settings"
+                android:visibility="gone"
                 android:textAllCaps="true"
                 android:textColor="@color/colorAccent"
                 android:textSize="@dimen/textMedium"
@@ -226,11 +287,12 @@
                 app:layout_constraintStart_toStartOf="@id/ivProfileImage"
                 app:layout_constraintTop_toBottomOf="@id/llTerms" />
 
+
             <LinearLayout
                 android:id="@+id/llBookmarks"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_normal"
+                android:layout_marginTop="@dimen/space_extraSmall"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingTop="@dimen/space_extraSmall"

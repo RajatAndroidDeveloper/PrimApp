@@ -151,7 +151,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
                                 it.url,
                                 it.fields.key?:"",
                                 it.fields.aWSAccessKeyId?:"",
-                                it.fields.xAmzSecurityToken,
+                                it.fields.xAmzSecurityToken?:"",
                                 it.fields.policy?:"",
                                 it.fields.signature?:"",
                                 it.fields.xAmzAlgorithm?:"",

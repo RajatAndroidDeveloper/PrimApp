@@ -48,8 +48,7 @@ object FileUtils {
         if (context != null && getFileUri(context, IMAGE) != Uri.EMPTY) {
             var intentList: MutableList<Intent> = ArrayList()
             //Intent to show gallery option
-            val pickIntent =
-                Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            val pickIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             //Intent to add camera option to chooser
             val takePhotoIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, getFileUri(context, IMAGE))

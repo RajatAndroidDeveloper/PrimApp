@@ -3,7 +3,7 @@
     <string name="app_name_captial">PRIM</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="prim_slogan">A Global Content Creation and\nMentoring Platform</string> <!--Virtual Mentoring Communities | A Community-Based\nVirtual Mentoring Platform-->
+    <string name="prim_slogan">A Global Virtual Mentoring and\n Content Creation Platform.</string> <!--Virtual Mentoring Communities | A Community-Based\nVirtual Mentoring Platform-->
     <string name="welcome">Welcome!</string>
 
     <string name="i_m_a_new_user">I\'m a new user,</string>
@@ -523,7 +523,7 @@
     <string name="decline">Decline</string>
     <string name="pay_now">Pay Now</string>
     <string name="contract_details">Contract Details</string>
-    <string name="no_data_available">Unfortunately we don\'t have any\nrelated data to show you have.</string>
+    <string name="no_data_available">Unfortunately we don\'t have any\nrelated data to show.</string>
     <string name="created_contracts">My Created Contracts</string>
     <string name="retry"><u>Retry</u></string>
     <string name="cost_is_too_high">Cost is too high</string>
@@ -546,6 +546,7 @@
     <string name="you_have_submitted_rating_successfully">You have submitted ratings successfully.</string>
     <string name="see_ratings">See Ratings</string>
     <string name="are_you_sure_you_want_to_send_file">Are you sure you want to send a file or attachment?</string>
+    <string name="messanger">Messenger</string>
 
     <string-array name="categories">
         <item>Mentor</item>

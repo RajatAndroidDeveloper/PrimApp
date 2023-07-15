@@ -11,7 +11,6 @@ import android.text.TextUtils
 import android.text.method.LinkMovementMethod
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -135,7 +134,7 @@ fun loadCircularImageFromUrl(imgView: ImageView, url: String?) {
 }
 
 @BindingAdapter("loadCircularImage", "name")
-fun loadCircularImageFromUrlWithName(imgView: ImageView, url: String, name: String?) {
+fun loadCircularImageFromUrlWithName(imgView: ImageView, url: String?, name: String?) {
     imgView.loadCircularImageWithName(name, url)
 }
 

@@ -14,6 +14,7 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.badge.BadgeDrawable
@@ -276,6 +277,26 @@ class DashboardActivity : BaseActivity() {
     }
     private fun setUpUserDataForSideMenu(){
         tvAppVersion.text = "v${BuildConfig.VERSION_NAME}"
+
+        llPortFolio.setOnClickListener {
+            drawerLayout.closeDrawer(GravityCompat.START)
+            var user = UserCache.getUser(this)
+            val bundle = Bundle()
+            bundle.putInt("userId", user?.id?:0)
+            bundle.putString("title", "${user?.firstName?:""} ${user?.lastName?:""}")
+            if (user?.isPortfolioAvailable != true) {
+                DialogUtils.showYesNoDialog(this, R.string.create_mentoring_porfolio, {
+                    navController.navigate(R.id.portfolioDashboardFragment, bundle)
+                })
+            } else {
+               navController.navigate(R.id.portfolioDashboardFragment, bundle)
+            }
+        }
+
+        llMessanger.setOnClickListener {
+            drawerLayout.closeDrawer(GravityCompat.START)
+            navController?.navigate(R.id.channelListFragment)
+        }
 
         ivClose.setOnClickListener {
             drawerLayout.closeDrawer(GravityCompat.START)
