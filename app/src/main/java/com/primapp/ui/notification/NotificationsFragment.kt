@@ -203,6 +203,14 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
                 findNavController().navigate(R.id.postDetailsFragment, bundle)
             }
 
+            is EditUploadedPost -> {
+                val bundle = Bundle()
+                bundle.putString("type","upload_virus_free_data")
+                bundle.putInt("communityId", any.communityId)
+                bundle.putInt("postId", any.postId)
+                findNavController().navigate(R.id.createPostFragment, bundle)
+            }
+
             is ShowContractDetails -> {
                 val bundle = Bundle()
                 bundle.putInt("contract_id", any.contractId)

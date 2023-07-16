@@ -25,6 +25,7 @@ import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.post.create.adapter.AutoCompleteCategoryArrayAdapter
 import com.primapp.ui.post.create.adapter.AutocompleteCommunityArrayAdapter
 import com.primapp.utils.*
+import com.primapp.viewmodels.PostsViewModel
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
 import okhttp3.MultipartBody
 import java.io.File
@@ -64,6 +65,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
     }
 
     val viewModel by viewModels<CreatePostViewModel> { viewModelFactory }
+    val mViewModel by viewModels<PostsViewModel> { viewModelFactory }
 
     override fun getLayoutRes(): Int = R.layout.fragment_create_post
 
@@ -86,37 +88,19 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
 
         if (type == CREATE_POST) {
             viewModel.getParentCategoriesList(0, 1000)
+        } else if (type  == UPLOAD_VIRUS_FREE_DATA) {
+            tvTitle.text = getString(R.string.edit_post)
+            binding.tlSelectCategory.isEnabled = false
+            binding.tlSelectCommunity.isEnabled = false
+            binding.tlSelectCommunity.isVisible = true
+            mViewModel.postDetails(CreatePostFragmentArgs.fromBundle(requireArguments()).communityId, CreatePostFragmentArgs.fromBundle(requireArguments()).postId)
         } else {
-            //EDIT_POST
             tvTitle.text = getString(R.string.edit_post)
             binding.tlSelectCategory.isEnabled = false
             binding.tlSelectCommunity.isEnabled = false
             binding.tlSelectCommunity.isVisible = true
             postData?.let {
-                binding.mAutoCompleteCategory.setText(it.community.category.categoryName)
-                binding.mAutoCompleteCommunity.setText(it.community.communityName)
-                val requestModel = viewModel.createPostRequestModel.value
-                requestModel?.postText = it.postText
-                requestModel?.fileType = it.fileType
-                requestModel?.postContentFile = it.postContentFile
-                requestModel?.thumbnailFile = it.thumbnailFile
-                viewModel.createPostRequestModel.value = requestModel
-                //set local variables
-                selectedCategoryId = it.community.category.id
-                selectedCommunityId = it.community.id
-                postFileType = it.fileType
-                when (it.fileType) {
-                    PostFileType.IMAGE -> postFileType = PostFileType.IMAGE
-                    PostFileType.GIF -> postFileType = PostFileType.IMAGE
-                    PostFileType.VIDEO -> postFileType = PostFileType.VIDEO
-                    PostFileType.FILE -> postFileType = PostFileType.FILE
-                    null -> postFileType = null
-                }
-                if (it.fileType != null) {
-                    //binding.btnSelect.isVisible = true
-                    binding.groupSelectFileName.isVisible = true
-                    binding.tvFileName.text = it.postContentFile
-                }
+                setUpPostData(it)
             }
         }
 
@@ -166,6 +150,35 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
         }
     }
 
+    private fun setUpPostData(postData: PostListResult) {
+        //EDIT_POST
+        postData.let {
+            binding.mAutoCompleteCategory.setText(it.community.category.categoryName)
+            binding.mAutoCompleteCommunity.setText(it.community.communityName)
+            val requestModel = viewModel.createPostRequestModel.value
+            requestModel?.postText = it.postText
+            requestModel?.fileType = it.fileType
+            requestModel?.postContentFile = it.postContentFile
+            requestModel?.thumbnailFile = it.thumbnailFile
+            viewModel.createPostRequestModel.value = requestModel
+            //set local variables
+            selectedCategoryId = it.community.category.id
+            selectedCommunityId = it.community.id
+            postFileType = it.fileType
+            when (it.fileType) {
+                PostFileType.IMAGE -> postFileType = PostFileType.IMAGE
+                PostFileType.GIF -> postFileType = PostFileType.IMAGE
+                PostFileType.VIDEO -> postFileType = PostFileType.VIDEO
+                PostFileType.FILE -> postFileType = PostFileType.FILE
+                null -> postFileType = null
+            }
+            if (it.fileType != null) {
+                //binding.btnSelect.isVisible = true
+                binding.groupSelectFileName.isVisible = true
+                binding.tvFileName.text = it.postContentFile
+            }
+        }
+    }
     fun showFileOptions() {
         val fileTypeOptions = arrayOf(
             "Image from Camera",
@@ -218,6 +231,27 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
     }
 
     private fun setObserver() {
+        mViewModel.postDetailsLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.SUCCESS -> {
+                        it.data?.let {
+                            postData = it.content
+                            postData?.let {
+                                setUpPostData(it)
+                            }
+                        }
+                    }
+                }
+            }
+        })
 
         viewModel.parentCategoryLiveData.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
@@ -725,5 +759,6 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
     companion object {
         const val CREATE_POST = "create_post"
         const val UPDATE_POST = "update_post"
+        const val UPLOAD_VIRUS_FREE_DATA = "upload_virus_free_data"
     }
 }

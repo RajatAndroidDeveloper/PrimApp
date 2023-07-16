@@ -447,6 +447,11 @@ fun makeNotificationMentorRequest(textView: TextView, notificationData: Notifica
                     .append(" sent you a mentorship request in ")
                     .append(communityName)
             }
+            NotificationTypes.POST_VIRUS_DETECTED_NOTIFICATION -> {
+                textToSend.append(getHighlightedText(colorToHighlight, it.title)).bold{ }
+                        .append("\n").bold { }
+                        .normal(it.message ?:"")
+            }
             NotificationTypes.MENTORSHIP_REQUEST_ACTION -> {
                 //Mentor side notification
                 if (it.title.equals(NotificationSubTypes.REQUEST_ACCEPTED, true)) {
@@ -587,7 +592,7 @@ fun makeNotificationMentorRequest(textView: TextView, notificationData: Notifica
                     .append(it.message?.toLowerCase())
             }
         }
-        textToSend.append(".")
+        if(notificationData.notificationType != NotificationTypes.POST_VIRUS_DETECTED_NOTIFICATION) textToSend.append(".")
         textView.text = textToSend
     }
 }

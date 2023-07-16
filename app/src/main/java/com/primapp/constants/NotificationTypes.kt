@@ -8,6 +8,7 @@ object NotificationTypes {
     const val POST_RELATED_NOTIFICATION = "post_notification"
     const val ADMIN_ACTION_NOTIFICATION = "admin_action"
     const val CONTRACT_NOTIFICATION = "contract_notification"
+    const val POST_VIRUS_DETECTED_NOTIFICATION = "post_upload_notification"
 }
 
 object NotificationViewTypes {

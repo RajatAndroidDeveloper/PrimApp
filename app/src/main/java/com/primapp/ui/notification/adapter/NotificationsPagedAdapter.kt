@@ -2,6 +2,7 @@ package com.primapp.ui.notification.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.paging.PagingDataAdapter
@@ -45,7 +46,7 @@ class NotificationsPagedAdapter @Inject constructor(val onItemClick: (Any?) -> U
                     NotificationTypes.COMMUNITY_NOTIFICATION, NotificationTypes.ADMIN_ACTION_NOTIFICATION, NotificationTypes.CONTRACT_NOTIFICATION -> {
                         NotificationViewTypes.MENTORSHIP_UPDATE_VIEW
                     }
-                    NotificationTypes.POST_RELATED_NOTIFICATION -> {
+                    NotificationTypes.POST_RELATED_NOTIFICATION,  NotificationTypes.POST_VIRUS_DETECTED_NOTIFICATION-> {
                         NotificationViewTypes.POST_NOTIFICATION_VIEW
                     }
                     else -> {
@@ -208,8 +209,14 @@ class NotificationsPagedAdapter @Inject constructor(val onItemClick: (Any?) -> U
             }
 
             binding.clNotificationPost.setOnClickListener {
-                data?.community?.let {
-                    onItemClick(ShowPostDetails(it.id, data.postData!!.id))
+                if (data?.notificationType == NotificationTypes.POST_VIRUS_DETECTED_NOTIFICATION){
+                    data?.postData?.let{
+                        onItemClick(EditUploadedPost(data.postData.id, data.community.id))
+                    }
+                }else {
+                    data?.community?.let {
+                        onItemClick(ShowPostDetails(it.id, data.postData!!.id))
+                    }
                 }
             }
         }
