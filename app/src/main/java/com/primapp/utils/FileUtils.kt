@@ -48,7 +48,8 @@ object FileUtils {
         if (context != null && getFileUri(context, IMAGE) != Uri.EMPTY) {
             var intentList: MutableList<Intent> = ArrayList()
             //Intent to show gallery option
-            val pickIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            val pickIntent =
+                Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             //Intent to add camera option to chooser
             val takePhotoIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, getFileUri(context, IMAGE))
@@ -66,6 +67,41 @@ object FileUtils {
                     Intent.EXTRA_INITIAL_INTENTS,
                     intentList.toTypedArray<Parcelable>()
                 )
+            }
+        }
+
+        return chooserIntent
+    }
+
+    fun getPickSingleImageIntent(context: Context?, pickerType: String): Intent? {
+        var chooserIntent: Intent? = null
+
+        if (context != null && getFileUri(context, IMAGE) != Uri.EMPTY) {
+
+            if (pickerType == "Camera") {
+                chooserIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                chooserIntent.putExtra(MediaStore.EXTRA_OUTPUT, getFileUri(context, IMAGE))
+            } else {
+                chooserIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            }
+        }
+
+        return chooserIntent
+    }
+
+    fun getPickSingleVideoIntent(context: Context?, pickerType: String): Intent? {
+        var chooserIntent: Intent? = null
+
+        if (context != null && getFileUri(context, VIDEO) != Uri.EMPTY) {
+            val videoSize: Long = 17 * 1024 * 1024
+
+            if (pickerType == "Camera") {
+                chooserIntent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
+                chooserIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1)
+                chooserIntent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, videoSize)
+                chooserIntent.putExtra(MediaStore.EXTRA_OUTPUT, getFileUri(context, VIDEO))
+            } else {
+                chooserIntent = Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
             }
         }
 
@@ -106,6 +142,7 @@ object FileUtils {
         return chooserIntent
     }
 
+
     fun getGifIntent(context: Context?): Intent? {
         var chooserIntent: Intent? = null
 
@@ -114,7 +151,8 @@ object FileUtils {
 
             val mimeTypes = arrayOf("images/gif")
             //Intent to show gallery option
-            val pickIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            val pickIntent =
+                Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             pickIntent.setType("image/*")
             pickIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
             pickIntent.putExtra(MediaStore.EXTRA_OUTPUT, getFileUri(context, GIF));
@@ -163,9 +201,11 @@ object FileUtils {
                 IMAGE -> {
                     fileName = "image_temp.jpg"
                 }
+
                 VIDEO -> {
                     fileName = "video_temp.mov"
                 }
+
                 GIF -> {
                     fileName = "gif_temp.gif"
                 }
@@ -280,8 +320,15 @@ object FileUtils {
 
                 Log.d(FILE_PICK_TAG, "Compressing File....")
                 val bitmap = BitmapFactory.decodeFile(file.path)
-                Log.d(FILE_PICK_TAG, "Original size : $fileSize Resolution : ${bitmap.width}X${bitmap.height}")
-                bitmap.compress(Bitmap.CompressFormat.JPEG, compressionRatio, FileOutputStream(file))
+                Log.d(
+                    FILE_PICK_TAG,
+                    "Original size : $fileSize Resolution : ${bitmap.width}X${bitmap.height}"
+                )
+                bitmap.compress(
+                    Bitmap.CompressFormat.JPEG,
+                    compressionRatio,
+                    FileOutputStream(file)
+                )
 
                 if (exifOrientation != null) {
                     val newExif = ExifInterface(imageUrl)
@@ -325,7 +372,8 @@ object FileUtils {
 
     fun getBitmapFromView(view: View): Bitmap {
         //Define a bitmap with the same size as the view
-        val returnedBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888)
+        val returnedBitmap =
+            Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888)
         //Bind a canvas to it
         val canvas = Canvas(returnedBitmap)
         //Get the view's background
@@ -411,7 +459,8 @@ object FileUtils {
 
     fun getFileFromUri(context: Context, selectedFileUri: Uri): File? {
         val contentResolver = context.contentResolver
-        val parcelFileDescriptor = contentResolver.openFileDescriptor(selectedFileUri, "r", null) ?: return null
+        val parcelFileDescriptor =
+            contentResolver.openFileDescriptor(selectedFileUri, "r", null) ?: return null
 
         val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
         val file = File(context.cacheDir, contentResolver.getFileName(selectedFileUri))
@@ -542,9 +591,11 @@ object MIMETypes {
     const val APPLICATION_FLASH = "application/x-shockwave-flash"
     const val APPLICATION_OCTET_STREAM = "application/octet-stream"
     const val APPLICATION_DOC = "application/msword"
-    const val APPLICATION_DOCX = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    const val APPLICATION_DOCX =
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     const val APPLICATION_XLS = "application/vnd.ms-excel"
     const val APPLICATION_XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     const val APPLICATION_PPT = "application/vnd.ms-powerpoint"
-    const val APPLICATION_PPTX = "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+    const val APPLICATION_PPTX =
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation"
 }
