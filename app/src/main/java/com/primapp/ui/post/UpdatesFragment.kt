@@ -73,6 +73,7 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
     @Inject
     lateinit var downloadManager: DownloadManager
     val activityScope = CoroutineScope(Dispatchers.Main)
+    val communityViewModel by viewModels<CommunitiesViewModel> { viewModelFactory }
 
     override fun getLayoutRes(): Int = R.layout.fragment_updates
 
@@ -149,6 +150,7 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
             it?.let {
                 lifecycleScope.launch {
                     adapter.submitData(it)
+                    communityViewModel.getUserData(UserCache.getUserId(requireContext()))
                 }
             }
         })
@@ -267,6 +269,29 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                 }
             }
         })
+
+        communityViewModel.userLiveData.observe(viewLifecycleOwner, Observer {
+            it.peekContent().let { it ->
+                when (it.status) {
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.SUCCESS -> {
+                        hideLoading()
+                        it.data?.content?.let {
+                            if (UserCache.getUserId(requireContext()) == it.id) {
+                                //Update user data if viewing own profile
+                                UserCache.saveUser(requireContext(), it)
+                                (activity as? DashboardActivity)?.refreshNotificationBadge()
+                            }
+                        }
+                    }
+                }
+            }
+        })
     }
 
     private fun setAdapter() {
@@ -324,6 +349,7 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                 }*/
 
             } else {
+                binding.swipeRefresh.isRefreshing = false
                 if (!binding.swipeRefresh.isRefreshing && userData!!.joinedCommunityCount != 0 && adapter.itemCount < 1) {
                     binding.pbPost.isVisible = true
                 }
@@ -332,9 +358,9 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
     }
 
     fun refreshData() {
-        if (checkIsNetworkConnected(requireContext()))
+        if (checkIsNetworkConnected(requireContext())) {
             adapter.refresh()
-        else
+        } else
             findNavController().navigate(R.id.networkErrorFragment)
     }
 

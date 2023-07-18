@@ -21,6 +21,10 @@ import com.primapp.model.portfolio.BenefitsData
 import com.primapp.ui.initial.AutocompleteListArrayAdapter
 import com.primapp.ui.portfolio.adapter.PortfolioAddRemoveItemAdapter
 import com.primapp.ui.portfolio.adapter.PortfolioBenefitsAdapter
+import kotlinx.android.synthetic.main.layout_dialog_choose_media_option.ivClose
+import kotlinx.android.synthetic.main.layout_dialog_choose_media_option.llImage
+import kotlinx.android.synthetic.main.layout_dialog_choose_media_option.llVideo
+import kotlinx.android.synthetic.main.layout_dialog_choose_media_option.tvClose
 import kotlinx.android.synthetic.main.layout_dialog_edittext.*
 import kotlinx.android.synthetic.main.layout_dialog_edittext.btnSave
 import kotlinx.android.synthetic.main.layout_dialog_edittext.ivDialogCloseIcon
@@ -260,6 +264,37 @@ object DialogUtils {
 
         dialog.ivDialogCloseIcon.setOnClickListener {
             closeCallback?.invoke()
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+    fun showCameraChooserDialog(
+        activity: Context,
+        saveCallback: ((filterType: String?) -> Unit)? = null
+    ) {
+        val dialog = Dialog(activity, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.setContentView(R.layout.layout_dialog_choose_media_option)
+
+        dialog.ivClose.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.tvClose.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.llImage.setOnClickListener {
+            saveCallback?.invoke("Image")
+            dialog.dismiss()
+        }
+
+        dialog.llVideo.setOnClickListener {
+            saveCallback?.invoke("Video")
             dialog.dismiss()
         }
 

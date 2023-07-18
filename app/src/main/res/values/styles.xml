@@ -238,4 +238,9 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="background">@android:color/transparent</item>
     </style>
+
+    <style name="DialogAnimationNew">
+        <item name="android:windowBackground">@color/black_transparent</item>
+        <item name="background">@color/black_transparent</item>
+    </style>
 </resources>

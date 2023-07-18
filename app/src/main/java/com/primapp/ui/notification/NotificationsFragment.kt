@@ -14,7 +14,6 @@ import com.primapp.cache.UserCache
 import com.primapp.constants.MentorshipRequestActionType
 import com.primapp.databinding.FragmentNotificationsBinding
 import com.primapp.extensions.showError
-import com.primapp.extensions.showInfo
 import com.primapp.model.*
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
@@ -63,6 +62,7 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
                 getNotification(notificationFilterType)
             }
         }
+
         if (checkIsNetworkConnected(requireContext())) {
             //get notification for first time
             getNotification(notificationFilterType)
@@ -73,15 +73,24 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
 
     private fun getNotification(filter: String?) {
         // Make sure we cancel the previous job before creating a new one
-        notificationJob?.cancel()
-        notificationJob = lifecycleScope.launch {
-            viewModel.getUserNotification(notificationFilterType).observe(viewLifecycleOwner, Observer {
-                adapter.submitData(lifecycle, it)
-            })
-        }
+
+//        notificationJob?.cancel()
+//        notificationJob = lifecycleScope.launch {
+//            viewModel.getUserNotification(notificationFilterType).observe(viewLifecycleOwner, Observer {
+//                adapter.submitData(lifecycle, it)
+//            })
+//        }
     }
 
     private fun setObserver() {
+        viewModel.getUserNotification(notificationFilterType).observe(viewLifecycleOwner, Observer {
+            it?.let {
+                lifecycleScope.launch {
+                    adapter.submitData(it)
+                }
+            }
+        })
+
         viewModel.acceptRejectMentorshipLiveData.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
                 hideLoading()

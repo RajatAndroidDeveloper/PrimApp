@@ -6,6 +6,7 @@
     <color name="colorAccentLight">#479CE9</color>
 
     <color name="lightAccent">#1c252e</color>
+    <color name="dialogBackgroundColor">#1c252e</color>
     <color name="backgroundColor">@color/black</color>
     <color name="backgroundColorReverse">@color/white</color>
     <!-- for automatic dark to light ?android:attr/colorBackground -->

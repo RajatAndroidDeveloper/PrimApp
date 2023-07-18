@@ -63,6 +63,17 @@
                 android:tint="@color/black" />
 
             <ImageButton
+                android:id="@+id/ibVideo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_rounded_corner_grey_small_corner"
+                android:onClick="@{()->frag.openGalleryToSelectVideoPhoto()}"
+                android:layout_marginStart="@dimen/space_medium"
+                android:padding="@dimen/space_small"
+                android:src="@drawable/ic_gallery_icon"
+                android:tint="@color/black" />
+
+            <ImageButton
                 android:id="@+id/ibAttachment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

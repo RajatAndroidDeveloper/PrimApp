@@ -27,11 +27,12 @@ import com.primapp.BuildConfig
 import com.primapp.R
 import java.io.*
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 object FileUtils {
     const val IMAGE_REQUEST_CODE = 1
+    const val IMAGE_VIDEO_REQUEST_CODE = 6
+    const val CAMERA_IMAGE_VIDEO_REQUEST_CODE = 7
     const val VIDEO_REQUEST_CODE = 2
     const val GIF_REQUEST_CODE = 3
     const val FILE_REQUEST_CODE = 4
@@ -82,8 +83,31 @@ object FileUtils {
                 chooserIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                 chooserIntent.putExtra(MediaStore.EXTRA_OUTPUT, getFileUri(context, IMAGE))
             } else {
-                chooserIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                chooserIntent =
+                    Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                chooserIntent.type = "*/*"
             }
+        }
+
+        return chooserIntent
+    }
+
+    fun getPickerForPhotoAndVideo(context: Context?): Intent? {
+        var chooserIntent: Intent? = null
+
+        if (context != null && getFileUri(context, IMAGE) != Uri.EMPTY) {
+            chooserIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            chooserIntent.type = "image/* video/*"
+        }
+
+        return chooserIntent
+    }
+
+    fun getPhotoAndVideoFromCamera(context: Context?): Intent? {
+        var chooserIntent: Intent? = null
+
+        if (context != null && getFileUri(context, IMAGE) != Uri.EMPTY) {
+            chooserIntent = Intent(Intent(MediaStore.INTENT_ACTION_VIDEO_CAMERA))
         }
 
         return chooserIntent
@@ -101,7 +125,8 @@ object FileUtils {
                 chooserIntent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, videoSize)
                 chooserIntent.putExtra(MediaStore.EXTRA_OUTPUT, getFileUri(context, VIDEO))
             } else {
-                chooserIntent = Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
+                chooserIntent =
+                    Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
             }
         }
 

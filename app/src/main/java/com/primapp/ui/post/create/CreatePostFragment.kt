@@ -2,11 +2,13 @@ package com.primapp.ui.post.create
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.webkit.MimeTypeMap
 import android.widget.AutoCompleteTextView
-import android.widget.RadioGroup
 import androidx.activity.addCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -19,14 +21,20 @@ import com.primapp.constants.PostFileType
 import com.primapp.databinding.FragmentCreatePostBinding
 import com.primapp.extensions.showError
 import com.primapp.model.post.PostListResult
-import com.primapp.retrofit.ApiConstant
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
+import com.primapp.ui.dashboard.DashboardActivity
 import com.primapp.ui.post.create.adapter.AutoCompleteCategoryArrayAdapter
 import com.primapp.ui.post.create.adapter.AutocompleteCommunityArrayAdapter
-import com.primapp.utils.*
+import com.primapp.utils.AwsHelper
+import com.primapp.utils.DialogUtils
+import com.primapp.utils.FileUtils
+import com.primapp.utils.RetrofitUtils
+import com.primapp.utils.Validator
+import com.primapp.viewmodels.CommunitiesViewModel
 import com.primapp.viewmodels.PostsViewModel
-import kotlinx.android.synthetic.main.toolbar_inner_back.*
+import kotlinx.android.synthetic.main.toolbar_inner_back.toolbar
+import kotlinx.android.synthetic.main.toolbar_inner_back.tvTitle
 import okhttp3.MultipartBody
 import java.io.File
 
@@ -66,6 +74,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
 
     val viewModel by viewModels<CreatePostViewModel> { viewModelFactory }
     val mViewModel by viewModels<PostsViewModel> { viewModelFactory }
+
 
     override fun getLayoutRes(): Int = R.layout.fragment_create_post
 
@@ -179,44 +188,59 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
             }
         }
     }
+
+    fun openGalleryToSelectVideoPhoto(){
+        if (isPermissionGranted(Manifest.permission.CAMERA)) {
+            startActivityForResult(
+                FileUtils.getPickerForPhotoAndVideo(context),
+                FileUtils.IMAGE_VIDEO_REQUEST_CODE
+            )
+        } else {
+            requestPermissions(
+                arrayOf(Manifest.permission.CAMERA),
+                CAMERA_PERMISSION_REQUEST_CODE
+            )
+        }
+    }
+
     fun showFileOptions() {
-        val fileTypeOptions = arrayOf(
-            "Image from Camera",
-            "Image from Gallery",
-            "Video from camera",
-            "Video from Gallery"
-        )
-        DialogUtils.showChooserDialog(
-            requireContext(),
-            getString(R.string.choose_media_type),
-            fileTypeOptions
-        ) { fileTypeSelected ->
-            when (fileTypeSelected) {
-                0 -> {
+        DialogUtils.showCameraChooserDialog(requireContext()) {
+            when (it) {
+                "Image"-> {
                     postFileType = PostFileType.IMAGE
                     postFileLocationType = "Camera"
                     pickFileAskPermission()
                 }
-
-                1 -> {
-                    postFileType = PostFileType.IMAGE
-                    postFileLocationType = "Gallery"
-                    pickFileAskPermission()
-                }
-
-                2 -> {
-                    postFileType = PostFileType.VIDEO
-                    postFileLocationType = "Camera"
-                    pickFileAskPermission()
-                }
-
                 else -> {
                     postFileType = PostFileType.VIDEO
-                    postFileLocationType = "Gallery"
+                    postFileLocationType = "Camera"
                     pickFileAskPermission()
                 }
             }
         }
+//        val fileTypeOptions = arrayOf(
+//            "Image",
+//            "Video"
+//        )
+//        DialogUtils.showChooserDialog(
+//            requireContext(),
+//            getString(R.string.choose_media_type),
+//            fileTypeOptions
+//        ) { fileTypeSelected ->
+//            when (fileTypeSelected) {
+//                0 -> {
+//                    postFileType = PostFileType.IMAGE
+//                    postFileLocationType = "Camera"
+//                    pickFileAskPermission()
+//                }
+//
+//                else -> {
+//                    postFileType = PostFileType.VIDEO
+//                    postFileLocationType = "Camera"
+//                    pickFileAskPermission()
+//                }
+//            }
+//        }
         //For update post, so that we can remove data if filetype changes in viewmodel
         viewModel.createPostRequestModel.value?.fileType = postFileType
         isUpdatedPostAttachment = true
@@ -649,11 +673,55 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
         }
     }
 
+    fun getMimeType(file: File?, context: Context): String? {
+        val uri = Uri.fromFile(file)
+        val cR = context.contentResolver
+        val mime = MimeTypeMap.getSingleton()
+        return mime.getExtensionFromMimeType(cR.getType(uri))
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
+                FileUtils.IMAGE_VIDEO_REQUEST_CODE -> {
+                    if (data?.data != null) {
+
+                        //Photo from gallery.
+                        val path = FileUtils.getPathFromURI(requireContext(), data?.data!!)
+                        Log.d(FileUtils.FILE_PICK_TAG, "Path : ${path}")
+                        val splitPath = path.split("/")
+                        if (splitPath.last().contains(".gif")) {
+                            postFileType = PostFileType.GIF
+                            selectedFile = FileUtils.getFileFromUri(context, data.data!!, FileUtils.GIF)
+                        } else {
+                            postFileType = PostFileType.IMAGE
+                            var cR = context?.contentResolver
+                            var mime = cR?.getType(data.data!!)
+                            selectedFile = if (mime?.contains("video",false) ==  true)
+                                FileUtils.getFileFromUri(context, data.data!!, FileUtils.VIDEO)
+                            else FileUtils.getFileFromUri(context, data.data!!, FileUtils.IMAGE)
+                            FileUtils.compressImage(selectedFile!!.absolutePath)
+                        }
+
+                    } else {
+                        //Photo from camera.
+                        selectedFile = FileUtils.getFile(context, FileUtils.IMAGE)
+                        FileUtils.compressImage(selectedFile!!.absolutePath)
+                    }
+
+                    if (selectedFile != null) {
+                        binding.groupSelectFileName.isVisible = true
+                        binding.tvVideoAnalyzed.isVisible = false
+                        binding.tvFileName.text = "${selectedFile!!.name}"
+                        Log.d(FileUtils.FILE_PICK_TAG, "File Path : ${selectedFile!!.absolutePath}")
+                    } else {
+                        Log.e(FileUtils.FILE_PICK_TAG, "Error getting file")
+                    }
+
+                }
+
                 FileUtils.IMAGE_REQUEST_CODE -> {
                     if (data?.data != null) {
 
@@ -689,7 +757,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
 
                 }
 
-                FileUtils.VIDEO_REQUEST_CODE -> {
+                FileUtils.CAMERA_IMAGE_VIDEO_REQUEST_CODE -> {
                     var tempFile: File? = null
                     if (data?.data != null && !data.data?.lastPathSegment.equals("video_temp.mov")) {
                         //Photo from gallery.
@@ -714,6 +782,37 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                         }
                     } else {
                         Log.e(FileUtils.FILE_PICK_TAG, "Error getting file")
+                    }
+                }
+
+                FileUtils.VIDEO_REQUEST_CODE -> {
+                    var tempFile: File? = null
+                    if (data?.data != null) {
+                        var cR = context?.contentResolver
+                        var mime = cR?.getType(data.data!!)
+                        if (mime?.contains("video") == true) {
+                            tempFile = FileUtils.getFile(context, FileUtils.VIDEO)
+
+                            if (tempFile != null && tempFile.exists()) {
+                                val fileSize = (tempFile.length() / 1024) / 1024
+                                if (fileSize > 18) {
+                                    showError(
+                                        requireContext(),
+                                        getString(R.string.video_file_size_error_message)
+                                    )
+                                } else {
+                                    selectedFile = tempFile
+                                    binding.groupSelectFileName.isVisible = true
+                                    binding.tvVideoAnalyzed.isVisible = true
+                                    binding.tvFileName.text = "${selectedFile!!.name}"
+                                }
+                            } else {
+                                Log.e(FileUtils.FILE_PICK_TAG, "Error getting file")
+                            }
+                        } else {
+                            selectedFile = FileUtils.getFile(context, FileUtils.IMAGE)
+                            FileUtils.compressImage(selectedFile!!.absolutePath)
+                        }
                     }
                 }
 

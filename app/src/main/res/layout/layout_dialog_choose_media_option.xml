@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black_transparent">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/space_small"
+        android:elevation="@dimen/space_small"
+        app:cardBackgroundColor="@color/dialogBackgroundColor"
+        app:cardCornerRadius="@dimen/textLarge"
+        app:cardElevation="@dimen/space_small"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/textMediumX"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="Upload Media Type"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="@dimen/textMediumX"
+                android:textColor="@color/textColor"
+                android:id="@+id/tvTitle"
+                android:textSize="@dimen/textMediumX" />
+
+            <ImageView
+                android:layout_width="@dimen/textMedium"
+                android:layout_height="@dimen/textMedium"
+                android:src="@drawable/icon_close"
+                app:layout_constraintEnd_toEndOf="@id/llOptions"
+                android:tint="@color/textColor"
+                app:layout_constraintTop_toTopOf="@id/tvTitle"
+                app:layout_constraintBottom_toBottomOf="@id/tvTitle"
+                android:id="@+id/ivClose"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTitle"
+                android:layout_marginTop="@dimen/textMediumX"
+                android:id="@+id/llOptions"
+                android:layout_marginLeft="@dimen/textMediumX"
+                android:layout_marginRight="@dimen/textMediumX"
+                android:orientation="vertical"
+                android:background="@drawable/shape_rounded_corner_light_grey">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/llImage"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/textNormal"
+                    android:paddingBottom="@dimen/textNormal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_baseline_photo_camera_24"
+                        app:tint="@color/black"
+                        android:layout_marginLeft="@dimen/textMediumX"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="Image"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="@dimen/textSmall"
+                        android:textColor="@color/textColor"
+                        android:textSize="@dimen/textMedium" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height=".5dp"
+                    android:background="@color/white"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/llVideo"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/textNormal"
+                    android:paddingBottom="@dimen/textNormal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_video_icon"
+                        app:tint="@color/black"
+                        android:layout_marginLeft="@dimen/textMediumX"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="Video"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="@dimen/textSmall"
+                        android:textColor="@color/textColor"
+                        android:textSize="@dimen/textMedium" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="@dimen/textExtraMediumLargeXX"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="Cancel"
+                android:layout_marginTop="@dimen/textMediumX"
+                android:gravity="center_vertical"
+                android:id="@+id/tvClose"
+                app:layout_constraintTop_toBottomOf="@id/llOptions"
+                app:layout_constraintStart_toStartOf="@id/llOptions"
+                app:layout_constraintEnd_toEndOf="@id/llOptions"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="@dimen/textMediumX"
+                android:textSize="@dimen/textMedium"
+                android:paddingStart="@dimen/textLargeX"
+                android:background="@drawable/shape_rounded_corner_light_grey"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
