@@ -1,5 +1,6 @@
 package com.primapp.binding
 
+import android.R.style
 import android.annotation.SuppressLint
 import android.graphics.Typeface
 import android.os.Build
@@ -20,6 +21,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.text.bold
+import androidx.core.text.toSpannable
 import androidx.databinding.BindingAdapter
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.textfield.TextInputLayout
@@ -448,9 +450,9 @@ fun makeNotificationMentorRequest(textView: TextView, notificationData: Notifica
                     .append(communityName)
             }
             NotificationTypes.POST_VIRUS_DETECTED_NOTIFICATION -> {
-                textToSend.append(getHighlightedText(colorToHighlight, it.title)).bold{ }
-                        .append("\n").bold { }
-                        .normal(it.message ?:"")
+                textToSend.append("A virus or unwanted malware was found in ")
+                    .append(communityName).bold {  }
+                    .append(" community post. Please upload a clean file.")
             }
             NotificationTypes.MENTORSHIP_REQUEST_ACTION -> {
                 //Mentor side notification

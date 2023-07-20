@@ -92,6 +92,13 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
             //Reest cover image on reload
             binding.llCoverImage.isVisible = false
 
+            if (data!!.fileType == PostFileType.FILE) {
+                if(data.postContentFile?.contains("/") ==  true)
+                    binding.tvFileName.text = data.postContentFile.toString().split("/")[1]
+                else
+                    binding.tvFileName.text = data.postContentFile
+            }
+
             binding.cardPostAttachment.setOnClickListener {
                 when (data!!.fileType) {
                     PostFileType.VIDEO -> {

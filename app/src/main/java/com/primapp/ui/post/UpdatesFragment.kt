@@ -144,8 +144,8 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
         }
     }
 
-    private fun setObserver() {
 
+    private fun getPostData() {
         viewModel.getPostsList().observe(viewLifecycleOwner, Observer {
             it?.let {
                 lifecycleScope.launch {
@@ -154,6 +154,10 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                 }
             }
         })
+    }
+
+    private fun setObserver() {
+        getPostData()
 
         viewModel.likePostLiveData.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
@@ -277,10 +281,10 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                         showError(requireContext(), it.message!!)
                     }
                     Status.LOADING -> {
-                        showLoading()
+                        //showLoading()
                     }
                     Status.SUCCESS -> {
-                        hideLoading()
+                        //hideLoading()
                         it.data?.content?.let {
                             if (UserCache.getUserId(requireContext()) == it.id) {
                                 //Update user data if viewing own profile
@@ -359,7 +363,7 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
 
     fun refreshData() {
         if (checkIsNetworkConnected(requireContext())) {
-            adapter.refresh()
+            getPostData()
         } else
             findNavController().navigate(R.id.networkErrorFragment)
     }

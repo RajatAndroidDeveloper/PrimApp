@@ -360,7 +360,6 @@
                         android:layout_marginStart="@dimen/space_small"
                         android:ellipsize="end"
                         android:lines="1"
-                        android:text="@{data.postContentFile}"
                         android:textSize="@dimen/textSmall"
                         app:layout_constraintBottom_toBottomOf="@id/ivFileIcon"
                         app:layout_constraintEnd_toEndOf="parent"
