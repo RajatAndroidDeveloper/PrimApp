@@ -333,12 +333,12 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
         }
     }
 
-    fun updateCurrentUserProfileImage() {
+    private fun updateCurrentUserProfileImage() {
         val nickname = if (SendbirdChat.currentUser != null) SendbirdChat.currentUser?.nickname else ""
 
         val params = UserUpdateParams().apply {
-            nickname
-            imageFile
+            this.nickname = nickname
+            this.profileImageFile = imageFile
         }
 
         SendbirdChat.updateCurrentUserInfo(params) {

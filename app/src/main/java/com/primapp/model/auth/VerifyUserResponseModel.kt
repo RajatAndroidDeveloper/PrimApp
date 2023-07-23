@@ -58,4 +58,6 @@ data class UserData(
     var isPortfolioAvailable: Boolean = false,
     @SerializedName("todo_notifications_count")
     var todoNotificationsCount: Int = 0,
+    @SerializedName("user_online_status")
+    var userOnlineStatus: String? = null
 )

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="android.view.View" />
         <variable
             name="data"
             type="com.primapp.model.notification.NotificationResult" />
@@ -20,8 +20,8 @@
 
         <ImageView
             android:id="@+id/ivProfilePic"
-            name="@{data.sender.firstName +' '+ data.sender.lastName}"
-            loadCircularImage="@{data.sender.userImage}"
+            name="@{data.notificationType.equals(`admin_action`) ? data.receiver.firstName +' '+ data.receiver.lastName : data.sender.firstName +' '+ data.sender.lastName}"
+            loadCircularImage="@{data.notificationType.equals(`admin_action`) ? data.receiver.userImage : data.sender.userImage}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackgroundBorderless"
@@ -32,6 +32,15 @@
             app:layout_constraintTop_toTopOf="@id/tvNotificationMessage"
             app:layout_constraintVertical_bias="0"
             app:layout_constraintWidth_max="50dp" />
+
+        <ImageView
+            android:layout_width="@dimen/textMedium"
+            android:layout_height="@dimen/textMedium"
+            android:visibility="@{data.sender.userOnlineStatus == null ? View.GONE : View.VISIBLE}"
+            android:src="@{data.sender.userOnlineStatus.equals(`ONLINE`) ? @drawable/ic_online_circle : @drawable/ic_offline_circle}"
+            app:layout_constraintEnd_toEndOf="@id/ivProfilePic"
+            app:layout_constraintBottom_toBottomOf="@id/ivProfilePic"
+            android:layout_marginLeft="@dimen/space_small"/>
 
         <TextView
             android:id="@+id/tvNotificationMessage"

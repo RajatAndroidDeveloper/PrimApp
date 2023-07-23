@@ -160,9 +160,9 @@ class NotificationsPagedAdapter @Inject constructor(val onItemClick: (Any?) -> U
             }
 
             binding.ivProfilePic.setOnClickListener {
-                data?.sender?.let {
-                    onItemClick(ShowUserProfile(it.id))
-                }
+                    data?.sender?.let {
+                        onItemClick(ShowUserProfile(it.id))
+                    }
             }
 
             binding.clNotificationMentorRequest.setOnClickListener {
@@ -179,8 +179,14 @@ class NotificationsPagedAdapter @Inject constructor(val onItemClick: (Any?) -> U
             binding.data = data
 
             binding.ivProfilePic.setOnClickListener {
-                data?.sender?.let {
-                    onItemClick(ShowUserProfile(it.id))
+                if (data?.notificationType == "admin_action") {
+                    data.receiver?.let {
+                        onItemClick(ShowUserProfile(it.id))
+                    }
+                } else{
+                    data?.sender?.let {
+                        onItemClick(ShowUserProfile(it.id))
+                    }
                 }
             }
 

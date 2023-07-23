@@ -17,6 +17,7 @@ import com.primapp.retrofit.base.Event
 import com.primapp.retrofit.base.Resource
 import com.primapp.utils.DateTimeUtils
 import com.primapp.utils.ErrorFields
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -98,5 +99,4 @@ class NotificationViewModel @Inject constructor(
             )
         )
     }
-
 }

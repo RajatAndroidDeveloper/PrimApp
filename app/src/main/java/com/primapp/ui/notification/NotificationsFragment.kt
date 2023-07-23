@@ -8,25 +8,38 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.primapp.R
 import com.primapp.cache.UserCache
 import com.primapp.constants.MentorshipRequestActionType
 import com.primapp.databinding.FragmentNotificationsBinding
 import com.primapp.extensions.showError
 import com.primapp.model.*
+import com.primapp.model.mentormentee.ResultsItem
+import com.primapp.model.notification.NotificationUIModel
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
 import com.primapp.ui.dashboard.DashboardActivity
+import com.primapp.ui.dashboard.WebSocketListener
 import com.primapp.ui.notification.adapter.NotificationsPagedAdapter
 import com.primapp.utils.AnalyticsManager
 import com.primapp.utils.DialogUtils
 import com.primapp.utils.checkIsNetworkConnected
+import com.primapp.viewmodels.CommunitiesViewModel
 import com.primapp.viewmodels.NotificationViewModel
 import kotlinx.android.synthetic.main.toolbar_dashboard_accent.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.WebSocket
 
 class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
 
@@ -38,16 +51,31 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
     val adapter by lazy { NotificationsPagedAdapter { item -> onItemClick(item) } }
 
     val viewModel by viewModels<NotificationViewModel> { viewModelFactory }
+    val mViewModel by viewModels<CommunitiesViewModel> { viewModelFactory }
 
     override fun getLayoutRes(): Int = R.layout.fragment_notifications
+
+    private var webSocket: WebSocket? = null
+    private lateinit var webSocketListener: WebSocketListener
+    private val okHttpClient = OkHttpClient()
+    val activityScope = CoroutineScope(Dispatchers.Main)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         setToolbar("Notifications", toolbar)
+
+        webSocketListener = WebSocketListener(mViewModel)
         setData()
         setAdapter()
         setObserver()
+
+        webSocket = okHttpClient.newWebSocket(createRequest(), webSocketListener)
+
+        activityScope.launch {
+            delay(1500)
+            findOnlineOfflineStatus()
+        }
     }
 
     private fun setData() {
@@ -167,7 +195,6 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
 
             binding.tvNoData.isVisible =
                 loadState.source.refresh is LoadState.NotLoading && loadState.append.endOfPaginationReached && adapter.itemCount < 1
-
         }
     }
 
@@ -225,6 +252,41 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
                 bundle.putInt("contract_id", any.contractId)
                 findNavController().navigate(R.id.projectDetailsFragment, bundle)
             }
+        }
+    }
+
+    private fun createRequest(): Request {
+        val websocketURL = "wss://api.prim-technology.com/ws/online-status/?token=${UserCache.getAccessToken(requireContext())}"
+
+        return Request.Builder()
+            .url(websocketURL)
+            .build()
+    }
+
+    private fun findOnlineOfflineStatus(){
+        webSocket = okHttpClient.newWebSocket(createRequest(), webSocketListener)
+
+        mViewModel.messages.observe(requireActivity()) {
+            var mainMentorsMenteeList = ArrayList<ResultsItem>()
+            mainMentorsMenteeList.clear()
+            mainMentorsMenteeList = Gson().fromJson<ArrayList<ResultsItem>>(it.second, object :
+                TypeToken<ArrayList<ResultsItem>>() {}.type)
+            mergeListAndAdapterData(mainMentorsMenteeList)
+        }
+    }
+    private fun mergeListAndAdapterData(mainMentorsMenteeList: java.util.ArrayList<ResultsItem>) {
+        var data = adapter.snapshot().items
+        for(i in mainMentorsMenteeList.indices){
+            for(j in 0 until (data.size)){
+                if(data[j] is NotificationUIModel.NotificationItem) {
+                    if (mainMentorsMenteeList[i].id == (data.get(j) as NotificationUIModel.NotificationItem).notification.sender?.id) {
+                        (data[j] as NotificationUIModel.NotificationItem).notification.sender?.userOnlineStatus = mainMentorsMenteeList[i].userOnlineStatus
+                    }
+                }
+            }
+        }
+        lifecycleScope.launch {
+            adapter.submitData(PagingData.from(data))
         }
     }
 }
