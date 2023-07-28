@@ -121,7 +121,7 @@
                 android:layout_height="0dp"
                 android:layout_marginEnd="@dimen/space_extraSmall"
                 android:scaleType="centerCrop"
-                android:visibility="@{data.postData.fileType != null ?  View.VISIBLE : View.GONE}"
+                android:visibility="@{ data.postData.fileType != null &amp;&amp; data.postData.fileType.equals(PostFileType.FILE) ?  View.VISIBLE : View.GONE}"
                 app:cardCornerRadius="8dp"
                 app:layout_constraintBottom_toBottomOf="@id/ivProfilePic"
                 app:layout_constraintDimensionRatio="1:1"
@@ -138,7 +138,7 @@
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
                     android:src="@drawable/placeholder"
-                    android:visibility="@{data.postData.fileType.equals(PostFileType.FILE) ? View.GONE : View.VISIBLE}" />
+                    android:visibility="gone"/>
 
                 <ImageView
                     android:id="@+id/ivFileIcon"

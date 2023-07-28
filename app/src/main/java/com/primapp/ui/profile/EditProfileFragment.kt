@@ -15,6 +15,7 @@ import com.primapp.chat.ConnectionManager
 import com.primapp.constants.ReferenceEntityTypes
 import com.primapp.databinding.FragmentEditProfileBinding
 import com.primapp.extensions.loadCircularImage
+import com.primapp.extensions.loadCircularImageWithName
 import com.primapp.extensions.loadCircularImageWithoutCache
 import com.primapp.extensions.showError
 import com.primapp.retrofit.base.Status
@@ -28,6 +29,7 @@ import com.primapp.utils.RetrofitUtils
 import com.primapp.viewmodels.EditProfileViewModel
 import com.sendbird.android.SendbirdChat
 import com.sendbird.android.params.UserUpdateParams
+import kotlinx.android.synthetic.main.item_amend_request_layout.ivUserImage
 import kotlinx.android.synthetic.main.toolbar_inner_back.*
 import java.io.File
 
@@ -39,8 +41,18 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
 
     val viewModel by viewModels<EditProfileViewModel> { viewModelFactory }
 
-    val genderAdapter by lazy { AutocompleteListArrayAdapter(requireContext(), R.layout.item_simple_text) }
-    val countryAdapter by lazy { AutocompleteListArrayAdapter(requireContext(), R.layout.item_simple_text) }
+    val genderAdapter by lazy {
+        AutocompleteListArrayAdapter(
+            requireContext(),
+            R.layout.item_simple_text
+        )
+    }
+    val countryAdapter by lazy {
+        AutocompleteListArrayAdapter(
+            requireContext(),
+            R.layout.item_simple_text
+        )
+    }
 
     override fun getLayoutRes(): Int = R.layout.fragment_edit_profile
 
@@ -70,7 +82,10 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
             binding.etUserName.setText(userName)
             viewModel.editProfileRequestModel.value = data
             //Show image file
-            binding.ivProfilePic.loadCircularImage(requireContext(), userImage)
+            if (!isInappropriate)
+                binding.ivProfilePic.loadCircularImage(requireContext(), userImage)
+            else
+                binding.ivProfilePic.loadCircularImageWithName(data?.firstName + " " + data?.lastName, "")
         }
     }
 
@@ -85,6 +100,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
                                 genderAdapter.addAll(this)
                             }
                         }
+
                         ReferenceEntityTypes.COUNTRY_LIST -> {
                             it.data.content.referenceItemsList?.apply {
                                 val usaItem = this.find { it.itemValue.equals("US") }
@@ -98,12 +114,14 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
                         }
                     }
                 }
+
                 Status.ERROR -> {
                     it.message?.apply {
                         showError(requireContext(), this)
                     }
                     findNavController().popBackStack()
                 }
+
                 Status.LOADING -> {
                     showLoading()
                 }
@@ -114,7 +132,10 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
             hideLoading()
             when (it.status) {
                 Status.SUCCESS -> {
-                    DialogUtils.showCloseDialog(requireActivity(), R.string.changes_saved_successfully) {
+                    DialogUtils.showCloseDialog(
+                        requireActivity(),
+                        R.string.changes_saved_successfully
+                    ) {
                         it.data?.content?.let { user ->
                             UserCache.saveUser(requireContext(), user)
                             (activity as? DashboardActivity)?.updateCurrentUserInfo(
@@ -125,9 +146,11 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
                         findNavController().popBackStack()
                     }
                 }
+
                 Status.ERROR -> {
                     showError(requireContext(), it.message!!)
                 }
+
                 Status.LOADING -> {
                     showLoading()
                 }
@@ -141,24 +164,29 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
                     Status.ERROR -> {
                         showError(requireContext(), it.message.toString())
                     }
+
                     Status.LOADING -> {
                         showLoading()
                     }
+
                     Status.SUCCESS -> {
                         it.data?.content?.let {
                             viewModel.editProfileRequestModel.value?.userImageFile = it.fields.key
                             viewModel.uploadAWS(
                                 it.url,
-                                it.fields.key?:"",
-                                it.fields.aWSAccessKeyId?:"",
-                                it.fields.xAmzSecurityToken?:"",
-                                it.fields.policy?:"",
-                                it.fields.signature?:"",
-                                it.fields.xAmzAlgorithm?:"",
-                                it.fields.xAmzCredential?:"",
-                                it.fields.xAmzDate?:"",
-                                it.fields.xAmzSignature?:"",
-                                RetrofitUtils.fileToRequestBody(File(imageFile!!.absolutePath), "file")
+                                it.fields.key ?: "",
+                                it.fields.aWSAccessKeyId ?: "",
+                                it.fields.xAmzSecurityToken ?: "",
+                                it.fields.policy ?: "",
+                                it.fields.signature ?: "",
+                                it.fields.xAmzAlgorithm ?: "",
+                                it.fields.xAmzCredential ?: "",
+                                it.fields.xAmzDate ?: "",
+                                it.fields.xAmzSignature ?: "",
+                                RetrofitUtils.fileToRequestBody(
+                                    File(imageFile!!.absolutePath),
+                                    "file"
+                                )
                             )
                         }
                     }
@@ -173,9 +201,11 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
                     Status.ERROR -> {
                         showError(requireContext(), it.message.toString())
                     }
+
                     Status.LOADING -> {
                         showLoading()
                     }
+
                     Status.SUCCESS -> {
                         viewModel.editProfile(userData!!.id)
                     }
@@ -190,7 +220,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
         if (viewModel.validateData()) {
             if (imageFile != null) {
                 viewModel.generatePresignedUrl(
-                    requireActivity().getString(R.string.profile_image_folder)+""+AwsHelper.getObjectName(
+                    requireActivity().getString(R.string.profile_image_folder) + "" + AwsHelper.getObjectName(
                         AwsHelper.AWS_OBJECT_TYPE.USER,
                         userData!!.id,
                         imageFile!!.extension
@@ -334,7 +364,8 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
     }
 
     private fun updateCurrentUserProfileImage() {
-        val nickname = if (SendbirdChat.currentUser != null) SendbirdChat.currentUser?.nickname else ""
+        val nickname =
+            if (SendbirdChat.currentUser != null) SendbirdChat.currentUser?.nickname else ""
 
         val params = UserUpdateParams().apply {
             this.nickname = nickname

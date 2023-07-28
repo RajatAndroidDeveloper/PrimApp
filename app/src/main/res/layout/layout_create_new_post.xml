@@ -35,7 +35,7 @@
             <ImageView
                 android:id="@+id/ivProfilePic"
                 name="@{userData.firstName +' '+ userData.lastName}"
-                loadCircularImage="@{userData.userImage}"
+                loadCircularImage="@{userData.inappropriate ?`` : userData.userImage}"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:padding="2dp"

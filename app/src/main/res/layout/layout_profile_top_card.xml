@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="frag"
             type="com.primapp.ui.dashboard.ProfileFragment" />
@@ -30,7 +32,7 @@
         <ImageView
             android:id="@+id/ivProfilePic"
             name="@{user.firstName +' '+ user.lastName}"
-            loadCircularImage="@{user.userImage}"
+            loadCircularImage="@{user.inappropriate ?`` : user.userImage}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:onClick="@{()->frag.showImage()}"

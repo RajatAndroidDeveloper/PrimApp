@@ -290,6 +290,7 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                                 //Update user data if viewing own profile
                                 UserCache.saveUser(requireContext(), it)
                                 (activity as? DashboardActivity)?.refreshNotificationBadge()
+                                binding.userData = UserCache.getUser(requireContext())
                             }
                         }
                     }

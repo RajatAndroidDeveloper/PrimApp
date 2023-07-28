@@ -21,7 +21,7 @@
         <ImageView
             android:id="@+id/ivProfilePic"
             name="@{data.notificationType.equals(`admin_action`) ? data.receiver.firstName +' '+ data.receiver.lastName : data.sender.firstName +' '+ data.sender.lastName}"
-            loadCircularImage="@{data.notificationType.equals(`admin_action`) ? data.receiver.userImage : data.sender.userImage}"
+            loadCircularImage="@{data.notificationType.equals(`admin_action`) ? data.receiver.inappropriate ?`` : data.receiver.userImage :  data.sender.inappropriate ?`` : data.sender.userImage}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackgroundBorderless"

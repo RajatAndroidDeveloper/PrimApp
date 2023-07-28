@@ -90,6 +90,10 @@ data class User(
     val isMentee: Boolean,
     @SerializedName("is_mentor")
     val isMentor: Boolean,
+    @SerializedName("inappropriate_category")
+    val inappropriateCategory: String?,
+    @SerializedName("is_inappropriate")
+    val isInappropriate: Boolean,
     @SerializedName("user_online_status")
     var userOnlineStatus: String? = null
 ) : Serializable

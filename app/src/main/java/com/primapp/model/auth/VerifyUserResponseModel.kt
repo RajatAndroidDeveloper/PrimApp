@@ -59,5 +59,9 @@ data class UserData(
     @SerializedName("todo_notifications_count")
     var todoNotificationsCount: Int = 0,
     @SerializedName("user_online_status")
-    var userOnlineStatus: String? = null
+    var userOnlineStatus: String? = null,
+    @SerializedName("is_inappropriate")
+    var isInappropriate: Boolean,
+    @SerializedName("inappropriate_category")
+    var inappropriateCategory: String? = null
 )

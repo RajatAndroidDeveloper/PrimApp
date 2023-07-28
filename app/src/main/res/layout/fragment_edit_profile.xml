@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
 
         <variable
             name="frag"
@@ -40,6 +41,20 @@
                 app:layout_constraintTop_toBottomOf="@+id/clToolbar"
                 tools:targetApi="lollipop" />
 
+            <TextView
+                android:id="@+id/tvProfileText"
+                style="@style/normalBodyText"
+                android:layout_width="wrap_content"
+                android:fontFamily="@font/poppins_semibold"
+                android:maxLines="1"
+                android:textColor="@color/grey"
+                android:layout_marginTop="@dimen/space_small"
+                android:text="Please upload a professional bio picture."
+                android:textSize="@dimen/textNormal"
+                app:layout_constraintEnd_toEndOf="@id/ivProfilePic"
+                app:layout_constraintStart_toStartOf="@id/ivProfilePic"
+                app:layout_constraintTop_toBottomOf="@id/ivProfilePic" />
+
             <ImageView
                 android:layout_width="34dp"
                 android:layout_height="34dp"
@@ -63,7 +78,7 @@
                 app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ivProfilePic">
+                app:layout_constraintTop_toBottomOf="@id/tvProfileText">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etFirstName"

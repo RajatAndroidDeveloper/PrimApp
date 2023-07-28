@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
 
         <variable
             name="data"
@@ -21,13 +22,22 @@
         <ImageView
             android:id="@+id/ivProfilePic"
             name="@{data.sender.firstName +' '+ data.sender.lastName}"
-            loadCircularImage="@{data.sender.userImage}"
+            loadCircularImage="@{data.sender.inappropriate ? `` : data.sender.userImage}"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             app:layout_constraintEnd_toStartOf="@id/tvNotificationMessage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvNotificationMessage" />
+
+        <ImageView
+            android:layout_width="@dimen/textMedium"
+            android:layout_height="@dimen/textMedium"
+            android:visibility="@{data.sender.userOnlineStatus == null ? View.GONE : View.VISIBLE}"
+            android:src="@{data.sender.userOnlineStatus.equals(`ONLINE`) ? @drawable/ic_online_circle : @drawable/ic_offline_circle}"
+            app:layout_constraintEnd_toEndOf="@id/ivProfilePic"
+            app:layout_constraintBottom_toBottomOf="@id/ivProfilePic"
+            android:layout_marginLeft="@dimen/space_small"/>
 
         <TextView
             android:id="@+id/tvNotificationMessage"

@@ -60,6 +60,10 @@ data class User(
     val isMentor: Boolean,
     @SerializedName("last_name")
     val lastName: String,
+    @SerializedName("inappropriate_category")
+    val inappropriateCategory: String,
+    @SerializedName("is_inappropriate")
+    val isInappropriate: Boolean,
     @SerializedName("username")
     val username: String,
     @SerializedName("is_mentor_status")

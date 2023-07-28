@@ -699,10 +699,12 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                             postFileType = PostFileType.IMAGE
                             var cR = context?.contentResolver
                             var mime = cR?.getType(data.data!!)
-                            selectedFile = if (mime?.contains("video",false) ==  true)
-                                FileUtils.getFileFromUri(context, data.data!!, FileUtils.VIDEO)
-                            else FileUtils.getFileFromUri(context, data.data!!, FileUtils.IMAGE)
-                            FileUtils.compressImage(selectedFile!!.absolutePath)
+                           if (mime?.contains("video",false) ==  true) {
+                               selectedFile = FileUtils.getFileFromUri(context, data.data!!, FileUtils.VIDEO)
+                           } else {
+                               selectedFile = FileUtils.getFileFromUri(context, data.data!!, FileUtils.IMAGE)
+                               FileUtils.compressImage(selectedFile!!.absolutePath)
+                           }
                         }
 
                     } else {
