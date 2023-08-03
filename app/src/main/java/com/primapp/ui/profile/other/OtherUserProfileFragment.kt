@@ -95,6 +95,8 @@ class OtherUserProfileFragment : BaseFragment<FragmentOtherUserProfileBinding>()
     fun showImage() {
         val bundle = Bundle()
         bundle.putString("url", user.userImage)
+        bundle.putBoolean("isInAppropriate", user.isInappropriate)
+        bundle.putString("fullName", user.firstName+" "+user.lastName)
         findNavController().navigate(R.id.imageViewDialog, bundle)
     }
 

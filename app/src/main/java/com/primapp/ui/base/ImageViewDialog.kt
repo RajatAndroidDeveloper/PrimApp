@@ -1,12 +1,14 @@
 package com.primapp.ui.base
 
 import android.app.DownloadManager
+import android.media.Image
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.Window
 import com.primapp.R
 import com.primapp.databinding.LayoutImageViewBinding
+import com.primapp.extensions.loadCircularImageWithName
 import com.primapp.extensions.loadImageWithFitCenter
 import com.primapp.utils.DownloadUtils
 import javax.inject.Inject
@@ -35,7 +37,10 @@ class ImageViewDialog : BaseDialogFragment<LayoutImageViewBinding>() {
 
         val url = ImageViewDialogArgs.fromBundle(requireArguments()).url
 
-        binding.imageView.loadImageWithFitCenter(requireContext(), url)
+        if(ImageViewDialogArgs.fromBundle(requireArguments()).isInAppropriate)
+            binding.imageView.loadCircularImageWithName(ImageViewDialogArgs.fromBundle(requireArguments()).fullName, "")
+        else
+            binding.imageView.loadImageWithFitCenter(requireContext(), url)
 
         binding.ivClose.setOnClickListener {
             dismiss()
