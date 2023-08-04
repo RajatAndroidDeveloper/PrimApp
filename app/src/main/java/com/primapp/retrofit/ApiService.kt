@@ -144,12 +144,14 @@ interface ApiService {
     @POST
     @Headers("@: NoAuth")
     suspend fun uploadToAWS(
-        @Url url: String,
-        @Part("key") key: RequestBody?,
-        @Part("AWSAccessKeyId") awsAccessKey: RequestBody?,
-        @Part("policy") policy: RequestBody?,
-        @Part("signature") signature: RequestBody?,
-        @Part file: MultipartBody.Part?
+            @Url url: String,
+            @Part("key") key: RequestBody?,
+            @Part("x-amz-algorithm") awsAccessKey: RequestBody?,
+            @Part("x-amz-credential") credential: RequestBody?,
+            @Part("x-amz-date") date: RequestBody?,
+            @Part("policy") policy: RequestBody?,
+            @Part("x-amz-signature") signature: RequestBody?,
+            @Part file: MultipartBody.Part?
     ): Response<Unit>
 
     @GET(ApiConstant.GET_POST_LIST)
