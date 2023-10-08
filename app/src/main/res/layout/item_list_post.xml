@@ -415,7 +415,7 @@
 
             <LinearLayout
                 android:id="@+id/ivLike"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:background="@color/grey_shade_post"
@@ -445,7 +445,7 @@
 
             <LinearLayout
                 android:id="@+id/ivComment"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginStart="2dp"
                 android:layout_weight="1"
@@ -479,6 +479,7 @@
                 android:layout_height="50dp"
                 android:layout_marginStart="2dp"
                 android:layout_weight="1"
+                android:visibility="gone"
                 android:background="@color/grey_shade_post"
                 android:clickable="true"
                 android:foreground="?attr/selectableItemBackground"

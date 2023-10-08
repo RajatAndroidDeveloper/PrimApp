@@ -294,6 +294,11 @@ class DashboardActivity : BaseActivity() {
             }
         }
 
+        llProfile.setOnClickListener {
+            drawerLayout.closeDrawer(GravityCompat.START)
+            navController?.navigate(R.id.profileFragment)
+        }
+
         llMessanger.setOnClickListener {
             drawerLayout.closeDrawer(GravityCompat.START)
             navController?.navigate(R.id.channelListFragment)

@@ -132,7 +132,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/llPortFolio"
+                android:id="@+id/llProfile"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_normal"
@@ -143,6 +143,35 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/ivProfileImage"
                 app:layout_constraintTop_toBottomOf="@id/llMessanger">
+
+                <ImageView
+                    android:layout_width="@dimen/textMediumX"
+                    android:layout_height="@dimen/textMediumX"
+                    app:tint="@color/colorAccent"
+                    android:src="@drawable/icon_profile" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/space_small"
+                    android:text="@string/profile"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/textMedium" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llPortFolio"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_normal"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/space_extraSmall"
+                android:visibility="gone"
+                android:paddingBottom="@dimen/space_extraSmall"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/ivProfileImage"
+                app:layout_constraintTop_toBottomOf="@id/llProfile">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -243,34 +272,6 @@
                     android:textSize="@dimen/textNormal" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/llTerms"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_extraSmall"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingTop="@dimen/space_extraSmall"
-                android:paddingBottom="@dimen/space_extraSmall"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/ivProfileImage"
-                app:layout_constraintTop_toBottomOf="@id/llPortFolio">
-
-                <ImageView
-                    android:layout_width="@dimen/textMediumX"
-                    android:layout_height="@dimen/textMediumX"
-                    android:src="@drawable/ic_terms" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/space_small"
-                    android:text="@string/terms_of_services"
-                    android:textColor="@color/textColor"
-                    android:textSize="@dimen/textMedium" />
-            </LinearLayout>
-
-
             <TextView
                 android:id="@+id/tvSettings"
                 style="@style/primaryBodyText"
@@ -286,7 +287,7 @@
                 android:textSize="@dimen/textMedium"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@id/ivProfileImage"
-                app:layout_constraintTop_toBottomOf="@id/llTerms" />
+                app:layout_constraintTop_toBottomOf="@id/llPortFolio" />
 
 
             <LinearLayout
@@ -371,7 +372,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/llRewards"
+                android:id="@+id/llTerms"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_extraSmall"
@@ -382,6 +383,34 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/ivProfileImage"
                 app:layout_constraintTop_toBottomOf="@id/llAboutUs">
+
+                <ImageView
+                    android:layout_width="@dimen/textMediumX"
+                    android:layout_height="@dimen/textMediumX"
+                    android:src="@drawable/ic_terms" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/space_small"
+                    android:text="@string/terms_of_services"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/textMedium" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llRewards"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_extraSmall"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/space_extraSmall"
+                android:paddingBottom="@dimen/space_extraSmall"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/ivProfileImage"
+                app:layout_constraintTop_toBottomOf="@id/llTerms">
 
                 <ImageView
                     android:layout_width="@dimen/textMediumX"
@@ -404,6 +433,7 @@
                 android:layout_marginTop="@dimen/space_extraSmall"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 android:paddingTop="@dimen/space_extraSmall"
                 android:paddingBottom="@dimen/space_extraSmall"
                 app:layout_constraintEnd_toEndOf="parent"

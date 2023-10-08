@@ -22,12 +22,14 @@
     <item
         android:id="@+id/todoListFragment"
         android:enabled="true"
+        android:visible="false"
         android:icon="@drawable/ic_todo"
         android:title="@string/todo_list" />
 
     <item
         android:id="@+id/profileFragment"
         android:enabled="true"
+        android:visible="false"
         android:icon="@drawable/ic_person"
         android:title="@string/profile" />
 </menu>
