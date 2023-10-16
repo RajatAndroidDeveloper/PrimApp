@@ -52,39 +52,92 @@
             app:layout_constraintTop_toBottomOf="@id/etPost"
             app:layout_constraintWidth_percent=".9">
 
-            <ImageButton
-                android:id="@+id/ibCamera"
+            <LinearLayout
+                android:id="@+id/llCamera"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@drawable/shape_rounded_corner_grey_small_corner"
                 android:onClick="@{()->frag.showFileOptions()}"
                 android:padding="@dimen/space_small"
-                android:src="@drawable/ic_baseline_photo_camera_24"
-                android:tint="@color/black" />
+                android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/ibVideo"
+                <ImageButton
+                    android:id="@+id/ibCamera"
+                    android:layout_width="@dimen/space_extraLarge"
+                    android:layout_height="@dimen/space_extraLarge"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_live_camera"
+                    android:tint="@color/black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_light"
+                    android:layout_gravity="center_vertical"
+                    android:ellipsize="end"
+                    android:paddingLeft="@dimen/space_extraSmall"
+                    android:text="@string/photo"
+                    android:textSize="@dimen/textMedium" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llVideo"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/space_small"
+                android:padding="@dimen/space_small"
                 android:background="@drawable/shape_rounded_corner_grey_small_corner"
                 android:onClick="@{()->frag.openGalleryToSelectVideoPhoto()}"
-                android:layout_marginStart="@dimen/space_medium"
-                android:padding="@dimen/space_small"
-                android:src="@drawable/ic_gallery_icon"
-                android:tint="@color/black" />
+                android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/ibAttachment"
+                <ImageButton
+                    android:id="@+id/ibVideo"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="@dimen/space_extraLarge"
+                    android:layout_height="@dimen/space_extraLarge"
+                    android:src="@drawable/ic_gallery"
+                    android:tint="@color/black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_light"
+                    android:paddingLeft="@dimen/space_extraSmall"
+                    android:layout_gravity="center_vertical"
+                    android:ellipsize="end"
+                    android:text="@string/video"
+                    android:textSize="@dimen/textMedium" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llAttachment"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/space_medium"
+                android:layout_height="match_parent"
+                android:padding="@dimen/space_small"
+                android:layout_marginStart="@dimen/space_small"
                 android:background="@drawable/shape_rounded_corner_grey_small_corner"
                 android:onClick="@{()->frag.attachDocument()}"
-                android:padding="@dimen/space_small"
-                android:scaleType="center"
-                android:src="@drawable/ic_attach_file_24"
-                android:tint="@color/black" />
+                android:orientation="horizontal">
 
+                <ImageButton
+                    android:id="@+id/ibAttachment"
+                    android:layout_width="@dimen/space_extraLarge"
+                    android:layout_height="@dimen/space_extraLarge"
+                    android:layout_gravity="center_vertical"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_attachment"
+                    android:tint="@color/black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="@dimen/space_extraSmall"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/poppins_light"
+                    android:text="@string/document"
+                    android:textSize="@dimen/textMedium" />
+            </LinearLayout>
         </LinearLayout>
 
         <!--  <RadioGroup

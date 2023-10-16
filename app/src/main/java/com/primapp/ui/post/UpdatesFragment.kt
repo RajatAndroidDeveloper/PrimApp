@@ -136,6 +136,7 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
         ivMenu.visible(true)
         //Toolbar
         checkUnreadMessages()
+        ivEndIcon.visibility = View.GONE
         ivEndIcon.setOnClickListener {
             findNavController().navigate(R.id.channelListFragment)
         }
@@ -370,8 +371,7 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
     }
 
     fun createPost() {
-        val action =
-            UpdatesFragmentDirections.actionUpdatesFragmentToCreatePostFragment(null)
+        val action = UpdatesFragmentDirections.actionUpdatesFragmentToCreatePostFragment(null)
         findNavController().navigate(action)
     }
 
@@ -514,11 +514,13 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                 totalCountByCustomType: Map<String, Int>
             ) {
                 updateUnreadMessageCount(totalCount.toLong())
+                (requireActivity() as DashboardActivity).refreshUnreadMessages(totalCount.toLong())
             }
         })
     }
 
     fun updateUnreadMessageCount(totalUnreadMessageCount: Long) {
+        (requireActivity() as DashboardActivity).refreshUnreadMessages(totalUnreadMessageCount)
         CoroutineScope(Dispatchers.Main).launch {
             Log.d("anshul", "textview is null : ${tvCount == null} conext : ${context == null}")
             tvCount?.text = getPrettyNumber(totalUnreadMessageCount)

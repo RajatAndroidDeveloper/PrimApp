@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
 
         <variable
             name="frag"
@@ -16,6 +17,14 @@
         <variable
             name="rewardsData"
             type="com.primapp.model.rewards.RewardsContent" />
+
+        <variable
+            name="portfolioData"
+            type="com.primapp.model.portfolio.PortfolioContent" />
+
+        <variable
+            name="isLoggedInUser"
+            type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,36 +34,337 @@
 
         <include layout="@layout/toolbar_dashboard_accent" />
 
-        <include
-            layout="@layout/layout_profile_top_card"
-            app:frag="@{frag}"
-            app:rewardsData="@{rewardsData}"
-            app:user="@{user}" />
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_small"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/clProfileCard"
-            app:tabBackground="@drawable/profile_tab_background"
-            app:tabIndicator="@null"
-            app:tabPadding="@dimen/space_small"
-            app:tabSelectedTextColor="@color/white"
-            app:tabTextAppearance="@style/MyProfileTabTextAppearance"
-            app:tabTextColor="@color/textColor" />
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewPager"
-            android:layout_width="match_parent"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tabLayout" />
+            app:layout_constraintTop_toBottomOf="@id/clToolbar">
 
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/clProfileCard"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:paddingStart="@dimen/space_medium"
+                        android:paddingEnd="@dimen/space_medium">
+
+                        <ImageView
+                            android:id="@+id/ivProfilePic"
+                            name="@{user.firstName +' '+ user.lastName}"
+                            loadCircularImage="@{user.inappropriate ?`` : user.userImage}"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:onClick="@{()->frag.showImage()}"
+                            app:layout_constraintBottom_toBottomOf="@id/tvCountry"
+                            app:layout_constraintDimensionRatio="1:1"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/tvName" />
+
+                        <TextView
+                            android:id="@+id/tvName"
+                            style="@style/normalBodyText"
+                            android:layout_marginStart="@dimen/space_normal"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/poppins_medium"
+                            android:maxLines="1"
+                            android:text="@{user.firstName +' '+ user.lastName}"
+                            android:textSize="@dimen/textMediumX"
+                            app:layout_constraintEnd_toStartOf="@id/llEditProfile"
+                            app:layout_constraintStart_toEndOf="@id/ivProfilePic"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="Andrew Russel" />
+
+                        <TextView
+                            android:id="@+id/tvEmail"
+                            style="@style/normalBodyText"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="@{user.email}"
+                            android:textSize="@dimen/textSmall"
+                            app:layout_constraintEnd_toEndOf="@id/tvName"
+                            app:layout_constraintStart_toStartOf="@id/tvName"
+                            app:layout_constraintTop_toBottomOf="@id/tvName"
+                            tools:text="andrewrussel@gmail.com" />
+
+                        <TextView
+                            android:id="@+id/tvGenderDob"
+                            style="@style/normalBodyText"
+                            genderAndDobFormat="@{user}"
+                            android:textSize="@dimen/textSmall"
+                            app:layout_constraintEnd_toEndOf="@id/tvName"
+                            app:layout_constraintStart_toStartOf="@id/tvName"
+                            app:layout_constraintTop_toBottomOf="@id/tvEmail"
+                            tools:text="Male  |  May 22, 1996" />
+
+                        <TextView
+                            android:id="@+id/tvCountry"
+                            style="@style/normalBodyText"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="@{user.country}"
+                            android:textSize="@dimen/textSmall"
+                            app:layout_constraintEnd_toEndOf="@id/tvName"
+                            app:layout_constraintStart_toStartOf="@id/tvName"
+                            app:layout_constraintTop_toBottomOf="@id/tvGenderDob"
+                            tools:text="California" />
+
+                        <TextView
+                            android:id="@+id/tvDigitalTokenEarned"
+                            style="@style/normalBodyText"
+                            rewardsCategory="@{rewardsData.accountStage}"
+                            tokensEarned="@{rewardsData.totalCoin}"
+                            android:background="?attr/selectableItemBackground"
+                            android:drawablePadding="@dimen/space_extraSmall"
+                            android:ellipsize="marquee"
+                            android:gravity="center_vertical"
+                            android:marqueeRepeatLimit="marquee_forever"
+                            android:onClick="@{()->frag.gotoEarnedRewards()}"
+                            android:singleLine="true"
+                            android:text="@{user.country}"
+                            android:visibility="gone"
+                            android:textSize="@dimen/textSmall"
+                            app:drawableStartCompat="@drawable/prim_coin"
+                            app:layout_constraintEnd_toEndOf="@id/tvName"
+                            app:layout_constraintStart_toStartOf="@id/tvName"
+                            app:layout_constraintTop_toBottomOf="@id/tvCountry"
+                            tools:text="@string/digital_tokens_earned" />
+
+                        <ProgressBar
+                            android:id="@+id/pbDigitalToken"
+                            style="?android:attr/progressBarStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/space_small"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="@id/tvDigitalTokenEarned"
+                            app:layout_constraintStart_toEndOf="@id/tvDigitalTokenEarned"
+                            app:layout_constraintTop_toTopOf="@id/tvDigitalTokenEarned"
+                            tools:visibility="visible" />
+
+                        <LinearLayout
+                            android:id="@+id/llEditProfile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="?attr/selectableItemBackground"
+                            android:gravity="center"
+                            android:onClick="@{()->frag.editProfile()}"
+                            android:orientation="vertical"
+                            android:padding="@dimen/space_small"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:id="@+id/ivEdit"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_edit" />
+
+                            <TextView
+                                style="@style/primaryHeadingAccent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/space_small"
+                                android:text="@string/edit"
+                                android:textSize="@dimen/textNormal" />
+
+                        </LinearLayout>
+
+
+                        <TextView
+                            android:id="@+id/tvAbout"
+                            style="@style/normalBodyText"
+                            android:layout_marginTop="@dimen/space_small"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="@string/about"
+                            app:layout_constraintStart_toStartOf="@id/ivProfilePic"
+                            app:layout_constraintTop_toBottomOf="@id/tvDigitalTokenEarned" />
+
+                        <TextView
+                            android:id="@+id/tvAboutDescription"
+                            style="@style/primaryBodyText"
+                            android:layout_marginTop="@dimen/space_extraSmall"
+                            android:text="@{user.profileSummary}"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0"
+                            app:layout_constraintStart_toStartOf="@id/tvAbout"
+                            app:layout_constraintTop_toBottomOf="@id/tvAbout"
+                            app:layout_constraintWidth_percent="1"
+                            android:maxLines="3"
+                            tools:text="@string/long_about_text" />
+
+                        <TextView
+                            android:id="@+id/tvReadMore"
+                            style="@style/primaryBodyText"
+                            android:layout_marginTop="@dimen/space_extraSmall"
+                            android:text="@string/read_more"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0"
+                            app:layout_constraintStart_toStartOf="@id/tvAbout"
+                            app:layout_constraintTop_toBottomOf="@id/tvAboutDescription"
+                            app:layout_constraintWidth_percent="1"
+                            android:maxLines="3"
+                            android:textSize="@dimen/space_medium"
+                            android:textColor="@color/colorAccent"
+                            tools:text="@string/read_more" />
+
+                        <LinearLayout
+                            android:id="@+id/llExperiences"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_normal"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="@{portfolioData.experiences.size == 0}"
+                            android:orientation="vertical"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tvReadMore">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="@string/experiences"
+                                    android:textColor="@color/textColor"
+                                    android:textSize="@dimen/textMedium" />
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="?attr/selectableItemBackground"
+                                    android:clickable="true"
+                                    android:focusable="true"
+                                    android:onClick="@{()->frag.onAddExperiences()}"
+                                    android:src="@drawable/ic_add_circle_filled_24"
+                                    android:visibility="@{isLoggedInUser ? View.VISIBLE : View.GONE}"
+                                    app:tint="@color/colorAccent" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/no_experience_added"
+                                android:visibility="@{(portfolioData.experiences.size == 0) ? View.VISIBLE : View.GONE}"
+                                tools:visibility="visible" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvExperience"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:scrollbars="vertical"
+                                tools:itemCount="3"
+                                tools:listitem="@layout/item_portfolio_experience"
+                                tools:orientation="vertical" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/llSkillsCertificate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_large"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="@{portfolioData.skills_certificate.size == 0}"
+                            android:onClick="@{()->frag.onAddSkills()}"
+                            android:orientation="vertical"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/llExperiences">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="@string/skills_and_certifications"
+                                    android:textColor="@color/textColor"
+                                    android:textSize="@dimen/textMedium" />
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="?attr/selectableItemBackground"
+                                    android:clickable="true"
+                                    android:focusable="true"
+                                    android:onClick="@{()->frag.onAddSkills()}"
+                                    android:src="@drawable/ic_add_circle_filled_24"
+                                    android:visibility="@{isLoggedInUser ? View.VISIBLE : View.GONE}"
+                                    app:tint="@color/colorAccent" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/no_skills_and_cerification_added"
+                                android:visibility="@{(portfolioData.skills_certificate.size == 0) ? View.VISIBLE : View.GONE}"
+                                tools:visibility="visible" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvSkillsCertificate"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:scrollbars="horizontal"
+                                tools:itemCount="3"
+                                tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                tools:listitem="@layout/item_portfolio_skills_certificate"
+                                tools:orientation="horizontal" />
+                        </LinearLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tabLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/textExtraLargeXXX"
+                        android:layout_marginTop="@dimen/space_small"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/clProfileCard"
+                        app:tabBackground="@drawable/profile_tab_background"
+                        app:tabIndicator="@null"
+                        app:tabPadding="@dimen/space_small"
+                        app:tabSelectedTextColor="@color/white"
+                        app:tabTextAppearance="@style/MyProfileTabTextAppearance"
+                        app:tabTextColor="@color/textColor" />
+
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/viewPager"
+                        android:layout_width="match_parent"
+                        android:layout_height="600dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tabLayout" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.core.widget.NestedScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

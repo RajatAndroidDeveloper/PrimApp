@@ -181,8 +181,8 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="logout_message">Are you sure you want to logout?</string>
-    <string name="create_post_message">What would you like to discuss?</string>
-    <string name="create_post_placeholder">Start a mentoring topic or share any other important thoughts...</string>
+    <string name="create_post_message">What mentoring topic is on\nyour mind?</string>
+    <string name="create_post_placeholder">What mentoring topic is on your mind?</string>
     <string name="photo_video_gif">Photo | Video | GIF</string>
     <string name="changes_saved_successfully">Your changes are saved successfully!</string>
     <string name="edit_profile">Edit Profile</string>
@@ -547,6 +547,11 @@
     <string name="see_ratings">See Ratings</string>
     <string name="are_you_sure_you_want_to_send_file">Are you sure you want to send a file or attachment?</string>
     <string name="messanger">Messenger</string>
+    <string name="read_more">Read more..</string>
+    <string name="details">Details</string>
+    <string name="messaging">Messaging</string>
+    <string name="photo">Photo</string>
+    <string name="document">Document</string>
 
     <string-array name="categories">
         <item>Mentor</item>

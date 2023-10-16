@@ -35,6 +35,7 @@ import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.chat.adapter.ChatAdapter
 import com.primapp.ui.chat.adapter.ChatRecyclerDataObserver
+import com.primapp.ui.dashboard.DashboardActivity
 import com.primapp.utils.DialogUtils
 import com.primapp.utils.DownloadUtils
 import com.primapp.utils.FileUtils
@@ -210,6 +211,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
                         adapter.notifyItemChanged(adapter.messageList.size)
                         recyclerObserver.scrollToBottom(true)
                         tvOnlineStatus.isVisible = false
+                        (requireActivity() as DashboardActivity).refreshUnreadMessages(0)
                     }
                 }
 
@@ -735,6 +737,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
                     adapter.addPreviousMessages(messages)
                     adapter.notifyDataSetChanged()
                     adapter.markAllMessagesAsRead()
+                    (requireActivity() as DashboardActivity).refreshUnreadMessages(0)
                 } else {
                     hasPrevious = false
                 }

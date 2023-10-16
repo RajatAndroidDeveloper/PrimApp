@@ -375,9 +375,10 @@
                 style="@style/primaryHeadingAccent"
                 prettyNumber="@{data.postLikes}"
                 android:layout_width="wrap_content"
+                android:textColor="@color/textColorLight"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_small"
-                android:layout_marginLeft="@dimen/space_small"
+                android:layout_marginLeft="@dimen/space_normal"
                 android:drawablePadding="@dimen/space_small"
                 android:textSize="@dimen/textMedium"
                 app:drawableStartCompat="@drawable/like_color"
@@ -388,15 +389,15 @@
             <TextView
                 android:id="@+id/tvCommentCount"
                 style="@style/primaryHeadingAccent"
-                prettyNumber="@{data.postComments}"
+                commentNumber="@{data.postComments}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/space_small"
                 android:layout_marginTop="@dimen/space_small"
+                android:textColor="@color/textColorLight"
                 android:drawablePadding="@dimen/space_small"
+                android:layout_marginRight="@dimen/space_normal"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:textSize="@dimen/textMedium"
-                app:drawableStartCompat="@drawable/comment_blue"
-                app:layout_constraintStart_toEndOf="@id/tvLikesCount"
                 app:layout_constraintTop_toBottomOf="@id/cardPostAttachment"
                 tools:text="4k" />
 
@@ -408,6 +409,16 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+        <View
+            android:id="@+id/viewSepratorContent1"
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
+            android:layout_marginTop="@dimen/space_small"
+            android:layout_marginHorizontal="@dimen/space_large"
+            android:background="@color/lightestGreyHint"
+            app:layout_constraintBottom_toTopOf="@id/tvViewContent" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -416,18 +427,16 @@
             <LinearLayout
                 android:id="@+id/ivLike"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_weight="1"
-                android:background="@color/grey_shade_post"
                 android:clickable="true"
-                android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp"
+                    android:layout_marginRight="10dp"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
                     android:tint="@color/textColorLight"
@@ -446,10 +455,9 @@
             <LinearLayout
                 android:id="@+id/ivComment"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_marginStart="2dp"
                 android:layout_weight="1"
-                android:background="@color/grey_shade_post"
                 android:clickable="true"
                 android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
@@ -458,7 +466,7 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp"
+                    android:layout_marginRight="10dp"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
                     android:tint="@color/textColorLight"

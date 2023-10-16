@@ -34,7 +34,6 @@
                     android:layout_height="@dimen/textLargeX"
                     android:src="@drawable/ic_menu"
                     android:visibility="gone"
-                    app:tint="@color/white"
                     android:layout_marginBottom="@dimen/space_extraSmall"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"

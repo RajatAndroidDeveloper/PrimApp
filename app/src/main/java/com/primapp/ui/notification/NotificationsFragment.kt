@@ -91,7 +91,7 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
             }
         }
 
-        if (checkIsNetworkConnected(requireContext())) {
+        if (checkIsNetworkConnected(requireActivity())) {
             //get notification for first time
             getNotification(notificationFilterType)
         } else {
@@ -125,13 +125,13 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
                 when (it.status) {
                     Status.SUCCESS -> {
                         adapter.updateRequestAsAccepted(requestId)
-                        UserCache.incrementMenteeCount(requireContext())
+                        UserCache.incrementMenteeCount(requireActivity())
                     }
                     Status.LOADING -> {
                         showLoading()
                     }
                     Status.ERROR -> {
-                        showError(requireContext(), it.message!!)
+                        showError(requireActivity(), it.message!!)
                     }
                 }
             }
@@ -141,13 +141,13 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
             it.getContentIfNotHandled()?.let {
                 when (it.status) {
                     Status.SUCCESS -> {
-                        UserCache.resetNotification(requireContext())
+                        UserCache.resetNotification(requireActivity())
                         (activity as? DashboardActivity)?.refreshNotificationBadge()
                     }
                     Status.LOADING -> {
                     }
                     Status.ERROR -> {
-                        showError(requireContext(), it.message!!)
+                        showError(requireActivity(), it.message!!)
                     }
                 }
             }
@@ -159,7 +159,7 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
 
     private fun setAdapter() {
         binding.rvNotifications.apply {
-            layoutManager = LinearLayoutManager(requireContext())
+            layoutManager = LinearLayoutManager(requireActivity())
         }
 
         binding.rvNotifications.adapter = adapter.withLoadStateHeaderAndFooter(
@@ -182,7 +182,7 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
                 }
                 error?.let {
                     if (adapter.snapshot().isEmpty()) {
-                        showError(requireContext(), it.error.localizedMessage)
+                        showError(requireActivity(), it.error.localizedMessage)
                     }
                 }
 
@@ -199,7 +199,7 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
     }
 
     fun refreshData() {
-        if (checkIsNetworkConnected(requireContext()))
+        if (checkIsNetworkConnected(requireActivity()))
             adapter.refresh()
         else
             findNavController().navigate(R.id.networkErrorFragment)
@@ -256,7 +256,7 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
     }
 
     private fun createRequest(): Request {
-        val websocketURL = "wss://api.prim-technology.com/ws/online-status/?token=${UserCache.getAccessToken(requireContext())}"
+        val websocketURL = "wss://api.prim-technology.com/ws/online-status/?token=${UserCache.getAccessToken(requireActivity())}"
 
         return Request.Builder()
             .url(websocketURL)

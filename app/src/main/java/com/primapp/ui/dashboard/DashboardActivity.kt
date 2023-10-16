@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavArgument
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -39,8 +40,10 @@ import com.sendbird.android.exception.SendbirdException
 import com.sendbird.android.handler.ConnectHandler
 import com.sendbird.android.handler.DisconnectHandler
 import com.sendbird.android.handler.PushRequestCompleteHandler
+import com.sendbird.android.handler.UserEventHandler
 import com.sendbird.android.params.UserUpdateParams
 import com.sendbird.android.push.SendbirdPushHelper
+import com.sendbird.android.user.User
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.custom_navigation_drawer_layout.*
 import okhttp3.OkHttpClient
@@ -57,15 +60,16 @@ class DashboardActivity : BaseActivity() {
 
     private lateinit var navController: NavController
     private lateinit var navBar: BottomNavigationView
+
     @Inject
     lateinit var analyticsManager: AnalyticsManager
 
     var bottomNavLabels: ArrayList<String> = arrayListOf(
         "UpdatesFragment",
         "NotificationsFragment",
+        "CreatePostFragment",
         "CommunitiesFragment",
-        "TodoListFragment",
-        "ProfileFragment"
+        "ChannelListFragment"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,7 +96,8 @@ class DashboardActivity : BaseActivity() {
 
     private fun clearAllNotifications() {
         UserCache.clearNotificationCache(this)
-        val notifManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notifManager: NotificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notifManager.cancelAll()
     }
 
@@ -136,7 +141,10 @@ class DashboardActivity : BaseActivity() {
                 registerSendbirdForPushNotification()
 
                 // Update the user's nickname
-                updateCurrentUserInfo("${userData?.firstName} ${userData?.lastName}", userData?.userImage)
+                updateCurrentUserInfo(
+                    "${userData?.firstName} ${userData?.lastName}",
+                    userData?.userImage
+                )
             })
     }
 
@@ -144,7 +152,11 @@ class DashboardActivity : BaseActivity() {
         Log.d(ConnectionManager.TAG, "Registering device token to Sendbird")
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
-                Log.w(MyFirebaseMessagingService.TAG, "Fetching FCM registration token failed", task.exception)
+                Log.w(
+                    MyFirebaseMessagingService.TAG,
+                    "Fetching FCM registration token failed",
+                    task.exception
+                )
                 return@OnCompleteListener
             }
 
@@ -170,7 +182,8 @@ class DashboardActivity : BaseActivity() {
     }
 
     fun updateCurrentUserInfo(name: String, userImage: String?) {
-        val profileUrl = if (SendbirdChat.currentUser != null) SendbirdChat.currentUser!!.profileUrl else ""
+        val profileUrl =
+            if (SendbirdChat.currentUser != null) SendbirdChat.currentUser!!.profileUrl else ""
 
         val params = UserUpdateParams().apply {
             name
@@ -198,7 +211,7 @@ class DashboardActivity : BaseActivity() {
             if (it.notificationsCount > 0) {
                 val badge: BadgeDrawable = navBar.getOrCreateBadge(R.id.notificationsFragment)
                 badge.backgroundColor = ContextCompat.getColor(this, R.color.red)
-                badge.badgeTextColor = ContextCompat.getColor(this,R.color.white)
+                badge.badgeTextColor = ContextCompat.getColor(this, R.color.white)
                 badge.verticalOffset = 6
                 badge.number = it.notificationsCount
 
@@ -209,7 +222,7 @@ class DashboardActivity : BaseActivity() {
             if (it.todoNotificationsCount > 0) {
                 val badge: BadgeDrawable = navBar.getOrCreateBadge(R.id.todoListFragment)
                 badge.backgroundColor = ContextCompat.getColor(this, R.color.red)
-                badge.badgeTextColor = ContextCompat.getColor(this,R.color.white)
+                badge.badgeTextColor = ContextCompat.getColor(this, R.color.white)
                 badge.verticalOffset = 6
                 badge.number = it.todoNotificationsCount
             } else {
@@ -218,8 +231,22 @@ class DashboardActivity : BaseActivity() {
         }
     }
 
+    fun refreshUnreadMessages(totalUnreadMessageCount: Long) {
+        if (totalUnreadMessageCount > 0) {
+            val badge: BadgeDrawable = navBar.getOrCreateBadge(R.id.channelListFragment)
+            badge.backgroundColor = ContextCompat.getColor(this@DashboardActivity, R.color.red)
+            badge.badgeTextColor = ContextCompat.getColor(this@DashboardActivity, R.color.white)
+            badge.verticalOffset = 6
+            badge.number = totalUnreadMessageCount.toInt()
+        } else {
+            navBar.removeBadge(R.id.channelListFragment)
+        }
+    }
+
     private fun setupNavigation() {
         bottomNavigationView.setupWithNavController(navController)
+        bottomNavigationView.itemIconTintList = null
+        bottomNavigationView.getOrCreateBadge(R.id.message)
         // To stop loading fragment again and again
         bottomNavigationView.setOnNavigationItemReselectedListener { }
 
@@ -227,6 +254,7 @@ class DashboardActivity : BaseActivity() {
         drawerLayout.addDrawerListener(actionBarToggle)
         actionBarToggle.syncState()
     }
+
     override fun onBackPressed() {
         if (this.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             this.drawerLayout.closeDrawer(GravityCompat.START)
@@ -251,14 +279,12 @@ class DashboardActivity : BaseActivity() {
 
     override fun onPause() {
         super.onPause()
-        Log.e("asasasasasas232323","pause_data")
         navController.removeOnDestinationChangedListener(navListener)
         disconnectSocket()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.e("asasasasasas232323","destroy_data")
         disconnectSocket()
     }
 
@@ -271,26 +297,27 @@ class DashboardActivity : BaseActivity() {
         webSocket = okHttpClient.newWebSocket(createRequest(), webSocketListener)
     }
 
-    private fun setNavigationHeaderData(name:String, userImage: String?){
-        ivProfileImage.loadCircularImage(this,userImage)
+    private fun setNavigationHeaderData(name: String, userImage: String?) {
+        ivProfileImage.loadCircularImage(this, userImage)
         tvUserName.text = name
         tvUserId.text = "@${userData?.userName}"
     }
-    private fun setUpUserDataForSideMenu(){
+
+    private fun setUpUserDataForSideMenu() {
         tvAppVersion.text = "v${BuildConfig.VERSION_NAME}"
 
         llPortFolio.setOnClickListener {
             drawerLayout.closeDrawer(GravityCompat.START)
             var user = UserCache.getUser(this)
             val bundle = Bundle()
-            bundle.putInt("userId", user?.id?:0)
-            bundle.putString("title", "${user?.firstName?:""} ${user?.lastName?:""}")
+            bundle.putInt("userId", user?.id ?: 0)
+            bundle.putString("title", "${user?.firstName ?: ""} ${user?.lastName ?: ""}")
             if (user?.isPortfolioAvailable != true) {
                 DialogUtils.showYesNoDialog(this, R.string.create_mentoring_porfolio, {
                     navController.navigate(R.id.portfolioDashboardFragment, bundle)
                 })
             } else {
-               navController.navigate(R.id.portfolioDashboardFragment, bundle)
+                navController.navigate(R.id.portfolioDashboardFragment, bundle)
             }
         }
 
@@ -326,8 +353,8 @@ class DashboardActivity : BaseActivity() {
         llProjectContracts.setOnClickListener {
             drawerLayout.closeDrawer(GravityCompat.START)
             var bundle = Bundle()
-            bundle.putString("from","dashboard")
-            bundle.putString("contractType","")
+            bundle.putString("from", "dashboard")
+            bundle.putString("contractType", "")
             navController.navigate(R.id.allProjectsFragment, bundle)
         }
 
@@ -339,7 +366,7 @@ class DashboardActivity : BaseActivity() {
         llDashboard.setOnClickListener {
             drawerLayout.closeDrawer(GravityCompat.START)
             var bundle = Bundle()
-            bundle.putString("from","dashboard_activity")
+            bundle.putString("from", "dashboard_activity")
             navController.navigate(R.id.dashboardFragment, bundle)
         }
 
@@ -363,12 +390,14 @@ class DashboardActivity : BaseActivity() {
             openHiddenPosts()
         }
     }
+
     fun openAboutUs() {
         val bundle = Bundle()
         bundle.putString("title", getString(R.string.about_us))
         bundle.putString("url", ApiConstant.ABOUT_US)
         navController.navigate(R.id.commonWebView, bundle)
     }
+
     fun openTermsOfConditions() {
         val bundle = Bundle()
         bundle.putString("title", getString(R.string.terms_of_services))
@@ -439,17 +468,18 @@ class DashboardActivity : BaseActivity() {
     }
 
     private fun createRequest(): Request {
-        val websocketURL = "wss://api.prim-technology.com/ws/online-status/?token=${UserCache.getAccessToken(this)}"
+        val websocketURL =
+            "wss://api.prim-technology.com/ws/online-status/?token=${UserCache.getAccessToken(this)}"
 
         return Request.Builder()
             .url(websocketURL)
             .build()
     }
 
-    private fun disconnectSocket(){
+    private fun disconnectSocket() {
         viewModel.socketStatus.observe(this) {
             Log.e("Connected12", it.toString())
-            if(it) okHttpClient.dispatcher.executorService.shutdown()
+            if (it) okHttpClient.dispatcher.executorService.shutdown()
         }
     }
 }

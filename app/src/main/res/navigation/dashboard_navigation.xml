@@ -178,7 +178,8 @@
         <argument
             android:name="type"
             app:argType="string"
-            app:nullable="true" />
+            app:nullable="true"
+            android:defaultValue="@null"/>
         <argument
             android:name="communityId"
             app:argType="integer"

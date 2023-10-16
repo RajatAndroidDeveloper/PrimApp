@@ -19,6 +19,13 @@
             name="rewardsData"
             type="com.primapp.model.rewards.RewardsContent" />
 
+        <variable
+            name="portfolioData"
+            type="com.primapp.model.portfolio.PortfolioContent" />
+
+        <variable
+            name="isLoggedInUser"
+            type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,8 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/space_medium"
-        android:paddingEnd="@dimen/space_medium"
-        app:layout_constraintTop_toBottomOf="@id/clToolbar">
+        android:paddingEnd="@dimen/space_medium">
 
         <ImageView
             android:id="@+id/ivProfilePic"
@@ -102,6 +108,7 @@
             android:onClick="@{()->frag.gotoEarnedRewards()}"
             android:singleLine="true"
             android:text="@{user.country}"
+            android:visibility="gone"
             android:textSize="@dimen/textSmall"
             app:drawableStartCompat="@drawable/prim_coin"
             app:layout_constraintEnd_toEndOf="@id/tvName"
@@ -160,7 +167,7 @@
             app:layout_constraintStart_toStartOf="@id/ivProfilePic"
             app:layout_constraintTop_toBottomOf="@id/tvDigitalTokenEarned" />
 
-        <com.primapp.extensions.ExpandableTextView
+        <TextView
             android:id="@+id/tvAboutDescription"
             style="@style/primaryBodyText"
             android:layout_marginTop="@dimen/space_extraSmall"
@@ -170,8 +177,136 @@
             app:layout_constraintStart_toStartOf="@id/tvAbout"
             app:layout_constraintTop_toBottomOf="@id/tvAbout"
             app:layout_constraintWidth_percent="1"
-            app:trimLength="100"
+            android:maxLines="3"
             tools:text="@string/long_about_text" />
 
+        <TextView
+            android:id="@+id/tvReadMore"
+            style="@style/primaryBodyText"
+            android:layout_marginTop="@dimen/space_extraSmall"
+            android:text="@string/read_more"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="@id/tvAbout"
+            app:layout_constraintTop_toBottomOf="@id/tvAboutDescription"
+            app:layout_constraintWidth_percent="1"
+            android:maxLines="3"
+            android:textSize="@dimen/space_medium"
+            android:textColor="@color/colorAccent"
+            tools:text="@string/read_more" />
+
+        <LinearLayout
+            android:id="@+id/llExperiences"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_normal"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="@{portfolioData.experiences.size == 0}"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvReadMore">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="@string/experiences"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/textMedium" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="@{()->frag.onAddExperiences()}"
+                    android:src="@drawable/ic_add_circle_filled_24"
+                    android:visibility="@{isLoggedInUser ? View.VISIBLE : View.GONE}"
+                    app:tint="@color/colorAccent" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_experience_added"
+                android:visibility="@{(portfolioData.experiences.size == 0) ? View.VISIBLE : View.GONE}"
+                tools:visibility="visible" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvExperience"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_portfolio_experience"
+                tools:orientation="vertical" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llSkillsCertificate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_large"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="@{portfolioData.skills_certificate.size == 0}"
+            android:onClick="@{()->frag.onAddSkills()}"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/llExperiences">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="@string/skills_and_certifications"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/textMedium" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="@{()->frag.onAddSkills()}"
+                    android:src="@drawable/ic_add_circle_filled_24"
+                    android:visibility="@{isLoggedInUser ? View.VISIBLE : View.GONE}"
+                    app:tint="@color/colorAccent" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_skills_and_cerification_added"
+                android:visibility="@{(portfolioData.skills_certificate.size == 0) ? View.VISIBLE : View.GONE}"
+                tools:visibility="visible" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSkillsCertificate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="horizontal"
+                tools:itemCount="3"
+                tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_portfolio_skills_certificate"
+                tools:orientation="horizontal" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

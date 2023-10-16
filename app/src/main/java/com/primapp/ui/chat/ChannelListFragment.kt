@@ -3,6 +3,7 @@ package com.primapp.ui.chat
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
@@ -16,16 +17,19 @@ import com.primapp.databinding.FragmentChannelListBinding
 import com.primapp.extensions.setDivider
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.chat.adapter.ChannelListAdapter
+import com.primapp.ui.dashboard.DashboardActivity
 import com.sendbird.android.*
 import com.sendbird.android.channel.BaseChannel
 import com.sendbird.android.channel.GroupChannel
 import com.sendbird.android.channel.query.GroupChannelListQuery
 import com.sendbird.android.channel.query.GroupChannelListQueryOrder
 import com.sendbird.android.channel.query.MyMemberStateFilter
+import com.sendbird.android.exception.SendbirdException
 import com.sendbird.android.handler.GroupChannelHandler
 import com.sendbird.android.message.BaseMessage
 import com.sendbird.android.params.GroupChannelListQueryParams
 import kotlinx.android.synthetic.main.toolbar_community_back.*
+import kotlinx.android.synthetic.main.toolbar_dashboard_accent.ivMenu
 
 class ChannelListFragment : BaseFragment<FragmentChannelListBinding>() {
 

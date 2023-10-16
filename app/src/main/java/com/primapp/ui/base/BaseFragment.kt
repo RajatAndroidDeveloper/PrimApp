@@ -24,7 +24,9 @@ import com.primapp.R
 import com.primapp.extensions.showNormalToast
 import com.primapp.utils.AnalyticsManager
 import com.primapp.utils.FileUtils
+import com.primapp.utils.visible
 import dagger.android.support.DaggerFragment
+import kotlinx.android.synthetic.main.toolbar_dashboard_accent.ivMenu
 import kotlinx.android.synthetic.main.toolbar_inner_back.view.*
 import javax.inject.Inject
 

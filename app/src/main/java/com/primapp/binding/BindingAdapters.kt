@@ -329,6 +329,11 @@ fun timeAgoFromTimeStamp(textView: TextView, timeStamp: String?) {
 fun prettyNumber(textView: TextView, number: Int?) {
     number?.let { textView.text = getPrettyNumber(it.toLong()) }
 }
+@SuppressLint("SetTextI18n")
+@BindingAdapter("commentNumber")
+fun commentNumber(textView: TextView, number: Int?) {
+    number?.let { textView.text = getPrettyNumber(it.toLong())+" Comments" }
+}
 
 @SuppressLint("SetTextI18n")
 @BindingAdapter("prettyNumber")

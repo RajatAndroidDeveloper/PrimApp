@@ -14,8 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
-        android:orientation="vertical"
-        android:paddingHorizontal="@dimen/space_small">
+        android:orientation="vertical">
 
         <View
             android:id="@+id/ivTopDottedLine"
@@ -37,6 +36,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvTitle"
             app:srcCompat="@drawable/shape_circle_accent" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/bg_vertical_dotted_line"
+            app:tint="@color/colorAccent"
+            app:layout_constraintTop_toBottomOf="@id/imageDot"
+            app:layout_constraintBottom_toBottomOf="@id/tvCompnyDetails"
+            android:id="@+id/ivDashedLine"
+            app:layout_constraintStart_toStartOf="@id/imageDot"
+            app:layout_constraintEnd_toEndOf="@id/imageDot" />
+
 
         <View
             android:id="@+id/ivBottomDottedLine"

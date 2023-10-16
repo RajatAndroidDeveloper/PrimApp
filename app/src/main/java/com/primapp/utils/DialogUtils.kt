@@ -8,6 +8,7 @@ import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.Window
+import android.view.WindowManager
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.RadioGroup
 import androidx.annotation.DrawableRes
@@ -32,6 +33,7 @@ import kotlinx.android.synthetic.main.layout_dialog_edittext.tvDialogTitle
 import kotlinx.android.synthetic.main.layout_dialog_help1.*
 import kotlinx.android.synthetic.main.layout_dialog_help1.btnClose
 import kotlinx.android.synthetic.main.layout_dialog_help1.tvDialogMessage
+import kotlinx.android.synthetic.main.layout_dialog_read_more.ivCloseDialog
 import kotlinx.android.synthetic.main.layout_dialog_search_text.*
 import kotlinx.android.synthetic.main.layout_dialog_yes_no.*
 import kotlinx.android.synthetic.main.layout_dialog_yes_no.btnNo
@@ -372,4 +374,25 @@ object DialogUtils {
 
         dialog.show()
     }
+
+
+
+    fun showReadMoreDialog(
+        activity: Activity,
+        messageDescription: String,
+        noClickCallback: (() -> Unit)? = null
+    ) {
+        val dialog = Dialog(activity,android.R.style.Theme_DeviceDefault_NoActionBar_Fullscreen)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setContentView(R.layout.layout_dialog_read_more)
+        dialog.setCanceledOnTouchOutside(true)
+        dialog.tvDialogMessage.text = messageDescription
+
+        dialog.ivCloseDialog.setOnClickListener {
+            noClickCallback?.invoke()
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
+
 }

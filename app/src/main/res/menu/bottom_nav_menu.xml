@@ -4,32 +4,44 @@
     <item
         android:id="@+id/updatesFragment"
         android:enabled="true"
-        android:icon="@drawable/ic_home"
+        android:icon="@drawable/home_selector"
         android:title="@string/updates" />
 
     <item
         android:id="@+id/notificationsFragment"
         android:enabled="true"
-        android:icon="@drawable/ic_notification_bell"
+        android:icon="@drawable/notification_selector"
         android:title="@string/notifications" />
+
+    <item
+        android:id="@+id/createPostFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_add_blue_icon"
+        android:title=""/>
 
     <item
         android:id="@+id/communitiesFragment"
         android:enabled="true"
-        android:icon="@drawable/ic_community"
+        android:icon="@drawable/community_selector"
         android:title="@string/communities" />
 
     <item
-        android:id="@+id/todoListFragment"
+        android:id="@+id/channelListFragment"
         android:enabled="true"
-        android:visible="false"
-        android:icon="@drawable/ic_todo"
-        android:title="@string/todo_list" />
+        android:icon="@drawable/message_selector"
+        android:title="@string/messaging"/>
 
-    <item
-        android:id="@+id/profileFragment"
-        android:enabled="true"
-        android:visible="false"
-        android:icon="@drawable/ic_person"
-        android:title="@string/profile" />
+<!--    <item-->
+<!--        android:id="@+id/todoListFragment"-->
+<!--        android:enabled="true"-->
+<!--        android:visible="false"-->
+<!--        android:icon="@drawable/ic_todo"-->
+<!--        android:title="@string/todo_list" />-->
+
+<!--    <item-->
+<!--        android:id="@+id/profileFragment"-->
+<!--        android:enabled="true"-->
+<!--        android:visible="false"-->
+<!--        android:icon="@drawable/ic_person"-->
+<!--        android:title="@string/profile" />-->
 </menu>

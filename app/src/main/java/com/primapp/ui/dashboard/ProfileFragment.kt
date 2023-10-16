@@ -1,5 +1,6 @@
 package com.primapp.ui.dashboard
 
+import android.app.DownloadManager
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
@@ -10,12 +11,15 @@ import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
 import android.util.Log
 import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.primapp.R
@@ -24,26 +28,44 @@ import com.primapp.databinding.FragmentProfileBinding
 import com.primapp.extensions.blink
 import com.primapp.extensions.showError
 import com.primapp.extensions.showSuccess
+import com.primapp.model.DownloadFile
+import com.primapp.model.ShowImage
+import com.primapp.model.ShowVideo
 import com.primapp.model.auth.UserData
+import com.primapp.model.portfolio.PortfolioContent
 import com.primapp.model.rewards.RewardsContent
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.ViewPagerCommunityAdapter
 import com.primapp.ui.communities.members.CommunityMembersFragment
+import com.primapp.ui.portfolio.adapter.MentoringPortfolioAdapter
+import com.primapp.ui.portfolio.adapter.PortfolioBenefitsAdapter
+import com.primapp.ui.portfolio.adapter.PortfolioExperienceAdapter
+import com.primapp.ui.portfolio.adapter.PortfolioSkillsNCertificateAdapter
 import com.primapp.ui.profile.UserJoinedCommunitiesFragment
 import com.primapp.ui.profile.UserPostsFragment
 import com.primapp.ui.splash.SplashViewModel
 import com.primapp.utils.AnalyticsManager
 import com.primapp.utils.DialogUtils
+import com.primapp.utils.DownloadUtils
 import com.primapp.utils.visible
+import com.primapp.viewmodels.PortfolioViewModel
 import kotlinx.android.synthetic.main.layout_profile_top_card.*
 import kotlinx.android.synthetic.main.toolbar_dashboard_accent.*
+import javax.inject.Inject
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
     var rewardsData: RewardsContent? = null
-
+    lateinit var portfolioContent: PortfolioContent
     val viewModel by viewModels<SplashViewModel> { viewModelFactory }
+    val mViewModel by viewModels<PortfolioViewModel> { viewModelFactory }
+
+    private val adapterPortfolioExperience by lazy { PortfolioExperienceAdapter() }
+    private val adapterPortfolioSkillsNCertificate by lazy { PortfolioSkillsNCertificateAdapter() }
+
+    @Inject
+    lateinit var downloadManager: DownloadManager
 
     override fun getLayoutRes(): Int = R.layout.fragment_profile
 
@@ -56,6 +78,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
         setToolbar(getString(R.string.profile), toolbar)
         setData()
+        setAdapter()
         setObserver()
     }
 
@@ -67,9 +90,11 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                     Status.ERROR -> {
                         showError(requireContext(), it.message!!)
                     }
+
                     Status.LOADING -> {
                         pbDigitalToken.isVisible = true
                     }
+
                     Status.SUCCESS -> {
                         it.data?.let {
                             rewardsData = it.content
@@ -81,23 +106,70 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         })
 
         viewModel.getRewardsData()
+
+        mViewModel.userPortfolioLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+
+                    Status.SUCCESS -> {
+                        it.data?.let { response ->
+                            portfolioContent = response.content
+
+                            loadDataToAdapters()
+                        }
+                    }
+                }
+            }
+        })
+    }
+
+    private fun loadDataToAdapters() {
+        binding.portfolioData = portfolioContent
+
+        portfolioContent.experiences?.let { exp ->
+            adapterPortfolioExperience.addData(exp)
+        }
+
+        portfolioContent.skills_certificate?.let { skillNCer ->
+            adapterPortfolioSkillsNCertificate.addData(skillNCer)
+        }
     }
 
     private fun setData() {
-
         analyticsManager.trackScreenView(AnalyticsManager.SCREEN_PROFILE)
         user = UserCache.getUser(requireContext())!!
         ivEndIcon.setImageResource(R.drawable.setting)
         ivEndIcon.setPadding(12)
         ivEndIcon.visible(false)
+
+        toolbar.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.backgroundColor))
+        clToolbar.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.backgroundColor))
+        tvTitle.setTextColor(ContextCompat.getColor(requireContext(),R.color.colorAccent))
+
+        ivMenu.setImageResource(R.drawable.back)
+        ivMenu.visible(true)
+        ivMenu.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
         binding.user = user
         binding.frag = this
         initViewPager()
         ivEndIcon.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_settingsFragment)
         }
+        var isLoggedInUser = user.id == UserCache.getUserId(requireContext())
+        binding.isLoggedInUser = isLoggedInUser
 
-        ivPortfolio.visible(true)
+        ivPortfolio.visible(false)
         ivPortfolio.setOnClickListener {
             val bundle = Bundle()
             bundle.putInt("userId", user.id)
@@ -111,7 +183,14 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             }
         }
 
+        tvReadMore.setOnClickListener {
+            DialogUtils.showReadMoreDialog(
+                requireActivity(),
+                tvAboutDescription.text.toString().trim()
+            )
+        }
         tvDigitalTokenEarned.blink()
+        mViewModel.getPortfolioData(userId = user.id)
     }
 
     fun editProfile() {
@@ -122,7 +201,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         val bundle = Bundle()
         bundle.putString("url", user.userImage)
         bundle.putBoolean("isInAppropriate", user.isInappropriate)
-        bundle.putString("fullName", user.firstName+" "+user.lastName)
+        bundle.putString("fullName", user.firstName + " " + user.lastName)
         findNavController().navigate(R.id.imageViewDialog, bundle)
     }
 
@@ -220,5 +299,57 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         sb.setSpan(RelativeSizeSpan(1.3f), 0, num.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         sb.setSpan(normalStyleSpan, num.length + 1, sb.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         return sb
+    }
+
+    private fun setAdapter() {
+        rvExperience.apply {
+            this.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        }
+        rvExperience.adapter = adapterPortfolioExperience
+
+        rvSkillsCertificate.apply {
+            this.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        }
+        rvSkillsCertificate.adapter = adapterPortfolioSkillsNCertificate
+    }
+
+    private fun onItemClick(item: Any?) {
+        when (item) {
+            is ShowImage -> {
+                val bundle = Bundle()
+                bundle.putString("url", item.url)
+                findNavController().navigate(R.id.imageViewDialog, bundle)
+            }
+            is ShowVideo -> {
+                val bundle = Bundle()
+                bundle.putString("url", item.url)
+                findNavController().navigate(R.id.videoViewDialog, bundle)
+            }
+            is DownloadFile -> {
+                DownloadUtils.download(requireContext(), downloadManager, item.url)
+            }
+        }
+    }
+
+    fun onAddExperiences() {
+        if (user.id != UserCache.getUserId(requireContext()) || !this::portfolioContent.isInitialized) {
+            return
+        }
+        val bundle = Bundle()
+        bundle.putSerializable("portfolioData", portfolioContent)
+        if (portfolioContent.experiences.isNullOrEmpty()) {
+            findNavController().navigate(R.id.addExperienceFragment, bundle)
+        } else {
+            findNavController().navigate(R.id.updateExperienceFragment, bundle)
+        }
+    }
+
+    fun onAddSkills() {
+        if (user.id != UserCache.getUserId(requireContext()) || !this::portfolioContent.isInitialized) {
+            return
+        }
+        val bundle = Bundle()
+        bundle.putSerializable("portfolioData", portfolioContent)
+        findNavController().navigate(R.id.updateSkillsFragment, bundle)
     }
 }
