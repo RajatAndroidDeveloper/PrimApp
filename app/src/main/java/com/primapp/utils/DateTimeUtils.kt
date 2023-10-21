@@ -2,6 +2,7 @@ package com.primapp.utils
 
 import android.text.format.DateUtils
 import com.primapp.model.portfolio.ExperienceData
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -14,7 +15,7 @@ object DateTimeUtils {
     const val TIME_FORMAT = "hh:mm a"
     const val EXPERIENCE_DOB_FORMAT = "MM/dd/yyyy"
 
-    const val DEFAULT_SERVER_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+    const val DEFAULT_SERVER_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'"
 
     const val STRING_DATE_FORMAT = "dd MMM yyyy" //02 Jun 2022
     const val STRING_DATE_FORMAT_TIME = "MMM dd, yyyy | hh:mm a" //02 Jun 2022
@@ -57,14 +58,14 @@ object DateTimeUtils {
     }
 
     fun getTimeAgoFromTimeStamp(timestamp: String): String? {
-        val timestampFormat = SimpleDateFormat(DEFAULT_SERVER_TIME_FORMAT, Locale.getDefault())
-        timestampFormat.timeZone = TimeZone.getTimeZone("UTC")
-        val date = timestampFormat.parse(timestamp)
-        return if (date == null) null else DateUtils.getRelativeTimeSpanString(
-            date.time,
-            Calendar.getInstance().timeInMillis,
-            DateUtils.MINUTE_IN_MILLIS
-        ).toString()
+            val timestampFormat = SimpleDateFormat(DEFAULT_SERVER_TIME_FORMAT, Locale.getDefault())
+            timestampFormat.timeZone = TimeZone.getTimeZone("UTC")
+            val date = timestampFormat.parse(timestamp)
+            return if (date == null) null else DateUtils.getRelativeTimeSpanString(
+                date.time,
+                Calendar.getInstance().timeInMillis,
+                DateUtils.MINUTE_IN_MILLIS
+            ).toString()
     }
 
     fun getDateFromTimeStamp(timestamp: String): Date? {

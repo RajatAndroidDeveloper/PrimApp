@@ -5,7 +5,7 @@
         android:id="@+id/updatesFragment"
         android:enabled="true"
         android:icon="@drawable/home_selector"
-        android:title="@string/updates" />
+        android:title="@string/home" />
 
     <item
         android:id="@+id/notificationsFragment"

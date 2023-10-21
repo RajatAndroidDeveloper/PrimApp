@@ -30,7 +30,10 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/space_small">
+            android:paddingLeft="@dimen/space_small"
+            android:paddingRight="@dimen/space_small"
+            android:paddingTop="@dimen/space_normal"
+            android:paddingBottom="@dimen/space_normal">
 
             <ImageView
                 android:id="@+id/ivProfilePic"
@@ -50,6 +53,7 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:text="@string/create_post_message"
+                android:textSize="@dimen/textNormal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/ivProfilePic"
                 app:layout_constraintTop_toTopOf="@id/ivProfilePic" />

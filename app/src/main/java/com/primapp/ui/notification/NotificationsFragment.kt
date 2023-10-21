@@ -1,5 +1,7 @@
 package com.primapp.ui.notification
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.core.view.setPadding
@@ -59,6 +61,7 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
     private lateinit var webSocketListener: WebSocketListener
     private val okHttpClient = OkHttpClient()
     val activityScope = CoroutineScope(Dispatchers.Main)
+    lateinit var context: Activity
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -66,13 +69,14 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
         setToolbar("Notifications", toolbar)
 
         webSocketListener = WebSocketListener(mViewModel)
+        context = requireActivity() as DashboardActivity
         setData()
         setAdapter()
         setObserver()
 
         webSocket = okHttpClient.newWebSocket(createRequest(), webSocketListener)
 
-        activityScope.launch {
+        lifecycleScope.launch {
             delay(1500)
             findOnlineOfflineStatus()
         }
@@ -256,7 +260,7 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
     }
 
     private fun createRequest(): Request {
-        val websocketURL = "wss://api.prim-technology.com/ws/online-status/?token=${UserCache.getAccessToken(requireActivity())}"
+        val websocketURL = "wss://api.prim-technology.com/ws/online-status/?token=${UserCache.getAccessToken(context)}"
 
         return Request.Builder()
             .url(websocketURL)
@@ -266,7 +270,7 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
     private fun findOnlineOfflineStatus(){
         webSocket = okHttpClient.newWebSocket(createRequest(), webSocketListener)
 
-        mViewModel.messages.observe(requireActivity()) {
+        mViewModel.messages.observe(viewLifecycleOwner) {
             var mainMentorsMenteeList = ArrayList<ResultsItem>()
             mainMentorsMenteeList.clear()
             mainMentorsMenteeList = Gson().fromJson<ArrayList<ResultsItem>>(it.second, object :

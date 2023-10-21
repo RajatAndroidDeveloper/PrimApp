@@ -29,6 +29,7 @@
             android:layout_height="wrap_content"
             android:drawableStart="@null"
             android:gravity="top"
+            android:textSize="@dimen/textNormal"
             android:hint="@string/create_post_placeholder"
             android:imeActionLabel="Done"
             android:imeOptions="actionDone"
@@ -57,6 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@drawable/shape_rounded_corner_grey_small_corner"
+                android:backgroundTint="@color/lightestGrey"
                 android:onClick="@{()->frag.showFileOptions()}"
                 android:padding="@dimen/space_small"
                 android:orientation="horizontal">
@@ -67,7 +69,7 @@
                     android:layout_height="@dimen/space_extraLarge"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/ic_live_camera"
-                    android:tint="@color/black" />
+                    app:tint="@color/textColor" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -77,6 +79,7 @@
                     android:ellipsize="end"
                     android:paddingLeft="@dimen/space_extraSmall"
                     android:text="@string/photo"
+                    android:textColor="@color/textColor"
                     android:textSize="@dimen/textMedium" />
             </LinearLayout>
 
@@ -86,6 +89,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/space_small"
                 android:padding="@dimen/space_small"
+                android:backgroundTint="@color/lightestGrey"
                 android:background="@drawable/shape_rounded_corner_grey_small_corner"
                 android:onClick="@{()->frag.openGalleryToSelectVideoPhoto()}"
                 android:orientation="horizontal">
@@ -96,7 +100,7 @@
                     android:layout_width="@dimen/space_extraLarge"
                     android:layout_height="@dimen/space_extraLarge"
                     android:src="@drawable/ic_gallery"
-                    android:tint="@color/black" />
+                    app:tint="@color/textColor" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -104,6 +108,7 @@
                     android:fontFamily="@font/poppins_light"
                     android:paddingLeft="@dimen/space_extraSmall"
                     android:layout_gravity="center_vertical"
+                    android:textColor="@color/textColor"
                     android:ellipsize="end"
                     android:text="@string/video"
                     android:textSize="@dimen/textMedium" />
@@ -117,6 +122,7 @@
                 android:layout_marginStart="@dimen/space_small"
                 android:background="@drawable/shape_rounded_corner_grey_small_corner"
                 android:onClick="@{()->frag.attachDocument()}"
+                android:backgroundTint="@color/lightestGrey"
                 android:orientation="horizontal">
 
                 <ImageButton
@@ -126,9 +132,10 @@
                     android:layout_gravity="center_vertical"
                     android:scaleType="center"
                     android:src="@drawable/ic_attachment"
-                    android:tint="@color/black" />
+                    app:tint="@color/textColor" />
 
                 <TextView
+                    android:textColor="@color/textColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"

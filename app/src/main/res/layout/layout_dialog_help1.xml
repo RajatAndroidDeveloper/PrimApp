@@ -28,7 +28,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:padding="@dimen/space_largeX"
+                android:paddingLeft="@dimen/space_largeX"
+                android:paddingRight="@dimen/space_largeX"
+                android:paddingTop="@dimen/space_extraLarge"
+                android:paddingBottom="@dimen/space_extraLarge"
                 android:text="@string/username_help_text"
                 android:textAppearance="?attr/textAppearanceSearchResultTitle"
                 android:textColor="@color/textColor" />

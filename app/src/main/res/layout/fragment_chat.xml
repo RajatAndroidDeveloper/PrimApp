@@ -60,10 +60,9 @@
                 android:onClick="@{()->frag.sendUserMessage()}"
                 android:padding="@dimen/space_small"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_baseline_send_24"
+                android:src="@drawable/ic_send_icon"
                 android:text="@string/send"
                 android:textAllCaps="true"
-                android:tint="@drawable/chat_send_button_selector"
                 android:textStyle="bold" />
         </LinearLayout>
 

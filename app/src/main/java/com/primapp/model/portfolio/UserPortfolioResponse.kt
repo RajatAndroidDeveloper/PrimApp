@@ -36,6 +36,8 @@ data class ExperienceData(
     val jobType: JobType?,
     @SerializedName("location")
     val location: String?,
+    @SerializedName("country")
+    val country: String?,
     @SerializedName("months")
     val months: Int = 0,
     @SerializedName("title")

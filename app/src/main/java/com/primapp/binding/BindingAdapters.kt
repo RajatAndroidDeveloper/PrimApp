@@ -710,7 +710,7 @@ fun portfolioExperienceText(textView: TextView, data: ExperienceData?) {
     data?.let {
         var textToDisplay = ""
         if (it.isCurrentCompany) {
-            textToDisplay = "Current | ${it.location}"
+            textToDisplay = "Currently Working | ${it.country?:""}"
         } else {
             if (it.years != 0) {
                 textToDisplay = "${textView.resources.getQuantityString(R.plurals.count_years, it.years, it.years)} "
@@ -724,7 +724,7 @@ fun portfolioExperienceText(textView: TextView, data: ExperienceData?) {
                     )
                 } "
             }
-            textToDisplay = "${textToDisplay}| ${it.location}"
+            textToDisplay = "${textToDisplay}| ${it.country?:""}"
         }
         textView.text = textToDisplay
     }
