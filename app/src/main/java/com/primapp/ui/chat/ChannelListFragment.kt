@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.navigation.fragment.findNavController
@@ -18,6 +19,7 @@ import com.primapp.extensions.setDivider
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.chat.adapter.ChannelListAdapter
 import com.primapp.ui.dashboard.DashboardActivity
+import com.primapp.utils.visible
 import com.sendbird.android.*
 import com.sendbird.android.channel.BaseChannel
 import com.sendbird.android.channel.GroupChannel
@@ -28,8 +30,11 @@ import com.sendbird.android.exception.SendbirdException
 import com.sendbird.android.handler.GroupChannelHandler
 import com.sendbird.android.message.BaseMessage
 import com.sendbird.android.params.GroupChannelListQueryParams
+import kotlinx.android.synthetic.main.activity_dashboard.drawerLayout
 import kotlinx.android.synthetic.main.toolbar_community_back.*
+import kotlinx.android.synthetic.main.toolbar_dashboard_accent.ivEndIcon
 import kotlinx.android.synthetic.main.toolbar_dashboard_accent.ivMenu
+import kotlinx.android.synthetic.main.toolbar_dashboard_accent.ivPortfolio
 
 class ChannelListFragment : BaseFragment<FragmentChannelListBinding>() {
 
@@ -52,11 +57,16 @@ class ChannelListFragment : BaseFragment<FragmentChannelListBinding>() {
 
     private fun setData() {
         binding.frag = this
-        ivCreateNewMessage.isVisible = true
-        ivAdd.isVisible = false
-
-        ivCreateNewMessage.setOnClickListener {
+        ivPortfolio.setImageResource(R.drawable.edit)
+        setToolbar(getString(R.string.messages), toolbar)
+        ivMenu.visible(true)
+        ivPortfolio.visible(true)
+        ivEndIcon.visible(false)
+        ivPortfolio.setOnClickListener {
             findNavController().navigate(R.id.createChannelFragment)
+        }
+        ivMenu.setOnClickListener {
+            (requireActivity() as DashboardActivity).drawerLayout.openDrawer(GravityCompat.START)
         }
     }
 

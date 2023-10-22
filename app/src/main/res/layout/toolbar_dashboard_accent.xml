@@ -62,7 +62,8 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:visibility="gone"
-                    android:src="@drawable/portfolio"
+                    android:src="@drawable/edit"
+                    app:tint="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/ivEndIcon"
                     app:layout_constraintTop_toTopOf="parent" />

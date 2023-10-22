@@ -3,6 +3,7 @@ package com.primapp.ui.notification
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.core.view.setPadding
 import androidx.fragment.app.viewModels
@@ -31,8 +32,10 @@ import com.primapp.ui.notification.adapter.NotificationsPagedAdapter
 import com.primapp.utils.AnalyticsManager
 import com.primapp.utils.DialogUtils
 import com.primapp.utils.checkIsNetworkConnected
+import com.primapp.utils.visible
 import com.primapp.viewmodels.CommunitiesViewModel
 import com.primapp.viewmodels.NotificationViewModel
+import kotlinx.android.synthetic.main.activity_dashboard.drawerLayout
 import kotlinx.android.synthetic.main.toolbar_dashboard_accent.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -93,6 +96,11 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
                 notificationFilterType = filterType
                 getNotification(notificationFilterType)
             }
+        }
+
+        ivMenu.visible(true)
+        ivMenu.setOnClickListener {
+            (requireActivity() as DashboardActivity).drawerLayout.openDrawer(GravityCompat.START)
         }
 
         if (checkIsNetworkConnected(requireActivity())) {

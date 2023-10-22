@@ -1,6 +1,8 @@
 package com.primapp.ui.communities
 
 import android.os.Bundle
+import android.view.View
+import androidx.core.view.GravityCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -15,9 +17,15 @@ import com.primapp.model.category.ParentCategoryResult
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
 import com.primapp.ui.communities.adapter.ParentCategoryListAdapter
+import com.primapp.ui.dashboard.DashboardActivity
 import com.primapp.utils.AnalyticsManager
 import com.primapp.utils.checkIsNetworkConnected
+import com.primapp.utils.visible
 import com.primapp.viewmodels.CommunitiesViewModel
+import kotlinx.android.synthetic.main.activity_dashboard.drawerLayout
+import kotlinx.android.synthetic.main.toolbar_dashboard_accent.ivEndIcon
+import kotlinx.android.synthetic.main.toolbar_dashboard_accent.ivMenu
+import kotlinx.android.synthetic.main.toolbar_dashboard_accent.toolbar
 import kotlinx.coroutines.launch
 
 class CommunitiesFragment : BaseFragment<FragmentCommunitiesBinding>() {
@@ -81,6 +89,14 @@ class CommunitiesFragment : BaseFragment<FragmentCommunitiesBinding>() {
         binding.frag = this
         binding.viewModel = viewModel
         isNewUser = CommunitiesFragmentArgs.fromBundle(requireArguments()).isNewUser
+
+        ivEndIcon.visible(false)
+        ivMenu.visible(true)
+
+        setToolbar(getString(R.string.communities), toolbar)
+        ivMenu.setOnClickListener {
+            (requireActivity() as DashboardActivity).drawerLayout.openDrawer(GravityCompat.START)
+        }
     }
 
     private fun setObserver() {

@@ -267,7 +267,8 @@ class DashboardActivity : BaseActivity() {
         //Hide Show the toolbar here
         if (bottomNavLabels.contains(destination.label)) {
             bottomNavigationView.visibility = View.VISIBLE
-        } else {
+        }
+        if(destination.label == "ChatFragment") {
             bottomNavigationView.visibility = View.GONE
         }
     }

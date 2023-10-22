@@ -18,8 +18,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/community_bg"
-        android:paddingTop="@dimen/space_systemTopInset">
+        android:background="@drawable/community_bg">
 
         <TextView
             android:id="@+id/tvHeading"
@@ -27,11 +26,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_normal"
+            android:visibility="gone"
             android:text="@string/communities"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <include layout="@layout/toolbar_dashboard_accent" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefresh"
@@ -40,7 +42,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvHeading"
+            app:layout_constraintTop_toBottomOf="@id/clToolbar"
             app:onRefreshListener="@{()->frag.refreshData()}">
 
             <androidx.recyclerview.widget.RecyclerView

@@ -17,7 +17,7 @@
         android:background="@color/backgroundColor"
         android:orientation="vertical">
 
-        <include layout="@layout/toolbar_community_back" />
+        <include layout="@layout/toolbar_dashboard_accent" />
 
         <EditText
             android:id="@+id/etSearch"
