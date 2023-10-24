@@ -525,6 +525,7 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
             Log.d("anshul", "textview is null : ${tvCount == null} conext : ${context == null}")
             tvCount?.text = getPrettyNumber(totalUnreadMessageCount)
             tvCount?.isVisible = totalUnreadMessageCount > 0
+            tvCount?.visible(false)
         }
     }
 
