@@ -9,15 +9,19 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
 import com.primapp.R
+import com.primapp.binding.replyCount
 import com.primapp.cache.UserCache
 import com.primapp.constants.CommunityStatusTypes
 import com.primapp.databinding.FragmentPostCommentReplyBinding
 import com.primapp.extensions.showError
 import com.primapp.extensions.smoothScrollTo
+import com.primapp.model.DeleteReply
 import com.primapp.model.LikeReply
 import com.primapp.model.comment.CommentData
 import com.primapp.model.post.PostListResult
+import com.primapp.model.reply.ReplyData
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
@@ -43,6 +47,7 @@ class PostCommentReplyFragment : BaseFragment<FragmentPostCommentReplyBinding>()
     val adapter by lazy { PostCommentReplyPagedAdapter { item -> onItemClick(item) } }
 
     val viewModel by viewModels<PostsViewModel> { viewModelFactory }
+    private var selectedReplyId = -1
 
     override fun getLayoutRes(): Int = R.layout.fragment_post_comment_reply
 
@@ -111,6 +116,24 @@ class PostCommentReplyFragment : BaseFragment<FragmentPostCommentReplyBinding>()
                             mainCommentData.likeCount++
                             binding.mainCommentData = mainCommentData
                         }
+                    }
+                }
+            }
+        })
+
+        viewModel.replyDeleteLiveData.observe(viewLifecycleOwner, Observer {
+            hideLoading()
+            it.getContentIfNotHandled()?.let {
+                when (it.status) {
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.SUCCESS -> {
+                        adapter.removeReply(selectedReplyId)
+                        selectedReplyId = -1
                     }
                 }
             }
@@ -315,6 +338,13 @@ class PostCommentReplyFragment : BaseFragment<FragmentPostCommentReplyBinding>()
                     )
                 }
             }
+
+            is DeleteReply -> {
+                if(any.replyData.user.id ==  UserCache.getUserId(requireContext()) || postData.user.id == UserCache.getUserId(requireContext())){
+                    Log.e("asasdasasas",Gson().toJson(any.replyData))
+                    showCommentMoreOptions(any.replyData)
+                }
+            }
         }
     }
 
@@ -353,6 +383,23 @@ class PostCommentReplyFragment : BaseFragment<FragmentPostCommentReplyBinding>()
 
         binding.includeMainComment.tvRepliesCount.setOnClickListener {
             binding.nestedScrollView.smoothScrollTo(binding.rvCommentsReply)
+        }
+    }
+
+    private fun showCommentMoreOptions(replyData: ReplyData) {
+        DialogUtils.showCommentHideDeleteOptions(requireContext()) {
+            when (it) {
+                "Delete"-> {
+                    selectedReplyId = replyData.id
+                    viewModel.deleteReply(postData.community.id, postData.id, replyData.id)
+                }
+                "Update"->{
+
+                }
+                else -> {
+
+                }
+            }
         }
     }
 }

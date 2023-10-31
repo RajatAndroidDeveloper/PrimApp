@@ -611,6 +611,12 @@
             app:destination="@id/projectDetailsFragment" />
     </fragment>
     <fragment
+        android:id="@+id/accountSettingsFragment"
+        android:name="com.primapp.ui.settings.AccountSettingsFragment"
+        android:label="AccountSettingsFragment"
+        tools:layout="@layout/fragment_account_settings">
+    </fragment>
+    <fragment
         android:id="@+id/totalEarningAndSpendingFragment"
         android:name="com.primapp.ui.earning.TotalEarningAndSpendingFragment"
         android:label="TotalEarningAndSpendingFragment"

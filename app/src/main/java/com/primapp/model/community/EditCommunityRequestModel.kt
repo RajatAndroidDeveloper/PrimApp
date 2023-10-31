@@ -12,6 +12,8 @@ data class EditCommunityRequestModel(
     var communityName: String?,
     @SerializedName("status")
     var status: String,
+    @SerializedName("category")
+    var category: Int,
     @SerializedName("community_image_file")
     var communityImageFile: String? = null
 ) {

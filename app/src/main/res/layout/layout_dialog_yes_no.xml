@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:foreground="?android:attr/selectableItemBackground"
-        app:cardBackgroundColor="@color/backgroundColor"
+        app:cardBackgroundColor="@color/dialogBackgroundColor"
         app:cardCornerRadius="12dp"
         app:cardElevation="0dp"
         app:cardUseCompatPadding="false">
@@ -46,7 +46,7 @@
                     app:layout_constraintEnd_toStartOf="@id/btnNo"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintWidth_percent=".36" />
+                    app:layout_constraintWidth_percent=".40" />
 
                 <Button
                     android:id="@+id/btnNo"
@@ -58,7 +58,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/btnYes"
                     app:layout_constraintTop_toTopOf="@id/btnYes"
-                    app:layout_constraintWidth_percent=".36" />
+                    app:layout_constraintWidth_percent=".40" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>

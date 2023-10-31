@@ -225,6 +225,22 @@ class PostRepository @Inject constructor(
         }
     }
 
+    suspend fun deleteComment(communityId:Int, postId: Int, commentID:Int): Resource<PostActionResponseModel> {
+        return try {
+            responseHandler.handleResponse(apiService.deleteCommentData(communityId, postId, commentID))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    suspend fun deleteReply(communityId:Int, postId: Int, replyId:Int): Resource<PostActionResponseModel> {
+        return try {
+            responseHandler.handleResponse(apiService.deleteReply(communityId, postId, replyId))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
     fun getPostReplies(communityId: Int, commentId: Int): LiveData<PagingData<ReplyData>> {
         return Pager(
             config = PagingConfig(

@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.NavArgument
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -27,8 +28,10 @@ import com.primapp.R
 import com.primapp.cache.UserCache
 import com.primapp.chat.ConnectionManager
 import com.primapp.extensions.loadCircularImage
+import com.primapp.extensions.showError
 import com.primapp.fcm.MyFirebaseMessagingService
 import com.primapp.retrofit.ApiConstant
+import com.primapp.retrofit.base.Status
 import com.primapp.ui.MainActivity
 import com.primapp.ui.base.BaseActivity
 import com.primapp.ui.profile.UserPostsFragment
@@ -364,6 +367,11 @@ class DashboardActivity : BaseActivity() {
             logout()
         }
 
+        llDeleteAccount.setOnClickListener {
+            drawerLayout.closeDrawer(GravityCompat.START)
+            navController.navigate(R.id.accountSettingsFragment)
+        }
+
         llDashboard.setOnClickListener {
             drawerLayout.closeDrawer(GravityCompat.START)
             var bundle = Bundle()
@@ -450,8 +458,6 @@ class DashboardActivity : BaseActivity() {
                     logoutFromSendBird()
                 }
             })
-
-
         })
     }
 

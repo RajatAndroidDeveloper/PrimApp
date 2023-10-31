@@ -400,4 +400,24 @@ class CommunitiesViewModel @Inject constructor(
     fun setStatus(status: Boolean) = viewModelScope.launch(Dispatchers.Main) {
         _socketStatus.value = status
     }
+
+    // get Parent Category List
+    private var _parentCategoryLiveData = MutableLiveData<Event<Resource<ParentCategoryResponseModel>>>()
+    var parentCategoryLiveData: LiveData<Event<Resource<ParentCategoryResponseModel>>> =
+        _parentCategoryLiveData
+
+    fun getParentCategoriesList(offset: Int, limit: Int) = viewModelScope.launch {
+        _parentCategoryLiveData.postValue(Event(Resource.loading(null)))
+        _parentCategoryLiveData.postValue(Event(repo.getParentCategoryList(offset, limit)))
+    }
+
+    // Delete Account
+    private var _deleteAccountLiveData = MutableLiveData<Event<Resource<PostActionResponseModel>>>()
+    var deleteAccountLiveData: LiveData<Event<Resource<PostActionResponseModel>>> =
+        _deleteAccountLiveData
+
+    fun deleteYourAccount(userID: Int) = viewModelScope.launch {
+        _deleteAccountLiveData.postValue(Event(Resource.loading(null)))
+        _deleteAccountLiveData.postValue(Event(repo.deleteAccount(userID)))
+    }
 }

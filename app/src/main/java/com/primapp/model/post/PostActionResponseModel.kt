@@ -5,7 +5,9 @@ import com.primapp.retrofit.base.BaseDataModel
 
 data class PostActionResponseModel(
     @SerializedName("content")
-    val content: PostActionContent
+    val content: PostActionContent,
+    @SerializedName("message")
+    val message: String?,
 ) : BaseDataModel()
 
 data class PostActionContent(

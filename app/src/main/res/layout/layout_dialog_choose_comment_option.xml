@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black_transparent">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:id="@+id/llOptions"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/textMediumX"
+            android:layout_marginTop="@dimen/textMediumX"
+            android:layout_marginRight="@dimen/textMediumX"
+            android:background="@drawable/shape_large_rounded_corner"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/textExtraLargeXXX"
+                android:fontFamily="@font/poppins_regular"
+                android:text="Delete"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:textColor="@color/red"
+                android:id="@+id/tvDelete"
+                android:textSize="@dimen/textLarge"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height=".5dp"
+                android:visibility="gone"
+                android:background="@color/lightestGreyHint" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/textExtraLargeXXX"
+                android:fontFamily="@font/poppins_regular"
+                android:text="Hide"
+                android:layout_gravity="center_vertical"
+                android:visibility="gone"
+                android:id="@+id/tvHide"
+                android:gravity="center"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/textLarge"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height=".5dp"
+                android:visibility="gone"
+                android:background="@color/lightestGreyHint" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/textExtraLargeXXX"
+                android:fontFamily="@font/poppins_regular"
+                android:text="Update"
+                android:visibility="gone"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/tvUpdate"
+                android:gravity="center"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/textLarge"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvCancel"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/textExtraLargeXXX"
+            android:layout_marginTop="@dimen/space_small"
+            android:layout_marginBottom="@dimen/textMediumX"
+            android:background="@drawable/shape_large_rounded_corner"
+            android:fontFamily="@font/poppins_semibold"
+            android:gravity="center"
+            android:paddingStart="@dimen/textLargeX"
+            android:text="Cancel"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/textLarge"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/llOptions"
+            app:layout_constraintStart_toStartOf="@id/llOptions"
+            app:layout_constraintTop_toBottomOf="@id/llOptions" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.primapp.R
 import com.primapp.databinding.ItemPostCommentReplyBinding
+import com.primapp.model.DeleteReply
 import com.primapp.model.LikeReply
+import com.primapp.model.comment.CommentData
 import com.primapp.model.reply.ReplyData
 import javax.inject.Inject
 
@@ -25,6 +27,16 @@ class PostCommentReplyPagedAdapter @Inject constructor(val onItemClick: (Any?) -
             notifyItemChanged(position)
         }
     }
+
+    fun removeReply(replyID: Int?) {
+        val item: ReplyData? = snapshot().items.find { it.id == replyID }
+        item?.let {
+            val position = snapshot().items.indexOf(it)
+            snapshot().toMutableList().apply { removeAt(position) }
+            notifyItemRemoved(position)
+        }
+    }
+
 
     fun markReplyAsDisliked(replyId: Int?) {
         val item: ReplyData? = snapshot().items.find { it.id == replyId }
@@ -61,6 +73,10 @@ class PostCommentReplyPagedAdapter @Inject constructor(val onItemClick: (Any?) -
 
             binding.tvReplyLike.setOnClickListener {
                 onItemClick(LikeReply(data))
+            }
+
+            binding.llCommentPost.setOnClickListener {
+                onItemClick(DeleteReply(data))
             }
         }
     }

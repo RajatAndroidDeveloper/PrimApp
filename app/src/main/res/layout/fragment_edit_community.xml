@@ -96,22 +96,25 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tlCommunityCategory"
-                style="@style/myTextInputLabel"
-                android:layout_marginTop="@dimen/space_small"
-                android:enabled="false"
-                android:hint="@string/category"
+                android:id="@+id/tlSelectCategory"
+                style="@style/myTextInputLabel_DropDown"
+                android:layout_marginTop="@dimen/space_normal"
+                android:hint="@string/select_category"
                 app:errorEnabled="true"
-                app:errorIconDrawable="@null"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tlCommunityDescription">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etCommunityCategoryName"
-                    style="@style/editTextInput"
-                    android:inputType="textPersonName" />
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/mAutoCompleteCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeActionLabel="Done"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true" />
+
             </com.google.android.material.textfield.TextInputLayout>
+
 
             <LinearLayout
                 android:id="@+id/llCommunityStatus"
@@ -119,9 +122,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_small"
                 android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="@id/tlCommunityCategory"
-                app:layout_constraintStart_toStartOf="@id/tlCommunityCategory"
-                app:layout_constraintTop_toBottomOf="@id/tlCommunityCategory">
+                app:layout_constraintEnd_toEndOf="@id/tlSelectCategory"
+                app:layout_constraintStart_toStartOf="@id/tlSelectCategory"
+                app:layout_constraintTop_toBottomOf="@id/tlSelectCategory">
 
                 <TextView
                     style="@style/normalBodyText"

@@ -29,6 +29,7 @@ import com.primapp.ui.profile.*
 import com.primapp.ui.profile.other.OtherUserProfileFragment
 import com.primapp.ui.rewards.EarnedRewardsFragment
 import com.primapp.ui.settings.AboutUsFragment
+import com.primapp.ui.settings.AccountSettingsFragment
 import com.primapp.ui.settings.SettingsFragment
 import com.primapp.ui.settings.help.HelpAndSupportFragment
 import com.primapp.ui.settings.help.ReportProblemFragment
@@ -215,4 +216,7 @@ abstract class DashboardFragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeRatingFragment(): RatingFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeAccountSettingFragment(): AccountSettingsFragment
 }

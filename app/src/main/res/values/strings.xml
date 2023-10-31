@@ -553,6 +553,10 @@
     <string name="photo">Photo</string>
     <string name="document">Document</string>
     <string name="home">Home</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="delete_account_message">Are you sure you want to delete your Account?</string>
+    <string name="account_settings">Account Settings</string>
+    <string name="are_you_sure_you_want_to_delete_account">Are you sure you want to delete account?</string>
 
     <string-array name="categories">
         <item>Mentor</item>

@@ -31,6 +31,10 @@ import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import androidx.recyclerview.widget.RecyclerView
+import com.primapp.model.CommentMoreOptions
+import com.primapp.model.DeleteCommentReply
+import com.primapp.model.DeleteReply
+import com.primapp.model.reply.ReplyData
 
 class PostCommentFragment : BaseFragment<FragmentPostCommentBinding>() {
 
@@ -45,6 +49,8 @@ class PostCommentFragment : BaseFragment<FragmentPostCommentBinding>() {
     val viewModel by viewModels<PostsViewModel> { viewModelFactory }
 
     override fun getLayoutRes(): Int = R.layout.fragment_post_comment
+    private var selectedCommentId: Int = -1
+    private var selectedReplyId: Int = -1
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -108,6 +114,23 @@ class PostCommentFragment : BaseFragment<FragmentPostCommentBinding>() {
             }
         })
 
+        viewModel.commentDeleteLiveData.observe(viewLifecycleOwner, Observer {
+            hideLoading()
+            it.getContentIfNotHandled()?.let {
+                when (it.status) {
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.SUCCESS -> {
+                        adapter.removeComment(selectedCommentId)
+                    }
+                }
+            }
+        })
+
         viewModel.unlikeCommentLiveData.observe(viewLifecycleOwner, Observer {
             hideLoading()
             it.getContentIfNotHandled()?.let {
@@ -146,6 +169,32 @@ class PostCommentFragment : BaseFragment<FragmentPostCommentBinding>() {
                                     parentViewHolder?.itemView?.findViewById(R.id.rvCommentsReply)
                                 val adapter = recyclerView?.adapter as? ReplyListAdapter
                                 adapter?.markReplyAsLiked(it.replyId)
+                            }
+                        }
+                    }
+                }
+            }
+        })
+
+        viewModel.replyDeleteLiveData.observe(viewLifecycleOwner, Observer {
+            hideLoading()
+            it.getContentIfNotHandled()?.let {
+                when (it.status) {
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+                    Status.SUCCESS -> {
+                        it.data?.content?.let {
+                            if (commentAdapterPosition != -1) {
+                                val parentViewHolder: RecyclerView.ViewHolder? =
+                                    binding.rvComments.findViewHolderForAdapterPosition(commentAdapterPosition)
+                                val recyclerView: RecyclerView? =
+                                    parentViewHolder?.itemView?.findViewById(R.id.rvCommentsReply)
+                                val adapter = recyclerView?.adapter as? ReplyListAdapter
+                                adapter?.removeReply(selectedReplyId)
                             }
                         }
                     }
@@ -340,6 +389,53 @@ class PostCommentFragment : BaseFragment<FragmentPostCommentBinding>() {
                     )
                 }
             }
+
+            is DeleteCommentReply -> {
+                if(any.replyData.user.id == UserCache.getUserId(requireContext()) || postData.user.id == UserCache.getUserId(requireContext())) {
+                    DialogUtils.showCommentHideDeleteOptions(requireContext()) {
+                        when (it) {
+                            "Delete"-> {
+                                selectedReplyId = any.replyData.id
+                                viewModel.deleteReply(postData.community.id, postData.id, any.replyData.id)
+                            }
+                            "Update"->{
+
+                            }
+                            else -> {
+
+                            }
+                        }
+                    }
+                }
+            }
+
+            is CommentMoreOptions -> {
+                if(any.commentData.user.id == UserCache.getUserId(requireContext()) || postData.user.id == UserCache.getUserId(requireContext())) {
+                    showCommentMoreOptions(any.commentData)
+                }
+            }
         }
+    }
+
+    private fun showCommentMoreOptions(any: Any) {
+        when(any) {
+            is CommentData->{
+                DialogUtils.showCommentHideDeleteOptions(requireContext()) {
+                    when (it) {
+                        "Delete"-> {
+                            selectedCommentId = any.id
+                            viewModel.deleteComment(postData.community.id, postData.id, any.id)
+                        }
+                        "Update"->{
+
+                        }
+                        else -> {
+
+                        }
+                    }
+                }
+            }
+        }
+
     }
 }

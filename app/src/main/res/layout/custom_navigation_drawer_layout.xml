@@ -482,7 +482,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/llLogout"
+                android:id="@+id/llDeleteAccount"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_extraSmall"
@@ -493,6 +493,34 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/ivProfileImage"
                 app:layout_constraintTop_toBottomOf="@id/llSecurity">
+
+                <ImageView
+                    android:layout_width="@dimen/textLarge"
+                    android:layout_height="@dimen/textLarge"
+                    app:tint="@color/colorAccent"
+                    android:src="@drawable/account_settings_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/space_small"
+                    android:text="@string/account_settings"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/textMedium" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llLogout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_extraSmall"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/space_extraSmall"
+                android:paddingBottom="@dimen/space_extraSmall"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/ivProfileImage"
+                app:layout_constraintTop_toBottomOf="@id/llDeleteAccount">
 
                 <ImageView
                     android:layout_width="@dimen/textMediumX"

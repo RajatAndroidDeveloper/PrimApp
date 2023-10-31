@@ -65,6 +65,11 @@ class AutoCompleteCategoryArrayAdapter(
         return itemList.find { it.categoryName.equals(value, true) } != null
     }
 
+    fun getCategoryName(value: Int): String {
+        val item = itemList.find { it.id == value }
+        return item!!.categoryName
+    }
+
     fun getItemId(value: String): Int? {
         val item = itemList.find { it.categoryName.equals(value, true) }
         return item!!.id

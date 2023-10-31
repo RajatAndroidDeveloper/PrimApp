@@ -10,10 +10,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.primapp.R
 import com.primapp.databinding.ItemPostCommentBinding
+import com.primapp.model.CommentMoreOptions
+import com.primapp.model.DeleteCommentReply
+import com.primapp.model.DeleteReply
 import com.primapp.model.LikeComment
 import com.primapp.model.LikeCommentReply
 import com.primapp.model.LikeReply
 import com.primapp.model.comment.CommentData
+import org.w3c.dom.Comment
 import javax.inject.Inject
 
 class CommentsListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) :
@@ -36,6 +40,15 @@ class CommentsListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Un
             snapshot().items.get(position).isLike = false
             snapshot().items[position].likeCount--
             notifyItemChanged(position)
+        }
+    }
+
+    fun removeComment(commentId: Int?) {
+        val item: CommentData? = snapshot().items.find { it.id == commentId }
+        item?.let{
+            val position = snapshot().items.indexOf(it)
+            snapshot().toMutableList().apply { removeAt(position) }
+            notifyItemRemoved(position)
         }
     }
 
@@ -77,6 +90,10 @@ class CommentsListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Un
                 onItemClick(data)
             }
 
+            binding.llCommentPost.setOnClickListener {
+                onItemClick(CommentMoreOptions(data))
+            }
+
             //Show the more text if reply are more
             binding.tvShowPreviousReplies.isVisible = data.replyCount > 1
 
@@ -84,13 +101,26 @@ class CommentsListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Un
                 //Set recycler view for reply data
                 val adapter by lazy {
                     ReplyListAdapter { item ->
-                        onItemClick(
-                            LikeCommentReply(
-                                (item as LikeReply).replyData,
-                                data.id,
-                                absoluteAdapterPosition
-                            )
-                        )
+                        when(item){
+                            is LikeReply -> {
+                                onItemClick(
+                                    LikeCommentReply(
+                                        (item).replyData,
+                                        data.id,
+                                        absoluteAdapterPosition
+                                    )
+                                )
+                            }
+                            is DeleteReply -> {
+                                onItemClick(
+                                    DeleteCommentReply(
+                                        (item).replyData,
+                                        data.id,
+                                        absoluteAdapterPosition
+                                    )
+                                )
+                            }
+                        }
                     }
                 }
 

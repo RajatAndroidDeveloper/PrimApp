@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.primapp.R
 import com.primapp.databinding.ItemPostCommentReplyBinding
+import com.primapp.model.DeleteReply
 import com.primapp.model.LikeReply
 import com.primapp.model.reply.ReplyData
 import javax.inject.Inject
@@ -29,6 +30,15 @@ class ReplyListAdapter @Inject constructor(val onItemClick: (Any) -> Unit) :
             var likeCount = replyList[position].likeCount ?: 0L
             replyList[position].likeCount = ++likeCount
             notifyItemChanged(position)
+        }
+    }
+
+    fun removeReply(replyId: Int?) {
+        val item: ReplyData? = replyList.find { it.id == replyId }
+        item?.let {
+            val position = replyList.indexOf(it)
+            replyList.removeAt(position)
+            notifyDataSetChanged()
         }
     }
 
@@ -68,6 +78,10 @@ class ReplyListAdapter @Inject constructor(val onItemClick: (Any) -> Unit) :
 
             binding.tvReplyLike.setOnClickListener {
                 onItemClick(LikeReply(data))
+            }
+
+            binding.llCommentPost.setOnClickListener{
+                onItemClick(DeleteReply(data))
             }
         }
     }

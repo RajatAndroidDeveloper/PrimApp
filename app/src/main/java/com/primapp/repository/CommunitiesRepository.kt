@@ -375,4 +375,20 @@ class CommunitiesRepository @Inject constructor(
             responseHandler.handleException(e)
         }
     }
+
+    suspend fun getParentCategoryList(offset: Int, limit: Int): Resource<ParentCategoryResponseModel> {
+        return try {
+            responseHandler.handleResponse(apiService.getParentCategories(offset, limit))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
+
+    suspend fun deleteAccount(userID: Int): Resource<PostActionResponseModel> {
+        return try {
+            responseHandler.handleResponse(apiService.deleteAccount(userID))
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
 }

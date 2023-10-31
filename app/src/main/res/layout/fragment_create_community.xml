@@ -97,6 +97,27 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tlSelectCategory"
+            style="@style/myTextInputLabel_DropDown"
+            android:layout_marginTop="@dimen/space_normal"
+            android:hint="@string/select_category"
+            android:visibility="gone"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tlCommunityDescription">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/mAutoCompleteCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeActionLabel="Done"
+                android:imeOptions="actionDone"
+                android:singleLine="true" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
         <Button
             android:id="@+id/btnSubmit"
             style="@style/buttonFilledPrimary"
@@ -108,7 +129,7 @@
             android:textAllCaps="false"
             app:layout_constraintEnd_toStartOf="@id/btnSignUp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tlCommunityDescription"
+            app:layout_constraintTop_toBottomOf="@id/tlSelectCategory"
             app:layout_constraintWidth_percent=".36" />
 
         <Button

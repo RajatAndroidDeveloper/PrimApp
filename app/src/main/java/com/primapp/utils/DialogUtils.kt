@@ -22,10 +22,16 @@ import com.primapp.model.portfolio.BenefitsData
 import com.primapp.ui.initial.AutocompleteListArrayAdapter
 import com.primapp.ui.portfolio.adapter.PortfolioAddRemoveItemAdapter
 import com.primapp.ui.portfolio.adapter.PortfolioBenefitsAdapter
+import kotlinx.android.synthetic.main.layout_dialog_choose_comment_option.tvCancel
+import kotlinx.android.synthetic.main.layout_dialog_choose_comment_option.tvDelete
+import kotlinx.android.synthetic.main.layout_dialog_choose_comment_option.tvHide
+import kotlinx.android.synthetic.main.layout_dialog_choose_comment_option.tvUpdate
 import kotlinx.android.synthetic.main.layout_dialog_choose_media_option.ivClose
 import kotlinx.android.synthetic.main.layout_dialog_choose_media_option.llImage
 import kotlinx.android.synthetic.main.layout_dialog_choose_media_option.llVideo
 import kotlinx.android.synthetic.main.layout_dialog_choose_media_option.tvClose
+import kotlinx.android.synthetic.main.layout_dialog_delete_account.llDeleteAccount
+import kotlinx.android.synthetic.main.layout_dialog_delete_account.tvCancelDialog
 import kotlinx.android.synthetic.main.layout_dialog_edittext.*
 import kotlinx.android.synthetic.main.layout_dialog_edittext.btnSave
 import kotlinx.android.synthetic.main.layout_dialog_edittext.ivDialogCloseIcon
@@ -101,6 +107,11 @@ object DialogUtils {
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.layout_dialog_yes_no)
         dialog.tvDialogYesNoMessage.text = activity.getString(messageId)
+
+        if(messageId == R.string.are_you_sure_you_want_to_delete_account) {
+            dialog.btnYes.text  = "Delete Now"
+            dialog.btnNo.text = "Cancel"
+        }
 
         dialog.btnYes.setOnClickListener {
             yesClickCallback?.invoke()
@@ -375,8 +386,6 @@ object DialogUtils {
         dialog.show()
     }
 
-
-
     fun showReadMoreDialog(
         activity: Activity,
         messageDescription: String,
@@ -395,4 +404,60 @@ object DialogUtils {
         dialog.show()
     }
 
+    fun showCommentHideDeleteOptions(
+        activity: Context,
+        actionCallback: ((filterType: String?) -> Unit)? = null
+    ) {
+        val dialog = Dialog(activity, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.setContentView(R.layout.layout_dialog_choose_comment_option)
+
+        dialog.tvCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.tvHide.setOnClickListener {
+            actionCallback?.invoke("Hide")
+            dialog.dismiss()
+        }
+
+        dialog.tvUpdate.setOnClickListener {
+            actionCallback?.invoke("Update")
+            dialog.dismiss()
+        }
+
+        dialog.tvDelete.setOnClickListener {
+            actionCallback?.invoke("Delete")
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+
+
+    fun showDeleteAccountDialog(
+        activity: Activity,
+        messageDescription: String,
+        actionCallback: ((filterType: String?) -> Unit)? = null
+    ) {
+        val dialog = Dialog(activity,android.R.style.Theme_DeviceDefault_NoActionBar_Fullscreen)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setContentView(R.layout.layout_dialog_delete_account)
+        dialog.setCanceledOnTouchOutside(true)
+        dialog.tvDialogMessage.text = messageDescription
+
+        dialog.llDeleteAccount.setOnClickListener {
+            actionCallback?.invoke("Delete")
+            dialog.dismiss()
+        }
+
+        dialog.tvCancelDialog.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
 }

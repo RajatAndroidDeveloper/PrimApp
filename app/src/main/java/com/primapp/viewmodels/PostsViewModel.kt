@@ -127,7 +127,25 @@ class PostsViewModel @Inject constructor(
         _unlikeCommentLiveData.postValue(Event(repo.unlikeComment(communityId, userId, postId, commentId)))
     }
 
+    //Delete Comment
+    private var _commentDeleteLiveData = MutableLiveData<Event<Resource<PostActionResponseModel>>>()
+    var commentDeleteLiveData: LiveData<Event<Resource<PostActionResponseModel>>> = _commentDeleteLiveData
+
+    fun deleteComment(communityId: Int, postId: Int, commentID:Int) = viewModelScope.launch {
+        _commentDeleteLiveData.postValue(Event(Resource.loading(null)))
+        _commentDeleteLiveData.postValue(Event(repo.deleteComment(communityId, postId, commentID)))
+    }
+
     //Replies
+
+    //delete reply
+    private var _replyDeleteLiveData = MutableLiveData<Event<Resource<PostActionResponseModel>>>()
+    var replyDeleteLiveData: LiveData<Event<Resource<PostActionResponseModel>>> = _replyDeleteLiveData
+
+    fun deleteReply(communityId: Int, postId: Int, replyId:Int) = viewModelScope.launch {
+        _replyDeleteLiveData.postValue(Event(Resource.loading(null)))
+        _replyDeleteLiveData.postValue(Event(repo.deleteReply(communityId, postId, replyId)))
+    }
 
     private var postReplyListResultLiveData: LiveData<PagingData<ReplyData>>? = null
 
@@ -234,5 +252,4 @@ class PostsViewModel @Inject constructor(
         _removeCulpritMembersLiveData.postValue(Event(Resource.loading(null)))
         _removeCulpritMembersLiveData.postValue(Event(repo.removeCulpritMember(communityId, postId, userId)))
     }
-
 }

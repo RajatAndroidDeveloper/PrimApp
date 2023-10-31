@@ -82,6 +82,12 @@ interface ApiService {
         @Body verifyPasswordRequestModel: PasswordVerificationRequestModel
     ): VerifyUserResponseModel
 
+
+    @DELETE(ApiConstant.DELETE_ACCOUNT)
+    suspend fun deleteAccount(
+        @Path("user-id") userId: Int
+    ): PostActionResponseModel
+
     @PUT(ApiConstant.RESEND_OTP)
     suspend fun resendOTP(@Body forgotDataRequestModel: ForgotDataRequestModel): BaseDataModel
 
@@ -275,6 +281,20 @@ interface ApiService {
         @Path("userId") userId: Int,
         @Path("postId") postId: Int,
         @Path("commentId") commentId: Int
+    ): PostActionResponseModel
+
+    @DELETE(ApiConstant.DELETE_COMMENT_DATA)
+    suspend fun deleteCommentData(
+        @Path("community-id") communityId: Int,
+        @Path("post-id") postId: Int,
+        @Path("comment-id") userId: Int,
+    ): PostActionResponseModel
+
+    @DELETE(ApiConstant.DELETE_COMMENT_REPLY)
+    suspend fun deleteReply(
+        @Path("community-id") communityId: Int,
+        @Path("post-id") postId: Int,
+        @Path("reply-id") userId: Int,
     ): PostActionResponseModel
 
     @GET(ApiConstant.LIKE_POST_MEMBERS_LIST)

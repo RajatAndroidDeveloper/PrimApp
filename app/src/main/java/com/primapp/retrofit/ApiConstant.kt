@@ -25,6 +25,7 @@ object ApiConstant {
     const val RESET_PASSWORD = "users/{userId}/reset-password"
     const val CHANGE_PASSWORD = "users/{userId}/password"
     const val RESEND_OTP = "users/resend-otp"
+    const val DELETE_ACCOUNT = "users/{user-id}"
 
     //Category and Communities
     const val GET_PARENT_CATEGORY_LIST = "categories"
@@ -70,6 +71,8 @@ object ApiConstant {
     const val GET_POST_COMMENT_REPLIES = "community/{communityId}/comment/{commentId}/replies_list"
     const val CREATE_REPLY = "communities/{communityId}/users/{userId}/posts/{postId}/comments/{commentId}/replies"
     const val LIKE_UNLIKE_REPLY = "communities/{communityId}/users/{userId}/posts/{postId}/comments/{commentId}/replies/{replyId}/likes"
+    const val DELETE_COMMENT_DATA = "communities/{community-id}/posts/{post-id}/comments/{comment-id}/"
+    const val DELETE_COMMENT_REPLY = "communities/{community-id}/posts/{post-id}/comments/{reply-id}/"
 
     //Mentor Mentee
     const val REQUEST_MENTOR = "communities/{communityId}/users/{userId}/mentors"

@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.AutoCompleteTextView
 import android.widget.CompoundButton
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -18,6 +19,7 @@ import com.primapp.extensions.showError
 import com.primapp.model.community.CommunityData
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
+import com.primapp.ui.post.create.adapter.AutoCompleteCategoryArrayAdapter
 import com.primapp.utils.AwsHelper
 import com.primapp.utils.DialogUtils
 import com.primapp.utils.FileUtils
@@ -27,6 +29,7 @@ import kotlinx.android.synthetic.main.toolbar_inner_back.*
 import java.io.File
 
 class EditCommunityFragment : BaseFragment<FragmentEditCommunityBinding>() {
+    var parentCategoryId: Int = -1
 
     var imageFile: File? = null
 
@@ -36,17 +39,25 @@ class EditCommunityFragment : BaseFragment<FragmentEditCommunityBinding>() {
 
     override fun getLayoutRes(): Int = R.layout.fragment_edit_community
 
+    val categoryAdapter by lazy {
+        AutoCompleteCategoryArrayAdapter(
+            requireContext(),
+            R.layout.item_simple_text
+        )
+    }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         setToolbar(getString(R.string.edit_community), toolbar)
         setData()
+        setUpCategoryAdapter()
         setObserver()
+        viewModel.getParentCategoriesList(0, 1000)
     }
 
     private fun setData() {
         EditCommunityFragmentArgs.fromBundle(requireArguments()).let {
-            binding.etCommunityCategoryName.setText(it.communityData.communityCategory)
+            binding.mAutoCompleteCategory.setText(it.communityData.communityCategory)
             communityData = it.communityData
         }
 
@@ -54,6 +65,7 @@ class EditCommunityFragment : BaseFragment<FragmentEditCommunityBinding>() {
             communityName = communityData.communityName
             communityDescription = communityData.communityDescription
             status = communityData.status
+            category = parentCategoryId
         }
 
         binding.ivProfilePic.loadCircularImage(requireContext(), communityData.imageUrl)
@@ -136,6 +148,27 @@ class EditCommunityFragment : BaseFragment<FragmentEditCommunityBinding>() {
                     }
                     Status.SUCCESS -> {
                         viewModel.editCommunity(communityData.id)
+                    }
+                }
+            }
+        })
+
+        viewModel.parentCategoryLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.ERROR -> {
+                        showError(requireContext(), it.message!!)
+                    }
+
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+
+                    Status.SUCCESS -> {
+                        it.data?.content?.results?.let {
+                            categoryAdapter.addAll(it)
+                        }
                     }
                 }
             }
@@ -243,7 +276,7 @@ class EditCommunityFragment : BaseFragment<FragmentEditCommunityBinding>() {
                     AwsHelper.getObjectName(
                         AwsHelper.AWS_OBJECT_TYPE.COMMUNITY,
                         communityData.id,
-                        imageFile!!.extension
+                        imageFile!!.extension,
                     )
                 )
             } else {
@@ -255,4 +288,37 @@ class EditCommunityFragment : BaseFragment<FragmentEditCommunityBinding>() {
     fun cancel() {
         findNavController().popBackStack()
     }
+
+    private fun setUpCategoryAdapter() {
+        context.apply {
+            binding.mAutoCompleteCategory.setAdapter(categoryAdapter)
+            binding.mAutoCompleteCategory.validator = object : AutoCompleteTextView.Validator {
+                override fun fixText(p0: CharSequence?): CharSequence {
+                    return ""
+                }
+
+                override fun isValid(p0: CharSequence?): Boolean {
+                    val isDataValid = categoryAdapter.contains(p0.toString())
+                    if (isDataValid) {
+                        parentCategoryId = categoryAdapter.getItemId(p0.toString())?:-1
+                        val data = viewModel.editCommunityRequestModel.value
+                        data?.category = parentCategoryId
+                        viewModel.editCommunityRequestModel.value = data
+                        parentCategoryId.let {
+                            binding.tlSelectCategory.error = null
+                        }
+                    } else {
+                        parentCategoryId = -1
+                    }
+
+                    return isDataValid
+                }
+            }
+
+            binding.mAutoCompleteCategory.setOnItemClickListener { adapterView, view, i, l ->
+                binding.mAutoCompleteCategory.clearFocus()
+            }
+        }
+    }
+
 }

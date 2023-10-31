@@ -10,6 +10,7 @@ import com.google.gson.Gson
 import com.primapp.PrimApp
 import com.primapp.R
 import com.primapp.model.aws.PresignedURLResponseModel
+import com.primapp.model.category.ParentCategoryResponseModel
 import com.primapp.model.community.CommunityDetailsResponseModel
 import com.primapp.model.community.CreateCommunityRequestModel
 import com.primapp.model.community.EditCommunityRequestModel
@@ -40,7 +41,7 @@ class EditCommunityViewModel @Inject constructor(
     init {
         errorFieldsLiveData.value = errorFields
         editCommunityRequestModel.value =
-            EditCommunityRequestModel("", "", "")
+            EditCommunityRequestModel("", "", "", -1)
     }
 
     fun validateEditCommunity(): Boolean {
@@ -128,5 +129,15 @@ class EditCommunityViewModel @Inject constructor(
         _uploadAWSLiveData.postValue(
             Event(repo.uploadtoAWS(url, key, accessKey,amzSecurityToken, policy, signature, xAmzAlgorithm, xAmzCredential, xAmzDate, xAmzSignature, file))
         )
+    }
+
+    // get Parent Category List
+    private var _parentCategoryLiveData = MutableLiveData<Event<Resource<ParentCategoryResponseModel>>>()
+    var parentCategoryLiveData: LiveData<Event<Resource<ParentCategoryResponseModel>>> =
+        _parentCategoryLiveData
+
+    fun getParentCategoriesList(offset: Int, limit: Int) = viewModelScope.launch {
+        _parentCategoryLiveData.postValue(Event(Resource.loading(null)))
+        _parentCategoryLiveData.postValue(Event(repo.getParentCategoryList(offset, limit)))
     }
 }
