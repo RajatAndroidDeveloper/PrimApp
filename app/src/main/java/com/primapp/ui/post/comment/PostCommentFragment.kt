@@ -193,8 +193,9 @@ class PostCommentFragment : BaseFragment<FragmentPostCommentBinding>() {
                                     binding.rvComments.findViewHolderForAdapterPosition(commentAdapterPosition)
                                 val recyclerView: RecyclerView? =
                                     parentViewHolder?.itemView?.findViewById(R.id.rvCommentsReply)
-                                val adapter = recyclerView?.adapter as? ReplyListAdapter
-                                adapter?.removeReply(selectedReplyId)
+                                val replyAdapter = recyclerView?.adapter as? ReplyListAdapter
+                                replyAdapter?.removeReply(selectedReplyId)
+                                adapter.refresh()
                             }
                         }
                     }
@@ -395,8 +396,9 @@ class PostCommentFragment : BaseFragment<FragmentPostCommentBinding>() {
                     DialogUtils.showCommentHideDeleteOptions(requireContext()) {
                         when (it) {
                             "Delete"-> {
+                                commentAdapterPosition = any.commentAdapterPosition
                                 selectedReplyId = any.replyData.id
-                                viewModel.deleteReply(postData.community.id, postData.id, any.replyData.id)
+                                viewModel.deleteReply(postData.community.id, postData.id, any.replyData.comment, any.replyData.id)
                             }
                             "Update"->{
 

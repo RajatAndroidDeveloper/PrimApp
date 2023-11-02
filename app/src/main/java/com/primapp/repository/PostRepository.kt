@@ -233,9 +233,9 @@ class PostRepository @Inject constructor(
         }
     }
 
-    suspend fun deleteReply(communityId:Int, postId: Int, replyId:Int): Resource<PostActionResponseModel> {
+    suspend fun deleteReply(communityId:Int, postId: Int, commentId: Int, replyId:Int): Resource<PostActionResponseModel> {
         return try {
-            responseHandler.handleResponse(apiService.deleteReply(communityId, postId, replyId))
+            responseHandler.handleResponse(apiService.deleteReply(communityId, postId, commentId, replyId))
         } catch (e: Exception) {
             responseHandler.handleException(e)
         }

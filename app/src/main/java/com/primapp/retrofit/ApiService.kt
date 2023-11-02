@@ -294,7 +294,8 @@ interface ApiService {
     suspend fun deleteReply(
         @Path("community-id") communityId: Int,
         @Path("post-id") postId: Int,
-        @Path("reply-id") userId: Int,
+        @Path("comment-id") commentId: Int,
+        @Path("reply-id") replyId: Int
     ): PostActionResponseModel
 
     @GET(ApiConstant.LIKE_POST_MEMBERS_LIST)

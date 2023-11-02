@@ -72,7 +72,7 @@ object ApiConstant {
     const val CREATE_REPLY = "communities/{communityId}/users/{userId}/posts/{postId}/comments/{commentId}/replies"
     const val LIKE_UNLIKE_REPLY = "communities/{communityId}/users/{userId}/posts/{postId}/comments/{commentId}/replies/{replyId}/likes"
     const val DELETE_COMMENT_DATA = "communities/{community-id}/posts/{post-id}/comments/{comment-id}/"
-    const val DELETE_COMMENT_REPLY = "communities/{community-id}/posts/{post-id}/comments/{reply-id}/"
+    const val DELETE_COMMENT_REPLY = "communities/{community-id}/posts/{post-id}/comments/{comment-id}/reply/{reply-id}"
 
     //Mentor Mentee
     const val REQUEST_MENTOR = "communities/{communityId}/users/{userId}/mentors"

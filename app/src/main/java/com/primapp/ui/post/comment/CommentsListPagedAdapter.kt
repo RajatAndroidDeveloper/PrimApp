@@ -52,7 +52,6 @@ class CommentsListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Un
         }
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentsViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         return CommentsViewHolder(

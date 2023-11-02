@@ -142,9 +142,9 @@ class PostsViewModel @Inject constructor(
     private var _replyDeleteLiveData = MutableLiveData<Event<Resource<PostActionResponseModel>>>()
     var replyDeleteLiveData: LiveData<Event<Resource<PostActionResponseModel>>> = _replyDeleteLiveData
 
-    fun deleteReply(communityId: Int, postId: Int, replyId:Int) = viewModelScope.launch {
+    fun deleteReply(communityId: Int, postId: Int, commentId: Int, replyId:Int) = viewModelScope.launch {
         _replyDeleteLiveData.postValue(Event(Resource.loading(null)))
-        _replyDeleteLiveData.postValue(Event(repo.deleteReply(communityId, postId, replyId)))
+        _replyDeleteLiveData.postValue(Event(repo.deleteReply(communityId, postId, commentId, replyId)))
     }
 
     private var postReplyListResultLiveData: LiveData<PagingData<ReplyData>>? = null

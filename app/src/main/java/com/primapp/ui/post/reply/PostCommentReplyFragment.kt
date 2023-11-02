@@ -134,6 +134,8 @@ class PostCommentReplyFragment : BaseFragment<FragmentPostCommentReplyBinding>()
                     Status.SUCCESS -> {
                         adapter.removeReply(selectedReplyId)
                         selectedReplyId = -1
+                        mainCommentData.replyCount--
+                        binding.mainCommentData = mainCommentData
                     }
                 }
             }
@@ -391,7 +393,7 @@ class PostCommentReplyFragment : BaseFragment<FragmentPostCommentReplyBinding>()
             when (it) {
                 "Delete"-> {
                     selectedReplyId = replyData.id
-                    viewModel.deleteReply(postData.community.id, postData.id, replyData.id)
+                    viewModel.deleteReply(postData.community.id, postData.id, replyData.comment, replyData.id)
                 }
                 "Update"->{
 
