@@ -220,7 +220,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
         if (viewModel.validateData()) {
             if (imageFile != null) {
                 viewModel.generatePresignedUrl(
-                    requireActivity().getString(R.string.profile_image_folder) + "" + AwsHelper.getObjectName(
+                    "user-id-${UserCache.getUserId(requireContext())}/"+requireActivity().getString(R.string.profile_image_folder) + "" + AwsHelper.getObjectName(
                         AwsHelper.AWS_OBJECT_TYPE.USER,
                         userData!!.id,
                         imageFile!!.extension

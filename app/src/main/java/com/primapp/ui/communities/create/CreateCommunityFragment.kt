@@ -249,7 +249,7 @@ class CreateCommunityFragment : BaseFragment<FragmentCreateCommunityBinding>() {
         if (viewModel.validateCreateCommunity()) {
             if (imageFile != null) {
                 viewModel.generatePresignedUrl(
-                    requireActivity().getString(R.string.create_community_image_folder) + "" + AwsHelper.getObjectName(
+                    "user-id-${UserCache.getUserId(requireContext())}/"+requireActivity().getString(R.string.create_community_image_folder) + "" + AwsHelper.getObjectName(
                         AwsHelper.AWS_OBJECT_TYPE.COMMUNITY,
                         parentCategoryId,
                         imageFile!!.extension

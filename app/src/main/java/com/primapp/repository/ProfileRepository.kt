@@ -73,11 +73,9 @@ class ProfileRepository @Inject constructor(
                 apiService.uploadToAWS(
                     url,
                     RetrofitUtils.getRequestBody(key),
-                    RetrofitUtils.getRequestBody(xAmzAlgorithm),
-                    RetrofitUtils.getRequestBody(xAmzCredential),
-                    RetrofitUtils.getRequestBody(xAmzDate),
+                    RetrofitUtils.getRequestBody(accessKey),
                     RetrofitUtils.getRequestBody(policy),
-                    RetrofitUtils.getRequestBody(xAmzSignature),
+                    RetrofitUtils.getRequestBody(signature),
                     file
                 )
             )
