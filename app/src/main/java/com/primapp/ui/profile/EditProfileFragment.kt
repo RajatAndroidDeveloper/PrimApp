@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.AdapterView
 import android.widget.AutoCompleteTextView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -241,8 +242,6 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
 
     private fun setAdapter() {
         context?.apply {
-
-
             binding.mAutoCompleteGender.setAdapter(genderAdapter)
 
             binding.mAutoCompleteGender.validator = object : AutoCompleteTextView.Validator {
@@ -266,7 +265,6 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
             }
 
 
-
             binding.mAutoCompleteCountry.setAdapter(countryAdapter)
 
             binding.mAutoCompleteCountry.validator = object : AutoCompleteTextView.Validator {
@@ -286,8 +284,23 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
                     return isDataValid
                 }
             }
-
         }
+
+        binding.mAutoCompleteCountry.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, arg1, pos, id ->
+                val itemData = countryAdapter.getItem(pos)
+                val data = viewModel.editProfileRequestModel.value
+                data?.countryIsoCode = itemData.itemValue
+                viewModel.editProfileRequestModel.value = data
+            }
+
+        binding.mAutoCompleteGender.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, arg1, pos, id ->
+                val itemData = genderAdapter.getItem(pos)
+                val data = viewModel.editProfileRequestModel.value
+                data?.gender = itemData.itemId
+                viewModel.editProfileRequestModel.value = data
+            }
     }
 
     fun pickImageAskPermission() {

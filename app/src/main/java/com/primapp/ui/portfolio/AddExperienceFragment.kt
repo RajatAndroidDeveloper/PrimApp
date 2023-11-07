@@ -2,6 +2,7 @@ package com.primapp.ui.portfolio
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.widget.AdapterView
 import android.widget.AutoCompleteTextView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -233,6 +234,14 @@ class AddExperienceFragment : BaseFragment<FragmentAddExperienceBinding>() {
             }*/
 
         }
+
+        binding.mAutoCompleteJobType.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, arg1, pos, id ->
+                val itemData = adapterJobType.getItem(pos)
+                val data = viewModel.addExperienceRequestModel.value
+                data?.jobType = itemData.itemId
+                viewModel.addExperienceRequestModel.value = data
+            }
     }
 
     private fun setListeners() {

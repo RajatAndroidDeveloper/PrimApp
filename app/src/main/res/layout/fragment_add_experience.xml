@@ -64,6 +64,9 @@
                     android:id="@+id/mAutoCompleteJobType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:editable="false"
+                    android:focusableInTouchMode="false"
+                    android:focusable="false"
                     android:imeActionLabel="Done"
                     android:imeOptions="actionDone"
                     android:singleLine="true" />

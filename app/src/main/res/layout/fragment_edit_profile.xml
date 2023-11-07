@@ -138,6 +138,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeActionLabel="Done"
+                    android:editable="false"
+                    android:focusableInTouchMode="false"
+                    android:focusable="false"
                     android:imeOptions="actionDone"
                     android:singleLine="true" />
 
@@ -159,6 +162,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeActionLabel="Done"
+                    android:editable="false"
+                    android:focusableInTouchMode="false"
+                    android:focusable="false"
                     android:imeOptions="actionDone"
                     android:singleLine="true" />
 

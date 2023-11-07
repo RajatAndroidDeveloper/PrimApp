@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.webkit.MimeTypeMap
+import android.widget.AdapterView.OnItemClickListener
 import android.widget.AutoCompleteTextView
 import androidx.activity.addCallback
 import androidx.core.view.isVisible
@@ -23,7 +24,6 @@ import com.primapp.extensions.showError
 import com.primapp.model.post.PostListResult
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
-import com.primapp.ui.dashboard.DashboardActivity
 import com.primapp.ui.post.create.adapter.AutoCompleteCategoryArrayAdapter
 import com.primapp.ui.post.create.adapter.AutocompleteCommunityArrayAdapter
 import com.primapp.utils.AwsHelper
@@ -31,7 +31,6 @@ import com.primapp.utils.DialogUtils
 import com.primapp.utils.FileUtils
 import com.primapp.utils.RetrofitUtils
 import com.primapp.utils.Validator
-import com.primapp.viewmodels.CommunitiesViewModel
 import com.primapp.viewmodels.PostsViewModel
 import kotlinx.android.synthetic.main.toolbar_inner_back.toolbar
 import kotlinx.android.synthetic.main.toolbar_inner_back.tvTitle
@@ -314,6 +313,8 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                     Status.SUCCESS -> {
                         it.data?.content?.let {
                             communityAdapter.addAll(it)
+                            binding.mAutoCompleteCommunity.setAdapter(communityAdapter)
+                            communityAdapter.notifyDataSetChanged()
                         }
                     }
                 }
@@ -465,8 +466,6 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
 
     private fun setAdapter() {
         context?.apply {
-            binding.mAutoCompleteCommunity.setAdapter(communityAdapter)
-
             binding.mAutoCompleteCommunity.validator = object : AutoCompleteTextView.Validator {
                 override fun fixText(p0: CharSequence?): CharSequence {
                     return ""
@@ -488,7 +487,6 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
             }
 
             binding.mAutoCompleteCategory.setAdapter(categoryAdapter)
-
             binding.mAutoCompleteCategory.validator = object : AutoCompleteTextView.Validator {
                 override fun fixText(p0: CharSequence?): CharSequence {
                     return ""
@@ -517,6 +515,27 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                 binding.mAutoCompleteCommunity.clearFocus()
             }
         }
+
+        binding.mAutoCompleteCategory.onItemClickListener =
+            OnItemClickListener { parent, arg1, pos, id ->
+                val itemData = categoryAdapter.getItem(pos)
+                selectedCategoryId = itemData.id
+                selectedCategoryId?.let {
+                    binding.tlSelectCategory.error = null
+                    communityAdapter.clear()
+                    communityAdapter.notifyDataSetChanged()
+                    viewModel.getCategoryJoinedCommunityListData(it)
+                }
+            }
+
+        binding.mAutoCompleteCommunity.onItemClickListener =
+            OnItemClickListener { parent, arg1, pos, id ->
+                val itemData = communityAdapter.getItem(pos)
+                selectedCommunityId = itemData.id
+                selectedCommunityId?.let {
+                    binding.tlSelectCommunity.error = null
+                }
+            }
     }
 
     fun createPost() {
@@ -552,7 +571,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
         if (selectedFile != null) {
             if (postFileType.equals(PostFileType.FILE)) {
                 // User original name in case of File attachment
-                viewModel.generatePresignedUrl(selectedFile!!.name)
+                viewModel.generatePresignedUrl("user-id-${UserCache.getUserId(requireContext())}/"+requireActivity().getString(R.string.create_community_post_folder) + "" +selectedFile!!.name)
             } else {
                 viewModel.generatePresignedUrl(
                     "user-id-${UserCache.getUserId(requireContext())}/"+requireActivity().getString(R.string.create_community_post_folder) + "" + AwsHelper.getObjectName(

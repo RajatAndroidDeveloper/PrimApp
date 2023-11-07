@@ -113,6 +113,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:imeActionLabel="Done"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:editable="false"
                 android:imeOptions="actionDone"
                 android:singleLine="true" />
 

@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.AdapterView
 import android.widget.AutoCompleteTextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -292,6 +293,15 @@ class CreateCommunityFragment : BaseFragment<FragmentCreateCommunityBinding>() {
                 binding.mAutoCompleteCategory.clearFocus()
             }
         }
+
+        binding.mAutoCompleteCategory.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, arg1, pos, id ->
+                val itemData = categoryAdapter.getItem(pos)
+                parentCategoryId = itemData.id
+                parentCategoryId.let {
+                    binding.tlSelectCategory.error = null
+                }
+            }
     }
 
 }
