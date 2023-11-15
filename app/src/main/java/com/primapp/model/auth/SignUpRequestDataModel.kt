@@ -23,6 +23,7 @@ class SignUpRequestDataModel(
     var countryIsoCode: String?,
     @SerializedName("password")
     var password: String?,
+    @SerializedName("confirm_password")
     var confirmPassword: String?,
     @SerializedName("device_id")
     var deviceId: String?,

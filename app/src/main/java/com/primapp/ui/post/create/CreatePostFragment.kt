@@ -96,12 +96,15 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
 
         if (type == CREATE_POST) {
             viewModel.getParentCategoriesList(0, 1000)
-        } else if (type  == UPLOAD_VIRUS_FREE_DATA) {
+        } else if (type == UPLOAD_VIRUS_FREE_DATA) {
             tvTitle.text = getString(R.string.edit_post)
             binding.tlSelectCategory.isEnabled = false
             binding.tlSelectCommunity.isEnabled = false
             binding.tlSelectCommunity.isVisible = true
-            mViewModel.postDetails(CreatePostFragmentArgs.fromBundle(requireArguments()).communityId, CreatePostFragmentArgs.fromBundle(requireArguments()).postId)
+            mViewModel.postDetails(
+                CreatePostFragmentArgs.fromBundle(requireArguments()).communityId,
+                CreatePostFragmentArgs.fromBundle(requireArguments()).postId
+            )
         } else {
             tvTitle.text = getString(R.string.edit_post)
             binding.tlSelectCategory.isEnabled = false
@@ -166,6 +169,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
             val requestModel = viewModel.createPostRequestModel.value
             requestModel?.postText = it.postText
             requestModel?.fileType = it.fileType
+
             requestModel?.postContentFile = it.postContentFile
             requestModel?.thumbnailFile = it.thumbnailFile
             viewModel.createPostRequestModel.value = requestModel
@@ -188,7 +192,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
         }
     }
 
-    fun openGalleryToSelectVideoPhoto(){
+    fun openGalleryToSelectVideoPhoto() {
         if (isPermissionGranted(Manifest.permission.CAMERA)) {
             startActivityForResult(
                 FileUtils.getPickerForPhotoAndVideo(context),
@@ -205,11 +209,12 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
     fun showFileOptions() {
         DialogUtils.showCameraChooserDialog(requireContext()) {
             when (it) {
-                "Image"-> {
+                "Image" -> {
                     postFileType = PostFileType.IMAGE
                     postFileLocationType = "Camera"
                     pickFileAskPermission()
                 }
+
                 else -> {
                     postFileType = PostFileType.VIDEO
                     postFileLocationType = "Camera"
@@ -261,9 +266,11 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                     Status.LOADING -> {
                         showLoading()
                     }
+
                     Status.ERROR -> {
                         showError(requireContext(), it.message!!)
                     }
+
                     Status.SUCCESS -> {
                         it.data?.let {
                             postData = it.content
@@ -417,7 +424,9 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                         if (postFileType == PostFileType.VIDEO && !isThumbnailUploaded) {
                             isThumbnailUploaded = true
                             viewModel.generatePresignedUrl(
-                                "user-id-${UserCache.getUserId(requireContext())}/"+requireActivity().getString(R.string.create_community_post_folder) + "" + AwsHelper.getObjectName(
+                                "user-id-${UserCache.getUserId(requireContext())}/" + requireActivity().getString(
+                                    R.string.create_community_post_folder
+                                ) + "" + AwsHelper.getObjectName(
                                     AwsHelper.AWS_OBJECT_TYPE.THUMBNAIL,
                                     UserCache.getUser(requireContext())!!.id,
                                     "jpg"
@@ -571,10 +580,16 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
         if (selectedFile != null) {
             if (postFileType.equals(PostFileType.FILE)) {
                 // User original name in case of File attachment
-                viewModel.generatePresignedUrl("user-id-${UserCache.getUserId(requireContext())}/"+requireActivity().getString(R.string.create_community_post_folder) + "" +selectedFile!!.name)
+                viewModel.generatePresignedUrl(
+                    "user-id-${UserCache.getUserId(requireContext())}/" + requireActivity().getString(
+                        R.string.create_community_post_folder
+                    ) + "" + selectedFile!!.name
+                )
             } else {
                 viewModel.generatePresignedUrl(
-                    "user-id-${UserCache.getUserId(requireContext())}/"+requireActivity().getString(R.string.create_community_post_folder) + "" + AwsHelper.getObjectName(
+                    "user-id-${UserCache.getUserId(requireContext())}/" + requireActivity().getString(
+                        R.string.create_community_post_folder
+                    ) + "" + AwsHelper.getObjectName(
                         AwsHelper.AWS_OBJECT_TYPE.POST,
                         UserCache.getUser(requireContext())!!.id,
                         selectedFile!!.extension
@@ -633,7 +648,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
         when (postFileType) {
             PostFileType.IMAGE -> {
                 startActivityForResult(
-                    FileUtils.getPickSingleImageIntent(context, postFileLocationType?:""),
+                    FileUtils.getPickSingleImageIntent(context, postFileLocationType ?: ""),
                     FileUtils.IMAGE_REQUEST_CODE
                 )
             }
@@ -647,7 +662,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
 
             PostFileType.VIDEO -> {
                 startActivityForResult(
-                    FileUtils.getPickSingleVideoIntent(context, postFileLocationType?:""),
+                    FileUtils.getPickSingleVideoIntent(context, postFileLocationType ?: ""),
                     FileUtils.VIDEO_REQUEST_CODE
                 )
             }
@@ -713,21 +728,25 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                         val splitPath = path.split("/")
                         if (splitPath.last().contains(".gif")) {
                             postFileType = PostFileType.GIF
-                            selectedFile = FileUtils.getFileFromUri(context, data.data!!, FileUtils.GIF)
+                            selectedFile =
+                                FileUtils.getFileFromUri(context, data.data!!, FileUtils.GIF)
                         } else {
                             postFileType = PostFileType.IMAGE
                             var cR = context?.contentResolver
                             var mime = cR?.getType(data.data!!)
-                           if (mime?.contains("video",false) ==  true) {
-                               selectedFile = FileUtils.getFileFromUri(context, data.data!!, FileUtils.VIDEO)
-                           } else {
-                               selectedFile = FileUtils.getFileFromUri(context, data.data!!, FileUtils.IMAGE)
-                               FileUtils.compressImage(selectedFile!!.absolutePath)
-                           }
+                            if (mime?.contains("video", false) == true) {
+                                postFileType = PostFileType.VIDEO
+                                selectedFile = FileUtils.getFileFromUri(context, data.data!!, FileUtils.VIDEO)
+                            } else {
+                                postFileType = PostFileType.IMAGE
+                                selectedFile = FileUtils.getFileFromUri(context, data.data!!, FileUtils.IMAGE)
+                                FileUtils.compressImage(selectedFile!!.absolutePath)
+                            }
                         }
 
                     } else {
                         //Photo from camera.
+                        postFileType = PostFileType.IMAGE
                         selectedFile = FileUtils.getFile(context, FileUtils.IMAGE)
                         FileUtils.compressImage(selectedFile!!.absolutePath)
                     }
@@ -813,7 +832,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                         var mime = cR?.getType(data.data!!)
                         if (mime?.contains("video") == true) {
                             tempFile = FileUtils.getFile(context, FileUtils.VIDEO)
-
+                            postFileType = PostFileType.VIDEO
                             if (tempFile != null && tempFile.exists()) {
                                 val fileSize = (tempFile.length() / 1024) / 1024
                                 if (fileSize > 18) {

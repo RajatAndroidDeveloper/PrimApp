@@ -22,6 +22,7 @@ import android.util.Log
 import android.util.Size
 import android.view.View
 import android.webkit.MimeTypeMap
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.FileProvider
 import com.primapp.BuildConfig
 import com.primapp.R
@@ -97,7 +98,11 @@ object FileUtils {
 
         if (context != null && getFileUri(context, IMAGE) != Uri.EMPTY) {
             chooserIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            chooserIntent.type = "image/* video/*"
+            chooserIntent.type = "*/*"
+            chooserIntent.putExtra(
+                Intent.EXTRA_MIME_TYPES,
+                arrayOf("image/*", "video/*")
+            )
         }
 
         return chooserIntent
