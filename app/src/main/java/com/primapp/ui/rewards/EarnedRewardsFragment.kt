@@ -29,19 +29,20 @@ class EarnedRewardsFragment : BaseFragment<FragmentEarnedRewardsBinding>() {
 
     private fun setAnimationListeners() {
         binding.animationView.addAnimatorListener(object : Animator.AnimatorListener {
-            override fun onAnimationStart(p0: Animator?) {
+            override fun onAnimationStart(animation: Animator) {
+                TODO("Not yet implemented")
             }
 
-            override fun onAnimationEnd(p0: Animator?) {
+            override fun onAnimationEnd(animation: Animator) {
                 binding.animationView.isVisible = false
             }
 
-            override fun onAnimationCancel(p0: Animator?) {
-
+            override fun onAnimationCancel(animation: Animator) {
+                TODO("Not yet implemented")
             }
 
-            override fun onAnimationRepeat(p0: Animator?) {
-
+            override fun onAnimationRepeat(animation: Animator) {
+                TODO("Not yet implemented")
             }
         })
     }
