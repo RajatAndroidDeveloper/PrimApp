@@ -1,6 +1,7 @@
 package com.primapp.ui.settings
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.navigation.fragment.findNavController
@@ -39,11 +40,17 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         binding.tvAppVersion.text = "v${BuildConfig.VERSION_NAME}"
     }
 
+    fun openBrowser(url: String){
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        startActivity(browserIntent)
+    }
+
     fun openAboutUs() {
-        val bundle = Bundle()
-        bundle.putString("title", getString(R.string.about_us))
-        bundle.putString("url", ApiConstant.ABOUT_US)
-        findNavController().navigate(R.id.commonWebView, bundle)
+//        val bundle = Bundle()
+//        bundle.putString("title", getString(R.string.about_us))
+//        bundle.putString("url", ApiConstant.ABOUT_US)
+//        findNavController().navigate(R.id.commonWebView, bundle)
+        openBrowser(ApiConstant.ABOUT_US)
     }
 
     fun openHelpSupport() {
@@ -69,10 +76,11 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
     }
 
     fun openRewards() {
-        val bundle = Bundle()
-        bundle.putString("title", "Prim Rewards")
-        bundle.putString("url", ApiConstant.PRIM_REWARDS)
-        findNavController().navigate(R.id.commonWebView, bundle)
+//        val bundle = Bundle()
+//        bundle.putString("title", "Prim Rewards")
+//        bundle.putString("url", ApiConstant.PRIM_REWARDS)
+//        findNavController().navigate(R.id.commonWebView, bundle)
+        openBrowser(ApiConstant.PRIM_REWARDS)
     }
 
     fun logout() {

@@ -3,21 +3,16 @@ package com.primapp.ui.dashboard
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.navigation.NavArgument
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.badge.BadgeDrawable
@@ -28,10 +23,8 @@ import com.primapp.R
 import com.primapp.cache.UserCache
 import com.primapp.chat.ConnectionManager
 import com.primapp.extensions.loadCircularImage
-import com.primapp.extensions.showError
 import com.primapp.fcm.MyFirebaseMessagingService
 import com.primapp.retrofit.ApiConstant
-import com.primapp.retrofit.base.Status
 import com.primapp.ui.MainActivity
 import com.primapp.ui.base.BaseActivity
 import com.primapp.ui.profile.UserPostsFragment
@@ -43,12 +36,29 @@ import com.sendbird.android.exception.SendbirdException
 import com.sendbird.android.handler.ConnectHandler
 import com.sendbird.android.handler.DisconnectHandler
 import com.sendbird.android.handler.PushRequestCompleteHandler
-import com.sendbird.android.handler.UserEventHandler
 import com.sendbird.android.params.UserUpdateParams
 import com.sendbird.android.push.SendbirdPushHelper
-import com.sendbird.android.user.User
-import kotlinx.android.synthetic.main.activity_dashboard.*
-import kotlinx.android.synthetic.main.custom_navigation_drawer_layout.*
+import kotlinx.android.synthetic.main.activity_dashboard.bottomNavigationView
+import kotlinx.android.synthetic.main.activity_dashboard.drawerLayout
+import kotlinx.android.synthetic.main.custom_navigation_drawer_layout.ivClose
+import kotlinx.android.synthetic.main.custom_navigation_drawer_layout.ivProfileImage
+import kotlinx.android.synthetic.main.custom_navigation_drawer_layout.llAboutUs
+import kotlinx.android.synthetic.main.custom_navigation_drawer_layout.llBookmarks
+import kotlinx.android.synthetic.main.custom_navigation_drawer_layout.llDashboard
+import kotlinx.android.synthetic.main.custom_navigation_drawer_layout.llDeleteAccount
+import kotlinx.android.synthetic.main.custom_navigation_drawer_layout.llHiddenPosts
+import kotlinx.android.synthetic.main.custom_navigation_drawer_layout.llLogout
+import kotlinx.android.synthetic.main.custom_navigation_drawer_layout.llMessanger
+import kotlinx.android.synthetic.main.custom_navigation_drawer_layout.llPortFolio
+import kotlinx.android.synthetic.main.custom_navigation_drawer_layout.llProfile
+import kotlinx.android.synthetic.main.custom_navigation_drawer_layout.llProjectContracts
+import kotlinx.android.synthetic.main.custom_navigation_drawer_layout.llRewards
+import kotlinx.android.synthetic.main.custom_navigation_drawer_layout.llSecurity
+import kotlinx.android.synthetic.main.custom_navigation_drawer_layout.llSupport
+import kotlinx.android.synthetic.main.custom_navigation_drawer_layout.llTerms
+import kotlinx.android.synthetic.main.custom_navigation_drawer_layout.tvAppVersion
+import kotlinx.android.synthetic.main.custom_navigation_drawer_layout.tvUserId
+import kotlinx.android.synthetic.main.custom_navigation_drawer_layout.tvUserName
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.WebSocket
@@ -401,17 +411,19 @@ class DashboardActivity : BaseActivity() {
     }
 
     fun openAboutUs() {
-        val bundle = Bundle()
-        bundle.putString("title", getString(R.string.about_us))
-        bundle.putString("url", ApiConstant.ABOUT_US)
-        navController.navigate(R.id.commonWebView, bundle)
+//        val bundle = Bundle()
+//        bundle.putString("title", getString(R.string.about_us))
+//        bundle.putString("url", ApiConstant.ABOUT_US)
+//        navController.navigate(R.id.commonWebView, bundle)
+        openBrowser(ApiConstant.ABOUT_US)
     }
 
     fun openTermsOfConditions() {
-        val bundle = Bundle()
-        bundle.putString("title", getString(R.string.terms_of_services))
-        bundle.putString("url", ApiConstant.TERMS_OF_SERVICES)
-        navController.navigate(R.id.commonWebView, bundle)
+//        val bundle = Bundle()
+//        bundle.putString("title", getString(R.string.terms_of_services))
+//        bundle.putString("url", ApiConstant.TERMS_OF_SERVICES)
+//        navController.navigate(R.id.commonWebView, bundle)
+        openBrowser(ApiConstant.TERMS_OF_SERVICES)
     }
 
     fun openHelpSupport() {
@@ -437,12 +449,17 @@ class DashboardActivity : BaseActivity() {
     }
 
     fun openRewards() {
-        val bundle = Bundle()
-        bundle.putString("title", "Prim Rewards")
-        bundle.putString("url", ApiConstant.PRIM_REWARDS)
-        navController.navigate(R.id.commonWebView, bundle)
+//        val bundle = Bundle()
+//        bundle.putString("title", "Prim Rewards")
+//        bundle.putString("url", ApiConstant.PRIM_REWARDS)
+//        navController.navigate(R.id.commonWebView, bundle)
+        openBrowser(ApiConstant.PRIM_REWARDS)
     }
 
+    fun openBrowser(url: String){
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        startActivity(browserIntent)
+    }
     fun logout() {
         DialogUtils.showYesNoDialog(this, R.string.logout_message, {
             showLoading()
