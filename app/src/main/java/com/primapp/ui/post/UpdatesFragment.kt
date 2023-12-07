@@ -1,11 +1,13 @@
 package com.primapp.ui.post
 
 import android.app.DownloadManager
+import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
-import android.view.Gravity
 import android.view.View
-import androidx.core.content.ContextCompat
+import android.view.WindowManager
+import android.widget.ImageView
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -21,13 +23,24 @@ import com.google.gson.reflect.TypeToken
 import com.primapp.R
 import com.primapp.cache.UserCache
 import com.primapp.constants.CommunityStatusTypes
+import com.primapp.constants.PostFileType
 import com.primapp.databinding.FragmentUpdatesBinding
 import com.primapp.extensions.showError
-import com.primapp.extensions.showInfo
-import com.primapp.model.*
+import com.primapp.model.BookmarkPost
+import com.primapp.model.CommentPost
+import com.primapp.model.DeletePost
+import com.primapp.model.DownloadFile
+import com.primapp.model.EditPost
+import com.primapp.model.HidePost
+import com.primapp.model.LikePost
+import com.primapp.model.LikePostMembers
+import com.primapp.model.LoadWebUrl
+import com.primapp.model.ReportPost
+import com.primapp.model.SharePost
+import com.primapp.model.ShowImage
+import com.primapp.model.ShowUserProfile
+import com.primapp.model.ShowVideo
 import com.primapp.model.mentormentee.ResultsItem
-import com.primapp.model.post.PostListResult
-import com.primapp.retrofit.ApiConstant
 import com.primapp.retrofit.base.Status
 import com.primapp.ui.base.BaseFragment
 import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
@@ -36,16 +49,24 @@ import com.primapp.ui.dashboard.DashboardActivity
 import com.primapp.ui.dashboard.WebSocketListener
 import com.primapp.ui.post.adapter.PostListPagedAdapter
 import com.primapp.ui.post.create.CreatePostFragment
-import com.primapp.utils.*
+import com.primapp.utils.AnalyticsManager
+import com.primapp.utils.DialogUtils
+import com.primapp.utils.DownloadUtils
+import com.primapp.utils.checkIsNetworkConnected
+import com.primapp.utils.getPrettyNumber
+import com.primapp.utils.visible
 import com.primapp.viewmodels.CommunitiesViewModel
 import com.primapp.viewmodels.PostsViewModel
 import com.sendbird.android.SendbirdChat
 import com.sendbird.android.exception.SendbirdException
 import com.sendbird.android.handler.UserEventHandler
 import com.sendbird.android.user.User
-import kotlinx.android.synthetic.main.activity_dashboard.*
-import kotlinx.android.synthetic.main.fragment_updates.*
-import kotlinx.android.synthetic.main.toolbar_dashboard_accent.*
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_dashboard.drawerLayout
+import kotlinx.android.synthetic.main.fragment_updates.rvCommunityPosts
+import kotlinx.android.synthetic.main.toolbar_dashboard_accent.ivEndIcon
+import kotlinx.android.synthetic.main.toolbar_dashboard_accent.ivMenu
+import kotlinx.android.synthetic.main.toolbar_dashboard_accent.tvCount
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -53,7 +74,9 @@ import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.WebSocket
+import java.lang.Exception
 import javax.inject.Inject
+
 
 class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
 
@@ -95,7 +118,7 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
         }
     }
 
-    private fun findOnlineOfflineStatus(){
+    private fun findOnlineOfflineStatus() {
         webSocket = okHttpClient.newWebSocket(createRequest(), webSocketListener)
 
         mViewModel.messages.observe(requireActivity()) {
@@ -111,10 +134,11 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
         super.onDestroy()
 
     }
+
     private fun mergeListAndAdapterData(mainMentorsMenteeList: java.util.ArrayList<ResultsItem>) {
         var data = adapter.snapshot().items
-        for(i in mainMentorsMenteeList.indices){
-            for(j in 0 until (data.size)){
+        for (i in mainMentorsMenteeList.indices) {
+            for (j in 0 until (data.size)) {
                 if (mainMentorsMenteeList[i].id == data[j].user.id) {
                     data[j].user.userOnlineStatus = mainMentorsMenteeList[i].userOnlineStatus
                 }
@@ -150,8 +174,12 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
         viewModel.getPostsList().observe(viewLifecycleOwner, Observer {
             it?.let {
                 lifecycleScope.launch {
-                    adapter.submitData(it)
-                    communityViewModel.getUserData(UserCache.getUserId(requireContext()))
+                    try {
+                        adapter.submitData(it)
+                        communityViewModel.getUserData(UserCache.getUserId(requireContext()))
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
             }
         })
@@ -167,9 +195,11 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                     Status.LOADING -> {
                         showLoading()
                     }
+
                     Status.ERROR -> {
                         showError(requireContext(), it.message!!)
                     }
+
                     Status.SUCCESS -> {
                         it.data?.content?.let {
                             adapter.markPostAsLiked(it.postId)
@@ -186,9 +216,11 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                     Status.LOADING -> {
                         showLoading()
                     }
+
                     Status.ERROR -> {
                         showError(requireContext(), it.message!!)
                     }
+
                     Status.SUCCESS -> {
                         it.data?.content?.let {
                             adapter.markPostAsDisliked(it.postId)
@@ -205,9 +237,11 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                     Status.LOADING -> {
                         showLoading()
                     }
+
                     Status.ERROR -> {
                         showError(requireContext(), it.message!!)
                     }
+
                     Status.SUCCESS -> {
                         it.data?.content?.let {
                             UserCache.decrementPostCount(requireContext())
@@ -225,9 +259,11 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                     Status.LOADING -> {
                         showLoading()
                     }
+
                     Status.ERROR -> {
                         showError(requireContext(), it.message!!)
                     }
+
                     Status.SUCCESS -> {
                         it.data?.content?.let {
                             adapter.addPostToBookmark(it.postId)
@@ -244,9 +280,11 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                     Status.LOADING -> {
                         showLoading()
                     }
+
                     Status.ERROR -> {
                         showError(requireContext(), it.message!!)
                     }
+
                     Status.SUCCESS -> {
                         it.data?.content?.let {
                             adapter.removePostAsBookmarked(it.postId)
@@ -263,9 +301,11 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                     Status.LOADING -> {
                         showLoading()
                     }
+
                     Status.ERROR -> {
                         showError(requireContext(), it.message!!)
                     }
+
                     Status.SUCCESS -> {
                         it.data?.content?.let {
                             adapter.removePost(it.postId)
@@ -281,9 +321,11 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                     Status.ERROR -> {
                         showError(requireContext(), it.message!!)
                     }
+
                     Status.LOADING -> {
                         //showLoading()
                     }
+
                     Status.SUCCESS -> {
                         //hideLoading()
                         it.data?.content?.let {
@@ -301,17 +343,183 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
     }
 
     private fun setAdapter() {
-        val lm = LinearLayoutManager(requireContext())
+        mLayoutManager = LinearLayoutManager(requireContext())
         binding.rvCommunityPosts.apply {
-            layoutManager = lm
+            layoutManager = mLayoutManager
         }
+        var activeAdapter = 0
+
+        binding.rvCommunityPosts.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            // Position of the row that is active
+            var activeAdapter = 0
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                // Get the index of the first Completely visible item
+                val firstCompletelyVisibleItemPosition =
+                    mLayoutManager.findFirstCompletelyVisibleItemPosition()
+                Log.d(
+                    "Updates_Fragment",
+                    "onScrolled: firstCompletelyVisibleItemPosition : $firstCompletelyVisibleItemPosition"
+                )
+
+                // Even if we scroll by a few millimeters the video will start playing from the beginning
+                // So we need to check if the new Active row layout position is equal to the current active row layout position
+                if (activeAdapter != firstCompletelyVisibleItemPosition) {
+                    try {
+                        val video_url: String =
+                            adapter.getPostUrl(firstCompletelyVisibleItemPosition)
+                        val video_view =
+                            mLayoutManager.findViewByPosition(firstCompletelyVisibleItemPosition)!!
+                                .findViewById<View>(R.id.videoView) as SimpleVideoPlayer
+                        val iv_cover =
+                            mLayoutManager.findViewByPosition(firstCompletelyVisibleItemPosition)!!
+                                .findViewById<View>(R.id.ivPostPreview) as ImageView
+                        val ivVideoPlay =
+                            mLayoutManager.findViewByPosition(firstCompletelyVisibleItemPosition)!!
+                                .findViewById<View>(R.id.ivVideoPlay) as ImageView
+
+                        val ivMuteVideo =
+                            mLayoutManager.findViewByPosition(firstCompletelyVisibleItemPosition)!!
+                                .findViewById<View>(R.id.ivMuteVideo) as ImageView
+
+                        if(adapter.getPostType(firstCompletelyVisibleItemPosition) == PostFileType.VIDEO) {
+                            // Start playing the video in Active row layout
+                            video_view.start(Uri.parse(video_url))
+                            ivVideoPlay.visibility = View.GONE
+                            // assign this row layout position as active row Layout
+                            activeAdapter = firstCompletelyVisibleItemPosition
+                            Log.d("TAG", "onScrolled: activeAdapter : $activeAdapter")
+
+                            // Hide the thumbnail ImageView with a delay of 300 millisecond or else there will be black
+                            // screen before a video plays
+                            Handler().postDelayed(
+                                Runnable { iv_cover.visibility = View.INVISIBLE },
+                                300
+                            )
+                        }
+                    } catch (e: java.lang.NullPointerException) {
+                        // Sometimes you scroll so fast that the views are not attached so it gives a NullPointerException
+                    } catch (e: ArrayIndexOutOfBoundsException) {
+                    }
+                    /* Get the Video Surface directly above the fully visible Row Layout so that you may stop the playback
+             when a new row Layout is fully visible
+             */if (firstCompletelyVisibleItemPosition >= 1) {
+                        if (adapter.getPostType(firstCompletelyVisibleItemPosition) == PostFileType.VIDEO) {
+                            try {
+                                val video_view_above =
+                                    mLayoutManager.findViewByPosition(
+                                        firstCompletelyVisibleItemPosition - 1
+                                    )!!
+                                        .findViewById<View>(R.id.videoView) as SimpleVideoPlayer
+                                val ivVideoPlay =
+                                    mLayoutManager.findViewByPosition(
+                                        firstCompletelyVisibleItemPosition - 1
+                                    )!!
+                                        .findViewById<View>(R.id.ivVideoPlay) as ImageView
+                                ivVideoPlay.visibility = View.GONE
+                                video_view_above.release()
+
+                                val thumbnail_string: String =
+                                    adapter.getPostThumbnailUrl(firstCompletelyVisibleItemPosition)
+                                //  video_view_above.start(Uri.parse(thumbnail_string));
+                                val iv_cover_above =
+                                    mLayoutManager.findViewByPosition(
+                                        firstCompletelyVisibleItemPosition - 1
+                                    )!!
+                                        .findViewById<View>(R.id.ivPostPreview) as ImageView
+
+                                // Show the cover Thumbnail ImageView
+                                iv_cover_above.visibility = View.VISIBLE
+                                Picasso.with(requireContext())
+                                    .load(Uri.parse(thumbnail_string))
+                                    .into(iv_cover_above)
+
+                                // video_view_above.setBackground(Uri.parse(thumbnail_string));
+                            } catch (e: java.lang.NullPointerException) {
+                            } catch (e: ArrayIndexOutOfBoundsException) {
+                            }
+                        }
+                    }
+
+                    /* Get the Video Surface directly Below the fully visible Row Layout so that you may stop the playback
+             when a new row Layout is fully visible
+             */if (firstCompletelyVisibleItemPosition + 1 < adapter.itemCount) {
+                        if (adapter.getPostType(firstCompletelyVisibleItemPosition + 1) == PostFileType.VIDEO) {
+                            try {
+                                val video_view_below =
+                                    mLayoutManager.findViewByPosition(
+                                        firstCompletelyVisibleItemPosition + 1
+                                    )!!
+                                        .findViewById<View>(R.id.videoView) as SimpleVideoPlayer
+                                val ivVideoPlay =
+                                    mLayoutManager.findViewByPosition(
+                                        firstCompletelyVisibleItemPosition + 1
+                                    )!!
+                                        .findViewById<View>(R.id.ivVideoPlay)
+
+                                ivVideoPlay.visibility = View.GONE
+                                video_view_below.release()
+                                val thumbnail_string: String =
+                                    adapter.getPostThumbnailUrl(firstCompletelyVisibleItemPosition + 1)
+                                //  video_view_below.start(Uri.parse(thumbnail_string));
+                                val iv_cover_below =
+                                    mLayoutManager.findViewByPosition(
+                                        firstCompletelyVisibleItemPosition + 1
+                                    )!!
+                                        .findViewById<View>(R.id.ivPostPreview) as ImageView
+                                iv_cover_below.visibility = View.VISIBLE
+                                Picasso.with(requireContext())
+                                    .load(Uri.parse(thumbnail_string))
+                                    .into(iv_cover_below)
+                            } catch (e: java.lang.NullPointerException) {
+                            } catch (e: ArrayIndexOutOfBoundsException) {
+                            }
+                        }
+                    }
+                }
+
+                if (activeAdapter == 0 && adapter.getPostType(0) == PostFileType.VIDEO) {
+                    try {
+                        val video_url: String =
+                            adapter.getPostUrl(0)
+                        val video_view =
+                            mLayoutManager.findViewByPosition(0)!!
+                                .findViewById<View>(R.id.videoView) as SimpleVideoPlayer
+                        val iv_cover =
+                            mLayoutManager.findViewByPosition(0)!!
+                                .findViewById<View>(R.id.ivPostPreview) as ImageView
+                        val ivVideoPlay =
+                            mLayoutManager.findViewByPosition(0)!!
+                                .findViewById<View>(R.id.ivVideoPlay) as ImageView
+
+                        // Start playing the video in Active row layout
+                        video_view.start(Uri.parse(video_url))
+                        ivVideoPlay.visibility = View.GONE
+                        // assign this row layout position as active row Layout
+                        activeAdapter = 0
+                        Log.d("TAG", "onScrolled: activeAdapter : $activeAdapter")
+
+
+                        // Hide the thumbnail ImageView with a delay of 300 millisecond or else there will be black
+                        // screen before a video plays
+                        Handler().postDelayed(
+                            Runnable { iv_cover.visibility = View.INVISIBLE },
+                            300
+                        )
+                    } catch (e: java.lang.NullPointerException) {
+                        // Sometimes you scroll so fast that the views are not attached so it gives a NullPointerException
+                    } catch (e: ArrayIndexOutOfBoundsException) {
+                    }
+                }
+            }
+        })
 
         binding.rvCommunityPosts.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
-                val firstVisibleItem = lm.findFirstVisibleItemPosition()
-
+                val firstVisibleItem = mLayoutManager.findFirstVisibleItemPosition()
                 if (firstVisibleItem > 1) {
                     //  && dy < 0 Show FAB if 1st item is not visible and scrolling upside
                     binding.tvScrollUp.visibility = View.VISIBLE
@@ -382,14 +590,17 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                 bundle.putString("url", item.url)
                 findNavController().navigate(R.id.imageViewDialog, bundle)
             }
+
             is ShowVideo -> {
                 val bundle = Bundle()
                 bundle.putString("url", item.url)
                 findNavController().navigate(R.id.videoViewDialog, bundle)
             }
+
             is DownloadFile -> {
                 DownloadUtils.download(requireContext(), downloadManager, item.url)
             }
+
             is LikePost -> {
                 if (item.postData.community.status.equals(CommunityStatusTypes.INACTIVE, true)) {
                     DialogUtils.showCloseDialog(
@@ -401,7 +612,11 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                 }
 
                 if (item.postData.isLike) {
-                    viewModel.unlikePost(item.postData.community.id, userData!!.id, item.postData.id)
+                    viewModel.unlikePost(
+                        item.postData.community.id,
+                        userData!!.id,
+                        item.postData.id
+                    )
                 } else {
                     viewModel.likePost(item.postData.community.id, userData!!.id, item.postData.id)
                 }
@@ -418,9 +633,17 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                 }
 
                 if (item.postData.isBookmark) {
-                    viewModel.removeBookmark(item.postData.community.id, userData!!.id, item.postData.id)
+                    viewModel.removeBookmark(
+                        item.postData.community.id,
+                        userData!!.id,
+                        item.postData.id
+                    )
                 } else {
-                    viewModel.bookmarkPost(item.postData.community.id, userData!!.id, item.postData.id)
+                    viewModel.bookmarkPost(
+                        item.postData.community.id,
+                        userData!!.id,
+                        item.postData.id
+                    )
                 }
             }
 
@@ -454,7 +677,11 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                 }
 
                 DialogUtils.showYesNoDialog(requireActivity(), R.string.delete_post_message, {
-                    viewModel.deletePost(item.postData.community.id, userData!!.id, item.postData.id)
+                    viewModel.deletePost(
+                        item.postData.community.id,
+                        userData!!.id,
+                        item.postData.id
+                    )
                 })
             }
 
@@ -529,13 +756,28 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
         }
     }
 
+    private lateinit var mLayoutManager: LinearLayoutManager
     override fun onPause() {
         super.onPause()
         SendbirdChat.removeUserEventHandler(UNIQUE_HANDLER_ID);
+
+        // We need to pause any playback when the application is minimised
+        try {
+            val firstCompletelyVisibleItemPosition: Int =
+                mLayoutManager.findFirstCompletelyVisibleItemPosition()
+            val videoView = mLayoutManager.findViewByPosition(firstCompletelyVisibleItemPosition)
+                ?.findViewById(R.id.videoView) as SimpleVideoPlayer
+            videoView.release()
+        } catch (e: NullPointerException) {
+            // Sometimes you scroll so fast that the views are not attached so it gives a NullPointerException
+        } catch (e: ArrayIndexOutOfBoundsException) {
+        }
     }
 
     private fun createRequest(): Request {
-        val websocketURL = "wss://api.prim-technology.com/ws/online-status/?token=${UserCache.getAccessToken(requireContext())}"
+        val websocketURL = "wss://api.prim-technology.com/ws/online-status/?token=${
+            UserCache.getAccessToken(requireContext())
+        }"
 
         return Request.Builder()
             .url(websocketURL)

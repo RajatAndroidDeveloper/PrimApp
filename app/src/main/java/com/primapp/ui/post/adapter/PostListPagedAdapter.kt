@@ -14,11 +14,11 @@ import com.primapp.R
 import com.primapp.constants.PostFileType
 import com.primapp.databinding.ItemListPostBinding
 import com.primapp.extensions.setAllOnClickListener
-import com.primapp.extensions.showInfo
 import com.primapp.model.*
 import com.primapp.model.post.PostListResult
 import com.primapp.retrofit.ApiConstant
 import javax.inject.Inject
+
 
 class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) :
     PagingDataAdapter<PostListResult, PostListPagedAdapter.PostsViewHolder>(PostListDiffCallback()) {
@@ -69,6 +69,21 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
         }
     }
 
+    fun getPostThumbnailUrl(position: Int): String{
+        val item = snapshot().items[position]
+        return item.getThumbnailUrl?:""
+    }
+
+    fun getPostUrl(position: Int): String{
+        val item = snapshot().items[position]
+        return item.imageUrl?:""
+    }
+
+    fun getPostType(position: Int): String{
+        val item = snapshot().items[position]
+        return item.fileType?:""
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostsViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         return PostsViewHolder(
@@ -93,10 +108,24 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
             binding.llCoverImage.isVisible = false
 
             if (data!!.fileType == PostFileType.FILE) {
-                if(data.postContentFile?.contains("/") ==  true)
+                if (data.postContentFile?.contains("/") == true)
                     binding.tvFileName.text = data.postContentFile.toString().split("/")[1]
                 else
                     binding.tvFileName.text = data.postContentFile
+            }
+
+            if (data!!.fileType == PostFileType.VIDEO){
+                binding.videoView.visibility = View.VISIBLE
+                binding.ivMuteVideo.visibility = View.VISIBLE
+
+                if(data!!.videoMute){
+                    binding.ivMuteVideo.setImageResource(R.drawable.ic_unmute_video)
+                } else{
+                    binding.ivMuteVideo.setImageResource(R.drawable.ic_mute_vide)
+                }
+            } else {
+                binding.videoView.visibility = View.GONE
+                binding.ivMuteVideo.visibility = View.GONE
             }
 
             binding.cardPostAttachment.setOnClickListener {
@@ -104,12 +133,15 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
                     PostFileType.VIDEO -> {
                         onItemClick(ShowVideo(data.imageUrl.toString()))
                     }
+
                     PostFileType.IMAGE -> {
                         onItemClick(ShowImage(data.imageUrl.toString()))
                     }
+
                     PostFileType.GIF -> {
                         onItemClick(ShowImage(data.imageUrl.toString()))
                     }
+
                     PostFileType.FILE -> {
                         onItemClick(DownloadFile(data.imageUrl.toString()))
                     }
@@ -196,12 +228,15 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
                             R.id.deletePost -> {
                                 onItemClick(DeletePost(data))
                             }
+
                             R.id.hidePost -> {
                                 onItemClick(HidePost(data))
                             }
+
                             R.id.reportPost -> {
                                 onItemClick(ReportPost(data))
                             }
+
                             R.id.unHidePost -> {
                                 onItemClick(UnHidePost(data))
                             }

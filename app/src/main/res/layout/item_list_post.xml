@@ -36,9 +36,9 @@
                 loadCircularImage="@{data.user.inappropriate ? `` : data.user.getImageUrl}"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:minHeight="58dp"
-                android:layout_marginTop="@dimen/space_medium"
                 android:layout_marginLeft="@dimen/space_medium"
+                android:layout_marginTop="@dimen/space_medium"
+                android:minHeight="58dp"
                 android:padding="2dp"
                 app:layout_constraintBottom_toBottomOf="@id/tvPostTime"
                 app:layout_constraintDimensionRatio="1:1"
@@ -49,11 +49,11 @@
             <ImageView
                 android:layout_width="@dimen/textMedium"
                 android:layout_height="@dimen/textMedium"
-                android:visibility="@{data.user.userOnlineStatus == null ? View.GONE : View.VISIBLE}"
+                android:layout_marginLeft="@dimen/space_small"
                 android:src="@{data.user.userOnlineStatus.equals(`ONLINE`) ? @drawable/ic_online_circle : @drawable/ic_offline_circle}"
-                app:layout_constraintEnd_toEndOf="@id/ivProfilePic"
+                android:visibility="@{data.user.userOnlineStatus == null ? View.GONE : View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="@id/ivProfilePic"
-                android:layout_marginLeft="@dimen/space_small"/>
+                app:layout_constraintEnd_toEndOf="@id/ivProfilePic" />
 
             <TextView
                 android:id="@+id/tvMentorMentee"
@@ -81,8 +81,8 @@
                 android:id="@+id/tvName"
                 style="@style/normalBodyText"
                 android:layout_marginStart="@dimen/space_small"
-                android:ellipsize="end"
                 android:layout_marginTop="@dimen/space_medium"
+                android:ellipsize="end"
                 android:fontFamily="@font/poppins_medium"
                 android:maxLines="1"
                 android:text="@{data.user.firstName +' '+ data.user.lastName}"
@@ -177,16 +177,45 @@
                     android:visibility="@{(data.fileType.equals(PostFileType.FILE)) ? View.GONE : View.VISIBLE}"
                     tools:visibility="visible">
 
+                    <com.primapp.ui.post.SimpleVideoPlayer
+                        android:id="@+id/videoView"
+                        android:layout_width="0dp"
+                        android:visibility="gone"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:loop="true"
+                        app:muted="false"
+                        app:showSpinner="false"
+                        app:stopSystemAudio="true" />
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:visibility="gone"
+                        android:layout_height="25dp"
+                        app:layout_constraintEnd_toEndOf="@id/videoView"
+                        app:layout_constraintBottom_toBottomOf="@id/videoView"
+                        android:layout_marginBottom="20dp"
+                        android:background="@drawable/shape_circle_white"
+                        android:backgroundTint="@color/lightestGrey"
+                        android:layout_marginRight="20dp"
+                        app:tint="@color/grey"
+                        android:src="@drawable/ic_unmute_video"
+                        android:id="@+id/ivMuteVideo"/>
+
                     <ImageView
                         android:id="@+id/ivPostPreview"
                         loadPostImageFromUrl="@{data.getThumbnailUrl == null ? data.imageUrl : data.getThumbnailUrl}"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:background="?attr/selectableItemBackground"
                         android:adjustViewBounds="true"
+                        android:background="?attr/selectableItemBackground"
                         android:scaleType="centerCrop"
-                        app:layout_constraintDimensionRatio="H,1:1"                        android:src="@drawable/placeholder"
+                        android:src="@drawable/placeholder"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintDimensionRatio="H,1:1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -196,7 +225,8 @@
                         android:layout_height="40dp"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:src="@drawable/ic_play"
-                        android:visibility="@{data.fileType.equals(PostFileType.VIDEO) ? View.VISIBLE : View.GONE}"
+                        android:id="@+id/ivVideoPlay"
+                        android:visibility="@{data.fileType.equals(PostFileType.VIDEO) ? View.GONE : View.GONE}"
                         app:layout_constraintBottom_toBottomOf="@id/ivPostPreview"
                         app:layout_constraintEnd_toEndOf="@id/ivPostPreview"
                         app:layout_constraintStart_toStartOf="@id/ivPostPreview"
@@ -296,14 +326,14 @@
                         android:id="@+id/llCoverImage"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:alpha="0.8"
                         android:background="@color/backgroundColor"
                         android:clickable="true"
-                        android:alpha="0.8"
                         android:focusable="true"
                         android:foreground="?attr/selectableItemBackground"
                         android:gravity="center"
-                        android:visibility="gone"
                         android:orientation="horizontal"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -376,11 +406,11 @@
                 style="@style/primaryHeadingAccent"
                 prettyNumber="@{data.postLikes}"
                 android:layout_width="wrap_content"
-                android:textColor="@color/textColorLight"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_small"
                 android:layout_marginLeft="@dimen/space_normal"
+                android:layout_marginTop="@dimen/space_small"
                 android:drawablePadding="@dimen/space_small"
+                android:textColor="@color/textColorLight"
                 android:textSize="@dimen/textMedium"
                 app:drawableStartCompat="@drawable/like_color"
                 app:layout_constraintStart_toStartOf="parent"
@@ -394,11 +424,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_small"
-                android:textColor="@color/textColorLight"
-                android:drawablePadding="@dimen/space_small"
                 android:layout_marginRight="@dimen/space_normal"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:drawablePadding="@dimen/space_small"
+                android:textColor="@color/textColorLight"
                 android:textSize="@dimen/textMedium"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cardPostAttachment"
                 tools:text="4k" />
 
@@ -415,8 +445,8 @@
             android:id="@+id/viewSepratorContent1"
             android:layout_width="match_parent"
             android:layout_height="0.8dp"
-            android:layout_marginTop="@dimen/space_small"
             android:layout_marginHorizontal="@dimen/space_large"
+            android:layout_marginTop="@dimen/space_small"
             android:background="@color/lightestGreyHint"
             app:layout_constraintBottom_toTopOf="@id/tvViewContent" />
 
@@ -440,8 +470,8 @@
                     android:layout_marginRight="10dp"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
-                    android:tint="@color/textColorLight"
                     android:src="@{data.like ? @drawable/like_color_new : @drawable/like_new}"
+                    app:tint="@color/textColorLight"
                     tools:src="@drawable/like_new" />
 
                 <TextView
@@ -470,8 +500,8 @@
                     android:layout_marginRight="10dp"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
-                    android:tint="@color/textColorLight"
-                    android:src="@drawable/comment_new" />
+                    android:src="@drawable/comment_new"
+                    app:tint="@color/textColorLight" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -488,12 +518,12 @@
                 android:layout_height="50dp"
                 android:layout_marginStart="2dp"
                 android:layout_weight="1"
-                android:visibility="gone"
                 android:background="@color/grey_shade_post"
                 android:clickable="true"
                 android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="20dp"
@@ -501,8 +531,8 @@
                     android:layout_marginRight="15dp"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
-                    android:tint="@color/textColorLight"
-                    android:src="@drawable/share_new" />
+                    android:src="@drawable/share_new"
+                    app:tint="@color/textColorLight" />
 
                 <TextView
                     android:layout_width="wrap_content"
