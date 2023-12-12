@@ -60,3 +60,4 @@ data class RequestMentorWithCommunityId(val communityId: Int)
 
 //To-do
 data class ViewTodoTask(val todoTaskItem: TodoTaskItem)
+data class MuteVideo(val position: Int)

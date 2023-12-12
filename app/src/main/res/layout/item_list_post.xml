@@ -159,7 +159,7 @@
                 app:trimLength="@{data.fileType == null? 400 : 200}"
                 tools:text="@string/long_about_text" />
 
-            <androidx.cardview.widget.CardView
+            <RelativeLayout
                 android:id="@+id/cardPostAttachment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -177,33 +177,30 @@
                     android:visibility="@{(data.fileType.equals(PostFileType.FILE)) ? View.GONE : View.VISIBLE}"
                     tools:visibility="visible">
 
-                    <com.primapp.ui.post.SimpleVideoPlayer
-                        android:id="@+id/videoView"
+<!--                    <com.primapp.ui.post.SimpleVideoPlayer-->
+<!--                        android:id="@+id/videoView"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="0dp"-->
+<!--                        android:visibility="gone"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="parent"-->
+<!--                        app:loop="true"-->
+<!--                        app:muted="true"-->
+<!--                        app:showSpinner="false"-->
+<!--                        app:stopSystemAudio="true" />-->
+
+                    <com.google.android.exoplayer2.ui.PlayerView
                         android:layout_width="0dp"
-                        android:visibility="gone"
+                        app:resize_mode="fixed_width"
                         android:layout_height="0dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:loop="true"
-                        app:muted="false"
-                        app:showSpinner="false"
-                        app:stopSystemAudio="true" />
-
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:visibility="gone"
-                        android:layout_height="25dp"
-                        app:layout_constraintEnd_toEndOf="@id/videoView"
-                        app:layout_constraintBottom_toBottomOf="@id/videoView"
-                        android:layout_marginBottom="20dp"
-                        android:background="@drawable/shape_circle_white"
-                        android:backgroundTint="@color/lightestGrey"
-                        android:layout_marginRight="20dp"
-                        app:tint="@color/grey"
-                        android:src="@drawable/ic_unmute_video"
-                        android:id="@+id/ivMuteVideo"/>
+                        app:use_controller="false"
+                        android:id="@+id/videoView"/>
 
                     <ImageView
                         android:id="@+id/ivPostPreview"
@@ -399,7 +396,23 @@
                         tools:text="@string/long_about_text" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.cardview.widget.CardView>
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:layout_constraintEnd_toEndOf="@id/cardPostAttachment"
+                app:layout_constraintBottom_toBottomOf="@id/cardPostAttachment"
+                android:backgroundTint="@color/textColorLight"
+                android:layout_marginBottom="20dp"
+                android:layout_marginRight="20dp"
+                app:tint="@color/white"
+                android:background="@drawable/shape_circle_white"
+                android:elevation="40dp"
+                android:visibility="gone"
+                android:id="@+id/ivMuteVideo"
+                android:src="@drawable/ic_mute_vide"
+                android:padding="6dp"/>
 
             <TextView
                 android:id="@+id/tvLikesCount"

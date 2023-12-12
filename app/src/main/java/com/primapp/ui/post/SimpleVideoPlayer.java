@@ -27,7 +27,6 @@ public class SimpleVideoPlayer extends RelativeLayout {
     private TextureView textureView;
     private Surface surface;
 
-
     private SimpleVideoPlayer.VideoPlaybackErrorTracker errorTracker;
 
     private boolean loop = false;
@@ -39,6 +38,7 @@ public class SimpleVideoPlayer extends RelativeLayout {
 
     /**
      * Default constructor
+     *
      * @param context context for the activity
      */
     public SimpleVideoPlayer(Context context) {
@@ -48,8 +48,9 @@ public class SimpleVideoPlayer extends RelativeLayout {
 
     /**
      * Constructor for XML layout
+     *
      * @param context activity context
-     * @param attrs xml attributes
+     * @param attrs   xml attributes
      */
     public SimpleVideoPlayer(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -121,6 +122,11 @@ public class SimpleVideoPlayer extends RelativeLayout {
 
             }
         });
+    }
+
+    public void muteVideo(Boolean state) {
+        if (mediaPlayer != null && state) mediaPlayer.setVolume(0, 0);
+        else if(mediaPlayer != null && !state) mediaPlayer.setVolume(50, 50);
     }
 
     /**
@@ -290,14 +296,15 @@ public class SimpleVideoPlayer extends RelativeLayout {
 
     /**
      * Release the video to stop playback immediately.
-     *
+     * <p>
      * Should be called when you are leaving the playback activity
      */
     public void release() {
         try {
             mediaPlayer.stop();
             mediaPlayer.release();
-        } catch (Exception e) { }
+        } catch (Exception e) {
+        }
 
         mediaPlayer = null;
     }

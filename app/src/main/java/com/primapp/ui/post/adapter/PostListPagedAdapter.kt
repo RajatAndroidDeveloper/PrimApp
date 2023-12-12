@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
@@ -20,7 +21,7 @@ import com.primapp.retrofit.ApiConstant
 import javax.inject.Inject
 
 
-class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) :
+class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit, ) :
     PagingDataAdapter<PostListResult, PostListPagedAdapter.PostsViewHolder>(PostListDiffCallback()) {
 
     fun markPostAsLiked(postId: Int?) {
@@ -50,6 +51,16 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
             snapshot().items.get(position).isBookmark = true
             notifyItemChanged(position)
         }
+    }
+
+    fun getUpdateMuteStatus(state: Boolean, position: Int) {
+        snapshot().items[position].videoMute= state
+        notifyItemChanged(position)
+    }
+
+    fun getMutedStatus(position: Int): Boolean {
+        val item = snapshot().items[position]
+        return item.videoMute
     }
 
     fun removePostAsBookmarked(postId: Int?) {
@@ -114,21 +125,21 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
                     binding.tvFileName.text = data.postContentFile
             }
 
-            if (data!!.fileType == PostFileType.VIDEO){
-                binding.videoView.visibility = View.VISIBLE
+            if(data!!.fileType == PostFileType.VIDEO) {
                 binding.ivMuteVideo.visibility = View.VISIBLE
-
-                if(data!!.videoMute){
-                    binding.ivMuteVideo.setImageResource(R.drawable.ic_unmute_video)
-                } else{
-                    binding.ivMuteVideo.setImageResource(R.drawable.ic_mute_vide)
-                }
-            } else {
-                binding.videoView.visibility = View.GONE
+                binding.ivPostPreview.visibility = View.GONE
+                binding.videoView.visibility = View.VISIBLE
+            } else{
                 binding.ivMuteVideo.visibility = View.GONE
+                binding.ivPostPreview.visibility = View.VISIBLE
+                binding.videoView.visibility = View.GONE
             }
 
-            binding.cardPostAttachment.setOnClickListener {
+            binding.ivMuteVideo.setOnClickListener{
+                onItemClick(MuteVideo(position))
+            }
+
+            binding.clPostAttachment.setOnClickListener {
                 when (data!!.fileType) {
                     PostFileType.VIDEO -> {
                         onItemClick(ShowVideo(data.imageUrl.toString()))

@@ -61,7 +61,7 @@ data class PostListResult(
     @SerializedName("inappropriate_category")
     val inappropriateCategory: String?,
     @SerializedName("video_mute")
-    val videoMute: Boolean = true,
+    var videoMute: Boolean = true,
 ) : Serializable
 
 data class Community(

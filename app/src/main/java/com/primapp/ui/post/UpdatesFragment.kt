@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.View
-import android.view.WindowManager
 import android.widget.ImageView
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
@@ -18,6 +17,12 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.ui.PlayerView
+import com.google.android.exoplayer2.ui.StyledPlayerView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.primapp.R
@@ -35,6 +40,7 @@ import com.primapp.model.HidePost
 import com.primapp.model.LikePost
 import com.primapp.model.LikePostMembers
 import com.primapp.model.LoadWebUrl
+import com.primapp.model.MuteVideo
 import com.primapp.model.ReportPost
 import com.primapp.model.SharePost
 import com.primapp.model.ShowImage
@@ -64,6 +70,7 @@ import com.sendbird.android.user.User
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_dashboard.drawerLayout
 import kotlinx.android.synthetic.main.fragment_updates.rvCommunityPosts
+import kotlinx.android.synthetic.main.item_list_post.ivComment
 import kotlinx.android.synthetic.main.toolbar_dashboard_accent.ivEndIcon
 import kotlinx.android.synthetic.main.toolbar_dashboard_accent.ivMenu
 import kotlinx.android.synthetic.main.toolbar_dashboard_accent.tvCount
@@ -74,7 +81,6 @@ import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.WebSocket
-import java.lang.Exception
 import javax.inject.Inject
 
 
@@ -342,193 +348,13 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
         })
     }
 
+    lateinit var activeImageView: ImageView
+    lateinit var activePlayer: SimpleExoPlayer
     private fun setAdapter() {
         mLayoutManager = LinearLayoutManager(requireContext())
         binding.rvCommunityPosts.apply {
             layoutManager = mLayoutManager
         }
-        var activeAdapter = 0
-
-        binding.rvCommunityPosts.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            // Position of the row that is active
-            var activeAdapter = 0
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-
-                // Get the index of the first Completely visible item
-                val firstCompletelyVisibleItemPosition =
-                    mLayoutManager.findFirstCompletelyVisibleItemPosition()
-                Log.d(
-                    "Updates_Fragment",
-                    "onScrolled: firstCompletelyVisibleItemPosition : $firstCompletelyVisibleItemPosition"
-                )
-
-                // Even if we scroll by a few millimeters the video will start playing from the beginning
-                // So we need to check if the new Active row layout position is equal to the current active row layout position
-                if (activeAdapter != firstCompletelyVisibleItemPosition) {
-                    try {
-                        val video_url: String =
-                            adapter.getPostUrl(firstCompletelyVisibleItemPosition)
-                        val video_view =
-                            mLayoutManager.findViewByPosition(firstCompletelyVisibleItemPosition)!!
-                                .findViewById<View>(R.id.videoView) as SimpleVideoPlayer
-                        val iv_cover =
-                            mLayoutManager.findViewByPosition(firstCompletelyVisibleItemPosition)!!
-                                .findViewById<View>(R.id.ivPostPreview) as ImageView
-                        val ivVideoPlay =
-                            mLayoutManager.findViewByPosition(firstCompletelyVisibleItemPosition)!!
-                                .findViewById<View>(R.id.ivVideoPlay) as ImageView
-
-                        val ivMuteVideo =
-                            mLayoutManager.findViewByPosition(firstCompletelyVisibleItemPosition)!!
-                                .findViewById<View>(R.id.ivMuteVideo) as ImageView
-
-                        if(adapter.getPostType(firstCompletelyVisibleItemPosition) == PostFileType.VIDEO) {
-                            // Start playing the video in Active row layout
-                            video_view.start(Uri.parse(video_url))
-                            ivVideoPlay.visibility = View.GONE
-                            // assign this row layout position as active row Layout
-                            activeAdapter = firstCompletelyVisibleItemPosition
-                            Log.d("TAG", "onScrolled: activeAdapter : $activeAdapter")
-
-                            // Hide the thumbnail ImageView with a delay of 300 millisecond or else there will be black
-                            // screen before a video plays
-                            Handler().postDelayed(
-                                Runnable { iv_cover.visibility = View.INVISIBLE },
-                                300
-                            )
-                        }
-                    } catch (e: java.lang.NullPointerException) {
-                        // Sometimes you scroll so fast that the views are not attached so it gives a NullPointerException
-                    } catch (e: ArrayIndexOutOfBoundsException) {
-                    }
-                    /* Get the Video Surface directly above the fully visible Row Layout so that you may stop the playback
-             when a new row Layout is fully visible
-             */if (firstCompletelyVisibleItemPosition >= 1) {
-                        if (adapter.getPostType(firstCompletelyVisibleItemPosition) == PostFileType.VIDEO) {
-                            try {
-                                val video_view_above =
-                                    mLayoutManager.findViewByPosition(
-                                        firstCompletelyVisibleItemPosition - 1
-                                    )!!
-                                        .findViewById<View>(R.id.videoView) as SimpleVideoPlayer
-                                val ivVideoPlay =
-                                    mLayoutManager.findViewByPosition(
-                                        firstCompletelyVisibleItemPosition - 1
-                                    )!!
-                                        .findViewById<View>(R.id.ivVideoPlay) as ImageView
-                                ivVideoPlay.visibility = View.GONE
-                                video_view_above.release()
-
-                                val thumbnail_string: String =
-                                    adapter.getPostThumbnailUrl(firstCompletelyVisibleItemPosition)
-                                //  video_view_above.start(Uri.parse(thumbnail_string));
-                                val iv_cover_above =
-                                    mLayoutManager.findViewByPosition(
-                                        firstCompletelyVisibleItemPosition - 1
-                                    )!!
-                                        .findViewById<View>(R.id.ivPostPreview) as ImageView
-
-                                // Show the cover Thumbnail ImageView
-                                iv_cover_above.visibility = View.VISIBLE
-                                Picasso.with(requireContext())
-                                    .load(Uri.parse(thumbnail_string))
-                                    .into(iv_cover_above)
-
-                                // video_view_above.setBackground(Uri.parse(thumbnail_string));
-                            } catch (e: java.lang.NullPointerException) {
-                            } catch (e: ArrayIndexOutOfBoundsException) {
-                            }
-                        }
-                    }
-
-                    /* Get the Video Surface directly Below the fully visible Row Layout so that you may stop the playback
-             when a new row Layout is fully visible
-             */if (firstCompletelyVisibleItemPosition + 1 < adapter.itemCount) {
-                        if (adapter.getPostType(firstCompletelyVisibleItemPosition + 1) == PostFileType.VIDEO) {
-                            try {
-                                val video_view_below =
-                                    mLayoutManager.findViewByPosition(
-                                        firstCompletelyVisibleItemPosition + 1
-                                    )!!
-                                        .findViewById<View>(R.id.videoView) as SimpleVideoPlayer
-                                val ivVideoPlay =
-                                    mLayoutManager.findViewByPosition(
-                                        firstCompletelyVisibleItemPosition + 1
-                                    )!!
-                                        .findViewById<View>(R.id.ivVideoPlay)
-
-                                ivVideoPlay.visibility = View.GONE
-                                video_view_below.release()
-                                val thumbnail_string: String =
-                                    adapter.getPostThumbnailUrl(firstCompletelyVisibleItemPosition + 1)
-                                //  video_view_below.start(Uri.parse(thumbnail_string));
-                                val iv_cover_below =
-                                    mLayoutManager.findViewByPosition(
-                                        firstCompletelyVisibleItemPosition + 1
-                                    )!!
-                                        .findViewById<View>(R.id.ivPostPreview) as ImageView
-                                iv_cover_below.visibility = View.VISIBLE
-                                Picasso.with(requireContext())
-                                    .load(Uri.parse(thumbnail_string))
-                                    .into(iv_cover_below)
-                            } catch (e: java.lang.NullPointerException) {
-                            } catch (e: ArrayIndexOutOfBoundsException) {
-                            }
-                        }
-                    }
-                }
-
-                if (activeAdapter == 0 && adapter.getPostType(0) == PostFileType.VIDEO) {
-                    try {
-                        val video_url: String =
-                            adapter.getPostUrl(0)
-                        val video_view =
-                            mLayoutManager.findViewByPosition(0)!!
-                                .findViewById<View>(R.id.videoView) as SimpleVideoPlayer
-                        val iv_cover =
-                            mLayoutManager.findViewByPosition(0)!!
-                                .findViewById<View>(R.id.ivPostPreview) as ImageView
-                        val ivVideoPlay =
-                            mLayoutManager.findViewByPosition(0)!!
-                                .findViewById<View>(R.id.ivVideoPlay) as ImageView
-
-                        // Start playing the video in Active row layout
-                        video_view.start(Uri.parse(video_url))
-                        ivVideoPlay.visibility = View.GONE
-                        // assign this row layout position as active row Layout
-                        activeAdapter = 0
-                        Log.d("TAG", "onScrolled: activeAdapter : $activeAdapter")
-
-
-                        // Hide the thumbnail ImageView with a delay of 300 millisecond or else there will be black
-                        // screen before a video plays
-                        Handler().postDelayed(
-                            Runnable { iv_cover.visibility = View.INVISIBLE },
-                            300
-                        )
-                    } catch (e: java.lang.NullPointerException) {
-                        // Sometimes you scroll so fast that the views are not attached so it gives a NullPointerException
-                    } catch (e: ArrayIndexOutOfBoundsException) {
-                    }
-                }
-            }
-        })
-
-        binding.rvCommunityPosts.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-
-                val firstVisibleItem = mLayoutManager.findFirstVisibleItemPosition()
-                if (firstVisibleItem > 1) {
-                    //  && dy < 0 Show FAB if 1st item is not visible and scrolling upside
-                    binding.tvScrollUp.visibility = View.VISIBLE
-                } else {
-                    //Hide FAB
-                    binding.tvScrollUp.visibility = View.GONE
-                }
-            }
-        })
 
         binding.tvScrollUp.setOnClickListener {
             rvCommunityPosts.smoothScrollToPosition(0)
@@ -556,11 +382,6 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                         showError(requireContext(), it.error.localizedMessage)
                     }
                 }
-                /*
-                if (loadState.append.endOfPaginationReached && adapter.itemCount < 1) {
-                    binding.groupPostView.isVisible = false
-                    binding.groupNoPostView.isVisible = true
-                }*/
 
             } else {
                 binding.swipeRefresh.isRefreshing = false
@@ -569,6 +390,178 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                 }
             }
         }
+
+        setUpRecyclerScrollView()
+    }
+
+    private fun setUpRecyclerScrollView() {
+        binding.rvCommunityPosts.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            var activeAdapter = 0
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                // Get the index of the first Completely visible item
+                var firstCompletelyVisibleItemPosition =
+                    mLayoutManager.findFirstCompletelyVisibleItemPosition()
+                Log.d(
+                    "Update_fragment_video_play",
+                    "onScrolled: firstCompletelyVisibleItemPosition : " + firstCompletelyVisibleItemPosition
+                );
+
+                // Even if we scroll by a few millimeters the video will start playing from the beginning
+                // So we need to check if the new Active row layout position is equal to the current active row layout position
+
+                if (activeAdapter != firstCompletelyVisibleItemPosition) {
+                    try {
+                        val video_url: String =
+                            adapter.getPostUrl(firstCompletelyVisibleItemPosition)
+                        val video_view =
+                            mLayoutManager.findViewByPosition(firstCompletelyVisibleItemPosition)!!
+                                .findViewById<View>(R.id.videoView) as PlayerView
+                        val iv_cover =
+                            mLayoutManager.findViewByPosition(firstCompletelyVisibleItemPosition)!!
+                                .findViewById<View>(R.id.ivPostPreview) as ImageView
+                        val ivMuted =
+                            mLayoutManager.findViewByPosition(firstCompletelyVisibleItemPosition)!!
+                                .findViewById<View>(R.id.ivMuteVideo) as ImageView
+
+                        // Start playing the video in Active row layout
+                        if (adapter.getPostType(firstCompletelyVisibleItemPosition) == PostFileType.VIDEO) {
+                            video_view.visibility = View.VISIBLE
+                            val player = SimpleExoPlayer.Builder(context!!).build()
+                            video_view.player = player
+                            val mediaItem: MediaItem = MediaItem.fromUri(video_url)
+                            player.addMediaItem(mediaItem)
+                            video_view.hideController()
+                            player.prepare()
+                            player.playWhenReady = true
+                            activePlayer = player
+                            activeImageView = ivMuted
+                            // Hide the thumbnail ImageView with a delay of 300 millisecond or else there will be black
+                            // screen before a video plays
+                            Handler().postDelayed({ iv_cover.visibility = View.INVISIBLE }, 300)
+                        }
+
+                        // assign this row layout position as active row Layout
+                        activeAdapter = firstCompletelyVisibleItemPosition
+                        Log.d(
+                            "Update_fragment_video_play",
+                            "onScrolled: activeAdapter : $activeAdapter"
+                        )
+                    } catch (e: java.lang.NullPointerException) {
+                        // Sometimes you scroll so fast that the views are not attached so it gives a NullPointerException
+                    } catch (e: ArrayIndexOutOfBoundsException) {
+                    }
+
+                    /* Get the Video Surface directly above the fully visible Row Layout so that you may stop the playback
+                  when a new row Layout is fully visible
+                  */
+                    /* Get the Video Surface directly above the fully visible Row Layout so that you may stop the playback
+                  when a new row Layout is fully visible
+                  */if (firstCompletelyVisibleItemPosition >= 1) {
+                        try {
+                            val video_view_above =
+                                mLayoutManager.findViewByPosition(firstCompletelyVisibleItemPosition - 1)!!
+                                    .findViewById<View>(R.id.videoView) as PlayerView
+
+                            var player = video_view_above.player
+                            player!!.release()
+
+                            val thumbnail_string: String =
+                                adapter.getPostThumbnailUrl(firstCompletelyVisibleItemPosition - 1)
+                            //  video_view_above.start(Uri.parse(thumbnail_string));
+                            val iv_cover_above =
+                                mLayoutManager.findViewByPosition(firstCompletelyVisibleItemPosition - 1)!!
+                                    .findViewById<View>(R.id.ivPostPreview) as ImageView
+
+                            // Show the cover Thumbnail ImageView
+                            iv_cover_above.visibility = View.VISIBLE
+                            Picasso.with(requireActivity())
+                                .load(Uri.parse(thumbnail_string))
+                                .into(iv_cover_above)
+
+                            // video_view_above.setBackground(Uri.parse(thumbnail_string));
+                        } catch (e: java.lang.NullPointerException) {
+                        } catch (e: ArrayIndexOutOfBoundsException) {
+                        }
+                    }
+
+                    /* Get the Video Surface directly Below the fully visible Row Layout so that you may stop the playback
+                  when a new row Layout is fully visible
+                  */
+                    /* Get the Video Surface directly Below the fully visible Row Layout so that you may stop the playback
+                  when a new row Layout is fully visible
+                  */if (firstCompletelyVisibleItemPosition + 1 < adapter.snapshot().size) {
+                        try {
+                            val video_view_below =
+                                mLayoutManager.findViewByPosition(firstCompletelyVisibleItemPosition + 1)!!
+                                    .findViewById<View>(R.id.videoView) as PlayerView
+
+                            var player = video_view_below.player
+                            player!!.release()
+
+                            val thumbnail_string: String =
+                                adapter.getPostUrl(firstCompletelyVisibleItemPosition + 1)
+                            //  video_view_below.start(Uri.parse(thumbnail_string));
+                            val iv_cover_below =
+                                mLayoutManager.findViewByPosition(firstCompletelyVisibleItemPosition + 1)!!
+                                    .findViewById<View>(R.id.ivPostPreview) as ImageView
+
+                            // Show the cover Thumbnail ImageView
+                            iv_cover_below.visibility = View.VISIBLE
+                            Picasso.with(requireActivity())
+                                .load(Uri.parse(thumbnail_string))
+                                .into(iv_cover_below)
+
+                        } catch (e: java.lang.NullPointerException) {
+                        } catch (e: ArrayIndexOutOfBoundsException) {
+                        }
+                    }
+
+                }
+
+                if (activeAdapter == 0 && adapter.getPostType(0) == PostFileType.VIDEO) {
+                    try {
+                        val video_url: String =
+                            adapter.getPostUrl(0)
+                        val video_view =
+                            mLayoutManager.findViewByPosition(0)!!
+                                .findViewById<View>(R.id.videoView) as PlayerView
+                        val iv_cover =
+                            mLayoutManager.findViewByPosition(0)!!
+                                .findViewById<View>(R.id.ivPostPreview) as ImageView
+                        val ivMuted =
+                            mLayoutManager.findViewByPosition(0)!!
+                                .findViewById<View>(R.id.ivMuteVideo) as ImageView
+
+                        try {
+                            video_view.visibility = View.VISIBLE
+                            iv_cover.visibility = View.GONE
+                            val player = SimpleExoPlayer.Builder(context!!).build()
+                            video_view.player = player
+                            val mediaItem: MediaItem = MediaItem.fromUri(video_url)
+                            player.addMediaItem(mediaItem)
+                            video_view.hideController()
+                            player.prepare()
+                            player.volume = 0f
+                            player.playWhenReady = true
+                            activePlayer = player
+                            activeImageView = ivMuted
+                            // Hide the thumbnail ImageView with a delay of 300 millisecond or else there will be black
+                            // screen before a video plays
+                            Handler().postDelayed({ iv_cover.visibility = View.INVISIBLE }, 300)
+                        } catch (e: java.lang.Exception) {
+                            e.printStackTrace()
+                        }
+                    } catch (e: java.lang.NullPointerException) {
+                        // Sometimes you scroll so fast that the views are not attached so it gives a NullPointerException
+                    } catch (e: ArrayIndexOutOfBoundsException) {
+                    }
+                }
+
+            }
+        })
     }
 
     fun refreshData() {
@@ -585,6 +578,20 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
 
     private fun onItemClick(item: Any?) {
         when (item) {
+            is MuteVideo -> {
+                try {
+                    if (activePlayer.volume == 0f) {
+                        activeImageView.setImageResource(R.drawable.ic_unmute_video)
+                        activePlayer.volume = 1f
+                    } else {
+                        activeImageView.setImageResource(R.drawable.ic_mute_vide)
+                        activePlayer.volume = 0f
+                    }
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
+                }
+            }
+
             is ShowImage -> {
                 val bundle = Bundle()
                 bundle.putString("url", item.url)
@@ -766,8 +773,9 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
             val firstCompletelyVisibleItemPosition: Int =
                 mLayoutManager.findFirstCompletelyVisibleItemPosition()
             val videoView = mLayoutManager.findViewByPosition(firstCompletelyVisibleItemPosition)
-                ?.findViewById(R.id.videoView) as SimpleVideoPlayer
-            videoView.release()
+                ?.findViewById<PlayerView>(R.id.videoView)
+            var player = videoView!!.player
+            player!!.release()
         } catch (e: NullPointerException) {
             // Sometimes you scroll so fast that the views are not attached so it gives a NullPointerException
         } catch (e: ArrayIndexOutOfBoundsException) {
