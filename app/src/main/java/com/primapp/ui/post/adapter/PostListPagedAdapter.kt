@@ -127,12 +127,8 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit, 
 
             if(data!!.fileType == PostFileType.VIDEO) {
                 binding.ivMuteVideo.visibility = View.VISIBLE
-                binding.ivPostPreview.visibility = View.GONE
-                binding.videoView.visibility = View.VISIBLE
             } else{
                 binding.ivMuteVideo.visibility = View.GONE
-                binding.ivPostPreview.visibility = View.VISIBLE
-                binding.videoView.visibility = View.GONE
             }
 
             binding.ivMuteVideo.setOnClickListener{

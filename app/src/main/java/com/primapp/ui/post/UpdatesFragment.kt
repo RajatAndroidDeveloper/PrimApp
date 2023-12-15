@@ -71,6 +71,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_dashboard.drawerLayout
 import kotlinx.android.synthetic.main.fragment_updates.rvCommunityPosts
 import kotlinx.android.synthetic.main.item_list_post.ivComment
+import kotlinx.android.synthetic.main.item_list_post.ivPostPreview
 import kotlinx.android.synthetic.main.toolbar_dashboard_accent.ivEndIcon
 import kotlinx.android.synthetic.main.toolbar_dashboard_accent.ivMenu
 import kotlinx.android.synthetic.main.toolbar_dashboard_accent.tvCount
@@ -348,6 +349,10 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
         })
     }
 
+    fun releaseExoPlayer(){
+        activePlayer.release()
+    }
+
     lateinit var activeImageView: ImageView
     lateinit var activePlayer: SimpleExoPlayer
     private fun setAdapter() {
@@ -429,11 +434,13 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                         // Start playing the video in Active row layout
                         if (adapter.getPostType(firstCompletelyVisibleItemPosition) == PostFileType.VIDEO) {
                             video_view.visibility = View.VISIBLE
+                            ivPostPreview.visibility = View.GONE
                             val player = SimpleExoPlayer.Builder(context!!).build()
                             video_view.player = player
                             val mediaItem: MediaItem = MediaItem.fromUri(video_url)
                             player.addMediaItem(mediaItem)
                             video_view.hideController()
+                            player.volume = 0f
                             player.prepare()
                             player.playWhenReady = true
                             activePlayer = player
@@ -776,9 +783,21 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                 ?.findViewById<PlayerView>(R.id.videoView)
             var player = videoView!!.player
             player!!.release()
+
+            activePlayer.release()
         } catch (e: NullPointerException) {
             // Sometimes you scroll so fast that the views are not attached so it gives a NullPointerException
         } catch (e: ArrayIndexOutOfBoundsException) {
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        try{
+            activePlayer.release()
+        }catch (e: java.lang.Exception){
+            e.printStackTrace()
         }
     }
 

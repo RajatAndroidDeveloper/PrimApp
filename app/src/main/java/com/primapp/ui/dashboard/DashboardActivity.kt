@@ -11,6 +11,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -27,6 +28,7 @@ import com.primapp.fcm.MyFirebaseMessagingService
 import com.primapp.retrofit.ApiConstant
 import com.primapp.ui.MainActivity
 import com.primapp.ui.base.BaseActivity
+import com.primapp.ui.post.UpdatesFragment
 import com.primapp.ui.profile.UserPostsFragment
 import com.primapp.utils.AnalyticsManager
 import com.primapp.utils.DialogUtils
@@ -62,6 +64,7 @@ import kotlinx.android.synthetic.main.custom_navigation_drawer_layout.tvUserName
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.WebSocket
+import java.lang.Exception
 import javax.inject.Inject
 
 
@@ -295,10 +298,51 @@ class DashboardActivity : BaseActivity() {
         super.onPause()
         navController.removeOnDestinationChangedListener(navListener)
         disconnectSocket()
+
+        try{
+            val navHostFragment: Fragment? =
+                supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+            navHostFragment?.childFragmentManager?.fragments?.get(0)
+
+           if(navHostFragment is UpdatesFragment) {
+               navHostFragment.activePlayer.volume = 0f
+               navHostFragment.releaseExoPlayer()
+           }
+        } catch (e: Exception) {
+          e.printStackTrace()
+        }
     }
 
+    override fun onStop() {
+        super.onStop()
+
+        try{
+            val navHostFragment: Fragment? =
+                supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+            navHostFragment?.childFragmentManager?.fragments?.get(0)
+
+            if(navHostFragment is UpdatesFragment) {
+                navHostFragment.activePlayer.volume = 0f
+                navHostFragment.releaseExoPlayer()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
     override fun onDestroy() {
         super.onDestroy()
+        try{
+            val navHostFragment: Fragment? =
+                supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+            navHostFragment?.childFragmentManager?.fragments?.get(0)
+
+            if(navHostFragment is UpdatesFragment) {
+                navHostFragment.activePlayer.volume = 0f
+                navHostFragment.releaseExoPlayer()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
         disconnectSocket()
     }
 
@@ -460,6 +504,7 @@ class DashboardActivity : BaseActivity() {
         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         startActivity(browserIntent)
     }
+
     fun logout() {
         DialogUtils.showYesNoDialog(this, R.string.logout_message, {
             showLoading()

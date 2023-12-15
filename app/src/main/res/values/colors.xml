@@ -35,6 +35,4 @@
     <color name="priority_high">#ff5f5a</color>
     <color name="priority_normal">#fedc96</color>
     <color name="priority_low">#92e29d</color>
-
-    <color name="priority_low_1">#92e29d</color>
 </resources>
