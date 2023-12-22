@@ -558,6 +558,8 @@
     <string name="account_settings">Account Settings</string>
     <string name="are_you_sure_you_want_to_delete_account">Are you sure you want to delete account?</string>
     <string name="reply_deleted_success">Your reply is deleted successfully.</string>
+    <string name="post_creation_in_progress">Your post creation is in progress.</string>
+    <string name="announcements">Announcements</string>
 
     <string-array name="categories">
         <item>Mentor</item>

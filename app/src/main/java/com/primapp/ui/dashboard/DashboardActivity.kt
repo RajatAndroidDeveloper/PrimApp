@@ -45,6 +45,7 @@ import kotlinx.android.synthetic.main.activity_dashboard.drawerLayout
 import kotlinx.android.synthetic.main.custom_navigation_drawer_layout.ivClose
 import kotlinx.android.synthetic.main.custom_navigation_drawer_layout.ivProfileImage
 import kotlinx.android.synthetic.main.custom_navigation_drawer_layout.llAboutUs
+import kotlinx.android.synthetic.main.custom_navigation_drawer_layout.llAnnouncements
 import kotlinx.android.synthetic.main.custom_navigation_drawer_layout.llBookmarks
 import kotlinx.android.synthetic.main.custom_navigation_drawer_layout.llDashboard
 import kotlinx.android.synthetic.main.custom_navigation_drawer_layout.llDeleteAccount
@@ -403,6 +404,11 @@ class DashboardActivity : BaseActivity() {
             openAboutUs()
         }
 
+        llAnnouncements.setOnClickListener {
+            drawerLayout.closeDrawer(GravityCompat.START)
+            openAnnouncements()
+        }
+
         llRewards.setOnClickListener {
             drawerLayout.closeDrawer(GravityCompat.START)
             openRewards()
@@ -460,6 +466,14 @@ class DashboardActivity : BaseActivity() {
 //        bundle.putString("url", ApiConstant.ABOUT_US)
 //        navController.navigate(R.id.commonWebView, bundle)
         openBrowser(ApiConstant.ABOUT_US)
+    }
+
+    fun openAnnouncements() {
+//        val bundle = Bundle()
+//        bundle.putString("title", getString(R.string.about_us))
+//        bundle.putString("url", ApiConstant.ABOUT_US)
+//        navController.navigate(R.id.commonWebView, bundle)
+        openBrowser(ApiConstant.ANNOUNCMENTS)
     }
 
     fun openTermsOfConditions() {

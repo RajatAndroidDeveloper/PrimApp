@@ -6,7 +6,8 @@ object ApiConstant {
 
     const val BASE_URL = BuildConfig.BASE_URL
 
-    const val ABOUT_US = "http://admin.prim-technology.com/about-us"
+    const val ANNOUNCMENTS = "http://admin.prim-technology.com/about-us"
+    const val ABOUT_US = "https://www.prim-technology.com/about-us/"
     const val TERMS_OF_SERVICES = "https://www.prim-technology.com/terms-of-service/"
     const val PRIM_REWARDS = "http://admin.prim-technology.com/prim-rewards"
     const val SENSITIVE_DATA_DISCLAIMER = "https://admin.prim-technology.com/legel-disclaimer"

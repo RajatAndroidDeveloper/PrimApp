@@ -16,12 +16,13 @@ import com.sendbird.android.params.InitParams
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 
-class PrimApp() : DaggerApplication() {
+class PrimApp : DaggerApplication() {
     private val TAG = "PrimApp_Lifecycle"
 
     override fun onCreate() {
         super.onCreate()
         sendbirdChatInit()
+        appContext = applicationContext
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
@@ -48,4 +49,7 @@ class PrimApp() : DaggerApplication() {
             })
     }
 
+    companion object {
+        lateinit  var appContext: Context
+    }
 }

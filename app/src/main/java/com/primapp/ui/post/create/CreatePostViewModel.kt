@@ -20,6 +20,8 @@ import com.primapp.retrofit.base.BaseDataModel
 import com.primapp.retrofit.base.Event
 import com.primapp.retrofit.base.Resource
 import com.primapp.utils.ErrorFields
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -81,7 +83,7 @@ class CreatePostViewModel @Inject constructor(
         xAmzDate: String,
         xAmzSignature: String,
         file: MultipartBody.Part?
-    ) = viewModelScope.launch {
+    ) = viewModelScope.launch{
         _uploadAWSLiveData.postValue(Event(Resource.loading(null)))
         _uploadAWSLiveData.postValue(
             Event(repo.uploadtoAWS(url, key, accessKey, amzSecurityToken, policy, signature, xAmzAlgorithm, xAmzCredential, xAmzDate, xAmzSignature, file))

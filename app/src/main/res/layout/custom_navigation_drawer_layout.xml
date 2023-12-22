@@ -345,7 +345,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/llAboutUs"
+                android:id="@+id/llAnnouncements"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_extraSmall"
@@ -356,6 +356,33 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/ivProfileImage"
                 app:layout_constraintTop_toBottomOf="@id/llHiddenPosts">
+
+                <ImageView
+                    android:layout_width="@dimen/textMediumX"
+                    android:layout_height="@dimen/textMediumX"
+                    android:src="@drawable/icon_awesome_info_circle" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/space_small"
+                    android:text="@string/announcements"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/textMedium" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llAboutUs"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_extraSmall"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/space_extraSmall"
+                android:paddingBottom="@dimen/space_extraSmall"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/ivProfileImage"
+                app:layout_constraintTop_toBottomOf="@id/llAnnouncements">
 
                 <ImageView
                     android:layout_width="@dimen/textMediumX"
