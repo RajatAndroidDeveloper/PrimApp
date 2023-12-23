@@ -8,6 +8,7 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
+import android.view.View
 import android.widget.LinearLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -30,7 +31,9 @@ import com.primapp.ui.profile.UserJoinedCommunitiesFragment
 import com.primapp.ui.profile.UserPostsFragment
 import com.primapp.viewmodels.CommunitiesViewModel
 import kotlinx.android.synthetic.main.fragment_other_user_profile.*
+import kotlinx.android.synthetic.main.fragment_profile.view.tvEmail
 import kotlinx.android.synthetic.main.layout_others_profile_top_card.*
+import kotlinx.android.synthetic.main.layout_others_profile_top_card.view.tvGenderDobCountry
 
 class OtherUserProfileFragment : BaseFragment<FragmentOtherUserProfileBinding>() {
 
@@ -60,6 +63,10 @@ class OtherUserProfileFragment : BaseFragment<FragmentOtherUserProfileBinding>()
             return
         }
         viewModel.getUserData(userId!!)
+
+        includeProfileCard.tvEmail.visibility = View.GONE
+        includeProfileCard.tvGenderDobCountry.visibility = View.GONE
+
     }
 
     private fun setObserver() {
