@@ -560,6 +560,8 @@
     <string name="reply_deleted_success">Your reply is deleted successfully.</string>
     <string name="post_creation_in_progress">Your post creation is in progress.</string>
     <string name="announcements">Announcements</string>
+    <string name="live_camera">Live Camera</string>
+    <string name="photo_and_video">Photo/Video\n</string>
 
     <string-array name="categories">
         <item>Mentor</item>

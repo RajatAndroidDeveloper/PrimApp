@@ -68,10 +68,10 @@
                             android:layout_width="32dp"
                             android:layout_height="32dp"
                             android:layout_alignParentRight="true"
-                            android:layout_marginEnd="@dimen/space_medium"
+                          android:layout_marginEnd="@dimen/space_medium"
                             android:onClick="@{()->frag.onViewPortfolio()}"
                             android:src="@drawable/portfolio"
-                            android:visibility="@{user.isPortfolioAvailable ? View.VISIBLE : View.GONE}"
+                            android:visibility="@{user.isPortfolioAvailable ? View.GONE : View.GONE}"
                             app:tint="@color/colorAccent" />
 
                     </RelativeLayout>

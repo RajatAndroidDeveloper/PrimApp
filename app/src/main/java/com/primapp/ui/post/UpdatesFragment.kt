@@ -405,6 +405,14 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy);
+                val firstVisibleItem = mLayoutManager.findFirstVisibleItemPosition()
+                if (firstVisibleItem > 1) {
+                    //  && dy < 0 Show FAB if 1st item is not visible and scrolling upside
+                    binding.tvScrollUp.visibility = View.VISIBLE
+                } else {
+                    //Hide FAB
+                    binding.tvScrollUp.visibility = View.GONE
+                }
 
                 // Get the index of the first Completely visible item
                 var firstCompletelyVisibleItemPosition =

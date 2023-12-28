@@ -29,13 +29,13 @@
             android:layout_height="wrap_content"
             android:drawableStart="@null"
             android:gravity="top"
-            android:textSize="@dimen/textNormal"
             android:hint="@string/create_post_placeholder"
             android:imeActionLabel="Done"
             android:imeOptions="actionDone"
             android:lines="6"
             android:text="@={viewModel.createPostRequestModel.postText}"
             android:textColorHint="@color/textColorLight"
+            android:textSize="@dimen/textNormal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/clToolbar"
@@ -55,13 +55,14 @@
 
             <LinearLayout
                 android:id="@+id/llCamera"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:background="@drawable/shape_rounded_corner_grey_small_corner"
                 android:backgroundTint="@color/lightestGrey"
                 android:onClick="@{()->frag.showFileOptions()}"
-                android:padding="@dimen/space_small"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="@dimen/space_small">
 
                 <ImageButton
                     android:id="@+id/ibCamera"
@@ -74,56 +75,60 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_light"
                     android:layout_gravity="center_vertical"
                     android:ellipsize="end"
+                    android:fontFamily="@font/poppins_light"
                     android:paddingLeft="@dimen/space_extraSmall"
-                    android:text="@string/photo"
+                    android:singleLine="true"
+                    android:text="@string/live_camera"
                     android:textColor="@color/textColor"
-                    android:textSize="@dimen/textMedium" />
+                    android:textSize="@dimen/textSmall" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/llVideo"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/space_small"
-                android:padding="@dimen/space_small"
-                android:backgroundTint="@color/lightestGrey"
+                android:layout_weight="1"
                 android:background="@drawable/shape_rounded_corner_grey_small_corner"
+                android:backgroundTint="@color/lightestGrey"
                 android:onClick="@{()->frag.openGalleryToSelectVideoPhoto()}"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="@dimen/space_small">
 
                 <ImageButton
                     android:id="@+id/ibVideo"
-                    android:layout_gravity="center_vertical"
                     android:layout_width="@dimen/space_extraLarge"
                     android:layout_height="@dimen/space_extraLarge"
+                    android:layout_gravity="center_vertical"
                     android:src="@drawable/ic_gallery"
                     app:tint="@color/textColor" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:ellipsize="end"
                     android:fontFamily="@font/poppins_light"
                     android:paddingLeft="@dimen/space_extraSmall"
-                    android:layout_gravity="center_vertical"
+                    android:singleLine="true"
+                    android:text="@string/photo_and_video"
                     android:textColor="@color/textColor"
-                    android:ellipsize="end"
-                    android:text="@string/video"
-                    android:textSize="@dimen/textMedium" />
+                    android:textSize="@dimen/textSmall" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/llAttachment"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="@dimen/space_small"
                 android:layout_marginStart="@dimen/space_small"
+                android:layout_weight="1"
                 android:background="@drawable/shape_rounded_corner_grey_small_corner"
-                android:onClick="@{()->frag.attachDocument()}"
                 android:backgroundTint="@color/lightestGrey"
-                android:orientation="horizontal">
+                android:onClick="@{()->frag.attachDocument()}"
+                android:orientation="horizontal"
+                android:padding="@dimen/space_small">
 
                 <ImageButton
                     android:id="@+id/ibAttachment"
@@ -135,15 +140,16 @@
                     app:tint="@color/textColor" />
 
                 <TextView
-                    android:textColor="@color/textColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:paddingLeft="@dimen/space_extraSmall"
                     android:ellipsize="end"
                     android:fontFamily="@font/poppins_light"
+                    android:paddingLeft="@dimen/space_extraSmall"
+                    android:singleLine="true"
                     android:text="@string/document"
-                    android:textSize="@dimen/textMedium" />
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/textSmall" />
             </LinearLayout>
         </LinearLayout>
 
@@ -243,8 +249,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:editable="false"
-                android:focusableInTouchMode="false"
                 android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:imeActionLabel="Done"
                 android:imeOptions="actionDone"
                 android:singleLine="true" />
@@ -266,10 +272,10 @@
                 android:id="@+id/mAutoCompleteCommunity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:imeActionLabel="Done"
                 android:editable="false"
-                android:focusableInTouchMode="false"
                 android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:imeActionLabel="Done"
                 android:imeOptions="actionDone"
                 android:singleLine="true" />
 

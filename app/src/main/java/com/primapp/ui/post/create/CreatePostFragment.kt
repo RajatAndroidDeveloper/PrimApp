@@ -145,24 +145,24 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
             }
         })
 */
-        //Back button press callback
-//        requireActivity().onBackPressedDispatcher.addCallback(this) {
-//            if (type == CREATE_POST) {
-//                val requestData = viewModel.createPostRequestModel.value
-//                if (!requestData?.postText.isNullOrEmpty() || selectedFile != null) {
-//                    DialogUtils.showYesNoDialog(
-//                        requireActivity(),
-//                        R.string.create_post_discard_msg,
-//                        {
-//                            findNavController().popBackStack()
-//                        })
-//                } else {
-//                    findNavController().popBackStack()
-//                }
-//            } else {
-//                findNavController().popBackStack()
-//            }
-//        }
+        /*Back button press callback
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            if (type == CREATE_POST) {
+                val requestData = viewModel.createPostRequestModel.value
+                if (!requestData?.postText.isNullOrEmpty() || selectedFile != null) {
+                    DialogUtils.showYesNoDialog(
+                        requireActivity(),
+                        R.string.create_post_discard_msg,
+                        {
+                            findNavController().popBackStack()
+                        })
+                } else {
+                    findNavController().popBackStack()
+                }
+            } else {
+                findNavController().popBackStack()
+            }
+        }*/
     }
 
     private fun setUpPostData(postData: PostListResult) {
@@ -226,29 +226,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                 }
             }
         }
-//        val fileTypeOptions = arrayOf(
-//            "Image",
-//            "Video"
-//        )
-//        DialogUtils.showChooserDialog(
-//            requireContext(),
-//            getString(R.string.choose_media_type),
-//            fileTypeOptions
-//        ) { fileTypeSelected ->
-//            when (fileTypeSelected) {
-//                0 -> {
-//                    postFileType = PostFileType.IMAGE
-//                    postFileLocationType = "Camera"
-//                    pickFileAskPermission()
-//                }
-//
-//                else -> {
-//                    postFileType = PostFileType.VIDEO
-//                    postFileLocationType = "Camera"
-//                    pickFileAskPermission()
-//                }
-//            }
-//        }
+
         //For update post, so that we can remove data if filetype changes in viewmodel
         viewModel.createPostRequestModel.value?.fileType = postFileType
         isUpdatedPostAttachment = true
@@ -333,7 +311,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
         })
 
 
-        viewModel.createPostLiveData.observe(viewLifecycleOwner, Observer {
+        /*viewModel.createPostLiveData.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
                 hideLoading()
                 when (it.status) {
@@ -356,104 +334,9 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                     }
                 }
             }
-        })
+        })*/
 
-//        viewModel.generatePresignedURLLiveData.observeForever {
-//            it.getContentIfNotHandled()?.let {
-//                hideLoading()
-//                when (it.status) {
-//                    Status.ERROR -> {
-//                        showError(PrimApp.appContext, it.message.toString())
-//                    }
-//
-//                    Status.LOADING -> {
-//                        showLoading()
-////                        try {
-////                            DialogUtils.showCloseDialog(
-////                                requireActivity(),
-////                                R.string.post_creation_in_progress
-////                            ) {
-////                                requireActivity().onBackPressed()
-////                            }
-////                        }catch (e: Exception){
-////                            e.printStackTrace()
-////                        }
-//                    }
-//
-//                    Status.SUCCESS -> {
-//                        it.data?.content?.let {
-//                            val part: MultipartBody.Part
-//                            if (isThumbnailUploaded) {
-//                                viewModel.createPostRequestModel.value?.thumbnailFile =
-//                                    it.fields.key
-//                                val bitmap = FileUtils.getBitmapThumbnailForVideo(
-//                                    PrimApp.appContext,
-//                                    selectedFile!!
-//                                )
-//                                part = RetrofitUtils.bitmapToMultipartBody(
-//                                    bitmap,
-//                                    it.fields.key ?: "",
-//                                    "file"
-//                                )
-//                            } else {
-//                                viewModel.createPostRequestModel.value?.postContentFile =
-//                                    it.fields.key
-//                                part = RetrofitUtils.fileToRequestBody(selectedFile!!, "file")
-//                            }
-//
-//                            viewModel.createPostRequestModel.value?.fileType = postFileType
-//                            viewModel.uploadAWS(
-//                                it.url,
-//                                it.fields.key ?: "",
-//                                it.fields.aWSAccessKeyId ?: "",
-//                                it.fields.xAmzSecurityToken,
-//                                it.fields.policy ?: "",
-//                                it.fields.signature ?: "",
-//                                it.fields.xAmzAlgorithm ?: "",
-//                                it.fields.xAmzCredential ?: "",
-//                                it.fields.xAmzDate ?: "",
-//                                it.fields.xAmzSignature ?: "",
-//                                part
-//                            )
-//                        }
-//                    }
-//                }
-//            }
-//        }
-
-//        viewModel.uploadAWSLiveData.observeForever {
-//            it.getContentIfNotHandled()?.let {
-//                hideLoading()
-//                when (it.status) {
-//                    Status.ERROR -> {
-//                        showError(requireContext(), it.message.toString())
-//                    }
-//
-//                    Status.LOADING -> {
-//                      showLoading()
-//                    }
-//
-//                    Status.SUCCESS -> {
-//                        if (postFileType == PostFileType.VIDEO && !isThumbnailUploaded) {
-//                            isThumbnailUploaded = true
-//                            viewModel.generatePresignedUrl(
-//                                "user-id-${UserCache.getUserId(PrimApp.appContext)}/" + (PrimApp.appContext).getString(
-//                                    R.string.create_community_post_folder
-//                                ) + "" + AwsHelper.getObjectName(
-//                                    AwsHelper.AWS_OBJECT_TYPE.THUMBNAIL,
-//                                    UserCache.getUser(PrimApp.appContext)!!.id,
-//                                    "jpg"
-//                                )
-//                            )
-//                        } else {
-//                            sendPost()
-//                        }
-//                    }
-//                }
-//            }
-//        }
-
-        viewModel.generatePresignedURLLiveData.observe(viewLifecycleOwner, Observer {
+        /*viewModel.generatePresignedURLLiveData.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
                 hideLoading()
                 Log.e("asasasasasas", Gson().toJson(it).toString())
@@ -505,9 +388,133 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                     }
                 }
             }
-        })
+        })*/
 
-        viewModel.uploadAWSLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.createPostLiveData.observeForever {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.SUCCESS -> {
+                        UserCache.incrementPostCount(PrimApp.appContext)
+                        try {
+                            DialogUtils.showCloseDialog(
+                                requireActivity(),
+                                R.string.post_created_success
+                            ) {
+                                findNavController().popBackStack()
+                            }
+                        }catch (e: Exception){
+                            e.printStackTrace()
+                        }
+                    }
+
+                    Status.ERROR -> {
+                        showError(PrimApp.appContext, it.message!!)
+                    }
+
+                    Status.LOADING -> {
+                        showLoading()
+                    }
+                }
+            }
+        }
+
+        viewModel.generatePresignedURLLiveData.observeForever {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.ERROR -> {
+                        showError(PrimApp.appContext, it.message.toString())
+                    }
+
+                    Status.LOADING -> {
+                        // showLoading()
+                        try {
+                            DialogUtils.showCloseDialog(
+                                requireActivity(),
+                                R.string.post_creation_in_progress
+                            ) {
+                                findNavController().popBackStack()
+                            }
+                        }catch (e: Exception){
+                            e.printStackTrace()
+                        }
+                    }
+
+                    Status.SUCCESS -> {
+                        it.data?.content?.let {
+                            val part: MultipartBody.Part
+                            if (isThumbnailUploaded) {
+                                viewModel.createPostRequestModel.value?.thumbnailFile =
+                                    it.fields.key
+                                val bitmap = FileUtils.getBitmapThumbnailForVideo(
+                                    PrimApp.appContext,
+                                    selectedFile!!
+                                )
+                                part = RetrofitUtils.bitmapToMultipartBody(
+                                    bitmap,
+                                    it.fields.key ?: "",
+                                    "file"
+                                )
+                            } else {
+                                viewModel.createPostRequestModel.value?.postContentFile =
+                                    it.fields.key
+                                part = RetrofitUtils.fileToRequestBody(selectedFile!!, "file")
+                            }
+
+                            viewModel.createPostRequestModel.value?.fileType = postFileType
+                            viewModel.uploadAWS(
+                                it.url,
+                                it.fields.key ?: "",
+                                it.fields.aWSAccessKeyId ?: "",
+                                it.fields.xAmzSecurityToken,
+                                it.fields.policy ?: "",
+                                it.fields.signature ?: "",
+                                it.fields.xAmzAlgorithm ?: "",
+                                it.fields.xAmzCredential ?: "",
+                                it.fields.xAmzDate ?: "",
+                                it.fields.xAmzSignature ?: "",
+                                part
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
+        viewModel.uploadAWSLiveData.observeForever {
+            it.getContentIfNotHandled()?.let {
+                hideLoading()
+                when (it.status) {
+                    Status.ERROR -> {
+                        showError(PrimApp.appContext, it.message.toString())
+                    }
+
+                    Status.LOADING -> {
+                        //showLoading()
+                    }
+
+                    Status.SUCCESS -> {
+                        if (postFileType == PostFileType.VIDEO && !isThumbnailUploaded) {
+                            isThumbnailUploaded = true
+                            viewModel.generatePresignedUrl(
+                                "user-id-${UserCache.getUserId(PrimApp.appContext)}/" + PrimApp.appContext.getString(
+                                    R.string.create_community_post_folder
+                                ) + "" + AwsHelper.getObjectName(
+                                    AwsHelper.AWS_OBJECT_TYPE.THUMBNAIL,
+                                    UserCache.getUser(PrimApp.appContext)!!.id,
+                                    "jpg"
+                                )
+                            )
+                        } else {
+                            sendPost()
+                        }
+                    }
+                }
+            }
+        }
+
+        /*viewModel.uploadAWSLiveData.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
                 hideLoading()
                 when (it.status) {
@@ -537,7 +544,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                     }
                 }
             }
-        })
+        })*/
 
         viewModel.updatePostLiveData.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
@@ -680,17 +687,17 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
             if (postFileType.equals(PostFileType.FILE)) {
                 // User original name in case of File attachment
                 viewModel.generatePresignedUrl(
-                    "user-id-${UserCache.getUserId(requireContext())}/" + requireActivity().getString(
+                    "user-id-${UserCache.getUserId(PrimApp.appContext)}/" + requireActivity().getString(
                         R.string.create_community_post_folder
                     ) + "" + selectedFile!!.name
                 )
             } else {
                 viewModel.generatePresignedUrl(
-                    "user-id-${UserCache.getUserId(requireContext())}/" + requireActivity().getString(
+                    "user-id-${UserCache.getUserId(PrimApp.appContext)}/" + requireActivity().getString(
                         R.string.create_community_post_folder
                     ) + "" + AwsHelper.getObjectName(
                         AwsHelper.AWS_OBJECT_TYPE.POST,
-                        UserCache.getUser(requireContext())!!.id,
+                        UserCache.getUser(PrimApp.appContext)!!.id,
                         selectedFile!!.extension
                     )
                 )
@@ -698,15 +705,19 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
         } else if (selectedFile == null && type == UPDATE_POST && !isUpdatedPostAttachment) {
             Log.d("anshul_update", "-----Not updated post attachment-----")
             sendPost()
-            Toast.makeText(requireActivity(), "Your post creation is in process..", Toast.LENGTH_LONG).show()
+            Toast.makeText(PrimApp.appContext, "Your post creation is in process..", Toast.LENGTH_LONG).show()
             findNavController().popBackStack()
         } else {
             //Post with attachment selected but attachment not attached
-            DialogUtils.showCloseDialog(
-                requireActivity(),
-                getString(R.string.file_type_error, postFileType),
-                R.drawable.question_mark
-            )
+            try {
+                DialogUtils.showCloseDialog(
+                    requireActivity(),
+                    getString(R.string.file_type_error, postFileType),
+                    R.drawable.question_mark
+                )
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 

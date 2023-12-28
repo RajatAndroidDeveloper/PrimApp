@@ -29,6 +29,7 @@ import com.primapp.ui.communities.members.CommunityMembersFragment
 import com.primapp.ui.dashboard.DashboardActivity
 import com.primapp.ui.profile.UserJoinedCommunitiesFragment
 import com.primapp.ui.profile.UserPostsFragment
+import com.primapp.utils.visible
 import com.primapp.viewmodels.CommunitiesViewModel
 import kotlinx.android.synthetic.main.fragment_other_user_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.view.tvEmail
@@ -66,7 +67,6 @@ class OtherUserProfileFragment : BaseFragment<FragmentOtherUserProfileBinding>()
 
         includeProfileCard.tvEmail.visibility = View.GONE
         includeProfileCard.tvGenderDobCountry.visibility = View.GONE
-
     }
 
     private fun setObserver() {

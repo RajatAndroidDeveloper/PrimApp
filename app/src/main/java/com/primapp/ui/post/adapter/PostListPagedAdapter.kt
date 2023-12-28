@@ -135,7 +135,7 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit, 
                 onItemClick(MuteVideo(position))
             }
 
-            binding.clPostAttachment.setOnClickListener {
+            binding.cardPostAttachment.setOnClickListener {
                 when (data!!.fileType) {
                     PostFileType.VIDEO -> {
                         onItemClick(ShowVideo(data.imageUrl.toString()))

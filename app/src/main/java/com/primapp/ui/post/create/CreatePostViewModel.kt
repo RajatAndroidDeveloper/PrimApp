@@ -48,7 +48,7 @@ class CreatePostViewModel @Inject constructor(
     private var _createPostLiveData = MutableLiveData<Event<Resource<BaseDataModel>>>()
     var createPostLiveData: LiveData<Event<Resource<BaseDataModel>>> = _createPostLiveData
 
-    fun createPost(communityId: Int, userId: Int) = viewModelScope.launch {
+    fun createPost(communityId: Int, userId: Int) = GlobalScope.launch {
         _createPostLiveData.postValue(Event(Resource.loading(null)))
         _createPostLiveData.postValue(Event(repo.createPost(communityId, userId, createPostRequestModel.value!!)))
     }
@@ -59,7 +59,7 @@ class CreatePostViewModel @Inject constructor(
     var generatePresignedURLLiveData: LiveData<Event<Resource<PresignedURLResponseModel>>> =
         _generatePresignedURLLiveData
 
-    fun generatePresignedUrl(fileName: String) = viewModelScope.launch {
+    fun generatePresignedUrl(fileName: String) = GlobalScope.launch {
         _generatePresignedURLLiveData.postValue(Event(Resource.loading(null)))
         _generatePresignedURLLiveData.postValue(
             Event(repo.generatePresignedURL(fileName))
@@ -83,7 +83,7 @@ class CreatePostViewModel @Inject constructor(
         xAmzDate: String,
         xAmzSignature: String,
         file: MultipartBody.Part?
-    ) = viewModelScope.launch{
+    ) = GlobalScope.launch{
         _uploadAWSLiveData.postValue(Event(Resource.loading(null)))
         _uploadAWSLiveData.postValue(
             Event(repo.uploadtoAWS(url, key, accessKey, amzSecurityToken, policy, signature, xAmzAlgorithm, xAmzCredential, xAmzDate, xAmzSignature, file))
