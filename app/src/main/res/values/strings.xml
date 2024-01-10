@@ -322,7 +322,8 @@
     <string name="delete_chat_history">Would you like to delete this conversation?</string>
     <string name="delete">Delete</string>
     <string name="no_relation_message">You can\'t send messages to this user as this user doesn\'t have any relation with you</string>
-    <string name="video_file_size_error_message">File size too big. Please upload a file with up to 18mb only</string>
+<!--    <string name="video_file_size_error_message">File size too big. Please upload a file with up to 18mb only</string>-->
+    <string name="video_file_size_error_message">Sorry, your video is too large or is not supported.  Please upload another video less than 20-minutes in duration or 100 MBs in size.</string>
     <string name="digital_tokens_earned">Digital Tokens Earned: %s</string>
     <string name="prim_rewards">Prim Rewards</string>
     <string name="available_tokens">Available Tokens</string>
