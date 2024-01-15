@@ -39,6 +39,7 @@ import kotlinx.android.synthetic.main.toolbar_inner_back.tvTitle
 import okhttp3.MultipartBody
 import java.io.File
 import java.text.DecimalFormat
+import kotlin.math.min
 
 
 class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
@@ -87,6 +88,18 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
         setData()
         setAdapter()
         setObserver()
+
+        binding.tvFileName.setOnClickListener {
+            if(postFileType == PostFileType.IMAGE || postFileType == PostFileType.GIF) {
+                val bundle = Bundle()
+                bundle.putString("url", selectedFile.toString())
+                findNavController().navigate(R.id.imageViewDialog, bundle)
+            } else if(postFileType == PostFileType.VIDEO) {
+                val bundle = Bundle()
+                bundle.putString("url", selectedFile.toString())
+                findNavController().navigate(R.id.videoViewDialog, bundle)
+            }
+        }
     }
 
     private fun setData() {
@@ -856,7 +869,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                                 val minutes: Double = df.format((duration.toDouble() / 1000.toDouble()) / 60.toDouble()).toDouble()
                                 mp.release()
 
-                                val fileSize = ((selectedFile?.length())?:0 / 1024) / 1024
+                                val fileSize = ((selectedFile?.length()?:0) / 1024) / 1024
                                 if (fileSize > 100 || minutes >= 20.0) {
                                     DialogUtils.showCloseDialog(
                                         requireActivity(),
@@ -865,7 +878,6 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                                         findNavController().popBackStack()
                                     }
                                 }
-                                return
                             } else {
                                 postFileType = PostFileType.IMAGE
                                 selectedFile = FileUtils.getFileFromUri(context, data.data!!, FileUtils.IMAGE)
@@ -937,10 +949,15 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                     }
 
                     if (tempFile != null && tempFile.exists()) {
-                        val mp = MediaPlayer.create(activity, Uri.parse(selectedFile?.absolutePath))
-                        val duration = mp.duration
-                        val minutes: Double = String.format("%. 2f", (duration.toDouble() / 1000.toDouble()) / 60.toDouble()).toDouble()
-                        mp.release()
+                        var cR = context?.contentResolver
+                        var mime = cR?.getType(data?.data!!)
+                        var minutes = 0.0
+                        if (mime?.contains("video") == true) {
+                            val mp = MediaPlayer.create(activity, Uri.parse(selectedFile?.absolutePath))
+                            val duration = mp.duration
+                            minutes = df.format((duration.toDouble() / 1000.toDouble()) / 60.toDouble()).toDouble()
+                            mp.release()
+                        }
 
                         val fileSize = (tempFile.length() / 1024) / 1024
                         if (fileSize > 100 || minutes >= 20.0) {
@@ -953,7 +970,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                         } else {
                             selectedFile = tempFile
                             binding.groupSelectFileName.isVisible = true
-                            binding.tvVideoAnalyzed.isVisible = true
+                            binding.tvVideoAnalyzed.isVisible = false
                             binding.tvFileName.text = "${selectedFile!!.name}"
                         }
                     } else {
@@ -971,10 +988,15 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                             postFileType = PostFileType.VIDEO
                             if (tempFile != null && tempFile.exists()) {
 
-                                val mp = MediaPlayer.create(activity, Uri.parse(selectedFile?.absolutePath))
-                                val duration = mp.duration
-                                val minutes: Double = String.format("%. 2f", (duration.toDouble() / 1000.toDouble()) / 60.toDouble()).toDouble()
-                                mp.release()
+                                var cR = context?.contentResolver
+                                var mime = cR?.getType(data?.data!!)
+                                var minutes = 0.0
+                                if (mime?.contains("video") == true) {
+                                    val mp = MediaPlayer.create(activity, Uri.parse(selectedFile?.absolutePath))
+                                    val duration = mp.duration
+                                    minutes = df.format((duration.toDouble() / 1000.toDouble()) / 60.toDouble()).toDouble()
+                                    mp.release()
+                                }
 
                                 val fileSize = (tempFile.length() / 1024) / 1024
                                 if (fileSize > 100 || minutes >= 20.0) {
@@ -987,7 +1009,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                                 } else {
                                     selectedFile = tempFile
                                     binding.groupSelectFileName.isVisible = true
-                                    binding.tvVideoAnalyzed.isVisible = true
+                                    binding.tvVideoAnalyzed.isVisible = false
                                     binding.tvFileName.text = "${selectedFile!!.name}"
                                 }
                             } else {
@@ -1009,11 +1031,15 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                     }
 
                     if (tempFile != null && tempFile.exists()) {
-
-                        val mp = MediaPlayer.create(activity, Uri.parse(selectedFile?.absolutePath))
-                        val duration = mp.duration
-                        val minutes: Double = String.format("%. 2f", (duration.toDouble() / 1000.toDouble()) / 60.toDouble()).toDouble()
-                        mp.release()
+                        var cR = context?.contentResolver
+                        var mime = cR?.getType(data?.data!!)
+                        var minutes = 0.0
+                        if (mime?.contains("video") == true) {
+                            val mp = MediaPlayer.create(activity, Uri.parse(selectedFile?.absolutePath))
+                            val duration = mp.duration
+                            minutes = df.format((duration.toDouble() / 1000.toDouble()) / 60.toDouble()).toDouble()
+                            mp.release()
+                        }
 
                         val fileSize = (tempFile.length() / 1024) / 1024
                         if (fileSize > 100 || minutes >= 20.0) {

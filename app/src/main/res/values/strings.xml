@@ -559,7 +559,7 @@
     <string name="account_settings">Account Settings</string>
     <string name="are_you_sure_you_want_to_delete_account">Are you sure you want to delete account?</string>
     <string name="reply_deleted_success">Your reply is deleted successfully.</string>
-    <string name="post_creation_in_progress">Your post creation is in progress.</string>
+    <string name="post_creation_in_progress">Your post is being uploaded.  Please do not close your app while your post is processing.  There may be a delay for large files before appearing in your feed.</string>
     <string name="announcements">Announcements</string>
     <string name="live_camera">Live Camera</string>
     <string name="photo_and_video">Photo/Video\n</string>

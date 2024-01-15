@@ -223,15 +223,14 @@
 
         <ImageView
             android:id="@+id/ivDelete"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_marginEnd="@dimen/space_large"
             android:onClick="@{()->frag.clearAttachment()}"
-            android:padding="@dimen/space_small"
-            android:src="@drawable/delete"
+            android:src="@drawable/ic_delete_filled"
+            app:tint="@color/colorAccent"
             app:layout_constraintBottom_toBottomOf="@id/tvFileName"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tvFileName"
             app:layout_constraintTop_toTopOf="@id/tvFileName" />
 
         <com.google.android.material.textfield.TextInputLayout
