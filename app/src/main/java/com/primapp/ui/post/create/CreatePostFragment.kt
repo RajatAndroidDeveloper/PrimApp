@@ -2,16 +2,23 @@ package com.primapp.ui.post.create
 
 import android.Manifest
 import android.app.Activity
+import android.app.Dialog
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.Window
 import android.webkit.MimeTypeMap
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -34,6 +41,12 @@ import com.primapp.utils.FileUtils
 import com.primapp.utils.RetrofitUtils
 import com.primapp.utils.Validator
 import com.primapp.viewmodels.PostsViewModel
+import kotlinx.android.synthetic.main.layout_dialog_help1.btnClose
+import kotlinx.android.synthetic.main.layout_dialog_help1.ivDialogImage
+import kotlinx.android.synthetic.main.layout_dialog_help1.tvDialogMessage
+import kotlinx.android.synthetic.main.layout_pdf_view.imageView
+import kotlinx.android.synthetic.main.layout_pdf_view.ivClose
+import kotlinx.android.synthetic.main.layout_pdf_view.ivSend
 import kotlinx.android.synthetic.main.toolbar_inner_back.toolbar
 import kotlinx.android.synthetic.main.toolbar_inner_back.tvTitle
 import okhttp3.MultipartBody
@@ -88,18 +101,6 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
         setData()
         setAdapter()
         setObserver()
-
-        binding.tvFileName.setOnClickListener {
-            if(postFileType == PostFileType.IMAGE || postFileType == PostFileType.GIF) {
-                val bundle = Bundle()
-                bundle.putString("url", selectedFile.toString())
-                findNavController().navigate(R.id.imageViewDialog, bundle)
-            } else if(postFileType == PostFileType.VIDEO) {
-                val bundle = Bundle()
-                bundle.putString("url", selectedFile.toString())
-                findNavController().navigate(R.id.videoViewDialog, bundle)
-            }
-        }
     }
 
     private fun setData() {
@@ -321,102 +322,23 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                 }
             }
         })
-
-
-        /*viewModel.createPostLiveData.observe(viewLifecycleOwner, Observer {
-            it.getContentIfNotHandled()?.let {
-                hideLoading()
-                when (it.status) {
-                    Status.SUCCESS -> {
-                        UserCache.incrementPostCount(requireContext())
-                        DialogUtils.showCloseDialog(
-                            requireActivity(),
-                            R.string.post_created_success
-                        ) {
-                            findNavController().popBackStack()
-                        }
-                    }
-
-                    Status.ERROR -> {
-                        showError(requireContext(), it.message!!)
-                    }
-
-                    Status.LOADING -> {
-                        showLoading()
-                    }
-                }
-            }
-        })*/
-
-        /*viewModel.generatePresignedURLLiveData.observe(viewLifecycleOwner, Observer {
-            it.getContentIfNotHandled()?.let {
-                hideLoading()
-                Log.e("asasasasasas", Gson().toJson(it).toString())
-                when (it.status) {
-                    Status.ERROR -> {
-                        showError(requireContext(), it.message.toString())
-                    }
-
-                    Status.LOADING -> {
-                        showLoading()
-                    }
-
-                    Status.SUCCESS -> {
-                        it.data?.content?.let {
-                            val part: MultipartBody.Part
-                            if (isThumbnailUploaded) {
-                                viewModel.createPostRequestModel.value?.thumbnailFile =
-                                    it.fields.key
-                                val bitmap = FileUtils.getBitmapThumbnailForVideo(
-                                    requireContext(),
-                                    selectedFile!!
-                                )
-                                part = RetrofitUtils.bitmapToMultipartBody(
-                                    bitmap,
-                                    it.fields.key ?: "",
-                                    "file"
-                                )
-                            } else {
-                                viewModel.createPostRequestModel.value?.postContentFile =
-                                    it.fields.key
-                                part = RetrofitUtils.fileToRequestBody(selectedFile!!, "file")
-                            }
-
-                            viewModel.createPostRequestModel.value?.fileType = postFileType
-                            viewModel.uploadAWS(
-                                it.url,
-                                it.fields.key ?: "",
-                                it.fields.aWSAccessKeyId ?: "",
-                                it.fields.xAmzSecurityToken,
-                                it.fields.policy ?: "",
-                                it.fields.signature ?: "",
-                                it.fields.xAmzAlgorithm ?: "",
-                                it.fields.xAmzCredential ?: "",
-                                it.fields.xAmzDate ?: "",
-                                it.fields.xAmzSignature ?: "",
-                                part
-                            )
-                        }
-                    }
-                }
-            }
-        })*/
-
         viewModel.createPostLiveData.observeForever {
             it.getContentIfNotHandled()?.let {
                 hideLoading()
                 when (it.status) {
                     Status.SUCCESS -> {
                         UserCache.incrementPostCount(PrimApp.appContext)
-                        try {
-                            DialogUtils.showCloseDialog(
-                                requireActivity(),
-                                R.string.post_created_success
-                            ) {
-                                findNavController().popBackStack()
+                        if(postFileType == null) {
+                            try {
+                                DialogUtils.showCloseDialog(
+                                    requireActivity(),
+                                    R.string.post_created_success
+                                ) {
+                                    findNavController().popBackStack()
+                                }
+                            } catch (e: Exception) {
+                                e.printStackTrace()
                             }
-                        }catch (e: Exception){
-                            e.printStackTrace()
                         }
                     }
 
@@ -442,11 +364,8 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                     Status.LOADING -> {
                         // showLoading()
                         try {
-                            DialogUtils.showCloseDialog(
-                                requireActivity(),
-                                R.string.post_creation_in_progress
-                            ) {
-                                findNavController().popBackStack()
+                            if (postInProgressDialog == null) {
+                                showPostInProgressDialog(requireActivity(), R.string.post_creation_in_progress)
                             }
                         }catch (e: Exception){
                             e.printStackTrace()
@@ -1023,14 +942,30 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                 }
 
                 FileUtils.FILE_REQUEST_CODE -> {
+                    Log.e("AsasasS","Asasasasasasasa")
                     var tempFile: File? = null
                     if (data?.data == null) {
                         tempFile = FileUtils.getFile(requireContext(), FileUtils.IMAGE)
                     } else {
                         tempFile = FileUtils.getFileFromUri(requireContext(), data.data!!)
                     }
-
                     if (tempFile != null && tempFile.exists()) {
+                        val fileSize = (tempFile.length() / 1024) / 1024
+                        if (fileSize > 18) {
+                            showError(
+                                requireContext(),
+                                getString(R.string.video_file_size_error_message)
+                            )
+                        } else {
+                            selectedFile = tempFile
+                            binding.groupSelectFileName.isVisible = true
+                            binding.tvVideoAnalyzed.isVisible = false
+                            binding.tvFileName.text = "${selectedFile!!.name}"
+                        }
+                    } else {
+                        Log.e(FileUtils.FILE_PICK_TAG, "Error getting file")
+                    }
+                    /*if (tempFile != null && tempFile.exists()) {
                         var cR = context?.contentResolver
                         var mime = cR?.getType(data?.data!!)
                         var minutes = 0.0
@@ -1057,9 +992,21 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                         }
                     } else {
                         Log.e(FileUtils.FILE_PICK_TAG, "Error getting file")
+                    }*/
+
+                    if (selectedFile?.extension == "pdf") {
+                        showPdfDialog(data?.data!!.toString(), selectedFile!!)
+                    } else {
+                        val intent = Intent(Intent.ACTION_VIEW)
+                        intent.data = data?.data!!
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        try {
+                            requireContext().startActivity(intent)
+                        } catch (e: ActivityNotFoundException) {
+                            Toast.makeText(context, "No Application available to view this file", Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
-
             }
         } else {
             Log.d(FileUtils.FILE_PICK_TAG, "File type and selected file Cleared")
@@ -1071,6 +1018,53 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
             //Hide visible file type, as there is no selected file now.
             binding.groupSelectFileName.isVisible = false
         }
+    }
+
+    private var pdfDialog: Dialog? = null
+    private fun showPdfDialog(url: String, file: File) {
+        pdfDialog = Dialog(requireActivity(), R.style.DialogAnimation)
+        pdfDialog!!.window!!.requestFeature(Window.FEATURE_NO_TITLE)
+        pdfDialog!!.setContentView(R.layout.layout_pdf_view)
+        pdfDialog!!.setCancelable(true)
+
+        pdfDialog!!.imageView.fromUri(Uri.parse(url))
+            .enableAnnotationRendering(true)
+            .spacing(10)
+            .load()
+
+        pdfDialog?.ivClose?.setOnClickListener {
+            pdfDialog?.dismiss()
+        }
+
+        pdfDialog?.ivSend?.setOnClickListener {
+            pdfDialog?.dismiss()
+        }
+
+        if (!pdfDialog!!.isShowing) {
+            pdfDialog!!.show()
+        }
+    }
+
+    private var postInProgressDialog: Dialog ?= null
+    private fun showPostInProgressDialog(
+        activity: Activity,
+        @StringRes messageId: Int,
+        @DrawableRes drawableRes: Int? = null
+    ) {
+        postInProgressDialog = Dialog(activity, R.style.Theme_Dialog)
+        postInProgressDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        postInProgressDialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        postInProgressDialog?.setCancelable(false)
+        postInProgressDialog?.setContentView(R.layout.layout_dialog_help1)
+        drawableRes?.let { postInProgressDialog?.ivDialogImage?.setImageResource(it) }
+        postInProgressDialog?.tvDialogMessage?.text = activity.getString(messageId)
+
+        postInProgressDialog?.btnClose?.setOnClickListener {
+            postInProgressDialog?.dismiss()
+            findNavController().popBackStack()
+        }
+
+        postInProgressDialog?.show()
     }
 
     companion object {

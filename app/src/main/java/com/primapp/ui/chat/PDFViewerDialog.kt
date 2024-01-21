@@ -15,15 +15,11 @@ import com.primapp.R
 import com.primapp.databinding.LayoutPdfViewBinding
 import com.primapp.ui.base.BaseDialogFragment
 import com.primapp.ui.base.ImageViewDialogArgs
-import com.primapp.utils.getFileName
 import javax.inject.Inject
 
 
 class PDFViewerDialog : BaseDialogFragment<LayoutPdfViewBinding>(),
     OnPageErrorListener {
-
-    @Inject
-    lateinit var downloadManager: DownloadManager
 
     override fun getLayoutRes(): Int = R.layout.layout_pdf_view
 
@@ -42,7 +38,6 @@ class PDFViewerDialog : BaseDialogFragment<LayoutPdfViewBinding>(),
             .onPageError(this)
             .load();
 
-
         binding.ivClose.setOnClickListener {
             dismiss()
         }
@@ -56,5 +51,4 @@ class PDFViewerDialog : BaseDialogFragment<LayoutPdfViewBinding>(),
     override fun onPageError(page: Int, t: Throwable?) {
         Log.e("errrorrrr",t!!.message!!+"Asas")
     }
-
 }
