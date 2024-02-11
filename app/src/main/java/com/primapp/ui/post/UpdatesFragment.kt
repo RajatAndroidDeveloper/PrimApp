@@ -1,12 +1,14 @@
 package com.primapp.ui.post
 
 import android.app.DownloadManager
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -16,13 +18,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ui.PlayerView
-import com.google.android.exoplayer2.ui.StyledPlayerView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.primapp.R
@@ -32,6 +32,7 @@ import com.primapp.constants.PostFileType
 import com.primapp.databinding.FragmentUpdatesBinding
 import com.primapp.extensions.showError
 import com.primapp.model.BookmarkPost
+import com.primapp.model.CaptionClicked
 import com.primapp.model.CommentPost
 import com.primapp.model.DeletePost
 import com.primapp.model.DownloadFile
@@ -58,6 +59,9 @@ import com.primapp.ui.post.create.CreatePostFragment
 import com.primapp.utils.AnalyticsManager
 import com.primapp.utils.DialogUtils
 import com.primapp.utils.DownloadUtils
+import com.primapp.utils.EndlessRecyclerOnScrollListener
+import com.primapp.utils.LinkExtractor
+import com.primapp.utils.RecyclerViewPositionHelper
 import com.primapp.utils.checkIsNetworkConnected
 import com.primapp.utils.getPrettyNumber
 import com.primapp.utils.visible
@@ -70,7 +74,6 @@ import com.sendbird.android.user.User
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_dashboard.drawerLayout
 import kotlinx.android.synthetic.main.fragment_updates.rvCommunityPosts
-import kotlinx.android.synthetic.main.item_list_post.ivComment
 import kotlinx.android.synthetic.main.item_list_post.ivPostPreview
 import kotlinx.android.synthetic.main.toolbar_dashboard_accent.ivEndIcon
 import kotlinx.android.synthetic.main.toolbar_dashboard_accent.ivMenu
@@ -355,11 +358,13 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
 
     lateinit var activeImageView: ImageView
     lateinit var activePlayer: SimpleExoPlayer
+    lateinit var recyclerViewPositionHelper: RecyclerViewPositionHelper
     private fun setAdapter() {
         mLayoutManager = LinearLayoutManager(requireContext())
         binding.rvCommunityPosts.apply {
             layoutManager = mLayoutManager
         }
+        recyclerViewPositionHelper = RecyclerViewPositionHelper.createHelper(binding.rvCommunityPosts)
 
         binding.tvScrollUp.setOnClickListener {
             rvCommunityPosts.smoothScrollToPosition(0)
@@ -415,8 +420,8 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                 }
 
                 // Get the index of the first Completely visible item
-                var firstCompletelyVisibleItemPosition =
-                    mLayoutManager.findFirstCompletelyVisibleItemPosition()
+                var firstCompletelyVisibleItemPosition = recyclerViewPositionHelper.findFirstCompletelyVisibleItemPosition()
+
                 Log.d(
                     "Update_fragment_video_play",
                     "onScrolled: firstCompletelyVisibleItemPosition : " + firstCompletelyVisibleItemPosition
@@ -441,14 +446,13 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
 
                         // Start playing the video in Active row layout
                         if (adapter.getPostType(firstCompletelyVisibleItemPosition) == PostFileType.VIDEO) {
-                            video_view.visibility = View.VISIBLE
-                            ivPostPreview.visibility = View.GONE
                             val player = SimpleExoPlayer.Builder(context!!).build()
                             video_view.player = player
                             val mediaItem: MediaItem = MediaItem.fromUri(video_url)
                             player.addMediaItem(mediaItem)
                             video_view.hideController()
                             player.volume = 0f
+
                             player.prepare()
                             player.playWhenReady = true
                             activePlayer = player
@@ -461,7 +465,7 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                         // assign this row layout position as active row Layout
                         activeAdapter = firstCompletelyVisibleItemPosition
                         Log.d(
-                            "Update_fragment_video_play",
+                            "Update_fragment_video_play1",
                             "onScrolled: activeAdapter : $activeAdapter"
                         )
                     } catch (e: java.lang.NullPointerException) {
@@ -474,14 +478,15 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                   */
                     /* Get the Video Surface directly above the fully visible Row Layout so that you may stop the playback
                   when a new row Layout is fully visible
-                  */if (firstCompletelyVisibleItemPosition >= 1) {
+                  */
+                    if (firstCompletelyVisibleItemPosition >= 1) {
                         try {
                             val video_view_above =
                                 mLayoutManager.findViewByPosition(firstCompletelyVisibleItemPosition - 1)!!
                                     .findViewById<View>(R.id.videoView) as PlayerView
 
                             var player = video_view_above.player
-                            player!!.release()
+                            player?.release()
 
                             val thumbnail_string: String =
                                 adapter.getPostThumbnailUrl(firstCompletelyVisibleItemPosition - 1)
@@ -492,10 +497,13 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
 
                             // Show the cover Thumbnail ImageView
                             iv_cover_above.visibility = View.VISIBLE
-                            Picasso.with(requireActivity())
+                            Picasso.get()
                                 .load(Uri.parse(thumbnail_string))
                                 .into(iv_cover_above)
-
+                            Log.d(
+                                "Update_fragment_video_play3",
+                                "onScrolled: activeAdapter : $activeAdapter"
+                            )
                             // video_view_above.setBackground(Uri.parse(thumbnail_string));
                         } catch (e: java.lang.NullPointerException) {
                         } catch (e: ArrayIndexOutOfBoundsException) {
@@ -514,7 +522,7 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                                     .findViewById<View>(R.id.videoView) as PlayerView
 
                             var player = video_view_below.player
-                            player!!.release()
+                            player?.release()
 
                             val thumbnail_string: String =
                                 adapter.getPostUrl(firstCompletelyVisibleItemPosition + 1)
@@ -525,15 +533,17 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
 
                             // Show the cover Thumbnail ImageView
                             iv_cover_below.visibility = View.VISIBLE
-                            Picasso.with(requireActivity())
+                            Picasso.get()
                                 .load(Uri.parse(thumbnail_string))
                                 .into(iv_cover_below)
-
+                            Log.d(
+                                "Update_fragment_video_play4",
+                                "onScrolled: activeAdapter : $activeAdapter"
+                            )
                         } catch (e: java.lang.NullPointerException) {
                         } catch (e: ArrayIndexOutOfBoundsException) {
                         }
                     }
-
                 }
 
                 if (activeAdapter == 0 && adapter.getPostType(0) == PostFileType.VIDEO) {
@@ -549,10 +559,8 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                         val ivMuted =
                             mLayoutManager.findViewByPosition(0)!!
                                 .findViewById<View>(R.id.ivMuteVideo) as ImageView
-
+                        val isVideoMuted = adapter.getMutedStatus(0)
                         try {
-                            video_view.visibility = View.VISIBLE
-                            iv_cover.visibility = View.GONE
                             val player = SimpleExoPlayer.Builder(context!!).build()
                             video_view.player = player
                             val mediaItem: MediaItem = MediaItem.fromUri(video_url)
@@ -560,9 +568,11 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                             video_view.hideController()
                             player.prepare()
                             player.volume = 0f
+
                             player.playWhenReady = true
                             activePlayer = player
                             activeImageView = ivMuted
+
                             // Hide the thumbnail ImageView with a delay of 300 millisecond or else there will be black
                             // screen before a video plays
                             Handler().postDelayed({ iv_cover.visibility = View.INVISIBLE }, 300)
@@ -591,6 +601,16 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
         findNavController().navigate(action)
     }
 
+    private fun openBrowser(url: String){
+        try {
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(browserIntent)
+        }catch (e: java.lang.Exception){
+            e.printStackTrace()
+            Toast.makeText(requireContext(), "Please install a browser to open the weblink.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private fun onItemClick(item: Any?) {
         when (item) {
             is MuteVideo -> {
@@ -605,6 +625,10 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                 } catch (e: java.lang.Exception) {
                     e.printStackTrace()
                 }
+            }
+
+            is CaptionClicked -> {
+                openBrowser(LinkExtractor.extractURL(item.caption))
             }
 
             is ShowImage -> {
@@ -786,7 +810,7 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
         // We need to pause any playback when the application is minimised
         try {
             val firstCompletelyVisibleItemPosition: Int =
-                mLayoutManager.findFirstCompletelyVisibleItemPosition()
+                mLayoutManager.findFirstVisibleItemPosition()
             val videoView = mLayoutManager.findViewByPosition(firstCompletelyVisibleItemPosition)
                 ?.findViewById<PlayerView>(R.id.videoView)
             var player = videoView!!.player

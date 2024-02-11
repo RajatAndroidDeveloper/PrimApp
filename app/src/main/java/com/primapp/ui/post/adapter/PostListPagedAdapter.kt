@@ -1,27 +1,49 @@
 package com.primapp.ui.post.adapter
 
+import android.text.method.LinkMovementMethod
+import android.text.util.Linkify
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import android.view.ViewTreeObserver
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.nguyencse.URLEmbeddedView
 import com.primapp.R
 import com.primapp.constants.PostFileType
 import com.primapp.databinding.ItemListPostBinding
 import com.primapp.extensions.setAllOnClickListener
-import com.primapp.model.*
+import com.primapp.model.BookmarkPost
+import com.primapp.model.CaptionClicked
+import com.primapp.model.CommentPost
+import com.primapp.model.DeletePost
+import com.primapp.model.DownloadFile
+import com.primapp.model.EditPost
+import com.primapp.model.HidePost
+import com.primapp.model.LikePost
+import com.primapp.model.LikePostMembers
+import com.primapp.model.LoadWebUrl
+import com.primapp.model.MuteVideo
+import com.primapp.model.ReportPost
+import com.primapp.model.SharePost
+import com.primapp.model.ShowImage
+import com.primapp.model.ShowUserProfile
+import com.primapp.model.ShowVideo
+import com.primapp.model.UnHidePost
 import com.primapp.model.post.PostListResult
 import com.primapp.retrofit.ApiConstant
+import com.primapp.utils.LinkExtractor
+import com.primapp.utils.visible
 import javax.inject.Inject
 
 
-class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit, ) :
+class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) :
     PagingDataAdapter<PostListResult, PostListPagedAdapter.PostsViewHolder>(PostListDiffCallback()) {
 
     fun markPostAsLiked(postId: Int?) {
@@ -53,9 +75,10 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit, 
         }
     }
 
-    fun getUpdateMuteStatus(state: Boolean, position: Int) {
-        snapshot().items[position].videoMute= state
-        notifyItemChanged(position)
+    fun updateMuteStatus(state: Boolean, position: Int) {
+        snapshot().items.forEach { it.videoMute = state }
+//        snapshot().items[position].videoMute= state
+        notifyDataSetChanged()
     }
 
     fun getMutedStatus(position: Int): Boolean {
@@ -80,19 +103,24 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit, 
         }
     }
 
-    fun getPostThumbnailUrl(position: Int): String{
+    fun getPostThumbnailUrl(position: Int): String {
         val item = snapshot().items[position]
-        return item.getThumbnailUrl?:""
+        return item.getThumbnailUrl ?: ""
     }
 
-    fun getPostUrl(position: Int): String{
-        val item = snapshot().items[position]
-        return item.imageUrl?:""
+    fun getPostUrl(position: Int): String {
+        try {
+            val item = snapshot().items[position]
+            return item.imageUrl ?: ""
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return ""
     }
 
-    fun getPostType(position: Int): String{
+    fun getPostType(position: Int): String {
         val item = snapshot().items[position]
-        return item.fileType?:""
+        return item.fileType ?: ""
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostsViewHolder {
@@ -111,12 +139,59 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit, 
         holder.bind(getItem(position))
     }
 
+    var isCaptionReadMoreClicked = false
+
     inner class PostsViewHolder(val binding: ItemListPostBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: PostListResult?) {
             binding.data = data
-            //Reest cover image on reload
+            //Reset cover image on reload
             binding.llCoverImage.isVisible = false
+
+            binding.tvCaptionNew.text = (data?.postText?:"").trim()
+
+            if (data?.fileType == null && !LinkExtractor.extractURL(data?.postText?:"").isNullOrEmpty()) {
+                binding.linkView.visible(true)
+
+                binding.linkView.setURL(
+                    LinkExtractor.extractURL(data?.postText?:""),
+                    URLEmbeddedView.OnLoadURLListener { data ->
+                        binding.linkView.title(data.title)
+                        binding.linkView.description(data.description)
+                        binding.linkView.host(data.host)
+                        binding.linkView.thumbnail(data.thumbnailURL)
+                        binding.linkView.favor(data.favorURL)
+                    })
+            } else {
+                binding.linkView.visible(false)
+            }
+
+            val vto: ViewTreeObserver = binding.tvCaptionNew.viewTreeObserver
+            vto.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    val obs: ViewTreeObserver = binding.tvCaptionNew.viewTreeObserver
+                    obs.removeGlobalOnLayoutListener(this)
+                    if (binding.tvCaptionNew.lineCount > 3) {
+                        binding.tvReadMore.visible(true)
+                        binding.tvCaptionNew.maxLines = 3
+                    }
+                }
+            })
+
+            binding.tvCaptionNew.isClickable = false
+            Linkify.addLinks(binding.tvCaptionNew, Linkify.WEB_URLS)
+            binding.tvCaptionNew.movementMethod = LinkMovementMethod.getInstance()
+
+            binding.tvReadMore.setOnClickListener {
+                if (isCaptionReadMoreClicked) {
+                    binding.tvCaptionNew.maxLines = 3
+                    isCaptionReadMoreClicked = false
+                } else {
+                    binding.tvCaptionNew.maxLines = Integer.MAX_VALUE
+                    isCaptionReadMoreClicked = true
+                    binding.tvReadMore.visible(false)
+                }
+            }
 
             if (data!!.fileType == PostFileType.FILE) {
                 if (data.postContentFile?.contains("/") == true)
@@ -125,14 +200,18 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit, 
                     binding.tvFileName.text = data.postContentFile
             }
 
-            if(data!!.fileType == PostFileType.VIDEO) {
+            if (data.fileType == PostFileType.VIDEO) {
                 binding.ivMuteVideo.visibility = View.VISIBLE
-            } else{
+            } else {
                 binding.ivMuteVideo.visibility = View.GONE
             }
 
-            binding.ivMuteVideo.setOnClickListener{
-                onItemClick(MuteVideo(position))
+            binding.ivMuteVideo.setOnClickListener {
+                onItemClick(MuteVideo(position, data.videoMute))
+            }
+
+            binding.tvCaption.setOnClickListener {
+                onItemClick(CaptionClicked(data?.postText ?: ""))
             }
 
             binding.cardPostAttachment.setOnClickListener {
@@ -170,19 +249,19 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit, 
             }
 
             binding.ivLike.setOnClickListener {
-                data?.let {
+                data.let {
                     onItemClick(LikePost(it))
                 }
             }
 
             binding.ivComment.setOnClickListener {
-                data?.let {
+                data.let {
                     onItemClick(CommentPost(it))
                 }
             }
 
             binding.tvCommentCount.setOnClickListener {
-                data?.let {
+                data.let {
                     onItemClick(CommentPost(it))
                 }
             }

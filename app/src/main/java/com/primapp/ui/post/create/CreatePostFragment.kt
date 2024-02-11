@@ -794,7 +794,11 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                                         requireActivity(),
                                         R.string.video_file_size_error_message
                                     ) {
-                                        findNavController().popBackStack()
+                                        try {
+                                            (requireActivity()).onBackPressed()
+                                        } catch (e: java.lang.Exception){
+                                            e.printStackTrace()
+                                        }
                                     }
                                 }
                             } else {

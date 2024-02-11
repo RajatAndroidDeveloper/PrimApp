@@ -78,7 +78,7 @@
                     android:layout_gravity="center_vertical"
                     android:ellipsize="end"
                     android:fontFamily="@font/poppins_light"
-                    android:paddingLeft="@dimen/space_extraSmall"
+                    android:paddingLeft="@dimen/space_small"
                     android:singleLine="true"
                     android:text="@string/live_camera"
                     android:textColor="@color/textColor"
@@ -111,100 +111,64 @@
                     android:layout_gravity="center_vertical"
                     android:ellipsize="end"
                     android:fontFamily="@font/poppins_light"
-                    android:paddingLeft="@dimen/space_extraSmall"
+                    android:paddingLeft="@dimen/space_small"
                     android:singleLine="true"
                     android:text="@string/photo_and_video"
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/textSmall" />
             </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/llAttachment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/space_small"
-                android:layout_weight="1"
-                android:background="@drawable/shape_rounded_corner_grey_small_corner"
-                android:backgroundTint="@color/lightestGrey"
-                android:onClick="@{()->frag.attachDocument()}"
-                android:orientation="horizontal"
-                android:padding="@dimen/space_small">
-
-                <ImageButton
-                    android:id="@+id/ibAttachment"
-                    android:layout_width="@dimen/space_extraLarge"
-                    android:layout_height="@dimen/space_extraLarge"
-                    android:layout_gravity="center_vertical"
-                    android:scaleType="center"
-                    android:src="@drawable/ic_attachment"
-                    app:tint="@color/textColor" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/poppins_light"
-                    android:paddingLeft="@dimen/space_extraSmall"
-                    android:singleLine="true"
-                    android:text="@string/document"
-                    android:textColor="@color/textColor"
-                    android:textSize="@dimen/textSmall" />
-            </LinearLayout>
         </LinearLayout>
 
-        <!--  <RadioGroup
-              android:id="@+id/rgFileType"
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:checkedButton="@+id/rbNone"
-              android:orientation="horizontal"
-              android:paddingTop="@dimen/space_normal"
-              android:paddingBottom="@dimen/space_normal"
-              app:layout_constraintEnd_toEndOf="parent"
-              app:layout_constraintStart_toStartOf="parent"
-              app:layout_constraintTop_toBottomOf="@id/etPost"
-              app:layout_constraintWidth_percent=".9">
 
-              <RadioButton
-                  android:id="@+id/rbImage"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:paddingEnd="10dp"
-                  android:text="@string/image_gif" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/llFileOptins"
+            app:layout_constraintTop_toBottomOf="@id/llFileOptins"
+            android:background="@drawable/shape_rounded_corner_grey_small_corner"
+            android:backgroundTint="@android:color/transparent"
+            android:layout_weight="1"
+            android:id="@+id/llDummy"
+            app:layout_constraintStart_toEndOf="@id/llAttachment"
+            android:orientation="horizontal"
+            android:padding="@dimen/space_small"/>
 
-              <RadioButton
-                  android:id="@+id/rbVideo"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:paddingEnd="10dp"
-                  android:text="@string/video" />
+        <LinearLayout
+            android:id="@+id/llAttachment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/llFileOptins"
+            app:layout_constraintTop_toBottomOf="@id/llFileOptins"
+            app:layout_constraintEnd_toStartOf="@id/llDummy"
+            android:background="@drawable/shape_rounded_corner_grey_small_corner"
+            android:backgroundTint="@color/lightestGrey"
+            android:layout_weight="1"
+            android:onClick="@{()->frag.attachDocument()}"
+            android:orientation="horizontal"
+            android:padding="@dimen/space_small">
 
-              <RadioButton
-                  android:id="@+id/rbGif"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:paddingEnd="10dp"
-                  android:text="@string/gif"
-                  android:visibility="gone" />
+            <ImageButton
+                android:id="@+id/ibAttachment"
+                android:layout_width="@dimen/space_extraLarge"
+                android:layout_height="@dimen/space_extraLarge"
+                android:layout_gravity="center_vertical"
+                android:scaleType="center"
+                android:src="@drawable/ic_attachment"
+                app:tint="@color/textColor" />
 
-              <RadioButton
-                  android:id="@+id/rbNone"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="@string/none" />
-          </RadioGroup>
-  -->
-        <!--   <Button
-               android:id="@+id/btnSelect"
-               style="@style/buttonOutlinedAccent"
-               android:layout_width="wrap_content"
-               android:onClick="@{()->frag.pickFileAskPermission()}"
-               android:text="Select"
-               android:visibility="gone"
-               app:layout_constraintStart_toStartOf="@id/llFileOptins"
-               app:layout_constraintTop_toBottomOf="@id/llFileOptins" />
-   -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:ellipsize="end"
+                android:fontFamily="@font/poppins_light"
+                android:paddingLeft="@dimen/space_small"
+                android:singleLine="true"
+                android:text="@string/document"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/textSmall" />
+        </LinearLayout>
+
         <TextView
             android:id="@+id/tvFileName"
             android:layout_width="0dp"
@@ -218,7 +182,7 @@
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="@id/llFileOptins"
-            app:layout_constraintTop_toBottomOf="@id/llFileOptins"
+            app:layout_constraintTop_toBottomOf="@id/llAttachment"
             app:layout_constraintWidth_default="wrap" />
 
         <ImageView

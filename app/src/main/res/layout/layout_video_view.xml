@@ -40,5 +40,20 @@
             android:layout_margin="@dimen/space_normal"
             app:srcCompat="@android:drawable/stat_sys_download" />
 
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_above="@id/fabDownload"
+            android:backgroundTint="@color/textColorLight"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            app:tint="@color/colorAccent"
+            android:background="@drawable/shape_circle_white"
+            android:elevation="40dp"
+            android:id="@+id/ivMuteVideo"
+            android:src="@drawable/ic_unmute_video"
+            android:padding="6dp"/>
+
     </RelativeLayout>
 </layout>

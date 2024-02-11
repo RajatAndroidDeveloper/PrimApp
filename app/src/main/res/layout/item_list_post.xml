@@ -152,12 +152,48 @@
                 android:layout_marginTop="@dimen/space_small"
                 android:ellipsize="end"
                 android:text="@{data.postText}"
-                android:visibility="@{(data.postText==null || TextUtils.isEmpty(data.postText))? View.GONE : View.VISIBLE}"
+                android:visibility="@{(data.postText==null || TextUtils.isEmpty(data.postText))? View.GONE : View.GONE}"
                 app:layout_constraintEnd_toEndOf="@id/ivMore"
                 app:layout_constraintStart_toStartOf="@id/ivProfilePic"
                 app:layout_constraintTop_toBottomOf="@id/tvPostTime"
                 app:trimLength="@{data.fileType == null? 400 : 200}"
                 tools:text="@string/long_about_text" />
+
+            <TextView
+                android:id="@+id/tvCaptionNew"
+                style="@style/normalBodyText"
+                android:layout_marginTop="@dimen/space_small"
+                android:visibility="@{(data.postText==null || TextUtils.isEmpty(data.postText))? View.GONE : View.VISIBLE}"
+                app:layout_constraintEnd_toEndOf="@id/ivMore"
+                android:maxLines="3"
+                app:layout_constraintStart_toStartOf="@id/ivProfilePic"
+                app:layout_constraintTop_toBottomOf="@id/tvPostTime"
+                tools:text="@string/long_about_text" />
+
+            <TextView
+                android:id="@+id/tvReadMore"
+                style="@style/normalBodyText"
+                android:layout_marginTop="@dimen/space_extraSmall"
+                android:ellipsize="end"
+                android:textColor="@color/colorAccent"
+                android:text="@string/read_more"
+                android:textStyle="bold"
+                android:textSize="@dimen/textSmall"
+                app:layout_constraintEnd_toEndOf="@id/tvCaptionNew"
+                app:layout_constraintTop_toBottomOf="@id/tvCaptionNew"
+                tools:text="@string/long_about_text" />
+
+            <com.nguyencse.URLEmbeddedView
+                android:id="@+id/linkView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:title="Title"
+                app:description="Description"
+                app:layout_constraintStart_toStartOf="@id/tvCaptionNew"
+                app:layout_constraintEnd_toEndOf="@id/tvCaptionNew"
+                app:layout_constraintTop_toBottomOf="@id/tvReadMore"
+                app:favor="@drawable/ic_url"
+                app:thumbnail="@drawable/ic_url"/>
 
             <RelativeLayout
                 android:id="@+id/cardPostAttachment"
@@ -168,7 +204,7 @@
                 app:cardElevation="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvCaption">
+                app:layout_constraintTop_toBottomOf="@id/linkView">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clPostAttachment"
@@ -176,20 +212,6 @@
                     android:layout_height="wrap_content"
                     android:visibility="@{(data.fileType.equals(PostFileType.FILE)) ? View.GONE : View.VISIBLE}"
                     tools:visibility="visible">
-
-<!--                    <com.primapp.ui.post.SimpleVideoPlayer-->
-<!--                        android:id="@+id/videoView"-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="0dp"-->
-<!--                        android:visibility="gone"-->
-<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toTopOf="parent"-->
-<!--                        app:loop="true"-->
-<!--                        app:muted="true"-->
-<!--                        app:showSpinner="false"-->
-<!--                        app:stopSystemAudio="true" />-->
 
                     <com.google.android.exoplayer2.ui.PlayerView
                         android:layout_width="0dp"
@@ -410,8 +432,8 @@
                 android:background="@drawable/shape_circle_white"
                 android:elevation="40dp"
                 android:visibility="gone"
-                android:id="@+id/ivMuteVideo"
                 android:src="@drawable/ic_mute_vide"
+                android:id="@+id/ivMuteVideo"
                 android:padding="6dp"/>
 
             <TextView

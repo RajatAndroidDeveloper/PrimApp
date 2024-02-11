@@ -10,6 +10,7 @@ import android.util.AttributeSet
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.primapp.R
+import com.primapp.utils.LinkExtractor
 
 @SuppressLint("AppCompatCustomView")
 class ExpandableTextView @JvmOverloads constructor(
@@ -45,6 +46,17 @@ class ExpandableTextView @JvmOverloads constructor(
                 readmore.length,
                 Spanned.SPAN_INCLUSIVE_INCLUSIVE
             )
+            var weblink: SpannableString ?= null
+            if(LinkExtractor.extractURL(originalText.toString()).isNullOrEmpty()) {
+                weblink = SpannableString(LinkExtractor.extractURL(originalText.toString()))
+                weblink.setSpan(
+                    ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorAccent)),
+                    0,
+                    weblink.length,
+                    Spanned.SPAN_INCLUSIVE_INCLUSIVE
+                )
+            }
+
             SpannableStringBuilder(originalText, 0, trimLength + 1).append(ELLIPSIS).append(readmore)
         } else {
             originalText

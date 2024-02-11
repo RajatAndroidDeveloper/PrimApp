@@ -26,6 +26,7 @@ class VideoViewDialog : BaseDialogFragment<LayoutVideoViewBinding>() {
     @Inject
     lateinit var downloadManager: DownloadManager
     private var url: String? = null
+    private var muted = false
 
     private var playerView: PlayerView? = null
     private var player: SimpleExoPlayer? = null
@@ -48,6 +49,22 @@ class VideoViewDialog : BaseDialogFragment<LayoutVideoViewBinding>() {
 
         binding.ivClose.setOnClickListener {
             dismiss()
+        }
+
+        binding.ivMuteVideo.setOnClickListener {
+            if(muted) {
+                muted = false
+                binding.ivMuteVideo.setImageResource(R.drawable.ic_unmute_video)
+                if(player != null) {
+                    player!!.volume = 100f
+                }
+            }else {
+                muted = true
+                binding.ivMuteVideo.setImageResource(R.drawable.ic_mute_vide)
+                if(player != null) {
+                    player!!.volume = 0f
+                }
+            }
         }
 
         binding.fabDownload.setOnClickListener {
@@ -104,6 +121,7 @@ class VideoViewDialog : BaseDialogFragment<LayoutVideoViewBinding>() {
             player!!.playWhenReady = playWhenReady
             playerView!!.setShowBuffering(PlayerView.SHOW_BUFFERING_ALWAYS)
             player!!.seekTo(currentWindow, playbackPosition)
+            player!!.volume == 100f
             player!!.prepare()
             player!!.addListener(listners)
         }

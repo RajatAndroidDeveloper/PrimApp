@@ -3,7 +3,7 @@
     <string name="app_name_captial">PRIM</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="prim_slogan">A Global Mentoring and Curated Content Platform</string> <!--Virtual Mentoring Communities | A Community-Based\nVirtual Mentoring Platform-->
+    <string name="prim_slogan">A Global Mentoring and\n Curated Content Platform</string> <!--Virtual Mentoring Communities | A Community-Based\nVirtual Mentoring Platform-->
     <string name="welcome">Welcome!</string>
 
     <string name="i_m_a_new_user">I\'m a new user,</string>
