@@ -54,6 +54,7 @@ import com.primapp.ui.communities.adapter.CommunityPagedLoadStateAdapter
 import com.primapp.ui.communities.members.CommunityMembersFragment
 import com.primapp.ui.dashboard.DashboardActivity
 import com.primapp.ui.dashboard.WebSocketListener
+import com.primapp.ui.player.VideoPlayAutoHelper
 import com.primapp.ui.post.adapter.PostListPagedAdapter
 import com.primapp.ui.post.create.CreatePostFragment
 import com.primapp.utils.AnalyticsManager
@@ -402,6 +403,23 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
         }
 
         setUpRecyclerScrollView()
+//        setUpRecyclerScroll()
+    }
+
+
+    private lateinit var videoAutoPlayHelper: VideoPlayAutoHelper
+    private fun setUpRecyclerScroll(){
+        videoAutoPlayHelper =
+            VideoPlayAutoHelper(recyclerView = binding.rvCommunityPosts)
+        binding.rvCommunityPosts.addOnScrollListener(object :RecyclerView.OnScrollListener(){
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                print("neha onScrolled horizontal")
+                videoAutoPlayHelper.onScrolled(true)
+            }
+        })
+
+        videoAutoPlayHelper.startObserving()
     }
 
     private fun setUpRecyclerScrollView() {
@@ -420,7 +438,7 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>() {
                 }
 
                 // Get the index of the first Completely visible item
-                var firstCompletelyVisibleItemPosition = recyclerViewPositionHelper.findFirstCompletelyVisibleItemPosition()
+                var firstCompletelyVisibleItemPosition = mLayoutManager.findFirstCompletelyVisibleItemPosition()
 
                 Log.d(
                     "Update_fragment_video_play",

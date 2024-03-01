@@ -178,6 +178,7 @@
                 android:textColor="@color/colorAccent"
                 android:text="@string/read_more"
                 android:textStyle="bold"
+                android:visibility="gone"
                 android:textSize="@dimen/textSmall"
                 app:layout_constraintEnd_toEndOf="@id/tvCaptionNew"
                 app:layout_constraintTop_toBottomOf="@id/tvCaptionNew"
@@ -209,14 +210,14 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clPostAttachment"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:visibility="@{(data.fileType.equals(PostFileType.FILE)) ? View.GONE : View.VISIBLE}"
                     tools:visibility="visible">
 
                     <com.google.android.exoplayer2.ui.PlayerView
                         android:layout_width="0dp"
                         app:resize_mode="fixed_width"
-                        android:layout_height="0dp"
+                        android:layout_height="match_parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -227,14 +228,12 @@
                     <ImageView
                         android:id="@+id/ivPostPreview"
                         loadPostImageFromUrl="@{data.getThumbnailUrl == null ? data.imageUrl : data.getThumbnailUrl}"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:adjustViewBounds="true"
-                        android:background="?attr/selectableItemBackground"
                         android:scaleType="centerCrop"
                         android:src="@drawable/placeholder"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintDimensionRatio="H,1:1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -349,7 +348,6 @@
                         android:background="@color/backgroundColor"
                         android:clickable="true"
                         android:focusable="true"
-                        android:foreground="?attr/selectableItemBackground"
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:visibility="gone"
@@ -369,7 +367,6 @@
                             style="@style/normalBodyText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="?attr/selectableItemBackground"
                             android:gravity="center"
                             android:padding="@dimen/space_small"
                             android:text="@string/cover_this_image"

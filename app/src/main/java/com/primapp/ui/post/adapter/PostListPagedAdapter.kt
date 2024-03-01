@@ -1,5 +1,7 @@
 package com.primapp.ui.post.adapter
 
+import android.app.ActionBar.LayoutParams
+import android.os.Handler
 import android.text.method.LinkMovementMethod
 import android.text.util.Linkify
 import android.view.LayoutInflater
@@ -146,6 +148,14 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
         fun bind(data: PostListResult?) {
             binding.data = data
             //Reset cover image on reload
+            if(data?.fileType == null || data?.fileType == PostFileType.FILE) {
+                var relativeLayout = binding.cardPostAttachment
+                relativeLayout.layoutParams.height = LayoutParams.WRAP_CONTENT
+            } else {
+                var relativeLayout = binding.cardPostAttachment
+                relativeLayout.layoutParams.height = 800
+            }
+
             binding.llCoverImage.isVisible = false
 
             binding.tvCaptionNew.text = (data?.postText?:"").trim()
@@ -174,6 +184,8 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
                     if (binding.tvCaptionNew.lineCount > 3) {
                         binding.tvReadMore.visible(true)
                         binding.tvCaptionNew.maxLines = 3
+                    } else {
+                        binding.tvReadMore.visible(false)
                     }
                 }
             })
@@ -335,6 +347,7 @@ class PostListPagedAdapter @Inject constructor(val onItemClick: (Any?) -> Unit) 
                 //displaying the popup
                 popup.show()
             }
+
         }
     }
 
